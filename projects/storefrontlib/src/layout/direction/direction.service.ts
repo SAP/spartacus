@@ -1,59 +1,69 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { LanguageService, WindowRef } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { DirectionMode } from '../config/direction.model';
-import { LayoutConfig } from '../config/layout-config';
+import { Subscription } from 'rxjs';
+import { DirectionMode, LayoutDirection } from '../config/direction.model';
 
+/**
+ * The DirectionService can be used to add the direction for the overall storefront.
+ * While direction is configurable by using a default direction mode (rtl, ltr or auto), it is
+ * recommended to use the _detect_ option so that various direction modes are supported cross
+ * sites and languages.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class DirectionService implements OnDestroy {
+  protected startsDetecting = false;
+
   protected subscription = new Subscription();
-  protected activeLanguage$: Observable<
-    string
-  > = this.languageService.getActive();
 
   constructor(
-    protected layoutConfig: LayoutConfig,
     protected languageService: LanguageService,
     protected winRef: WindowRef
-  ) {
-    this.initialize();
-  }
+  ) {}
 
   /**
-   * Initializes the layout direction for the storefront. The layout direction is configurable
-   * by using a default direction mode (rtl, ltr or auto), but the detect option is preferred, so that
-   * multiple direction modes are supported in a multi-site or multi-lingual setup>.
-   *
-   * The `initialize` method is called from the constructor and should not be called more then once.
+   * Initializes the layout direction for the storefront.
    */
-  protected initialize() {
-    if (this.layoutConfig?.direction?.detect) {
-      this.subscription.add(
-        this.activeLanguage$.subscribe((isoCode: string) =>
-          this.addDirection(
-            this.winRef.document.documentElement,
-            this.getDirection(isoCode)
-          )
-        )
-      );
+  initialize(config: LayoutDirection): void {
+    if (config?.detect) {
+      this.detect(config);
     } else {
       this.addDirection(
         this.winRef.document.documentElement,
-        this.layoutConfig.direction.mode
+        this.getDirection(config)
       );
     }
   }
 
   /**
-   * Reusable method that sets the direction attribute for the given element.
+   * Observes the _active_ language and set the required direction for the given language.
+   */
+  protected detect(config: LayoutDirection) {
+    if (this.startsDetecting) {
+      return;
+    }
+    this.subscription.add(
+      this.languageService
+        .getActive()
+        .subscribe((isoCode: string) =>
+          this.addDirection(
+            this.winRef.document.documentElement,
+            this.getDirection(config, isoCode)
+          )
+        )
+    );
+    this.startsDetecting = true;
+  }
+
+  /**
+   * Sets the direction attribute for the given element.
    *
    * ```html
-   * <html dir="auto">
+   * <html dir="ltr">
    * ```
    */
-  addDirection(el: HTMLElement, direction?: DirectionMode) {
+  addDirection(el: HTMLElement, direction?: DirectionMode): void {
     el.dir = direction;
   }
 
@@ -66,23 +76,20 @@ export class DirectionService implements OnDestroy {
    *
    * The method is made public for developers, so that the lower level config can be omitted in code.
    */
-  getDirection(languageIsoCode?: string): DirectionMode {
-    if (
-      languageIsoCode &&
-      this.layoutConfig?.direction?.rtlLanguages?.includes(languageIsoCode)
-    ) {
+  getDirection(
+    config: LayoutDirection,
+    languageIsoCode?: string
+  ): DirectionMode {
+    if (languageIsoCode && config.rtlLanguages?.includes(languageIsoCode)) {
       return DirectionMode.RTL;
     }
-    if (
-      languageIsoCode &&
-      this.layoutConfig?.direction?.ltrLanguages?.includes(languageIsoCode)
-    ) {
+    if (languageIsoCode && config?.ltrLanguages?.includes(languageIsoCode)) {
       return DirectionMode.LTR;
     }
-    return this.layoutConfig?.direction?.mode || DirectionMode.LTR;
+    return config?.mode || DirectionMode.LTR;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     // Cleans up the subscription, to avoid memory leaks in SSR.
     this.subscription.unsubscribe();
   }
