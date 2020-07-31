@@ -11,6 +11,7 @@ import { CurrentUserService } from '../../current-user.service';
 })
 export class UserPermissionListComponent {
   code$: Observable<string> = this.currentUserService.code$;
+  name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.userPermissionListService.getTable(code))

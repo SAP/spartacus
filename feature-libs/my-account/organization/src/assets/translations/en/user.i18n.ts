@@ -19,6 +19,7 @@ export const user = {
     header: 'Approvers in {{code}}',
     assign: 'Assign Approvers',
     assignHeader: 'Assign Approvers in {{code}}',
+    back: 'Back',
     new: 'New approver',
     instructions: {
       check: "To assign an approver to this unit, select the user's check box.",

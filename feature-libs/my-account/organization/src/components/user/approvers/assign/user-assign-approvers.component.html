@@ -11,7 +11,7 @@
       {{ 'organization.back' | cxTranslate }}
     </a>
     <span>{{
-      'user.approver.assignHeader' | cxTranslate: { code: userCode }
+      'user.approver.assignHeader' | cxTranslate: { code: name$ | async }
     }}</span>
   </h3>
 

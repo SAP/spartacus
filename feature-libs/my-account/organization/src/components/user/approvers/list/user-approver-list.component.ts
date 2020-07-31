@@ -13,6 +13,7 @@ export class UserApproverListComponent {
   protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
 
   code$: Observable<string> = this.currentUserService.code$;
+  name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>

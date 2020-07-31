@@ -9,7 +9,9 @@
     >
       <cx-icon type="CARET_LEFT"></cx-icon>
     </a>
-    <span>{{ 'user.approver.header' | cxTranslate: { code: userCode } }}</span>
+    <span>{{
+      'user.approver.header' | cxTranslate: { code: name$ | async }
+    }}</span>
   </h3>
 
   <div class="actions">

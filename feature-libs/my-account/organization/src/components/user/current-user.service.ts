@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { B2BUser, B2BUserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 
 /**
  * Provides appropriate model based on the routing params.
@@ -27,5 +27,9 @@ export class CurrentUserService {
    */
   readonly user$: Observable<B2BUser> = this.code$.pipe(
     switchMap((code: string) => (code ? this.service.get(code) : of(null)))
+  );
+
+  readonly name$: Observable<string> = this.user$.pipe(
+    map((user: B2BUser) => user.name)
   );
 }
