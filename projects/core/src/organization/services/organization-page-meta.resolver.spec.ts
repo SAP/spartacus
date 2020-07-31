@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { BreadcrumbMeta, CmsService, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
+import { SemanticPathService } from '../../routing';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
@@ -39,8 +40,15 @@ class RoutingServiceStub {
   }
 }
 
+const testOrganizationUrl = '/test-organization';
+
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = jasmine.createSpy('get').and.returnValue(testOrganizationUrl);
+}
+
 describe('OrganizationPageMetaResolver', () => {
   let resolver: OrganizationPageMetaResolver;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,11 +56,13 @@ describe('OrganizationPageMetaResolver', () => {
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: RoutingServiceStub },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
         OrganizationPageMetaResolver,
       ],
     });
 
     resolver = TestBed.inject(OrganizationPageMetaResolver);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   it('should resolve breadcrumbs', () => {
@@ -64,7 +74,8 @@ describe('OrganizationPageMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'organization.breadcrumb', link: '/organization' },
+      { label: 'organization.breadcrumb', link: testOrganizationUrl },
     ]);
+    expect(semanticPathService.get).toHaveBeenCalledWith('organization');
   });
 });

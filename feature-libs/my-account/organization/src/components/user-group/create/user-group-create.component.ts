@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { UserGroupService, RoutingService } from '@spartacus/core';
+import { RoutingService, UserGroupService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroupFormService } from '../form/user-group-form.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-user-group-create',
@@ -37,7 +37,6 @@ export class UserGroupCreateComponent {
       form.markAllAsTouched();
     } else {
       form.disable();
-      console.log(form.value);
       this.userGroupService.create(form.value);
 
       this.routingService.go({

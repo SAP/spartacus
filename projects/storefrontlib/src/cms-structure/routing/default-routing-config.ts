@@ -74,6 +74,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   organization: {
     paths: ['organization'],
   },
+  orderApprovals: {
+    paths: ['my-account/approval-dashboard'],
+  },
   orgUnits: {
     paths: ['organization/units'],
   },
@@ -161,6 +164,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userAssignUserGroups: {
     paths: ['organization/user/assign-user-groups/:code'],
+  },
+  orderApprovalDetails: {
+    paths: ['my-account/approval/:approvalCode'],
+    paramsMapping: { approvalCode: 'approvalCode' },
   },
 };
 
