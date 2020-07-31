@@ -8,6 +8,7 @@ export const user = {
   email: 'Email',
   orgUnit: 'Parent Unit',
   roles: 'Roles',
+  title: 'Title',
 
   messages: {
     enabled:

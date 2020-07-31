@@ -1,17 +1,22 @@
 <ng-container *ngIf="form" [formGroup]="form">
-  <div class="form-group" *ngIf="form.get('email')">
+  <div
+    class="form-group"
+    *ngIf="form.get('titleCode') && titles$ | async as titles"
+  >
     <label>
       <span class="label-content required">{{
-        'user.email' | cxTranslate
+        'user.title' | cxTranslate
       }}</span>
-      <input
-        class="form-control"
-        type="email"
-        required
-        placeholder="{{ 'user.email' | cxTranslate }}"
-        formControlName="email"
-      />
-      <cx-form-errors [control]="form.get('email')"></cx-form-errors>
+      <ng-select
+        formControlName="titleCode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="titles"
+        bindLabel="name"
+        bindValue="code"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('titleCode')"></cx-form-errors>
     </label>
   </div>
 
@@ -44,6 +49,22 @@
         formControlName="lastName"
       />
       <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group" *ngIf="form.get('email')">
+    <label>
+      <span class="label-content required">{{
+        'user.email' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="email"
+        required
+        placeholder="{{ 'user.email' | cxTranslate }}"
+        formControlName="email"
+      />
+      <cx-form-errors [control]="form.get('email')"></cx-form-errors>
     </label>
   </div>
 
