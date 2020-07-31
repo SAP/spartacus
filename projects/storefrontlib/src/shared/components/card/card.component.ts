@@ -19,6 +19,7 @@ export interface Card {
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
+  additionalInfo?: Array<string>;
 }
 
 @Component({

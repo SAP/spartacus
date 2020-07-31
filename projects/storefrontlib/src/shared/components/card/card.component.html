@@ -34,6 +34,15 @@
         <cx-icon [type]="content.img"></cx-icon>
       </div>
     </div>
+
+    <!-- Additional Information (e.g., Shipping/Billing Address for Credit Card) -->
+    <div class="cx-card-label-container">
+      <br />
+      <div *ngFor="let line of content.additionalInfo">
+        <div class="cx-card-label">{{ line }}</div>
+      </div>
+    </div>
+
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">

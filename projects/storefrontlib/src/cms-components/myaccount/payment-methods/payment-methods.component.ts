@@ -49,6 +49,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryYear,
     cardNumber,
     cardType,
+    billingAddress,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -80,6 +81,11 @@ export class PaymentMethodsComponent implements OnInit {
             actions,
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType.code),
+            additionalInfo: [
+              billingAddress.firstName + ' ' + ' ' + billingAddress.lastName,
+              billingAddress.formattedAddress,
+              //String(billingAddress.shippingAddress),
+            ],
           };
 
           return card;
