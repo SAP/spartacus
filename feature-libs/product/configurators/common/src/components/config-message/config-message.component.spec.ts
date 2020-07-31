@@ -54,7 +54,7 @@ describe('ConfigurationMessageComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [],
+      declarations: [ConfigMessageComponent],
       providers: [
         {
           provide: RoutingService,
