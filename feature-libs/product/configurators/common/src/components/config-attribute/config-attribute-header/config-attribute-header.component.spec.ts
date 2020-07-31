@@ -196,6 +196,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should render a required message if attribute has been set, yet.', () => {
       classUnderTest.attribute.required = true;
       classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      classUnderTest.ngOnInit();
       fixture.detectChanges();
       ConfigComponentTestUtilsService.expectElementPresent(
         expect,
