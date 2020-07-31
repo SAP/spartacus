@@ -26,3 +26,4 @@
     - config-group-title.component.spec.ts
     - config-previous-next-buttons.component.spec.ts
 
+8. Threat Modeling session with Michael Riedel
