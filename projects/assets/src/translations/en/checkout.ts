@@ -51,6 +51,8 @@ export const checkout = {
     noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
+    availableLabel:
+      "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
     paymentType: 'Payment Type',

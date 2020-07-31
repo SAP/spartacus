@@ -4,15 +4,15 @@ import {
   ActiveCartService,
   Address,
   B2BAddress,
+  CheckoutCostCenterService,
   CheckoutDeliveryService,
+  PaymentTypeService,
   TranslationService,
   UserAddressService,
-  PaymentTypeService,
   UserCostCenterService,
-  CheckoutCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -121,7 +121,7 @@ export class ShippingAddressComponent implements OnInit {
       (!selected || Object.keys(selected).length === 0)
     ) {
       if (this.isAccountPayment) {
-        if (addresses.length === 1) {
+        if (addresses.length > 0) {
           selected = addresses[0];
           this.selectAddress(selected);
         }

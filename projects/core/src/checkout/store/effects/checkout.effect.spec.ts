@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
+  CheckoutCostCenterConnector,
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
-  CheckoutCostCenterConnector,
 } from '../../../checkout/connectors';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -443,17 +443,18 @@ describe('Checkout effect', () => {
         userId,
         cartId,
       });
-      const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId,
-        cartId,
-      });
+      /** look at notes from effect */
+      // const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+      //   userId,
+      //   cartId,
+      // });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        e: completion4,
+        // e: completion4,
       });
 
       expect(entryEffects.setCostCenter$).toBeObservable(expected);

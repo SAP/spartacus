@@ -19,9 +19,9 @@ import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
+import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
-import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -430,10 +430,11 @@ export class CheckoutEffects {
               userId: payload.userId,
               cartId: payload.cartId,
             }),
-            new CheckoutActions.ClearCheckoutDeliveryAddress({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            }),
+            /** TODO: Note to self: ask why do we need this */
+            // new CheckoutActions.ClearCheckoutDeliveryAddress({
+            //   userId: payload.userId,
+            //   cartId: payload.cartId,
+            // }),
           ]),
           catchError((error) =>
             of(
