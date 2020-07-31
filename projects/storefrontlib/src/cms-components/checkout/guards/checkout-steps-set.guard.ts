@@ -49,7 +49,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
         );
       }),
       take(1),
-      switchMap(([steps]) => {
+      switchMap(([steps, isAccount]) => {
         currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
             this.routingConfigService.getRouteConfig(step.routeName).paths[0]
@@ -62,7 +62,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           currentStep = steps[currentIndex];
         }
         if (Boolean(currentStep)) {
-          return this.isStepSet(steps[currentIndex - 1]);
+          return this.isStepSet(steps[currentIndex - 1], isAccount);
         } else {
           if (isDevMode()) {
             console.warn(
@@ -75,14 +75,17 @@ export class CheckoutStepsSetGuard implements CanActivate {
     );
   }
 
-  protected isStepSet(step: CheckoutStep): Observable<boolean | UrlTree> {
+  protected isStepSet(
+    step: CheckoutStep,
+    isAccountPayment
+  ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.PAYMENT_TYPE: {
           return this.isPaymentTypeSet(step);
         }
         case CheckoutStepType.SHIPPING_ADDRESS: {
-          return this.isShippingAddressAndCostCenterSet(step);
+          return this.isShippingAddressAndCostCenterSet(step, isAccountPayment);
         }
         case CheckoutStepType.DELIVERY_MODE: {
           return this.isDeliveryModeSet(step);
@@ -113,20 +116,34 @@ export class CheckoutStepsSetGuard implements CanActivate {
   }
 
   protected isShippingAddressAndCostCenterSet(
-    step: CheckoutStep
+    step: CheckoutStep,
+    isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
       this.checkoutDetailsService.getDeliveryAddress(),
       this.checkoutCostCenterService.getCostCenter(),
     ]).pipe(
       map(([deliveryAddress, costCenter]) => {
-        if (
-          (Boolean(deliveryAddress) && Boolean(costCenter)) ||
-          costCenter === undefined
-        ) {
-          return true;
+        if (isAccountPayment) {
+          if (
+            deliveryAddress &&
+            Object.keys(deliveryAddress).length &&
+            Boolean(costCenter)
+          ) {
+            return true;
+          } else {
+            return this.getUrl(step.routeName);
+          }
         } else {
-          this.getUrl(step.routeName);
+          if (
+            deliveryAddress &&
+            Object.keys(deliveryAddress).length &&
+            costCenter === undefined
+          ) {
+            return true;
+          } else {
+            return this.getUrl(step.routeName);
+          }
         }
       })
     );

@@ -102,9 +102,9 @@ class MockPaymentTypeService {
   }
 }
 
-fdescribe(`CheckoutStepsSetGuard`, () => {
+describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
-  let checkoutCostCenterService: CheckoutCostCenterService;
+  let paymentTypeService: PaymentTypeService;
   let checkoutDetailsService: CheckoutDetailsService;
 
   beforeEach(() => {
@@ -129,7 +129,7 @@ fdescribe(`CheckoutStepsSetGuard`, () => {
     });
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
-    checkoutCostCenterService = TestBed.inject(CheckoutCostCenterService);
+    paymentTypeService = TestBed.inject(PaymentTypeService);
     checkoutDetailsService = TestBed.inject(CheckoutDetailsService);
   });
 
@@ -152,7 +152,6 @@ fdescribe(`CheckoutStepsSetGuard`, () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
           .subscribe((result) => {
-            console.log('2', result);
             expect(result.toString()).toEqual('/checkout/route1');
             done();
           });
@@ -305,9 +304,9 @@ fdescribe(`CheckoutStepsSetGuard`, () => {
       });
     });
 
-    describe('step0 (cost center) data set', () => {
+    describe('step0 (payment type) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutCostCenterService, 'getCostCenter').and.returnValue(
+        spyOn(paymentTypeService, 'getSelectedPaymentType').and.returnValue(
           of('test-cost-center')
         );
       });
