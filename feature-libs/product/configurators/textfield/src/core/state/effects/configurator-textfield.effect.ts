@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions, GenericConfigurator } from '@spartacus/core';
-import { makeErrorSerializable } from '@spartacus/product/configurators/common';
+import {
+  CartActions,
+  GenericConfigurator,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
@@ -33,7 +36,7 @@ export class ConfiguratorTextfieldEffects {
           catchError((error) =>
             of(
               new ConfiguratorTextfieldActions.CreateConfigurationFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -63,7 +66,7 @@ export class ConfiguratorTextfieldEffects {
         catchError((error) =>
           of(
             new ConfiguratorTextfieldActions.AddToCartFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -98,7 +101,7 @@ export class ConfiguratorTextfieldEffects {
           catchError((error) =>
             of(
               new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -127,7 +130,7 @@ export class ConfiguratorTextfieldEffects {
             ]),
             catchError((error) => [
               new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               ),
             ])
           );

@@ -8,8 +8,8 @@ import {
   CartActions,
   CartModification,
   GenericConfigurator,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { makeErrorSerializable } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
@@ -121,7 +121,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     );
 
     const completionFailure = new ConfiguratorTextfieldActions.CreateConfigurationFail(
-      makeErrorSerializable(errorResponse)
+      normalizeHttpError(errorResponse)
     );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -154,7 +154,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     );
 
     const completionFailure = new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-      makeErrorSerializable(errorResponse)
+      normalizeHttpError(errorResponse)
     );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
@@ -210,7 +210,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       };
       const action = new ConfiguratorTextfieldActions.AddToCart(payloadInput);
       const cartAddEntryFail = new ConfiguratorTextfieldActions.AddToCartFail(
-        makeErrorSerializable(errorResponse)
+        normalizeHttpError(errorResponse)
       );
 
       actions$ = hot('-a', { a: action });
@@ -260,7 +260,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         payloadInput
       );
       const cartUpdateFail = new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-        makeErrorSerializable(errorResponse)
+        normalizeHttpError(errorResponse)
       );
 
       actions$ = hot('-a', { a: action });

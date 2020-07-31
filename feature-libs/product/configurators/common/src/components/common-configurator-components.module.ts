@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ConfigFormModule } from './config-form/config-form.module';
 import { ConfigGroupTitleModule } from './config-group-title/config-group-title.module';
 import { ConfigurationMessageLoaderModule } from './config-message/config-message-loader.module';
 import { ConfigMessageModule } from './config-message/config-message.module';
@@ -12,6 +13,7 @@ import { ConfigTabBarModule } from './config-tab-bar/config-tab-bar.module';
     ConfigPriceSummaryModule,
     ConfigProductTitleModule,
     ConfigTabBarModule,
+    ConfigFormModule,
     ConfigGroupTitleModule,
     ConfigMessageModule,
     ConfigurationMessageLoaderModule,
