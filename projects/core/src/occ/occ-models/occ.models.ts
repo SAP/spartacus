@@ -4258,8 +4258,12 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
+  export enum OrderApprovalDecisionValue {
+    APPROVE = 'APPROVE',
+    REJECT = 'REJECT',
+  }
   export interface OrderApprovalDecision {
-    decision?: 'APPROVE' | 'REJECT';
+    decision?: OrderApprovalDecisionValue;
     comment?: string;
   }
 
@@ -4268,14 +4272,6 @@ export namespace Occ {
     comments?: string;
     permissionTypes?: OrderApprovalPermissionType[];
     statusDisplay?: string;
-  }
-
-  export interface B2BOrder extends Order {
-    chinesePaymentInfo?: any;
-    costCenter?: CostCenter;
-    paymentStatus?: string;
-    purchaseOrderNumber?: string;
-    totalUnitCount?: number;
   }
 
   export interface Trigger {
@@ -4288,7 +4284,7 @@ export namespace Occ {
     code?: string;
     customerOrderApprovalRecords?: OrderApprovalRecord[];
     merchantOrderApprovalRecords?: OrderApprovalRecord[];
-    order?: B2BOrder;
+    order?: Order;
     trigger?: Trigger;
   }
 

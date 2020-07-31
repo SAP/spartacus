@@ -133,6 +133,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   userAssignUserGroups: {
     paths: ['organization/user/assign-user-groups/:code'],
   },
+  orderApprovalDetails: {
+    paths: ['my-account/approval/:approvalCode'],
+    paramsMapping: { approvalCode: 'approvalCode' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
