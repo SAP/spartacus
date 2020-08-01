@@ -55,6 +55,7 @@ export class DirectionService implements OnDestroy {
 
   /**
    * Observes the _active_ language and set the required direction for the given language.
+   * The method is guarded to ensure that the active language is observed only once.
    */
   protected detect() {
     if (this.startsDetecting) {
@@ -81,13 +82,11 @@ export class DirectionService implements OnDestroy {
   }
 
   /**
-   * Gets the DirectionModel for the given language isoCode. The language isoCode is compared
+   * Gets the `DirectionMode` for the given language isoCode. The language isoCode is compared
    * to the configured list of languages(`direction.rtlLanguages` vs `direction.ltrLanguages`).
    *
    * If no language is given, or no language mapping could be found, we fallback to the default
-   * `direction.mode` or LTR as a last resort.
-   *
-   * The method is made public for developers, so that the lower level config can be omitted in code.
+   * `direction.mode`.
    */
   getDirection(languageIsoCode?: string): DirectionMode {
     if (
