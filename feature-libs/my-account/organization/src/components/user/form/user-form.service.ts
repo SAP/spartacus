@@ -12,6 +12,7 @@ export class UserFormService {
     this.build(form);
     if (model) {
       form.patchValue(model);
+      this.pathRoles(form, model);
     }
     return form;
   }
@@ -34,6 +35,22 @@ export class UserFormService {
       })
     );
     form.setControl('isAssignedToApprovers', new FormControl(false));
-    form.setControl('roles', new FormArray([]));
+    // form.setControl('roles', new FormArray([]));
+    form.setControl(
+      'roles',
+      new FormArray([
+        new FormControl('b2bcustomergroup'),
+        new FormControl('b2bmanagergroup'),
+        new FormControl('b2bapprovergroup'),
+        new FormControl('b2badmingroup'),
+      ])
+    );
+  }
+
+  protected pathRoles(form, model) {
+    const roles = form.get('roles') as FormArray;
+    model.roles?.forEach((role) => {
+      roles.push(new FormControl(role));
+    });
   }
 }

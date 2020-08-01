@@ -3,12 +3,13 @@ export const user = {
   disabled: '(disabled)',
   uid: 'Code',
   name: 'Name',
-  firstName: 'Name',
-  lastName: 'Name',
+  firstName: 'Fist name',
+  lastName: 'Last name',
   email: 'Email',
   orgUnit: 'Parent Unit',
   roles: 'Roles',
   title: 'Title',
+  assignAprover: 'Add user to the approver list for this user',
 
   messages: {
     enabled:

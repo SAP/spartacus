@@ -91,4 +91,52 @@
       </label>
     </div>
   </ng-container>
+
+  <div class="form-group">
+    <label aria-required="true">
+      <span class="label-content required">
+        {{ 'user.roles' | cxTranslate }}
+      </span>
+    </label>
+
+    <div *ngIf="form.get('roles')" formArrayName="roles">
+      <div
+        class="form-check"
+        *ngFor="let role of availableRoles; let i = index"
+      >
+        <label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            [formControlName]="i"
+            [value]="role"
+            [checked]="roles.value?.includes(role)"
+            (change)="onRoleChange($event)"
+          />
+          <span class="form-check-label">
+            {{ 'organization.userRoles.' + role | cxTranslate }}
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div
+      class="form-check"
+      *ngIf="
+        form.get('isAssignedToApprovers') &&
+        roles.value.includes('b2bapprovergroup')
+      "
+    >
+      <label>
+        <input
+          type="checkbox"
+          class="form-check-input"
+          formControlName="isAssignedToApprovers"
+        />
+        <span class="form-check-label">{{
+          'user.assignAprover' | cxTranslate
+        }}</span>
+      </label>
+    </div>
+  </div>
 </ng-container>

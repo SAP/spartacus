@@ -4,12 +4,12 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { B2BUnitNode, OrgUnitService, UserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
-import { sortTitles } from 'projects/storefrontlib/src/shared/utils/forms/title-utils';
+import { map } from 'rxjs/operators';
+import { sortTitles } from '@spartacus/storefront';
+import { Title } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-form',
@@ -22,13 +22,20 @@ export class UserFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
+  availableRoles = [
+    'b2bcustomergroup',
+    'b2bmanagergroup',
+    'b2bapprovergroup',
+    'b2badmingroup',
+  ];
+
+  get roles(): FormArray {
+    return this.form.get('roles') as FormArray;
+  }
+
   units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
+
   titles$ = this.userService.getTitles().pipe(
-    tap((titles: Title[]) => {
-      if (Object.keys(titles).length === 0) {
-        this.userService.loadTitles();
-      }
-    }),
     map((titles: Title[]) => {
       titles.sort(sortTitles);
       const noneTitle = { code: '', name: 'Title' };
@@ -43,5 +50,30 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnitService.loadList();
+    this.userService.loadTitles();
+  }
+
+  onRoleChange(event) {
+    const { value, checked } = event.target;
+    const approver = value === 'b2bapprovergroup';
+    const rolesArray: FormArray = this.roles;
+
+    if (checked) {
+      rolesArray.push(new FormControl(value));
+      if (approver) {
+        this.form.get('isAssignedToApprovers').setValue(true);
+      }
+      return;
+    } else {
+      rolesArray.controls.forEach((ctrl: FormControl, index) => {
+        if (ctrl.value === event.target.value) {
+          rolesArray.removeAt(index);
+          if (approver) {
+            this.form.get('isAssignedToApprovers').setValue(false);
+          }
+          return;
+        }
+      });
+    }
   }
 }
