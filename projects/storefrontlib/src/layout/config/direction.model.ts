@@ -1,52 +1,43 @@
 /**
- * The DirectionMode can be used to configure the html direction (i.e. `<html dir="rtl">`) directly or
- * let the browser or Spartacus _detect_ the direction based on the given text or language.
+ * Holds the `rtl` or `ltr` direction.
  */
 export enum DirectionMode {
   /**
-   * The auto value is used by browsers to automatically detect the direction based on the first
-   * text occurrence. This can be considered too fragile, as the fallback text feature of the backend
-   * or any hardcoded text might end up with a combination of rtl and ltr text.
-   */
-
-  AUTO = 'auto',
-  /**
-   * Explicit usage of `ltr` (Left To Right) is useful for a single site / single language setup. The direction
-   * can be set during build time and doesn't need to be adjusted for a specific site or language context. Whenever
-   * the site or language can be changed at runtime, the `DETECT` or `AUTO` value is recommended.
+   * Indicates Left to Right direction.
    */
   LTR = 'ltr',
-
   /**
-   * Explicit usage of `rtl` (Right To Left) is useful for a single site / single language setup. The direction
-   * can be set during build time and doesn't need to be adjusted for a specific site or language context. Whenever
-   * the site or language can be changed at runtime, the `DETECT` or `AUTO` value is recommended.
+   * Indicates Right to Left direction.
    */
   RTL = 'rtl',
 }
 
 /**
- * Contains the default direction mode detect features for directionality. The auto detect feature is useful
+ * Contains the configuration mode for language driven directionality. The detect mode is recommended
  * for a multi-site or multi-lingual setup where the active language should dictate the direction mode.
  */
 export interface LayoutDirection {
   /**
-   * The default direction mode is used to set the default direction. This can be used for all languages,
-   * but also serves in detect mode as a fallback for languages that which are not listed in `rtlLanguages` or `ltrLanguages`.
+   * The default direction mode is used for the direction mode of the storefront. The default mode can be used
+   * for all languages, but if you enable the detect mode, the default mode is used as a fallback for all
+   * languages which are not listed in `rtlLanguages` or `ltrLanguages`.
    */
   default?: DirectionMode;
 
   /**
-   * Detects the direction based on the active language and the configured list of `rtl` vs `ltr` languages.
+   * Detects the direction based on the active language. The active language is compared to the list of
+   * configured `rtlLanguages` vs `ltrLanguages`. If no language is resolved, the default direction mode
+   * is used.
    */
   detect?: boolean;
 
   /**
-   * The language isoCodes that will be mapped to RTL in case the `DirectionMode` is set to  `DirectionMode.DETECT`.
+   * The language isoCodes that will be used for Right to Left direction if the detect mode is enabled.
    */
   rtlLanguages?: string[];
+
   /**
-   * The language isoCodes that will be mapped to LTR in case the `DirectionMode` is set to  `DirectionMode.DETECT`.
+   * The language isoCodes that will be used for Left to Right direction if the detect mode is enabled.
    */
   ltrLanguages?: string[];
 }
