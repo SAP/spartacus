@@ -5,12 +5,6 @@ export const b2cLayoutConfig: LayoutConfig = {
   //   strategy: DeferLoadingStrategy.DEFER,
   //   intersectionMargin: '50px',
   // },
-  direction: {
-    // we're not polluting the system with all defaults for rtl or ltr.
-    // rtlLanguages: [ 'ar', 'arc','dv','fa','ha','he','khw','ks','ku','ps','ur', 'yi',],
-    // see https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    rtlLanguages: ['ar'],
-  },
   layoutSlots: {
     header: {
       lg: {
