@@ -34,17 +34,8 @@ export class UserFormService {
         uid: new FormControl(undefined, Validators.required),
       })
     );
+    form.setControl('roles', new FormArray([]));
     form.setControl('isAssignedToApprovers', new FormControl(false));
-    // form.setControl('roles', new FormArray([]));
-    form.setControl(
-      'roles',
-      new FormArray([
-        new FormControl('b2bcustomergroup'),
-        new FormControl('b2bmanagergroup'),
-        new FormControl('b2bapprovergroup'),
-        new FormControl('b2badmingroup'),
-      ])
-    );
   }
 
   protected pathRoles(form, model) {

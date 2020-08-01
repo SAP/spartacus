@@ -5,11 +5,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUnitNode, OrgUnitService, UserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+  UserService,
+  Title,
+} from '@spartacus/core';
 import { sortTitles } from '@spartacus/storefront';
-import { Title } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-form',
@@ -33,9 +37,18 @@ export class UserFormComponent implements OnInit {
     return this.form.get('roles') as FormArray;
   }
 
+  get isAssignedToApprovers(): FormControl {
+    return this.form.get('isAssignedToApprovers') as FormControl;
+  }
+
   units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
 
   titles$ = this.userService.getTitles().pipe(
+    tap((titles: Title[]) => {
+      if (Object.keys(titles).length === 0) {
+        this.userService.loadTitles();
+      }
+    }),
     map((titles: Title[]) => {
       titles.sort(sortTitles);
       const noneTitle = { code: '', name: 'Title' };
@@ -56,20 +69,18 @@ export class UserFormComponent implements OnInit {
   onRoleChange(event) {
     const { value, checked } = event.target;
     const approver = value === 'b2bapprovergroup';
-    const rolesArray: FormArray = this.roles;
-
     if (checked) {
-      rolesArray.push(new FormControl(value));
+      this.roles.push(new FormControl(value));
       if (approver) {
-        this.form.get('isAssignedToApprovers').setValue(true);
+        this.isAssignedToApprovers.setValue(true);
       }
       return;
     } else {
-      rolesArray.controls.forEach((ctrl: FormControl, index) => {
+      this.roles.controls.forEach((ctrl: FormControl, index) => {
         if (ctrl.value === event.target.value) {
-          rolesArray.removeAt(index);
+          this.roles.removeAt(index);
           if (approver) {
-            this.form.get('isAssignedToApprovers').setValue(false);
+            this.isAssignedToApprovers.setValue(false);
           }
           return;
         }
