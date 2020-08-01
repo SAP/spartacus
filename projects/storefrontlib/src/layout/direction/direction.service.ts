@@ -88,17 +88,11 @@ export class DirectionService implements OnDestroy {
    * If no language is given, or no language mapping could be found, we fallback to the default
    * `direction.mode`.
    */
-  getDirection(languageIsoCode?: string): DirectionMode {
-    if (
-      languageIsoCode &&
-      this.config?.rtlLanguages?.includes(languageIsoCode)
-    ) {
+  getDirection(language?: string): DirectionMode {
+    if (language && this.config?.rtlLanguages?.includes(language)) {
       return DirectionMode.RTL;
     }
-    if (
-      languageIsoCode &&
-      this.config?.ltrLanguages?.includes(languageIsoCode)
-    ) {
+    if (language && this.config?.ltrLanguages?.includes(language)) {
       return DirectionMode.LTR;
     }
     return this.config?.default;
