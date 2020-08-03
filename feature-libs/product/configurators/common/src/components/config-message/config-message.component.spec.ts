@@ -107,6 +107,7 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should appear after a bit
     setTimeout(() => {
+      fixture.detectChanges();
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message.visible').length
       ).toBe(1);
@@ -130,6 +131,7 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should appear after a bit
     setTimeout(() => {
+      fixture.detectChanges();
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message.visible').length
       ).toBe(1);
@@ -153,6 +155,7 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should appear after a bit
     setTimeout(() => {
+      fixture.detectChanges();
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message.visible').length
       ).toBe(1);
@@ -177,6 +180,7 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should appear after a bit
     setTimeout(() => {
+      fixture.detectChanges();
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message.visible').length
       ).toBe(1);
