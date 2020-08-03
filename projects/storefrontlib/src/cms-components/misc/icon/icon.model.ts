@@ -63,10 +63,10 @@ export interface IconOptions {
   resources?: IconConfigResource[];
 
   /**
-   * Lists icons that should be flipped for the Right to Left direction.
+   * Lists icons that should be flipped for a specific direction.
    */
   flipDirection?: {
-    [ICON_TYPE: string]: DirectionMode.RTL | DirectionMode.LTR;
+    [ICON_TYPE: string]: DirectionMode;
   };
 }
 
@@ -78,7 +78,7 @@ export interface IconConfigResource {
 
 /**
  * Each ICON type can have an companied resource type, such as SVG, LINK (font) or just TEXT.
- * The resources will be automitacally loaded in case they're required for the `ICON_TYPE`.
+ * The resources will be automatically loaded in case they're required for the `ICON_TYPE`.
  */
 export enum IconResourceType {
   /**

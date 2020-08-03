@@ -36,11 +36,10 @@ export class IconLoaderService {
   }
 
   /**
-   * Indicates whether the icon should flip for Right to Left direction.
+   * Indicates the icon direction (ltr vs rtl). The icon direction is configurable, but
+   * optional, as only a few icons should be flipped for rtl direction.
    */
-  getFlipDirection(
-    type: ICON_TYPE | string
-  ): DirectionMode.LTR | DirectionMode.RTL {
+  getFlipDirection(type: ICON_TYPE | string): DirectionMode {
     return this.config.flipDirection[type];
   }
 

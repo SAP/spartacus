@@ -57,12 +57,11 @@ export class IconComponent {
   icon: SafeHtml;
 
   /**
-   * The flip direction adds information to the DOM on how it should behave for a specific
-   * direction (ltr vs rtl).
+   * The flip direction adds information to the DOM on whether it should flipped for a specific
+   * direction (ltr vs rtl). Typically, icons are ltr based, and only in case of rtl some of
+   * the icons will be flipped.
    */
-  @HostBinding('attr.flip-at') flipDirection:
-    | DirectionMode.LTR
-    | DirectionMode.RTL;
+  @HostBinding('attr.flip-at') flipDirection: DirectionMode;
 
   /**
    * Maintains the applied style classes so we can remove them when the
@@ -83,6 +82,7 @@ export class IconComponent {
     this.icon = this.iconLoader.getHtml(type);
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
+
     // the flip direction is added so that icons can be flipped for rtl vs ltr
     this.flipDirection = this.iconLoader.getFlipDirection(type);
   }
