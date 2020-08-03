@@ -82,6 +82,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute.required = false;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+    classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     fixture.detectChanges();
   });
 
@@ -339,14 +340,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(
         classUnderTest.getConflictMessageKey(classUnderTest.groupType)
       ).toEqual('configurator.conflict.viewConfigurationDetails');
-    });
-
-    it('should return nothing', () => {
-      classUnderTest.groupType = Configurator.GroupType.SUB_ITEM_GROUP;
-      fixture.detectChanges();
-      expect(
-        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
-      ).toBeUndefined();
     });
   });
 });
