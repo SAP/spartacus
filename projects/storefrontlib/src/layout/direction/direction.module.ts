@@ -9,7 +9,7 @@ export function initHtmlDirAttribute(
 ) {
   const result = () => {
     if (featureConfigService.isLevel('2.1')) {
-      directionService.initialize();
+      return directionService.initialize();
     }
   };
   return result;
