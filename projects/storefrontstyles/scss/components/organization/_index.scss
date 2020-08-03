@@ -1,29 +1,9 @@
-@import './units/_unit-create';
-@import './units/_unit-edit';
-@import './units/_unit-details';
-@import './units/_unit-list';
-@import './units/_unit-addresses';
-@import './units/_unit-address-create';
-@import './units/_unit-address-edit';
-@import './units/_unit-address-details';
-@import './units/_unit-approvers';
-@import './units/_unit-assign-approvers';
-@import './units/_unit-users';
-@import './units/_unit-assign-roles';
-@import './units/_unit-children';
-@import './units/_unit-cost-centers';
-@import './units/_unit-tree-navigation-ui';
 @import './order-approval/order-approval-list';
 @import './order-approval/order-approval-detail-form';
-
 @import './_organization-home';
 
 @import './_fake-tabs';
 
-$organization-components-whitelist: cx-unit-create cx-unit-edit
-  cx-unit-details cx-unit-list cx-unit-addresses cx-unit-approvers
-  cx-unit-assign-approvers cx-unit-roles cx-unit-assign-roles cx-unit-children
-  cx-unit-cost-centers cx-unit-address-create cx-unit-address-edit
-  cx-unit-address-details cx-fake-tabs cx-fake-tabs-desktop cx-fake-tabs-mobile
-  cx-unit-tree-navigation-ui cx-order-approval-detail-form
+$organization-components-whitelist: cx-fake-tabs cx-fake-tabs-desktop
+  cx-fake-tabs-mobile cx-order-approval-detail-form
   cx-order-approval-list !default;
