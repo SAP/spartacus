@@ -40,7 +40,7 @@ export class IconLoaderService {
    * optional, as only a few icons should be flipped for rtl direction.
    */
   getFlipDirection(type: ICON_TYPE | string): DirectionMode {
-    return this.config.flipDirection[type];
+    return this.config?.flipDirection?.[type];
   }
 
   /**
