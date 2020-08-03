@@ -1,9 +1,3 @@
-@import './budgets/_budget-create';
-@import './budgets/_budget-edit';
-@import './budgets/_budget-details';
-@import './budgets/_budget-list';
-@import './budgets/_budget-cost-centers';
-
 @import './permissions/_permission-create';
 @import './permissions/_permission-edit';
 @import './permissions/_permission-details';
@@ -42,8 +36,7 @@
 
 @import './_fake-tabs';
 
-$organization-components-whitelist: cx-budget-create cx-budget-edit
-  cx-budget-details cx-budget-list cx-budget-cost-centers cx-permission-create
+$organization-components-whitelist: cx-permission-create
   cx-permission-edit cx-permission-details cx-permission-list cx-user-create
   cx-user-edit cx-user-details cx-user-list cx-user-approvers
   cx-user-assign-approvers cx-user-permissions cx-user-assign-permissions
