@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { CostCenterService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
@@ -34,6 +34,8 @@ export class CostCenterCreateComponent {
 
   save(form: FormGroup): void {
     if (form.invalid) {
+      form.get('code').setValidators(Validators.required);
+      form.get('code').updateValueAndValidity();
       form.markAllAsTouched();
     } else {
       form.disable();
