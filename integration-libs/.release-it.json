@@ -1,0 +1,22 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "gigya-${version}",
+    "commitMessage": "Bumping gigya version to ${version}",
+    "tagAnnotation": "Bumping gigya version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/gigya"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build gigya --prod"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/gigya@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib gigya --to gigya-${version}"
+  },
+  "plugins": {}
+}
