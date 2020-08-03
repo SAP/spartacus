@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { DirectionMode } from '../../../layout/config/direction.model';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 
 export enum ICON_TYPE {
   STAR = 'STAR',

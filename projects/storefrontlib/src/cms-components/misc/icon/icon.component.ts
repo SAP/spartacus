@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
-import { DirectionMode } from '../../../layout/config/direction.model';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 

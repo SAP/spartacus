@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
-import { DirectionMode } from '../../../layout/config/direction.model';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import {
   IconConfig,
   IconConfigResource,

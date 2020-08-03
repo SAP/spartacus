@@ -1,4 +1,4 @@
-import { DirectionMode } from '../../../layout/config/direction.model';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconConfig } from './icon.model';
 
 export const defaultIconConfig: IconConfig = {
