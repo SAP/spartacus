@@ -21,6 +21,7 @@ export namespace Configurator {
     numDecimalPlaces?: number;
     numTotalLength?: number;
     negativeAllowed?: boolean;
+    hasConflicts?: boolean;
   }
 
   export interface Value {
