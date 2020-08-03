@@ -153,7 +153,13 @@
           </ng-container>
           <ng-template #disabled>
             {{ 'organization.disabled' | cxTranslate }}
-            <button class="button icon" (click)="update({ active: true })">
+            <button
+              class="button icon"
+              [disabled]="
+                orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active
+              "
+              (click)="update({ active: true })"
+            >
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
             </button>
