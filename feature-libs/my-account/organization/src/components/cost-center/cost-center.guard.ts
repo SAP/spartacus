@@ -6,17 +6,16 @@ import { CostCenterService, RoutingService, CostCenter } from '@spartacus/core';
 
 @Injectable()
 export class CostCenterGuard implements CanActivate {
-
   constructor(
     protected costCenterService$: CostCenterService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
     const code = activatedRoute.params['code'];
-    return  this.costCenterService$.get(code).pipe(
-      map(costCenter => {
-        if(costCenter && this.isActive(costCenter)) {
+    return this.costCenterService$.get(code).pipe(
+      map((costCenter) => {
+        if (costCenter && this.isActive(costCenter)) {
           return true;
         }
 
@@ -26,8 +25,7 @@ export class CostCenterGuard implements CanActivate {
     );
   }
 
-    private isActive(costCenter: CostCenter): boolean {
-      return costCenter.active;
-    }
-
+  private isActive(costCenter: CostCenter): boolean {
+    return costCenter.active;
+  }
 }
