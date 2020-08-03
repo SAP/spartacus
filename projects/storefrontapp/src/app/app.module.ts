@@ -8,12 +8,9 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
-  DirectionMode,
   JsonLdBuilderModule,
-  LayoutConfig,
-  LayoutDirection,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
@@ -53,14 +50,6 @@ if (environment.b2b) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
-
-    ConfigModule.withConfig({
-      direction: {
-        default: DirectionMode.LTR,
-        detect: true,
-        rtlLanguages: ['de'],
-      } as LayoutDirection,
-    } as LayoutConfig),
   ],
 
   bootstrap: [StorefrontComponent],
