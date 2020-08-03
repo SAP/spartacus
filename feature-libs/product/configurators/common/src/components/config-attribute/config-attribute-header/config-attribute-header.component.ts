@@ -44,6 +44,7 @@ export class ConfigAttributeHeaderComponent implements OnInit {
 
   /**
    * Get message key for the required message. Is different for multi- and single selection values
+   *  @return {string} - required message key
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
