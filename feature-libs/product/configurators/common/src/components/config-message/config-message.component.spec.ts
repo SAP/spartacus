@@ -95,7 +95,7 @@ describe('ConfigurationMessageComponent', () => {
     ).toBe(0);
   });
 
-  it('should show update banner if pending changes is true', () => {
+  it('should show update banner if pending changes is true', (done) => {
     hasPendingChanges = true;
     isConfigurationLoading = false;
     fixture.detectChanges();
@@ -114,10 +114,11 @@ describe('ConfigurationMessageComponent', () => {
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
+      done();
     }, 2000);
   });
 
-  it('should show update banner if loading is true', () => {
+  it('should show update banner if loading is true', (done) => {
     hasPendingChanges = false;
     isConfigurationLoading = true;
     fixture.detectChanges();
@@ -136,10 +137,11 @@ describe('ConfigurationMessageComponent', () => {
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
+      done();
     }, 2000);
   });
 
-  it('should show update banner if loading and pending changes are true', () => {
+  it('should show update banner if loading and pending changes are true', (done) => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     fixture.detectChanges();
@@ -158,10 +160,11 @@ describe('ConfigurationMessageComponent', () => {
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
+      done();
     }, 2000);
   });
 
-  it('should consider the configured timeout', () => {
+  it('should consider the configured timeout', (done) => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     waitingTime = 100;
@@ -181,6 +184,7 @@ describe('ConfigurationMessageComponent', () => {
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
+      done();
     }, 2000);
   });
 });
