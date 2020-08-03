@@ -7,6 +7,7 @@ import { I18nModule, UrlModule, UserService } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ConfigOverviewAttributeComponent } from '../commons/config-overview-attribute/config-overview-attribute.component';
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
+import { ConfigOverviewNotificationBannerComponent } from '../commons/config-overview-notification-banner/config-overview-notification-banner.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 import { VariantConfiguratorModule } from './variant-configurator.module';
 
@@ -25,10 +26,19 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     RouterModule,
   ],
 
-  declarations: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
-  exports: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
+  declarations: [
+    ConfigOverviewNotificationBannerComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
+  exports: [
+    ConfigOverviewNotificationBannerComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
   providers: [UserService],
   entryComponents: [
+    ConfigOverviewNotificationBannerComponent,
     ConfigOverviewFormComponent,
     ConfigOverviewAttributeComponent,
   ],

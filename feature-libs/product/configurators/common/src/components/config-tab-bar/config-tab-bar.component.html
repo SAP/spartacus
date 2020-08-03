@@ -4,6 +4,7 @@
       <div>
         <a
           class="nav-link"
+          tabindex="-1"
           [class.active]="!(isOverviewPage$ | async)"
           [routerLink]="
             {
@@ -21,6 +22,7 @@
       <div>
         <a
           class="nav-link"
+          tabindex="-1"
           [class.active]="isOverviewPage$ | async"
           [routerLink]="
             {

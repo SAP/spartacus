@@ -15,8 +15,6 @@ export const cart = {
     total: 'Total',
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
-    numberOfIssue: 'Error must be resolved before checkout.',
-    numberOfIssues: '{{errors}} errors must be resolved before checkout.',
   },
   orderCost: {
     orderSummary: 'Order Summary',
