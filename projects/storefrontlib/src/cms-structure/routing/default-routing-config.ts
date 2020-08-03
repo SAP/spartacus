@@ -74,65 +74,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   organization: {
     paths: ['organization'],
   },
-  budgets: {
-    paths: ['organization/budgets'],
-  },
-  budgetCreate: {
-    paths: ['organization/budgets/create'],
-  },
-  budgetDetails: {
-    paths: ['organization/budget/:code'],
-  },
-  budgetCostCenters: {
-    paths: ['organization/budget/cost-centers/:code'],
-  },
-  budgetEdit: {
-    paths: ['organization/budget/edit/:code'],
-  },
-  permissions: {
-    paths: ['organization/purchase-limits'],
-  },
-  permissionCreate: {
-    paths: ['organization/purchase-limits/create'],
-  },
-  permissionDetails: {
-    paths: ['organization/purchase-limit/:code'],
-  },
-  permissionEdit: {
-    paths: ['organization/purchase-limit/edit/:code'],
-  },
-  users: {
-    paths: ['organization/users'],
-  },
-  userCreate: {
-    paths: ['organization/users/create'],
-  },
-  userDetails: {
-    paths: ['organization/user/:code'],
-    paramsMapping: { code: 'customerId' },
-  },
-  userEdit: {
-    paths: ['organization/user/edit/:code'],
-    paramsMapping: { code: 'customerId' },
-  },
-  userApprovers: {
-    paths: ['organization/user/approvers/:code'],
-  },
-  userAssignApprovers: {
-    paths: ['organization/user/assign-approvers/:code'],
-  },
-  userPermissions: {
-    paths: ['organization/user/purchase-limits/:code'],
-  },
-  userAssignPermissions: {
-    paths: ['organization/user/assign-purchase-limits/:code'],
-  },
-  userUserGroups: {
-    paths: ['organization/user/user-groups/:code'],
-  },
-  userAssignUserGroups: {
-    paths: ['organization/user/assign-user-groups/:code'],
-  },
   orderApprovalDetails: {
     paths: ['my-account/approval/:approvalCode'],
     paramsMapping: { approvalCode: 'approvalCode' },
