@@ -36,8 +36,8 @@ export class IconLoaderService {
   }
 
   /**
-   * Indicates the icon direction (ltr vs rtl). The icon direction is configurable, but
-   * optional, as only a few icons should be flipped for rtl direction.
+   * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
+   * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
   getFlipDirection(type: ICON_TYPE | string): DirectionMode {
     return this.config?.flipDirection?.[type];
