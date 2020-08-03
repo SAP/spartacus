@@ -449,7 +449,7 @@ describe('Checkout effect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: completion1,
         c: completion2,
         d: completion3,
