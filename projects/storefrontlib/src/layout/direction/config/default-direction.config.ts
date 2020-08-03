@@ -1,6 +1,6 @@
-import { LayoutConfig } from '../../config/layout-config';
+import { DirectionConfig } from './direction.config';
 
-export const defaultDirectionConfig: LayoutConfig = {
+export const defaultDirectionConfig: DirectionConfig = {
   direction: {
     detect: true,
 

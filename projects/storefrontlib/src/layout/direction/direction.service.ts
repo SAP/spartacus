@@ -5,7 +5,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { LayoutConfig } from '../config/layout-config';
+import { DirectionConfig } from './config/direction.config';
 import { Direction, DirectionMode } from './config/direction.model';
 
 /**
@@ -40,7 +40,7 @@ export class DirectionService implements OnDestroy {
   initialize(): Promise<void> {
     return this.configInit
       .getStableConfig('direction')
-      .then((config: LayoutConfig) => {
+      .then((config: DirectionConfig) => {
         this.config = config?.direction;
         if (this.config?.detect) {
           this.detect();
