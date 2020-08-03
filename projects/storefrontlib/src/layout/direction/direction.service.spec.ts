@@ -49,15 +49,27 @@ describe('DirectionService', () => {
 
   describe('addDirection', () => {
     it('should add dir=ltr attribute to element', () => {
-      const el = {} as HTMLElement;
+      const el = {
+        setAttribute: jasmine.createSpy('setAttribute') as any,
+      } as HTMLElement;
       service.addDirection(el, DirectionMode.LTR);
-      expect(el.dir).toBe(DirectionMode.LTR);
+      expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.LTR);
     });
 
     it('should add dir=rtl attribute to element', () => {
-      const el = {} as HTMLElement;
+      const el = {
+        setAttribute: jasmine.createSpy('setAttribute') as any,
+      } as HTMLElement;
       service.addDirection(el, DirectionMode.RTL);
-      expect(el.dir).toBe(DirectionMode.RTL);
+      expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.RTL);
+    });
+
+    it('should clear dir attribute of element', () => {
+      const el = {
+        removeAttribute: jasmine.createSpy('removeAttribute') as any,
+      } as HTMLElement;
+      service.addDirection(el, undefined);
+      expect(el.removeAttribute).toHaveBeenCalledWith('dir');
     });
   });
 

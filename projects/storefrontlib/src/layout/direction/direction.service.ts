@@ -78,7 +78,11 @@ export class DirectionService implements OnDestroy {
    * Sets the direction attribute for the given element.
    */
   addDirection(el: HTMLElement, direction: DirectionMode): void {
-    el.dir = direction;
+    if (direction) {
+      el.setAttribute('dir', direction);
+    } else {
+      el.removeAttribute('dir');
+    }
   }
 
   /**
