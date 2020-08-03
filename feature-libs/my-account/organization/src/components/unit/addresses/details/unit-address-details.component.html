@@ -57,11 +57,11 @@
               [routerLink]="
                 {
                   cxRoute: 'orgUnitDetails',
-                  params: { uid: orgUnitAddress.orgUnitId }
+                  params: { uid: orgUnitCode }
                 } | cxUrl
               "
             >
-              {{ orgUnitAddress.orgUnitId }}
+              {{ (unit$ | async).name }}
               <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
             </a>
           </span>

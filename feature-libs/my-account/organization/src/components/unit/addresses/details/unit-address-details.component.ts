@@ -13,6 +13,7 @@ import { CurrentUnitService } from '../../current-unit.service';
 })
 export class UnitAddressDetailsComponent {
   addressId: string;
+  unit$ = this.currentUnitService.unit$;
   code$ = this.currentUnitService.code$;
   address$ = this.currentUnitAddressService.unitAddress$;
 

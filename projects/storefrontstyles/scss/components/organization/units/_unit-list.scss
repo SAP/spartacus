@@ -1,9 +1,0 @@
-@import '../organization-list';
-
-%cx-unit-list {
-  @extend %cx-organization-list;
-
-  section.tree-list {
-    padding: 1rem;
-  }
-}

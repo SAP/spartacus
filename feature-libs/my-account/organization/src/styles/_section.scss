@@ -40,6 +40,7 @@
         display: flex;
       }
     }
+
     .property {
       // display: flex;
       // flex-wrap: wrap;
@@ -84,6 +85,9 @@
     .details {
       padding-bottom: 16px;
     }
+  }
+  .tree-list {
+    padding: 1rem;
   }
   .actions {
     display: flex;
