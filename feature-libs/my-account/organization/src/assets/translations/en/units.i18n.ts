@@ -15,6 +15,7 @@ export const unit = {
     enabled:
       'When you disable this unit, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled unit.',
+    disabledParent: 'You cannot enable unit if parent is disabled.',
   },
   tree: {
     expandAll: 'Expand all',

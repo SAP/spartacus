@@ -166,11 +166,16 @@
           </ng-template>
         </span>
         <p class="instruction">
+          <ng-container
+            *ngIf="orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active"
+          >
+            <div>{{ 'unit.messages.disabledParent' | cxTranslate }}</div>
+          </ng-container>
           <ng-container *ngIf="orgUnit.active; else inactiveInstruction">
-            {{ 'unit.messages.enabled' | cxTranslate }}
+            <div>{{ 'unit.messages.enabled' | cxTranslate }}</div>
           </ng-container>
           <ng-template #inactiveInstruction>
-            {{ 'unit.messages.disabled' | cxTranslate }}
+            <div>{{ 'unit.messages.disabled' | cxTranslate }}</div>
           </ng-template>
         </p>
       </div>
