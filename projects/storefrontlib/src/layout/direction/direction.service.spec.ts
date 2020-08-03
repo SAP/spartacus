@@ -52,7 +52,7 @@ describe('DirectionService', () => {
       const el = {
         setAttribute: jasmine.createSpy('setAttribute') as any,
       } as HTMLElement;
-      service.addDirection(el, DirectionMode.LTR);
+      service.setDirection(el, DirectionMode.LTR);
       expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.LTR);
     });
 
@@ -60,7 +60,7 @@ describe('DirectionService', () => {
       const el = {
         setAttribute: jasmine.createSpy('setAttribute') as any,
       } as HTMLElement;
-      service.addDirection(el, DirectionMode.RTL);
+      service.setDirection(el, DirectionMode.RTL);
       expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.RTL);
     });
 
@@ -68,7 +68,7 @@ describe('DirectionService', () => {
       const el = {
         removeAttribute: jasmine.createSpy('removeAttribute') as any,
       } as HTMLElement;
-      service.addDirection(el, undefined);
+      service.setDirection(el, undefined);
       expect(el.removeAttribute).toHaveBeenCalledWith('dir');
     });
   });
@@ -123,7 +123,7 @@ describe('DirectionService', () => {
     describe('when `detect` config is falsy', () => {
       beforeEach(() => {
         spyOn(languageService, 'getActive').and.callThrough();
-        spyOn(service, 'addDirection');
+        spyOn(service, 'setDirection');
         spyOn(configInitializerService, 'getStableConfig').and.returnValue(
           of({
             direction: { detect: false, default: DirectionMode.LTR },
@@ -135,7 +135,7 @@ describe('DirectionService', () => {
         await service.initialize();
 
         expect(languageService.getActive).not.toHaveBeenCalled();
-        expect(service.addDirection).toHaveBeenCalledWith(
+        expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
           DirectionMode.LTR
         );
@@ -156,13 +156,13 @@ describe('DirectionService', () => {
         const TEST_DIRECTION = 'testDirection' as DirectionMode;
 
         spyOn(languageService, 'getActive').and.returnValue(of(TEST_LANGUAGE));
-        spyOn(service, 'addDirection');
+        spyOn(service, 'setDirection');
         spyOn(service, 'getDirection').and.returnValue(TEST_DIRECTION);
 
         await service.initialize();
 
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE);
-        expect(service.addDirection).toHaveBeenCalledWith(
+        expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
           TEST_DIRECTION
         );
@@ -178,7 +178,7 @@ describe('DirectionService', () => {
         spyOn(languageService, 'getActive').and.returnValue(
           mockActiveLanguage$
         );
-        spyOn(service, 'addDirection');
+        spyOn(service, 'setDirection');
         spyOn(service, 'getDirection').and.returnValues(
           TEST_DIRECTION_1,
           TEST_DIRECTION_2
@@ -188,14 +188,14 @@ describe('DirectionService', () => {
 
         mockActiveLanguage$.next(TEST_LANGUAGE_1);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_1);
-        expect(service.addDirection).toHaveBeenCalledWith(
+        expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
           TEST_DIRECTION_1
         );
 
         mockActiveLanguage$.next(TEST_LANGUAGE_2);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_2);
-        expect(service.addDirection).toHaveBeenCalledWith(
+        expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
           TEST_DIRECTION_2
         );

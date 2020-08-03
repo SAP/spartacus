@@ -45,7 +45,7 @@ export class DirectionService implements OnDestroy {
         if (this.config?.detect) {
           this.detect();
         } else {
-          this.addDirection(
+          this.setDirection(
             this.winRef.document.documentElement,
             this.config?.default
           );
@@ -65,7 +65,7 @@ export class DirectionService implements OnDestroy {
       this.languageService
         .getActive()
         .subscribe((isoCode: string) =>
-          this.addDirection(
+          this.setDirection(
             this.winRef.document.documentElement,
             this.getDirection(isoCode)
           )
@@ -77,7 +77,7 @@ export class DirectionService implements OnDestroy {
   /**
    * Sets the direction attribute for the given element.
    */
-  addDirection(el: HTMLElement, direction: DirectionMode): void {
+  setDirection(el: HTMLElement, direction: DirectionMode): void {
     if (direction) {
       el.setAttribute('dir', direction);
     } else {
