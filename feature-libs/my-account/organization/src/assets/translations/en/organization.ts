@@ -4,6 +4,7 @@ import {
   userGroupAssignUsers,
   userGroupAssignPermissions,
 } from './user-group.i18n';
+import { budget } from './budget.i18n';
 import {
   user,
   userAssignApprovers,
@@ -58,6 +59,7 @@ export const organization = {
   userGroup,
   userGroupAssignUsers,
   userGroupAssignPermissions,
+  budget,
   user,
   userAssignApprovers,
   userAssignPermissions,

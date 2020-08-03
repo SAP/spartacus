@@ -1,24 +1,7 @@
-@import './budgets/_budget-create';
-@import './budgets/_budget-edit';
-@import './budgets/_budget-details';
-@import './budgets/_budget-list';
-@import './budgets/_budget-cost-centers';
-
 @import './permissions/_permission-create';
 @import './permissions/_permission-edit';
 @import './permissions/_permission-details';
 @import './permissions/_permission-list';
-
-@import './users/_user-create';
-@import './users/_user-edit';
-@import './users/_user-details';
-@import './users/_user-list';
-@import './users/_user-approvers';
-@import './users/_user-assign-approvers';
-@import './users/_user-permissions';
-@import './users/_user-assign-permissions';
-@import './users/_user-user-groups';
-@import './users/_user-assign-user-groups';
 
 @import './units/_unit-create';
 @import './units/_unit-edit';
@@ -42,12 +25,8 @@
 
 @import './_fake-tabs';
 
-$organization-components-whitelist: cx-budget-create cx-budget-edit
-  cx-budget-details cx-budget-list cx-budget-cost-centers cx-permission-create
-  cx-permission-edit cx-permission-details cx-permission-list cx-user-create
-  cx-user-edit cx-user-details cx-user-list cx-user-approvers
-  cx-user-assign-approvers cx-user-permissions cx-user-assign-permissions
-  cx-user-user-groups cx-user-assign-user-groups cx-unit-create cx-unit-edit
+$organization-components-whitelist: cx-permission-create
+  cx-permission-edit cx-permission-details cx-permission-list cx-unit-create cx-unit-edit
   cx-unit-details cx-unit-list cx-unit-addresses cx-unit-approvers
   cx-unit-assign-approvers cx-unit-roles cx-unit-assign-roles cx-unit-children
   cx-unit-cost-centers cx-unit-address-create cx-unit-address-edit

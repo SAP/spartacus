@@ -1,4 +1,6 @@
 export enum OrganizationTableType {
+  BUDGET = 'budget',
+  BUDGET_COST_CENTERS = 'budgetCostCenters',
   COST_CENTER = 'costCenter',
   COST_CENTER_BUDGETS = 'costCenterBudgets',
   COST_CENTER_ASSIGN_BUDGETS = 'costCenterAssignBudgets',

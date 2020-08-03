@@ -41,11 +41,6 @@ import {
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
-  BudgetCostCentersModule,
-  BudgetCreateModule,
-  BudgetDetailsModule,
-  BudgetEditModule,
-  BudgetListModule,
   OrderApprovalDetailsModule,
   OrderApprovalListModule,
   PermissionCreateModule,
@@ -134,11 +129,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
-    BudgetListModule,
-    BudgetCreateModule,
-    BudgetDetailsModule,
-    BudgetEditModule,
-    BudgetCostCentersModule,
     PermissionListModule,
     PermissionDetailsModule,
     PermissionEditModule,

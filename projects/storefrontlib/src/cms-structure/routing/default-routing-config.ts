@@ -74,21 +74,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   organization: {
     paths: ['organization'],
   },
-  budgets: {
-    paths: ['organization/budgets'],
-  },
-  budgetCreate: {
-    paths: ['organization/budgets/create'],
-  },
-  budgetDetails: {
-    paths: ['organization/budget/:code'],
-  },
-  budgetCostCenters: {
-    paths: ['organization/budget/cost-centers/:code'],
-  },
-  budgetEdit: {
-    paths: ['organization/budget/edit/:code'],
-  },
   orderApprovals: {
     paths: ['my-account/approval-dashboard'],
   },
