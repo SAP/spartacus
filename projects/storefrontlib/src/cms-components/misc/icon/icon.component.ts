@@ -61,7 +61,8 @@ export class IconComponent {
    * direction (ltr vs rtl). Typically, icons are ltr based, and only in case of rtl some of
    * the icons will be flipped.
    */
-  @HostBinding('attr.flip-at') flipDirection: DirectionMode;
+  @HostBinding('class.flip-at-rtl') flipAtRtl: boolean;
+  @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
 
   /**
    * Maintains the applied style classes so we can remove them when the
@@ -84,7 +85,10 @@ export class IconComponent {
     this.iconLoader.addLinkResource(type);
 
     // the flip direction is added so that icons can be flipped for rtl vs ltr
-    this.flipDirection = this.iconLoader.getFlipDirection(type);
+    this.flipAtLtr =
+      this.iconLoader.getFlipDirection(type) === DirectionMode.LTR;
+    this.flipAtRtl =
+      this.iconLoader.getFlipDirection(type) === DirectionMode.RTL;
   }
 
   /**

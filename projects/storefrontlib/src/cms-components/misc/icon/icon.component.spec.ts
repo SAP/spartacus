@@ -94,13 +94,15 @@ describe('IconComponent', () => {
 
     it(`should not have a flip direction by default`, () => {
       component.type = <any>'';
-      expect(component.flipDirection).toBeFalsy();
+      expect(component.flipAtLtr).toBeFalsy();
+      expect(component.flipAtRtl).toBeFalsy();
     });
 
     it(`should store the flip direction for the given icon`, () => {
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
-      expect(component.flipDirection).toEqual(DirectionMode.RTL);
+      expect(component.flipAtRtl).toBeTruthy();
+      expect(component.flipAtLtr).toBeFalsy();
     });
   });
 
@@ -145,31 +147,31 @@ describe('IconComponent', () => {
       expect(classList).toContain('COLLAPSE');
     });
 
-    it('should bind rtl flip direction to flip-at attribute', () => {
+    it('should have flip-at-rtl class', () => {
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
-      expect(
-        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
-      ).toEqual('rtl');
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).not.toContain('flip-at-ltr');
+      expect(classList).toContain('flip-at-rtl');
     });
 
-    it('should bind rtl flip direction to flip-at attribute', () => {
+    it('should have flip-at-ltr class', () => {
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.LTR);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
-      expect(
-        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
-      ).toEqual('ltr');
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).not.toContain('flip-at-rtl');
+      expect(classList).toContain('flip-at-ltr');
     });
 
-    it('should not bind undefined flip direction to flip-at attribute', () => {
+    it('should not have flip-at-ltr and flip-at-rtl class', () => {
       spyOn(service, 'getFlipDirection').and.returnValue(undefined);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
-      expect(
-        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
-      ).toBeNull();
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).not.toContain('flip-at-rtl');
+      expect(classList).not.toContain('flip-at-ltr');
     });
   });
 });
