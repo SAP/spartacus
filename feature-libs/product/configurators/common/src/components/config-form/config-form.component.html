@@ -21,7 +21,6 @@
           <cx-config-attribute-radio-button
             *ngIf="attribute.uiType === uiType.RADIOBUTTON"
             [attribute]="attribute"
-            [group]="attribute.groupId"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-config-attribute-radio-button>
@@ -95,7 +94,8 @@
             [owner]="configuration.owner"
             [groupId]="currentGroup.id"
           ></cx-config-attribute-footer>
-        </div></div
-    ></ng-container>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </ng-container>

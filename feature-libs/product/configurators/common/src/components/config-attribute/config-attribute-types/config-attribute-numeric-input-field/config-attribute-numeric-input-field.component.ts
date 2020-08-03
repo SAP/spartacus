@@ -106,8 +106,8 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
   }
 
