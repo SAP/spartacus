@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Permission, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
+import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
 
 const mockUserGroupPermissionEntities: EntitiesModel<Permission> = {
   values: [
@@ -41,14 +41,14 @@ export class MockTableService {
 }
 
 describe('UserGroupAssignPermissionListService', () => {
-  let service: UserGroupAssignPermissionListService;
+  let service: UserGroupAssignPermissionService;
   let userGroupService: UserGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserGroupAssignPermissionListService,
+        UserGroupAssignPermissionService,
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,
@@ -59,7 +59,7 @@ describe('UserGroupAssignPermissionListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupAssignPermissionListService);
+    service = TestBed.inject(UserGroupAssignPermissionService);
     userGroupService = TestBed.inject(UserGroupService);
   });
 
