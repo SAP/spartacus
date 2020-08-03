@@ -37,8 +37,14 @@
         </div>
 
         <div class="property">
-          <label>{{ 'budget.currency' | cxTranslate }}</label>
+          <label>{{ 'budget.amount' | cxTranslate }}</label>
+          <span class="value">
+            {{ budget.budget }}
+          </span>
+        </div>
 
+        <div class="property">
+          <label>{{ 'budget.currency' | cxTranslate }}</label>
           <span class="value">
             {{ budget.currency?.isocode }}
           </span>
@@ -51,11 +57,11 @@
             [routerLink]="
               {
                 cxRoute: 'orgUnitDetails',
-                params: budget.unit
+                params: budget.orgUnit
               } | cxUrl
             "
           >
-            {{ budget.unit?.name }}
+            {{ budget.orgUnit?.name }}
             <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
           </a>
         </div>
@@ -94,7 +100,10 @@
           </ng-container>
           <ng-template #disabled>
             {{ 'organization.disabled' | cxTranslate }}
-            <button class="button icon" (click)="update({ code: budget.code })">
+            <button
+              class="button icon"
+              (click)="update({ code: budget.code, active: true })"
+            >
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
             </button>
@@ -120,6 +129,6 @@
     *ngIf="budget$ | async as budget"
     [title]="'budget.messages.deactivateHeader' | cxTranslate"
     [message]="'budget.messages.deactivate' | cxTranslate"
-    (confirm)="update({ code: budget.code })"
+    (confirm)="update({ code: budget.code, active: false })"
   ></cx-confirm-modal>
 </ng-template>

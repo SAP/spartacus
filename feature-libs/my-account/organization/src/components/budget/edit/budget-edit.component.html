@@ -13,13 +13,13 @@
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
       </a>
-      <span>{{ 'budget.budgetForm.edit' | cxTranslate }}</span>
+      <span>{{ 'organization.edit' | cxTranslate }}</span>
     </h3>
     <section class="half">
       <cx-budget-form [form]="viewModel.form"> </cx-budget-form>
       <div class="form-buttons">
         <button class="button primary" type="submit">
-          {{ 'budget.budgetForm.save' | cxTranslate }}
+          {{ 'organization.save' | cxTranslate }}
         </button>
         <a
           [routerLink]="
@@ -27,7 +27,7 @@
           "
           class="button secondary"
         >
-          {{ 'budget.budgetForm.cancel' | cxTranslate }}
+          {{ 'organization.cancel' | cxTranslate }}
         </a>
       </div>
     </section>

@@ -94,7 +94,8 @@ export const budgetTableConfig: TableConfig = {
         headers: [
           { key: 'name', sortCode: 'byName' },
           { key: 'code', sortCode: 'byCode' },
-          { key: 'currency' },
+          { key: 'amount', sortCode: 'byValue' },
+          { key: 'dateRange' },
           { key: 'unit', sortCode: 'byUnit' },
         ],
       },

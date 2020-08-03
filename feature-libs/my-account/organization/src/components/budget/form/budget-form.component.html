@@ -2,13 +2,13 @@
   <div class="form-group" *ngIf="form.get('code')">
     <label>
       <span class="label-content required">{{
-        'budget.budgetForm.code.label' | cxTranslate
+        'budget.form.code.label' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'budget.budgetForm.code.placeholder' | cxTranslate }}"
+        placeholder="{{ 'budget.form.code.placeholder' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -18,13 +18,13 @@
   <div class="form-group" *ngIf="form.get('name')">
     <label>
       <span class="label-content required">{{
-        'budget.budgetForm.name.label' | cxTranslate
+        'budget.form.name.label' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'budget.budgetForm.name.placeholder' | cxTranslate }}"
+        placeholder="{{ 'budget.form.name.placeholder' | cxTranslate }}"
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
@@ -38,7 +38,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'budget.budgetForm.businessUnits.label' | cxTranslate
+          'budget.form.businessUnits.label' | cxTranslate
         }}</span>
         <ng-select
           formControlName="uid"
@@ -59,7 +59,7 @@
     <div class="form-group">
       <label>
         <span class="label-content">{{
-          'budget.budgetForm.startDate' | cxTranslate
+          'budget.form.startDate' | cxTranslate
         }}</span>
         <cx-date-time-picker
           formControlName="startDate"
@@ -78,7 +78,7 @@
     <div class="form-group">
       <label>
         <span class="label-content">{{
-          'budget.budgetForm.endDate' | cxTranslate
+          'budget.form.endDate' | cxTranslate
         }}</span>
         <cx-date-time-picker
           formControlName="endDate"
@@ -99,7 +99,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'budget.budgetForm.currency' | cxTranslate
+          'budget.form.currency' | cxTranslate
         }}</span>
         <ng-select
           formControlName="isocode"
@@ -122,14 +122,12 @@
     <div class="form-group">
       <label>
         <span class="label-content">{{
-          'budget.budgetForm.amount.label' | cxTranslate
+          'budget.form.amount.label' | cxTranslate
         }}</span>
         <input
           type="number"
           class="form-control"
-          placeholder="{{
-            'budget.budgetForm.amount.placeholder' | cxTranslate
-          }}"
+          placeholder="{{ 'budget.form.amount.placeholder' | cxTranslate }}"
           formControlName="budget"
         />
         <cx-form-errors [control]="form.get('budget')"></cx-form-errors>

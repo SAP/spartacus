@@ -5,9 +5,8 @@ export const budget = {
   name: 'Name',
   currency: 'Currency',
   unit: 'Parent Unit',
-  costCenters: {
-    header: 'Cost Centers',
-  },
+  amount: 'Amount',
+  dateRange: 'Start - End',
 
   messages: {
     enabled:
@@ -17,29 +16,7 @@ export const budget = {
     deactivateHeader: 'Disable Cost Center',
   },
 
-  budget: {
-    header: 'Budgets',
-    assign: 'Assign budgets',
-    name: 'Name',
-    code: 'Code',
-    close: '',
-    cancel: 'Cancel',
-    create: 'Create {{name}}',
-    edit: 'Edit details',
-    save: 'Save {{name}}',
-    back: 'Back',
-    instructions: {
-      check: 'To assign a budget to this cost center, select its check box.',
-      uncheck: 'To unassign a budget, clear its check box.',
-      changes: 'Changes are saved automatically.',
-    },
-  },
-  budgetForm: {
-    save: 'Save',
-    cancel: 'Cancel',
-    create: 'Create Budget',
-    edit: 'Edit Budget',
-    update: 'Update Budget',
+  form: {
     code: {
       label: 'Budget ID',
       placeholder: 'Code',
@@ -61,6 +38,9 @@ export const budget = {
     },
   },
   budgetCostCenterList: {
+    header: 'Cost Centers',
+  },
+  costCenters: {
     header: 'Cost Centers',
   },
 };
