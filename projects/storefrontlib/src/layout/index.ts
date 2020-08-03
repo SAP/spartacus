@@ -2,6 +2,7 @@ export * from './a11y/index';
 export * from './breakpoint/breakpoint.service';
 export * from './config/direction.model';
 export * from './config/layout-config';
+export * from './direction/index';
 export * from './header/index';
 export * from './launch-dialog/index';
 export * from './layout.module';
