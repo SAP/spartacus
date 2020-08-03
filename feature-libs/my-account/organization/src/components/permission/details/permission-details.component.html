@@ -38,17 +38,20 @@
           </span>
         </div>
 
-        <div class="property">
+        <div
+          class="property"
+          *ngIf="permission.threshold || permission.threshold === 0"
+        >
           <label>{{ 'permission.threshold' | cxTranslate }}</label>
           <span class="value">
             {{ permission.threshold }} {{ permission.currency?.symbol }}
           </span>
         </div>
 
-        <div class="property">
+        <div class="property" *ngIf="permission.periodRange">
           <label>{{ 'permission.periodRange' | cxTranslate }}</label>
           <span class="value">
-            {{ permission.periodRange || '-' }}
+            {{ permission.periodRange }}
           </span>
         </div>
 

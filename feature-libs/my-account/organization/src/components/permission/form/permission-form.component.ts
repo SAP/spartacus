@@ -15,7 +15,10 @@ import {
   Period,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { PermissionFormService } from './permission-form.service';
+import {
+  PermissionFormService,
+  PermissionType,
+} from './permission-form.service';
 
 @Component({
   selector: 'cx-permission-form',
@@ -50,6 +53,11 @@ export class PermissionFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnitService.loadList();
+    if (this.form && !this.editMode) {
+      this.permissionFormService.adjustForm(this.form, {
+        code: PermissionType.EXCEEDED,
+      });
+    }
   }
 
   onTypeSelect(type: OrderApprovalPermissionType): void {

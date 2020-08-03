@@ -34,7 +34,7 @@ const mockPermission: Permission = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 class MockPermissionService implements Partial<PermissionService> {
-  load = createSpy('load');
+  loadPermission = createSpy('loadPermission');
   get = createSpy('get').and.returnValue(of(mockPermission));
   update = createSpy('update');
 }
