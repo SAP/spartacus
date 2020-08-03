@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
 const mockUserGroupEntities: EntitiesModel<B2BUser> = {
   values: [
@@ -44,15 +44,15 @@ export class MockTableService {
   }
 }
 
-describe('UserGroupAssignUserListService', () => {
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignUserService', () => {
+  let service: UserGroupAssignUserService;
   let userGroupService: UserGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserGroupAssignUserListService,
+        UserGroupAssignUserService,
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,

@@ -14,8 +14,10 @@ export const userGroup = {
   },
 
   user: {
-    header: 'Users',
+    link: 'Users',
+    header: 'Users in {{code}}',
     assign: 'Assign users',
+    assignHeader: 'Assign users in {{code}}',
     unassignAll: 'Unassign All',
     back: 'Back',
     instructions: {
@@ -26,7 +28,8 @@ export const userGroup = {
   },
 
   permission: {
-    header: 'Purchase limits',
+    link: 'Purchase limits',
+    header: 'Purchase limits in {{code}}',
     assign: 'Assign purchase limits',
     back: 'Back',
     instructions: {
@@ -40,6 +43,7 @@ export const userGroup = {
       MONTH: 'per Month',
       YEAR: 'per Year',
       WEEK: 'per Week',
+      QUARTER: 'per Quarter',
     },
   },
 };
