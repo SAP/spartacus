@@ -32,7 +32,9 @@ export const checkout = {
     placeOrder: 'Place Order',
     termsAndConditions: 'Terms & Conditions',
     editPoNumber: 'Edit P.O. number',
+    editPaymentType: 'Edit payment type',
     editShippingAddress: 'Edit shipping address',
+    editCostCenter: 'Edit cost center',
     editShippingMethod: 'Edit shipping method',
     editPaymentMethod: 'Edit payment method',
   },
@@ -56,7 +58,7 @@ export const checkout = {
   },
   checkoutProgress: {
     paymentType: 'Payment Type',
-    poNumber: 'P.O. NO.',
+    poNumber: 'Purchase order number',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery mode',
     paymentDetails: 'Payment details',

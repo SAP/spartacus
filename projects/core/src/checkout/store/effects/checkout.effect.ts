@@ -430,11 +430,10 @@ export class CheckoutEffects {
               userId: payload.userId,
               cartId: payload.cartId,
             }),
-            /** TODO: Note to self: ask why do we need this */
-            // new CheckoutActions.ClearCheckoutDeliveryAddress({
-            //   userId: payload.userId,
-            //   cartId: payload.cartId,
-            // }),
+            new CheckoutActions.ClearCheckoutDeliveryAddress({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
           ]),
           catchError((error) =>
             of(

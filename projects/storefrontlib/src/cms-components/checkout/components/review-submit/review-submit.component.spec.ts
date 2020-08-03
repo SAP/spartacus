@@ -17,6 +17,7 @@ import {
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
+  PaymentType,
   PaymentTypeService,
   PromotionLocation,
   UserAddressService,
@@ -69,6 +70,17 @@ const mockPaymentDetails: PaymentDetails = {
 };
 
 const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
+
+const mockCostCenter: CostCenter = {
+  code: 'test-cost-center',
+  name: 'test-cc-name',
+  unit: { name: 'test-unit-name' },
+};
+
+const mockPaymentTypes: PaymentType[] = [
+  { code: 'test-account' },
+  { code: 'test-card' },
+];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -153,17 +165,23 @@ class MockPaymentTypeService {
   getPoNumber(): Observable<string> {
     return of('test-po');
   }
+  getSelectedPaymentType(): Observable<string> {
+    return of(mockPaymentTypes[0].code);
+  }
+  isAccountPayment(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 class MockCheckoutCostCenterService {
   getCostCenter(): Observable<string> {
-    return of('test-cost-center');
+    return of(mockCostCenter.code);
   }
 }
 
 class MockUserCostCenterService {
   getActiveCostCenters(): Observable<CostCenter[]> {
-    return of([{ code: 'test-cost-center', name: 'test-cc-name' }]);
+    return of([mockCostCenter]);
   }
 }
 
@@ -182,7 +200,7 @@ class MockPromotionService {
   getProductPromotionForEntry(): void {}
 }
 
-describe('ReviewSubmitComponent', () => {
+fdescribe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
@@ -346,13 +364,22 @@ describe('ReviewSubmitComponent', () => {
     expect(po).toEqual('test-po');
   });
 
-  it('should be able to get cost center name', () => {
-    let costCenterName: string;
-    component.costCenterName$.subscribe((data: string) => {
-      costCenterName = data;
+  it('should be able to get cost center', () => {
+    let costCenter: CostCenter;
+    component.costCenter$.subscribe((data: CostCenter) => {
+      costCenter = data;
     });
 
-    expect(costCenterName).toEqual('test-cc-name');
+    expect(costCenter).toEqual(mockCostCenter);
+  });
+
+  it('should get selected payment type', () => {
+    let paymentType: string;
+    component.paymentType$.subscribe((data: string) => {
+      paymentType = data;
+    });
+
+    expect(paymentType).toEqual(mockPaymentTypes[0].code);
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
@@ -395,11 +422,25 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  it('should call getPoNumberCard(po, costCenter) to get po card data', () => {
-    component.getPoNumberCard('test-po', 'test-cc').subscribe((card) => {
+  it('should call getPoNumberCard(po) to get po card data', () => {
+    component.getPoNumberCard('test-po').subscribe((card) => {
       expect(card.title).toEqual('checkoutProgress.poNumber');
       expect(card.textBold).toEqual('test-po');
-      expect(card.text).toEqual(['checkoutPO.costCenter: test-cc']);
+    });
+  });
+
+  it('should call getCostCenter(costCenter) to get cost center ard data', () => {
+    component.getCostCenterCard(mockCostCenter).subscribe((card) => {
+      expect(card.title).toEqual('checkoutPO.costCenter');
+      expect(card.textBold).toEqual(mockCostCenter.name);
+      expect(card.text).toEqual(['(' + mockCostCenter.unit.name + ')']);
+    });
+  });
+
+  it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
+    component.getPaymentTypeCard(mockPaymentTypes[0].code).subscribe((card) => {
+      expect(card.title).toEqual('checkoutProgress.paymentType');
+      expect(card.textBold).toEqual('test-account');
     });
   });
 

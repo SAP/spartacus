@@ -13,6 +13,12 @@
         <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
           <ng-container *ngTemplateOutlet="poNumber"></ng-container>
         </ng-container>
+        <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+          <ng-container *ngTemplateOutlet="paymentType"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+          <ng-container *ngTemplateOutlet="costCenter"></ng-container>
+        </ng-container>
         <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
           <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
         </ng-container>
@@ -29,11 +35,7 @@
   <!-- PO NUMBER SECTION -->
   <ng-template #poNumber>
     <div class="cx-review-summary-card">
-      <cx-card
-        [content]="
-          getPoNumberCard(poNumber$ | async, costCenterName$ | async) | async
-        "
-      ></cx-card>
+      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
     </div>
     <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
       <a
@@ -45,6 +47,46 @@
         >{{ 'checkoutReview.editPoNumber' | cxTranslate }}</a
       >
     </div>
+  </ng-template>
+
+  <!-- PAYMENT TYPE SECTION -->
+  <ng-template #paymentType>
+    <div class="cx-review-summary-card">
+      <cx-card
+        [content]="getPaymentTypeCard(paymentType$ | async) | async"
+      ></cx-card>
+    </div>
+    <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
+      <a
+        [routerLink]="
+          {
+            cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
+          } | cxUrl
+        "
+        >{{ 'checkoutReview.editPaymentType' | cxTranslate }}</a
+      >
+    </div>
+  </ng-template>
+
+  <!-- COST CENTER SECTION -->
+  <ng-template #costCenter>
+    <ng-container *ngIf="isAccountPayment$ | async">
+      <div class="cx-review-summary-card">
+        <cx-card
+          [content]="getCostCenterCard(costCenter$ | async) | async"
+        ></cx-card>
+      </div>
+      <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
+        <a
+          [routerLink]="
+            {
+              cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
+            } | cxUrl
+          "
+          >{{ 'checkoutReview.editCostCenter' | cxTranslate }}</a
+        >
+      </div>
+    </ng-container>
   </ng-template>
 
   <!-- SHIPPING ADDRESS SECTION -->

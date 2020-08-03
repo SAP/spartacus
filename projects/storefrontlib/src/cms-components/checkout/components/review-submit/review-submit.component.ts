@@ -6,6 +6,7 @@ import {
   CheckoutCostCenterService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CostCenter,
   Country,
   DeliveryMode,
   OrderEntry,
@@ -99,13 +100,21 @@ export class ReviewSubmitComponent {
     return this.paymentTypeService.getPoNumber();
   }
 
-  get costCenterName$(): Observable<string> {
+  get paymentType$(): Observable<string> {
+    return this.paymentTypeService.getSelectedPaymentType();
+  }
+
+  get isAccountPayment$(): Observable<boolean> {
+    return this.paymentTypeService.isAccountPayment();
+  }
+
+  get costCenter$(): Observable<CostCenter> {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => Boolean(costCenters)),
       switchMap((costCenters) => {
         return this.checkoutCostCenterService.getCostCenter().pipe(
           map((code) => {
-            return costCenters.find((cc) => cc.code === code)?.name;
+            return costCenters.find((cc) => cc.code === code);
           })
         );
       })
@@ -148,6 +157,20 @@ export class ReviewSubmitComponent {
     );
   }
 
+  getCostCenterCard(costCenter: CostCenter): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutPO.costCenter'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: costCenter?.name,
+          text: ['(' + costCenter?.unit.name + ')'],
+        };
+      })
+    );
+  }
+
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutShipping.shippingMethod'),
@@ -180,17 +203,28 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPoNumberCard(poNumber: string, costCenter: string): Observable<Card> {
+  getPoNumberCard(poNumber: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutProgress.poNumber'),
       this.translation.translate('checkoutPO.noPoNumber'),
-      this.translation.translate('checkoutPO.costCenter'),
     ]).pipe(
-      map(([textTitle, noneTextTitle, textCostCenter]) => {
+      map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
           textBold: poNumber ? poNumber : noneTextTitle,
-          text: [costCenter ? textCostCenter + ': ' + costCenter : ''],
+        };
+      })
+    );
+  }
+
+  getPaymentTypeCard(paymentType: string): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutProgress.paymentType'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: paymentType.charAt(0) + paymentType.slice(1).toLowerCase(),
         };
       })
     );

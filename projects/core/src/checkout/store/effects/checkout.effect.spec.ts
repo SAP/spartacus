@@ -443,18 +443,17 @@ describe('Checkout effect', () => {
         userId,
         cartId,
       });
-      /** look at notes from effect */
-      // const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
-      //   userId,
-      //   cartId,
-      // });
+      const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        // e: completion4,
+        e: completion4,
       });
 
       expect(entryEffects.setCostCenter$).toBeObservable(expected);
