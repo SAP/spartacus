@@ -283,6 +283,7 @@ describe('ConfigurationFormComponent', () => {
       x: Boolean(true),
       y: Boolean(false),
     });
+    routerStateObservable = of(mockRouterState);
     const fixture = TestBed.createComponent(ConfigFormComponent);
     const component = fixture.componentInstance;
     component.updateConfiguration({
