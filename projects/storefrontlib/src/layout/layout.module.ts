@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
 import { OutletRefModule } from '../cms-structure/outlet/outlet-ref/outlet-ref.module';
-import { defaultDirectionConfig } from './direction/default-direction.config';
-import { HtmlDirProvider } from './direction/direction.provider';
+import { DirectionModule } from './direction/direction.module';
 import { LaunchDialogModule } from './launch-dialog/index';
 
 @NgModule({
-  imports: [OutletRefModule, LaunchDialogModule.forRoot()],
+  imports: [OutletRefModule, LaunchDialogModule.forRoot(), DirectionModule],
   exports: [OutletRefModule],
-  providers: [HtmlDirProvider, provideDefaultConfig(defaultDirectionConfig)],
 })
 export class LayoutModule {}

@@ -5,8 +5,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { DirectionMode, LayoutDirection } from '../config/direction.model';
-import { LayoutConfig } from '../config/layout-config';
+import { DirectionConfig } from './config/direction.config';
+import { Direction, DirectionMode } from './config/direction.model';
 
 /**
  * The `DirectionService` can be used to add the direction to the overall storefront or individual elements.
@@ -23,7 +23,7 @@ import { LayoutConfig } from '../config/layout-config';
   providedIn: 'root',
 })
 export class DirectionService implements OnDestroy {
-  protected config: LayoutDirection;
+  protected config: Direction;
   protected startsDetecting = false;
 
   protected subscription = new Subscription();
@@ -37,15 +37,15 @@ export class DirectionService implements OnDestroy {
   /**
    * Initializes the layout direction for the storefront.
    */
-  initialize(): void {
-    this.configInit
+  initialize(): Promise<void> {
+    return this.configInit
       .getStableConfig('direction')
-      .then((config: LayoutConfig) => {
+      .then((config: DirectionConfig) => {
         this.config = config?.direction;
         if (this.config?.detect) {
           this.detect();
         } else {
-          this.addDirection(
+          this.setDirection(
             this.winRef.document.documentElement,
             this.config?.default
           );
@@ -65,7 +65,7 @@ export class DirectionService implements OnDestroy {
       this.languageService
         .getActive()
         .subscribe((isoCode: string) =>
-          this.addDirection(
+          this.setDirection(
             this.winRef.document.documentElement,
             this.getDirection(isoCode)
           )
@@ -77,8 +77,12 @@ export class DirectionService implements OnDestroy {
   /**
    * Sets the direction attribute for the given element.
    */
-  addDirection(el: HTMLElement, direction: DirectionMode): void {
-    el.dir = direction;
+  setDirection(el: HTMLElement, direction: DirectionMode): void {
+    if (direction) {
+      el.setAttribute('dir', direction);
+    } else {
+      el.removeAttribute('dir');
+    }
   }
 
   /**
