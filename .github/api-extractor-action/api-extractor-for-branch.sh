@@ -43,7 +43,7 @@ cp "$CONFIG_PATH" ./dist/assets/api-extractor.json
 )
 
 # @spartacus/core
-# Disabled because of the issue with `import * as `
+# Disabled because of the issue with `import * as ` https://github.com/microsoft/rushstack/issues/1029
 #
 # cp "$CONFIG_PATH" ./dist/core/api-extractor.json
 # (
@@ -78,3 +78,12 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
   cd ./dist/product && \
   api-extractor run --local --verbose
 )
+
+# @spartacus/gigya
+# Disabled because of the issue with `import` https://github.com/microsoft/rushstack/issues/1029
+
+# cp "$CONFIG_PATH" ./dist/gigya/api-extractor.json
+# (
+#   cd ./dist/gigya && \
+#   api-extractor run --local --verbose
+# )

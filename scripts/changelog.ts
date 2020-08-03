@@ -78,6 +78,7 @@ export default async function run(
     '@spartacus/cds': 'projects/cds',
     '@spartacus/my-account': 'feature-libs/my-account',
     '@spartacus/product': 'feature-libs/product',
+    '@spartacus/gigya': 'integration-libs/gigya',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -300,6 +301,10 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/product/configurators/variant':
     case '@spartacus/product/configurators/textfield':
       config.library = '@spartacus/product';
+      break;
+    case 'gigya':
+    case '@spartacus/gigya':
+      config.library = '@spartacus/gigya';
       break;
     default:
       config.library = undefined;

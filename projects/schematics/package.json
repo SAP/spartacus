@@ -48,7 +48,8 @@
       "@spartacus/assets",
       "@spartacus/incubator",
       "@spartacus/my-account",
-      "@spartacus/product"
+      "@spartacus/product",
+      "@spartacus/gigya"
     ]
   },
   "main": "src/public_api.js"
