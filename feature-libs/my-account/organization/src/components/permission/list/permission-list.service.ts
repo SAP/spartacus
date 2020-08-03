@@ -7,8 +7,8 @@ import { BaseOrganizationListService } from '../../shared/base-organization-list
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
- * The UI model for the cost center, which is a slightly flattened version
- * of the core cost center model.
+ * The UI model for the permission, which is a slightly flattened version
+ * of the permission model.
  */
 export interface PermissionModel {
   code?: string;
@@ -19,8 +19,8 @@ export interface PermissionModel {
 }
 
 /**
- * Service to populate Cost Center data to `Table` data. The cost center
- * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER`.
+ * Service to populate permission data to `Table` data. The permission
+ * data is driven by the table configuration, using the `OrganizationTables.PERMISSION`.
  */
 @Injectable({
   providedIn: 'root',
@@ -48,7 +48,7 @@ export class PermissionListService extends BaseOrganizationListService<
   }
 
   /**
-   * Populates the cost center data to a convenient table data model, so that we
+   * Populates the permission data to a convenient table data model, so that we
    * can skip specific conversion in the view logic where possible.
    */
   protected convertPermissions({
