@@ -1,10 +1,17 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { FeatureConfigService, provideDefaultConfig } from '@spartacus/core';
 import { defaultDirectionConfig } from './config/default-direction.config';
 import { DirectionService } from './direction.service';
 
-export function initHtmlDirAttribute(directionService: DirectionService) {
-  const result = () => directionService.initialize();
+export function initHtmlDirAttribute(
+  directionService: DirectionService,
+  featureConfigService: FeatureConfigService
+) {
+  const result = () => {
+    if (featureConfigService.isLevel('2.1')) {
+      directionService.initialize();
+    }
+  };
   return result;
 }
 
@@ -17,7 +24,7 @@ export function initHtmlDirAttribute(directionService: DirectionService) {
       provide: APP_INITIALIZER,
       multi: true,
       useFactory: initHtmlDirAttribute,
-      deps: [DirectionService],
+      deps: [DirectionService, FeatureConfigService],
     },
     provideDefaultConfig(defaultDirectionConfig),
   ],
