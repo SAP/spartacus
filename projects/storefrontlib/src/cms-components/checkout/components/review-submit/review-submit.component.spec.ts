@@ -200,7 +200,7 @@ class MockPromotionService {
   getProductPromotionForEntry(): void {}
 }
 
-fdescribe('ReviewSubmitComponent', () => {
+describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
