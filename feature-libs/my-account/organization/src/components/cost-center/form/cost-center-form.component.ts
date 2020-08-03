@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
@@ -11,6 +16,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterFormComponent implements OnInit {
   /**
