@@ -66,6 +66,11 @@ export class ConfigFormComponent implements OnInit {
             routingData.owner
           );
         }
+
+        //In case of resolving issues, check if the configuration contains conflicts,
+        //if not, check if the configuration contains missing mandatory fields and show the according group
+        if (routingData.resolveConflicts) {
+        }
       });
   }
 
