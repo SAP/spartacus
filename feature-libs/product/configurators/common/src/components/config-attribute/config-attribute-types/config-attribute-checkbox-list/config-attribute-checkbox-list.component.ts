@@ -54,8 +54,8 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
         name: this.attribute.name,
         values: selectedValues,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
 
     this.selectionChange.emit(event);

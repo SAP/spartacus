@@ -16,6 +16,7 @@ const selectedFlag = true;
 const requiredFlag = true;
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
+const groupKey = generalGroupName;
 const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
@@ -38,11 +39,13 @@ const occImage: OccConfigurator.Image = {
 const occAttribute: OccConfigurator.Attribute = {
   name: attributeName,
   images: [occImage],
+  key: groupKey,
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
+  key: groupKey,
   domainValues: [
     { key: valueKey, images: [occImage] },
     { key: valueKey2, selected: selectedFlag },
@@ -301,6 +304,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       value: '23.234',
       negativeAllowed: true,
       type: OccConfigurator.UiType.READ_ONLY,
+      key: groupKey,
     };
     occConfiguratorVariantNormalizer.convertAttribute(
       numericOccAttribute,
@@ -315,6 +319,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const numericOccAttribute: OccConfigurator.Attribute = {
       maxlength: 3,
       negativeAllowed: true,
+      key: groupKey,
     };
     occConfiguratorVariantNormalizer.convertAttribute(
       numericOccAttribute,

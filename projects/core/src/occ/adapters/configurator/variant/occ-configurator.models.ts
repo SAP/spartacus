@@ -59,6 +59,7 @@ export namespace OccConfigurator {
     domainValues?: Value[];
     required?: boolean;
     value?: string;
+    key?: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];

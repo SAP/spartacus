@@ -19,7 +19,6 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
@@ -37,8 +36,8 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
         name: this.attribute.name,
         selectedSingleValue: this.attributeRadioButtonForm.value,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
 
     this.selectionChange.emit(event);
