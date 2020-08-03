@@ -8,8 +8,8 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '../../../../shared/index';
 import { OrderApprovalListComponent } from './order-approval-list.component';
+import { ListNavigationModule } from "@spartacus/storefront";
 
 @NgModule({
   imports: [

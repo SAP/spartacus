@@ -9,20 +9,21 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { FormErrorsModule, SpinnerModule } from '../../../../shared/index';
-import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
+import { OrderApprovalDetailService } from './order-approval-detail.service';
 import {
+  CmsPageGuard,
+  PageLayoutComponent,
+  FormErrorsModule,
+  SpinnerModule,
+  CartSharedModule,
   OrderDetailApprovalDetailsComponent,
   OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
-  OrderDetailTotalsComponent,
-} from '../../../myaccount/order/order-details/index';
-import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
-import { OrderApprovalDetailService } from './order-approval-detail.service';
+  OrderDetailTotalsComponent
+} from "@spartacus/storefront";
 
 @NgModule({
   imports: [
