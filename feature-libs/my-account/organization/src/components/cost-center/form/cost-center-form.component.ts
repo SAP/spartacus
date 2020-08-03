@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-cost-center-form',
-  templateUrl: './cost-center-form.component.html'
+  templateUrl: './cost-center-form.component.html',
 })
 export class CostCenterFormComponent implements OnInit {
   /**
