@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class CostCenterFormService {
   }
 
   protected build(form: FormGroup) {
-    form.setControl('code', new FormControl('', Validators.required));
+    form.setControl('code', new FormControl('', [Validators.required, this.codeValidator]));
     form.setControl('name', new FormControl('', Validators.required));
 
     form.setControl(
@@ -31,5 +31,12 @@ export class CostCenterFormService {
         uid: new FormControl(undefined, Validators.required),
       })
     );
+  }
+
+  private codeValidator(control: AbstractControl): {[key: string]: any} | null {
+    if (control.value && control.value.match(/edit/gi) || control.value.match(/create/gi)) {
+      return { 'cxInvalidCostCenterCode': true };
+    }
+    return null;
   }
 }
