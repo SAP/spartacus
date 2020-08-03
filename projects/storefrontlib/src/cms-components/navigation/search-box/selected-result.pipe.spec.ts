@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { SelectedResultPipe } from './selected-result.pipe';
 
 describe('HighlightPipe', () => {
-  const pipe: SelectedResultPipe;
+  const pipe: SelectedResultPipe = TestBed.inject(SelectedResultPipe);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [SelectedResultPipe],
     });
-    pipe = TestBed.inject(SelectedResultPipe);
   });
 
   describe('transform', () => {
