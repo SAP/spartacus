@@ -172,6 +172,14 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
+  groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+  attributes: [occAttributeWithValues],
+};
+
+const occConflictGroup: OccConfigurator.Group = {
+  name: conflictGroupName,
+  description: conflictExplanation,
+  groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
 };
 
@@ -319,6 +327,27 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a standard group', () => {
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(groups[0].description).toBe(groupDescription);
+  });
+
+  it('should convert a standard group and conflict group but not conflict-header group and sub-item-group', () => {
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(1);
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
+    group.groupType = OccConfigurator.GroupType.INSTANCE;
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(2);
+    occConflictGroup.groupType = OccConfigurator.GroupType.CONFLICT_HEADER;
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
   });
 
   it('should convert a group with no attributes', () => {
