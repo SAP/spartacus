@@ -113,23 +113,16 @@ export class ShippingAddressComponent implements OnInit {
     }
   }
 
-  selectDefaultAddress(addresses: Address[] | B2BAddress[], selected: Address) {
+  selectDefaultAddress(addresses: Address[], selected: Address) {
     if (
       !this.doneAutoSelect &&
       addresses &&
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
-      if (this.isAccountPayment) {
-        if (addresses.length > 0) {
-          selected = addresses[0];
-          this.selectAddress(selected);
-        }
-      } else {
-        selected = addresses.find((address) => address.defaultAddress);
-        if (selected) {
-          this.selectAddress(selected);
-        }
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.selectAddress(selected);
       }
       this.doneAutoSelect = true;
     }

@@ -126,7 +126,7 @@ describe('CostCenterComponent', () => {
   it('should set cost center', () => {
     spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
 
-    component['setCostCenter'](mockCostCenters[1].code);
+    component.setCostCenter(mockCostCenters[1].code);
 
     expect(component['costCenterId']).toEqual(mockCostCenters[1].code);
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(

@@ -39,7 +39,7 @@ export class CostCenterComponent {
     protected paymentTypeService: PaymentTypeService
   ) {}
 
-  protected setCostCenter(selectCostCenter: string): void {
+  setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
     this.checkoutCostCenterService.setCostCenter(this.costCenterId);
   }
