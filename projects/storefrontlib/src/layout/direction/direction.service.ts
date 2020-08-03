@@ -37,8 +37,8 @@ export class DirectionService implements OnDestroy {
   /**
    * Initializes the layout direction for the storefront.
    */
-  initialize(): void {
-    this.configInit
+  initialize(): Promise<void> {
+    return this.configInit
       .getStableConfig('direction')
       .then((config: LayoutConfig) => {
         this.config = config?.direction;

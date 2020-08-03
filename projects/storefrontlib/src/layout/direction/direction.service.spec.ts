@@ -63,7 +63,7 @@ describe('DirectionService', () => {
 
   describe('getDirection', () => {
     describe('without default', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         spyOn(configInitializerService, 'getStableConfig').and.returnValue(
           of({
             direction: {
@@ -73,27 +73,24 @@ describe('DirectionService', () => {
             },
           }).toPromise()
         );
-        service.initialize();
+        await service.initialize();
       });
 
-      it('should return LTR direction for ltr language', async () => {
-        await configInitializerService.getStableConfig();
+      it('should return LTR direction for ltr language', () => {
         expect(service.getDirection('en')).toBe(DirectionMode.LTR);
       });
 
-      it('should return RTL direction for rtl language', async () => {
-        await configInitializerService.getStableConfig();
+      it('should return RTL direction for rtl language', () => {
         expect(service.getDirection('he')).toBe(DirectionMode.RTL);
       });
 
-      it('should return undefined when no language mapping is available', async () => {
-        await configInitializerService.getStableConfig();
+      it('should return undefined when no language mapping is available', () => {
         expect(service.getDirection('unknown')).toBeUndefined();
       });
     });
 
     describe('with default', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         spyOn(configInitializerService, 'getStableConfig').and.returnValue(
           of({
             direction: {
@@ -102,10 +99,9 @@ describe('DirectionService', () => {
             },
           }).toPromise()
         );
-        service.initialize();
+        await service.initialize();
       });
-      it('should return default direction for unknown language direction', async () => {
-        await configInitializerService.getStableConfig();
+      it('should return default direction for unknown language direction', () => {
         expect(service.getDirection('unknown')).toBe(DirectionMode.RTL);
       });
     });
@@ -124,8 +120,7 @@ describe('DirectionService', () => {
       });
 
       it('should set the default configured direction', async () => {
-        service.initialize();
-        await configInitializerService.getStableConfig();
+        await service.initialize();
 
         expect(languageService.getActive).not.toHaveBeenCalled();
         expect(service.addDirection).toHaveBeenCalledWith(
@@ -152,8 +147,7 @@ describe('DirectionService', () => {
         spyOn(service, 'addDirection');
         spyOn(service, 'getDirection').and.returnValue(TEST_DIRECTION);
 
-        service.initialize();
-        await configInitializerService.getStableConfig();
+        await service.initialize();
 
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE);
         expect(service.addDirection).toHaveBeenCalledWith(
@@ -178,8 +172,7 @@ describe('DirectionService', () => {
           TEST_DIRECTION_2
         );
 
-        service.initialize();
-        await configInitializerService.getStableConfig();
+        await service.initialize();
 
         mockActiveLanguage$.next(TEST_LANGUAGE_1);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_1);
