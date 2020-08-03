@@ -5,8 +5,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { DirectionMode, LayoutDirection } from '../config/direction.model';
 import { LayoutConfig } from '../config/layout-config';
+import { Direction, DirectionMode } from './config/direction.model';
 
 /**
  * The `DirectionService` can be used to add the direction to the overall storefront or individual elements.
@@ -23,7 +23,7 @@ import { LayoutConfig } from '../config/layout-config';
   providedIn: 'root',
 })
 export class DirectionService implements OnDestroy {
-  protected config: LayoutDirection;
+  protected config: Direction;
   protected startsDetecting = false;
 
   protected subscription = new Subscription();

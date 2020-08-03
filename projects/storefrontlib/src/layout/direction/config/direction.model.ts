@@ -16,7 +16,7 @@ export enum DirectionMode {
  * Contains the configuration mode for language driven directionality. The detect mode is recommended
  * for a multi-site or multi-lingual setup where the active language should dictate the direction mode.
  */
-export interface LayoutDirection {
+export interface Direction {
   /**
    * The default direction mode is used for the direction mode of the storefront. The default mode can be used
    * for all languages, but if you enable the detect mode, the default mode is used as a fallback for all

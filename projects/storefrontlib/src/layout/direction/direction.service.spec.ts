@@ -5,7 +5,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { EMPTY, of, Subject } from 'rxjs';
-import { DirectionMode } from '../config/direction.model';
+import { DirectionMode } from './config/direction.model';
 import { DirectionService } from './direction.service';
 
 class MockWindowRef implements Partial<WindowRef> {

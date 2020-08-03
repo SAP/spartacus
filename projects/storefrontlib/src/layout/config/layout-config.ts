@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config, DeferLoadingStrategy } from '@spartacus/core';
+import { LayoutDirection } from '../direction/config/direction.model';
 import { LaunchConfig } from '../launch-dialog/index';
-import { LayoutDirection } from './direction.model';
 
 export enum BREAKPOINT {
   xs = 'xs',
