@@ -53,10 +53,10 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
   private defaultImageReady = new BehaviorSubject<boolean>(false);
   private zoomReady = new BehaviorSubject<boolean>(false);
-  private subscription = new Subscription();
   private _defaultImage: ElementRef;
   private _zoomImage: ElementRef;
 
+  protected subscription = new Subscription();
   protected mainMediaContainer$: Observable<
     ImageGroup
   > = this.mainMediaContainer.asObservable();
@@ -138,7 +138,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  thumbs$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
+  thumbnails$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p)),
     shareReplay(1)
   );

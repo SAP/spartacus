@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ImageGroup, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { distinctUntilKeyChanged, filter, map, tap } from 'rxjs/operators';
 import { ThumbGroup } from '../../../shared/components/image-zoom/product-thumbnails/thumbnails.model';
 
 @Component({
@@ -13,13 +13,11 @@ import { ThumbGroup } from '../../../shared/components/image-zoom/product-thumbn
 export class ProductImagesComponent {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
 
-  protected mainMediaContainer$ = this.mainMediaContainer.asObservable();
-
   private product$: Observable<
     Product
   > = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
-    distinctUntilChanged(),
+    filter((product: Product) => !!product),
+    distinctUntilKeyChanged('code'),
     tap((p: Product) => {
       this.mainMediaContainer.next(
         p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
@@ -27,7 +25,9 @@ export class ProductImagesComponent {
     })
   );
 
-  thumbs$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
+  protected mainMediaContainer$ = this.mainMediaContainer.asObservable();
+
+  thumbnails$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p))
   );
 

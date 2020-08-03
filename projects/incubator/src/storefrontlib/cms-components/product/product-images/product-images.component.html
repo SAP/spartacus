@@ -7,7 +7,7 @@
   ></cx-image-zoom-trigger>
 </ng-container>
 
-<ng-container *ngIf="thumbs$ | async as thumbs">
+<ng-container *ngIf="thumbnails$ | async as thumbs">
   <cx-carousel
     *ngIf="thumbs.length"
     class="thumbs"

@@ -1,5 +1,5 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <div class="cx-main-image-group" *ngIf="thumbs$ | async as thumbs">
+  <div class="cx-main-image-group" *ngIf="thumbnails$ | async as thumbs">
     <div class="cx-navigate-image">
       <button
         class="btn btn-link"
@@ -40,6 +40,6 @@
 </ng-container>
 
 <cx-product-thumbnails
-  [thumbs$]="thumbs$"
+  [thumbs$]="thumbnails$"
   (productImage)="changeImage($event)"
 ></cx-product-thumbnails>
