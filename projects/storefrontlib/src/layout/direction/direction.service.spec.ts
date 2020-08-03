@@ -77,13 +77,13 @@ describe('DirectionService', () => {
     describe('without default', () => {
       beforeEach(async () => {
         spyOn(configInitializerService, 'getStableConfig').and.returnValue(
-          of({
+          Promise.resolve({
             direction: {
               detect: true,
               ltrLanguages: ['en', 'de'],
               rtlLanguages: ['ar', 'he'],
             },
-          }).toPromise()
+          })
         );
         await service.initialize();
       });

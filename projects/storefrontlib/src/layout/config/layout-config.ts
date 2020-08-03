@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Config, DeferLoadingStrategy } from '@spartacus/core';
-import { LayoutDirection } from '../direction/config/direction.model';
 import { LaunchConfig } from '../launch-dialog/index';
 
 export enum BREAKPOINT {
@@ -66,13 +65,6 @@ export abstract class LayoutConfig {
     [BREAKPOINT.lg]?: number;
   };
   layoutSlots?: LayoutSlotConfig;
-
-  /**
-   * The layout direction can be used to setup the html with an instruction for text and layout direction.
-   * Besides the default html direction modes (auto, ltr and rtl), we also support an auto detect mode, which
-   * maps the active language to a configurable list of rtl and/or ltr language.
-   */
-  direction?: LayoutDirection;
 
   /**
    * Deferred loading is a technique to hold of with the loading / creation
