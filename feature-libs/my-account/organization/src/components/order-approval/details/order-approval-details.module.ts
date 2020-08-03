@@ -22,8 +22,8 @@ import {
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
-  OrderDetailTotalsComponent
-} from "@spartacus/storefront";
+  OrderDetailTotalsComponent,
+} from '@spartacus/storefront';
 
 @NgModule({
   imports: [

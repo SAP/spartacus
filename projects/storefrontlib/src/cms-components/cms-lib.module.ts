@@ -174,7 +174,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     UserApproversModule,
     UserAssignApproversModule,
     UserUserGroupsModule,
-    UserAssignUserGroupsModule
+    UserAssignUserGroupsModule,
   ],
 })
 export class CmsLibModule {}

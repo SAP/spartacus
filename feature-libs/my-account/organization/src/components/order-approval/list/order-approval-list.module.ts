@@ -9,7 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { OrderApprovalListComponent } from './order-approval-list.component';
-import { ListNavigationModule } from "@spartacus/storefront";
+import { ListNavigationModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
