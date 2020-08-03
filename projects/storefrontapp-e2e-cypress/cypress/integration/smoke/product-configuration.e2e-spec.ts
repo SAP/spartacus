@@ -133,10 +133,10 @@ context('Product Configuration', () => {
     it('Checkboxes should be still selected after group change', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnPreviousBtn('Basics');
+      configuration.clickOnNextBtn('Specification');
       configuration.isCheckboxSelected(CAMERA_SD_CARD, SDHC);
     });
   });
@@ -154,7 +154,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Specification, is that Basics status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconNotDisplayed(SPECIFICATION);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -162,7 +162,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Display, is that Specification status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Display');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -171,7 +171,7 @@ context('Product Configuration', () => {
 
       // complete group Display, navigate back, is status changes to Complete
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Specification');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
       configuration.isStatusIconDisplayed(DISPLAY, COMPLETE);
@@ -199,49 +199,49 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
 
       // navigate to video system subgroup, no status initially
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Projector');
       configuration.isStatusIconNotDisplayed(PROJECTOR);
       configuration.isStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate to flat-panel TV, group projector should be completed
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Flat-panel TV');
       configuration.isStatusIconDisplayed(PROJECTOR, COMPLETE);
       configuration.isStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate back to group projector, status should be completed
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Projector');
       configuration.isStatusIconDisplayed(PROJECTOR, COMPLETE);
       configuration.isStatusIconDisplayed(FLAT_PANEL, COMPLETE);
 
       // navigate back to General, check completed status
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('General');
       configuration.isStatusIconDisplayed(GENERAL, COMPLETE);
       configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
 
       // navigate to Audio System subgroup, is no status is displayed initially
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Projector');
+      configuration.clickOnNextBtn('Flat-panel TV');
+      configuration.clickOnNextBtn('Front Speakers');
       configuration.isStatusIconNotDisplayed(FRONT_SPEAKERS);
       configuration.isStatusIconNotDisplayed(CENTER_SPEAKER);
       configuration.isStatusIconNotDisplayed(REAR_SPEAKER);
       configuration.isStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate to Center Speaker
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Center Speaker');
       configuration.isStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
 
       // navigate back to Front Speaker, check completed status
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Front Speakers');
       configuration.isStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
       configuration.isStatusIconDisplayed(CENTER_SPEAKER, COMPLETE);
       configuration.isStatusIconNotDisplayed(REAR_SPEAKER);
       configuration.isStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate back to General group, is that Audio system is not fully completed
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Flat-panel TV');
+      configuration.clickOnPreviousBtn('Projector');
+      configuration.clickOnPreviousBtn('General');
 
       configuration.isStatusIconDisplayed(GENERAL, COMPLETE);
       configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
@@ -261,7 +261,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Specification, is that Basics status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconNotDisplayed(SPECIFICATION);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -269,7 +269,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Display, is that Specification status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Display');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -296,9 +296,9 @@ context('Product Configuration', () => {
   describe('Group handling', () => {
     it('should navigate between groups', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnNextBtn('Specification');
+      configuration.clickOnNextBtn('Display');
+      configuration.clickOnPreviousBtn('Specification');
     });
 
     it('should check if group buttons are clickable', () => {
@@ -306,11 +306,11 @@ context('Product Configuration', () => {
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.isPreviousBtnEnabled();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Display');
+      configuration.clickOnNextBtn('Lens');
+      configuration.clickOnNextBtn('Options');
       configuration.isNextBtnDisabled();
     });
 
@@ -347,9 +347,9 @@ context('Product Configuration', () => {
 
     it('should navigate using the previous and next button for multi level product', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnNextBtn('Projector');
+      configuration.clickOnNextBtn('Flat-panel TV');
+      configuration.clickOnPreviousBtn('Projector');
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {

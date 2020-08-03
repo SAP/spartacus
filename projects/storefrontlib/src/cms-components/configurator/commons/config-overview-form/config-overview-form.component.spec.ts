@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -12,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
 import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
@@ -113,13 +111,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    })
-      .overrideComponent(ConfigAttributeHeaderComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewFormComponent);
