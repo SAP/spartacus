@@ -14,6 +14,7 @@
     <div class="actions">
       <a
         class="link"
+        [class.disabled]="!user.active"
         [routerLink]="{ cxRoute: 'userEdit', params: user } | cxUrl"
       >
         {{ 'organization.edit' | cxTranslate }}

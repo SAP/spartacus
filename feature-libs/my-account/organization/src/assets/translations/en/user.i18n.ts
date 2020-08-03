@@ -9,7 +9,7 @@ export const user = {
   orgUnit: 'Parent Unit',
   roles: 'Roles',
   title: 'Title',
-  assignAprover: 'Add user to the approver list for this user',
+  assignAprover: 'Add to the approvers list',
 
   messages: {
     enabled:
