@@ -1,8 +1,3 @@
-@import './permissions/_permission-create';
-@import './permissions/_permission-edit';
-@import './permissions/_permission-details';
-@import './permissions/_permission-list';
-
 @import './units/_unit-create';
 @import './units/_unit-edit';
 @import './units/_unit-details';
@@ -25,8 +20,7 @@
 
 @import './_fake-tabs';
 
-$organization-components-whitelist: cx-permission-create
-  cx-permission-edit cx-permission-details cx-permission-list cx-unit-create cx-unit-edit
+$organization-components-whitelist: cx-unit-create cx-unit-edit
   cx-unit-details cx-unit-list cx-unit-addresses cx-unit-approvers
   cx-unit-assign-approvers cx-unit-roles cx-unit-assign-roles cx-unit-children
   cx-unit-cost-centers cx-unit-address-create cx-unit-address-edit

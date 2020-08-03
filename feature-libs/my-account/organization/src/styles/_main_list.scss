@@ -1,7 +1,8 @@
 cx-budget-list,
 cx-cost-center-list,
 cx-user-group-list,
-cx-user-list {
+cx-user-list,
+cx-permission-list {
   > cx-split-view > cx-view > section > cx-table > table {
     th,
     td {
@@ -9,6 +10,7 @@ cx-user-list {
     }
     td {
       &.name,
+      &.code,
       &.unit {
         .disabled {
           display: flex;

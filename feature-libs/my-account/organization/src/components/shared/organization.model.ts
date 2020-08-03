@@ -16,4 +16,5 @@ export enum OrganizationTableType {
   USER_ASSIGN_PERMISSIONS = 'userAssignPermissions',
   USER_USER_GROUPS = 'userUserGroups',
   USER_ASSIGN_USER_GROUPS = 'userAssignUserGroups',
+  PERMISSION = 'permission',
 }
