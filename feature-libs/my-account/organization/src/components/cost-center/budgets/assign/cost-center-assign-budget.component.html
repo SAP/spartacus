@@ -11,7 +11,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'costCenter.budget.assign' | cxTranslate }}</span>
+    <span>{{
+      'costCenter.budget.assignHeader' | cxTranslate: { code: costCenterCode }
+    }}</span>
   </h3>
 
   <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">

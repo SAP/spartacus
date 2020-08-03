@@ -15,6 +15,7 @@ import { CostCenterCreateModule } from './create/cost-center-create.module';
 import { CostCenterEditModule } from './edit/cost-center-edit.module';
 import { CostCenterFormModule } from './form/cost-center-form.module';
 import { CostCenterListModule } from './list/cost-center-list.module';
+import { CostCenterDetailsModule } from './details/cost-center-details.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { CostCenterListModule } from './list/cost-center-list.module';
     CostCenterEditModule,
     CostCenterFormModule,
     CostCenterListModule,
+    CostCenterDetailsModule,
   ],
   providers: [
     provideDefaultConfig(costCenterRoutingConfig),

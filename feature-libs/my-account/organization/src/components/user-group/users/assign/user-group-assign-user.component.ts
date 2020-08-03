@@ -3,14 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
 import { PaginationModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-group-assign-user',
   templateUrl: './user-group-assign-user.component.html',
 })
-export class UserGroupAssignUsersComponent {
+export class UserGroupAssignUserComponent {
   code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
     map((params) => params['code'])
   );
@@ -24,7 +24,7 @@ export class UserGroupAssignUsersComponent {
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.
     protected activateRoute: ActivatedRoute,
-    protected assignService: UserGroupAssignUserListService
+    protected assignService: UserGroupAssignUserService
   ) {}
 
   toggleAssign(userGroupCode: string, userCode: string, checked: boolean) {
