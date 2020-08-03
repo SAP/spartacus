@@ -2,15 +2,24 @@ import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { Direction } from './direction.model';
 
+/**
+ * The direction config provides an easy way to configure "ltr" versus "rtl" direction
+ * for the storefront. The direction can be configured to detect the direction by language.
+ *
+ * The following configuration detects rtl languages by isoCode for Arabic and Hebrew:
+ *
+ * ```typescript
+ * direction: {s
+ *   detect: true,
+ *   default: DirectionMode.LTR,
+ *   rtlLanguages: ['ar', 'he']
+ * }
+ * ```
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class DirectionConfig {
-  /**
-   * The layout direction can be used to setup the html with an instruction for text and layout direction.
-   * Besides the default html direction modes (auto, ltr and rtl), we also support an auto detect mode, which
-   * maps the active language to a configurable list of rtl and/or ltr language.
-   */
   direction?: Direction;
 }

@@ -8,6 +8,9 @@ export function initHtmlDirAttribute(directionService: DirectionService) {
   return result;
 }
 
+/**
+ * Provides a configuration and APP_INITIALIZER to add the correct (language drive) html direction.
+ */
 @NgModule({
   providers: [
     {

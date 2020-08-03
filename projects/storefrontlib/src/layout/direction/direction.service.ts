@@ -13,8 +13,7 @@ import { Direction, DirectionMode } from './config/direction.model';
  * By default, the direction is added to the `html` element (i.e. `<html dir="ltr">`). The API of this service
  * does however provide methods to add direction to individual elements if needed.
  *
- * The direction is configurable in the `LayoutDirection` configuration. The `detect` mode is recommended for
- * a (multi) language driven setup.
+ * The direction is configurable and allows for language driven direction configuration.
  *
  * To react to the active language, the service subscribes to the active language in the initialize method. This
  * is called from an APP_INITIALIZER method and should only happen once.
@@ -75,7 +74,8 @@ export class DirectionService implements OnDestroy {
   }
 
   /**
-   * Sets the direction attribute for the given element.
+   * Sets the direction attribute for the given element. If the direction is undefined, the `dir`
+   * attribute is removed.
    */
   setDirection(el: HTMLElement, direction: DirectionMode): void {
     if (direction) {
