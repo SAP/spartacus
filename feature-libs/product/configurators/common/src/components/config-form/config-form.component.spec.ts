@@ -288,7 +288,6 @@ describe('ConfigurationFormComponent', () => {
     const component = fixture.componentInstance;
     component.updateConfiguration({
       changedAttribute: configRead.groups[0].attributes[0],
-      groupId: configRead.groups[0].id,
       productCode: owner.key,
     });
 

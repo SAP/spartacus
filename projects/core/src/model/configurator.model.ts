@@ -12,6 +12,7 @@ export namespace Configurator {
     dataType?: string;
     quantity?: number;
     values?: Value[];
+    groupId?: string;
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;

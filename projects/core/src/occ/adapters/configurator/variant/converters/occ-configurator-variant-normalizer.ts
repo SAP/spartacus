@@ -74,6 +74,10 @@ export class OccConfiguratorVariantNormalizer
     groupList.push(group);
   }
 
+  getGroupId(key: string, name: string): string {
+    return key.replace('@' + name, '');
+  }
+
   convertAttribute(
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
@@ -84,6 +88,7 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
+      groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
         sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),

@@ -36,8 +36,8 @@ export class ConfigAttributeDropDownComponent implements OnInit {
         name: this.attribute.name,
         selectedSingleValue: this.attributeDropDownForm.value,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
     this.selectionChange.emit(event);
   }

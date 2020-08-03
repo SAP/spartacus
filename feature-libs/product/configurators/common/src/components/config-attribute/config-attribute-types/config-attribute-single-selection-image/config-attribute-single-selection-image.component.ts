@@ -51,8 +51,8 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
         name: this.attribute.name,
         selectedSingleValue: this.attribute.values[index].valueCode,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
 
     this.selectionChange.emit(event);

@@ -135,7 +135,6 @@ function mergeChangesAndGetFirstGroup(
   configuration: Configurator.Configuration
 ) {
   const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
-    GROUP_ID_1,
     changedAttribute,
     configuration
   );
@@ -305,12 +304,9 @@ describe('ConfiguratorCommonsService', () => {
     );
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(
-      PRODUCT_CODE,
-      GROUP_ID_1,
-      changedAttribute
-    );
+    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
 
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
@@ -355,6 +351,7 @@ describe('ConfiguratorCommonsService', () => {
     it('should create a new configuration object for changes received, containing one group', () => {
       const changedAttribute: Configurator.Attribute = {
         name: ATTRIBUTE_NAME_1,
+        groupId: GROUP_ID_1,
       };
 
       const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
@@ -373,6 +370,7 @@ describe('ConfiguratorCommonsService', () => {
     it('should be able to handle multilevel configurations as well, returning a projection of the original configuration with only the path to the changes', () => {
       const changedAttribute: Configurator.Attribute = {
         name: ATTRIBUTE_NAME_1,
+        groupId: GROUP_ID_1,
       };
 
       const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
@@ -396,6 +394,7 @@ describe('ConfiguratorCommonsService', () => {
     it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
       const changedAttribute: Configurator.Attribute = {
         name: ATTRIBUTE_NAME_1,
+        groupId: GROUP_ID_1,
       };
 
       const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
@@ -414,11 +413,11 @@ describe('ConfiguratorCommonsService', () => {
     it('should throw an error if group for change is not part of the configuration', () => {
       const changedAttribute: Configurator.Attribute = {
         name: ATTRIBUTE_NAME_1,
+        groupId: 'unknown',
       };
 
       expect(function () {
         serviceUnderTest.createConfigurationExtract(
-          'unknown',
           changedAttribute,
           productConfiguration
         );
