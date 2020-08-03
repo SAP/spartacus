@@ -9,7 +9,7 @@ import { Direction } from './direction.model';
  * The following configuration detects rtl languages by isoCode for Arabic and Hebrew:
  *
  * ```typescript
- * direction: {s
+ * direction: {
  *   detect: true,
  *   default: DirectionMode.LTR,
  *   rtlLanguages: ['ar', 'he']
