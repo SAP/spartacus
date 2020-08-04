@@ -1,5 +1,5 @@
 import { Price, Product } from './product.model';
-import { PaginationModel, SortModel, User } from './misc.model';
+import { PaginationModel, SortModel } from './misc.model';
 import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
@@ -143,7 +143,6 @@ export interface Order {
   guid?: string;
   net?: boolean;
   orderDiscounts?: Price;
-  orgCustomer?: User;
   paymentInfo?: PaymentDetails;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];

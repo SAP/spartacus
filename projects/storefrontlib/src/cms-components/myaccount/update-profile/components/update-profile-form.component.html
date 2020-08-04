@@ -1,4 +1,5 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="updateProfileForm">
+
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -14,6 +15,7 @@
       </label>
     </div>
   </div>
+
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -35,6 +37,7 @@
       </label>
     </div>
   </div>
+
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -53,6 +56,24 @@
         <cx-form-errors
           [control]="updateProfileForm.get('lastName')"
         ></cx-form-errors>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">{{
+          'orderDetails.customerId' | cxTranslate
+        }}</span>
+        <input
+          type="text"
+          class="form-control"
+          name="customerID"
+          value="{{ user.customerId }}"
+          formControlName="customerID"
+          readonly
+        />
       </label>
     </div>
   </div>

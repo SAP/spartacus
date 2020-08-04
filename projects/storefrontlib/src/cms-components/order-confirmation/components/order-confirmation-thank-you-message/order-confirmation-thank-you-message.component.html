@@ -11,10 +11,7 @@
     <p>
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
-
-    <p>
-      {{ 'orderDetails.customerId' | cxTranslate }} {{order?.orgCustomer?.customerId}}
-    </p>
+    <!-- <a href="#" class="btn-link">Print Page</a> -->
   </div>
 
   <div *ngIf="isGuestCustomer">
