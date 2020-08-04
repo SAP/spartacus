@@ -1,4 +1,11 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Inject,
+  Injectable,
+  NgZone,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   AuthRedirectService,
   BaseSiteService,
@@ -33,7 +40,8 @@ export class CDCJsService implements OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService,
     protected zone: NgZone,
-    protected userService: UserService
+    protected userService: UserService,
+    @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
   /**
@@ -62,7 +70,7 @@ export class CDCJsService implements OnDestroy {
    */
   loadCDCJavascript(): void {
     // Only load the script on client side (no SSR)
-    if (this.winRef.nativeWindow) {
+    if (isPlatformBrowser(this.platform)) {
       this.subscription.add(
         combineLatest([
           this.baseSiteService.getActive(),
