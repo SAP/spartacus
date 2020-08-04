@@ -6,7 +6,6 @@ import {
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budget.component';
-import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
