@@ -4,19 +4,24 @@ import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tab
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 
 const testProduct = 'CONF_CAMERA_SL';
-
 const configurator = 'CPQCONFIGURATOR';
 
 const containerSelectorConfigForm = '.VariantConfigurationTemplate';
 const containerSelectorOverviewForm = '[class*=VariantConfig]';
 
-function goToConfigPage(configuratorType, product) {
-  cy.visit(
-    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
-  ).then(() => {
-    configuration.isConfigPageDisplayed();
-  });
-}
+// List of attributes
+const CAMERA_MODE = 'CAMERA_MODE';
+const CAMERA_COLOR = 'CAMERA_COLOR';
+const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
+// attribute types
+const RADIO_GROUP = 'radioGroup';
+const CHECKBOX_LIST = 'checkBoxList';
+// attribute values
+const CAMERA_MODE_PROFESSIONAL = 'P';
+const CAMERA_COLOR_METALLIC = 'METALLIC';
+const CAMERA_SD_CARD_SDXC = 'SDXC';
+// group names
+const SPECIFICATION = 'Specification';
 
 context('Product Configuration', () => {
   beforeEach(() => {
@@ -25,7 +30,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
       configuration.isConfigHeaderDisplayed();
 
@@ -34,7 +39,11 @@ context('Product Configuration', () => {
         tabConfig.productConfigurationPage
       );
 
-      configuration.selectAttribute('CAMERA_MODE', 'radioGroup', 'P');
+      configuration.selectAttribute(
+        CAMERA_MODE,
+        RADIO_GROUP,
+        CAMERA_MODE_PROFESSIONAL
+      );
 
       configuration.clickAddToCartBtn();
       configurationOverview.isConfigOverviewPageDisplayed();
@@ -53,29 +62,29 @@ context('Product Configuration', () => {
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
 
-      configuration.selectAttribute('CAMERA_COLOR', 'radioGroup', 'METALLIC');
+      configuration.selectAttribute(
+        CAMERA_COLOR,
+        RADIO_GROUP,
+        CAMERA_COLOR_METALLIC
+      );
 
       cy.wait(3000);
 
-      cy.focused().should(
-        'have.attr',
-        'id',
-        'cx-config--radioGroup--CAMERA_COLOR--METALLIC'
+      configuration.checkFocus('cx-config--radioGroup--CAMERA_COLOR--METALLIC');
+
+      configuration.clickOnNextBtn(SPECIFICATION);
+
+      configuration.selectAttribute(
+        CAMERA_SD_CARD,
+        CHECKBOX_LIST,
+        CAMERA_SD_CARD_SDXC
       );
-
-      configuration.clickOnNextBtn('Specification');
-
-      configuration.selectAttribute('CAMERA_SD_CARD', 'checkBoxList', 'SDXC');
 
       cy.wait(3000);
 
-      cy.focused().should(
-        'have.attr',
-        'id',
-        'cx-config--checkBoxList--CAMERA_SD_CARD--SDXC'
-      );
+      configuration.checkFocus('cx-config--checkBoxList--CAMERA_SD_CARD--SDXC');
     });
   });
 });

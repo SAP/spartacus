@@ -25,6 +25,10 @@ export function clickOnEditConfigurationLink() {
     });
 }
 
+export function checkFocus(attributeID: string) {
+  cy.focused().should('have.attr', 'id', attributeID);
+}
+
 function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
   cy.get(btnSelector)
     .click()
@@ -183,6 +187,14 @@ export function isImageNotSelected(
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.get(`#${valueId}`).should('not.be.checked');
+}
+
+export function goToConfigPage(configuratorType, product) {
+  cy.visit(
+    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
+  ).then(() => {
+    isConfigPageDisplayed();
+  });
 }
 
 export function isGroupMenuDisplayed() {
