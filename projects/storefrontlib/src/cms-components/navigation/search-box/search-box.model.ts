@@ -5,7 +5,6 @@ export interface SearchBoxConfig {
   maxProducts?: number;
   maxSuggestions?: number;
   minCharactersBeforeRequest?: number;
-  exactMatchEnabled?: boolean;
 }
 
 export interface SearchResults {
