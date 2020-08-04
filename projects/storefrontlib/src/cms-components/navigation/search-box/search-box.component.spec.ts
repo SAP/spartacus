@@ -102,7 +102,6 @@ describe('SearchBoxComponent', () => {
         SearchBoxComponent,
         MockUrlPipe,
         MockHighlightPipe,
-        MockSelectedResultPipe,
         MockCxIconComponent,
         MockMediaComponent,
       ],
