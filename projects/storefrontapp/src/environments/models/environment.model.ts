@@ -4,5 +4,5 @@ export interface Environment {
   occApiPrefix: string;
   b2b: boolean;
   cds: boolean;
-  gigya: boolean;
+  cdc: boolean;
 }

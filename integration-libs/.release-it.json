@@ -2,21 +2,21 @@
   "git": {
     "requireCleanWorkingDir": true,
     "requireUpstream": false,
-    "tagName": "gigya-${version}",
-    "commitMessage": "Bumping gigya version to ${version}",
-    "tagAnnotation": "Bumping gigya version to ${version}"
+    "tagName": "cdc-${version}",
+    "commitMessage": "Bumping CDC version to ${version}",
+    "tagAnnotation": "Bumping CDC version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/gigya"
+    "publishPath": "./../../dist/cdc"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build gigya --prod"
+    "after:version:bump": "cd ../.. && ng build cdc --prod"
   },
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/gigya@${version}",
-    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib gigya --to gigya-${version}"
+    "releaseName": "@spartacus/cdc@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cdc --to cdc-${version}"
   },
   "plugins": {}
 }

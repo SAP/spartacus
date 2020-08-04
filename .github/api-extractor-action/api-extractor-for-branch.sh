@@ -79,11 +79,11 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
   api-extractor run --local --verbose
 )
 
-# @spartacus/gigya
+# @spartacus/cdc
 # Disabled because of the issue with `import` https://github.com/microsoft/rushstack/issues/1029
 
-# cp "$CONFIG_PATH" ./dist/gigya/api-extractor.json
+# cp "$CONFIG_PATH" ./dist/cdc/api-extractor.json
 # (
-#   cd ./dist/gigya && \
+#   cd ./dist/cdc && \
 #   api-extractor run --local --verbose
 # )
