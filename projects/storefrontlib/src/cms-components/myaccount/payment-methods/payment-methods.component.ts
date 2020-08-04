@@ -9,6 +9,9 @@ import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { Card } from '../../../shared/components/card/card.component';
 
+const SPACE = ' ';
+const NIL = '';
+
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
@@ -82,9 +85,20 @@ export class PaymentMethodsComponent implements OnInit {
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType.code),
             additionalInfo: [
-              billingAddress.firstName + ' ' + ' ' + billingAddress.lastName,
-              billingAddress.formattedAddress,
-              //String(billingAddress.shippingAddress),
+              (billingAddress.title ? billingAddress.title : NIL) +
+                SPACE +
+                billingAddress.firstName +
+                SPACE +
+                billingAddress.lastName,
+              billingAddress.line1 +
+                SPACE +
+                (billingAddress.line2 ? billingAddress.line2 : NIL),
+              billingAddress.town +
+                SPACE +
+                (billingAddress.country.name
+                  ? billingAddress.country.name
+                  : NIL),
+              billingAddress.postalCode,
             ],
           };
 
