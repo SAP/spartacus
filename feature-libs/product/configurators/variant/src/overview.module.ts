@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
-  ConfigPriceSummaryComponent,
   ConfigTabBarComponent,
+  ConfigPriceSummaryComponent,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,

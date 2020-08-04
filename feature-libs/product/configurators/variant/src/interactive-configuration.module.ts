@@ -3,15 +3,16 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
+  ConfigurationMessageLoaderModule,
+  ConfigAddToCartButtonComponent,
   ConfigFormComponent,
+  ConfigGroupMenuComponent,
   ConfigPriceSummaryComponent,
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
-  ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
-  ConfigGroupMenuComponent,
   DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
@@ -51,6 +52,9 @@ import {
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
+        },
+        VariantConfigurationAddToCartButton: {
+          component: ConfigAddToCartButtonComponent,
         },
       },
       layoutSlots: {

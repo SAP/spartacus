@@ -4,6 +4,7 @@ export * from './config-attribute/index';
 export * from './config-conflict-description/index';
 export * from './config-conflict-suggestion/index';
 export * from './config-form/index';
+export * from './config-group-menu/index';
 export * from './config-group-title/index';
 export * from './config-message/index';
 export * from './config-previous-next-buttons/index';

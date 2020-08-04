@@ -22,19 +22,17 @@ import { filter, switchMap, take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAddToCartButtonComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      )
-    );
-
   routerData$: Observable<
     ConfigurationRouter.Data
   > = this.configRouterExtractorService.extractRouterData();
+
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService.getConfiguration(routerData.owner)
+    )
+  );
 
   constructor(
     protected routingService: RoutingService,

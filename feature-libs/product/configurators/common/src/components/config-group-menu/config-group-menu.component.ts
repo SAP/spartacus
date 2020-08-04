@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -6,23 +6,66 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { delay, map, switchMap, take } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import {
+  ConfigRouterExtractorService,
+  ConfigurationRouter,
+  HamburgerMenuService,
+} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-config-group-menu',
   templateUrl: './config-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigGroupMenuComponent implements OnInit {
-  configuration$: Observable<Configurator.Configuration>;
-  currentGroup$: Observable<Configurator.Group>;
+export class ConfigGroupMenuComponent {
+  routerData$: Observable<
+    ConfigurationRouter.Data
+  > = this.configRouterExtractorService.extractRouterData();
 
-  displayedParentGroup$: Observable<Configurator.Group>;
-  displayedGroups$: Observable<Configurator.Group[]>;
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configCommonsService.getConfiguration(routerData.owner)
+    )
+  );
+
+  currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+    )
+  );
+
+  displayedParentGroup$: Observable<
+    Configurator.Group
+  > = this.configuration$.pipe(
+    switchMap((configuration) =>
+      this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
+    ),
+    switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
+  );
+
+  displayedGroups$: Observable<
+    Configurator.Group[]
+  > = this.displayedParentGroup$.pipe(
+    switchMap((parentGroup) => {
+      return this.configuration$.pipe(
+        map((configuration) => {
+          if (parentGroup) {
+            return this.condenseGroups(parentGroup.subGroups);
+          } else {
+            return this.condenseGroups(configuration.groups);
+          }
+        }),
+        delay(0)
+      );
+    })
+  );
 
   iconTypes = ICON_TYPE;
+  GROUPSTATUS = Configurator.GroupStatus;
+
   constructor(
     private configCommonsService: ConfiguratorCommonsService,
     public configuratorGroupsService: ConfiguratorGroupsService,
@@ -30,55 +73,19 @@ export class ConfigGroupMenuComponent implements OnInit {
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
-  GROUPSTATUS = Configurator.GroupStatus;
-
-  ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configCommonsService.getConfiguration(routerData.owner)
-        )
-      );
-
-    this.currentGroup$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
-
-    this.displayedParentGroup$ = this.configuration$.pipe(
-      switchMap((configuration) =>
-        this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
-      ),
-      switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
-    );
-
-    this.displayedGroups$ = this.displayedParentGroup$.pipe(
-      switchMap((parentGroup) => {
-        return this.configuration$.pipe(
-          map((configuration) => {
-            if (parentGroup) {
-              return this.condenseGroups(parentGroup.subGroups);
-            } else {
-              return this.condenseGroups(configuration.groups);
-            }
-          }),
-          delay(0)
-        );
-      })
-    );
-  }
-
-  clickOnEnter(event, group: Configurator.Group) {
+  /**
+   * Executes a click event to the given group.
+   *
+   * @param event - Keyboard event
+   * @param {Configurator.Group} group - Entered group
+   */
+  clickOnEnter(event, group: Configurator.Group): void {
     if (event.which === 13) {
       this.click(group);
     }
   }
 
-  click(group: Configurator.Group) {
+  click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.scrollToVariantConfigurationHeader();
@@ -93,13 +100,18 @@ export class ConfigGroupMenuComponent implements OnInit {
     });
   }
 
-  navigateUpOnEnter(event) {
+  /**
+   * Navigates to the subgroup.
+   *
+   * @param event
+   */
+  navigateUpOnEnter(event): void {
     if (event.which === 13) {
       this.navigateUp();
     }
   }
 
-  navigateUp() {
+  navigateUp(): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -117,6 +129,12 @@ export class ConfigGroupMenuComponent implements OnInit {
       });
   }
 
+  /**
+   * Retrieves the number of conflicts for the current group.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {string} - number of conflicts
+   */
   getConflictNumber(group: Configurator.Group): string {
     if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
       return '(' + group.subGroups.length + ')';
@@ -124,7 +142,9 @@ export class ConfigGroupMenuComponent implements OnInit {
     return '';
   }
 
-  getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
+  protected getParentGroup(
+    group: Configurator.Group
+  ): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
@@ -166,6 +186,13 @@ export class ConfigGroupMenuComponent implements OnInit {
     });
   }
 
+  /**
+   * Retrieves the status of the current group.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {Observable<string>} - Group status
+   */
   getGroupStatus(
     group: Configurator.Group,
     configuration: Configurator.Configuration
@@ -186,6 +213,12 @@ export class ConfigGroupMenuComponent implements OnInit {
       );
   }
 
+  /**
+   * Verifies whether the current group is conflict one.
+   *
+   * @param {Configurator.GroupType} groupType - Group type
+   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
+   */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     if (
       groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP ||
@@ -196,7 +229,7 @@ export class ConfigGroupMenuComponent implements OnInit {
     return false;
   }
 
-  scrollToVariantConfigurationHeader() {
+  protected scrollToVariantConfigurationHeader(): void {
     const theElement = document.querySelector('.VariantConfigurationTemplate');
     let topOffset = 0;
     if (theElement instanceof HTMLElement) {

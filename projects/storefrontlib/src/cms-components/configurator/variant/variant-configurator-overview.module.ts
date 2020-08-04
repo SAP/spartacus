@@ -9,14 +9,11 @@ import { ConfigOverviewAttributeComponent } from '../commons/config-overview-att
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
 import { ConfigOverviewNotificationBannerComponent } from '../commons/config-overview-notification-banner/config-overview-notification-banner.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
-import { VariantConfiguratorModule } from './variant-configurator.module';
 
 @NgModule({
   imports: [
     CommonModule,
     GenericConfiguratorModule,
-    VariantConfiguratorModule,
-
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
