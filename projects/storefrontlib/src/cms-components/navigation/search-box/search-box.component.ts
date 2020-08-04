@@ -19,7 +19,6 @@ const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
-  exactMatchEnabled: true,
 };
 
 @Component({
