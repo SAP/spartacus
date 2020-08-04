@@ -14,6 +14,11 @@ export const GROUP_ID_8 = '1234-56-7898';
 export const GROUP_ID_9 = '1234-56-7899';
 export const GROUP_ID_10 = '1234-56-7900';
 
+export const GROUP_ID_CONFLICT_HEADER = '9999-99-0000';
+export const GROUP_ID_CONFLICT_1 = '9999-99-0001';
+export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
+export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -119,3 +124,37 @@ export const productConfiguration: Configurator.Configuration = {
     groupsVisited: {},
   },
 };
+
+export const conflictGroups: Configurator.Group = {
+  id: GROUP_ID_CONFLICT_HEADER,
+  groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+  subGroups: [
+    {
+      id: GROUP_ID_CONFLICT_1,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+    },
+    {
+      id: GROUP_ID_CONFLICT_2,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+    },
+    {
+      id: GROUP_ID_CONFLICT_3,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+    },
+  ],
+};
+
+export const productConfigurationWithConflicts: Configurator.Configuration = productConfiguration;
+productConfigurationWithConflicts.groups.unshift(conflictGroups);
+productConfigurationWithConflicts.flatGroups.unshift({
+  id: GROUP_ID_CONFLICT_1,
+});
+productConfigurationWithConflicts.flatGroups.unshift({
+  id: GROUP_ID_CONFLICT_2,
+});
+productConfigurationWithConflicts.flatGroups.unshift({
+  id: GROUP_ID_CONFLICT_3,
+});
