@@ -11,9 +11,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import {
-  ConfigurationRouter,
-} from '@spartacus/storefront';
+import { ConfigurationRouter } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
