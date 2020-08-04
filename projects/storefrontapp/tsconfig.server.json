@@ -27,7 +27,8 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "../../feature-libs/product/configurators/textfield/public_api"
-      ]
+      ],
+      "@spartacus/gigya": ["../../integration-libs/gigya/public_api"]
     }
   },
   "angularCompilerOptions": {

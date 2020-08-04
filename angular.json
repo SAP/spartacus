@@ -468,6 +468,44 @@
           }
         }
       }
+    },
+    "gigya": {
+      "projectType": "library",
+      "root": "integration-libs/gigya",
+      "sourceRoot": "integration-libs/gigya/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "integration-libs/gigya/tsconfig.lib.json",
+            "project": "integration-libs/gigya/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/gigya/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/gigya/src/test.ts",
+            "tsConfig": "integration-libs/gigya/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/gigya/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "integration-libs/gigya/tsconfig.lib.json",
+              "integration-libs/gigya/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"

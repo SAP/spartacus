@@ -1,22 +1,37 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import {
   CmsComponentMapping,
   CmsConfig,
+  deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { defer, forkJoin, Observable, of } from 'rxjs';
+import { mapTo, share, tap } from 'rxjs/operators';
+import { FeatureModulesService } from './feature-modules.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsComponentsService {
   private missingComponents: string[] = [];
+  private mappings: { [componentType: string]: CmsComponentMapping } = {};
 
+  // contains
+  private mappingResolvers: Map<
+    string,
+    Observable<CmsComponentMapping>
+  > = new Map();
+
+  /**
+   * @deprecated since 2.1
+   * constructor(config: CmsConfig, platformId: Object);
+   */
   constructor(
     protected config: CmsConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    protected featureModules?: FeatureModulesService
   ) {}
 
   /**
@@ -28,7 +43,68 @@ export class CmsComponentsService {
    * of potential errors that could be thrown otherwise.
    */
   determineMappings(componentTypes: string[]): Observable<string[]> {
-    return of(componentTypes);
+    return defer(() => {
+      // we use defer, to be sure the logic below used to compose final observable
+      // will be executed at subscription time (with up to date state at the time,
+      // when it will be needed)
+      const featureResolvers = [];
+
+      for (const componentType of componentTypes) {
+        if (!this.mappings[componentType]) {
+          const staticConfig = this.config.cmsComponents[componentType];
+
+          // check if this component type is managed by feature module
+          if (this.featureModules.hasFeatureFor(componentType)) {
+            featureResolvers.push(
+              // we delegate populating this.mappings to feature resolver
+              this.getFeatureMappingResolver(componentType, staticConfig)
+            );
+          } else {
+            // simply use only static config
+            this.mappings[componentType] = staticConfig;
+          }
+        }
+      }
+
+      if (featureResolvers.length) {
+        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
+      } else {
+        return of(componentTypes);
+      }
+    });
+  }
+
+  private getFeatureMappingResolver(
+    componentType: string,
+    staticConfig?: CmsComponentMapping
+  ): Observable<CmsComponentMapping> {
+    if (!this.mappingResolvers.has(componentType)) {
+      const mappingResolver$ = this.featureModules
+        .getCmsMapping(componentType)
+        .pipe(
+          tap((featureComponentMapping) => {
+            // We treat cms mapping configuration from a feature as a default,
+            // that can be overridden by app/static configuration
+            this.mappings[componentType] = deepMerge(
+              {},
+              featureComponentMapping,
+              staticConfig
+            );
+            this.mappingResolvers.delete(componentType);
+          }),
+          share()
+        );
+      this.mappingResolvers.set(componentType, mappingResolver$);
+    }
+    return this.mappingResolvers.get(componentType);
+  }
+
+  getInjectors(componentType: string): Injector[] {
+    return (
+      (this.featureModules.hasFeatureFor(componentType) &&
+        this.featureModules.getInjectors(componentType)) ??
+      []
+    );
   }
 
   /**
@@ -42,7 +118,9 @@ export class CmsComponentsService {
    * should be called and completed first.
    */
   getMapping(componentType: string): CmsComponentMapping {
-    const componentConfig = this.config.cmsComponents?.[componentType];
+    const componentConfig =
+      this.mappings[componentType] ??
+      this.config.cmsComponents?.[componentType];
 
     if (!componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
