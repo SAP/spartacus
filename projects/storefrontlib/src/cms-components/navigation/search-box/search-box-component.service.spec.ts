@@ -187,15 +187,6 @@ describe('SearchBoxComponentService', () => {
       ]);
     });
 
-    it('should not have exact match suggestion when config.exactMatchEnabled = false', () => {
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
-
-      service
-        .getResults(searchBoxConfigNoExactMatch)
-        .subscribe((results) => (result = results));
-      expect(result.suggestions).toEqual([]);
-    });
-
     it('should not get an exact match suggestion when there are suggestions returned', () => {
       spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
         of(['sug1'] as any)
