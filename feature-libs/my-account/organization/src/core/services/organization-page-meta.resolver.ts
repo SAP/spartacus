@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import {
+  BreadcrumbMeta,
+  CmsService,
+  ContentPageMetaResolver,
+  PageBreadcrumbResolver,
+  SemanticPathService,
+  TranslationService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CmsService } from '../../cms/facade/cms.service';
-import { BreadcrumbMeta } from '../../cms/model/page.model';
-import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
-import { PageBreadcrumbResolver } from '../../cms/page/page.resolvers';
-import { TranslationService } from '../../i18n/translation.service';
-import { SemanticPathService } from '../../routing/configurable-routes/url-translation/semantic-path.service';
 
 /**
  * Resolves the page data for Organization Pages.

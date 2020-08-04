@@ -1,11 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import {
+  BreadcrumbMeta,
+  CmsService,
+  I18nTestingModule,
+  Page,
+  PageType,
+  RouterState,
+  RoutingService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { BreadcrumbMeta, CmsService, Page } from '../../cms';
-import { I18nTestingModule } from '../../i18n';
-import { PageType } from '../../model/cms.model';
-import { SemanticPathService } from '../../routing';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { RouterState } from '../../routing/store/routing-state';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
 
 const mockOrganizationPage: Page = {

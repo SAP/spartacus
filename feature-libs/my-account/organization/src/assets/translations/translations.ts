@@ -9,7 +9,7 @@ export const organizationTranslations: TranslationResources = {
 export const organizationTranslationChunksConfig: TranslationChunksConfig = {
   organization: [
     'costCenter',
-    'costCenterAssignBudget',
+    'costCenterAssignBudgets',
     'unit',
     'unitAssignRoles',
     'unitAssignApprovers',
