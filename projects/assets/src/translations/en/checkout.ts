@@ -38,7 +38,6 @@ export const checkout = {
     editShippingMethod: 'Edit shipping method',
     editPaymentMethod: 'Edit payment method',
     poNumber: 'Purchase Order Number',
-    methodOfPayment: 'Method of Payment',
   },
   checkoutShipping: {
     shippingMethod: 'Shipping Method',
@@ -59,10 +58,10 @@ export const checkout = {
       "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
-    paymentType: 'Method of<br />Payment',
-    shippingAddress: 'Shipping<br />Address',
-    deliveryMode: 'Delivery<br />Mode',
-    paymentDetails: 'Payment<br />Details',
-    reviewOrder: 'Review<br />Order',
+    methodOfPayment: 'Method of Payment',
+    shippingAddress: 'Shipping Address',
+    deliveryMode: 'Delivery Mode',
+    paymentDetails: 'Payment Details',
+    reviewOrder: 'Review Order',
   },
 };

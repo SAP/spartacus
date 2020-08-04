@@ -1,15 +1,15 @@
-import { CheckoutStepType } from '../../cms-components/checkout/model/checkout-step.model';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '../../cms-components/checkout/config/checkout-config';
+import { CheckoutStepType } from '../../cms-components/checkout/model/checkout-step.model';
 
 export const defaultB2bCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
         id: 'paymentType',
-        name: 'checkoutProgress.paymentType',
+        name: 'checkoutProgress.methodOfPayment',
         routeName: 'checkoutPaymentType',
         type: [CheckoutStepType.PAYMENT_TYPE],
       },

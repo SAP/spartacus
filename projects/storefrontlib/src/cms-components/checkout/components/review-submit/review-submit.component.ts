@@ -219,7 +219,7 @@ export class ReviewSubmitComponent {
 
   getPaymentTypeCard(paymentType: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutReview.methodOfPayment'),
+      this.translation.translate('checkoutProgress.methodOfPayment'),
     ]).pipe(
       map(([textTitle]) => {
         return {

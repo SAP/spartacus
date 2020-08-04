@@ -439,7 +439,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
     component.getPaymentTypeCard(mockPaymentTypes[0].code).subscribe((card) => {
-      expect(card.title).toEqual('checkoutReview.methodOfPayment');
+      expect(card.title).toEqual('checkoutProgress.methodOfPayment');
       expect(card.textBold).toEqual('test-account');
     });
   });

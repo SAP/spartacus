@@ -13,7 +13,7 @@
             [class.active]="isActive(i)"
             [class.disabled]="isDisabled(i)"
             [tabindex]="getTabIndex(i)"
-            [innerHTML]="step.name | cxTranslate"
+            [innerHTML]="step.name | cxTranslate | cxMultiLine"
           >
           </a>
         </li>
