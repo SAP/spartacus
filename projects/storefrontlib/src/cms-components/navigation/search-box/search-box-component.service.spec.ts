@@ -23,17 +23,6 @@ const searchBoxConfig: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: false,
-  exactMatchEnabled: true,
-};
-
-const searchBoxConfigNoExactMatch: SearchBoxConfig = {
-  minCharactersBeforeRequest: 1,
-  displayProducts: true,
-  displaySuggestions: true,
-  maxProducts: 5,
-  maxSuggestions: 5,
-  displayProductImages: false,
-  exactMatchEnabled: false,
 };
 
 class MockSearchboxService {
@@ -187,7 +176,7 @@ describe('SearchBoxComponentService', () => {
       expect(result.suggestions.length).toEqual(0);
     });
 
-    it('should have exact match suggestion when there are no suggestions but at least one product and config.exactMatchEnabled = true', () => {
+    it('should have exact match suggestion when there are no suggestions but at least one product', () => {
       spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
 
       service
