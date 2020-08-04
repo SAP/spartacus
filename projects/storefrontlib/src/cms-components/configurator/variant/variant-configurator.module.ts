@@ -15,7 +15,6 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { ConfigConflictSuggestionComponent } from '../commons/config-conflict-suggestion/config-conflict-suggestion.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
@@ -39,12 +38,9 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     KeyboardFocusModule,
   ],
 
-  declarations: [ConfigGroupMenuComponent, ConfigConflictSuggestionComponent],
-  exports: [ConfigGroupMenuComponent, ConfigConflictSuggestionComponent],
+  declarations: [ConfigGroupMenuComponent],
+  exports: [ConfigGroupMenuComponent],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
-  entryComponents: [
-    ConfigGroupMenuComponent,
-    ConfigConflictSuggestionComponent,
-  ],
+  entryComponents: [ConfigGroupMenuComponent],
 })
 export class VariantConfiguratorModule {}
