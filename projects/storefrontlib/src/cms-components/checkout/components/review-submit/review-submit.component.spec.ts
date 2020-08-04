@@ -424,7 +424,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getPoNumberCard(po) to get po card data', () => {
     component.getPoNumberCard('test-po').subscribe((card) => {
-      expect(card.title).toEqual('checkoutProgress.poNumber');
+      expect(card.title).toEqual('checkoutReview.poNumber');
       expect(card.textBold).toEqual('test-po');
     });
   });
@@ -439,7 +439,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
     component.getPaymentTypeCard(mockPaymentTypes[0].code).subscribe((card) => {
-      expect(card.title).toEqual('checkoutProgress.paymentType');
+      expect(card.title).toEqual('checkoutReview.methodOfPayment');
       expect(card.textBold).toEqual('test-account');
     });
   });

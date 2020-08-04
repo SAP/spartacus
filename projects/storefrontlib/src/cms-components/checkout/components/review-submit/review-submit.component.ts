@@ -205,7 +205,7 @@ export class ReviewSubmitComponent {
 
   getPoNumberCard(poNumber: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutProgress.poNumber'),
+      this.translation.translate('checkoutReview.poNumber'),
       this.translation.translate('checkoutPO.noPoNumber'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => {
@@ -219,7 +219,7 @@ export class ReviewSubmitComponent {
 
   getPaymentTypeCard(paymentType: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutProgress.paymentType'),
+      this.translation.translate('checkoutReview.methodOfPayment'),
     ]).pipe(
       map(([textTitle]) => {
         return {

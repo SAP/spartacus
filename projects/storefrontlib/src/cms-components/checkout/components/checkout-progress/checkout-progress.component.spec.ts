@@ -72,8 +72,8 @@ describe('CheckoutProgressComponent', () => {
   it('should contain steps with labels', () => {
     const steps = fixture.debugElement.query(By.css('.cx-nav')).nativeElement;
 
-    mockCheckoutSteps.forEach((step, index) => {
-      expect(steps.innerText).toContain(step.name && index + 1);
+    mockCheckoutSteps.forEach((step) => {
+      expect(steps.innerText).toContain(step.name);
     });
   });
 
