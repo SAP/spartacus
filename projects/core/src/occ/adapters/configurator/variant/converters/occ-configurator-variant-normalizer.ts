@@ -97,6 +97,7 @@ export class OccConfiguratorVariantNormalizer
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: null,
       images: [],
+      hasConflicts: sourceAttribute?.conflicts?.length > 0 ? true : false,
     };
 
     if (sourceAttribute.images) {

@@ -20,11 +20,12 @@ export class ConfigAttributeHeaderComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
-
-  constructor(protected configUtils: ConfigUtilsService) {}
+  @Input() groupType: Configurator.GroupType;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
+
+  constructor(protected configUtils: ConfigUtilsService) {}
 
   ngOnInit(): void {
     /**
@@ -43,6 +44,7 @@ export class ConfigAttributeHeaderComponent implements OnInit {
 
   /**
    * Get message key for the required message. Is different for multi- and single selection values
+   *  @return {string} - required message key
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
@@ -86,5 +88,37 @@ export class ConfigAttributeHeaderComponent implements OnInit {
       uiType !== Configurator.UiType.STRING &&
       uiType !== Configurator.UiType.NUMERIC
     );
+  }
+
+  /**
+   * Verifies whether the group type is attribute group
+   *
+   * @param groupType {Configurator.GroupType} - group type
+   * @return {boolean} - 'true' if the group type is 'attribute group' otherwise 'false'
+   */
+  isAttributeGroup(groupType: Configurator.GroupType): boolean {
+    if (Configurator.GroupType.ATTRIBUTE_GROUP === groupType) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Retrieves a certain conflict link key depending on the current group type for translation.
+   *
+   * @param groupType {Configurator.GroupType}- group type
+   * @return {string} - the conflict link key
+   */
+  getConflictMessageKey(groupType: Configurator.GroupType): string {
+    switch (groupType) {
+      case Configurator.GroupType.CONFLICT_GROUP: {
+        return 'configurator.conflict.viewConfigurationDetails';
+      }
+      case Configurator.GroupType.ATTRIBUTE_GROUP: {
+        return 'configurator.conflict.viewConflictDetails';
+      }
+      default:
+        break;
+    }
   }
 }
