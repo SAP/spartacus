@@ -1,9 +1,6 @@
-@import './order-approval/order-approval-list';
-@import './order-approval/order-approval-detail-form';
 @import './_organization-home';
 
 @import './_fake-tabs';
 
 $organization-components-whitelist: cx-fake-tabs cx-fake-tabs-desktop
-  cx-fake-tabs-mobile cx-order-approval-detail-form
-  cx-order-approval-list !default;
+  cx-fake-tabs-mobile !default;
