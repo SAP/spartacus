@@ -10,9 +10,6 @@ import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { Card } from '../../../shared/components/card/card.component';
 
-const SPACE = ' ';
-const NIL = '';
-
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
@@ -129,6 +126,9 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   getAdditionalInfo(billingAddress: Address): string[] {
+    const SPACE = ' ';
+    const NIL = '';
+
     return [
       (billingAddress.title ? billingAddress.title : NIL) +
         SPACE +
