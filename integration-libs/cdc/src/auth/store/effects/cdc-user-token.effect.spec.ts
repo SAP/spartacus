@@ -10,9 +10,9 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
-import { CDCUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
-import { CDCAuthActions } from '../actions';
-import { CDCUserTokenEffects } from './cdc-user-token.effect';
+import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
+import { CdcAuthActions } from '../actions';
+import { CdcUserTokenEffects } from './cdc-user-token.effect';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -23,7 +23,7 @@ const testToken: UserToken = {
   userId: 'xxx',
 };
 
-class CDCUserAuthenticationTokenServiceMock {
+class CdcUserAuthenticationTokenServiceMock {
   loadTokenUsingCustomFlow(
     _UID: string,
     _UIDSignature: string,
@@ -40,37 +40,37 @@ class MockGlobalMessageService {
 }
 
 describe('UserToken effect', () => {
-  let userTokenService: CDCUserAuthenticationTokenService;
-  let userTokenEffect: CDCUserTokenEffects;
-  let actions$: Observable<CDCAuthActions.CDCUserTokenAction>;
+  let userTokenService: CdcUserAuthenticationTokenService;
+  let userTokenEffect: CdcUserTokenEffects;
+  let actions$: Observable<CdcAuthActions.CdcUserTokenAction>;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CDCUserTokenEffects,
+        CdcUserTokenEffects,
         {
-          provide: CDCUserAuthenticationTokenService,
-          useClass: CDCUserAuthenticationTokenServiceMock,
+          provide: CdcUserAuthenticationTokenService,
+          useClass: CdcUserAuthenticationTokenServiceMock,
         },
         provideMockActions(() => actions$),
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 
-    userTokenEffect = TestBed.inject(CDCUserTokenEffects);
-    userTokenService = TestBed.inject(CDCUserAuthenticationTokenService);
+    userTokenEffect = TestBed.inject(CdcUserTokenEffects);
+    userTokenService = TestBed.inject(CdcUserAuthenticationTokenService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(globalMessageService, 'add').and.stub();
   });
 
-  describe('loadCDCUserToken$', () => {
+  describe('loadCdcUserToken$', () => {
     it('should load a user token', () => {
       spyOn(userTokenService, 'loadTokenUsingCustomFlow').and.returnValue(
         of(testToken)
       );
-      const action = new CDCAuthActions.LoadCDCUserToken({
+      const action = new CdcAuthActions.LoadCdcUserToken({
         UID: 'xxx',
         UIDSignature: 'xxx',
         signatureTimestamp: 'xxx',
@@ -83,7 +83,7 @@ describe('UserToken effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(userTokenEffect.loadCDCUserToken$).toBeObservable(expected);
+      expect(userTokenEffect.loadCdcUserToken$).toBeObservable(expected);
       expect(testToken.expiration_time).toBeDefined();
       expect(testToken.userId).toEqual(OCC_USER_ID_CURRENT);
     });

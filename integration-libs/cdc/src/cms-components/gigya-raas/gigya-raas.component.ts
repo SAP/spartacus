@@ -9,8 +9,8 @@ import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { CDCJsService } from '../../auth/facade/cdc-js.service';
-import { CDCConfig } from '../../config';
+import { CdcJsService } from '../../auth/facade/cdc-js.service';
+import { CdcConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
 
 @Component({
@@ -30,9 +30,9 @@ export class GigyaRaasComponent implements OnInit {
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
     private languageService: LanguageService,
-    private cdcConfig: CDCConfig,
+    private cdcConfig: CdcConfig,
     private winRef: WindowRef,
-    private cdcJSService: CDCJsService,
+    private cdcJSService: CdcJsService,
     private zone: NgZone
   ) {}
 

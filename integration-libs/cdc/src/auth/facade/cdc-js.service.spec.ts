@@ -14,11 +14,11 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CDCConfig } from '../../config';
-import { CDCAuthService } from './cdc-auth.service';
-import { CDCJsService } from './cdc-js.service';
+import { CdcConfig } from '../../config';
+import { CdcAuthService } from './cdc-auth.service';
+import { CdcJsService } from './cdc-js.service';
 
-const sampleCDCConfig: CDCConfig = {
+const sampleCdcConfig: CdcConfig = {
   cdc: [
     {
       baseSite: 'electronics-spa',
@@ -59,8 +59,8 @@ class ExternalJsFileLoaderMock {
   ): void {}
 }
 
-class MockCDCAuthService {
-  authorizeWithCustomCDCFlow(): void {}
+class MockCdcAuthService {
+  authorizeWithCustomCdcFlow(): void {}
 
   getUserToken(): Observable<UserToken> {
     return of();
@@ -97,12 +97,12 @@ const mockedWindowRef = {
   },
 };
 
-describe('CDCJsService', () => {
-  let service: CDCJsService;
+describe('CdcJsService', () => {
+  let service: CdcJsService;
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let externalJsFileLoader: ExternalJsFileLoader;
-  let auth: CDCAuthService;
+  let auth: CdcAuthService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let userService: UserService;
@@ -111,11 +111,11 @@ describe('CDCJsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: CDCConfig, useValue: sampleCDCConfig },
+        { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
-        { provide: CDCAuthService, useClass: MockCDCAuthService },
+        { provide: CdcAuthService, useClass: MockCdcAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
@@ -125,11 +125,11 @@ describe('CDCJsService', () => {
       ],
     });
 
-    service = TestBed.inject(CDCJsService);
+    service = TestBed.inject(CdcJsService);
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
     externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
-    auth = TestBed.inject(CDCAuthService);
+    auth = TestBed.inject(CdcAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     userService = TestBed.inject(UserService);
@@ -142,11 +142,11 @@ describe('CDCJsService', () => {
 
   describe('initialize', () => {
     it('should load the CDC script', () => {
-      spyOn(service, 'loadCDCJavascript').and.stub();
+      spyOn(service, 'loadCdcJavascript').and.stub();
 
       service.initialize();
 
-      expect(service.loadCDCJavascript).toHaveBeenCalled();
+      expect(service.loadCdcJavascript).toHaveBeenCalled();
     });
   });
 
@@ -161,7 +161,7 @@ describe('CDCJsService', () => {
         .pipe(take(1))
         .subscribe((val) => expect(val).toBe(false));
 
-      service.loadCDCJavascript();
+      service.loadCdcJavascript();
 
       service
         .didLoad()
@@ -183,7 +183,7 @@ describe('CDCJsService', () => {
         .pipe(take(1))
         .subscribe((val) => expect(val).toBe(false));
 
-      service.loadCDCJavascript();
+      service.loadCdcJavascript();
 
       service
         .didScriptFailToLoad()
@@ -192,7 +192,7 @@ describe('CDCJsService', () => {
     });
   });
 
-  describe('loadCDCScript', () => {
+  describe('loadCdcScript', () => {
     it('should load CDC script', () => {
       const site = 'electronics-spa';
       const language = 'en';
@@ -201,7 +201,7 @@ describe('CDCJsService', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
-      service.loadCDCJavascript();
+      service.loadCdcJavascript();
 
       expect(externalJsFileLoader.load).toHaveBeenCalledWith(
         'sample-url&lang=en',
@@ -243,11 +243,11 @@ describe('CDCJsService', () => {
 
       const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
       spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
-      spyOn(service as any, 'addCDCEventHandlers').and.stub();
+      spyOn(service as any, 'addCdcEventHandlers').and.stub();
 
-      service.loadCDCJavascript();
+      service.loadCdcJavascript();
 
-      expect(service['addCDCEventHandlers']).toHaveBeenCalledWith(
+      expect(service['addCdcEventHandlers']).toHaveBeenCalledWith(
         'electronics-spa'
       );
       expect(globalMessageService.remove).toHaveBeenCalledWith(
@@ -257,11 +257,11 @@ describe('CDCJsService', () => {
     });
   });
 
-  describe('addCDCEventHandlers', () => {
+  describe('addCdcEventHandlers', () => {
     it('should add event handlers for CDC login', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'addEventHandlers');
 
-      service['addCDCEventHandlers']('electronics-spa');
+      service['addCdcEventHandlers']('electronics-spa');
 
       expect(
         winRef.nativeWindow['gigya'].accounts.addEventHandlers
@@ -271,7 +271,7 @@ describe('CDCJsService', () => {
 
   describe('onLoginEventHandler', () => {
     it('should login user when on login event is triggered', () => {
-      spyOn(auth, 'authorizeWithCustomCDCFlow');
+      spyOn(auth, 'authorizeWithCustomCdcFlow');
 
       const response = {
         UID: 'UID',
@@ -282,7 +282,7 @@ describe('CDCJsService', () => {
 
       service.onLoginEventHandler('electronics-spa', response);
 
-      expect(auth.authorizeWithCustomCDCFlow).toHaveBeenCalledWith(
+      expect(auth.authorizeWithCustomCdcFlow).toHaveBeenCalledWith(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,
@@ -292,11 +292,11 @@ describe('CDCJsService', () => {
     });
 
     it('should not login user when on login event have empty payload', () => {
-      spyOn(auth, 'authorizeWithCustomCDCFlow');
+      spyOn(auth, 'authorizeWithCustomCdcFlow');
 
       service.onLoginEventHandler('electronics-spa');
 
-      expect(auth.authorizeWithCustomCDCFlow).not.toHaveBeenCalled();
+      expect(auth.authorizeWithCustomCdcFlow).not.toHaveBeenCalled();
     });
   });
 

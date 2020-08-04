@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class CDCUserAuthenticationTokenService {
+export class CdcUserAuthenticationTokenService {
   constructor(
     protected http: HttpClient,
     protected config: AuthConfig,

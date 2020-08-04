@@ -19,24 +19,24 @@ import {
 } from '@spartacus/core';
 import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CDCConfig } from '../../config/cdc-config';
-import { CDCAuthService } from './cdc-auth.service';
+import { CdcConfig } from '../../config/cdc-config';
+import { CdcAuthService } from './cdc-auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CDCJsService implements OnDestroy {
+export class CdcJsService implements OnDestroy {
   protected loaded$ = new ReplaySubject<boolean>(1);
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
 
   constructor(
-    protected cdcConfig: CDCConfig,
+    protected cdcConfig: CdcConfig,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
     protected externalJsFileLoader: ExternalJsFileLoader,
     protected winRef: WindowRef,
-    protected auth: CDCAuthService,
+    protected auth: CdcAuthService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService,
     protected zone: NgZone,
@@ -48,7 +48,7 @@ export class CDCJsService implements OnDestroy {
    * Initialize CDC script
    */
   initialize(): void {
-    this.loadCDCJavascript();
+    this.loadCdcJavascript();
   }
 
   /**
@@ -68,7 +68,7 @@ export class CDCJsService implements OnDestroy {
   /**
    * Method which loads the CDC Script
    */
-  loadCDCJavascript(): void {
+  loadCdcJavascript(): void {
     // Only load the script on client side (no SSR)
     if (isPlatformBrowser(this.platform)) {
       this.subscription.add(
@@ -125,7 +125,7 @@ export class CDCJsService implements OnDestroy {
         }
       })
     );
-    this.addCDCEventHandlers(baseSite);
+    this.addCdcEventHandlers(baseSite);
   }
 
   /**
@@ -133,7 +133,7 @@ export class CDCJsService implements OnDestroy {
    *
    * @param baseSite
    */
-  protected addCDCEventHandlers(baseSite: string): void {
+  protected addCdcEventHandlers(baseSite: string): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.addEventHandlers({
       onLogin: (...params) => {
         this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
@@ -149,7 +149,7 @@ export class CDCJsService implements OnDestroy {
    */
   onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      this.auth.authorizeWithCustomCDCFlow(
+      this.auth.authorizeWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,

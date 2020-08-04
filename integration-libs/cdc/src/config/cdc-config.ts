@@ -5,7 +5,7 @@ import { Config } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CDCConfig {
+export abstract class CdcConfig {
   cdc?: {
     baseSite: string;
     javascriptUrl: string;

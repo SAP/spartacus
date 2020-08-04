@@ -17,14 +17,14 @@ interface LoadUserTokenFailurePayload {
   initialActionPayload: LoadUserTokenPayload;
 }
 
-export class LoadCDCUserTokenFail implements Action {
+export class LoadCdcUserTokenFail implements Action {
   readonly type = LOAD_CDC_USER_TOKEN_FAIL;
   constructor(public payload: LoadUserTokenFailurePayload) {}
 }
 
-export class LoadCDCUserToken implements Action {
+export class LoadCdcUserToken implements Action {
   readonly type = LOAD_CDC_USER_TOKEN;
   constructor(public payload: LoadUserTokenPayload) {}
 }
 
-export type CDCUserTokenAction = LoadCDCUserToken | LoadCDCUserTokenFail;
+export type CdcUserTokenAction = LoadCdcUserToken | LoadCdcUserTokenFail;

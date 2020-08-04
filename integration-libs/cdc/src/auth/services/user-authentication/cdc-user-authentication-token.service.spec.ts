@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AuthConfig, OccEndpointsService, UserToken } from '@spartacus/core';
-import { CDCUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
+import { CdcUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
 
 const UID = 'sampleUID';
 const UIDSignature = 'sampleUIDSignature';
@@ -49,8 +49,8 @@ class MockOccEndpointsService {
   }
 }
 
-describe('CDCUserAuthenticationTokenService', () => {
-  let authTokenService: CDCUserAuthenticationTokenService;
+describe('CdcUserAuthenticationTokenService', () => {
+  let authTokenService: CdcUserAuthenticationTokenService;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
 
@@ -58,7 +58,7 @@ describe('CDCUserAuthenticationTokenService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CDCUserAuthenticationTokenService,
+        CdcUserAuthenticationTokenService,
         { provide: AuthConfig, useValue: MockAuthConfig },
         {
           provide: OccEndpointsService,
@@ -67,7 +67,7 @@ describe('CDCUserAuthenticationTokenService', () => {
       ],
     });
 
-    authTokenService = TestBed.inject(CDCUserAuthenticationTokenService);
+    authTokenService = TestBed.inject(CdcUserAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();

@@ -1,7 +1,7 @@
-import { CDCAuthActions } from './index';
+import { CdcAuthActions } from './index';
 
 describe('CDC User Token Actions', () => {
-  describe('LoadCDCUserToken Actions', () => {
+  describe('LoadCdcUserToken Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
         UID: 'xxx',
@@ -11,9 +11,9 @@ describe('CDC User Token Actions', () => {
         baseSite: 'xxx',
       };
 
-      const action = new CDCAuthActions.LoadCDCUserToken(tokenRequest);
+      const action = new CdcAuthActions.LoadCdcUserToken(tokenRequest);
       expect({ ...action }).toEqual({
-        type: CDCAuthActions.LOAD_CDC_USER_TOKEN,
+        type: CdcAuthActions.LOAD_CDC_USER_TOKEN,
         payload: tokenRequest,
       });
     });
@@ -26,10 +26,10 @@ describe('CDC User Token Actions', () => {
         initActionPayload: 'payload',
       } as any;
 
-      const action = new CDCAuthActions.LoadCDCUserTokenFail(data);
+      const action = new CdcAuthActions.LoadCdcUserTokenFail(data);
 
       expect({ ...action }).toEqual({
-        type: CDCAuthActions.LOAD_CDC_USER_TOKEN_FAIL,
+        type: CdcAuthActions.LOAD_CDC_USER_TOKEN_FAIL,
         payload: data,
       });
     });

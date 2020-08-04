@@ -8,8 +8,8 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CDCJsService } from '../../auth/facade/cdc-js.service';
-import { CDCConfig } from '../../config';
+import { CdcJsService } from '../../auth/facade/cdc-js.service';
+import { CdcConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
@@ -19,7 +19,7 @@ interface Window {
   gigya?: any;
 }
 
-const sampleCDCConfig: CDCConfig = {
+const sampleCdcConfig: CdcConfig = {
   cdc: [
     {
       baseSite: 'electronics-spa',
@@ -55,7 +55,7 @@ class BaseSiteServiceStub {
   }
 }
 
-class CDCJsServiceStub {
+class CdcJsServiceStub {
   didLoad(): Observable<boolean> {
     return of(true);
   }
@@ -74,21 +74,21 @@ describe('GigyaRaasComponent', () => {
   let component: GigyaRaasComponent;
   let fixture: ComponentFixture<GigyaRaasComponent>;
   let baseSiteService: BaseSiteService;
-  let cdcJsService: CDCJsService;
+  let cdcJsService: CdcJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GigyaRaasComponent, MockTranslatePipe],
       providers: [
-        { provide: CDCConfig, useValue: sampleCDCConfig },
+        { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
-        { provide: CDCJsService, useClass: CDCJsServiceStub },
+        { provide: CdcJsService, useClass: CdcJsServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
       ],
     });
     baseSiteService = TestBed.inject(BaseSiteService);
-    cdcJsService = TestBed.inject(CDCJsService);
+    cdcJsService = TestBed.inject(CdcJsService);
     fixture = TestBed.createComponent(GigyaRaasComponent);
     component = fixture.componentInstance;
   });

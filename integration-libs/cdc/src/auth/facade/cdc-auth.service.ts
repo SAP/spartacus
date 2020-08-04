@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService, StateWithAuth, WindowRef } from '@spartacus/core';
-import { CDCAuthActions } from '../store/actions';
+import { CdcAuthActions } from '../store/actions';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CDCAuthService extends AuthService {
+export class CdcAuthService extends AuthService {
   constructor(
     protected store: Store<StateWithAuth>,
     protected winRef: WindowRef
@@ -23,7 +23,7 @@ export class CDCAuthService extends AuthService {
    * @param idToken
    * @param baseSite
    */
-  authorizeWithCustomCDCFlow(
+  authorizeWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,
@@ -31,7 +31,7 @@ export class CDCAuthService extends AuthService {
     baseSite: string
   ): void {
     this.store.dispatch(
-      new CDCAuthActions.LoadCDCUserToken({
+      new CdcAuthActions.LoadCdcUserToken({
         UID: UID,
         UIDSignature: UIDSignature,
         signatureTimestamp: signatureTimestamp,
@@ -47,13 +47,13 @@ export class CDCAuthService extends AuthService {
   logout(): void {
     super.logout();
     // trigger logout from CDC
-    this.logoutFromCDC();
+    this.logoutFromCdc();
   }
 
   /**
    * Logout user from CDC
    */
-  logoutFromCDC(): void {
+  logoutFromCdc(): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
   }
 }

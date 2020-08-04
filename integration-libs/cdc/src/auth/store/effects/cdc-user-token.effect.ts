@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { CDCUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
-import { CDCAuthActions } from '../actions';
+import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
+import { CdcAuthActions } from '../actions';
 
 const UNKNOWN_ERROR = {
   error: 'unknown error',
@@ -33,13 +33,13 @@ const circularReplacer = () => {
 };
 
 @Injectable()
-export class CDCUserTokenEffects {
+export class CdcUserTokenEffects {
   @Effect()
-  loadCDCUserToken$: Observable<
-    CDCAuthActions.CDCUserTokenAction | AuthActions.LoadUserTokenSuccess
+  loadCdcUserToken$: Observable<
+    CdcAuthActions.CdcUserTokenAction | AuthActions.LoadUserTokenSuccess
   > = this.actions$.pipe(
-    ofType(CDCAuthActions.LOAD_CDC_USER_TOKEN),
-    map((action: CDCAuthActions.LoadCDCUserToken) => action.payload),
+    ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
+    map((action: CdcAuthActions.LoadCdcUserToken) => action.payload),
     mergeMap((payload) =>
       this.userTokenService
         .loadTokenUsingCustomFlow(
@@ -63,7 +63,7 @@ export class CDCUserTokenEffects {
               GlobalMessageType.MSG_TYPE_ERROR
             );
             return of(
-              new CDCAuthActions.LoadCDCUserTokenFail({
+              new CdcAuthActions.LoadCdcUserTokenFail({
                 error: this.makeErrorSerializable(error),
                 initialActionPayload: payload,
               })
@@ -108,7 +108,7 @@ export class CDCUserTokenEffects {
 
   constructor(
     private actions$: Actions,
-    private userTokenService: CDCUserAuthenticationTokenService,
+    private userTokenService: CdcUserAuthenticationTokenService,
     private globalMessageService: GlobalMessageService
   ) {}
 }

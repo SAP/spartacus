@@ -4,14 +4,14 @@ import {
   ConfigInitializerService,
   provideConfig,
 } from '@spartacus/core';
-import { CDCAuthModule } from './auth/cdc-auth.module';
-import { CDCAuthService } from './auth/facade/cdc-auth.service';
-import { CDCJsService } from './auth/facade/cdc-js.service';
+import { CdcAuthModule } from './auth/cdc-auth.module';
+import { CdcAuthService } from './auth/facade/cdc-auth.service';
+import { CdcJsService } from './auth/facade/cdc-js.service';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
-import { CDCConfig } from './config/cdc-config';
+import { CdcConfig } from './config/cdc-config';
 
-export function cdcJSFactory(
-  cdcJsService: CDCJsService,
+export function cdcJsFactory(
+  cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
 ) {
   const func = () =>
@@ -22,19 +22,19 @@ export function cdcJSFactory(
 }
 
 @NgModule({
-  imports: [GigyaRaasModule, CDCAuthModule],
-  providers: [{ provide: AuthService, useClass: CDCAuthService }],
+  imports: [GigyaRaasModule, CdcAuthModule],
+  providers: [{ provide: AuthService, useClass: CdcAuthService }],
 })
-export class CDCModule {
-  static forRoot(config: CDCConfig): ModuleWithProviders<CDCModule> {
+export class CdcModule {
+  static forRoot(config: CdcConfig): ModuleWithProviders<CdcModule> {
     return {
-      ngModule: CDCModule,
+      ngModule: CdcModule,
       providers: [
         provideConfig(config),
         {
           provide: APP_INITIALIZER,
-          useFactory: cdcJSFactory,
-          deps: [CDCJsService, ConfigInitializerService],
+          useFactory: cdcJsFactory,
+          deps: [CdcJsService, ConfigInitializerService],
           multi: true,
         },
       ],

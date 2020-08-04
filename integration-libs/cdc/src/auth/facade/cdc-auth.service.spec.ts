@@ -9,8 +9,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CDCAuthActions } from '../store';
-import { CDCAuthService } from './cdc-auth.service';
+import { CdcAuthActions } from '../store';
+import { CdcAuthService } from './cdc-auth.service';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -30,8 +30,8 @@ const mockedWindowRef = {
   },
 };
 
-describe('CDCAuthService', () => {
-  let service: CDCAuthService;
+describe('CdcAuthService', () => {
+  let service: CdcAuthService;
   let store: Store<AuthState>;
   let winRef: WindowRef;
 
@@ -42,12 +42,12 @@ describe('CDCAuthService', () => {
         StoreModule.forFeature(AUTH_FEATURE, (() => ({}))()),
       ],
       providers: [
-        CDCAuthService,
+        CdcAuthService,
         { provide: WindowRef, useValue: mockedWindowRef },
       ],
     });
 
-    service = TestBed.inject(CDCAuthService);
+    service = TestBed.inject(CdcAuthService);
     winRef = TestBed.inject(WindowRef);
     store = TestBed.inject(Store);
   });
@@ -59,7 +59,7 @@ describe('CDCAuthService', () => {
   it('should dispatch proper action for authorize', () => {
     spyOn(store, 'dispatch').and.stub();
 
-    service.authorizeWithCustomCDCFlow(
+    service.authorizeWithCustomCdcFlow(
       'UID',
       'UIDSignature',
       'signatureTimestamp',
@@ -67,7 +67,7 @@ describe('CDCAuthService', () => {
       'baseSite'
     );
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CDCAuthActions.LoadCDCUserToken({
+      new CdcAuthActions.LoadCdcUserToken({
         UID: 'UID',
         UIDSignature: 'UIDSignature',
         signatureTimestamp: 'signatureTimestamp',
@@ -81,13 +81,13 @@ describe('CDCAuthService', () => {
     spyOn(store, 'dispatch').and.stub();
     const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
     spyOn(service, 'getUserToken').and.returnValue(of(testToken));
-    spyOn(service, 'logoutFromCDC').and.stub();
+    spyOn(service, 'logoutFromCdc').and.stub();
     service.logout();
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.RevokeUserToken(testToken)
     );
-    expect(service.logoutFromCDC).toHaveBeenCalled();
+    expect(service.logoutFromCdc).toHaveBeenCalled();
   });
 
   it('should logout user from CDC', () => {
@@ -95,7 +95,7 @@ describe('CDCAuthService', () => {
       winRef.nativeWindow['gigya'].accounts,
       'logout'
     ).and.stub();
-    service.logoutFromCDC();
+    service.logoutFromCdc();
 
     expect(cdcLogout).toHaveBeenCalled();
   });
