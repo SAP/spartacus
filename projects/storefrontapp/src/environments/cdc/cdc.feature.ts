@@ -1,8 +1,8 @@
-import { CDCModule } from '@spartacus/cdc';
+import { CdcModule } from '@spartacus/cdc';
 import { FeatureEnvironment } from '../models/feature.model';
 export const cdcFeature: FeatureEnvironment = {
   imports: [
-    CDCModule.forRoot({
+    CdcModule.forRoot({
       cdc: [
         {
           baseSite: 'electronics-cdc',
