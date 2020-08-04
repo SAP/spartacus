@@ -149,9 +149,7 @@ export class SearchBoxComponentService {
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
-        return config.exactMatchEnabled &&
-          productResult.products &&
-          productResult.products.length > 0
+        return  productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
