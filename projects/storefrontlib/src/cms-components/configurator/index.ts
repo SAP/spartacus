@@ -1,4 +1,3 @@
-export * from './commons/config-add-to-cart-button/config-add-to-cart-button.component';
 export * from './commons/config-conflict-suggestion/config-conflict-suggestion.component';
 export * from './commons/config-group-menu/config-group-menu.component';
 export * from './commons/config-overview-attribute/config-overview-attribute.component';

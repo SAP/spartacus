@@ -11,7 +11,6 @@ import {
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
-  ConfigAddToCartButtonComponent,
   ConfigGroupMenuComponent,
   DefaultMessageConfig,
   HamburgerMenuModule,
@@ -52,9 +51,6 @@ import {
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
-        },
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
         },
       },
       layoutSlots: {

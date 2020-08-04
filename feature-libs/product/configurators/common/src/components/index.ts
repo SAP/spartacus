@@ -1,4 +1,5 @@
 export * from './common-configurator-components.module';
+export * from './config-add-to-cart-button/index';
 export * from './config-attribute/index';
 export * from './config-form/index';
 export * from './config-group-title/index';

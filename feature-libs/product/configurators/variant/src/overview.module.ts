@@ -8,7 +8,6 @@ import {
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
-  ConfigAddToCartButtonComponent,
   ConfigOverviewFormComponent,
   ConfigOverviewNotificationBannerComponent,
   PageLayoutComponent,
@@ -52,9 +51,6 @@ import {
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
-        },
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
         },
       },
       layoutSlots: {
