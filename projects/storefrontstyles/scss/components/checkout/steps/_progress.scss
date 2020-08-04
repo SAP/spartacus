@@ -12,7 +12,6 @@
 
     .cx-list {
       display: flex;
-      text-align: center;
       flex-direction: row;
       list-style: none;
       padding: 0;
@@ -20,6 +19,8 @@
     }
 
     .cx-item {
+      display: flex;
+      justify-content: center;
       flex: 1;
       color: var(--cx-color-text);
       padding: 0 0 1.375rem 0;
@@ -58,6 +59,7 @@
     color: var(--cx-color-text);
     cursor: pointer;
     text-decoration: none;
+    text-align: start;
 
     &.disabled {
       color: var(--cx-color-light);

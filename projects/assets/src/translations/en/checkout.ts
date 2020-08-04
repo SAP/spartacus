@@ -57,11 +57,10 @@ export const checkout = {
       "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
-    paymentType: 'Payment Type',
-    poNumber: 'Purchase order number',
-    shippingAddress: 'Shipping Address',
-    deliveryMode: 'Delivery mode',
-    paymentDetails: 'Payment details',
-    reviewOrder: 'Review order',
+    paymentType: 'Method of<br />Payment',
+    shippingAddress: 'Shipping<br />Address',
+    deliveryMode: 'Delivery<br />Mode',
+    paymentDetails: 'Payment<br />Details',
+    reviewOrder: 'Review<br />Order',
   },
 };

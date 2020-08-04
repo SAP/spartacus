@@ -36,6 +36,7 @@ export const payment = {
     selected: 'Selected',
   },
   paymentTypes: {
+    title: 'Payment method',
     paymentType_CARD: 'Credit Card',
     paymentType_ACCOUNT: 'Account',
   },
