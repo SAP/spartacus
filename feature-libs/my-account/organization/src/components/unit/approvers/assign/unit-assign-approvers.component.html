@@ -101,7 +101,6 @@
       <!--      <span class="text">{{ model.name }}</span>-->
 
       <a
-        class="link"
         [routerLink]="
           {
             cxRoute: 'userDetails',
@@ -116,15 +115,15 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.unitAssignApprovers.data.roles" let-model>
-    <span *ngFor="let role of model.roles; let last = last">
-      {{ 'organization.userRoles.' + role | cxTranslate
-      }}<span *ngIf="!last">,&nbsp;</span></span
-    >
+    <small>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.unitAssignApprovers.data.orgUnit" let-model>
     <a
-      class="link"
       [routerLink]="
         {
           cxRoute: 'orgUnitDetails',
