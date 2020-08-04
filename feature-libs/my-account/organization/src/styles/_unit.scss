@@ -1,0 +1,67 @@
+cx-unit-user-assign-roles {
+  section {
+    cx-table {
+      > table {
+        th {
+          &:not(.sortable) {
+            text-align: center;
+          }
+        }
+
+        input[type='checkbox'] {
+          margin: 0 auto;
+          position: initial;
+        }
+
+        td {
+          &.name {
+            padding: 1rem 0.5rem;
+          }
+
+          &.summary {
+            > .roles {
+              display: flex;
+              align-content: center;
+              flex-flow: row wrap;
+              margin-top: 0.5rem;
+
+              label {
+                flex-grow: 1;
+                margin-right: 0.5rem;
+
+                span {
+                  padding-left: 0.75rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+cx-unit-assign-approvers {
+  cx-table {
+    td.roles {
+      * {
+        display: initial;
+      }
+    }
+  }
+}
+
+cx-unit-address-list {
+  cx-table {
+    td.summary {
+      a {
+        justify-content: space-between;
+
+        & > * {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
