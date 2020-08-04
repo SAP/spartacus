@@ -46,7 +46,6 @@
   </div>
 </ng-template>
 
-<!-- TODO: refactor outlet concatenation-->
 <ng-template cxOutletRef="table.userGroup.data.orgUnit" let-model>
   <a
     [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl"

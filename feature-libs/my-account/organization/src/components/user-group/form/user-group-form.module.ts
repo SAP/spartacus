@@ -3,12 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CurrencyService,
-  I18nModule,
-  OrgUnitService,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, OrgUnitService, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserGroupFormComponent } from './user-group-form.component';
 
@@ -25,7 +20,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
   ],
   declarations: [UserGroupFormComponent],
   exports: [UserGroupFormComponent],
-  providers: [CurrencyService, OrgUnitService],
+  providers: [OrgUnitService],
   entryComponents: [UserGroupFormComponent],
 })
 export class UserGroupFormModule {}

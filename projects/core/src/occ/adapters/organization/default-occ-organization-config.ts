@@ -64,7 +64,8 @@ export const defaultOccOrganizationConfig: OccConfig = {
         b2bUserPermission:
           '/users/${userId}/orgCustomers/${orgCustomerId}/permissions/${premissionId}',
         orderApprovals: '/users/${userId}/orderapprovals',
-        orderApproval: '/users/${userId}/orderapprovals/${orderApprovalCode}',
+        orderApproval:
+          '/users/${userId}/orderapprovals/${orderApprovalCode}?fields=FULL',
         orderApprovalDecision:
           '/users/${userId}/orderapprovals/${orderApprovalCode}/decision',
       },

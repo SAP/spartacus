@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, UserGroupService, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, UserGroupService } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
@@ -8,10 +8,10 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupAssignUserListService extends BaseOrganizationListService<
+export class UserGroupAssignUserService extends BaseOrganizationListService<
   B2BUser
 > {
-  protected tableType = OrganizationTableType.USER_GROUP_ASSIGN_USER;
+  protected tableType = OrganizationTableType.USER_GROUP_ASSIGN_USERS;
 
   constructor(
     protected tableService: TableService,

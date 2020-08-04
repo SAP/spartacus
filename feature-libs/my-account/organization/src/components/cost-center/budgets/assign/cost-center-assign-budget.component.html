@@ -11,7 +11,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'costCenter.budget.assign' | cxTranslate }}</span>
+    <span>{{
+      'costCenter.budget.assignHeader' | cxTranslate: { code: costCenterCode }
+    }}</span>
   </h3>
 
   <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
@@ -33,7 +35,7 @@
         <li>{{ 'costCenter.budget.instructions.uncheck' | cxTranslate }}</li>
         <li>{{ 'costCenter.budget.instructions.changes' | cxTranslate }}</li>
       </ul>
-      <button
+      <a
         class="button secondary"
         [routerLink]="
           { cxRoute: 'costCenterBudgets', params: { code: costCenterCode } }
@@ -41,7 +43,7 @@
         "
       >
         {{ 'costCenter.budget.back' | cxTranslate }}
-      </button>
+      </a>
     </div>
   </ng-container>
 
