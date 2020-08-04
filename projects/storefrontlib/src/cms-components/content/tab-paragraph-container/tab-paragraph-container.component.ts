@@ -13,9 +13,11 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, take, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -37,7 +39,8 @@ export class TabParagraphContainerComponent
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected breakpointService: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -70,8 +73,22 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number): void {
-    this.activeTabNum = tabNum;
+  select(tabNum: number, event?: MouseEvent): void {
+    this.breakpointService
+      ?.isDown(BREAKPOINT.sm)
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+          if (event && event?.target) {
+            const target = event.target as HTMLElement;
+            const parentNode = target.parentNode as HTMLElement;
+            this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+          }
+        } else {
+          this.activeTabNum = tabNum;
+        }
+      });
   }
 
   ngOnInit(): void {
