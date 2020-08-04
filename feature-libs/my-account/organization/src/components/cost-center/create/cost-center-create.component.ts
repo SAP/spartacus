@@ -4,13 +4,13 @@ import { CostCenterService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { Observable } from 'rxjs';
-import {CurrentCostCenterService} from "../current-cost-center.service";
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-create',
   templateUrl: './cost-center-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService]
+  providers: [CurrentCostCenterService],
 })
 export class CostCenterCreateComponent {
   // It would be nice to replace this query param approach with a session service that
