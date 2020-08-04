@@ -8,10 +8,11 @@
   .star {
     font-size: 20px;
     margin: 0 2.5px;
+
     @for $i from 1 to 6 {
       &:nth-child(#{$i}) {
         background: linear-gradient(
-          90deg,
+          calc(var(--star-rating-dir, 1) * 90deg),
           var(--cx-color-primary) 0%,
           var(--cx-color-primary) calc((var(--star-fill) - #{$i} + 1) * 100%),
           var(--cx-color-light) calc((var(--star-fill) - #{$i} + 1) * 100%)
@@ -24,4 +25,9 @@
       }
     }
   }
+}
+
+// star rating direction is used to fix the lack of start/end
+[dir='rtl'] .star {
+  --star-rating-dir: -1;
 }
