@@ -11,8 +11,8 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
 const owner: GenericConfigurator.Owner =
@@ -124,6 +124,7 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should display configuration overview', () => {
+    routerStateObservable = null;
     component.ngOnInit();
     fixture.detectChanges();
 
