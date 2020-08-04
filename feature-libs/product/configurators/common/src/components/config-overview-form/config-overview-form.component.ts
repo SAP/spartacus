@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator, ConfiguratorCommonsService } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -9,35 +9,29 @@ import { filter, switchMap, take } from 'rxjs/operators';
   templateUrl: './config-overview-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigOverviewFormComponent implements OnInit {
-  configuration$: Observable<Configurator.Configuration>;
+export class ConfigOverviewFormComponent {
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
+    ),
+    take(1),
+    switchMap((configuration) =>
+      this.configuratorCommonsService.getConfigurationWithOverview(
+        configuration
+      )
+    ),
+    filter(
+      (configuration) =>
+        configuration.overview !== undefined && configuration.overview !== null
+    )
+  );
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
-  ) {}
-
-  ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          )
-        ),
-        take(1),
-        switchMap((configuration) =>
-          this.configuratorCommonsService.getConfigurationWithOverview(
-            configuration
-          )
-        ),
-        filter(
-          (configuration) =>
-            configuration.overview !== undefined &&
-            configuration.overview !== null
-        )
-      );
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
+  ) {
     this.configRouterExtractorService
       .extractRouterData()
       .pipe(take(1))
@@ -52,6 +46,11 @@ export class ConfigOverviewFormComponent implements OnInit {
       });
   }
 
+  /**
+   * Does the configuration contain any selected attribute values?
+   * @param configuration Current configuration
+   * @returns Any attributes available
+   */
   hasAttributes(configuration: Configurator.Configuration): boolean {
     if (!(configuration?.overview?.groups?.length > 0)) {
       return false;

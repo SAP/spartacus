@@ -24,7 +24,7 @@ const configCreate: Configurator.Configuration = {
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
-let configCreate2: Configurator.Configuration = {
+const configCreate2: Configurator.Configuration = {
   configId: '1234-56-7890',
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
@@ -40,6 +40,10 @@ const configInitial: Configurator.Configuration = {
 let routerStateObservable = null;
 let configurationObservable = null;
 let overviewObservable = null;
+let defaultConfigObservable = null;
+let component: ConfigOverviewFormComponent;
+let fixture: ComponentFixture<ConfigOverviewFormComponent>;
+let htmlElem: HTMLElement;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -54,7 +58,7 @@ class MockConfiguratorCommonsService {
     configCreate.productCode = productCode;
     return configurationObservable
       ? configurationObservable
-      : of(configCreate2);
+      : defaultConfigObservable;
   }
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
@@ -64,8 +68,13 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
 }
 
+function initialize() {
+  fixture = TestBed.createComponent(ConfigOverviewFormComponent);
+  htmlElem = fixture.nativeElement;
+  component = fixture.componentInstance;
+}
+
 function checkConfigurationOverviewObs(
-  component: ConfigOverviewFormComponent,
   routerMarbels: string,
   configurationMarbels: string,
   overviewMarbels: string,
@@ -82,18 +91,13 @@ function checkConfigurationOverviewObs(
     u: configCreate,
     v: configCreate2,
   });
-  component.ngOnInit();
-
+  initialize();
   expect(component.configuration$).toBeObservable(
     cold(expectedMarbels, { u: configCreate, v: configCreate2 })
   );
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  let component: ConfigOverviewFormComponent;
-  let fixture: ComponentFixture<ConfigOverviewFormComponent>;
-  let htmlElem: HTMLElement;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -114,9 +118,11 @@ describe('ConfigurationOverviewFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigOverviewFormComponent);
-    htmlElem = fixture.nativeElement;
-    component = fixture.componentInstance;
+    initialize();
+
+    routerStateObservable = null;
+    configurationObservable = null;
+    overviewObservable = null;
   });
 
   it('should create component', () => {
@@ -124,9 +130,8 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should display configuration overview', () => {
-    routerStateObservable = null;
-    component.ngOnInit();
-    fixture.detectChanges();
+    defaultConfigObservable = of(configCreate2);
+    initialize();
 
     expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
       2
@@ -138,10 +143,8 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should display no result text in case of empty configuration', () => {
-    configCreate2 = configInitial;
-
-    component.ngOnInit();
-    fixture.detectChanges();
+    defaultConfigObservable = of(configInitial);
+    initialize();
 
     expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
       0
@@ -153,20 +156,14 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {
-    checkConfigurationOverviewObs(
-      component,
-      'aa',
-      '---xy',
-      '---uv',
-      '-------uv'
-    );
+    checkConfigurationOverviewObs('aa', '---xy', '---uv', '-------uv');
   });
 
   it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
+    checkConfigurationOverviewObs('a---a', 'xy', '--uv', '--uv');
   });
 
   it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
+    checkConfigurationOverviewObs('a-----a', '--x--y', 'uv', '--uv');
   });
 });

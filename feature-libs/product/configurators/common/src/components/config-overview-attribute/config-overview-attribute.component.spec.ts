@@ -17,7 +17,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewAttributeComponent);
     component = fixture.componentInstance;
-    component.values = {
+    component.attributeOverview = {
       attribute: 'Test Attribute Name',
       value: 'Test Attribute Value',
     };
