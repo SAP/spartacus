@@ -50,7 +50,7 @@ describe('FormUtils', () => {
 
         const expectedOptions = {
           onlySelf: true,
-          emitEvent: true,
+          emitEvent: undefined,
         };
 
         // root
@@ -78,7 +78,9 @@ describe('FormUtils', () => {
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
-        expect(control.get('person').get('age')).toHaveBeenCalledWith({
+        expect(
+          control.get('person').get('age').updateValueAndValidity
+        ).toHaveBeenCalledWith({
           onlySelf: true,
           emitEvent: false,
         });
@@ -106,7 +108,7 @@ describe('FormUtils', () => {
 
         const expectedOptions = {
           onlySelf: true,
-          emitEvent: true,
+          emitEvent: undefined,
         };
 
         // root
@@ -147,7 +149,9 @@ describe('FormUtils', () => {
 
       FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
-      expect(control.get('0').get('age')).toHaveBeenCalledWith({
+      expect(
+        control.get('0').get('age').updateValueAndValidity
+      ).toHaveBeenCalledWith({
         onlySelf: true,
         emitEvent: false,
       });
