@@ -4,13 +4,8 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
   ConfigAddToCartButtonComponent,
-  ConfigTabBarComponent,
-  ConfigPriceSummaryComponent,
 } from '@spartacus/product/configurators/common';
-import {
-  CmsPageGuard,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -39,12 +34,6 @@ import {
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationTabBar: {
-          component: ConfigTabBarComponent,
-        },
-        VariantConfigurationPriceSummary: {
-          component: ConfigPriceSummaryComponent,
-        },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,
         },
