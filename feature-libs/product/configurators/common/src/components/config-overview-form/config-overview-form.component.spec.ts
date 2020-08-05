@@ -37,17 +37,21 @@ const configInitial: Configurator.Configuration = {
   },
 };
 
-let routerStateObservable = null;
-let configurationObservable = null;
-let overviewObservable = null;
-let defaultConfigObservable = null;
+let routerStateObservable;
+let configurationObservable;
+let overviewObservable;
+let defaultConfigObservable;
+let defaultRouterStateObservable;
 let component: ConfigOverviewFormComponent;
 let fixture: ComponentFixture<ConfigOverviewFormComponent>;
 let htmlElem: HTMLElement;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return routerStateObservable ? routerStateObservable : of(mockRouterState);
+    const obs: Observable<RouterState> = routerStateObservable
+      ? routerStateObservable
+      : defaultRouterStateObservable;
+    return obs;
   }
 }
 
@@ -56,14 +60,18 @@ class MockConfiguratorCommonsService {
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
-    return configurationObservable
+    const obs: Observable<Configurator.Configuration> = configurationObservable
       ? configurationObservable
       : defaultConfigObservable;
+    return obs;
   }
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
+    const obs: Observable<Configurator.Configuration> = overviewObservable
+      ? overviewObservable
+      : of(configuration);
+    return obs;
   }
   removeConfiguration(): void {}
 }
@@ -72,6 +80,7 @@ function initialize() {
   fixture = TestBed.createComponent(ConfigOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  fixture.detectChanges();
 }
 
 function checkConfigurationOverviewObs(
@@ -118,14 +127,15 @@ describe('ConfigurationOverviewFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    initialize();
-
     routerStateObservable = null;
     configurationObservable = null;
     overviewObservable = null;
+    defaultRouterStateObservable = of(mockRouterState);
+    defaultConfigObservable = of(configCreate2);
   });
 
   it('should create component', () => {
+    initialize();
     expect(component).toBeDefined();
   });
 
@@ -156,14 +166,10 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {
-    checkConfigurationOverviewObs('aa', '---xy', '---uv', '-------uv');
+    checkConfigurationOverviewObs('aa', '---xy', '---uv', '--------uv');
   });
 
-  it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs('a---a', 'xy', '--uv', '--uv');
-  });
-
-  it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs('a-----a', '--x--y', 'uv', '--uv');
+  it('should get 4 emissions of overview if configurations service emits fast', () => {
+    checkConfigurationOverviewObs('a---a', 'xy', '--uv', '---uv--uv');
   });
 });

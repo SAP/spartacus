@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator, ConfiguratorCommonsService } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-overview-form',
@@ -16,7 +16,7 @@ export class ConfigOverviewFormComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
     ),
-    take(1),
+    distinctUntilChanged(),
     switchMap((configuration) =>
       this.configuratorCommonsService.getConfigurationWithOverview(
         configuration
