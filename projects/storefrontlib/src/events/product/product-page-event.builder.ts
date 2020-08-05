@@ -74,15 +74,15 @@ export class ProductPageEventBuilder {
 
     return this.eventService.get(PageEvent).pipe(
       switchMap((pageEvent) => {
-        if (pageEvent.semanticRoute !== 'category') {
+        if (pageEvent?.semanticRoute !== 'category') {
           return EMPTY;
         }
 
         return searchResults$.pipe(
           map((searchResults) => ({
             ...pageEvent,
-            categoryCode: pageEvent.context.id,
-            numberOfResults: searchResults.pagination.totalResults,
+            categoryCode: pageEvent?.context?.id,
+            numberOfResults: searchResults?.pagination?.totalResults,
             ...{
               categoryName: searchResults.breadcrumbs?.[0].facetValueName,
             },
@@ -103,15 +103,15 @@ export class ProductPageEventBuilder {
 
     return this.eventService.get(PageEvent).pipe(
       switchMap((pageEvent) => {
-        if (pageEvent.semanticRoute !== 'search') {
+        if (pageEvent?.semanticRoute !== 'search') {
           return EMPTY;
         }
 
         return searchResults$.pipe(
           map((searchResults) => ({
             ...pageEvent,
-            searchTerm: searchResults.freeTextSearch,
-            numberOfResults: searchResults.pagination.totalResults,
+            searchTerm: searchResults?.freeTextSearch,
+            numberOfResults: searchResults?.pagination?.totalResults,
           })),
           map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
         );
