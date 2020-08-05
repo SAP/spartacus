@@ -37,7 +37,6 @@ export class UserCreateComponent {
       form.markAllAsTouched();
     } else {
       form.disable();
-      console.log(form.value);
       this.userService.create(form.value);
 
       this.routingService.go({

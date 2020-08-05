@@ -36,7 +36,6 @@ export class PermissionCreateComponent {
       form.markAllAsTouched();
     } else {
       form.disable();
-      console.log(form.value);
       this.permissionService.create(form.value);
 
       this.routingService.go({
