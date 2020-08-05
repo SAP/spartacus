@@ -51,6 +51,12 @@
           </span>
         </div>
         <div class="property">
+          <label>{{ 'organization.details' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnitAddress.formattedAddress }}
+          </span>
+        </div>
+        <div class="property">
           <label>{{ 'unit.unit' | cxTranslate }}</label>
           <span class="value">
             <a
@@ -64,12 +70,6 @@
               {{ (unit$ | async).name }}
               <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
             </a>
-          </span>
-        </div>
-        <div class="property">
-          <label>{{ 'organization.details' | cxTranslate }}</label>
-          <span class="value">
-            {{ orgUnitAddress.formattedAddress }}
           </span>
         </div>
       </div>

@@ -190,4 +190,14 @@
       }
     }
   }
+
+  cx-unit-assign-approvers {
+    cx-table {
+      td.name {
+        > * {
+          padding: 0 0 0 48px;
+        }
+      }
+    }
+  }
 }
