@@ -1,4 +1,4 @@
-<cx-split-view>
+<cx-split-view [maxViews]="maxViews$ | async">
   <cx-view>
     <h3>
       {{ 'costCenter.header' | cxTranslate }}

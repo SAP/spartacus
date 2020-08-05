@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Table, BreakpointService, BREAKPOINT } from '@spartacus/storefront';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
 import { map } from 'rxjs/operators';
 
@@ -18,35 +12,35 @@ const BASE_CLASS = 'organization';
   templateUrl: './cost-center-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterListComponent implements OnInit, OnDestroy {
+export class CostCenterListComponent {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   dataTable$: Observable<Table> = this.costCentersService.getTable();
 
   subscription = new Subscription();
 
-  //TODO: it's workaround for allowing styling views, since we can't get any real selector to setup --cx-max-views: 1;
-  lastPath$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map((state: RouterState) => state.state?.url.split('/').reverse()[0])
-    );
+  protected fullScreenViews = ['create', 'edit', 'assign'];
+  // TODO: consider how to setup higher priority for css config than HostBinding
+  protected nonBreakable = ['xs', 'sm'];
+
+  maxViews$ = combineLatest([
+    this.routingService.getRouterState(),
+    this.breakpointService.breakpoint$,
+  ]).pipe(
+    map(([state, breakPoint]: [RouterState, BREAKPOINT]) => {
+      if (this.nonBreakable.includes(breakPoint)) {
+        return;
+      }
+      const lastPath = state.state?.url.split('/').reverse()[0];
+      return this.fullScreenViews.includes(lastPath) ? 1 : 2;
+    })
+  );
 
   constructor(
     protected costCentersService: CostCenterListService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected breakpointService: BreakpointService
   ) {}
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.lastPath$.subscribe(
-        (path) => (this.hostClass = `${BASE_CLASS} ${path}`)
-      )
-    );
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
   /**
    * Paginates the cost center list. Pagination is not using query parameters, as we like

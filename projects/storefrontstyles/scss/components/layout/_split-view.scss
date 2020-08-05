@@ -56,16 +56,25 @@
       calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));
 
     &[position='0'] {
-      // we hide the first cx-view based on the visible position, as we can't rely on
-      // overflow-x to hide the view.
-      opacity: calc(1 - var(--cx-last-visible-view) + var(--cx-max-views));
-
       // The inline start margin of the first flex item decreases to move
       // the flex items outside the flex container.
       margin-inline-start: calc(
         max(var(--cx-last-visible-view) - var(--cx-max-views), 0) *
           (var(--cx-view-flex) * -1)
       );
+    }
+  }
+
+  // TODO: consider having variable for value which can be overridden
+  @for $view from 0 to 100 {
+    @for $maxView from 1 to 5 {
+      &[last-visible-view='#{$view + $maxView + 1}'][max-views='#{$maxView}'] {
+        @for $previousView from 0 to $view + 1 {
+          cx-view[position='#{$previousView}'] {
+            visibility: hidden;
+          }
+        }
+      }
     }
   }
 }
