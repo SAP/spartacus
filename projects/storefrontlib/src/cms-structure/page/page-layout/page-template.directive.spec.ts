@@ -27,7 +27,7 @@ class MockPageLayoutService {
   }
 }
 
-fdescribe('PageTemplateDirective', () => {
+describe('PageTemplateDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
