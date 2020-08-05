@@ -137,8 +137,15 @@
         small {
           font-size: 0.75rem;
         }
+        a {
+          margin: -1rem;
+          justify-content: space-between;
+          & > * {
+            display: flex;
+            flex-direction: column;
+          }
+        }
       }
-
       &.name {
         label {
           padding: var(--cx-spatial-md) var(--cx-spatial-md)
@@ -179,14 +186,6 @@
             margin-top: -0.6rem;
           }
         }
-      }
-    }
-  }
-
-  cx-unit-address-list {
-    cx-table {
-      td.summary {
-        padding: 0;
       }
     }
   }
