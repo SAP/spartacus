@@ -11,7 +11,7 @@ const mockUser: User = {
   firstName: 'N',
   lastName: 'Z',
   uid: 'xxx@xxx.xxx',
-  customerId: 'xyz'
+  customerId: 'xyz',
 };
 
 describe('UpdateProfileFormComponent', () => {
