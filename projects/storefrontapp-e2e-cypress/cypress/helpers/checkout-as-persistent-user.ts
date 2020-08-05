@@ -1,5 +1,6 @@
 import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
+import { waitForPage } from './checkout-flow';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
@@ -158,25 +159,83 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
+    '/rest/v2/electronics-spa/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)*'
+  ).as('cartLoaded');
+
+  cy.route('GET', '/rest/v2/electronics-spa/users/current/addresses?*').as(
+    'getAddresses'
+  );
+
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/users/current/carts/*/deliverymodes?*'
+  ).as('loadDeliveryModes');
+
+  cy.route(
+    'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
   ).as('getShippingPage');
-  cy.getByText(/proceed to checkout/i).click();
-  cy.wait('@getShippingPage');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/cms/pages?*&pageType=ContentPage&pageLabelOrId=/checkout*'
+  ).as('checkoutPageContent');
+
+  cy.get('button.btn-primary')
+    .getByText(/proceed to checkout/i)
+    .click();
+
+  cy.wait('@checkoutPageContent')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@getShippingPage')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@getAddresses')
+    .its('status')
+    .should('eq', 200);
+
+  cy.get('.cx-checkout-title')
+    .should('contain', 'Shipping Address')
+    .click({ force: true });
+
+  cy.get('p.cx-checkout-text')
+    .should('contain', 'Select your Shipping Address')
+    .click({ force: true });
+
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
-  cy.get('.card-header').should('contain', 'Selected');
 
-  cy.route(
-    'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
-  ).as('getDeliveryPage');
-  cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage')
+  cy.get('.cx-card-title')
+    .should('contain', 'Default Shipping Address')
+    .click({ force: true });
+  cy.get('.card-header')
+    .should('contain', 'Selected')
+    .click({ force: true });
+
+  cy.get('button.btn-action').should('contain', 'Add New Address');
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  cy.get('button.cx-btn.btn-primary')
+    .should('contain', 'Continue')
+    .click({ force: true });
+
+  cy.wait(`@${deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@cartLoaded')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@loadDeliveryModes')
     .its('status')
     .should('eq', 200);
 }
@@ -187,22 +246,54 @@ export function selectDeliveryMethod() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+
+  cy.route('GET', '/rest/v2/electronics-spa/users/current/carts/*').as(
+    'getCurrentUserCart'
+  );
+
+  cy.get('cx-checkout-progress')
+    .should('exist')
+    .then(() => {
+      cy.get('cx-checkout-progress a.cx-link').should(
+        'contain',
+        '2. Delivery mode'
+      );
+    });
+
+  cy.get('h3.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait('@getCurrentUserCart')
+    .its('status')
+    .should('eq', 200);
   cy.wait('@getPaymentPage')
     .its('status')
     .should('eq', 200);
 }
 
 export function selectPaymentMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.server();
+
+  cy.route(
+    'PUT',
+    '/rest/v2/electronics-spa/users/current/carts/*/paymentdetails*'
+  ).as('sendOrderData');
+
+  cy.get('cx-breadcrumb h1').should('contain', 'Checkout');
+  cy.get('cx-payment-method').should('exist');
+  cy.get('cx-payment-method h3.cx-checkout-title').should('contain', 'Payment');
+  cy.get('p.cx-checkout-text').should('contain', 'Choose a payment method');
+
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
+
+  cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait('@sendOrderData');
 }
 
 export function verifyAndPlaceOrder() {
@@ -220,7 +311,7 @@ export function verifyAndPlaceOrder() {
   );
 
   cy.get('.form-check-input').check();
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
 }
 
 export function displaySummaryPage() {
