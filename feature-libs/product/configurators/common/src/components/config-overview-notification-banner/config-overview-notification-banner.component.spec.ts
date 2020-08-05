@@ -1,6 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ConfigOverviewNotificationBannerComponent } from './config-overview-notification-banner.component';
 import {
   ActiveCartService,
   GenericConfigurator,
@@ -10,9 +8,10 @@ import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
 } from '@spartacus/storefront';
-import * as ConfigurationTestData from '../configuration-test-data';
-import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 import { of } from 'rxjs';
+import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
+import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import { ConfigOverviewNotificationBannerComponent } from './config-overview-notification-banner.component';
 
 const cartEntries: OrderEntry[] = [
   {

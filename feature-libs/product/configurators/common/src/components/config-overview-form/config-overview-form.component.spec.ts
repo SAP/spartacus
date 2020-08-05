@@ -11,39 +11,48 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
 const owner: GenericConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
+const configId = '1234-56-7890';
 
 const configCreate: Configurator.Configuration = {
-  configId: '1234-56-7890',
+  configId: configId,
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
-let configCreate2: Configurator.Configuration = {
-  configId: '1234-56-7890',
+const configCreate2: Configurator.Configuration = {
+  configId: '1234-11111',
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
-  configId: '1235-56-7890',
+  configId: configId,
   owner: owner,
   overview: {
     groups: [],
   },
 };
 
-let routerStateObservable = null;
-let configurationObservable = null;
-let overviewObservable = null;
+let routerStateObservable;
+let configurationObservable;
+let overviewObservable;
+let defaultConfigObservable;
+let defaultRouterStateObservable;
+let component: ConfigOverviewFormComponent;
+let fixture: ComponentFixture<ConfigOverviewFormComponent>;
+let htmlElem: HTMLElement;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return routerStateObservable ? routerStateObservable : of(mockRouterState);
+    const obs: Observable<RouterState> = routerStateObservable
+      ? routerStateObservable
+      : defaultRouterStateObservable;
+    return obs;
   }
 }
 
@@ -52,20 +61,30 @@ class MockConfiguratorCommonsService {
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
-    return configurationObservable
+    const obs: Observable<Configurator.Configuration> = configurationObservable
       ? configurationObservable
-      : of(configCreate2);
+      : defaultConfigObservable;
+    return obs;
   }
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
+    const obs: Observable<Configurator.Configuration> = overviewObservable
+      ? overviewObservable
+      : of(configuration);
+    return obs;
   }
   removeConfiguration(): void {}
 }
 
+function initialize() {
+  fixture = TestBed.createComponent(ConfigOverviewFormComponent);
+  htmlElem = fixture.nativeElement;
+  component = fixture.componentInstance;
+  fixture.detectChanges();
+}
+
 function checkConfigurationOverviewObs(
-  component: ConfigOverviewFormComponent,
   routerMarbels: string,
   configurationMarbels: string,
   overviewMarbels: string,
@@ -82,18 +101,13 @@ function checkConfigurationOverviewObs(
     u: configCreate,
     v: configCreate2,
   });
-  component.ngOnInit();
-
+  initialize();
   expect(component.configuration$).toBeObservable(
     cold(expectedMarbels, { u: configCreate, v: configCreate2 })
   );
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  let component: ConfigOverviewFormComponent;
-  let fixture: ComponentFixture<ConfigOverviewFormComponent>;
-  let htmlElem: HTMLElement;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -114,18 +128,21 @@ describe('ConfigurationOverviewFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigOverviewFormComponent);
-    htmlElem = fixture.nativeElement;
-    component = fixture.componentInstance;
+    routerStateObservable = null;
+    configurationObservable = null;
+    overviewObservable = null;
+    defaultRouterStateObservable = of(mockRouterState);
+    defaultConfigObservable = of(configCreate2);
   });
 
   it('should create component', () => {
+    initialize();
     expect(component).toBeDefined();
   });
 
   it('should display configuration overview', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
+    defaultConfigObservable = of(configCreate2);
+    initialize();
 
     expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
       2
@@ -137,10 +154,8 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should display no result text in case of empty configuration', () => {
-    configCreate2 = configInitial;
-
-    component.ngOnInit();
-    fixture.detectChanges();
+    defaultConfigObservable = of(configInitial);
+    initialize();
 
     expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
       0
@@ -152,20 +167,33 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {
-    checkConfigurationOverviewObs(
-      component,
-      'aa',
-      '---xy',
-      '---uv',
-      '-------uv'
-    );
+    checkConfigurationOverviewObs('aa', '---xy', '---uv', '--------uv');
   });
 
-  it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
+  it('should get 4 emissions of overview if configurations service emits fast', () => {
+    checkConfigurationOverviewObs('a---a', 'xy', '--uv', '---uv--uv');
   });
 
-  it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
+  it('should know if a configuration OV has attributes', () => {
+    initialize();
+    expect(component.hasAttributes(configCreate)).toBe(true);
+  });
+
+  it('should detect that a configuration w/o groups has no attributes', () => {
+    initialize();
+    const configWOOverviewGroups: Configurator.Configuration = {
+      configId: configId,
+      overview: {},
+    };
+    expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
+  });
+
+  it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
+    initialize();
+    const configWOOverviewAttributes: Configurator.Configuration = {
+      configId: configId,
+      overview: { groups: [{ id: 'GROUP1' }] },
+    };
+    expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
 });
