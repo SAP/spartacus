@@ -14,7 +14,6 @@ class MockCxIconComponent {
 
 describe('ConfigurationConflictDescriptionComponent', () => {
   let component: ConfigConflictDescriptionComponent;
-
   let fixture: ComponentFixture<ConfigConflictDescriptionComponent>;
 
   beforeEach(async(() => {

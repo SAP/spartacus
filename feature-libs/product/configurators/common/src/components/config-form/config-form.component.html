@@ -1,10 +1,21 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-item-list-row cx-config-group-attribute">
     <ng-container *ngIf="currentGroup$ | async as currentGroup">
+      <cx-config-conflict-description
+        [currentGroup]="currentGroup"
+      ></cx-config-conflict-description>
       <div
         class="cx-item-list-row cx-config-group-attribute"
-        *ngFor="let attribute of currentGroup.attributes"
+        *ngFor="
+          let attribute of currentGroup.attributes;
+          let indexOfAttribute = index
+        "
       >
+        <cx-config-conflict-suggestion
+          [currentGroup]="currentGroup"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+        ></cx-config-conflict-suggestion>
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
             [attribute]="attribute"
