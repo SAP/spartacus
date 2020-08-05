@@ -74,14 +74,21 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
-  let component: ConfigGroupMenuComponent;
-  let fixture: ComponentFixture<ConfigGroupMenuComponent>;
-  let configuratorGroupsService: ConfiguratorGroupsService;
-  let hamburgerMenuService: HamburgerMenuService;
-  let htmlElem: HTMLElement;
-  let configuratorUtils: GenericConfigUtilsService;
+let component: ConfigGroupMenuComponent;
+let fixture: ComponentFixture<ConfigGroupMenuComponent>;
+let configuratorGroupsService: ConfiguratorGroupsService;
+let hamburgerMenuService: HamburgerMenuService;
+let htmlElem: HTMLElement;
+let configuratorUtils: GenericConfigUtilsService;
 
+function initialize() {
+  fixture = TestBed.createComponent(ConfigGroupMenuComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+}
+
+describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -108,11 +115,9 @@ describe('ConfigurationGroupMenuComponent', () => {
       ],
     });
   }));
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigGroupMenuComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
 
+  beforeEach(() => {
+    initialize();
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -143,7 +148,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
-    fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
   });
 
@@ -154,24 +158,18 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should set current group in case of clicking on a group', () => {
-    fixture.detectChanges();
-
     component.click(config.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
 
   it('should condense groups', () => {
-    fixture.detectChanges();
-
     expect(component.condenseGroups(config.groups)[2].id).toBe(
       config.groups[2].subGroups[0].id
     );
   });
 
   it('should get correct parent group for condensed groups', () => {
-    fixture.detectChanges();
-
     //Condensed case
     component
       .getCondensedParentGroup(config.groups[2])
@@ -190,8 +188,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should call correct methods for groups with and without subgroups', () => {
-    fixture.detectChanges();
-
     //Set group
     component.click(config.groups[2].subGroups[0]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
