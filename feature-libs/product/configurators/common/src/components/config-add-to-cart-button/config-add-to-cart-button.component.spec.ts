@@ -12,8 +12,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { ConfigurationRouter } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
+import { Observable, of } from 'rxjs';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '1';
@@ -71,15 +71,34 @@ class MockConfiguratorGroupsService {
   setGroupStatus() {}
 }
 
-function performAddToCartOnOverview() {
-  mockRouterState.state = {
-    params: {
-      entityKey: ConfigurationTestData.PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: URL_OVERVIEW,
+function setRouterTestDataCartBoundAndConfigPage() {
+  mockRouterState.state.params = {
+    entityKey: CART_ENTRY_KEY,
+    ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
   };
+  mockRouterState.state.url = URL_CONFIGURATION;
+  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
+}
+
+function setRouterTestDataProductBoundAndConfigPage() {
+  mockRouterState.state.params = {
+    entityKey: ConfigurationTestData.PRODUCT_CODE,
+    ownerType: GenericConfigurator.OwnerType.PRODUCT,
+  };
+  mockRouterState.state.url = URL_CONFIGURATION;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
+  mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
+}
+
+function performAddToCartOnOverview() {
+  setRouterTestDataProductBoundAndConfigPage();
+  mockRouterState.state.url = URL_OVERVIEW;
+  mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
   initialize();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
@@ -90,28 +109,20 @@ function performUpdateCart() {
 }
 
 function ensureCartBound() {
-  mockRouterData.isOwnerCartEntry = true;
-  mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-  mockRouterData.owner.id = CART_ENTRY_KEY;
+  setRouterTestDataCartBoundAndConfigPage();
   mockProductConfiguration.owner.id = CART_ENTRY_KEY;
   initialize();
 }
 
 function ensureCartBoundAndOnOverview() {
-  mockRouterData.isOwnerCartEntry = true;
-  mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-  mockRouterData.owner.id = CART_ENTRY_KEY;
+  setRouterTestDataCartBoundAndConfigPage();
+  mockRouterState.state.url = URL_OVERVIEW;
   mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
-  mockProductConfiguration.owner.id = CART_ENTRY_KEY;
   initialize();
 }
 
 function ensureProductBound() {
-  mockRouterState.state.params = {
-    entityKey: ConfigurationTestData.PRODUCT_CODE,
-    ownerType: GenericConfigurator.OwnerType.PRODUCT,
-  };
-  mockRouterState.state.url = URL_CONFIGURATION;
+  setRouterTestDataProductBoundAndConfigPage();
   mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
   initialize();
 }
@@ -198,6 +209,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   it('should create', () => {
+    initialize();
     expect(component).toBeTruthy();
   });
 
@@ -218,7 +230,8 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
 
-    it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page', () => {
+    it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page and no changes happened', () => {
+      mockProductConfiguration.isCartEntryUpdateRequired = false;
       performUpdateOnOV();
       expect(
         configuratorCommonsService.removeConfiguration
@@ -243,6 +256,7 @@ describe('ConfigAddToCartButtonComponent', () => {
 
     it('should display updateCart message if configuration has already been added', () => {
       ensureCartBound();
+      mockProductConfiguration.isCartEntryUpdateRequired = true;
       component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
