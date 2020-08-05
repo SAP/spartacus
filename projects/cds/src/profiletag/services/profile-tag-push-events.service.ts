@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
-  CartPageVisited,
-  CategoryPageVisited,
   EventService,
-  HomePageVisited,
-  OrderConfirmationPageVisited,
-  PageVisited,
+  OrderPlacedEvent,
   PersonalizationContextService,
-  ProductDetailsPageVisited,
   ProductSearchService,
-  SearchPageVisited,
 } from '@spartacus/core';
-import { PageEvent } from '@spartacus/storefront';
+import {
+  CartPageEvent,
+  CategoryPageResultsEvent,
+  HomePageEvent,
+  PageEvent,
+  ProductDetailsPageEvent,
+  SearchPageResultsEvent,
+} from '@spartacus/storefront';
 import { EMPTY, merge, Observable, of } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -128,34 +129,34 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to CategoryPageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to CategoryPageResultsEvent events, parses and pushes them to profiletag to pick them up further.
    *
    * @returns an observable emitting events that describe category page visits in a profiltag compliant way
-   * @see CategoryPageVisited
+   * @see CategoryPageResultsEvent
    * @see CategoryViewPushEvent
    */
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(CategoryPageVisited).pipe(
+    return this.eventService.get(CategoryPageResultsEvent).pipe(
       distinctUntilKeyChanged('categoryCode'),
       map(
-        (categoryPageVisited) =>
+        (categoryPageResultsEvent) =>
           new CategoryViewPushEvent({
-            productCategory: categoryPageVisited.categoryCode,
-            productCategoryName: categoryPageVisited.categoryName,
+            productCategory: categoryPageResultsEvent.categoryCode,
+            productCategoryName: categoryPageResultsEvent.categoryName,
           })
       )
     );
   }
 
   /**
-   * Listens to KeywordSearchPageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to SearchPageResultsEvent events, parses and pushes them to profiletag to pick them up further.
    *
    * @returns an observable emitting events that describe keyword search page visits in a profiltag compliant way
-   * @see SearchPageVisited
+   * @see SearchPageResultsEvent
    * @see KeywordSearchPushEvent
    */
   protected searchResultsChanged(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(SearchPageVisited).pipe(
+    return this.eventService.get(SearchPageResultsEvent).pipe(
       distinctUntilKeyChanged('searchTerm'),
       map((searchEvent) => {
         return new KeywordSearchPushEvent({
@@ -167,14 +168,14 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to ProductDetailsPageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to ProductDetailsPageEvent events, parses and pushes them to profiletag to pick them up further.
    *
    * @returns an observable emitting events that describe product detail page visits in a profiltag compliant way
-   * @see ProductDetailsPageVisited
+   * @see ProductDetailsPageEvent
    * @see ProductViewPushEvent
    */
   protected productDetailsPageView(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(ProductDetailsPageVisited).pipe(
+    return this.eventService.get(ProductDetailsPageEvent).pipe(
       map(
         (item) =>
           new ProductViewPushEvent({
@@ -201,7 +202,7 @@ export class ProfileTagPushEventsService {
    */
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(PageVisited)
+      .get(PageEvent)
       .pipe(mapTo(new NavigatedPushEvent()));
   }
 
@@ -214,7 +215,7 @@ export class ProfileTagPushEventsService {
    */
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(CartPageVisited)
+      .get(CartPageEvent)
       .pipe(mapTo(new CartViewPushEvent()));
   }
 
@@ -263,28 +264,28 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to HomePageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to HomePageEvent events, parses and pushes them to profiletag to pick them up further.
    *
    * @returns an observable emitting events that describe home page visits in a profiltag compliant way
-   * @see HomePageVisited
+   * @see HomePageEvent
    * @see HomePageViewPushEvent
    */
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(HomePageVisited)
+      .get(HomePageEvent)
       .pipe(mapTo(new HomePageViewPushEvent()));
   }
 
   /**
-   * Listens to OrderConfirmationPageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to OrderPlacedEvent events, parses and pushes them to profiletag to pick them up further.
    *
    * @returns an observable emitting events that describe order confirmation page visits in a profiltag compliant way
-   * @see OrderConfirmationPageVisited
+   * @see OrderPlacedEvent
    * @see OrderConfirmationPushEvent
    */
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(OrderConfirmationPageVisited)
+      .get(OrderPlacedEvent)
       .pipe(mapTo(new OrderConfirmationPushEvent()));
   }
 }

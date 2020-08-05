@@ -3,18 +3,20 @@ import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartService,
   Cart,
-  CartPageVisited,
-  CategoryPageVisited,
   EventService,
-  HomePageVisited,
-  OrderConfirmationPageVisited,
   OrderEntry,
-  PageVisited,
+  OrderPlacedEvent,
   PersonalizationContext,
   PersonalizationContextService,
-  ProductDetailsPageVisited,
-  SearchPageVisited,
 } from '@spartacus/core';
+import {
+  CartPageEvent,
+  CategoryPageResultsEvent,
+  HomePageEvent,
+  PageEvent,
+  ProductDetailsPageEvent,
+  SearchPageResultsEvent,
+} from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
@@ -31,23 +33,23 @@ function setVariables() {
   cartBehavior = new ReplaySubject<Cart>();
   eventServiceEvents = new Map();
   eventServiceEvents.set(
-    CategoryPageVisited,
-    new ReplaySubject<CategoryPageVisited>()
+    CategoryPageResultsEvent,
+    new ReplaySubject<CategoryPageResultsEvent>()
   );
   eventServiceEvents.set(
-    SearchPageVisited,
-    new ReplaySubject<SearchPageVisited>()
+    SearchPageResultsEvent,
+    new ReplaySubject<SearchPageResultsEvent>()
   );
   eventServiceEvents.set(
-    ProductDetailsPageVisited,
-    new ReplaySubject<ProductDetailsPageVisited>()
+    ProductDetailsPageEvent,
+    new ReplaySubject<ProductDetailsPageEvent>()
   );
-  eventServiceEvents.set(PageVisited, new ReplaySubject<PageVisited>());
-  eventServiceEvents.set(CartPageVisited, new ReplaySubject<CartPageVisited>());
-  eventServiceEvents.set(HomePageVisited, new ReplaySubject<HomePageVisited>());
+  eventServiceEvents.set(PageEvent, new ReplaySubject<PageEvent>());
+  eventServiceEvents.set(CartPageEvent, new ReplaySubject<CartPageEvent>());
+  eventServiceEvents.set(HomePageEvent, new ReplaySubject<HomePageEvent>());
   eventServiceEvents.set(
-    OrderConfirmationPageVisited,
-    new ReplaySubject<OrderConfirmationPageVisited>()
+    OrderPlacedEvent,
+    new ReplaySubject<OrderPlacedEvent>()
   );
   getPersonalizationContext = new ReplaySubject<PersonalizationContext>();
   eventService = {
@@ -153,56 +155,56 @@ describe('profileTagPushEventsService', () => {
     });
   });
 
-  describe('call profileTagPushEventsService for CategoryPageVisited events', () => {
-    it(`Should call the categoryPageVisited method for every CategoryPageVisited event`, () => {
+  describe('call profileTagPushEventsService for CategoryPageResultsEvent events', () => {
+    it(`Should call the CategoryPageResultsEvent method for every CategoryPageResultsEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: CategoryPageVisited[] = [
+      const mockOrderEntry: CategoryPageResultsEvent[] = [
         { categoryCode: '123', categoryName: 'categoryName1' },
       ];
-      const mockOrderEntries: CategoryPageVisited[] = [
+      const mockOrderEntries: CategoryPageResultsEvent[] = [
         { categoryCode: '234', categoryName: 'categoryName2' },
         { categoryCode: '345', categoryName: 'categoryName3' },
       ];
-      eventServiceEvents.get(CategoryPageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(CategoryPageVisited).next(mockOrderEntries);
+      eventServiceEvents.get(CategoryPageResultsEvent).next(mockOrderEntry);
+      eventServiceEvents.get(CategoryPageResultsEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for SearchPageVisited events', () => {
-    it(`Should call the searchResultsChanged method for every SearchPageVisited event`, () => {
+  describe('call profileTagPushEventsService for SearchPageResultsEvent events', () => {
+    it(`Should call the searchResultsChanged method for every SearchPageResultsEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: SearchPageVisited[] = [
+      const mockOrderEntry: SearchPageResultsEvent[] = [
         { searchTerm: 'search term 1', numberOfResults: 0 },
       ];
-      const mockOrderEntries: SearchPageVisited[] = [
+      const mockOrderEntries: SearchPageResultsEvent[] = [
         { searchTerm: 'search term 2', numberOfResults: 1 },
         { searchTerm: 'search term 3', numberOfResults: 4 },
       ];
-      eventServiceEvents.get(SearchPageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(SearchPageVisited).next(mockOrderEntries);
+      eventServiceEvents.get(SearchPageResultsEvent).next(mockOrderEntry);
+      eventServiceEvents.get(SearchPageResultsEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for ProductDetailsPageVisited events', () => {
-    it(`Should call the productDetailsPageView method for every ProductDetailsPageVisited event`, () => {
+  describe('call profileTagPushEventsService for ProductDetailsPageEvent events', () => {
+    it(`Should call the productDetailsPageView method for every ProductDetailsPageEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: ProductDetailsPageVisited[] = [
+      const mockOrderEntry: ProductDetailsPageEvent[] = [
         {
           code: '12345',
           name: 'product 1',
@@ -218,7 +220,7 @@ describe('profileTagPushEventsService', () => {
           ],
         },
       ];
-      const mockOrderEntries: ProductDetailsPageVisited[] = [
+      const mockOrderEntries: ProductDetailsPageEvent[] = [
         {
           code: '23456',
           name: 'product 2',
@@ -248,85 +250,81 @@ describe('profileTagPushEventsService', () => {
           ],
         },
       ];
-      eventServiceEvents.get(ProductDetailsPageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(ProductDetailsPageVisited).next(mockOrderEntries);
+      eventServiceEvents.get(ProductDetailsPageEvent).next(mockOrderEntry);
+      eventServiceEvents.get(ProductDetailsPageEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for PageVisited events', () => {
-    it(`Should call the navigatedEvent method for every PageVisited event`, () => {
+  describe('call profileTagPushEventsService for PageEvent events', () => {
+    it(`Should call the navigatedEvent method for every PageEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: PageVisited[] = [{ url: 'page 1' }];
-      const mockOrderEntries: PageVisited[] = [
+      const mockOrderEntry: PageEvent[] = [{ url: 'page 1' }];
+      const mockOrderEntries: PageEvent[] = [
         { url: 'page 2' },
         { url: 'page 3' },
       ];
-      eventServiceEvents.get(PageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(PageVisited).next(mockOrderEntries);
+      eventServiceEvents.get(PageEvent).next(mockOrderEntry);
+      eventServiceEvents.get(PageEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for CartPageVisited events', () => {
-    it(`Should call the categoryPageVisited method for every CartPageVisited event`, () => {
+  describe('call profileTagPushEventsService for CartPageEvent events', () => {
+    it(`Should call the categoryPageVisited method for every CartPageEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: CartPageVisited[] = [{ cartId: '123' }];
-      const mockOrderEntries: CartPageVisited[] = [
+      const mockOrderEntry: CartPageEvent[] = [{ cartId: '123' }];
+      const mockOrderEntries: CartPageEvent[] = [
         { cartId: '234' },
         { cartId: '345' },
       ];
-      eventServiceEvents.get(CartPageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(CartPageVisited).next(mockOrderEntries);
+      eventServiceEvents.get(CartPageEvent).next(mockOrderEntry);
+      eventServiceEvents.get(CartPageEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for HomePageVisited events', () => {
-    it(`Should call the homePageVisitedEvent method for every HomePageVisited event`, () => {
+  describe('call profileTagPushEventsService for HomePageEvent events', () => {
+    it(`Should call the HomePageEventEvent method for every HomePageEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: HomePageVisited[] = [{}];
-      const mockOrderEntries: HomePageVisited[] = [{}, {}];
-      eventServiceEvents.get(HomePageVisited).next(mockOrderEntry);
-      eventServiceEvents.get(HomePageVisited).next(mockOrderEntries);
+      const mockOrderEntry: HomePageEvent[] = [{}];
+      const mockOrderEntries: HomePageEvent[] = [{}, {}];
+      eventServiceEvents.get(HomePageEvent).next(mockOrderEntry);
+      eventServiceEvents.get(HomePageEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
   });
 
-  describe('call profileTagPushEventsService for OrderConfirmationPageVisited events', () => {
-    it(`Should call the orderConfirmationPageVisited method for every OrderConfirmationPageVisited event`, () => {
+  describe('call profileTagPushEventsService for OrderPlacedEvent events', () => {
+    it(`Should call the OrderPlacedEvent method for every OrderPlacedEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: OrderConfirmationPageVisited[] = [
-        { orderId: '123' },
+      const mockOrderEntry: OrderPlacedEvent[] = [{ code: '123' }];
+      const mockOrderEntries: OrderPlacedEvent[] = [
+        { code: '234' },
+        { code: '345' },
       ];
-      const mockOrderEntries: OrderConfirmationPageVisited[] = [
-        { orderId: '234' },
-        { orderId: '345' },
-      ];
-      eventServiceEvents.get(OrderConfirmationPageVisited).next(mockOrderEntry);
-      eventServiceEvents
-        .get(OrderConfirmationPageVisited)
-        .next(mockOrderEntries);
+      eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntry);
+      eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });

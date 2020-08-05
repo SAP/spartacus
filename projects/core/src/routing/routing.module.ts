@@ -7,7 +7,6 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
-import { RoutingEventModule } from './event/routing-event.module';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -25,7 +24,6 @@ export function initConfigurableRoutes(
 
 @NgModule({
   imports: [
-    RoutingEventModule,
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({
