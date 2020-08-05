@@ -5,32 +5,72 @@
   </h3>
 
   <div class="cx-review-summary row">
-    <div
-      class="col-md-12 col-lg-6 col-xl-4"
-      *ngFor="let step of (steps$ | async).slice(0, -1)"
-    >
-      <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
-        <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
-          <ng-container *ngTemplateOutlet="poNumber"></ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
-          <ng-container *ngTemplateOutlet="paymentType"></ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
-          <ng-container *ngTemplateOutlet="costCenter"></ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
-          <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
-          <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
-          <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
+    <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">
+      <div class="col-md-12 col-lg-6 col-xl-6">
+        <ng-container *ngFor="let step of steps">
+          <div [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+              <ng-container *ngTemplateOutlet="poNumber"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+              <ng-container *ngTemplateOutlet="paymentType"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
+              <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+              <ng-container *ngTemplateOutlet="costCenter"></ng-container>
+            </ng-container>
+          </div>
         </ng-container>
       </div>
-    </div>
+      <div class="col-md-12 col-lg-6 col-xl-6">
+        <ng-container *ngFor="let step of steps">
+          <div [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+              <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
+              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+      <!-- <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]"> -->
+      <!-- <div class="col-md-12 col-lg-6 col-xl-4" *ngFor="let step of steps">
+        <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
+          <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+            <ng-container *ngTemplateOutlet="poNumber"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+            <ng-container *ngTemplateOutlet="paymentType"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
+            <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+            <ng-container *ngTemplateOutlet="costCenter"></ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-4" *ngFor="let step of steps">
+        <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
+          <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+            <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
+            <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+          </ng-container>
+        </div>
+      </div> -->
+      <!-- </div> -->
+    </ng-container>
+    <!-- <div
+      class="col-md-12 col-lg-6 col-xl-4"
+    > -->
+    <!-- *ngFor="let step of (steps$ | async).slice(0, -1)" -->
   </div>
+  <!-- </div> -->
 
   <!-- PO NUMBER SECTION -->
   <ng-template #poNumber>

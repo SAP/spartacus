@@ -125,6 +125,7 @@ export class ReviewSubmitComponent {
     deliveryAddress: Address,
     countryName: string
   ): Observable<Card> {
+    console.log('DA', deliveryAddress);
     return combineLatest([
       this.translation.translate('addressCard.shipTo'),
     ]).pipe(
@@ -186,6 +187,7 @@ export class ReviewSubmitComponent {
   }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
+    console.log(paymentDetails);
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
