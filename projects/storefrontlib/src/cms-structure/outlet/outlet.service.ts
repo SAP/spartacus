@@ -5,7 +5,6 @@ import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
   providedIn: 'root',
 })
 export class OutletService<T = TemplateRef<any>> {
-
   private templatesRefs = {
     [OutletPosition.BEFORE]: new Map<string, T[]>(),
     [OutletPosition.REPLACE]: new Map<string, T[]>(),
