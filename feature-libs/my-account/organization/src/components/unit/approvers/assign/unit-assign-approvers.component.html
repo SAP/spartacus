@@ -72,7 +72,7 @@
     <small>
       {{ model.email
       }}<span *ngFor="let role of model.roles">
-        • {{ 'organization.userRoles.' + role | cxTranslate }}</span
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}</span
       >
     </small>
   </ng-template>
