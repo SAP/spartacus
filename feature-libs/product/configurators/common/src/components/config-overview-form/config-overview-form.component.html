@@ -8,10 +8,10 @@
 
         <div
           class="cx-config-group-attribute"
-          *ngFor="let values of group.attributes"
+          *ngFor="let attributeOverview of group.attributes"
         >
           <cx-config-overview-attribute
-            [values]="values"
+            [attributeOverview]="attributeOverview"
           ></cx-config-overview-attribute>
         </div>
       </section>
