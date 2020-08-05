@@ -22,7 +22,7 @@
       "@spartacus/product/configurators/textfield": [
         "../../dist/product/configurators/textfield"
       ],
-      "@spartacus/gigya": ["../../dist/gigya"]
+      "@spartacus/cdc": ["../../dist/cdc"]
     }
   }
 }

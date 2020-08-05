@@ -49,7 +49,7 @@
       "@spartacus/incubator",
       "@spartacus/my-account",
       "@spartacus/product",
-      "@spartacus/gigya"
+      "@spartacus/cdc"
     ]
   },
   "main": "src/public_api.js"
