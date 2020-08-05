@@ -1,9 +1,10 @@
 import { Category, Price } from '@spartacus/core';
+import { PageEvent } from '../page/page.events';
 
 /**
  * Indicates that a user visited a product details page.
  */
-export class ProductDetailsPageEvent {
+export class ProductDetailsPageEvent extends PageEvent {
   categories?: Category[];
   code?: string;
   name?: string;
@@ -13,7 +14,7 @@ export class ProductDetailsPageEvent {
 /**
  * Indicates that a user visited a category page.
  */
-export class CategoryPageResultsEvent {
+export class CategoryPageResultsEvent extends PageEvent {
   categoryCode: string;
   categoryName: string;
 }
@@ -22,7 +23,7 @@ export class CategoryPageResultsEvent {
  * Indicates that the a user visited the search results page,
  * and that the search results have been retrieved.
  */
-export class SearchPageResultsEvent {
+export class SearchPageResultsEvent extends PageEvent {
   searchTerm: string;
   numberOfResults: Number;
 }

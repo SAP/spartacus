@@ -78,6 +78,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
     });
@@ -107,6 +108,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
 
@@ -118,6 +120,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: 'new',
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
       sub.unsubscribe();
