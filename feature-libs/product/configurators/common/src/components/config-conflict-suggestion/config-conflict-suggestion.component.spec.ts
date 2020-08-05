@@ -5,7 +5,6 @@ import { ConfigConflictSuggestionComponent } from './config-conflict-suggestion.
 
 describe('ConfigurationConflictSuggestionComponent', () => {
   let component: ConfigConflictSuggestionComponent;
-
   let fixture: ComponentFixture<ConfigConflictSuggestionComponent>;
 
   beforeEach(async(() => {

@@ -11,11 +11,10 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import * as ConfigurationTestData from '../configuration-test-data';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
@@ -75,14 +74,21 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
-  let component: ConfigGroupMenuComponent;
-  let fixture: ComponentFixture<ConfigGroupMenuComponent>;
-  let configuratorGroupsService: ConfiguratorGroupsService;
-  let hamburgerMenuService: HamburgerMenuService;
-  let htmlElem: HTMLElement;
-  let configuratorUtils: GenericConfigUtilsService;
+let component: ConfigGroupMenuComponent;
+let fixture: ComponentFixture<ConfigGroupMenuComponent>;
+let configuratorGroupsService: ConfiguratorGroupsService;
+let hamburgerMenuService: HamburgerMenuService;
+let htmlElem: HTMLElement;
+let configuratorUtils: GenericConfigUtilsService;
 
+function initialize() {
+  fixture = TestBed.createComponent(ConfigGroupMenuComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+}
+
+describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -109,11 +115,9 @@ describe('ConfigurationGroupMenuComponent', () => {
       ],
     });
   }));
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigGroupMenuComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
 
+  beforeEach(() => {
+    initialize();
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -138,47 +142,34 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(ConfigurationTestData.PRODUCT_CODE);
     });
   });
 
   it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
-    component.ngOnInit();
     component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
       expect(groups.length).toBe(5);
     });
   });
 
   it('should set current group in case of clicking on a group', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
     component.click(config.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
 
   it('should condense groups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
     expect(component.condenseGroups(config.groups)[2].id).toBe(
       config.groups[2].subGroups[0].id
     );
   });
 
   it('should get correct parent group for condensed groups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
     //Condensed case
     component
       .getCondensedParentGroup(config.groups[2])
@@ -197,9 +188,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should call correct methods for groups with and without subgroups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
     //Set group
     component.click(config.groups[2].subGroups[0]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();

@@ -3,7 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  UrlModule,
+} from '@spartacus/core';
 import { ConfigTabBarComponent } from './config-tab-bar.component';
 
 @NgModule({
@@ -15,6 +20,13 @@ import { ConfigTabBarComponent } from './config-tab-bar.component';
     I18nModule,
     UrlModule,
     RouterModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        VariantConfigurationTabBar: {
+          component: ConfigTabBarComponent,
+        },
+      },
+    }),
   ],
   declarations: [ConfigTabBarComponent],
   exports: [ConfigTabBarComponent],

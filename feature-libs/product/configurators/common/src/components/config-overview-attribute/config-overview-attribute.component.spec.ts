@@ -6,6 +6,7 @@ import { ConfigOverviewAttributeComponent } from './config-overview-attribute.co
 describe('ConfigurationOverviewAttributeComponent', () => {
   let component: ConfigOverviewAttributeComponent;
   let fixture: ComponentFixture<ConfigOverviewAttributeComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,13 +18,21 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewAttributeComponent);
     component = fixture.componentInstance;
-    component.values = {
+    htmlElem = fixture.nativeElement;
+    component.attributeOverview = {
       attribute: 'Test Attribute Name',
       value: 'Test Attribute Value',
     };
+    fixture.detectChanges();
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should show attribute value', () => {
+    expect(
+      htmlElem.querySelectorAll('.cx-config-overview-attribute-value').length
+    ).toBe(1);
   });
 });
