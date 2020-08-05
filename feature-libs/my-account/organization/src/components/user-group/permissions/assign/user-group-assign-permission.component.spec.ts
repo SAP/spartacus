@@ -8,8 +8,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroupAssignPermissionsComponent } from './user-group-assign-permission.component';
-import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
+import { UserGroupAssignPermissionComponent } from './user-group-assign-permission.component';
+import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
 
 const userGroupCode = 'userGroupCode';
 
@@ -45,9 +45,9 @@ class MockUserGroupPermissionListService {
 }
 
 describe('UserGroupAssignPermissionsComponent', () => {
-  let component: UserGroupAssignPermissionsComponent;
-  let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
-  let service: UserGroupAssignPermissionListService;
+  let component: UserGroupAssignPermissionComponent;
+  let fixture: ComponentFixture<UserGroupAssignPermissionComponent>;
+  let service: UserGroupAssignPermissionService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,20 +59,20 @@ describe('UserGroupAssignPermissionsComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserGroupAssignPermissionsComponent],
+      declarations: [UserGroupAssignPermissionComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserGroupAssignPermissionListService,
+          provide: UserGroupAssignPermissionService,
           useClass: MockUserGroupPermissionListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignPermissionListService);
+    service = TestBed.inject(UserGroupAssignPermissionService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignPermissionsComponent);
+    fixture = TestBed.createComponent(UserGroupAssignPermissionComponent);
     component = fixture.componentInstance;
   });
 

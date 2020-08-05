@@ -11,6 +11,7 @@ import { StateWithOrganization } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
 import { B2BSearchConfig } from '../model/search-config';
+import { CostCenter } from '../../model/org-unit.model';
 
 @Injectable()
 export class BudgetService {
@@ -67,6 +68,14 @@ export class BudgetService {
           process.success || process.error
       ),
       map((result) => result.value)
+    );
+  }
+
+  getCostCenters(budgetCode: string): Observable<EntitiesModel<CostCenter>> {
+    return this.get(budgetCode).pipe(
+      map((budget) => ({
+        values: budget.costCenters ?? [],
+      }))
     );
   }
 

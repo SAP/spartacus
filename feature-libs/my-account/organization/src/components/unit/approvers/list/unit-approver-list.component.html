@@ -1,0 +1,85 @@
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+    </a>
+    <span>{{
+      'unit.approvers.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
+
+  <div class="actions">
+    <!--    <a-->
+    <!--      class="link"-->
+    <!--      [routerLink]="-->
+    <!--        {-->
+    <!--          cxRoute: 'userCreate'-->
+    <!--        } | cxUrl-->
+    <!--      "-->
+    <!--    >-->
+    <!--      {{ 'unit.approvers.new' | cxTranslate }}-->
+    <!--    </a>-->
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAssignApprovers',
+          params: { uid: orgUnitCode }
+        } | cxUrl
+      "
+    >
+      {{ 'unit.approvers.assign' | cxTranslate }}
+    </a>
+  </div>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitApprovers.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small
+      >{{ model.email }}
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitApprovers.data.unassign" let-model>
+    <button class="button" (click)="unassign(model)">
+      <cx-icon type="CLOSE"></cx-icon>
+    </button>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitApprovers.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>
+
+<router-outlet></router-outlet>
