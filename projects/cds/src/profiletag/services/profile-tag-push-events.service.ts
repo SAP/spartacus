@@ -12,7 +12,7 @@ import {
   ProductSearchService,
   SearchPageVisited,
 } from '@spartacus/core';
-import { PageVisitedEvent } from '@spartacus/storefront';
+import { PageEvent } from '@spartacus/storefront';
 import { EMPTY, merge, Observable, of } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -232,10 +232,10 @@ export class ProfileTagPushEventsService {
       skip(1)
     );
 
-    const brandPageVisitedEvent$ = this.eventService.get(PageVisitedEvent).pipe(
-      map((pageVisitedEvent) => ({
-        isBrandPage: pageVisitedEvent.semanticRoute === 'brand',
-        brandCode: pageVisitedEvent.context.id,
+    const brandPageVisitedEvent$ = this.eventService.get(PageEvent).pipe(
+      map((pageEvent) => ({
+        isBrandPage: pageEvent.semanticRoute === 'brand',
+        brandCode: pageEvent.context.id,
       }))
     );
 
