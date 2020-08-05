@@ -5,12 +5,6 @@ import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
   providedIn: 'root',
 })
 export class OutletService<T = TemplateRef<any>> {
-  /**
-   * @deprecated since 2.1, see #8116
-   */
-  // tslint:disable-next-line: unified-signatures
-  constructor();
-  constructor() {}
 
   private templatesRefs = {
     [OutletPosition.BEFORE]: new Map<string, T[]>(),
