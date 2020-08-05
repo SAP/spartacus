@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserAssignUserGroupListService } from './user-assign-user-group.service';
+import { UserAssignPermissionsListService } from './user-assign-permissions.service';
 import { PaginationModel } from '@spartacus/core';
 import { CurrentUserService } from '../../current-user.service';
 
 @Component({
-  selector: 'cx-user-assign-user-group',
-  templateUrl: './user-assign-user-group.component.html',
+  selector: 'cx-user-assign-permissions',
+  templateUrl: './user-assign-permissions.component.html',
 })
-export class UserAssignUserGroupsComponent {
+export class UserAssignPermissionsComponent {
   code$: Observable<string> = this.currentUserService.code$;
   name$: Observable<string> = this.currentUserService.name$;
 
@@ -20,11 +20,11 @@ export class UserAssignUserGroupsComponent {
 
   constructor(
     protected currentUserService: CurrentUserService,
-    protected assignService: UserAssignUserGroupListService
+    protected assignService: UserAssignPermissionsListService
   ) {}
 
-  toggleAssign(userCode: string, userGroupCode: string, checked: boolean) {
-    this.assignService.toggleAssign(userCode, userGroupCode, checked);
+  toggleAssign(userCode: string, permissionCode: string, checked: boolean) {
+    this.assignService.toggleAssign(userCode, permissionCode, checked);
   }
 
   /**

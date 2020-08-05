@@ -9,7 +9,7 @@ import {
   TableModule,
   PaginationModule,
 } from '@spartacus/storefront';
-import { UserAssignUserGroupsComponent } from './user-assign-user-group.component';
+import { UserAssignPermissionsComponent } from './user-assign-permissions.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { UserAssignUserGroupsComponent } from './user-assign-user-group.componen
     OutletRefModule,
     PaginationModule,
   ],
-  declarations: [UserAssignUserGroupsComponent],
-  exports: [UserAssignUserGroupsComponent],
+  declarations: [UserAssignPermissionsComponent],
+  exports: [UserAssignPermissionsComponent],
 })
-export class UserAssignUserGroupsModule {}
+export class UserAssignPermissionsModule {}
