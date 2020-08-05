@@ -26,7 +26,7 @@ const configCreate: Configurator.Configuration = {
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configCreate2: Configurator.Configuration = {
-  configId: configId,
+  configId: '1234-11111',
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
