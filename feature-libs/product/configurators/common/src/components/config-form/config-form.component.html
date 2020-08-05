@@ -6,8 +6,10 @@
       ></cx-config-conflict-description>
       <div
         class="cx-item-list-row cx-config-group-attribute"
-        *ngFor="let attribute of currentGroup.attributes;
-          let indexOfAttribute = index"
+        *ngFor="
+          let attribute of currentGroup.attributes;
+          let indexOfAttribute = index
+        "
       >
         <cx-config-conflict-suggestion
           [currentGroup]="currentGroup"
