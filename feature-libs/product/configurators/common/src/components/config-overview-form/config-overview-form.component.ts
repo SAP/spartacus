@@ -32,12 +32,12 @@ export class ConfigOverviewFormComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService
   ) {
+    //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
+    //we need to initialise the cart configuration
     this.configRouterExtractorService
       .extractRouterData()
       .pipe(take(1))
       .subscribe((routingData) => {
-        //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
-        //we need to initialise the cart configuration
         if (routingData.forceReload) {
           this.configuratorCommonsService.removeConfiguration(
             routingData.owner
@@ -55,11 +55,10 @@ export class ConfigOverviewFormComponent {
     if (!(configuration?.overview?.groups?.length > 0)) {
       return false;
     }
-
     return (
       configuration.overview.groups.find(
-        (group) => group.attributes.length > 0
-      ) !== null
+        (group) => group.attributes?.length > 0
+      ) !== undefined
     );
   }
 }

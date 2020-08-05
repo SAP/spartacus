@@ -18,19 +18,20 @@ import { ConfigOverviewFormComponent } from './config-overview-form.component';
 const owner: GenericConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
+const configId = '1234-56-7890';
 
 const configCreate: Configurator.Configuration = {
-  configId: '1234-56-7890',
+  configId: configId,
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configCreate2: Configurator.Configuration = {
-  configId: '1234-56-7890',
+  configId: configId,
   owner: owner,
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
-  configId: '1235-56-7890',
+  configId: configId,
   owner: owner,
   overview: {
     groups: [],
@@ -171,5 +172,28 @@ describe('ConfigurationOverviewFormComponent', () => {
 
   it('should get 4 emissions of overview if configurations service emits fast', () => {
     checkConfigurationOverviewObs('a---a', 'xy', '--uv', '---uv--uv');
+  });
+
+  it('should know if a configuration OV has attributes', () => {
+    initialize();
+    expect(component.hasAttributes(configCreate)).toBe(true);
+  });
+
+  it('should detect that a configuration w/o groups has no attributes', () => {
+    initialize();
+    const configWOOverviewGroups: Configurator.Configuration = {
+      configId: configId,
+      overview: {},
+    };
+    expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
+  });
+
+  it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
+    initialize();
+    const configWOOverviewAttributes: Configurator.Configuration = {
+      configId: configId,
+      overview: { groups: [{ id: 'GROUP1' }] },
+    };
+    expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
 });

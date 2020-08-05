@@ -82,8 +82,8 @@ export namespace Configurator {
 
   export interface GroupOverview {
     id: string;
-    groupDescription: string;
-    attributes: AttributeOverview[];
+    groupDescription?: string;
+    attributes?: AttributeOverview[];
   }
 
   export interface AttributeOverview {
