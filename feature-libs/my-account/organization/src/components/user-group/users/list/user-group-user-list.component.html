@@ -10,7 +10,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'userGroup.user.header' | cxTranslate }}</span>
+    <span>{{
+      'userGroup.user.header' | cxTranslate: { code: userGroupCode }
+    }}</span>
   </h3>
 
   <div class="actions">
@@ -43,7 +45,12 @@
 
   <ng-template cxOutletRef="table.userGroupUsers.data.summary" let-model>
     <h3>{{ model.name }}</h3>
-    <small>{{ model.uid }} </small>
+    <small
+      >{{ model.email }}
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupUsers.data.unassign" let-model>

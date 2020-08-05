@@ -67,7 +67,12 @@
 
   <ng-template cxOutletRef="table.userGroupAssignUsers.data.summary" let-model>
     <h3>{{ model.name }}</h3>
-    <small>{{ model.uid }} </small>
+    <small>
+      {{ model.email
+      }}<span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}</span
+      >
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUsers.data.link" let-model>
@@ -85,31 +90,36 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUsers.data.name" let-model>
-    <label>
-      <input
-        type="checkbox"
-        [checked]="model.selected"
-        (change)="
-          toggleAssign(userGroupCode, model.customerId, $event.target.checked)
-        "
-      />
-      <span class="text">{{ model.name }}</span>
-    </label>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="model.selected"
+          (change)="
+            toggleAssign(userGroupCode, model.customerId, $event.target.checked)
+          "
+        />
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'userDetails',
+              params: model
+            } | cxUrl
+          "
+        >
+          {{ model.name }}
+          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+        </a>
+      </label>
+    </div>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUsers.data.uid" let-model>
-    <div>
-      <a
-        [routerLink]="
-          {
-            cxRoute: 'userDetails',
-            params: model
-          } | cxUrl
-        "
-        >{{ model.uid }}
-        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-      </a>
-    </div>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.roles" let-model>
+    <small>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUsers.data.orgUnit" let-model>

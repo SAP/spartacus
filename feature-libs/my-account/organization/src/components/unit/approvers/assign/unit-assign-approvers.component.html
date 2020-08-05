@@ -92,28 +92,28 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.unitAssignApprovers.data.name" let-model>
-    <label>
-      <input
-        type="checkbox"
-        [checked]="model.selected"
-        (change)="
-          toggleAssign(orgUnitCode, model.customerId, $event.target.checked)
-        "
-      />
-      <!--      <span class="text">{{ model.name }}</span>-->
-
-      <a
-        [routerLink]="
-          {
-            cxRoute: 'userDetails',
-            params: model
-          } | cxUrl
-        "
-      >
-        {{ model.name }}
-        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-      </a>
-    </label>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="model.selected"
+          (change)="
+            toggleAssign(orgUnitCode, model.customerId, $event.target.checked)
+          "
+        />
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'userDetails',
+              params: model
+            } | cxUrl
+          "
+        >
+          {{ model.name }}
+          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+        </a>
+      </label>
+    </div>
   </ng-template>
 
   <ng-template cxOutletRef="table.unitAssignApprovers.data.roles" let-model>
