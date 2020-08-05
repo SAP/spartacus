@@ -6,15 +6,15 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthStorageService } from '../facade/auth-storage.service';
+import { AuthConfigService } from '../services/auth-config.service';
 
 // We need this one, because OAuth hybris server requires access_token in header for revoke token. XD
 @Injectable({ providedIn: 'root' })
 export class TokenRevocationInterceptor implements HttpInterceptor {
   constructor(
-    public occEndpoints: OccEndpointsService,
-    public authStorageService: AuthStorageService
+    protected authStorageService: AuthStorageService,
+    protected authConfigService: AuthConfigService
   ) {}
 
   intercept(
@@ -37,6 +37,6 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
   }
 
   protected isTokenRevocationRequest(request: HttpRequest<any>): boolean {
-    return request.url.includes(this.occEndpoints.getRawEndpoint('revoke'));
+    return request.url === this.authConfigService.getRevokeEndpoint();
   }
 }

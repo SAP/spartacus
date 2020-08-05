@@ -4,8 +4,8 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '../../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../../user-auth/config/auth-config';
+import { AuthConfigService } from '../../../user-auth/services/auth-config.service';
 import { ClientToken } from '../../models/client-token.model';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
@@ -19,33 +19,22 @@ const token: ClientToken = {
 const loginEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig: AuthConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      endpoints: {
-        login: loginEndpoint,
-      },
-    },
-  },
   authentication: {
     client_id: '',
     client_secret: '',
   },
 };
 
-class MockOccEndpointsService {
-  getRawEndpoint(endpoint: string) {
-    return (
-      MockAuthConfig.backend.occ.baseUrl +
-      MockAuthConfig.backend.occ.endpoints[endpoint]
-    );
+class AuthConfigServiceMock {
+  getLoginEndpoint() {
+    return loginEndpoint;
   }
 }
 
 describe('ClientAuthenticationTokenService', () => {
   let service: ClientAuthenticationTokenService;
   let httpMock: HttpTestingController;
-  let occEndpointsService: OccEndpointsService;
+  let authConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,17 +42,14 @@ describe('ClientAuthenticationTokenService', () => {
       providers: [
         ClientAuthenticationTokenService,
         { provide: AuthConfig, useValue: MockAuthConfig },
-        {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
-        },
+        { provide: AuthConfigService, useClass: AuthConfigServiceMock },
       ],
     });
 
     service = TestBed.inject(ClientAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
-    occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
+    authConfigService = TestBed.inject(AuthConfigService);
+    spyOn(authConfigService, 'getLoginEndpoint').and.callThrough();
   });
 
   afterEach(() => {
@@ -80,7 +66,7 @@ describe('ClientAuthenticationTokenService', () => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
-      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
+      expect(authConfigService.getLoginEndpoint).toHaveBeenCalled();
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);

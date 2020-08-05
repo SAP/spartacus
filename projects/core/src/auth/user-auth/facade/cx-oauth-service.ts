@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthConfig } from '../config/auth-config';
+import { AuthConfigService } from '../services/auth-config.service';
 import { AuthStorageService } from './auth-storage.service';
 import { UserIdService } from './user-id.service';
 
@@ -15,20 +16,19 @@ export class CxOAuthService {
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
     protected oAuthService: OAuthService,
-    protected occEndpointService: OccEndpointsService,
-    protected authStorageService: AuthStorageService
+    protected authStorageService: AuthStorageService,
+    protected config: AuthConfig,
+    protected authConfigService: AuthConfigService
   ) {
     this.oAuthService.configure({
-      // TODO(#8243): Remove from occ endpoints
-      tokenEndpoint: this.occEndpointService.getRawEndpoint('login'),
-      clientId: 'mobile_android',
-      dummyClientSecret: 'secret',
+      tokenEndpoint: this.authConfigService.getLoginEndpoint(),
+      clientId: this.config.authentication.client_id,
+      dummyClientSecret: this.config.authentication.client_secret,
       scope: '',
       customTokenParameters: ['token_type'],
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
-      // TODO(#8243): Remove from occ endpoints
-      revocationEndpoint: this.occEndpointService.getRawEndpoint('revoke'),
+      revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
     });
     this.oAuthService.events.subscribe((event) => {
       setTimeout(() => {

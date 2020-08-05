@@ -14,20 +14,6 @@ export interface ProductOccEndpoint extends OccEndpoint {
 
 export interface OccEndpoints {
   /**
-   * Client login (get authorization token)
-   *
-   * @member {string}
-   */
-  login?: string | OccEndpoint;
-
-  /**
-   * Client logout (revoke authorization token)
-   *
-   * @member {string}
-   */
-  revoke?: string | OccEndpoint;
-
-  /**
    * Get product details for scope
    *
    * @member Object
