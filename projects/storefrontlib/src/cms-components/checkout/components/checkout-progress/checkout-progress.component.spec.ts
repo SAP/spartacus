@@ -43,6 +43,15 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Pipe({
+  name: 'cxMultiLine',
+})
+class MockMultiLinePipe implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
+
 describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
@@ -50,7 +59,11 @@ describe('CheckoutProgressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [CheckoutProgressComponent, MockTranslateUrlPipe],
+      declarations: [
+        CheckoutProgressComponent,
+        MockTranslateUrlPipe,
+        MockMultiLinePipe,
+      ],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
