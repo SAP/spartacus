@@ -1,32 +1,30 @@
 import { Component } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CurrentCostCenterService } from '../../current-cost-center.service';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
+import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
+import { PaginationModel } from '@spartacus/core';
+import { CurrentUserService } from '../../current-user.service';
 
 @Component({
-  selector: 'cx-cost-center-assign-budget',
-  templateUrl: './cost-center-assign-budget.component.html',
+  selector: 'cx-user-assign-user-groups',
+  templateUrl: './user-assign-user-groups.component.html',
 })
-export class CostCenterAssignBudgetsComponent {
-  /**
-   * The code of the current cost center.
-   */
-  code$ = this.currentCostCenterService$.code$;
+export class UserAssignUserGroupsComponent {
+  code$: Observable<string> = this.currentUserService.code$;
+  name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.assignService.getTable(code))
   );
 
   constructor(
-    protected currentCostCenterService$: CurrentCostCenterService,
-    protected assignService: CostCenterAssignBudgetListService
+    protected currentUserService: CurrentUserService,
+    protected assignService: UserAssignUserGroupListService
   ) {}
 
-  toggleAssign(costCenterCode: string, budgetCode: string, checked: boolean) {
-    this.assignService.toggleAssign(costCenterCode, budgetCode, checked);
+  toggleAssign(userCode: string, userGroupCode: string, checked: boolean) {
+    this.assignService.toggleAssign(userCode, userGroupCode, checked);
   }
 
   /**

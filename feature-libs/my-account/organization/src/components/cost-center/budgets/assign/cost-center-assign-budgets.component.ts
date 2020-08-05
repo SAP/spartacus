@@ -1,30 +1,32 @@
 import { Component } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserAssignPermissionListService } from './user-assign-permission.service';
-import { PaginationModel } from '@spartacus/core';
-import { CurrentUserService } from '../../current-user.service';
+import { CurrentCostCenterService } from '../../current-cost-center.service';
+import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 
 @Component({
-  selector: 'cx-user-assign-permission',
-  templateUrl: './user-assign-permission.component.html',
+  selector: 'cx-cost-center-assign-budgets',
+  templateUrl: './cost-center-assign-budgets.component.html',
 })
-export class UserAssignPermissionsComponent {
-  code$: Observable<string> = this.currentUserService.code$;
-  name$: Observable<string> = this.currentUserService.name$;
+export class CostCenterAssignBudgetsComponent {
+  /**
+   * The code of the current cost center.
+   */
+  code$ = this.currentCostCenterService$.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.assignService.getTable(code))
   );
 
   constructor(
-    protected currentUserService: CurrentUserService,
-    protected assignService: UserAssignPermissionListService
+    protected currentCostCenterService$: CurrentCostCenterService,
+    protected assignService: CostCenterAssignBudgetListService
   ) {}
 
-  toggleAssign(userCode: string, permissionCode: string, checked: boolean) {
-    this.assignService.toggleAssign(userCode, permissionCode, checked);
+  toggleAssign(costCenterCode: string, budgetCode: string, checked: boolean) {
+    this.assignService.toggleAssign(costCenterCode, budgetCode, checked);
   }
 
   /**

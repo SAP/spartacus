@@ -9,7 +9,7 @@ import {
   TableModule,
   PaginationModule,
 } from '@spartacus/storefront';
-import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';
+import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 
 @NgModule({
   imports: [

@@ -8,8 +8,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
-import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
+import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
+import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 
 const costCenterCode = 'costCenterCode';
 

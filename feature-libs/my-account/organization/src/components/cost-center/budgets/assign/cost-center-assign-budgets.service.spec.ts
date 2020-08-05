@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
+import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 
 const mockCostCenterEntities: EntitiesModel<Budget> = {
   values: [
