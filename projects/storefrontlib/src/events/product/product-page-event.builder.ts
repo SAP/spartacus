@@ -82,7 +82,10 @@ export class ProductPageEventBuilder {
           map((searchResults) => ({
             ...pageEvent,
             categoryCode: pageEvent.context.id,
-            categoryName: searchResults.breadcrumbs[0].facetValueName,
+            numberOfResults: searchResults.pagination.totalResults,
+            ...{
+              categoryName: searchResults.breadcrumbs?.[0].facetValueName,
+            },
           })),
           map((categoryPage) =>
             createFrom(CategoryPageResultsEvent, categoryPage)

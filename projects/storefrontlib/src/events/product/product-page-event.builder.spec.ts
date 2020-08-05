@@ -148,6 +148,7 @@ describe('ProductPageEventModule', () => {
   it('CategoryPageResultsEvent', () => {
     const searchResults: ProductSearchPage = {
       breadcrumbs: [{ facetValueName: 'Cat1' }],
+      pagination: { totalResults: 5 },
     };
 
     let result: CategoryPageResultsEvent;
@@ -167,8 +168,10 @@ describe('ProductPageEventModule', () => {
 
     expect(result).toEqual(
       jasmine.objectContaining({
+        ...pageEvent,
         categoryCode: pageEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
+        numberOfResults: searchResults.pagination.totalResults,
       } as CategoryPageResultsEvent)
     );
   });

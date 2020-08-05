@@ -16,7 +16,8 @@ export class ProductDetailsPageEvent extends PageEvent {
  */
 export class CategoryPageResultsEvent extends PageEvent {
   categoryCode: string;
-  categoryName: string;
+  categoryName?: string;
+  numberOfResults: Number;
 }
 
 /**
