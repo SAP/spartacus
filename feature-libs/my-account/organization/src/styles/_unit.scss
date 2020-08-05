@@ -37,17 +37,3 @@ cx-unit-user-assign-roles {
   }
 }
 
-cx-unit-address-list {
-  cx-table {
-    td.summary {
-      a {
-        justify-content: space-between;
-
-        & > * {
-          display: flex;
-          flex-direction: column;
-        }
-      }
-    }
-  }
-}
