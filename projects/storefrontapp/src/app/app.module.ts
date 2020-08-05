@@ -48,6 +48,7 @@ if (environment.cdc) {
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+
     BrowserTransferStateModule,
     JsonLdBuilderModule,
     ...additionalImports,
