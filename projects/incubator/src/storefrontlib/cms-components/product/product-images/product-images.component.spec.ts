@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
 
 const firstImage = {
@@ -77,6 +77,12 @@ class MockCarouselComponent {
   @Input() hideIndicators;
 }
 
+@Component({
+  selector: 'cx-image-zoom-trigger',
+  template: '',
+})
+class MockProductImagesComponent {}
+
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -88,6 +94,7 @@ describe('ProductImagesComponent', () => {
         ProductImagesComponent,
         MockMediaComponent,
         MockCarouselComponent,
+        MockProductImagesComponent,
       ],
       providers: [
         {

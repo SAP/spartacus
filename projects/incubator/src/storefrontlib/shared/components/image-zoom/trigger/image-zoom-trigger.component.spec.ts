@@ -1,16 +1,20 @@
-import { Component, ComponentRef, ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '../../../../layout/launch-dialog/index';
-import { ImageZoomTriggerComponent } from './image-zoom-trigger';
+  Component,
+  ComponentRef,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  ViewContainerRef,
+} from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { ImageZoomTriggerComponent } from './image-zoom-trigger.component';
 
 @Component({
   template: '',
 })
 class TestDialogComponent {
+  @Input() galleryItem: number;
   constructor(public vcr: ViewContainerRef) {}
 }
 
@@ -37,6 +41,7 @@ describe('ImageZoomTriggerComponent', () => {
         },
       ],
       declarations: [ImageZoomTriggerComponent, TestDialogComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImageZoomTriggerComponent);
@@ -83,6 +88,13 @@ describe('ImageZoomTriggerComponent', () => {
       component.expandImage();
 
       expect(testDialogComponent.destroy).toHaveBeenCalled();
+    });
+
+    it('should pass index of zoom image to dialog', () => {
+      component.galleryIndex = 2;
+      component.expandImage();
+
+      expect(testDialogComponent.instance.galleryItem).toEqual(2);
     });
   });
 });

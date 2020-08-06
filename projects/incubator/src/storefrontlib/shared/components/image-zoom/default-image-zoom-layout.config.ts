@@ -1,5 +1,4 @@
-import { LayoutConfig } from '../../../layout/config/layout-config';
-import { DIALOG_TYPE } from '../../../layout/launch-dialog/index';
+import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
 import { ImageZoomDialogComponent } from './dialog/image-zoom-dialog.component';
 
 export const defaultImageZoomLayoutConfig: LayoutConfig = {

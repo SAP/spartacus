@@ -1,13 +1,9 @@
-<ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main"> </cx-media>
-</ng-container>
-
 <ng-container *ngIf="thumbs$ | async as thumbs">
   <cx-carousel
     *ngIf="thumbs.length"
     class="thumbs"
     [items]="thumbs"
-    itemWidth="120px"
+    itemWidth="70px"
     [hideIndicators]="false"
     [template]="thumb"
   ></cx-carousel>
