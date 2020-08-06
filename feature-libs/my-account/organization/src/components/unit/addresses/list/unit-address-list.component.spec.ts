@@ -1,6 +1,5 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -15,8 +14,8 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { UnitAddressListComponent } from './unit-address-list.component';
 import createSpy = jasmine.createSpy;
-import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
-import {InteractiveTableModule} from "@spartacus/storefront";
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { InteractiveTableModule } from '@spartacus/storefront';
 
 @Pipe({
   name: 'cxUrl',
@@ -36,16 +35,16 @@ const mockAddress: Partial<B2BAddress> = {
 };
 
 const mockAddresses = { values: [mockAddress] };
-const mockAddressUI = {
-  values: [
-    {
-      id: addressId,
-      name: 'firstName lastName',
-      code,
-      formattedAddress: 'formattedAddress',
-    },
-  ],
-};
+// const mockAddressUI = {
+//   values: [
+//     {
+//       id: addressId,
+//       name: 'firstName lastName',
+//       code,
+//       formattedAddress: 'formattedAddress',
+//     },
+//   ],
+// };
 
 const addressList = new BehaviorSubject(mockAddresses);
 
@@ -77,7 +76,7 @@ class MockRoutingConfig {
 describe('UnitManageAddressesComponent', () => {
   let component: UnitAddressListComponent;
   let fixture: ComponentFixture<UnitAddressListComponent>;
-  let orgUnitService: MockOrgUnitService;
+  // let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -90,7 +89,7 @@ describe('UnitManageAddressesComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
@@ -102,29 +101,5 @@ describe('UnitManageAddressesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-  // TODO:
-  xit('should display No addresses found page if no addresses are found', () => {
-    const emptyAddressList = { values: [] };
-
-    addressList.next(emptyAddressList);
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  });
-
-  describe('ngOnInit', () => {
-    it('should read addresses list', () => {
-      component.ngOnInit();
-
-      let addressesList: any;
-      component.data$.subscribe((value) => {
-        addressesList = value;
-      });
-
-      expect(orgUnitService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitService.getAddresses).toHaveBeenCalledWith(code);
-      expect(addressesList).toEqual(mockAddressUI);
-    });
   });
 });

@@ -11,11 +11,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 
-
 import { UnitListComponent } from './unit-list.component';
 import createSpy = jasmine.createSpy;
-import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
-import {InteractiveTableModule} from "@spartacus/storefront";
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { InteractiveTableModule } from '@spartacus/storefront';
 
 const mockOrgUnitTree: B2BUnitNode = {
   active: true,

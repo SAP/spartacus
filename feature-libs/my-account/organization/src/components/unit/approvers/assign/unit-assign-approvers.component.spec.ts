@@ -15,7 +15,6 @@ import {
   I18nTestingModule,
   RoutingService,
   EntitiesModel,
-  B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
@@ -25,8 +24,11 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
 import createSpy = jasmine.createSpy;
-import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
-import {InteractiveTableModule, PaginationConfig} from "@spartacus/storefront";
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import {
+  InteractiveTableModule,
+  PaginationConfig,
+} from '@spartacus/storefront';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
@@ -35,12 +37,6 @@ const userRow = {
   row: {
     customerId,
   },
-};
-
-const defaultParams: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 5,
 };
 
 const mockUserList: EntitiesModel<B2BUser> = {
@@ -66,30 +62,6 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockUserUIList = {
-  values: [
-    {
-      name: 'b1',
-      email: 'aaa@bbb',
-      selected: true,
-      parentUnit: 'orgName',
-      uid: 'orgUid',
-      customerId,
-      roles: [],
-    },
-    {
-      name: 'b2',
-      email: 'aaa2@bbb',
-      selected: false,
-      uid: 'orgUid2',
-      customerId: 'customerId2',
-      parentUnit: 'orgName2',
-      roles: [],
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -109,11 +81,8 @@ const userList = new BehaviorSubject(mockUserList);
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadUsers = createSpy('loadUsers');
-
   getUsers = createSpy('getUsers').and.returnValue(userList);
-
   assignApprover = createSpy('assignApprover');
-
   unassignApprover = createSpy('unassignApprover');
 }
 
@@ -195,32 +164,9 @@ describe('UnitAssignApproversComponent', () => {
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
-  describe('ngOnInit', () => {
-    it('should read user list', () => {
-      component.ngOnInit();
-
-      let usersList: any;
-      component.data$.subscribe((value) => {
-        usersList = value;
-      });
-
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(usersList).toEqual(mockUserUIList);
-    });
-  });
-
   describe('assign', () => {
     it('should assign approver', () => {
-      component.assign(userRow);
+      component.toggleAssign(code, customerId, true);
       expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.customerId,
@@ -231,7 +177,7 @@ describe('UnitAssignApproversComponent', () => {
 
   describe('unassign', () => {
     it('should unassign approver', () => {
-      component.unassign(userRow);
+      component.toggleAssign(code, customerId, false);
       expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.customerId,

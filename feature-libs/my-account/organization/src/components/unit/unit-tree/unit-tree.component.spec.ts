@@ -9,8 +9,12 @@ import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { I18nTestingModule } from '@spartacus/core';
-import {UnitTreeComponent} from "./unit-tree.component";
-import {BREAKPOINT, BreakpointService, NavigationNode} from "@spartacus/storefront";
+import { UnitTreeComponent } from './unit-tree.component';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  NavigationNode,
+} from '@spartacus/storefront';
 
 @Component({
   template: '',

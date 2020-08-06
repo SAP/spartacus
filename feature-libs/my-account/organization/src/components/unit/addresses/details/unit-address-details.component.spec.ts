@@ -14,8 +14,8 @@ import {
 
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
-import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
-import {Table2Module} from "@spartacus/storefront";
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { Table2Module } from '@spartacus/storefront';
 
 const code = 'b1';
 const addressId = 'a1';
@@ -69,7 +69,6 @@ describe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
   let orgUnitsService: MockOrgUnitService;
-  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -83,7 +82,6 @@ describe('UnitAddressDetailsComponent', () => {
     }).compileComponents();
 
     orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -96,29 +94,8 @@ describe('UnitAddressDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load address', () => {
-      component.ngOnInit();
-      let address: any;
-      component.address$
-        .subscribe((value) => {
-          address = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
-        code,
-        mockAddress.id
-      );
-      expect(address).toEqual({ ...mockAddress, orgUnitId: code });
-    });
-  });
-
   describe('deleteAddress', () => {
     it('should deleteAddress', () => {
-      component.ngOnInit();
-
       component.deleteAddress();
       expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(
         code,

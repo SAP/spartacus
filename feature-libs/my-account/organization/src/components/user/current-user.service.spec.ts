@@ -67,7 +67,7 @@ describe('CurrentUserService', () => {
       spyOn(costCenterService, 'get').and.returnValue(of(mockCostCenter));
 
       let result;
-      service.costCenter$.subscribe((value) => (result = value));
+      service.user$.subscribe((value) => (result = value));
       mockParams.next({ code: '123' });
       expect(costCenterService.get).toHaveBeenCalledWith('123');
       expect(result).toBe(mockCostCenter);
@@ -77,7 +77,7 @@ describe('CurrentUserService', () => {
       spyOn(costCenterService, 'get');
 
       let result;
-      service.costCenter$.subscribe((value) => (result = value));
+      service.user$.subscribe((value) => (result = value));
       mockParams.next({});
       expect(costCenterService.get).not.toHaveBeenCalled();
       expect(result).toBe(null);

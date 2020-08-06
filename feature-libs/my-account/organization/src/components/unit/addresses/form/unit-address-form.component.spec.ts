@@ -18,8 +18,7 @@ import {
 
 import { UnitAddressFormComponent } from './unit-address-form.component';
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -188,7 +187,6 @@ describe('UnitAddressFormComponent', () => {
 
     it('should setup clean form', () => {
       spyOn(component.form, 'patchValue');
-      component.addressData = null;
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
@@ -196,38 +194,9 @@ describe('UnitAddressFormComponent', () => {
 
     it('should setup form for update', () => {
       spyOn(component.form, 'patchValue').and.callThrough();
-      component.addressData = mockAddress;
       component.ngOnInit();
       expect(component.form.patchValue).toHaveBeenCalledWith(mockAddress);
       expect(component.form.valid).toBeTruthy();
-    });
-  });
-
-  describe('verifyAddress', () => {
-    it('should not emit value if form is invalid', () => {
-      spyOn(component.submitForm, 'emit');
-      const form = fixture.debugElement.query(By.css('form'));
-      form.triggerEventHandler('submit', null);
-      expect(component.submitForm.emit).not.toHaveBeenCalled();
-    });
-
-    it('should emit value if form is valid', () => {
-      spyOn(component.submitForm, 'emit');
-      component.addressData = mockAddress;
-      component.ngOnInit();
-      const form = fixture.debugElement.query(By.css('form'));
-      form.triggerEventHandler('submit', null);
-      expect(component.submitForm.emit).toHaveBeenCalledWith(
-        component.form.value
-      );
-    });
-  });
-
-  describe('back', () => {
-    it('should emit clickBack event', () => {
-      spyOn(component.clickBack, 'emit');
-      component.back();
-      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

@@ -64,10 +64,7 @@ describe('BudgetDetailsComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [
-        BudgetDetailsComponent,
-        MockBudgetCostCenterListComponent,
-      ],
+      declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CostCenterService, useClass: MockCostCenterService },

@@ -4,19 +4,20 @@ import { of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitService, Occ,
+  OrgUnitService,
+  Occ,
 } from '@spartacus/core';
 import { UnitAddressCreateComponent } from './unit-address-create.component';
 import createSpy = jasmine.createSpy;
 import { UnitAddressFormModule } from '../form/unit-address-form.module';
 import { RouterTestingModule } from '@angular/router/testing';
-import {UrlTestingModule} from "projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module";
-import {SplitViewTestingModule} from "projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module";
-import {TableModule} from "@spartacus/storefront";
-import {IconTestingModule} from "projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module";
-import {UnitAddressFormService} from "../form";
-import {CurrentUnitService} from "../../current-unit.service";
-import {FormGroup} from "@angular/forms";
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { TableModule } from '@spartacus/storefront';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UnitAddressFormService } from '../form';
+import { CurrentUnitService } from '../../current-unit.service';
+import { FormGroup } from '@angular/forms';
 import B2BAddress = Occ.B2BAddress;
 
 const orgUnitId = 'b1';
@@ -38,9 +39,7 @@ class MockRoutingService {
 }
 
 class MockUnitAddressFormService implements Partial<UnitAddressFormService> {
-  getForm = createSpy('getForm').and.returnValue(
-    new FormGroup({})
-  );
+  getForm = createSpy('getForm').and.returnValue(new FormGroup({}));
 }
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {
@@ -64,13 +63,16 @@ fdescribe('UnitAddressCreateComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
-        UnitAddressFormModule
+        UnitAddressFormModule,
       ],
       declarations: [UnitAddressCreateComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UnitAddressFormService, useClass: MockUnitAddressFormService },
+        {
+          provide: UnitAddressFormService,
+          useClass: MockUnitAddressFormService,
+        },
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();
