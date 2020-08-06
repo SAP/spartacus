@@ -37,7 +37,7 @@ import {
 } from '../shared/utils/module-file-utils';
 import {
   getAngularVersion,
-  getSpartacusCurrentFeatureLevel,
+  getNewSpartacusFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
 import { parseCSV } from '../shared/utils/transform-utils';
@@ -180,7 +180,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
+        level: '${options.featureLevel || getNewSpartacusFeatureLevel()}'
       }
     }`;
 }

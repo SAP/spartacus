@@ -155,7 +155,7 @@ const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
     }
 `;
 
-describe('updateCmsComponentState migration', () => {
+describe('method and properties deprecation migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;

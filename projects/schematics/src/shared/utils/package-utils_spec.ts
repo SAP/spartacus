@@ -7,7 +7,7 @@ import { ANGULAR_CORE, ANGULAR_LOCALIZE, UTF_8 } from '../constants';
 import {
   getAngularVersion,
   getMajorVersionNumber,
-  getSpartacusCurrentFeatureLevel,
+  getNewSpartacusFeatureLevel,
   getSpartacusSchematicsVersion,
   isAngularLocalizeInstalled,
 } from './package-utils';
@@ -91,10 +91,10 @@ describe('Package utils', () => {
     });
   });
 
-  describe('getSpartacusCurrentFeatureLevel', () => {
-    it('should return feature level based on spartacus current version', async () => {
+  describe('getNewSpartacusFeatureLevel', () => {
+    it('should return feature level based on the new spartacus version', async () => {
       const version = getSpartacusSchematicsVersion();
-      const featureLevel = getSpartacusCurrentFeatureLevel();
+      const featureLevel = getNewSpartacusFeatureLevel();
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));
