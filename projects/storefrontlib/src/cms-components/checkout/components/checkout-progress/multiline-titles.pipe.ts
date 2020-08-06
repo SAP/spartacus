@@ -12,7 +12,7 @@ export class MultiLinePipe implements PipeTransform {
     return (
       value.substring(0, lastIndex) +
       '<br />' +
-      value.substring(lastIndex, value.length)
+      value.substring(lastIndex, value.length).trim()
     );
   }
 }
