@@ -1,6 +1,9 @@
 %cx-product-intro {
   @include media-breakpoint-up(lg) {
-    padding: 20px 20px 0 20px;
+    padding-top: 20px;
+    padding-inline-end: 20px;
+    padding-bottom: 0px;
+    padding-inline-start: 20px;
   }
 
   .code {
@@ -15,7 +18,10 @@
     align-items: baseline;
 
     .count {
-      margin: 0 20px 0 5px;
+      margin-top: 0;
+      margin-inline-end: 20px;
+      margin-bottom: 0;
+      margin-inline-start: 5px;
     }
 
     cx-star-rating {

@@ -2,7 +2,10 @@ $caretSize: 7px;
 
 %cx-site-context-selector {
   position: relative;
-  margin: 14px 8px 14px 0;
+  margin-top: 14px;
+  margin-inline-end: 8px;
+  margin-bottom: 14px;
+  margin-inline-start: 0;
 
   @include media-breakpoint-down(md) {
     display: inline-block;

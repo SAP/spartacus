@@ -7,7 +7,10 @@
   text-align: var(--cx-text-align, center);
   color: var(--cx-color, var(--cx-color-text));
   @include type('6', 'semi');
-  padding: var(--cx-padding, 0 4rem 0 20px);
+  padding-top: 0;
+  padding-inline-end: 4rem;
+  padding-bottom: 0;
+  padding-inline-start: 20px;
   line-height: var(--cx-line-height, 1.5);
   min-height: 70px;
   flex-direction: row;

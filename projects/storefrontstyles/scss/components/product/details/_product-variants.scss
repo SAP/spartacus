@@ -1,7 +1,10 @@
 %cx-product-variants {
   .variant-section {
     @include media-breakpoint-up(lg) {
-      padding: 20px 20px 0 20px;
+      padding-top: 20px;
+      padding-inline-end: 20px;
+      padding-bottom: 0px;
+      padding-inline-start: 20px;
     }
   }
   .variant-selector {

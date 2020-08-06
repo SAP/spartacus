@@ -27,6 +27,10 @@
 
     @include media-breakpoint-only(xl) {
       padding: 0px 15px 0 0;
+      padding-top: 0;
+      padding-inline-end: 15px;
+      padding-bottom: 0;
+      padding-inline-start: 0;
     }
   }
 
