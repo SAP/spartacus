@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 import { BudgetActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
+
 import { BudgetService } from './budget.service';
 import { B2BSearchConfig } from '../model/search-config';
 import {
@@ -15,7 +15,6 @@ import {
   StateWithOrganization,
   EntitiesModel,
   Budget,
-  PROCESS_FEATURE,
 } from '@spartacus/core';
 
 const userId = 'current';
@@ -46,10 +45,6 @@ describe('BudgetService', () => {
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [

@@ -5,7 +5,6 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  PROCESS_FEATURE,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
@@ -14,7 +13,6 @@ import {
   PermissionService,
   EntitiesModel,
 } from '@spartacus/core';
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
 import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
@@ -53,10 +51,6 @@ describe('PermissionService', () => {
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [

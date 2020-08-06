@@ -4,8 +4,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
-
 import * as fromReducers from '../store/reducers/index';
 import { CostCenterActions, BudgetActions } from '../store/actions/index';
 import { CostCenterService } from './cost-center.service';
@@ -17,7 +15,6 @@ import {
   AuthService,
   StateWithOrganization,
   ORGANIZATION_FEATURE,
-  PROCESS_FEATURE,
 } from '@spartacus/core';
 
 const userId = 'current';
@@ -57,10 +54,6 @@ describe('CostCenterService', () => {
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [

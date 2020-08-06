@@ -8,7 +8,6 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  PROCESS_FEATURE,
   B2BUser,
   Permission,
   EntitiesModel,
@@ -21,7 +20,7 @@ import {
   UserGroupActions,
 } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
+
 import { B2BSearchConfig } from '../model/search-config';
 
 const userId = 'currentUserId';
@@ -87,10 +86,6 @@ describe('B2BUserService', () => {
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [

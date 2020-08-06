@@ -13,11 +13,9 @@ import {
   ListModel,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  PROCESS_FEATURE,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
 import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
@@ -107,10 +105,6 @@ describe('OrgUnitService', () => {
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [

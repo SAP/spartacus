@@ -4,19 +4,19 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { getReducers } from '../../../../../../projects/core/src/process/store/reducers';
 import {
   UserGroupActions,
   PermissionActions,
   B2BUserActions,
 } from '../store/actions/index';
+import * as fromReducers from '../store/reducers/index';
+
 import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
   UserGroupService,
-  PROCESS_FEATURE,
   UserGroup,
   B2BUser,
   Permission,
@@ -84,8 +84,10 @@ describe('UserGroupService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(ORGANIZATION_FEATURE, getReducers()),
-        StoreModule.forFeature(PROCESS_FEATURE, getReducers()),
+        StoreModule.forFeature(
+          ORGANIZATION_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
       providers: [
         UserGroupService,

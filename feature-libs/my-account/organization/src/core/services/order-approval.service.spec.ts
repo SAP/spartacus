@@ -7,13 +7,12 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  PROCESS_FEATURE,
   EntitiesModel,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
+  ProcessModule,
 } from '@spartacus/core';
-import * as fromProcessReducers from '../../../../../../projects/core/src/process/store/reducers';
 
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
@@ -55,10 +54,7 @@ describe('OrderApprovalService', () => {
           ORGANIZATION_FEATURE,
           fromReducers.getReducers()
         ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
-        ),
+        ProcessModule.forRoot(),
       ],
       providers: [
         OrderApprovalService,
