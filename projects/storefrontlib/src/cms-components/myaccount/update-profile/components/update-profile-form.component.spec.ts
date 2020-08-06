@@ -14,7 +14,7 @@ const mockUser: User = {
   customerId: 'xyz',
 };
 
-describe('UpdateProfileFormComponent', () => {
+fdescribe('UpdateProfileFormComponent', () => {
   let component: UpdateProfileFormComponent;
   let fixture: ComponentFixture<UpdateProfileFormComponent>;
   let el: DebugElement;
