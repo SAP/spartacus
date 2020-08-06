@@ -8,8 +8,6 @@
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://localhost:9002"
 
-BASE_SITE="electronics-spa"
-CURRENCY="usd"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(

@@ -13,6 +13,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniLogin',
     'skipLink',
     'formErrors',
+    'errorHandlers',
   ],
   cart: [
     'cartDetails',
