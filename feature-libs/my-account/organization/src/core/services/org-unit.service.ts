@@ -24,9 +24,9 @@ import {
   CostCenter,
   StateWithProcess,
   AuthService,
+  StateUtils,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../model/search-config';
-import { LoaderState } from 'projects/core/src/state/utils/loader';
 
 @Injectable()
 export class OrgUnitService {
@@ -84,27 +84,29 @@ export class OrgUnitService {
     });
   }
 
-  private getOrgUnit(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
+  private getOrgUnit(
+    orgUnitId: string
+  ): Observable<StateUtils.LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnit(orgUnitId));
   }
 
-  private getTreeState(): Observable<LoaderState<B2BUnitNode>> {
+  private getTreeState(): Observable<StateUtils.LoaderState<B2BUnitNode>> {
     return this.store.select(getOrgUnitTree());
   }
 
-  private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
+  private getOrgUnitsList(): Observable<StateUtils.LoaderState<B2BUnitNode[]>> {
     return this.store.select(getOrgUnitList());
   }
 
   private getAddressesState(
     orgUnitId: string
-  ): Observable<LoaderState<EntitiesModel<B2BAddress>>> {
+  ): Observable<StateUtils.LoaderState<EntitiesModel<B2BAddress>>> {
     return this.store.select(getB2BAddresses(orgUnitId, null));
   }
 
   private getAddressState(
     addressId: string
-  ): Observable<LoaderState<B2BAddress>> {
+  ): Observable<StateUtils.LoaderState<B2BAddress>> {
     return this.store.select(getB2BAddress(addressId));
   }
 
@@ -112,12 +114,12 @@ export class OrgUnitService {
     orgUnitId: string,
     roleId: string,
     params: B2BSearchConfig
-  ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
+  ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAssignedUsers(orgUnitId, roleId, params));
   }
 
   private getApprovalProcessesList(): Observable<
-    LoaderState<B2BApprovalProcess[]>
+    StateUtils.LoaderState<B2BApprovalProcess[]>
   > {
     return this.store.select(getApprovalProcesses());
   }
@@ -165,13 +167,14 @@ export class OrgUnitService {
   getTree(): Observable<B2BUnitNode> {
     return this.getTreeState().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<B2BUnitNode>) => {
+      tap((process: StateUtils.LoaderState<B2BUnitNode>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadTree();
         }
       }),
       filter(
-        (process: LoaderState<B2BUnitNode>) => process.success || process.error
+        (process: StateUtils.LoaderState<B2BUnitNode>) =>
+          process.success || process.error
       ),
       map((result) => result.value)
     );
@@ -180,13 +183,13 @@ export class OrgUnitService {
   getApprovalProcesses(): Observable<B2BApprovalProcess[]> {
     return this.getApprovalProcessesList().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<B2BApprovalProcess[]>) => {
+      tap((process: StateUtils.LoaderState<B2BApprovalProcess[]>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadApprovalProcesses();
         }
       }),
       filter(
-        (process: LoaderState<B2BApprovalProcess[]>) =>
+        (process: StateUtils.LoaderState<B2BApprovalProcess[]>) =>
           process.success || process.error
       ),
       map((result) => result.value)
@@ -196,13 +199,13 @@ export class OrgUnitService {
   getList(): Observable<B2BUnitNode[]> {
     return this.getOrgUnitsList().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<B2BUnitNode[]>) => {
+      tap((process: StateUtils.LoaderState<B2BUnitNode[]>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadList();
         }
       }),
       filter(
-        (process: LoaderState<B2BUnitNode[]>) =>
+        (process: StateUtils.LoaderState<B2BUnitNode[]>) =>
           process.success || process.error
       ),
       map((result) => result.value)
@@ -222,13 +225,13 @@ export class OrgUnitService {
   ): Observable<EntitiesModel<B2BUser>> {
     return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
+      tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadUsers(orgUnitId, roleId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<B2BUser>>) =>
+        (process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
       map((result) => result.value)
