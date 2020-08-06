@@ -81,7 +81,7 @@ export class ConfigFormComponent implements OnInit {
 
                 //Only check for uncompleted group when there are no conflicts
               } else {
-                this.configuratorGroupsService.goToFirstUncompletedGroupId(
+                this.configuratorGroupsService.goToFirstUncompletedGroup(
                   routingData.owner
                 );
               }

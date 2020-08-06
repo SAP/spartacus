@@ -287,7 +287,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    classUnderTest.goToFirstUncompletedGroupId(productConfiguration.owner);
+    classUnderTest.goToFirstUncompletedGroup(productConfiguration.owner);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.ChangeGroup({

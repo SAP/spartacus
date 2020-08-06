@@ -63,7 +63,7 @@ export class ConfiguratorGroupsService {
    *
    * @param owner - Configuration owner
    */
-  goToFirstUncompletedGroupId(owner: GenericConfigurator.Owner): void {
+  goToFirstUncompletedGroup(owner: GenericConfigurator.Owner): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))

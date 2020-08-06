@@ -116,7 +116,7 @@ class MockConfiguratorGroupsService {
   subscribeToUpdateConfiguration() {}
   setGroupStatus(): void {}
   goToConflictSolver(): void {}
-  goToFirstUncompletedGroupId(): void {}
+  goToFirstUncompletedGroup(): void {}
 }
 function checkConfigurationObs(
   routerMarbels: string,
@@ -264,7 +264,7 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configuratorGroupsService, 'goToConflictSolver').and.callThrough();
     spyOn(
       configuratorGroupsService,
-      'goToFirstUncompletedGroupId'
+      'goToFirstUncompletedGroup'
     ).and.callThrough();
     mockRouterState.state.queryParams = { resolveIssues: 'true' };
     routerStateObservable = of(mockRouterState);
@@ -277,7 +277,7 @@ describe('ConfigurationFormComponent', () => {
       1
     );
     expect(
-      configuratorGroupsService.goToFirstUncompletedGroupId
+      configuratorGroupsService.goToFirstUncompletedGroup
     ).toHaveBeenCalledTimes(0);
   });
 
@@ -285,7 +285,7 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configuratorGroupsService, 'goToConflictSolver').and.callThrough();
     spyOn(
       configuratorGroupsService,
-      'goToFirstUncompletedGroupId'
+      'goToFirstUncompletedGroup'
     ).and.callThrough();
     mockRouterState.state.queryParams = { resolveIssues: 'true' };
     routerStateObservable = of(mockRouterState);
@@ -297,7 +297,7 @@ describe('ConfigurationFormComponent', () => {
       0
     );
     expect(
-      configuratorGroupsService.goToFirstUncompletedGroupId
+      configuratorGroupsService.goToFirstUncompletedGroup
     ).toHaveBeenCalledTimes(1);
   });
 
