@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
@@ -17,7 +18,8 @@ import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-form',
-  templateUrl: './cost-center-form.component.html'
+  templateUrl: './cost-center-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterFormComponent implements OnInit, OnDestroy {
   /**
