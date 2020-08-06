@@ -27,7 +27,7 @@
         }
       }
       .cx-dialog-buttons {
-        text-align: right;
+        text-align: end;
         padding: 1rem 4rem;
         @include media-breakpoint-only(xs) {
           padding: 1rem;

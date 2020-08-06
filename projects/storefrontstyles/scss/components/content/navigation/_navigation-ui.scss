@@ -52,7 +52,7 @@
           text-transform: capitalize;
           justify-content: flex-start;
           cx-icon {
-            padding-right: 10px;
+            padding-inline-end: 10px;
           }
         }
       }
@@ -173,7 +173,7 @@
   }
   @include media-breakpoint-up(lg) {
     cx-icon {
-      padding: 0 0 0 7px;
+      padding-inline-start: 7px;
       &:before {
         font-size: 1rem;
       }
@@ -294,7 +294,7 @@
       > nav {
         > .wrapper {
           position: absolute;
-          margin-left: -10px;
+          margin-inline-start: -10px;
           border: 1px solid #ccc;
           @include hideWrapperDesktop();
         }

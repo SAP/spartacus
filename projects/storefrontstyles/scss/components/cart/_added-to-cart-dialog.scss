@@ -65,8 +65,10 @@
   .cx-dialog-actions {
     display: flex;
     flex-direction: column;
-    padding: 0 1rem 0 2.5rem;
-    border-width: 0 0 0 1px;
+    padding-inline-start: 2.5rem;
+    padding-inline-end: 1rem;
+    border-width: 0 0 0 0;
+    border-inline-start-width: 1px;
     border-style: solid;
     border-color: var(--cx-color-light);
 

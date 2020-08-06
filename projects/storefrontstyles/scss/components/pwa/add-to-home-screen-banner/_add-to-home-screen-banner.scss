@@ -21,12 +21,15 @@
         flex-direction: column;
         margin: 0 auto 0 auto;
         max-width: 280px;
-        padding: 0 20px 20px 50px;
+        padding-inline-start: 50px;
+        padding-inline-end: 20px;
+        padding-bottom: 20px;
+        padding-top: 0;
       }
 
       li {
         min-width: 35%;
-        text-align: left;
+        text-align: start;
       }
     }
   }

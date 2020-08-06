@@ -24,7 +24,7 @@ cx-form-errors {
   p {
     font-size: 14px;
     margin: 6px 0;
-    padding: 0 0 0 25px;
+    padding-inline-start: 25px;
     position: relative;
     word-break: break-word;
 
@@ -100,7 +100,7 @@ input[type='radio'] {
   border-width: 1px;
   position: absolute;
   margin-top: 0.3rem;
-  margin-left: -2.25rem;
+  margin-inline-start: -2.25rem;
 }
 
 label {
@@ -116,7 +116,7 @@ label {
 
 .form-check {
   margin-bottom: 18px;
-  padding-left: 2.25rem;
+  padding-inline-start: 2.25rem;
 
   label {
     font-weight: var(--cx-font-weight-normal);
@@ -246,6 +246,16 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
+
+    .ng-value-container {
+      padding-inline-start: 10px;
+    }
+  }
+}
+
+.ng-select {
+  .ng-arrow-wrapper {
+    padding-inline-end: 5px;
   }
 }
 

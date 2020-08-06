@@ -36,7 +36,7 @@
     }
 
     @include media-breakpoint-up(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
   }
 
@@ -57,7 +57,7 @@
     }
 
     .close {
-      padding-left: 0.7rem;
+      padding-inline-start: 0.7rem;
     }
   }
 }

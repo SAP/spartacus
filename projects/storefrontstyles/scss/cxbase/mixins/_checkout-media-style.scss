@@ -58,10 +58,10 @@
     margin-bottom: 1.25rem;
 
     @include media-breakpoint-down(md) {
-      padding-left: 3.5rem;
+      padding-inline-start: 3.5rem;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: 1.5rem;
+      padding-inline-start: 1.5rem;
     }
   }
 

@@ -1,11 +1,11 @@
 @import '../../theme';
 
 %cx-mini-cart {
-  margin-left: 0.75rem;
+  margin-inline-start: 0.75rem;
   display: block;
 
   @include media-breakpoint-up(md) {
-    margin-right: 0.85rem;
+    margin-inline-end: 0.85rem;
   }
 
   a {
@@ -44,7 +44,7 @@
       justify-content: center;
 
       .count {
-        padding-right: 0;
+        padding-inline-end: 0;
         margin-bottom: -5px;
       }
     }

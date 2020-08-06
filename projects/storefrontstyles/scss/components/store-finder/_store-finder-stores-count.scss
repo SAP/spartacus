@@ -37,7 +37,7 @@
 
   .cx-name {
     @include type('4');
-    padding-right: 0.5rem;
+    padding-inline-end: 0.5rem;
   }
 
   .cx-country-count {
@@ -52,7 +52,7 @@
   .cx-region-directory {
     column-count: 1;
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0;
     @include media-breakpoint-up(md) {
       column-count: 4;
     }
