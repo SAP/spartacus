@@ -27,7 +27,7 @@
         }}</span>
         <div class="form-check" *ngFor="let type of paymentTypes$ | async">
           <input
-            id="deliveryMode-{{ type.code }}"
+            id="paymentType-{{ type.code }}"
             class="form-check-input"
             role="radio"
             type="radio"
@@ -38,7 +38,7 @@
           />
           <label
             class="cx-payment-type-label form-check-label form-radio-label"
-            for="deliveryMode-{{ type.code }}"
+            for="paymentType-{{ type.code }}"
           >
             <div class="cx-payment-type">
               {{
