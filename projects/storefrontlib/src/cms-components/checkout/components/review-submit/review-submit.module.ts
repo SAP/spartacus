@@ -10,10 +10,11 @@ import {
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
+import { IconModule } from '../../../misc/icon/icon.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { PromotionsModule } from '../promotions/promotions.module';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { ReviewSubmitComponent } from './review-submit.component';
-import { PromotionsModule } from '../promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { PromotionsModule } from '../promotions/promotions.module';
     RouterModule,
     PromotionsModule,
     FeaturesConfigModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -22,6 +22,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CheckoutStep } from '../../model/checkout-step.model';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
@@ -32,6 +33,7 @@ import { CheckoutStepService } from '../../services/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent {
+  iconTypes = ICON_TYPE;
   checkoutStepType = CheckoutStepType;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -125,7 +127,6 @@ export class ReviewSubmitComponent {
     deliveryAddress: Address,
     countryName: string
   ): Observable<Card> {
-    console.log('DA', deliveryAddress);
     return combineLatest([
       this.translation.translate('addressCard.shipTo'),
     ]).pipe(
@@ -187,19 +188,36 @@ export class ReviewSubmitComponent {
   }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
-    console.log(paymentDetails);
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
+      this.translation.translate('paymentForm.billingAddress'),
     ]).pipe(
-      map(([textTitle, textExpires]) => {
+      map(([textTitle, textExpires, billingAddress]) => {
+        const region = paymentDetails.billingAddress?.region?.isocode
+          ? paymentDetails.billingAddress?.region?.isocode + ', '
+          : '';
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
-          text: [paymentDetails.cardNumber, textExpires],
+          text: [
+            paymentDetails.cardNumber,
+            textExpires,
+            '',
+            billingAddress + ':',
+            paymentDetails.billingAddress?.firstName +
+              ' ' +
+              paymentDetails.billingAddress?.lastName,
+            paymentDetails.billingAddress?.line1,
+            paymentDetails.billingAddress?.town +
+              ', ' +
+              region +
+              paymentDetails.billingAddress?.country?.name,
+            paymentDetails.billingAddress?.postalCode,
+          ],
         };
       })
     );

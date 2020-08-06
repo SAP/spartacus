@@ -35,12 +35,29 @@
     }
 
     .cx-review-summary-card {
+      display: flex;
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
         min-height: auto;
+      }
+
+      .cx-card-title {
+        @include type('4');
+        font-weight: bold;
+      }
+
+      .cx-review-summary-edit-step {
+        align-self: flex-start;
+        padding: 20px;
+        font-size: $h4-font-size;
+
+        a,
+        a:hover {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }
