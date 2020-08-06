@@ -6,11 +6,12 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  ORDER_APPROVAL_NORMALIZER,
+  OrderApproval,
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
-  OrderApprovalDecision,
-  OrderApproval,
+  ORDER_APPROVAL_NORMALIZER,
 } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccOrderApprovalAdapter } from './occ-order-approval.adapter';
@@ -24,7 +25,7 @@ const orderApproval: OrderApproval = {
 };
 
 const orderApprovalDecision: OrderApprovalDecision = {
-  decision: 'APPROVE',
+  decision: OrderApprovalDecisionValue.APPROVE,
   comment: 'yeah',
 };
 

@@ -15,8 +15,10 @@ export const costCenter = {
   },
 
   budget: {
-    header: 'Budgets',
+    link: 'Budgets',
+    header: 'Budgets in {{code}}',
     assign: 'Assign budgets',
+    assignHeader: 'Assign budgets in {{code}}',
     back: 'Back',
     instructions: {
       check: 'To assign a budget to this cost center, select its check box.',
@@ -26,7 +28,7 @@ export const costCenter = {
   },
 };
 
-export const costCenterAssignBudget = {
+export const costCenterAssignBudgets = {
   name: 'Name',
   code: 'Code',
   amount: 'Amount',

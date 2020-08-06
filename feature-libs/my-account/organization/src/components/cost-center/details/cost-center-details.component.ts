@@ -1,37 +1,39 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentCostCenterService],
 })
 export class CostCenterDetailsComponent {
-  protected code$: Observable<string> = this.route.params.pipe(
-    map((params) => params['code']),
-    filter((code) => Boolean(code))
-  );
-
-  costCenter$: Observable<CostCenter> = this.code$.pipe(
-    // TODO: we should do this in the facade
-    tap((code) => this.costCentersService.load(code)),
-    switchMap((code) => this.costCentersService.get(code)),
-    filter((costCenters) => Boolean(costCenters))
+  /**
+   * The model of the current cost center.
+   *
+   * It reloads the model when the code of the current cost center changes.
+   */
+  costCenter$: Observable<
+    CostCenter
+  > = this.currentCostCenterService.code$.pipe(
+    tap((code) => this.costCenterService.load(code)),
+    switchMap((code) => this.costCenterService.get(code)),
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(
-    protected route: ActivatedRoute,
-    protected costCentersService: CostCenterService,
+    protected currentCostCenterService: CurrentCostCenterService,
+    protected costCenterService: CostCenterService,
     // TODO: consider relying on css only
     protected modalService: ModalService
   ) {}
 
   update(costCenter: CostCenter) {
-    this.costCentersService.update(costCenter.code, costCenter);
+    this.costCenterService.update(costCenter.code, costCenter);
   }
 
   openModal(template: TemplateRef<any>): void {

@@ -113,8 +113,8 @@ describe('B2BUserService', () => {
   ));
 
   describe('Load B2B User', () => {
-    it('loadB2BUser() should should dispatch LoadB2BUser action', () => {
-      service.loadB2BUser(orgCustomerId);
+    it('load() should should dispatch LoadB2BUser action', () => {
+      service.load(orgCustomerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -124,8 +124,8 @@ describe('B2BUserService', () => {
   });
 
   describe('Load B2B Users', () => {
-    it('loadB2BUsers() should should dispatch LoadB2BUsers action', () => {
-      service.loadB2BUsers(params);
+    it('loadList() should should dispatch LoadB2BUsers action', () => {
+      service.loadList(params);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -244,8 +244,8 @@ describe('B2BUserService', () => {
     });
 
     describe('load B2B user approvers', () => {
-      it('loadB2BUserApprovers() should should dispatch LoadB2BUserApprovers action', () => {
-        service.loadB2BUserApprovers(orgCustomerId, params);
+      it('loadApprovers() should should dispatch LoadB2BUserApprovers action', () => {
+        service.loadApprovers(orgCustomerId, params);
 
         expect(authService.getOccUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
@@ -259,10 +259,10 @@ describe('B2BUserService', () => {
     });
 
     describe('get B2BUser approvers', () => {
-      it('getB2BUserApprovers() should be able to get approvers when not present in the store', () => {
+      it('getApprovers() should be able to get approvers when not present in the store', () => {
         let users: EntitiesModel<B2BUser>;
         service
-          .getB2BUserApprovers(orgCustomerId, params)
+          .getApprovers(orgCustomerId, params)
           .subscribe((data) => {
             users = data;
           })
@@ -279,7 +279,7 @@ describe('B2BUserService', () => {
         );
       });
 
-      it('getB2BUserApprovers() should be able to get approvers when present in the store', () => {
+      it('getApprovers() should be able to get approvers when present in the store', () => {
         store.dispatch(
           new B2BUserActions.LoadB2BUserSuccess(b2bUserList.values)
         );
@@ -296,7 +296,7 @@ describe('B2BUserService', () => {
         );
         let usersReceived: EntitiesModel<B2BUser>;
         service
-          .getB2BUserApprovers(orgCustomerId, params)
+          .getApprovers(orgCustomerId, params)
           .subscribe((data) => {
             usersReceived = data;
           })
@@ -346,8 +346,8 @@ describe('B2BUserService', () => {
     });
 
     describe('load B2B user permissions', () => {
-      it('loadB2BUserPermissions() should dispatch LoadB2BUserPermissions action', () => {
-        service.loadB2BUserPermissions(orgCustomerId, params);
+      it('loadPermissions() should dispatch LoadB2BUserPermissions action', () => {
+        service.loadPermissions(orgCustomerId, params);
         expect(authService.getOccUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserPermissions({
@@ -359,10 +359,10 @@ describe('B2BUserService', () => {
       });
     });
     describe('get B2B user permissions', () => {
-      it('getB2BUserPermissions() should be able to get permissions when not present in the store', () => {
+      it('getPermissions() should be able to get permissions when not present in the store', () => {
         let permissionsReceived: EntitiesModel<Permission>;
         service
-          .getB2BUserPermissions(orgCustomerId, params)
+          .getPermissions(orgCustomerId, params)
           .subscribe((data) => {
             permissionsReceived = data;
           })
@@ -379,7 +379,7 @@ describe('B2BUserService', () => {
         );
       });
 
-      it('getB2BUserPermissions() should be able to get permissions when present in the store', () => {
+      it('getPermissions() should be able to get permissions when present in the store', () => {
         store.dispatch(
           new PermissionActions.LoadPermissionSuccess(permissionList.values)
         );
@@ -396,7 +396,7 @@ describe('B2BUserService', () => {
         );
         let permissionsReceived: EntitiesModel<Permission>;
         service
-          .getB2BUserPermissions(orgCustomerId, params)
+          .getPermissions(orgCustomerId, params)
           .subscribe((data) => {
             permissionsReceived = data;
           })
@@ -445,8 +445,8 @@ describe('B2BUserService', () => {
   });
 
   describe('load B2B User Groups', () => {
-    it('loadB2BUserUserGroups() should should dispatch LoadB2BUserUserGroups action', () => {
-      service.loadB2BUserUserGroups(orgCustomerId, params);
+    it('loadUserGroups() should should dispatch LoadB2BUserUserGroups action', () => {
+      service.loadUserGroups(orgCustomerId, params);
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -459,10 +459,10 @@ describe('B2BUserService', () => {
   });
 
   describe('get B2BUser usergroups', () => {
-    it('getB2BUserUserGroups() should be able to get B2Buser usergroups when not present in the store', () => {
+    it('getUserGroups() should be able to get B2Buser usergroups when not present in the store', () => {
       let userGroupsReceived: EntitiesModel<UserGroup>;
       service
-        .getB2BUserUserGroups(orgCustomerId, params)
+        .getUserGroups(orgCustomerId, params)
         .subscribe((data) => {
           userGroupsReceived = data;
         })
@@ -479,7 +479,7 @@ describe('B2BUserService', () => {
       );
     });
 
-    it('getB2BUserUserGroups() should be able to get B2Buser usergroups when present in the store', () => {
+    it('getUserGroups() should be able to get B2Buser usergroups when present in the store', () => {
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess(userGroupList.values)
       );
@@ -496,7 +496,7 @@ describe('B2BUserService', () => {
       );
       let userGroups: EntitiesModel<UserGroup>;
       service
-        .getB2BUserUserGroups(orgCustomerId, params)
+        .getUserGroups(orgCustomerId, params)
         .subscribe((data) => {
           userGroups = data;
         })

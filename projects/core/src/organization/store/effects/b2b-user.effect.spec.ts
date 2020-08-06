@@ -138,7 +138,7 @@ describe('B2B User Effects', () => {
     expected = null;
   });
 
-  describe('loadB2BUser$', () => {
+  describe('load$', () => {
     it('should return LoadB2BUserSuccess action', () => {
       const action = new B2BUserActions.LoadB2BUser({ userId, orgCustomerId });
       const completion = new B2BUserActions.LoadB2BUserSuccess([orgCustomer]);
@@ -164,7 +164,7 @@ describe('B2B User Effects', () => {
     });
   });
 
-  describe('loadB2BUsers$', () => {
+  describe('loadList$', () => {
     it('should return LoadB2BUserSuccess action', () => {
       const action = new B2BUserActions.LoadB2BUsers({ userId, params });
       const completion = new B2BUserActions.LoadB2BUserSuccess([orgCustomer]);
@@ -191,7 +191,7 @@ describe('B2B User Effects', () => {
     });
   });
 
-  describe('loadB2BUserUserGroups$', () => {
+  describe('loadUserGroups$', () => {
     it('should return LoadB2BUserUserGroupsSuccess action', () => {
       const action = new B2BUserActions.LoadB2BUserUserGroups({
         userId,
@@ -310,7 +310,7 @@ describe('B2B User Effects', () => {
     });
   });
 
-  describe('loadB2BUserApprovers$', () => {
+  describe('loadApprovers$', () => {
     it('should return LoadB2BUserApproversSuccess action', () => {
       const action = new B2BUserActions.LoadB2BUserApprovers({
         userId,
@@ -360,7 +360,7 @@ describe('B2B User Effects', () => {
     });
   });
 
-  describe('loadB2BUserPermissions$', () => {
+  describe('loadPermissions$', () => {
     it('should return LoadB2BUserPermissionsSuccess action', () => {
       const action = new B2BUserActions.LoadB2BUserPermissions({
         userId,

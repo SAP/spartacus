@@ -34,13 +34,13 @@ export class OrgUnitService {
     protected authService: AuthService
   ) {}
 
-  loadOrgUnit(orgUnitId: string): void {
+  load(orgUnitId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
-  loadOrgUnitNodes(): void {
+  loadList(): void {
     this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
@@ -126,7 +126,7 @@ export class OrgUnitService {
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnit(orgUnitId);
+          this.load(orgUnitId);
         }
       }),
       filter((state) => state.success || state.error),
@@ -134,13 +134,18 @@ export class OrgUnitService {
     );
   }
 
-  getCostCenters(orgUnitId: string): Observable<CostCenter[]> {
+  getCostCenters(orgUnitId: string): Observable<EntitiesModel<CostCenter>> {
     return this.get(orgUnitId).pipe(
-      map((orgUnit) => orgUnit.costCenters ?? [])
+      map((orgUnit) => ({
+        values: orgUnit.costCenters ?? [],
+      }))
     );
   }
 
-  protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
+  protected findUnitChildrenInTree(
+    orginitId,
+    unit: B2BUnitNode
+  ): B2BUnitNode[] {
     return unit.id === orginitId
       ? unit.children
       : unit.children.flatMap((child) =>
@@ -148,9 +153,11 @@ export class OrgUnitService {
         );
   }
 
-  getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
+  getChildUnits(orgUnitId: string): Observable<EntitiesModel<B2BUnitNode>> {
     return this.getTree().pipe(
-      map((tree) => this.findUnitChildrenInTree(orgUnitId, tree))
+      map((tree) => ({
+        values: this.findUnitChildrenInTree(orgUnitId, tree),
+      }))
     );
   }
 
@@ -190,7 +197,7 @@ export class OrgUnitService {
       observeOn(queueScheduler),
       tap((process: LoaderState<B2BUnitNode[]>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitNodes();
+          this.loadList();
         }
       }),
       filter(
