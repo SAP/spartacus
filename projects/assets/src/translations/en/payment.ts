@@ -35,4 +35,9 @@ export const payment = {
     defaultPaymentMethod: 'Default Payment Method',
     selected: 'Selected',
   },
+  paymentTypes: {
+    title: 'Payment method',
+    paymentType_CARD: 'Credit Card',
+    paymentType_ACCOUNT: 'Account',
+  },
 };

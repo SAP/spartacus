@@ -3,17 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CheckoutStep, CheckoutStepType } from '../../model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
-import { CheckoutStep, CheckoutStepType } from '../../model';
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
   {
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PO_NUMBER],
+    type: [CheckoutStepType.PAYMENT_TYPE],
   },
   {
     id: 'step1',
@@ -43,6 +43,15 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Pipe({
+  name: 'cxMultiLine',
+})
+class MockMultiLinePipe implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
+
 describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
@@ -50,7 +59,11 @@ describe('CheckoutProgressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [CheckoutProgressComponent, MockTranslateUrlPipe],
+      declarations: [
+        CheckoutProgressComponent,
+        MockTranslateUrlPipe,
+        MockMultiLinePipe,
+      ],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
@@ -72,8 +85,8 @@ describe('CheckoutProgressComponent', () => {
   it('should contain steps with labels', () => {
     const steps = fixture.debugElement.query(By.css('.cx-nav')).nativeElement;
 
-    mockCheckoutSteps.forEach((step, index) => {
-      expect(steps.innerText).toContain(step.name && index + 1);
+    mockCheckoutSteps.forEach((step) => {
+      expect(steps.innerText).toContain(step.name);
     });
   });
 

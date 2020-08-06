@@ -1,29 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  ActiveCartService,
   Address,
   Cart,
-  ActiveCartService,
+  CheckoutCostCenterService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CostCenter,
   Country,
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
+  PaymentTypeService,
+  PromotionLocation,
+  PromotionResult,
   TranslationService,
   UserAddressService,
-  PromotionResult,
-  PromotionLocation,
-  PaymentTypeService,
-  CheckoutCostCenterService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap, filter } from 'rxjs/operators';
-import { CheckoutStep } from '../../model/checkout-step.model';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { CheckoutStep } from '../../model/checkout-step.model';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-review-submit',
@@ -99,13 +100,21 @@ export class ReviewSubmitComponent {
     return this.paymentTypeService.getPoNumber();
   }
 
-  get costCenterName$(): Observable<string> {
+  get paymentType$(): Observable<string> {
+    return this.paymentTypeService.getSelectedPaymentType();
+  }
+
+  get isAccountPayment$(): Observable<boolean> {
+    return this.paymentTypeService.isAccountPayment();
+  }
+
+  get costCenter$(): Observable<CostCenter> {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => Boolean(costCenters)),
       switchMap((costCenters) => {
         return this.checkoutCostCenterService.getCostCenter().pipe(
           map((code) => {
-            return costCenters.find((cc) => cc.code === code)?.name;
+            return costCenters.find((cc) => cc.code === code);
           })
         );
       })
@@ -148,6 +157,20 @@ export class ReviewSubmitComponent {
     );
   }
 
+  getCostCenterCard(costCenter: CostCenter): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutPO.costCenter'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: costCenter?.name,
+          text: ['(' + costCenter?.unit.name + ')'],
+        };
+      })
+    );
+  }
+
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutShipping.shippingMethod'),
@@ -180,16 +203,31 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPoNumberCard(poNumber: string, costCenter: string): Observable<Card> {
+  getPoNumberCard(poNumber: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutProgress.poNumber'),
-      this.translation.translate('checkoutPO.costCenter'),
+      this.translation.translate('checkoutReview.poNumber'),
+      this.translation.translate('checkoutPO.noPoNumber'),
     ]).pipe(
-      map(([textTitle, textCostCenter]) => {
+      map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber,
-          text: [costCenter ? textCostCenter + ': ' + costCenter : ''],
+          textBold: poNumber ? poNumber : noneTextTitle,
+        };
+      })
+    );
+  }
+
+  getPaymentTypeCard(paymentType: string): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutProgress.methodOfPayment'),
+      this.translation.translate('paymentTypes.paymentType', {
+        context: paymentType,
+      }),
+    ]).pipe(
+      map(([textTitle, paymentTypeTranslation]) => {
+        return {
+          title: textTitle,
+          textBold: paymentTypeTranslation,
         };
       })
     );

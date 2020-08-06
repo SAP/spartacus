@@ -4,15 +4,15 @@ import {
   ActiveCartService,
   Address,
   B2BAddress,
+  CheckoutCostCenterService,
   CheckoutDeliveryService,
+  PaymentTypeService,
   TranslationService,
   UserAddressService,
-  PaymentTypeService,
   UserCostCenterService,
-  CheckoutCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -113,23 +113,16 @@ export class ShippingAddressComponent implements OnInit {
     }
   }
 
-  selectDefaultAddress(addresses: Address[] | B2BAddress[], selected: Address) {
+  selectDefaultAddress(addresses: Address[], selected: Address) {
     if (
       !this.doneAutoSelect &&
       addresses &&
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
-      if (this.isAccountPayment) {
-        if (addresses.length === 1) {
-          selected = addresses[0];
-          this.selectAddress(selected);
-        }
-      } else {
-        selected = addresses.find((address) => address.defaultAddress);
-        if (selected) {
-          this.selectAddress(selected);
-        }
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.selectAddress(selected);
       }
       this.doneAutoSelect = true;
     }

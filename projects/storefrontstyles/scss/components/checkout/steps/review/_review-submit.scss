@@ -1,6 +1,10 @@
 @import '../../../../theme';
 
 %cx-review-submit {
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
+
   .cx-review {
     padding: 0 0 1rem;
   }

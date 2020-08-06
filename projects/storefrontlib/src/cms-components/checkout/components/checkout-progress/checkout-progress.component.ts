@@ -1,14 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
   ChangeDetectorRef,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { CheckoutStepService } from '../../services/checkout-step.service';
-import { CheckoutStep } from '../../model/checkout-step.model';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CheckoutStep } from '../../model/checkout-step.model';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-checkout-progress',

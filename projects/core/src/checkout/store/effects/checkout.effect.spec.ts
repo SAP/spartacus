@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
+  CheckoutCostCenterConnector,
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
-  CheckoutCostCenterConnector,
 } from '../../../checkout/connectors';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';

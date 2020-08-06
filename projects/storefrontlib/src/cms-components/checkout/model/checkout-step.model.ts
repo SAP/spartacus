@@ -3,7 +3,7 @@ export enum CheckoutStepType {
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
   REVIEW_ORDER = 'reviewOrder',
-  PO_NUMBER = 'poNumber',
+  PAYMENT_TYPE = 'paymentType',
 }
 
 export interface CheckoutStep {

@@ -5,14 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
   Address,
+  CheckoutCostCenterService,
   CheckoutDeliveryService,
   I18nTestingModule,
-  UserAddressService,
   PaymentTypeService,
+  UserAddressService,
   UserCostCenterService,
-  CheckoutCostCenterService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -298,19 +298,9 @@ describe('ShippingAddressComponent', () => {
 
   describe('should automatically select default shipping address when there is no current selection', () => {
     it('if payment type is credit card', () => {
-      component.isAccountPayment = false;
       component.doneAutoSelect = false;
       component.selectDefaultAddress(mockAddresses, undefined);
       expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-    });
-
-    it('if payment type is account', () => {
-      component.isAccountPayment = true;
-      component.doneAutoSelect = false;
-      component.selectDefaultAddress([{ id: 'test addrss' }], undefined);
-      expect(component.selectAddress).toHaveBeenCalledWith({
-        id: 'test addrss',
-      });
     });
   });
 

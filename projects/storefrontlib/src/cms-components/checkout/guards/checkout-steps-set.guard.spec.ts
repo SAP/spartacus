@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Order,
   Address,
-  RoutingConfigService,
-  PaymentTypeService,
   CheckoutCostCenterService,
+  Order,
+  PaymentTypeService,
+  RoutingConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { CheckoutStepService } from '../services/checkout-step.service';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
-import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStep, CheckoutStepType } from '../model';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService {
@@ -38,7 +38,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PO_NUMBER],
+    type: [CheckoutStepType.PAYMENT_TYPE],
   },
   {
     id: 'step1',
@@ -97,11 +97,14 @@ class MockPaymentTypeService {
   isAccountPayment(): Observable<boolean> {
     return isAccount;
   }
+  getSelectedPaymentType(): Observable<string> {
+    return of(null);
+  }
 }
 
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
-  let checkoutCostCenterService: CheckoutCostCenterService;
+  let paymentTypeService: PaymentTypeService;
   let checkoutDetailsService: CheckoutDetailsService;
 
   beforeEach(() => {
@@ -126,7 +129,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
-    checkoutCostCenterService = TestBed.inject(CheckoutCostCenterService);
+    paymentTypeService = TestBed.inject(PaymentTypeService);
     checkoutDetailsService = TestBed.inject(CheckoutDetailsService);
   });
 
@@ -136,7 +139,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     describe('there is no checkout data set yet', () => {
-      it('go to step1 (shipping address), should return ture (no need cost center for CARD)', (done) => {
+      it('go to step1 (shipping address), should return true (no need cost center for CARD)', (done) => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route1'] }, undefined)
           .subscribe((result) => {
@@ -301,9 +304,9 @@ describe(`CheckoutStepsSetGuard`, () => {
       });
     });
 
-    describe('step0 (cost center) data set', () => {
+    describe('step0 (payment type) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutCostCenterService, 'getCostCenter').and.returnValue(
+        spyOn(paymentTypeService, 'getSelectedPaymentType').and.returnValue(
           of('test-cost-center')
         );
       });

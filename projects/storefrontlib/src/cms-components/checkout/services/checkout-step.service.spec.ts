@@ -14,7 +14,7 @@ class MockCheckoutConfigService {
       id: 'step0',
       name: 'step 0',
       routeName: 'route0',
-      type: [CheckoutStepType.PO_NUMBER],
+      type: [CheckoutStepType.PAYMENT_TYPE],
     },
     {
       id: 'step1',
@@ -128,7 +128,7 @@ describe('CheckoutStpService', () => {
   it('should be able to reset the steps', () => {
     let steps = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PO_NUMBER, true);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     // reset
@@ -141,13 +141,13 @@ describe('CheckoutStpService', () => {
   it('should be able to disable/enable step', () => {
     let steps = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PO_NUMBER, true);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
-    service.disableEnableStep(CheckoutStepType.PO_NUMBER, false);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, false);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');

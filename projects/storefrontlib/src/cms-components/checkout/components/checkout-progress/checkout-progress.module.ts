@@ -9,13 +9,14 @@ import {
 } from '@spartacus/core';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { CheckoutStepsSetGuard } from '../../guards/checkout-steps-set.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { CheckoutProgressComponent } from './checkout-progress.component';
-import { CheckoutStepsSetGuard } from '../../guards/checkout-steps-set.guard';
+import { MultiLinePipe } from './multiline-titles.pipe';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
-  declarations: [CheckoutProgressComponent],
+  declarations: [CheckoutProgressComponent, MultiLinePipe],
   entryComponents: [CheckoutProgressComponent],
   exports: [CheckoutProgressComponent],
   providers: [

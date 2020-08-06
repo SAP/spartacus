@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
+  map,
   pluck,
   shareReplay,
+  take,
   tap,
   withLatestFrom,
-  take,
-  map,
 } from 'rxjs/operators';
-import { PaymentType, B2BPaymentTypeEnum } from '../../model/cart.model';
-import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
+import { B2BPaymentTypeEnum, PaymentType } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -43,7 +43,7 @@ export class PaymentTypeService {
           select(getProcessStateFactory(GET_PAYMENT_TYPES_PROCESS_ID))
         )
       ),
-      tap(([, loadingState]) => {
+      tap(([_, loadingState]) => {
         if (
           !(loadingState.loading || loadingState.success || loadingState.error)
         ) {

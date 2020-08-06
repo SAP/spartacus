@@ -32,9 +32,12 @@ export const checkout = {
     placeOrder: 'Place Order',
     termsAndConditions: 'Terms & Conditions',
     editPoNumber: 'Edit P.O. number',
+    editMethodOfPayment: 'Edit method of payment',
     editShippingAddress: 'Edit shipping address',
+    editCostCenter: 'Edit cost center',
     editShippingMethod: 'Edit shipping method',
     editPaymentMethod: 'Edit payment method',
+    poNumber: 'Purchase Order Number',
   },
   checkoutShipping: {
     shippingMethod: 'Shipping Method',
@@ -48,15 +51,17 @@ export const checkout = {
     },
   },
   checkoutPO: {
+    noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
+    availableLabel:
+      "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
-    paymentType: 'Payment Method:',
-    poNumber: 'P.O. NO.',
+    methodOfPayment: 'Method of Payment',
     shippingAddress: 'Shipping Address',
-    deliveryMode: 'Delivery mode',
-    paymentDetails: 'Payment details',
-    reviewOrder: 'Review order',
+    deliveryMode: 'Delivery Mode',
+    paymentDetails: 'Payment Details',
+    reviewOrder: 'Review Order',
   },
 };
