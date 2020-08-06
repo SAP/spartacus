@@ -42,7 +42,6 @@ export class PageTemplateStyleService implements OnDestroy {
    * was added before, we clean it up.
    */
   protected addStyleClass(el: HTMLElement, template: string): void {
-    console.log('add class', template);
     // clean up previous template class binding
     if (this.currentTemplate) {
       el.classList?.remove(this.currentTemplate);
