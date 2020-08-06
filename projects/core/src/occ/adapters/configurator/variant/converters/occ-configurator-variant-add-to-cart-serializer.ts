@@ -16,7 +16,8 @@ export class OccConfiguratorVariantAddToCartSerializer
     source: Configurator.AddToCartParameters,
     target?: OccConfigurator.AddToCartParameters
   ): OccConfigurator.AddToCartParameters {
-    target = {
+    const resultTarget: OccConfigurator.AddToCartParameters = {
+      ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.productCode },
@@ -24,6 +25,6 @@ export class OccConfiguratorVariantAddToCartSerializer
       configId: source.configId,
     };
 
-    return target;
+    return resultTarget;
   }
 }

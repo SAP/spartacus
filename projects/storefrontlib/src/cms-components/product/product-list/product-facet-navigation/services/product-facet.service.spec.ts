@@ -5,7 +5,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { ProductListComponentService } from '../../container/product-list-component.service';
 import { FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
@@ -15,7 +15,7 @@ class MockRoutingService {
 }
 
 class MockProductListComponentService {
-  model$;
+  model$: Observable<ProductSearchPage>;
 }
 
 describe('ProductFacetService', () => {
@@ -96,6 +96,45 @@ describe('ProductFacetService', () => {
         expect(
           result.activeFacets.find((f) => f.facetCode === 'allCategories')
         ).toBeFalsy();
+      });
+    });
+
+    describe('brand page', () => {
+      const mockBrandPage = {
+        state: {
+          context: {
+            type: PageType.CATEGORY_PAGE,
+            id: '123',
+          },
+          params: { brandCode: 'brand_123', brandName: 'BrandName' },
+        },
+      };
+
+      const mockBrandResult = {
+        currentQuery: { query: { value: 'allCategories:123' } },
+        facets: [{ name: 'facet-1' }],
+        breadcrumbs: [
+          { facetCode: 'allCategories', facetValueCode: 'brand_123' },
+          { facetCode: 'availableInStores', facetValueCode: 'StoreName' },
+          { facetCode: 'availableInStores', facetValueCode: 'StoreName2' },
+        ],
+      } as ProductSearchPage;
+
+      beforeEach(() => {
+        routingService = TestBed.inject(RoutingService);
+        spyOn(routingService, 'getRouterState').and.returnValue(
+          of(mockBrandPage as any)
+        );
+        (productListComponentService.model$ as any) = of(mockBrandResult);
+        service = TestBed.inject(ProductFacetService);
+      });
+
+      it('should return facets without brand facet', () => {
+        let result: FacetList;
+        service.facetList$
+          .subscribe((facetList) => (result = facetList))
+          .unsubscribe();
+        expect(result.activeFacets.length).toEqual(2);
       });
     });
 

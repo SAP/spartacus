@@ -4,7 +4,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
   ConfiguratorCommonsModule,
-  ConfiguratorTextfieldModule,
   ExternalRoutesModule,
   OccModule,
   PersonalizationModule,
@@ -46,7 +45,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     ProductListingPageModule,
     ExternalRoutesModule.forRoot(),
     ConfiguratorCommonsModule.forRoot(),
-    ConfiguratorTextfieldModule.forRoot(),
   ],
   exports: [MainModule, StorefrontFoundationModule],
 })

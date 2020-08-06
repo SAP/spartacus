@@ -6,6 +6,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FeaturesConfig } from '@spartacus/core';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
@@ -34,9 +35,14 @@ class TestContainerComponent {}
   template: ` any `,
 })
 class AnyComponent {}
+
+@Component({
+  template: ` any2 `,
+})
+class Any2Component {}
 @NgModule({
-  declarations: [AnyComponent],
-  entryComponents: [AnyComponent],
+  declarations: [AnyComponent, Any2Component],
+  entryComponents: [AnyComponent, Any2Component],
 })
 class AnyModule {}
 
@@ -47,7 +53,13 @@ describe('OutletService', () => {
     TestBed.configureTestingModule({
       imports: [AnyModule],
       declarations: [TestContainerComponent, OutletRefDirective],
-      providers: [OutletService],
+      providers: [
+        OutletService,
+        {
+          provide: FeaturesConfig,
+          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated since 2.1, see #8116
+        },
+      ],
     }).compileComponents();
 
     outletService = TestBed.inject(OutletService);
@@ -228,16 +240,21 @@ describe('OutletService', () => {
   describe('remove', () => {
     let componentFactoryResolver: ComponentFactoryResolver;
     let factory: ComponentFactory<any>;
+    let factory2: ComponentFactory<any>;
 
     beforeEach(() => {
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
+      factory2 = componentFactoryResolver.resolveComponentFactory(
+        Any2Component
+      );
     });
 
     it('should remove all instance of the provided value', () => {
       outletService.add(OUTLET_NAME_1, factory, OutletPosition.AFTER);
       outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
       outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory2, OutletPosition.AFTER);
       outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
 
       outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory);
@@ -248,12 +265,26 @@ describe('OutletService', () => {
       expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
         factory
       );
+      expect(
+        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
+      ).toEqual([factory2]);
 
-      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory2);
+      expect(
+        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
+      ).toEqual([]);
+    });
 
-      outletService.remove(OUTLET_NAME_2, OutletPosition.BEFORE);
+    it('should remove all templates when not provided specific value', () => {
+      outletService.add(OUTLET_NAME_1, factory, OutletPosition.BEFORE);
+      outletService.add(OUTLET_NAME_1, factory2, OutletPosition.BEFORE);
 
-      expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+      expect(
+        outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE, true)
+      ).toEqual([factory, factory2]);
+
+      outletService.remove(OUTLET_NAME_1, OutletPosition.BEFORE);
+      expect(outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE)).toEqual(
         undefined
       );
     });

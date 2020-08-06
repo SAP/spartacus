@@ -1,10 +1,19 @@
 import { Injectable, TemplateRef } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OutletService<T = TemplateRef<any>> {
+  /**
+   * @deprecated since 2.1, see #8116
+   */
+  constructor();
+  // tslint:disable-next-line: unified-signatures
+  constructor(features: FeatureConfigService);
+  constructor(protected features?: FeatureConfigService) {}
+
   private templatesRefs = new Map<string, T[]>();
   private templatesRefsBefore = new Map<string, T[]>();
   private templatesRefsAfter = new Map<string, T[]>();
@@ -111,7 +120,14 @@ export class OutletService<T = TemplateRef<any>> {
       store.delete(outlet);
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
-      existing = existing.filter((val) => val === value);
+
+      if (this.features?.isLevel('2.1')) {
+        existing = existing.filter((val) => val !== value);
+      } else {
+        // deprecated since 2.1, see #8116:
+        existing = existing.filter((val) => val === value);
+      }
+
       store.set(outlet, existing);
     }
   }

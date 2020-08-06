@@ -16,6 +16,14 @@ const selectedFlag = true;
 const requiredFlag = true;
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
+const groupKey = generalGroupName;
+const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
+const conflictHeaderGroupDescription = 'Resolve issues for options...';
+const conflictGroupName = 'Color';
+const conflictGroupPrefix = 'Conflict for ';
+const conflictExplanation =
+  'The selected value is conflicting withour selections.';
+
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
 let flatGroups: Configurator.Group[] = [];
@@ -31,11 +39,13 @@ const occImage: OccConfigurator.Image = {
 const occAttribute: OccConfigurator.Attribute = {
   name: attributeName,
   images: [occImage],
+  key: groupKey,
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
+  key: groupKey,
   domainValues: [
     { key: valueKey, images: [occImage] },
     { key: valueKey2, selected: selectedFlag },
@@ -91,7 +101,7 @@ const attributeStringWithValue: Configurator.Attribute = {
 const attributeCheckboxWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -106,7 +116,7 @@ const attributeCheckboxWOValue: Configurator.Attribute = {
 const attributeCheckboxWithValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -165,6 +175,14 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
+  groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+  attributes: [occAttributeWithValues],
+};
+
+const occConflictGroup: OccConfigurator.Group = {
+  name: conflictGroupName,
+  description: conflictExplanation,
+  groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
 };
 
@@ -178,8 +196,17 @@ class MockConverterService {
 }
 
 class MockTranslationService {
-  translate(): Observable<string> {
-    return of(generalGroupDescription);
+  translate(key: string, options: any = {}): Observable<string> {
+    switch (key) {
+      case 'configurator.group.general':
+        return of(generalGroupDescription);
+      case 'configurator.group.conflictHeader':
+        return of(conflictHeaderGroupDescription);
+      case 'configurator.group.conflictGroup':
+        return of(conflictGroupPrefix + options.attribute);
+      default:
+        return of(key);
+    }
   }
 }
 
@@ -231,7 +258,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
       configuration
     );
     expect(result.isCartEntryUpdateRequired).toBeUndefined();
-    expect(result.isCartEntryUpdatePending).toBeUndefined();
   });
 
   it('should convert subgroups', () => {
@@ -278,6 +304,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       value: '23.234',
       negativeAllowed: true,
       type: OccConfigurator.UiType.READ_ONLY,
+      key: groupKey,
     };
     occConfiguratorVariantNormalizer.convertAttribute(
       numericOccAttribute,
@@ -292,6 +319,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const numericOccAttribute: OccConfigurator.Attribute = {
       maxlength: 3,
       negativeAllowed: true,
+      key: groupKey,
     };
     occConfiguratorVariantNormalizer.convertAttribute(
       numericOccAttribute,
@@ -304,6 +332,27 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a standard group', () => {
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(groups[0].description).toBe(groupDescription);
+  });
+
+  it('should convert a standard group and conflict group but not conflict-header group and sub-item-group', () => {
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(1);
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
+    group.groupType = OccConfigurator.GroupType.INSTANCE;
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(2);
+    occConflictGroup.groupType = OccConfigurator.GroupType.CONFLICT_HEADER;
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
   });
 
   it('should convert a group with no attributes', () => {
@@ -337,8 +386,34 @@ describe('OccConfiguratorVariantNormalizer', () => {
       name: generalGroupName,
     };
 
-    occConfiguratorVariantNormalizer.setGeneralDescription(generalGroup);
+    occConfiguratorVariantNormalizer.setGroupDescription(generalGroup);
     expect(generalGroup.description).toBe(generalGroupDescription);
+  });
+
+  it('should set description for conflict header group', () => {
+    const conflictHeaderGroup: Configurator.Group = {
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      name: conflictHeaderGroupName,
+    };
+
+    occConfiguratorVariantNormalizer.setGroupDescription(conflictHeaderGroup);
+    expect(conflictHeaderGroup.description).toBe(
+      conflictHeaderGroupDescription
+    );
+  });
+
+  it('should set description for conflict group and should store conflict explanation in group.name', () => {
+    const conflictGroup: Configurator.Group = {
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      name: conflictGroupName,
+      description: conflictExplanation,
+    };
+
+    occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
+    expect(conflictGroup.description).toBe(
+      conflictGroupPrefix + conflictGroupName
+    );
+    expect(conflictGroup.name).toBe(conflictExplanation);
   });
 
   it('should set selectedSingleValue', () => {
@@ -402,7 +477,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.CHECK_BOX_LIST
       )
-    ).toBe(Configurator.UiType.CHECKBOX);
+    ).toBe(Configurator.UiType.CHECKBOXLIST);
   });
 
   it('should return UIType Checkbox for Checkbox occ configurator type', () => {
@@ -411,6 +486,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
       )
     ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
+  });
+
+  it('should return UIType String for String occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.STRING
+      )
+    ).toBe(Configurator.UiType.STRING);
+  });
+
+  it('should return UIType checkox for checkbox occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.CHECK_BOX
+      )
+    ).toBe(Configurator.UiType.CHECKBOX);
+  });
+
+  it('should return UIType multi selection image for corresponding occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.MULTI_SELECTION_IMAGE
+      )
+    ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
   });
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
@@ -427,6 +526,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.GroupType.CSTIC_GROUP
       )
     ).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT_HEADER
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_HEADER_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_GROUP);
 
     expect(
       occConfiguratorVariantNormalizer.convertGroupType(

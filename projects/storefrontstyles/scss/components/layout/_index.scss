@@ -2,6 +2,7 @@
 @import './storefront';
 @import './header/index';
 @import './skip-link';
+@import './split-view';
 
 $layout-components-whitelist: cx-storefront, header, cx-site-context-selector,
-  cx-skip-link !default;
+  cx-skip-link, cx-split-view !default;

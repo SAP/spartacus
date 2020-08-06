@@ -29,7 +29,6 @@ class MockRoutingService {
 
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfigRouterExtractorService;
-  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -46,7 +45,6 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest = TestBed.inject(
       ConfigRouterExtractorService as Type<ConfigRouterExtractorService>
     );
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
 
     mockRouterState = {
       state: {
@@ -67,7 +65,7 @@ describe('ConfigRouterExtractorService', () => {
     it('should find proper owner for route based purely on product code', () => {
       let owner: GenericConfigurator.Owner;
       serviceUnderTest
-        .extractRouterData(routingService)
+        .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(PRODUCT_CODE);
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
@@ -83,7 +81,7 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
       serviceUnderTest
-        .extractRouterData(routingService)
+        .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(PRODUCT_CODE);
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
@@ -99,7 +97,7 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
       serviceUnderTest
-        .extractRouterData(routingService)
+        .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(CART_ENTRY_NUMBER);
       expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
@@ -111,7 +109,7 @@ describe('ConfigRouterExtractorService', () => {
     it('should determine configurator and page type from router state ', () => {
       let routerData: ConfigurationRouter.Data;
       serviceUnderTest
-        .extractRouterData(routingService)
+        .extractRouterData()
         .subscribe((data) => (routerData = data));
       expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(false);
@@ -127,11 +125,24 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.url = OVERVIEW_URL;
       let routerData: ConfigurationRouter.Data;
       serviceUnderTest
-        .extractRouterData(routingService)
-        .subscribe((data) => (routerData = data));
+        .extractRouterData()
+        .subscribe((data) => (routerData = data))
+        .unsubscribe();
       expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(true);
       expect(routerData.pageType).toBe(ConfigurationRouter.PageType.OVERVIEW);
+      expect(routerData.forceReload).toBe(false);
+    });
+
+    it('should tell from the URL if we need to enforce a reload of a configuration', () => {
+      mockRouterState.state.queryParams = { forceReload: 'true' };
+      let routerData: ConfigurationRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => (routerData = data))
+        .unsubscribe();
+
+      expect(routerData.forceReload).toBe(true);
     });
   });
 
@@ -140,7 +151,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -151,7 +162,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -159,11 +170,11 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.ownerType =
         GenericConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-      mockRouterState.state.queryParams = { forceReload: 'true' };
+
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(true);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
     });
   });

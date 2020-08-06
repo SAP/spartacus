@@ -16,7 +16,8 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccConfigurator.UpdateConfigurationForCartEntryParameters {
-    target = {
+    const resultTarget: OccConfigurator.UpdateConfigurationForCartEntryParameters = {
+      ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.configuration.productCode },
@@ -25,6 +26,6 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
       configurationInfos: [{ configuratorType: 'CPQCONFIGURATOR' }],
     };
 
-    return target;
+    return resultTarget;
   }
 }

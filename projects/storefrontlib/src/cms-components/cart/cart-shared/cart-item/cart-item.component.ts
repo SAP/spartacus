@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export interface Item {
   entryNumber?: any;
@@ -11,6 +12,8 @@ export interface Item {
   basePrice?: any;
   totalPrice?: any;
   updateable?: boolean;
+  statusSummaryList?: any[];
+  configurationInfos?: any[];
 }
 
 export interface CartItemComponentOptions {
@@ -39,6 +42,7 @@ export class CartItemComponent implements OnInit {
   };
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
+  iconTypes = ICON_TYPE;
 
   constructor(protected promotionService: PromotionService) {}
 
@@ -65,5 +69,17 @@ export class CartItemComponent implements OnInit {
 
   viewItem() {
     this.view.emit();
+  }
+
+  /**
+   * Verifies whether the configuration infos has any entries and the entry has any status.
+   *
+   * @returns {boolean} - whether the status of configuration infos entry has status
+   */
+  hasStatus(): boolean {
+    return (
+      this.item.configurationInfos?.length > 0 &&
+      this.item.configurationInfos[0]?.status !== 'NONE'
+    );
   }
 }

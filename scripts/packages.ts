@@ -56,6 +56,7 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'projects', 'schematics', 'package.json'),
   path.join(__dirname, '..', 'projects', 'cds', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'my-account', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'product', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of

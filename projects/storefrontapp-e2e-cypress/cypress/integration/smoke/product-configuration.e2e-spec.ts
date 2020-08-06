@@ -50,32 +50,32 @@ const TITAN = 'TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
 
-function goToConfigPage(configurator, testProduct) {
+function goToConfigPage(configuratorType, product) {
   cy.visit(
-    `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
+    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
   ).then(() => {
     configuration.isConfigPageDisplayed();
   });
 }
 
-function goToConfigOverviewPage(configurator, testProduct) {
+function goToConfigOverviewPage(configuratorType, product) {
   cy.visit(
-    `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
+    `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${product}`
   ).then(() => {
+    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
     configurationOverview.isConfigOverviewPageDisplayed();
   });
 }
 
-function goToPDPage(testProduct) {
-  cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`).then(
-    () => {
-      cy.get('.ProductDetailsPageTemplate').should('be.visible');
-    }
-  );
+function goToPDPage(product) {
+  cy.visit(`electronics-spa/en/USD/product/${product}/${product}`).then(() => {
+    cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  });
 }
 
 function goToCart() {
   cy.visit('/electronics-spa/en/USD/cart').then(() => {
+    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
 }
@@ -102,12 +102,13 @@ context('Product Configuration', () => {
       configuration.isConfigPageDisplayed();
     });
 
+    // Failing test
     it('should be able to navigate from the cart', () => {
       goToConfigPage(configurator, testProduct);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
-      configuration.clickOnConfigureCartEntryBtn();
+      configuration.clickOnEditConfigurationLink();
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -115,7 +116,7 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      configuration.clickOnConfigureCartEntryBtn();
+      configuration.clickOnEditConfigurationLink();
     });
   });
 
@@ -132,10 +133,10 @@ context('Product Configuration', () => {
     it('Checkboxes should be still selected after group change', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnPreviousBtn('Basics');
+      configuration.clickOnNextBtn('Specification');
       configuration.isCheckboxSelected(CAMERA_SD_CARD, SDHC);
     });
   });
@@ -153,7 +154,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Specification, is that Basics status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconNotDisplayed(SPECIFICATION);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -161,7 +162,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Display, is that Specification status changes to Error
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Display');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
       configuration.isStatusIconNotDisplayed(DISPLAY);
@@ -170,7 +171,7 @@ context('Product Configuration', () => {
 
       // complete group Display, navigate back, is status changes to Complete
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Specification');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
       configuration.isStatusIconDisplayed(DISPLAY, COMPLETE);
@@ -198,63 +199,106 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
 
       // navigate to video system subgroup, no status initially
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Projector');
       configuration.isStatusIconNotDisplayed(PROJECTOR);
       configuration.isStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate to flat-panel TV, group projector should be completed
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Flat-panel TV');
       configuration.isStatusIconDisplayed(PROJECTOR, COMPLETE);
       configuration.isStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate back to group projector, status should be completed
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Projector');
       configuration.isStatusIconDisplayed(PROJECTOR, COMPLETE);
       configuration.isStatusIconDisplayed(FLAT_PANEL, COMPLETE);
 
       // navigate back to General, check completed status
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('General');
       configuration.isStatusIconDisplayed(GENERAL, COMPLETE);
       configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
 
       // navigate to Audio System subgroup, is no status is displayed initially
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Projector');
+      configuration.clickOnNextBtn('Flat-panel TV');
+      configuration.clickOnNextBtn('Front Speakers');
       configuration.isStatusIconNotDisplayed(FRONT_SPEAKERS);
       configuration.isStatusIconNotDisplayed(CENTER_SPEAKER);
       configuration.isStatusIconNotDisplayed(REAR_SPEAKER);
       configuration.isStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate to Center Speaker
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Center Speaker');
       configuration.isStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
 
       // navigate back to Front Speaker, check completed status
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Front Speakers');
       configuration.isStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
       configuration.isStatusIconDisplayed(CENTER_SPEAKER, COMPLETE);
       configuration.isStatusIconNotDisplayed(REAR_SPEAKER);
       configuration.isStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate back to General group, is that Audio system is not fully completed
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnPreviousBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnPreviousBtn('Flat-panel TV');
+      configuration.clickOnPreviousBtn('Projector');
+      configuration.clickOnPreviousBtn('General');
 
       configuration.isStatusIconDisplayed(GENERAL, COMPLETE);
       configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
       configuration.isStatusIconNotDisplayed(AUDIO_SYSTEM);
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
     });
+
+    it('should keep group status information when adding product to the cart', () => {
+      goToConfigPage(configurator, testProduct);
+      configuration.isGroupMenuDisplayed();
+
+      //is that no status is displayed initially
+      configuration.isStatusIconNotDisplayed(BASICS);
+      configuration.isStatusIconNotDisplayed(SPECIFICATION);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      // navigate to Specification, is that Basics status changes to Error
+      configuration.clickOnNextBtn('Specification');
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconNotDisplayed(SPECIFICATION);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      // navigate to Display, is that Specification status changes to Error
+      configuration.clickOnNextBtn('Display');
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      configuration.clickAddToCartBtn();
+      configurationOverview.continueToCart();
+
+      //We assume only one product is in the cart
+      configuration.clickOnEditConfigurationLink();
+
+      configuration.isGroupMenuDisplayed();
+
+      //The group status information should be still available for the cart configuration
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.isStatusIconDisplayed(DISPLAY, ERROR);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+    });
   });
 
   describe('Group handling', () => {
     it('should navigate between groups', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnNextBtn('Specification');
+      configuration.clickOnNextBtn('Display');
+      configuration.clickOnPreviousBtn('Specification');
     });
 
     it('should check if group buttons are clickable', () => {
@@ -262,11 +306,11 @@ context('Product Configuration', () => {
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
       configuration.isPreviousBtnEnabled();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Display');
+      configuration.clickOnNextBtn('Lens');
+      configuration.clickOnNextBtn('Options');
       configuration.isNextBtnDisabled();
     });
 
@@ -303,9 +347,9 @@ context('Product Configuration', () => {
 
     it('should navigate using the previous and next button for multi level product', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.clickOnNextBtn();
-      configuration.clickOnNextBtn();
-      configuration.clickOnPreviousBtn();
+      configuration.clickOnNextBtn('Projector');
+      configuration.clickOnNextBtn('Flat-panel TV');
+      configuration.clickOnPreviousBtn('Projector');
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {
@@ -322,6 +366,9 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configuration.checkout();
+      configuration.navigateToOrderDetails();
+      configuration.goToOrderHistory();
+      configuration.selectOrderByOrderNumberAlias();
     });
   });
 });

@@ -3,13 +3,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import {
-  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '../../model/index';
 import {
-  ANONYMOUS_CONSENTS_STORE_FEATURE,
   AnonymousConsentsActions,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -39,12 +39,12 @@ const mockAnonymousConsents: AnonymousConsent[] = [
   {
     templateCode: mockTemplateId,
     consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-    version: 0,
+    templateVersion: 0,
   },
   {
     templateCode: 'STORE_USER_INFO',
     consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
-    version: 0,
+    templateVersion: 0,
   },
 ];
 
@@ -219,7 +219,7 @@ describe('AnonymousConsentsService', () => {
       it('should call getAnonymousConsentByTemplateCode selector', () => {
         spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
         spyOn(service, 'getTemplates').and.returnValue(
-          of(mockAnonymousConsents)
+          of(mockConsentTemplates)
         );
         store.dispatch(
           new AnonymousConsentsActions.SetAnonymousConsents(
@@ -480,14 +480,14 @@ describe('AnonymousConsentsService', () => {
         {
           consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           templateCode: 'a',
-          version: 0,
+          templateVersion: 0,
         },
       ];
       const previousConsents: AnonymousConsent[] = [
         {
           consentState: null,
           templateCode: 'b',
-          version: 1,
+          templateVersion: 1,
         },
       ];
 
@@ -499,7 +499,7 @@ describe('AnonymousConsentsService', () => {
         {
           consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           templateCode: 'a',
-          version: 0,
+          templateVersion: 0,
         },
       ];
       const previousConsents: AnonymousConsent[] = [...newConsents];

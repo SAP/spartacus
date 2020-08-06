@@ -19,7 +19,8 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    target = {
+    const resultTarget: Configurator.Configuration = {
+      ...target,
       configId: source.configId,
       complete: source.complete,
       productCode: source.rootProduct,
@@ -28,9 +29,9 @@ export class OccConfiguratorVariantNormalizer
     };
 
     source.groups.forEach((group) =>
-      this.convertGroup(group, target.groups, target.flatGroups)
+      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
     );
-    return target;
+    return resultTarget;
   }
 
   convertGroup(
@@ -55,7 +56,7 @@ export class OccConfiguratorVariantNormalizer
       subGroups: [],
     };
 
-    this.setGeneralDescription(group);
+    this.setGroupDescription(group);
 
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) =>
@@ -63,11 +64,18 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
-    if (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP) {
+    if (
+      group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
+      group.groupType === Configurator.GroupType.CONFLICT_GROUP
+    ) {
       flatGroupList.push(group);
     }
 
     groupList.push(group);
+  }
+
+  getGroupId(key: string, name: string): string {
+    return key.replace('@' + name, '');
   }
 
   convertAttribute(
@@ -80,6 +88,7 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
+      groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
         sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -88,6 +97,7 @@ export class OccConfiguratorVariantNormalizer
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: null,
       images: [],
+      hasConflicts: sourceAttribute?.conflicts?.length > 0 ? true : false,
     };
 
     if (sourceAttribute.images) {
@@ -187,6 +197,10 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.CHECK_BOX: {
         uiType = Configurator.UiType.CHECKBOX;
         break;
       }
@@ -213,17 +227,44 @@ export class OccConfiguratorVariantNormalizer
         return Configurator.GroupType.ATTRIBUTE_GROUP;
       case OccConfigurator.GroupType.INSTANCE:
         return Configurator.GroupType.SUB_ITEM_GROUP;
+      case OccConfigurator.GroupType.CONFLICT_HEADER:
+        return Configurator.GroupType.CONFLICT_HEADER_GROUP;
+      case OccConfigurator.GroupType.CONFLICT:
+        return Configurator.GroupType.CONFLICT_GROUP;
     }
   }
 
-  setGeneralDescription(group: Configurator.Group): void {
-    if (group.name !== '_GEN') {
-      return;
+  setGroupDescription(group: Configurator.Group): void {
+    switch (group.groupType) {
+      case Configurator.GroupType.CONFLICT_HEADER_GROUP:
+        this.translation
+          .translate('configurator.group.conflictHeader')
+          .pipe(take(1))
+          .subscribe(
+            (conflictHeaderText) => (group.description = conflictHeaderText)
+          );
+        break;
+      case Configurator.GroupType.CONFLICT_GROUP:
+        const conflictDescription = group.description;
+        this.translation
+          .translate('configurator.group.conflictGroup', {
+            attribute: group.name,
+          })
+          .pipe(take(1))
+          .subscribe(
+            (conflictGroupText) => (group.description = conflictGroupText)
+          );
+        group.name = conflictDescription;
+        break;
+      default:
+        if (group.name !== '_GEN') {
+          return;
+        }
+        this.translation
+          .translate('configurator.group.general')
+          .pipe(take(1))
+          .subscribe((generalText) => (group.description = generalText));
     }
-    this.translation
-      .translate('configurator.group.general')
-      .pipe(take(1))
-      .subscribe((generalText) => (group.description = generalText));
   }
 
   convertImageType(
@@ -269,6 +310,7 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
 
+      case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =

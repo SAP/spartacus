@@ -12,6 +12,15 @@ describe('Routing selectors', () => {
     });
   });
 
+  describe('getSemanticRoute', () => {
+    it('should return the cxRoute', () => {
+      const semanticRoute = 'search';
+      const mockState = { router: { router: { state: { semanticRoute } } } };
+      const result = RoutingSelector.getSemanticRoute(mockState);
+      expect(result).toEqual(semanticRoute);
+    });
+  });
+
   describe('getRouterState;', () => {
     it('should return the next page context', () => {
       const { initialState } = fromReducer;

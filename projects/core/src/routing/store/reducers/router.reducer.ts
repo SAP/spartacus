@@ -21,6 +21,7 @@ export const initialState: RouterState = {
       id: '',
     },
     cmsRequired: false,
+    semanticRoute: '',
   },
   nextState: undefined,
 };
@@ -88,9 +89,13 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
+    let semanticRoute: string;
 
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
+      if (state.data.routeName) {
+        semanticRoute = state.data.routeName;
+      }
 
       // we use context information embedded in Cms driven routes from any parent route
       if (state.data && state.data.cxCmsRouteContext) {
@@ -122,10 +127,13 @@ export class CustomSerializer
     } else {
       if (params['productCode']) {
         context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+        semanticRoute = 'product';
       } else if (params['categoryCode']) {
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+        semanticRoute = 'category';
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+        semanticRoute = 'brand';
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
@@ -145,6 +153,13 @@ export class CustomSerializer
       }
     }
 
-    return { url, queryParams, params, context, cmsRequired };
+    return {
+      url,
+      queryParams,
+      params,
+      context,
+      cmsRequired,
+      semanticRoute,
+    };
   }
 }

@@ -128,6 +128,7 @@ describe('Router Reducer', () => {
               id: '',
             },
             cmsRequired: false,
+            semanticRoute: '',
           },
         };
         const action = {
@@ -179,6 +180,7 @@ describe('Router Reducer', () => {
       params: {},
       context: { id: 'homepage', type: PageType.CONTENT_PAGE },
       cmsRequired: false,
+      semanticRoute: undefined,
     });
 
     await zone.run(() => router.navigateByUrl('category/1234'));
@@ -188,6 +190,7 @@ describe('Router Reducer', () => {
       params: { categoryCode: '1234' },
       context: { id: '1234', type: PageType.CATEGORY_PAGE },
       cmsRequired: false,
+      semanticRoute: 'category',
     });
 
     await zone.run(() => router.navigateByUrl('product/1234'));
@@ -197,6 +200,7 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false,
+      semanticRoute: 'product',
     });
   });
 

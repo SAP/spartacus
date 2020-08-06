@@ -59,12 +59,14 @@ export namespace OccConfigurator {
     domainValues?: Value[];
     required?: boolean;
     value?: string;
+    key?: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];
     typeLength?: number;
     numberScale?: number;
     negativeAllowed?: boolean;
+    conflicts?: string[];
   }
 
   export interface Value {
@@ -106,6 +108,7 @@ export namespace OccConfigurator {
     id: string;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
+    productCode?: string;
   }
 
   export interface GroupOverview {
@@ -130,6 +133,8 @@ export namespace OccConfigurator {
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
     INSTANCE = 'INSTANCE',
+    CONFLICT_HEADER = 'CONFLICT_HEADER',
+    CONFLICT = 'CONFLICT',
   }
 
   export enum UiType {

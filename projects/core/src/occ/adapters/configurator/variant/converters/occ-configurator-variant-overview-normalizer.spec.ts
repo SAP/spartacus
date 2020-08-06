@@ -11,6 +11,7 @@ const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupDescription = 'The Group Name';
 const configId = '1234-4568';
+const PRODUCT_CODE = 'PRODUCT';
 
 class MockTranslationService {
   translate(): Observable<string> {
@@ -21,6 +22,7 @@ class MockTranslationService {
 const convertedOverview: Configurator.Overview = {
   configId: configId,
   priceSummary: {},
+  productCode: PRODUCT_CODE,
   groups: [
     {
       id: '1',
@@ -89,6 +91,7 @@ const generalGroup: OccConfigurator.GroupOverview = {
 const overview: OccConfigurator.Overview = {
   id: configId,
   pricing: {},
+  productCode: PRODUCT_CODE,
   groups: [
     group1,
     {

@@ -18,10 +18,14 @@
       min-height: 70px;
       flex-direction: row;
       align-items: center;
-      display: flex;
+      display: none;
       justify-content: center;
       background-color: mix(#ffffff, theme-color('info'), 80%);
       padding: $alert-padding-y;
+
+      &.visible {
+        display: flex;
+      }
 
       %cx-spinner {
         margin-right: 20px;

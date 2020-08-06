@@ -10,5 +10,6 @@ export namespace ConfigurationRouter {
     configuratorType?: string;
     owner?: GenericConfigurator.Owner;
     displayOnly?: boolean;
+    forceReload?: boolean;
   }
 }

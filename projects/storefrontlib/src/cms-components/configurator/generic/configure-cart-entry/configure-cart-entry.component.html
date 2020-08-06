@@ -11,7 +11,7 @@
       } | cxUrl
     "
     [queryParams]="{ forceReload: true }"
-    class=""
+    (click)="closeActiveModal()"
     cxAutoFocus
   >
     <ng-container *ngIf="readOnly">
@@ -19,8 +19,12 @@
         'configurator.header.displayConfiguration' | cxTranslate
       }}</ng-container
     >
-    <ng-container *ngIf="!readOnly">
-      {{ 'configurator.header.editConfiguration' | cxTranslate }}</ng-container
-    >
+    <ng-container *ngIf="!readOnly && !msgBanner">
+      {{ 'configurator.header.editConfiguration' | cxTranslate }}
+    </ng-container>
+
+    <ng-container *ngIf="!readOnly && msgBanner">
+      {{ 'configurator.header.resolveIssues' | cxTranslate }}
+    </ng-container>
   </a>
 </ng-container>

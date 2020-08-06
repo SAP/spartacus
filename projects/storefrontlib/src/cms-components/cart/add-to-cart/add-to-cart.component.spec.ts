@@ -41,6 +41,9 @@ class MockActiveCartService {
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
+  getLastEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
   isStable(): Observable<boolean> {
     return of();
   }
@@ -74,7 +77,10 @@ describe('AddToCartComponent', () => {
   let el: DebugElement;
 
   let modalInstance: any;
-  const mockCartEntry: OrderEntry = { entryNumber: 7 };
+  const mockCartEntry: OrderEntry = {
+    entryNumber: 7,
+    product: { configurable: false },
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
   ConfiguratorGroupsService,
   GenericConfigurator,
@@ -10,7 +11,10 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ConfigUtilsService {
-  constructor(private configuratorGroupsService: ConfiguratorGroupsService) {}
+  constructor(
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    @Inject(PLATFORM_ID) protected platformId: any
+  ) {}
 
   isCartEntryOrGroupVisited(
     owner: GenericConfigurator.Owner,
@@ -25,5 +29,17 @@ export class ConfigUtilsService {
         return false;
       })
     );
+  }
+
+  scrollToConfigurationElement(selectors: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // we don't want to run this logic when doing SSR
+      const theElement = document.querySelector(selectors);
+      let topOffset = 0;
+      if (theElement instanceof HTMLElement) {
+        topOffset = theElement.offsetTop;
+      }
+      window.scroll(0, topOffset);
+    }
   }
 }

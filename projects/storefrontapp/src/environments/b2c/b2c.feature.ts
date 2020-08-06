@@ -38,7 +38,7 @@ export const b2cFeature: FeatureEnvironment = {
         fallbackLang: 'en',
       },
       features: {
-        level: '2.0',
+        level: '2.1',
       },
       cart: {
         selectiveCart: {

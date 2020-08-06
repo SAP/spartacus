@@ -13,15 +13,18 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
-    target = {
+    const resultTarget: OccConfigurator.Configuration = {
+      ...target,
       configId: source.configId,
       complete: source.complete,
       groups: [],
     };
 
-    source.groups.forEach((group) => this.convertGroup(group, target.groups));
+    source.groups.forEach((group) =>
+      this.convertGroup(group, resultTarget.groups)
+    );
 
-    return target;
+    return resultTarget;
   }
 
   convertGroup(source: Configurator.Group, occGroups: OccConfigurator.Group[]) {
@@ -70,6 +73,7 @@ export class OccConfiguratorVariantSerializer
     } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
       targetAttribute.formattedValue = attribute.userInput;
     } else if (
+      attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
@@ -111,6 +115,10 @@ export class OccConfiguratorVariantSerializer
         break;
       }
       case Configurator.UiType.CHECKBOX: {
+        uiType = OccConfigurator.UiType.CHECK_BOX;
+        break;
+      }
+      case Configurator.UiType.CHECKBOXLIST: {
         uiType = OccConfigurator.UiType.CHECK_BOX_LIST;
         break;
       }

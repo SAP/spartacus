@@ -12,6 +12,7 @@ export namespace Configurator {
     dataType?: string;
     quantity?: number;
     values?: Value[];
+    groupId?: string;
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;
@@ -20,6 +21,7 @@ export namespace Configurator {
     numDecimalPlaces?: number;
     numTotalLength?: number;
     negativeAllowed?: boolean;
+    hasConflicts?: boolean;
   }
 
   export interface Value {
@@ -57,7 +59,6 @@ export namespace Configurator {
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    isCartEntryUpdatePending?: boolean;
     interactionState?: InteractionState;
   }
 
@@ -76,12 +77,13 @@ export namespace Configurator {
     configId?: string;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
+    productCode?: string;
   }
 
   export interface GroupOverview {
     id: string;
-    groupDescription: string;
-    attributes: AttributeOverview[];
+    groupDescription?: string;
+    attributes?: AttributeOverview[];
   }
 
   export interface AttributeOverview {
@@ -134,12 +136,15 @@ export namespace Configurator {
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
     SUB_ITEM_GROUP = 'SubItemGroup',
+    CONFLICT_HEADER_GROUP = 'ConflictHeaderGroup',
+    CONFLICT_GROUP = 'ConflictGroup',
   }
 
   export enum UiType {
     NOT_IMPLEMENTED = 'not_implemented',
     RADIOBUTTON = 'radioGroup',
-    CHECKBOX = 'checkBoxList',
+    CHECKBOX = 'checkBox',
+    CHECKBOXLIST = 'checkBoxList',
     DROPDOWN = 'dropdown',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',

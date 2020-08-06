@@ -12,7 +12,7 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
@@ -598,11 +598,11 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect updateCartEntry', () => {
-    it('should emit AddToCartSuccess on updateCartEntry in case no changes are pending', () => {
+    it('should emit updateCartEntrySuccess on updateCartEntry in case no changes are pending', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
       );
-      const cartAddEntrySuccess = new CartActions.CartUpdateEntrySuccess({
+      const cartUpdateEntrySuccess = new CartActions.CartUpdateEntrySuccess({
         ...cartModification,
         userId: userId,
         cartId: cartId,
@@ -610,14 +610,9 @@ describe('ConfiguratorEffect', () => {
         quantity: cartModification.quantity,
       });
 
-      const updateCartEntrySuccess = new ConfiguratorActions.UpdateCartEntrySuccess(
-        productConfiguration
-      );
-
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(de)', {
-        d: cartAddEntrySuccess,
-        e: updateCartEntrySuccess,
+      const expected = cold('-d)', {
+        d: cartUpdateEntrySuccess,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
     });

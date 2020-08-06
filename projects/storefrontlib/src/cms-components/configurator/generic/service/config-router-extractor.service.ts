@@ -14,12 +14,13 @@ import { ConfigurationRouter } from './config-router-data';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
-  constructor(private configUtilsService: GenericConfigUtilsService) {}
+  constructor(
+    private configUtilsService: GenericConfigUtilsService,
+    private routingService: RoutingService
+  ) {}
 
-  extractRouterData(
-    routingService: RoutingService
-  ): Observable<ConfigurationRouter.Data> {
-    return routingService.getRouterState().pipe(
+  extractRouterData(): Observable<ConfigurationRouter.Data> {
+    return this.routingService.getRouterState().pipe(
       filter((routingData) => routingData.state.params.entityKey),
       //we don't need to cover the intermediate router states where a future route is already known.
       //only changes to the URL are relevant. Otherwise we get wrong hits where e.g. the config form fires although
@@ -36,6 +37,7 @@ export class ConfigRouterExtractorService {
             routingData.state.url
           ),
           displayOnly: routingData.state.params.displayOnly,
+          forceReload: routingData.state?.queryParams?.forceReload === 'true',
           pageType: routingData.state.url.includes('configureOverview')
             ? ConfigurationRouter.PageType.OVERVIEW
             : ConfigurationRouter.PageType.CONFIGURATION,
@@ -49,15 +51,13 @@ export class ConfigRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): GenericConfigurator.Owner {
-    const owner: GenericConfigurator.Owner = { hasObsoleteState: false };
+    const owner: GenericConfigurator.Owner = {};
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
       owner.type = params.ownerType;
 
       owner.id = entityKey;
-      owner.hasObsoleteState =
-        routerState.state?.queryParams?.forceReload === 'true';
     } else {
       owner.type = GenericConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;

@@ -1,2 +1,2 @@
-import * as ConfiguratorActions from './configurator.action';
+import * as ConfiguratorActions from './configurator-group.actions';
 export { ConfiguratorActions };

@@ -1431,6 +1431,54 @@ export namespace Occ {
      * @member {boolean} [updateable]
      */
     updateable?: boolean;
+    /**
+     * @member {StatusSummary[]} [statusSummaryList]
+     */
+    statusSummaryList?: StatusSummary[];
+    /**
+     * @member {ConfigurationInfo[]} [configurationInfos]
+     */
+    configurationInfos?: ConfigurationInfo[];
+  }
+
+  /**
+   *
+   * An interface representing ConfigurationInfo.
+   * Provides information about configuration values of the entry.
+   */
+  export interface ConfigurationInfo {
+    /**
+     * @member {string} [configurationLabel]
+     */
+    configurationLabel?: string;
+    /**
+     * @member {string} [configurationValue]
+     */
+    configurationValue?: string;
+    /**
+     * @member {string} [configuratorType]
+     */
+    configuratorType?: string;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
+  }
+
+  /**
+   *
+   * An interface representing StatusSummary.
+   * Provides status including number of issues for configurable entry.
+   */
+  export interface StatusSummary {
+    /**
+     * @member {number} [numberOfIssues]
+     */
+    numberOfIssues?: number;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
   }
 
   /**

@@ -270,6 +270,31 @@ export class MultiCartService {
   }
 
   /**
+   * Get last entry for specific product code from cart.
+   * For configurable products more than one entry for a product code can exist in the cart.
+   * This methode returns the one that was added last.
+   *
+   * @param cartId
+   * @param productCode
+   */
+  getLastEntry(
+    cartId: string,
+    productCode: string
+  ): Observable<OrderEntry | null> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
+      map((entries) => {
+        const filteredEntries = entries.filter(
+          (entry) => entry.product.code === productCode
+        );
+        return filteredEntries.length > 0
+          ? filteredEntries[filteredEntries.length - 1]
+          : undefined;
+      })
+    );
+  }
+
+  /**
    * Assign email to the cart
    *
    * @param cartId

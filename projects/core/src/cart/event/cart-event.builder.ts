@@ -7,7 +7,7 @@ import { EventService } from '../../event/event.service';
 import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
 import { createFrom } from '../../util/create-from';
 import { ActiveCartService } from '../facade/active-cart.service';
-import { CartActions } from '../store';
+import { CartActions } from '../store/index';
 import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,

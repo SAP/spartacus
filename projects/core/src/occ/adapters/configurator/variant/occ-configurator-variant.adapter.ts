@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
@@ -38,10 +38,10 @@ export class OccConfiguratorVariantAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-        tap((configuration) => {
-          configuration.owner = {
-            ...owner,
-            hasObsoleteState: false,
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: owner,
           };
         })
       );
@@ -62,10 +62,10 @@ export class OccConfiguratorVariantAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-        tap((configuration) => {
-          configuration.owner = {
-            ...configurationOwner,
-            hasObsoleteState: false,
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: configurationOwner,
           };
         })
       );
@@ -85,10 +85,12 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.patch(url, occConfiguration).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-      tap(
-        (resultConfiguration) =>
-          (resultConfiguration.owner = configuration.owner)
-      )
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: configuration.owner,
+        };
+      })
     );
   }
 
@@ -128,10 +130,10 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.get<Configurator.Configuration>(url).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-      tap((resultConfiguration) => {
-        resultConfiguration.owner = {
-          ...parameters.owner,
-          hasObsoleteState: false,
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: parameters.owner,
         };
       })
     );
@@ -184,10 +186,10 @@ export class OccConfiguratorVariantAdapter
         };
         return configuration;
       }),
-      tap((resultConfiguration) => {
-        resultConfiguration.owner = {
-          ...parameters.owner,
-          hasObsoleteState: false,
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: parameters.owner,
         };
       })
     );
@@ -209,10 +211,12 @@ export class OccConfiguratorVariantAdapter
         };
         return result;
       }),
-      tap(
-        (resultConfiguration) =>
-          (resultConfiguration.owner = configuration.owner)
-      )
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: configuration.owner,
+        };
+      })
     );
   }
   getConfigurationOverview(
