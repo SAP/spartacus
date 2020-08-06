@@ -13,6 +13,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniLogin',
     'skipLink',
     'formErrors',
+    'errorHandlers',
   ],
   cart: [
     'cartDetails',
@@ -111,5 +112,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'userAssignUserGroups',
     'userApprovers',
     'userAssignApprovers',
+    'orderApproval',
+    'orderApprovalList',
   ],
 };

@@ -11,7 +11,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'costCenter.budget.header' | cxTranslate }}</span>
+    <span>{{
+      'costCenter.budget.header' | cxTranslate: { code: costCenterCode }
+    }}</span>
   </h3>
 
   <div class="actions">
@@ -19,7 +21,7 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'costCenterAssignBudget',
+          cxRoute: 'costCenterAssignBudgets',
           params: { code: costCenterCode }
         } | cxUrl
       "

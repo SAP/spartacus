@@ -7,10 +7,10 @@ import {
   Budget,
   CostCenter,
   ListModel,
+  OrderApproval,
   OrderApprovalPermissionType,
   Permission,
   UserGroup,
-  OrderApproval,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -65,6 +65,9 @@ export const ADDRESS_LIST = 'addresses-list';
 export const ORDER_APPROVAL_FEATURE = 'order-approval';
 export const ORDER_APPROVAL_ENTITIES = 'order-approval-entities';
 export const ORDER_APPROVAL_LIST = 'order-approval-list';
+
+export const ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID =
+  'orderApproval.makeDecision';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;

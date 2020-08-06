@@ -77,7 +77,12 @@
 
   cx-table {
     td {
+      padding: 0;
+      overflow: visible;
+
       a {
+        @include alt-visible-focus();
+
         justify-content: flex-start;
         padding: var(--cx-spatial-md);
 
@@ -136,8 +141,15 @@
         small {
           font-size: 0.75rem;
         }
+        a {
+          margin: -1rem;
+          justify-content: space-between;
+          & > * {
+            display: flex;
+            flex-direction: column;
+          }
+        }
       }
-
       &.name {
         label {
           padding: var(--cx-spatial-md) var(--cx-spatial-md)

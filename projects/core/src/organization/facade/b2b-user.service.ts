@@ -27,7 +27,7 @@ export class B2BUserService {
     protected authService: AuthService
   ) {}
 
-  loadB2BUser(orgCustomerId: string) {
+  load(orgCustomerId: string) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUser({
@@ -38,7 +38,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUsers(params?: B2BSearchConfig): void {
+  loadList(params?: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
@@ -49,7 +49,7 @@ export class B2BUserService {
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadB2BUser(orgCustomerId);
+          this.load(orgCustomerId);
         }
       }),
       filter((state) => state.success || state.error),
@@ -62,7 +62,7 @@ export class B2BUserService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadB2BUsers(params);
+          this.loadList(params);
         }
       }),
       filter(
@@ -98,7 +98,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserApprovers(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadApprovers(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserApprovers({
@@ -110,7 +110,7 @@ export class B2BUserService {
     );
   }
 
-  getB2BUserApprovers(
+  getApprovers(
     orgCustomerId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
@@ -118,7 +118,7 @@ export class B2BUserService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadB2BUserApprovers(orgCustomerId, params);
+          this.loadApprovers(orgCustomerId, params);
         }
       }),
       filter(
@@ -153,7 +153,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserPermissions(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadPermissions(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserPermissions({
@@ -165,7 +165,7 @@ export class B2BUserService {
     );
   }
 
-  getB2BUserPermissions(
+  getPermissions(
     orgCustomerId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
@@ -173,7 +173,7 @@ export class B2BUserService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadB2BUserPermissions(orgCustomerId, params);
+          this.loadPermissions(orgCustomerId, params);
         }
       }),
       filter(
@@ -208,7 +208,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserUserGroups(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadUserGroups(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -220,7 +220,7 @@ export class B2BUserService {
     );
   }
 
-  getB2BUserUserGroups(
+  getUserGroups(
     orgCustomerId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<UserGroup>> {
@@ -228,7 +228,7 @@ export class B2BUserService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadB2BUserUserGroups(orgCustomerId, params);
+          this.loadUserGroups(orgCustomerId, params);
         }
       }),
       filter(

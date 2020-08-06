@@ -22,7 +22,7 @@ describe('DatePickerFormatter Service', () => {
       expect(service.toNative('2010-01-01T00:00:00+0000')).toEqual(
         '2010-01-01'
       );
-      expect(service.toNative('2034-07-12T00:59:59+0000')).toEqual(
+      expect(service.toNative('2034-07-12T23:59:59+0000')).toEqual(
         '2034-07-12'
       );
     });
@@ -43,7 +43,7 @@ describe('DatePickerFormatter Service', () => {
 
     it('should convert value (endDate) to format supported by occ', () => {
       expect(service.toModel('2034-07-12', true)).toEqual(
-        '2034-07-12T00:59:59+0000'
+        '2034-07-12T23:59:59+0000'
       );
     });
   });
