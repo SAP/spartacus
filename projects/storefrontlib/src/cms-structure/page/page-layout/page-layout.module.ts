@@ -6,6 +6,18 @@ import { OutletModule } from '../../outlet/outlet.module';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageTemplateStyleService } from './page-template-style.service';
 
+export function initPageTemplateStyle(
+  service: PageTemplateStyleService,
+  featureConfigService: FeatureConfigService
+) {
+  const result = (componentRef: ComponentRef<any>) => {
+    if (featureConfigService.isLevel('2.1')) {
+      service.initialize(componentRef);
+    }
+  };
+  return result;
+}
+
 @NgModule({
   imports: [CommonModule, OutletModule, PageSlotModule],
   declarations: [PageLayoutComponent],
@@ -15,14 +27,7 @@ import { PageTemplateStyleService } from './page-template-style.service';
     {
       provide: APP_BOOTSTRAP_LISTENER,
       multi: true,
-      useFactory: (
-        service: PageTemplateStyleService,
-        featureConfigService: FeatureConfigService
-      ) => (componentRef: ComponentRef<any>) => {
-        if (featureConfigService.isLevel('2.1')) {
-          service.initialize(componentRef);
-        }
-      },
+      useFactory: initPageTemplateStyle,
       deps: [PageTemplateStyleService, FeatureConfigService],
     },
   ],
