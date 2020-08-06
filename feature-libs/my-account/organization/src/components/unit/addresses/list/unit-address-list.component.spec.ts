@@ -13,10 +13,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { UnitAddressListComponent } from './unit-address-list.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
+import {InteractiveTableModule} from "@spartacus/storefront";
 
 @Pipe({
   name: 'cxUrl',

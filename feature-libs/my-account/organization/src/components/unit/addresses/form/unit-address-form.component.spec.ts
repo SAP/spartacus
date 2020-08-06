@@ -18,7 +18,6 @@ import {
 
 import { UnitAddressFormComponent } from './unit-address-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
 import { FormErrorsComponent } from '@spartacus/storefront';
 

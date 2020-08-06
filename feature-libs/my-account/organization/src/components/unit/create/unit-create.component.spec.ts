@@ -19,8 +19,8 @@ import {
 import { UnitCreateComponent } from './unit-create.component';
 import createSpy = jasmine.createSpy;
 import { UnitFormModule } from '../form/unit-form.module';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
 
 const orgUnitCode = 'b1';
 

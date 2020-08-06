@@ -14,9 +14,9 @@ import {
 
 import { UnitAddressEditComponent } from './unit-address-edit.component';
 import createSpy = jasmine.createSpy;
-import { UnitFormModule } from '../form/unit-form.module';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { UnitAddressFormModule } from '../form/unit-address-form.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
 
 const code = 'b1';
 const addressId = 'a1';
@@ -69,7 +69,7 @@ describe('UnitAddressEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
+      imports: [I18nTestingModule, UnitAddressFormModule, RouterTestingModule],
       declarations: [UnitAddressEditComponent],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

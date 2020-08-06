@@ -14,8 +14,8 @@ import {
 
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
+import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
+import {Table2Module} from "@spartacus/storefront";
 
 const code = 'b1';
 const addressId = 'a1';

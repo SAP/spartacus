@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Permission, B2BUserService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserPermissionListService } from './user-permission-list.service';
+import { UserUserGroupListService } from './user-user-group-list.service';
 
 const mockUserPermissionEntities: EntitiesModel<Permission> = {
   values: [
@@ -36,14 +36,14 @@ export class MockTableService {
   }
 }
 
-describe('UserPermissionListService', () => {
-  let service: UserPermissionListService;
+describe('UserUserGroupListService', () => {
+  let service: UserUserGroupListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserPermissionListService,
+        UserUserGroupListService,
         {
           provide: B2BUserService,
           useClass: MockB2BUserService,
@@ -54,7 +54,7 @@ describe('UserPermissionListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserPermissionListService);
+    service = TestBed.inject(UserUserGroupListService);
   });
 
   it('should inject service', () => {

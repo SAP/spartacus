@@ -6,13 +6,11 @@ import {
 } from '@angular/core';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { UnitTreeComponent } from './unit-tree-navigation-ui.component';
-import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
-import { BREAKPOINT } from '../../../../layout/config/layout-config';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { I18nTestingModule } from '@spartacus/core';
-import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
+import {UnitTreeComponent} from "./unit-tree.component";
+import {BREAKPOINT, BreakpointService, NavigationNode} from "@spartacus/storefront";
 
 @Component({
   template: '',

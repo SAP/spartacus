@@ -17,9 +17,8 @@ import {
 
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import {DatePickerModule, FormErrorsComponent} from '@spartacus/storefront';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },

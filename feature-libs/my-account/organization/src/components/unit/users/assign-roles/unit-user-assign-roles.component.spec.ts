@@ -22,12 +22,11 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
-import { UnitUserAssignRolesComponent } from './unit-assign-roles.component';
 
 import createSpy = jasmine.createSpy;
+import {defaultStorefrontRoutesConfig} from "projects/storefrontlib/src/cms-structure/routing/default-routing-config";
+import {UnitUserAssignRolesComponent} from "./unit-user-assign-roles.component";
+import {InteractiveTableModule, PaginationConfig} from "@spartacus/storefront";
 
 const code = 'unitCode';
 const roleId = 'b2bcustomergroup';

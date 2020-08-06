@@ -63,7 +63,7 @@ describe('UserGroupAssignUserService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
     userGroupService = TestBed.inject(UserGroupService);
   });
 
