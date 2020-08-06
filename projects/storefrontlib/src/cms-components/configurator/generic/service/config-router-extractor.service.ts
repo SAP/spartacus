@@ -36,8 +36,9 @@ export class ConfigRouterExtractorService {
           configuratorType: this.getConfiguratorTypeFromUrl(
             routingData.state.url
           ),
-          resolveConflicts: routingData.state.params.resolveConflicts,
           displayOnly: routingData.state.params.displayOnly,
+          resolveIssues:
+            routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
           pageType: routingData.state.url.includes('configureOverview')
             ? ConfigurationRouter.PageType.OVERVIEW

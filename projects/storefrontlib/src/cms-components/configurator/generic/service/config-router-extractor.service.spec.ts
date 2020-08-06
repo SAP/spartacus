@@ -144,6 +144,17 @@ describe('ConfigRouterExtractorService', () => {
 
       expect(routerData.forceReload).toBe(true);
     });
+
+    it('should tell from the URL if we need to resolve issues of a configuration', () => {
+      mockRouterState.state.queryParams = { resolveIssues: 'true' };
+      let routerData: ConfigurationRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => (routerData = data))
+        .unsubscribe();
+
+      expect(routerData.resolveIssues).toBe(true);
+    });
   });
 
   describe('createOwnerFromRouterState', () => {

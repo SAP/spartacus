@@ -16,6 +16,7 @@ import {
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
 import { Configurator } from './../../../model/configurator.model';
+import { productConfigurationWithConflicts } from './configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
@@ -329,11 +330,12 @@ describe('ConfiguratorCommonsService', () => {
               productConfiguration
             )
           );
+          //TODO: Add "done" callback
         })
         .unsubscribe();
     });
 
-    it('should not dispatch an action if overview is already present', () => {
+    it('should not dispatch an action if overview is already present', (done) => {
       const configurationWithOverview: Configurator.Configuration = {
         configId: CONFIG_ID,
         overview: {},
@@ -346,6 +348,7 @@ describe('ConfiguratorCommonsService', () => {
         .getConfigurationWithOverview(productConfiguration)
         .subscribe(() => {
           expect(store.dispatch).toHaveBeenCalledTimes(0);
+          done();
         })
         .unsubscribe();
     });
@@ -632,6 +635,36 @@ describe('ConfiguratorCommonsService', () => {
       expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
         false
       );
+    });
+  });
+
+  describe('hasConflicts', () => {
+    it('should return false in case of no conflicts', (done) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfiguration)
+      );
+      serviceUnderTest
+        .hasConflicts(OWNER_PRODUCT)
+        .pipe()
+        .subscribe((hasConflicts) => {
+          expect(hasConflicts).toBe(false);
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('should return false in case of conflicts', (done) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationWithConflicts)
+      );
+      serviceUnderTest
+        .hasConflicts(OWNER_PRODUCT)
+        .pipe()
+        .subscribe((hasConflicts) => {
+          expect(hasConflicts).toBe(true);
+          done();
+        })
+        .unsubscribe();
     });
   });
 });

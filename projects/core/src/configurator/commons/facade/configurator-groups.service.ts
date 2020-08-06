@@ -22,18 +22,80 @@ export class ConfiguratorGroupsService {
     private configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
+  /**
+   * Returns the current group Id.
+   * In case no group Id is being set before returns the first group of the configuration.
+   * Return null when configuration contains no groups.
+   *
+   * @param owner configuration owner
+   */
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
         if (configuration?.interactionState?.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
-          return configuration?.groups?.length > 0
-            ? configuration.groups[0].id
+          return configuration?.flatGroups?.length > 0
+            ? configuration.flatGroups[0].id
             : null;
         }
       })
     );
+  }
+
+  /**
+   * Return the first conflict group of a configuration.
+   *
+   * @param configuration - Configuration
+   */
+  getFirstConflictGroup(
+    configuration: Configurator.Configuration
+  ): Configurator.Group {
+    return configuration.flatGroups.find(
+      (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+    );
+  }
+
+  /**
+   * Navigates to the first non-conflict group of the configuration which is not completed.
+   * This method assumes that the configuration has uncompleted groups,
+   * the caller has to verify this prior to calling this method.
+   *
+   * @param owner - Configuration owner
+   */
+  goToFirstUncompletedGroupId(owner: GenericConfigurator.Owner): void {
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(take(1))
+      .subscribe((configuration) =>
+        this.navigateToGroup(
+          configuration,
+          this.configuratorGroupStatusService.getFirstUncompletedGroup(
+            configuration
+          )?.id,
+          true
+        )
+      );
+  }
+
+  /**
+   * Navigates to the first conflict group and sets the conflict header as parent group.
+   * This method assumes that the configuration has conflicts,
+   * the caller has to verify this prior to calling this method.
+   *
+   * @param owner Configuration Owner
+   */
+  goToConflictSolver(owner: GenericConfigurator.Owner): void {
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(take(1))
+      .subscribe((configuration) =>
+        this.navigateToGroup(
+          configuration,
+          this.getFirstConflictGroup(configuration)?.id,
+          true
+        )
+      );
   }
 
   /**
@@ -130,21 +192,25 @@ export class ConfiguratorGroupsService {
    *
    * @param configuration - Configuration
    * @param groupId - Group ID
+   * @param doNotSetStatus - Group status will not be set for previous group
    */
   public navigateToGroup(
     configuration: Configurator.Configuration,
-    groupId: string
+    groupId: string,
+    doNotSetStatus?: boolean
   ) {
-    //Set Group status for current group
-    this.getCurrentGroup(configuration.owner)
-      .pipe(take(1))
-      .subscribe((currentGroup) => {
-        this.configuratorGroupStatusService.setGroupStatus(
-          configuration,
-          currentGroup.id,
-          true
-        );
-      });
+    if (!doNotSetStatus) {
+      //Set Group status for current group
+      this.getCurrentGroup(configuration.owner)
+        .pipe(take(1))
+        .subscribe((currentGroup) => {
+          this.configuratorGroupStatusService.setGroupStatus(
+            configuration,
+            currentGroup.id,
+            true
+          );
+        });
+    }
 
     const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
       configuration.groups,
@@ -160,22 +226,6 @@ export class ConfiguratorGroupsService {
         configuration: configuration,
         groupId: groupId,
         parentGroupId: parentGroup ? parentGroup.id : null,
-      })
-    );
-  }
-
-  /**
-   * Determines the current group.
-   * If nothing has been visited so far, the first group is chosen.
-   *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
-   */
-  public setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
-    this.store.dispatch(
-      new ConfiguratorActions.SetCurrentGroup({
-        entityKey: owner.key,
-        currentGroup: groupId,
       })
     );
   }

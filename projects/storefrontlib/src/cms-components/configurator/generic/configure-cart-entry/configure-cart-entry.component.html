@@ -10,7 +10,7 @@
         }
       } | cxUrl
     "
-    [queryParams]="{ forceReload: true }"
+    [queryParams]="{ forceReload: true, resolveIssues: getMsgBanner() }"
     (click)="closeActiveModal()"
     cxAutoFocus
   >

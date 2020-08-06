@@ -38,6 +38,10 @@ export class ConfigureCartEntryComponent {
       : 'configure' + configuratorType;
   }
 
+  public getMsgBanner(): boolean {
+    return this.msgBanner;
+  }
+
   public getDisplayOnly(): boolean {
     return this.readOnly;
   }

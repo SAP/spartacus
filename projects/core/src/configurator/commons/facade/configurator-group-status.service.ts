@@ -48,6 +48,22 @@ export class ConfiguratorGroupStatusService {
     );
   }
 
+  /**
+   * Returns the first non-conflict group of the configuration which is not completed
+   * and undefined if all are completed.
+   *
+   * * @param configuration - Configuration
+   */
+  getFirstUncompletedGroup(
+    configuration: Configurator.Configuration
+  ): Configurator.Group {
+    return configuration.flatGroups
+      .filter(
+        (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
+      )
+      .find((group) => !this.checkIsGroupComplete(group));
+  }
+
   areGroupsVisited(
     owner: GenericConfigurator.Owner,
     groupIds: string[]
