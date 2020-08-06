@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { Observable } from 'rxjs';
 import { CurrentCostCenterService } from '../current-cost-center.service';
+import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-cost-center-create',
@@ -34,6 +35,7 @@ export class CostCenterCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.costCenterService.create(form.value);
