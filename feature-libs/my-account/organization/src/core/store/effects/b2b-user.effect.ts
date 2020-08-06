@@ -15,8 +15,8 @@ import {
   EntitiesModel,
   B2BUserConnector,
   RoutingService,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class B2BUserEffects {
@@ -35,7 +35,7 @@ export class B2BUserEffects {
           of(
             new B2BUserActions.LoadB2BUserFail({
               orgCustomerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -63,7 +63,7 @@ export class B2BUserEffects {
           of(
             new B2BUserActions.CreateB2BUserFail({
               orgCustomerId: payload.orgCustomer.customerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -89,7 +89,7 @@ export class B2BUserEffects {
             of(
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -121,7 +121,7 @@ export class B2BUserEffects {
           of(
             new B2BUserActions.LoadB2BUsersFail({
               params: payload.params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -157,7 +157,7 @@ export class B2BUserEffects {
               new B2BUserActions.LoadB2BUserApproversFail({
                 orgCustomerId: payload.orgCustomerId,
                 params: payload.params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -193,7 +193,7 @@ export class B2BUserEffects {
               new B2BUserActions.LoadB2BUserPermissionsFail({
                 orgCustomerId: payload.orgCustomerId,
                 params: payload.params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -229,7 +229,7 @@ export class B2BUserEffects {
               new B2BUserActions.LoadB2BUserUserGroupsFail({
                 orgCustomerId: payload.orgCustomerId,
                 params: payload.params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -265,7 +265,7 @@ export class B2BUserEffects {
               new B2BUserActions.CreateB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
                 approverId: payload.approverId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -301,7 +301,7 @@ export class B2BUserEffects {
               new B2BUserActions.DeleteB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
                 approverId: payload.approverId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -336,7 +336,7 @@ export class B2BUserEffects {
               new B2BUserActions.CreateB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
                 permissionId: payload.permissionId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -371,7 +371,7 @@ export class B2BUserEffects {
               new B2BUserActions.DeleteB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
                 permissionId: payload.permissionId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -406,7 +406,7 @@ export class B2BUserEffects {
               new B2BUserActions.CreateB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,
                 userGroupId: payload.userGroupId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -447,7 +447,7 @@ export class B2BUserEffects {
               new B2BUserActions.DeleteB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,
                 userGroupId: payload.userGroupId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )

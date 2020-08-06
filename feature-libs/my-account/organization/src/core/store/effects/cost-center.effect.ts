@@ -7,10 +7,10 @@ import {
   EntitiesModel,
   CostCenter,
   CostCenterConnector,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { CostCenterActions, BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class CostCenterEffects {
@@ -30,7 +30,7 @@ export class CostCenterEffects {
           of(
             new CostCenterActions.LoadCostCenterFail({
               costCenterCode,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -62,7 +62,7 @@ export class CostCenterEffects {
           of(
             new CostCenterActions.LoadCostCentersFail({
               params: payload.params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -84,7 +84,7 @@ export class CostCenterEffects {
           of(
             new CostCenterActions.CreateCostCenterFail({
               costCenterCode: payload.costCenter.code,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -108,7 +108,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.UpdateCostCenterFail({
                 costCenterCode: payload.costCenter.code,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -142,7 +142,7 @@ export class CostCenterEffects {
             new CostCenterActions.LoadAssignedBudgetsFail({
               costCenterCode,
               params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -171,7 +171,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.AssignBudgetFail({
                 budgetCode,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -201,7 +201,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.UnassignBudgetFail({
                 budgetCode,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )

@@ -6,10 +6,10 @@ import {
   EntitiesModel,
   OrderApproval,
   OrderApprovalConnector,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { OrderApprovalActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class OrderApprovalEffects {
@@ -31,7 +31,7 @@ export class OrderApprovalEffects {
           of(
             new OrderApprovalActions.LoadOrderApprovalFail({
               orderApprovalCode,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -63,7 +63,7 @@ export class OrderApprovalEffects {
           of(
             new OrderApprovalActions.LoadOrderApprovalsFail({
               params: params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -97,7 +97,7 @@ export class OrderApprovalEffects {
             of(
               new OrderApprovalActions.MakeDecisionFail({
                 orderApprovalCode: orderApprovalCode,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )

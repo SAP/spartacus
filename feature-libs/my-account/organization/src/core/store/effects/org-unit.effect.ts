@@ -9,11 +9,11 @@ import {
   B2BUser,
   B2BUnit,
   OrgUnitConnector,
+  normalizeHttpError,
 } from '@spartacus/core';
 
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -43,7 +43,7 @@ export class OrgUnitEffects {
           of(
             new OrgUnitActions.LoadOrgUnitFail({
               orgUnitId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -66,7 +66,7 @@ export class OrgUnitEffects {
         catchError((error) =>
           of(
             new OrgUnitActions.LoadOrgUnitNodesFail({
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -87,7 +87,7 @@ export class OrgUnitEffects {
           of(
             new OrgUnitActions.CreateUnitFail({
               unitCode: payload.unit.uid,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -119,7 +119,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.UpdateUnitFail({
                 unitCode: payload.unit.uid,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -141,7 +141,7 @@ export class OrgUnitEffects {
         catchError((error) =>
           of(
             new OrgUnitActions.LoadTreeFail({
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -165,7 +165,7 @@ export class OrgUnitEffects {
         catchError((error) =>
           of(
             new OrgUnitActions.LoadApprovalProcessesFail({
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -203,7 +203,7 @@ export class OrgUnitEffects {
                 orgUnitId,
                 roleId,
                 params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -231,7 +231,7 @@ export class OrgUnitEffects {
           of(
             new OrgUnitActions.AssignRoleFail({
               orgCustomerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -259,7 +259,7 @@ export class OrgUnitEffects {
           of(
             new OrgUnitActions.UnassignRoleFail({
               orgCustomerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -289,7 +289,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.AssignApproverFail({
                 orgCustomerId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -319,7 +319,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.UnassignApproverFail({
                 orgCustomerId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -342,7 +342,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.CreateAddressFail({
                 addressId: payload.address.id,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -368,7 +368,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.UpdateAddressFail({
                 addressId: address.id,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -394,7 +394,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.DeleteAddressFail({
                 addressId: payload.addressId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -423,7 +423,7 @@ export class OrgUnitEffects {
   //         of(
   //           new OrgUnitActions.LoadAddressesFail({
   //             orgUnitId,
-  //             error: makeErrorSerializable(error),
+  //             error: normalizeHttpError(error),
   //           })
   //         )
   //       )

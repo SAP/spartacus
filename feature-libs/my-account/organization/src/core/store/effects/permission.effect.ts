@@ -8,10 +8,10 @@ import {
   EntitiesModel,
   PermissionActions,
   PermissionConnector,
+  normalizeHttpError,
 } from '@spartacus/core';
 
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class PermissionEffects {
@@ -31,7 +31,7 @@ export class PermissionEffects {
           of(
             new PermissionActions.LoadPermissionFail({
               permissionCode,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -63,7 +63,7 @@ export class PermissionEffects {
           of(
             new PermissionActions.LoadPermissionsFail({
               params: payload.params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -85,7 +85,7 @@ export class PermissionEffects {
           of(
             new PermissionActions.CreatePermissionFail({
               permissionCode: payload.permission.code,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -109,7 +109,7 @@ export class PermissionEffects {
             of(
               new PermissionActions.UpdatePermissionFail({
                 permissionCode: payload.permission.code,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -132,7 +132,7 @@ export class PermissionEffects {
         catchError((error) =>
           of(
             new PermissionActions.LoadPermissionTypesFail({
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )

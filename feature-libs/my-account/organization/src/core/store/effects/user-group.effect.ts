@@ -8,6 +8,7 @@ import {
   Permission,
   B2BUser,
   UserGroupConnector,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   UserGroupActions,
@@ -15,7 +16,6 @@ import {
   B2BUserActions,
 } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class UserGroupEffects {
@@ -34,7 +34,7 @@ export class UserGroupEffects {
           of(
             new UserGroupActions.LoadUserGroupFail({
               userGroupId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -66,7 +66,7 @@ export class UserGroupEffects {
           of(
             new UserGroupActions.LoadUserGroupsFail({
               params: payload.params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -106,7 +106,7 @@ export class UserGroupEffects {
               new UserGroupActions.LoadPermissionsFail({
                 userGroupId: payload.userGroupId,
                 params: payload.params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -146,7 +146,7 @@ export class UserGroupEffects {
               new UserGroupActions.LoadAvailableOrgCustomersFail({
                 userGroupId: payload.userGroupId,
                 params: payload.params,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -168,7 +168,7 @@ export class UserGroupEffects {
           of(
             new UserGroupActions.CreateUserGroupFail({
               userGroupId: payload.userGroup.uid,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -194,7 +194,7 @@ export class UserGroupEffects {
             of(
               new UserGroupActions.UpdateUserGroupFail({
                 userGroupId: payload.userGroup.uid,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -216,7 +216,7 @@ export class UserGroupEffects {
           of(
             new UserGroupActions.DeleteUserGroupFail({
               userGroupId: payload.userGroupId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -251,7 +251,7 @@ export class UserGroupEffects {
               new UserGroupActions.AssignPermissionFail({
                 userGroupId: payload.userGroupId,
                 permissionUid: payload.permissionUid,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -281,7 +281,7 @@ export class UserGroupEffects {
               new UserGroupActions.AssignMemberFail({
                 userGroupId: payload.userGroupId,
                 customerId: payload.customerId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -311,7 +311,7 @@ export class UserGroupEffects {
               new UserGroupActions.UnassignMemberFail({
                 userGroupId: payload.userGroupId,
                 customerId: payload.customerId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -346,7 +346,7 @@ export class UserGroupEffects {
               new UserGroupActions.UnassignPermissionFail({
                 userGroupId: payload.userGroupId,
                 permissionUid: payload.permissionUid,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -375,7 +375,7 @@ export class UserGroupEffects {
             of(
               new UserGroupActions.UnassignAllMembersFail({
                 userGroupId: payload.userGroupId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )

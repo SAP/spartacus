@@ -3,11 +3,15 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { EntitiesModel, Budget, BudgetConnector } from '@spartacus/core';
+import {
+  EntitiesModel,
+  Budget,
+  BudgetConnector,
+  normalizeHttpError,
+} from '@spartacus/core';
 
 import { BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class BudgetEffects {
@@ -26,7 +30,7 @@ export class BudgetEffects {
           of(
             new BudgetActions.LoadBudgetFail({
               budgetCode,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -58,7 +62,7 @@ export class BudgetEffects {
           of(
             new BudgetActions.LoadBudgetsFail({
               params: payload.params,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -79,7 +83,7 @@ export class BudgetEffects {
           of(
             new BudgetActions.CreateBudgetFail({
               budgetCode: payload.budget.code,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             })
           )
         )
@@ -102,7 +106,7 @@ export class BudgetEffects {
             of(
               new BudgetActions.UpdateBudgetFail({
                 budgetCode: payload.budget.code,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
