@@ -80,9 +80,13 @@ describe('TransferStateReducer', () => {
         hasKey: jasmine.createSpy().and.returnValue(true),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
-      metaReducer = getBrowserTransferStateReducer(transferStateMock, {
-        test: StateTransferType.TRANSFER_STATE,
-      });
+      metaReducer = getBrowserTransferStateReducer(
+        transferStateMock,
+        {
+          test: StateTransferType.TRANSFER_STATE,
+        },
+        false
+      );
       reducer = metaReducer(subReducer);
     });
 

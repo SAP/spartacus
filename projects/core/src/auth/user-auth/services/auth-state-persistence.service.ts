@@ -9,6 +9,7 @@ import { UserToken } from '../models/user-token.model';
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAuthState {
   userId: string;
+  access_token: string;
   [token_param: string]: any;
 }
 
@@ -22,9 +23,11 @@ export class AuthStatePersistenceService {
     protected authStorageService: AuthStorageService
   ) {}
 
+  protected key = 'auth';
+
   public sync() {
     this.statePersistenceService.syncWithStorage({
-      key: 'auth',
+      key: this.key,
       state$: this.getAuthState(),
       onRead: (state) => this.onRead(state),
     });
@@ -55,5 +58,11 @@ export class AuthStatePersistenceService {
       this.authStorageService.setUserToken(tokenData as UserToken);
       this.userIdService.setUserId(state.userId);
     }
+  }
+
+  readStateFromStorage() {
+    return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
+      key: this.key,
+    });
   }
 }

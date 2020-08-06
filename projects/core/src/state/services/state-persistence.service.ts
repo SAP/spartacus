@@ -80,6 +80,33 @@ export class StatePersistenceService {
     return subscriptions;
   }
 
+  /**
+   * Helper to read state from persistent storage (localStorage, sessionStorage).
+   * It is useful if you need synchronously access state saved with `syncWithStorage`.
+   *
+   * @param key Key to use in storage for state. Should be unique for each feature.
+   * @param context Context value for state
+   * @param storageType Storage type from to read state
+   *
+   * @returns State from the storage
+   */
+  readStateFromStorage<T>({
+    key,
+    context = '',
+    storageType = StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): T {
+    const storage = getStorage(storageType, this.winRef);
+
+    return readFromStorage(
+      storage,
+      this.generateKeyWithContext(context, key)
+    ) as T;
+  }
+
   protected generateKeyWithContext(
     context: string | Array<string>,
     key: string
