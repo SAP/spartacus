@@ -66,7 +66,11 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add spartacus with PWA via passed parameter', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('ng-add', { ...defaultOptions, pwa: true }, appTree)
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, name: 'schematics-test', pwa: true },
+        appTree
+      )
       .toPromise();
     const buffer = tree.read('src/manifest.webmanifest');
     expect(buffer).toBeTruthy();
@@ -79,7 +83,11 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add spartacus with SSR via passed parameter', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('ng-add', { ...defaultOptions, ssr: true }, appTree)
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, name: 'schematics-test', ssr: true },
+        appTree
+      )
       .toPromise();
     const packageJsonBuffer = tree.read('/package.json');
     expect(packageJsonBuffer).toBeTruthy();
@@ -112,7 +120,11 @@ describe('Spartacus Schematics: ng-add', () => {
   describe('@angular/localize', () => {
     it('should provide import in polyfills.ts and main.server.ts if SSR enabled', async () => {
       const tree = await schematicRunner
-        .runSchematicAsync('ng-add', { ...defaultOptions, ssr: true }, appTree)
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, name: 'schematics-test', ssr: true },
+          appTree
+        )
         .toPromise();
 
       const polyfillsPath = getPathResultsForFile(
