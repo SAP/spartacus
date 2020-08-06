@@ -10,19 +10,19 @@
       (click)="triggerDetails()"
       tabindex="0"
     >
-      <ng-container *ngIf="!showMore"
-        ><div class="cx-config-toogle-details-link-text">
+      <ng-container *ngIf="!showMore">
+        <div class="cx-config-toogle-details-link-text">
           {{ 'configurator.header.showMore' | cxTranslate }}
         </div>
-        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon
-      ></ng-container>
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+      </ng-container>
 
-      <ng-container *ngIf="showMore"
-        ><div class="cx-config-toogle-details-link-text">
+      <ng-container *ngIf="showMore">
+        <div class="cx-config-toogle-details-link-text">
           {{ 'configurator.header.showLess' | cxTranslate }}
         </div>
-        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon
-      ></ng-container>
+        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+      </ng-container>
     </a>
 
     <div class="cx-config-product-title-details" [class.open]="showMore">

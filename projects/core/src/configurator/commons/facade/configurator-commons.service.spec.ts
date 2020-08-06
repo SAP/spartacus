@@ -268,20 +268,6 @@ describe('ConfiguratorCommonsService', () => {
     expect(hasPendingChanges).toBe(true);
   });
 
-  it('should get configuration loading state from store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(configurationState.configurations.entities[OWNER_PRODUCT.key])
-    );
-
-    let isLoading = null;
-    serviceUnderTest
-      .isConfigurationLoading(OWNER_PRODUCT)
-      .subscribe((loading) => {
-        isLoading = loading;
-      });
-    expect(isLoading).toBe(false);
-  });
-
   it('should be able to get configuration from store', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)

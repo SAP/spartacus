@@ -10,9 +10,9 @@
           *ngIf="parentGroup !== null"
         >
           <!--TODO: "Back" text is still under discussion -->
-          <a role="link"
-            ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
-            >{{ 'configurator.button.back' | cxTranslate }}</a
+          <a role="link">
+            <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+            {{ 'configurator.button.back' | cxTranslate }}</a
           >
         </li>
       </ng-container>
@@ -55,8 +55,9 @@
                       *ngIf="configuratorGroupsService.hasSubGroups(group)"
                       [type]="iconTypes.CARET_RIGHT"
                     ></cx-icon>
-                  </div></div
-              ></a>
+                  </div>
+                </div>
+              </a>
             </li>
           </ng-container>
         </ng-container>

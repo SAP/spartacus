@@ -121,6 +121,7 @@ export class ConfiguratorCommonsService {
       map((configurationState) => configurationState.value)
     );
   }
+
   /**
    * Updates a configuration, specified by the configuration owner key, group ID and a changed attribute.
    *
@@ -183,7 +184,6 @@ export class ConfiguratorCommonsService {
   ////
   // Helper methods
   ////
-
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
