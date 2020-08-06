@@ -39,7 +39,7 @@
             class="cx-payment-type-label form-check-label form-radio-label"
             for="deliveryMode-{{ type.code }}"
           >
-            <div class="cx-payment-type">
+            <div class="cx-payment-type" (click)="changeType(type.code)">
               {{
                 'paymentTypes.paymentType' | cxTranslate: { context: type.code }
               }}

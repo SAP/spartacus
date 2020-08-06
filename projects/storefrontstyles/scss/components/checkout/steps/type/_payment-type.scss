@@ -14,5 +14,11 @@
 
   .cx-payment-type-label {
     margin: 0 auto 0 0.75rem;
+
+    .cx-payment-type {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
