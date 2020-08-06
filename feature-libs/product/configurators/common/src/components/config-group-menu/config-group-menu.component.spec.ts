@@ -12,9 +12,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
@@ -213,6 +213,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should not call status method if group has not been visited', () => {
+    mockGroupVisited = false;
     initialize();
     component
       .getGroupStatus(
