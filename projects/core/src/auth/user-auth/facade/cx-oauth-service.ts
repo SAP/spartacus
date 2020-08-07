@@ -24,8 +24,8 @@ export class CxOAuthService {
       tokenEndpoint: this.authConfigService.getLoginEndpoint(),
       clientId: this.config.authentication.client_id,
       dummyClientSecret: this.config.authentication.client_secret,
-      scope: '',
-      customTokenParameters: ['token_type'],
+      scope: '', // Add openid to get id_token in case of password flow
+      customTokenParameters: ['token_type', ''], // Add id_token to store id_token in case of password flow
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
@@ -78,5 +78,9 @@ export class CxOAuthService {
 
   logout(): void {
     this.oAuthService.logOut();
+  }
+
+  getIdToken(): string {
+    return this.oAuthService.getIdToken();
   }
 }

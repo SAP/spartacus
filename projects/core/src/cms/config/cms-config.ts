@@ -1,8 +1,6 @@
 import { Injectable, StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
-import { AuthConfig } from '../../auth/user-auth/config/auth-config';
 import { Config } from '../../config/config.module';
-import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
 
 export interface StandardCmsComponentConfig {
@@ -71,14 +69,6 @@ export interface CMSComponentConfig
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig extends OccConfig
-  implements AuthConfig, KymaConfig {
-  authentication?: {
-    client_id?: string;
-    client_secret?: string;
-    kyma_client_id?: string;
-    kyma_client_secret?: string;
-  };
-
+export abstract class CmsConfig extends OccConfig {
   cmsComponents?: CMSComponentConfig;
 }

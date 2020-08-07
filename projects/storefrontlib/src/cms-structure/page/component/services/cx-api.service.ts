@@ -10,7 +10,6 @@ import {
   CurrencyService,
   FeatureConfigService,
   GlobalMessageService,
-  KymaService,
   LanguageService,
   OccEndpointsService,
   PageMetaService,
@@ -56,8 +55,6 @@ export class CxApiService {
     @Optional() public globalMessage: GlobalMessageService,
     // i18n
     @Optional() public translation: TranslationService,
-    // kyma
-    @Optional() public kyma: KymaService,
     // occ
     @Optional() public occEndpoints: OccEndpointsService,
     // product
