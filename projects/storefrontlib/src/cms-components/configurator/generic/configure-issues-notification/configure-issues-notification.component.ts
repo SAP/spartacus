@@ -10,6 +10,7 @@ export class ConfigureIssuesNotificationComponent {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
+  @Input() disabled: boolean;
   iconTypes = ICON_TYPE;
 
   constructor() {}
