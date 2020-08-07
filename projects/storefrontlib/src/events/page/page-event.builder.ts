@@ -4,10 +4,11 @@ import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActivatedRouterStateSnapshot,
+  ContentPageMetaResolver,
   createFrom,
   EventService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { HomePageEvent, PageEvent } from './page.events';
 
@@ -17,7 +18,8 @@ import { HomePageEvent, PageEvent } from './page.events';
 export class PageEventBuilder {
   constructor(
     protected actions: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected contentPageMetaResolver: ContentPageMetaResolver
   ) {
     this.register();
   }
@@ -28,13 +30,19 @@ export class PageEventBuilder {
   }
 
   protected buildPageEvent(): Observable<PageEvent> {
-    return this.getNavigatedEvent().pipe(
-      map((state) =>
+    const navigation$ = this.getNavigatedEvent();
+    const pageTitle$ = this.contentPageMetaResolver.resolveTitle();
+
+    return zip(navigation$, pageTitle$).pipe(
+      map(([state, title]) =>
         createFrom(PageEvent, {
-          context: state.context,
-          semanticRoute: state.semanticRoute,
-          url: state.url,
-          params: state.params,
+          ...{
+            title,
+            context: state?.context,
+            semanticRoute: state?.semanticRoute,
+            url: state?.url,
+            params: state?.params,
+          },
         })
       )
     );

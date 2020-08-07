@@ -20,7 +20,7 @@ import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  /** helper to provie access to the current CMS page */
+  /** helper to provide access to the current CMS page */
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()
     .pipe(filter((p) => Boolean(p)));
@@ -42,7 +42,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * Resolves a single breacrumb item to the home page for each `ContentPage`.
+   * Resolves a single breadcrumb item to the home page for each `ContentPage`.
    * The home page label is resolved from the translation service.
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
