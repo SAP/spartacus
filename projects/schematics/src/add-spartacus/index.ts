@@ -24,6 +24,7 @@ import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
+  DEFAULT_NGRX_VERSION,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -46,7 +47,6 @@ import { Schema as SpartacusOptions } from './schema';
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const ngrxVersion = '~9.1.0';
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [
@@ -84,23 +84,23 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/store',
       },
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/effects',
       },
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/router-store',
       },
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.2.1',
+        version: '4.2.1',
         name: 'bootstrap',
       },
       { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },

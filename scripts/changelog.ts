@@ -76,6 +76,9 @@ export default async function run(
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
     '@spartacus/cds': 'projects/cds',
+    '@spartacus/my-account': 'feature-libs/my-account',
+    '@spartacus/product': 'feature-libs/product',
+    '@spartacus/cdc': 'integration-libs/cdc',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -283,6 +286,25 @@ if (typeof config.to === 'undefined') {
     case 'cds':
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
+      break;
+    case 'myaccount':
+    case 'my-account':
+    case '@spartacus/my-account':
+    case '@spartacus/myaccount':
+      config.library = '@spartacus/my-account';
+      break;
+    case 'product':
+    case '@spartacus/product':
+    case '@spartacus/product/configurators':
+    case '@spartacus/product/configurators/common':
+    case '@spartacus/product/configurators/cpq':
+    case '@spartacus/product/configurators/variant':
+    case '@spartacus/product/configurators/textfield':
+      config.library = '@spartacus/product';
+      break;
+    case 'cdc':
+    case '@spartacus/cdc':
+      config.library = '@spartacus/cdc';
       break;
     default:
       config.library = undefined;

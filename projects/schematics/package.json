@@ -1,13 +1,15 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.1.0-dev.0",
+  "version": "2.1.0-next.0",
   "description": "Spartacus schematics",
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "keywords": [
     "spartacus",
     "schematics"
   ],
   "scripts": {
-    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts",
+    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "build": "yarn clean && tsc -p tsconfig.json",
     "test": "yarn build && jasmine \"src/**/*_spec.js\""
   },
@@ -15,20 +17,21 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.1.0",
-    "@angular-devkit/schematics": "^9.1.0",
-    "@angular/cdk": "^9.2.0",
-    "@angular/pwa": "^0.901.0",
-    "@angular/localize": "^9.1.0",
-    "@nguniversal/express-engine": "^9.1.0",
-    "@schematics/angular": "^9.1.0",
-    "@schematics/update": "^0.901.0"
+    "@angular-devkit/core": "^9.1.7",
+    "@angular-devkit/schematics": "^9.1.7",
+    "@angular/cdk": "^9.2.4",
+    "@angular/localize": "^9.1.9",
+    "@angular/pwa": "^0.901.7",
+    "@nguniversal/express-engine": "^9.1.1",
+    "@schematics/angular": "^9.1.7",
+    "@schematics/update": "^0.901.7"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
     "jasmine": "^3.5.0",
+    "rimraf": "^3.0.2",
     "shelljs": "^0.8.3",
     "typescript": "~3.8.3"
   },
@@ -43,7 +46,11 @@
       "@spartacus/styles",
       "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/incubator"
+      "@spartacus/incubator",
+      "@spartacus/my-account",
+      "@spartacus/product",
+      "@spartacus/cdc"
     ]
-  }
+  },
+  "main": "src/public_api.js"
 }
