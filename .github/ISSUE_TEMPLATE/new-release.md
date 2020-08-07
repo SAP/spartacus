@@ -76,9 +76,9 @@ assignees: ''
   - `latest` tag should always point to the last stable version
   - You can leave `rc` tag until we release stable release.
   - Use `npm dist-tag` command for tag updates.
-- [ ] Test the released libraries from a new shell app; prepare the `scripts/install/config.sh` file as below:
+- [ ] Test the released libraries from a new shell app; change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
     ```bash
-    SPARTACUS_VERSION=`next` # or `latest`; alternatively you can set it to specific one, ie `x.y.z` (by using `next`/`latest` we're checking npm tags at the same time)
+    SPARTACUS_VERSION=`next` # or `latest`, `rc`; still, you can set it to a specific one, ie `x.y.z` (or leave the config file unchanged)
     ```
     Run the installation script:
     ```bash
