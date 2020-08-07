@@ -17,6 +17,7 @@
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
+    padding: 15px 0;
 
     &-wrapper {
       display: flex;
@@ -34,14 +35,24 @@
       }
     }
 
+    .cx-review-payment-col {
+      border-inline-end: 1px solid var(--cx-color-text);
+    }
+
     .cx-review-summary-card {
       display: flex;
+      justify-content: space-between;
+
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
         min-height: auto;
+      }
+
+      &:not(.cx-review-card-payment):not(.cx-review-card-shipping) {
+        border-bottom: 1px solid var(--cx-color-text);
       }
 
       .cx-card-title {

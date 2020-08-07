@@ -6,7 +6,7 @@
 
   <div class="cx-review-summary row">
     <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">
-      <div class="col-md-12 col-lg-6 col-xl-6">
+      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
         <ng-container *ngFor="let step of steps">
           <div [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
@@ -24,7 +24,7 @@
           </div>
         </ng-container>
       </div>
-      <div class="col-md-12 col-lg-6 col-xl-6">
+      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">
         <ng-container *ngFor="let step of steps">
           <div [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
