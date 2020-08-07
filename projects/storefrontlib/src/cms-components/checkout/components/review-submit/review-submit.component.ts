@@ -203,20 +203,22 @@ export class ReviewSubmitComponent {
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
-          text: [
-            paymentDetails.cardNumber,
-            textExpires,
-            '',
-            billingAddress + ':',
-            paymentDetails.billingAddress?.firstName +
-              ' ' +
-              paymentDetails.billingAddress?.lastName,
-            paymentDetails.billingAddress?.line1,
-            paymentDetails.billingAddress?.town +
-              ', ' +
-              region +
-              paymentDetails.billingAddress?.country?.name,
-            paymentDetails.billingAddress?.postalCode,
+          text: [paymentDetails.cardNumber, textExpires],
+          paragraphs: [
+            {
+              title: billingAddress + ':',
+              text: [
+                paymentDetails.billingAddress?.firstName +
+                  ' ' +
+                  paymentDetails.billingAddress?.lastName,
+                paymentDetails.billingAddress?.line1,
+                paymentDetails.billingAddress?.town +
+                  ', ' +
+                  region +
+                  paymentDetails.billingAddress?.country?.name,
+                paymentDetails.billingAddress?.postalCode,
+              ],
+            },
           ],
         };
       })
