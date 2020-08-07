@@ -14,15 +14,15 @@
       padding-top: 10px;
     }
 
-    .cx-error-msg-action-link a {
-      text-transform: capitalize;
-      text-decoration: underline;
-      cursor: pointer;
-      display: inline-block;
-      color: var(--cx-color-text);
-      &:hover {
-        color: var(--cx-color-primary);
-        text-decoration: none;
+    .cx-error-msg-action {
+      button.link {
+        color: var(--cx-color-text);
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
       }
     }
 
