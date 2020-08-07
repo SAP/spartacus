@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from '../details/current-unit-address.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-unit-address-edit',
@@ -37,6 +38,7 @@ export class UnitAddressEditComponent {
     event.preventDefault();
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       // disabling form before save causing to refresh form state and adds region field
       // which shouldn't be included when disabled. This might need some change
