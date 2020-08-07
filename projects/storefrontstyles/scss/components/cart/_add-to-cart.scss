@@ -9,10 +9,7 @@
 
     .info {
       @include type('7');
-      margin-top: 0;
-      margin-inline-end: 15px;
-      margin-bottom: 0px;
-      margin-inline-start: 15px;
+      margin: 0 15px;
       color: var(--cx-color-secondary);
     }
   }

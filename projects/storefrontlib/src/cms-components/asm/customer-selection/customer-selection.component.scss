@@ -86,7 +86,10 @@ cx-customer-selection {
       }
 
       span {
-        margin: 0 15px 0 0;
+        margin-inline-end: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-inline-start: 0;
         word-break: break-all;
         white-space: normal;
         text-align: start;
