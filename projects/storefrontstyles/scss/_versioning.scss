@@ -69,12 +69,12 @@ $stableStyleVersion: math.floor($version);
  *
  * The version related content is only created if the user opt-in for breaking changes.
  */
-@mixin forVersion($fromVersion, $toVersion: 0) {
+@mixin forVersion($from, $to: 0) {
   // We never create content that is part of future releases, this should not really happen.
-  @if ($fromVersion <= $version) {
+  @if ($from <= $version) {
     @if (
-      isStableVersion($fromVersion, $toVersion) or
-        addBreakingChange($fromVersion, $toVersion)
+      (isStableVersion($from, $to) and isValidVersion($from, $to)) or
+        addBreakingChange($from, $to)
     ) {
       @content;
     }
@@ -103,7 +103,13 @@ $stableStyleVersion: math.floor($version);
   @if (useBreakingChanges() == false) {
     @return false;
   }
+  @return isValidVersion($from, $to);
+}
 
+/**
+ * Indicates that the given from / to versions are valid. 
+ */
+@function isValidVersion($from, $to: 0) {
   @if ($to == 0) {
     // ensure that we opt-in the from version
     @return $useLatestStyles or $from <= $styleVersion;
