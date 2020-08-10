@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from '../details/current-unit-address.service';
 import { CurrentUnitService } from '../../current-unit.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-address-edit',
