@@ -172,7 +172,7 @@ describe('OrgUnitService', () => {
   describe('get CostCenters', () => {
     it('getCostCenters() should trigger get()', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
-      let costCenters: CostCenter[];
+      let costCenters: EntitiesModel<CostCenter>;
       service
         .getCostCenters(orgUnitId)
         .subscribe((data) => {
@@ -180,7 +180,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(costCenters).toEqual(orgUnit.costCenters);
+      expect(costCenters).toEqual({ values: orgUnit.costCenters });
     });
   });
 
@@ -270,14 +270,14 @@ describe('OrgUnitService', () => {
 
     it('getChildUnits()', () => {
       store.dispatch(new OrgUnitActions.LoadTreeSuccess(mockedTree));
-      let unitNode: B2BUnitNode[];
+      let unitNode: EntitiesModel<B2BUnitNode>;
       service
         .getChildUnits(mockedTree.children[0].id)
         .subscribe((data) => {
           unitNode = data;
         })
         .unsubscribe();
-      expect(unitNode).toEqual(mockedTree.children[0].children);
+      expect(unitNode).toEqual({ values: mockedTree.children[0].children });
     });
   });
 
