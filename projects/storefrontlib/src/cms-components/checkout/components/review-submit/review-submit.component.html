@@ -8,7 +8,7 @@
     <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
         <ng-container *ngFor="let step of steps">
-          <div [ngSwitch]="step.type[0]">
+          <ng-container [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
               <ng-container *ngTemplateOutlet="poNumber"></ng-container>
             </ng-container>
@@ -21,19 +21,19 @@
             <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
               <ng-container *ngTemplateOutlet="costCenter"></ng-container>
             </ng-container>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">
         <ng-container *ngFor="let step of steps">
-          <div [ngSwitch]="step.type[0]">
+          <ng-container [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
               <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
               <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
             </ng-container>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
     </ng-container>

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -25,7 +24,6 @@ import { ReviewSubmitComponent } from './review-submit.component';
     UrlModule,
     RouterModule,
     PromotionsModule,
-    FeaturesConfigModule,
     IconModule,
   ],
   providers: [

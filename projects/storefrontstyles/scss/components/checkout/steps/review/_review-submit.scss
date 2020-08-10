@@ -51,8 +51,8 @@
         min-height: auto;
       }
 
-      &:not(.cx-review-card-payment):not(.cx-review-card-shipping) {
-        border-bottom: 1px solid var(--cx-color-text);
+      &:not(:last-of-type) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
       }
 
       .cx-card-title {
