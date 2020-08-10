@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CostCenter,
-  CostCenterService,
+  BudgetService,
+  Budget,
   I18nTestingModule,
 } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
@@ -17,14 +17,13 @@ import createSpy = jasmine.createSpy;
 
 const costCenterCode = 'b1';
 
-const mockCostCenter: CostCenter = {
+const mockCostCenter: Budget = {
   code: costCenterCode,
-  name: 'costCenter1',
+  name: 'budget',
   currency: {
     symbol: '$',
     isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
+  }
 };
 
 class MockCurrentBudgetService
@@ -32,7 +31,7 @@ class MockCurrentBudgetService
   code$ = of(costCenterCode);
 }
 
-class MockCostCenterService implements Partial<CostCenterService> {
+class MockBudgetService implements Partial<BudgetService> {
   load = createSpy('load');
   update = createSpy('update');
   get = createSpy('get').and.returnValue(of(mockCostCenter));
@@ -51,7 +50,7 @@ export class MockBudgetCostCenterListComponent {}
 describe('BudgetDetailsComponent', () => {
   let component: BudgetDetailsComponent;
   let fixture: ComponentFixture<BudgetDetailsComponent>;
-  let costCentersService: CostCenterService;
+  let budgetService: BudgetService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,7 +67,7 @@ describe('BudgetDetailsComponent', () => {
         MockBudgetCostCenterListComponent,
       ],
       providers: [
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: BudgetService, useClass: MockBudgetService },
         { provide: ModalService, useClass: MockModalService },
       ],
     })
@@ -84,7 +83,7 @@ describe('BudgetDetailsComponent', () => {
     })
     .compileComponents();
 
-    costCentersService = TestBed.inject(CostCenterService);
+    budgetService = TestBed.inject(BudgetService);
   }));
 
   beforeEach(() => {
@@ -99,13 +98,13 @@ describe('BudgetDetailsComponent', () => {
 
   it('should update costCenter', () => {
     component.update(mockCostCenter);
-    expect(costCentersService.update).toHaveBeenCalledWith(
+    expect(budgetService.update).toHaveBeenCalledWith(
       mockCostCenter.code,
       mockCostCenter
     );
   });
   it('should trigger reload of cost center model on each code change', () => {
-    expect(costCentersService.load).toHaveBeenCalledWith(mockCostCenter.code);
+    expect(budgetService.loadBudget).toHaveBeenCalledWith(mockCostCenter.code);
   });
 
   describe('costCenter$', () => {
