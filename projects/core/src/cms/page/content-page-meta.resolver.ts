@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { CmsService } from '../facade/cms.service';
@@ -21,9 +21,7 @@ import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   /** helper to provide access to the current CMS page */
-  protected cms$: Observable<Page> = this.cms
-    .getCurrentPage()
-    .pipe(filter((p) => Boolean(p)));
+  protected cms$: Observable<Page> = this.cms.getCurrentPage();
 
   constructor(
     protected cms: CmsService,
@@ -37,8 +35,8 @@ export class ContentPageMetaResolver extends PageMetaResolver
    * Resolves the page title for the ContentPage by taking the title
    * from the backend data.
    */
-  resolveTitle(): Observable<string> {
-    return this.cms$.pipe(map((p) => p.title));
+  resolveTitle(): Observable<string | undefined> {
+    return this.cms$.pipe(map((p) => (p ? p.title : undefined)));
   }
 
   /**

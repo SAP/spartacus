@@ -4,12 +4,12 @@ import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActivatedRouterStateSnapshot,
-  ContentPageMetaResolver,
   createFrom,
   EventService,
+  PageMetaService,
 } from '@spartacus/core';
-import { Observable, zip } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { HomePageEvent, PageEvent } from './page.events';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class PageEventBuilder {
   constructor(
     protected actions: ActionsSubject,
     protected eventService: EventService,
-    protected contentPageMetaResolver: ContentPageMetaResolver
+    protected pageMetaService: PageMetaService
   ) {
     this.register();
   }
@@ -31,19 +31,25 @@ export class PageEventBuilder {
 
   protected buildPageEvent(): Observable<PageEvent> {
     const navigation$ = this.getNavigatedEvent();
-    const pageTitle$ = this.contentPageMetaResolver.resolveTitle();
+    const pageTitle$ = this.pageMetaService
+      .getMeta()
+      .pipe(map((meta) => (meta ? meta.title : undefined)));
 
-    return zip(navigation$, pageTitle$).pipe(
-      map(([state, title]) =>
-        createFrom(PageEvent, {
-          ...{
-            title,
-            context: state?.context,
-            semanticRoute: state?.semanticRoute,
-            url: state?.url,
-            params: state?.params,
-          },
-        })
+    return navigation$.pipe(
+      switchMap((state) =>
+        pageTitle$.pipe(
+          map((title) =>
+            createFrom(PageEvent, {
+              ...{
+                title,
+                context: state?.context,
+                semanticRoute: state?.semanticRoute,
+                url: state?.url,
+                params: state?.params,
+              },
+            })
+          )
+        )
       )
     );
   }
