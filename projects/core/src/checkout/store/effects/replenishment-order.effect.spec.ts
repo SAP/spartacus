@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   ReplenishmentOrder,
@@ -15,6 +15,7 @@ import * as fromEffects from './replenishment-order.effect';
 const mockCartId = 'test-cart';
 const mockTermsChecked = true;
 const mockUserId = 'test-user';
+const mockError = 'test-error';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -82,6 +83,29 @@ describe('Replenishment Order Effects', () => {
       const expected = cold('-(bc)', {
         b: completion1,
         c: completion2,
+      });
+
+      expect(effects.scheduleReplenishmentOrder$).toBeObservable(expected);
+    });
+
+    it('should return an error when it fails to schedule a replenishment order', () => {
+      spyOn(connector, 'scheduleReplenishmentOrder').and.returnValue(
+        throwError(mockError)
+      );
+
+      const action = new CheckoutActions.ScheduleReplenishmentOrder({
+        cartId: mockCartId,
+        scheduleReplenishmentForm: mockReplenishmentOrderFormData,
+        termsChecked: mockTermsChecked,
+        userId: mockUserId,
+      });
+      const completion = new CheckoutActions.ScheduleReplenishmentOrderFail(
+        mockError
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: completion,
       });
 
       expect(effects.scheduleReplenishmentOrder$).toBeObservable(expected);
