@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 
-
 import { UnitListComponent } from './unit-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';

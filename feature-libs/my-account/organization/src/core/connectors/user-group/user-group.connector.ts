@@ -3,11 +3,7 @@ import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 import { UserGroupAdapter } from './user-group.adapter';
-import {
-  Permission,
-  B2BUser,
-  EntitiesModel,
-} from '@spartacus/core';
+import { Permission, B2BUser, EntitiesModel } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

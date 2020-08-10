@@ -6,7 +6,6 @@ import { UnitCostCentersService } from './unit-cost-centers.service';
 import { CurrentUnitService } from '../current-unit.service';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
 
-
 @Component({
   selector: 'cx-unit-cost-centers',
   templateUrl: './unit-cost-centers.component.html',

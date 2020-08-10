@@ -2,8 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Country, CountryType, Region } from '../../../../../../../../projects/core/src/model/address.model';
-import { BaseSite, Currency, Language } from '../../../../../../../../projects/core/src/model/misc.model';
+import {
+  Country,
+  CountryType,
+  Region,
+} from '../../../../../../../../projects/core/src/model/address.model';
+import {
+  BaseSite,
+  Currency,
+  Language,
+} from '../../../../../../../../projects/core/src/model/misc.model';
 import {
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,

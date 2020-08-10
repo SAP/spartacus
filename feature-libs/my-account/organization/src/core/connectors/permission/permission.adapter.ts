@@ -6,7 +6,6 @@ import {
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 
-
 export abstract class PermissionAdapter {
   /**
    * Abstract method used to load permissionManagement's details data.

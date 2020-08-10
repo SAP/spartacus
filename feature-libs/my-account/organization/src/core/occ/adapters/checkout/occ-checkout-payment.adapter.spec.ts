@@ -9,8 +9,14 @@ import {
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/core';
-import { Cart, PaymentDetails } from '../../../../../../../../projects/core/src/model/cart.model';
-import { Occ, OccConfig } from '../../../../../../../../projects/core/src/occ/index';
+import {
+  Cart,
+  PaymentDetails,
+} from '../../../../../../../../projects/core/src/model/cart.model';
+import {
+  Occ,
+  OccConfig,
+} from '../../../../../../../../projects/core/src/occ/index';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 
 const userId = '123';

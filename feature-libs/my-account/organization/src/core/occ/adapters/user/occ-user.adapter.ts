@@ -2,7 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Title, User, UserSignUp } from '../../../../../../../../projects/core/src/model/misc.model';
+import {
+  Title,
+  User,
+  UserSignUp,
+} from '../../../../../../../../projects/core/src/model/misc.model';
 import {
   TITLE_NORMALIZER,
   USER_NORMALIZER,

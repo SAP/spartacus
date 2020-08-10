@@ -4,7 +4,6 @@ import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Permission } from '@spartacus/core';
 
-
 import { StateWithOrganization } from '../store/organization-state';
 import { B2BUserActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';

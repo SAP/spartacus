@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,

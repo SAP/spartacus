@@ -11,7 +11,6 @@ import {
 import { getOrganizationState } from './feature.selector';
 import { Budget } from '../../model/budget.model';
 
-
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
   BudgetManagement

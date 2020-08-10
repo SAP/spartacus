@@ -1,6 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { CostCenter,EntitiesModel, Converter} from '@spartacus/core';
-
+import { CostCenter, EntitiesModel, Converter } from '@spartacus/core';
 
 export const COST_CENTER_NORMALIZER = new InjectionToken<
   Converter<any, CostCenter>

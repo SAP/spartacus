@@ -48,13 +48,17 @@ export class OrderApprovalService {
   private getOrderApproval(
     orderApprovalCode: string
   ): Observable<StateUtils.LoaderState<OrderApproval>> {
-    return this.store.select(OrderApprovalSelectors.getOrderApproval(orderApprovalCode));
+    return this.store.select(
+      OrderApprovalSelectors.getOrderApproval(orderApprovalCode)
+    );
   }
 
   private getOrderApprovalList(
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<OrderApproval>>> {
-    return this.store.select(OrderApprovalSelectors.getOrderApprovalList(params));
+    return this.store.select(
+      OrderApprovalSelectors.getOrderApprovalList(params)
+    );
   }
 
   get(orderApprovalCode: string): Observable<OrderApproval> {
@@ -117,7 +121,11 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessLoadingFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessLoadingFactory(
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+        )
+      )
     );
   }
 
@@ -127,7 +135,11 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessErrorFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessErrorFactory(
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+        )
+      )
     );
   }
 
@@ -137,7 +149,11 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessSuccessFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessSuccessFactory(
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+        )
+      )
     );
   }
 

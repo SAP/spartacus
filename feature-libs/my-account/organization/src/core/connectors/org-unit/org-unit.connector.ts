@@ -7,7 +7,7 @@ import {
   B2BApprovalProcess,
   B2BUser,
   B2BAddress,
-  EntitiesModel
+  EntitiesModel,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 

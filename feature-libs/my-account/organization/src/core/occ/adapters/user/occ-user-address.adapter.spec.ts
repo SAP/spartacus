@@ -9,7 +9,10 @@ import {
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
 } from '@spartacus/core';
-import { Address, AddressValidation } from '../../../../../../../../projects/core/src/model/address.model';
+import {
+  Address,
+  AddressValidation,
+} from '../../../../../../../../projects/core/src/model/address.model';
 import { OccConfig } from '../../../../../../../../projects/core/src/occ/config/occ-config';
 import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services';

@@ -4,7 +4,10 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
-import { Cart, CartModification } from '../../../../../../../../projects/core/src/model/cart.model';
+import {
+  Cart,
+  CartModification,
+} from '../../../../../../../../projects/core/src/model/cart.model';
 import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';

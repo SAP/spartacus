@@ -15,7 +15,7 @@ import { UnitAddressCreateComponent } from './unit-address-create.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
-import {OrgUnitService} from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { UnitFormModule } from '../../form/unit-form.module';
 
 const orgUnitId = 'b1';

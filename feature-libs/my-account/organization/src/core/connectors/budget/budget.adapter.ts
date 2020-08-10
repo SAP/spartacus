@@ -3,7 +3,6 @@ import { Budget } from '../../model/budget.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '@spartacus/core';
 
-
 export abstract class BudgetAdapter {
   /**
    * Abstract method used to load budgetManagement's details data.

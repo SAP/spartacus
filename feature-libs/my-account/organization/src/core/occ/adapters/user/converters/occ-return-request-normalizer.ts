@@ -4,7 +4,10 @@ import {
   Converter,
   ConverterService,
 } from '../../../../../../../../../projects/core/src/util/converter.service';
-import { OrderEntry, ReturnRequest } from '../../../../../../../../../projects/core/src/model/order.model';
+import {
+  OrderEntry,
+  ReturnRequest,
+} from '../../../../../../../../../projects/core/src/model/order.model';
 import { PRODUCT_NORMALIZER } from '../../../../../../../../../projects/core/src/product/connectors/product/converters';
 
 @Injectable({ providedIn: 'root' })

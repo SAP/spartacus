@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Order,
-  OrderApproval,
-  RoutingService,
-} from '@spartacus/core';
+import { Order, OrderApproval, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   filter,

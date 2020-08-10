@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
 import { CostCenterService } from '../../../core/services/cost-center.service';
 
-
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [
     {

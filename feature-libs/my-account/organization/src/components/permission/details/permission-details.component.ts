@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {  Permission } from '@spartacus/core';
+import { Permission } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';

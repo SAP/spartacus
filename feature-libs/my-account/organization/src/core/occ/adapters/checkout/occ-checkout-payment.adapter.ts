@@ -8,7 +8,10 @@ import {
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '../../../../../../../../projects/core/src/checkout/connectors/payment/converters';
-import { CardType, PaymentDetails } from '../../../../../../../../projects/core/src/model/cart.model';
+import {
+  CardType,
+  PaymentDetails,
+} from '../../../../../../../../projects/core/src/model/cart.model';
 import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models';
 import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';

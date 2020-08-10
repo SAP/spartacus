@@ -25,7 +25,6 @@ import {
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
 
-
 @NgModule({
   imports: [
     ReactiveFormsModule,

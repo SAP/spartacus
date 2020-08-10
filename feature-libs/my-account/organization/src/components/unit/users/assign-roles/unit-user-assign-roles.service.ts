@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BUser,
-  EntitiesModel,
-} from '@spartacus/core';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {

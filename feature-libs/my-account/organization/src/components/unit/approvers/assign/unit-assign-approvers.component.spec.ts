@@ -26,7 +26,7 @@ import { UnitAssignApproversComponent } from './unit-assign-approvers.component'
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
-import {OrgUnitService} from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';

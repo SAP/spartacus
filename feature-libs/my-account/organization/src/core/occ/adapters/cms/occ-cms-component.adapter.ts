@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../../../../../../projects/core/src/cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../../../../../../projects/core/src/cms/connectors/component/converters';
-import { CmsComponent, PageType } from '../../../../../../../../projects/core/src/model/cms.model';
+import {
+  CmsComponent,
+  PageType,
+} from '../../../../../../../../projects/core/src/model/cms.model';
 import { PageContext } from '../../../../../../../../projects/core/src/routing';
 import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';

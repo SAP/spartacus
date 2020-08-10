@@ -28,7 +28,7 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { IconLoaderService } from '../../../misc';
 import { MockIconLoaderService } from '../../../misc/icon/icon.component.spec';
-import {OrgUnitService} from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';

@@ -6,7 +6,7 @@ import {
   BaseOrganizationListService,
   OrganizationTableType,
 } from '../../../shared/index';
-import {OrgUnitService} from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 @Injectable({
   providedIn: 'root',

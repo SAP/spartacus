@@ -1,4 +1,4 @@
-import { OccConfig } from "./occ-config";
+import { OccConfig } from './occ-config';
 
 export function occConfigValidator(config: OccConfig) {
   if (
