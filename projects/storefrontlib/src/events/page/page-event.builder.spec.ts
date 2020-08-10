@@ -3,8 +3,9 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
   ActivatedRouterStateSnapshot,
-  ContentPageMetaResolver,
   EventService,
+  PageMeta,
+  PageMetaService,
 } from '@spartacus/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -15,9 +16,9 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-const resolveTitleBehavior = new BehaviorSubject<string>(undefined);
-class MockContentPageMetaResolver {
-  resolveTitle = () => resolveTitleBehavior;
+const getMetaBehavior = new BehaviorSubject<PageMeta>(undefined);
+class MockPageMetaService {
+  getMeta = () => getMetaBehavior;
 }
 
 describe('PageEventBuilder', () => {
@@ -30,8 +31,8 @@ describe('PageEventBuilder', () => {
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
         {
-          provide: ContentPageMetaResolver,
-          useClass: MockContentPageMetaResolver,
+          provide: PageMetaService,
+          useClass: MockPageMetaService,
         },
       ],
     });
@@ -41,7 +42,7 @@ describe('PageEventBuilder', () => {
   });
 
   it('PageEvent', () => {
-    resolveTitleBehavior.next('random page title');
+    getMetaBehavior.next({ title: 'random page title' });
     const state = {
       routerState: {
         semanticRoute: 'aPage',
@@ -65,7 +66,7 @@ describe('PageEventBuilder', () => {
   });
 
   it('HomePageEvent', () => {
-    resolveTitleBehavior.next('home page title');
+    getMetaBehavior.next({ title: 'home page title' });
     const state = {
       routerState: {
         semanticRoute: 'home',
