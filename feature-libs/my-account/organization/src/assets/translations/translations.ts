@@ -10,6 +10,9 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
   organization: [
     'costCenter',
     'costCenterAssignBudgets',
+    'unit',
+    'unitAssignRoles',
+    'unitAssignApprovers',
     'userGroup',
     'userGroupAssignUsers',
     'userGroupAssignPermissions',
@@ -19,5 +22,7 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'userAssignPermissions',
     'userAssignUserGroups',
     'permission',
+    'orderApproval',
+    'orderApprovalList',
   ],
 };

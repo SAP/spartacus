@@ -1,3 +1,4 @@
+import { unitAssignApprovers, unitAssignRoles, unit } from './units.i18n';
 import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
 import {
   userGroup,
@@ -12,6 +13,7 @@ import {
   userAssignUserGroups,
 } from './user.i18n';
 import { permission } from './permission.i18n';
+import { orderApproval, orderApprovalList } from './order-approval.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -36,11 +38,13 @@ export const organization = {
     create: 'Create {{name}}',
     edit: 'Edit details',
     save: 'Save {{name}}',
+    delete: 'Delete',
 
     manage: 'Manage',
 
     active: 'Active',
     status: 'Status',
+    details: 'Details',
 
     messages: {
       emptyList: 'The list is empty',
@@ -51,12 +55,16 @@ export const organization = {
       b2bmanagergroup: 'Manager',
       b2badmingroup: 'Admin',
     },
+
     breadcrumb: 'Organization',
   },
 
   // sub feature labels are added below
   costCenter,
   costCenterAssignBudgets,
+  unit,
+  unitAssignRoles,
+  unitAssignApprovers,
   userGroup,
   userGroupAssignUsers,
   userGroupAssignPermissions,
@@ -66,4 +74,6 @@ export const organization = {
   userAssignPermissions,
   userAssignUserGroups,
   permission,
+  orderApproval,
+  orderApprovalList,
 };

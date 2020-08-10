@@ -37,10 +37,8 @@ export const budget = {
       placeholder: 'Amount',
     },
   },
-  budgetCostCenterList: {
-    header: 'Cost Centers',
-  },
   costCenters: {
-    header: 'Cost Centers',
+    link: 'Cost Centers',
+    header: 'Cost Centers in {{code}}',
   },
 };

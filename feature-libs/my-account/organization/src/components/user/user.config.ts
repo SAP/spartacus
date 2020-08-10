@@ -10,11 +10,11 @@ import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
 import { UserListComponent } from './list/user-list.component';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
-import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permission.component';
+import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
 import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
 import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
-import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-group.component';
+import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;

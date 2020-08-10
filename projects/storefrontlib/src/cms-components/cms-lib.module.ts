@@ -41,24 +41,6 @@ import {
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
-  OrderApprovalDetailsModule,
-  OrderApprovalListModule,
-  UnitAddressCreateModule,
-  UnitAddressDetailsModule,
-  UnitAddressEditModule,
-  UnitApproversModule,
-  UnitAssignApproversModule,
-  UnitAssignRolesModule,
-  UnitChildrenModule,
-  UnitCostCentersModule,
-  UnitCreateModule,
-  UnitDetailsModule,
-  UnitEditModule,
-  UnitListModule,
-  UnitManageAddressesModule,
-  UnitUsersModule,
-} from './organization/index';
-import {
   ProductCarouselModule,
   ProductFacetNavigationModule,
   ProductIntroModule,
@@ -125,22 +107,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
-    UnitListModule,
-    UnitCreateModule,
-    UnitDetailsModule,
-    UnitEditModule,
-    UnitAssignRolesModule,
-    UnitUsersModule,
-    UnitApproversModule,
-    UnitAssignApproversModule,
-    UnitManageAddressesModule,
-    UnitChildrenModule,
-    UnitCostCentersModule,
-    UnitAddressEditModule,
-    UnitAddressCreateModule,
-    UnitAddressDetailsModule,
-    OrderApprovalDetailsModule,
-    OrderApprovalListModule,
   ],
 })
 export class CmsLibModule {}

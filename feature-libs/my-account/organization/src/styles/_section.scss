@@ -28,6 +28,7 @@
         }
       }
     }
+
     .child-link {
       h4 {
         padding: 8px;
@@ -39,6 +40,7 @@
         display: flex;
       }
     }
+
     .property {
       // display: flex;
       // flex-wrap: wrap;
@@ -84,6 +86,9 @@
       padding-bottom: 16px;
     }
   }
+  .tree-list {
+    padding: 1rem;
+  }
   .actions {
     display: flex;
     justify-content: flex-end;
@@ -94,6 +99,7 @@
       color: var(--cx-color-primary);
       line-height: 0.8rem;
       text-transform: none;
+      padding-left: 1rem;
     }
   }
   .instructions {

@@ -10,7 +10,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'budget.budgetCostCenterList.header' | cxTranslate }}</span>
+    <span>{{
+      'budget.costCenters.header' | cxTranslate: { code: budgetCode }
+    }}</span>
   </h3>
 
   <section>

@@ -4,6 +4,7 @@ import { RoutingService, PermissionService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
 import { Observable } from 'rxjs';
+import { FormUtils } from 'projects/storefrontlib/src/utils';
 @Component({
   selector: 'cx-permission-create',
   templateUrl: './permission-create.component.html',
@@ -34,9 +35,9 @@ export class PermissionCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
-      console.log(form.value);
       this.permissionService.create(form.value);
 
       this.routingService.go({
