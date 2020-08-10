@@ -8,7 +8,8 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc",
+    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc",
+    "build:core:lib": "yarn build:libs",
     "build:incubator": "ng build incubator --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
