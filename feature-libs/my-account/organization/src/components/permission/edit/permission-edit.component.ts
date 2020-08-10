@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-<<<<<<< HEAD
-=======
-import { ActivatedRoute } from '@angular/router';
->>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
 import { UserGroup, RoutingService, PermissionService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -14,11 +10,8 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
-<<<<<<< HEAD
 import { CurrentPermissionService } from '../current-permission.service';
-=======
 import { FormUtils } from 'projects/storefrontlib/src/utils';
->>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
 
 @Component({
   selector: 'cx-permission-edit',
@@ -26,17 +19,9 @@ import { FormUtils } from 'projects/storefrontlib/src/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionEditComponent {
-<<<<<<< HEAD
   protected code$ = this.currentPermissionService.code$;
 
   protected permission$: Observable<UserGroup> = this.currentPermissionService.code$.pipe(
-=======
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
-
-  protected permission$: Observable<UserGroup> = this.code$.pipe(
->>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
     tap((code) => this.permissionService.loadPermission(code)),
     switchMap((code) => this.permissionService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
@@ -56,11 +41,7 @@ export class PermissionEditComponent {
   constructor(
     protected permissionService: PermissionService,
     protected permissionFormSerivce: PermissionFormService,
-<<<<<<< HEAD
     protected currentPermissionService: CurrentPermissionService,
-=======
-    protected activatedRoute: ActivatedRoute,
->>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.
@@ -70,10 +51,7 @@ export class PermissionEditComponent {
   save(permissionCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
-<<<<<<< HEAD
-=======
       FormUtils.deepUpdateValueAndValidity(form);
->>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
     } else {
       form.disable();
       this.permissionService.update(permissionCode, form.value);
