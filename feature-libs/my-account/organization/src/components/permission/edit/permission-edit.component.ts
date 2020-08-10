@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UserGroup, RoutingService, PermissionService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,7 +12,6 @@ import {
 } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
 import { CurrentPermissionService } from '../current-permission.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-permission-edit',

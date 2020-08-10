@@ -4,7 +4,7 @@ import { B2BUserService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
 import { Observable } from 'rxjs';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-create',

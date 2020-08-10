@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../current-unit.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-create',

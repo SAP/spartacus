@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,7 +12,6 @@ import {
 } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from '../current-budget.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-budget-edit',

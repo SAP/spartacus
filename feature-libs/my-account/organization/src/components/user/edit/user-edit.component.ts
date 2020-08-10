@@ -11,7 +11,7 @@ import {
 } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
 import { CurrentUserService } from '../current-user.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-edit',

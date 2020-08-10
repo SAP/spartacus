@@ -4,7 +4,7 @@ import { RoutingService, UserGroupService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroupFormService } from '../form/user-group-form.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-group-create',
