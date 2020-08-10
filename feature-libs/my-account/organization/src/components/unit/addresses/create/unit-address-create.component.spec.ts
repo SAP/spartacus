@@ -46,7 +46,7 @@ class MockCurrentUnitService implements Partial<CurrentUnitService> {
   code$ = of(orgUnitId);
 }
 
-fdescribe('UnitAddressCreateComponent', () => {
+describe('UnitAddressCreateComponent', () => {
   let component: UnitAddressCreateComponent;
   let fixture: ComponentFixture<UnitAddressCreateComponent>;
   let orgUnitService: MockOrgUnitService;
