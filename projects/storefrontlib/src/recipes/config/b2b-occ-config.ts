@@ -9,6 +9,8 @@ export const defaultB2bOccConfig: OccConfig = {
         setDeliveryAddress:
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         placeOrder: 'orgUsers/${userId}/orders?termsChecked=true',
+        scheduleReplenishmentOrder:
+          'orgUsers/${userId}/replenishmentOrders?cartId=${cartId}&termsChecked=${termsChecked}',
       },
     },
   },
