@@ -9,11 +9,11 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
   B2BUnitNode,
-  OrgUnitService,
   UserService,
   Title,
 } from '@spartacus/core';
 import { sortTitles } from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @Component({
   selector: 'cx-user-form',

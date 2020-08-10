@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BUser,
-  B2BUserService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -16,6 +15,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { Observable, of } from 'rxjs';
 import { UserEditComponent } from './user-edit.component';
 import { By } from '@angular/platform-browser';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 import createSpy = jasmine.createSpy;
 
 @Component({

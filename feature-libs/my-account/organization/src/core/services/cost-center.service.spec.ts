@@ -9,13 +9,13 @@ import { CostCenterActions, BudgetActions } from '../store/actions/index';
 import { CostCenterService } from './cost-center.service';
 import { B2BSearchConfig } from '../model/search-config';
 import {
-  Budget,
   CostCenter,
   EntitiesModel,
   AuthService,
   StateWithOrganization,
   ORGANIZATION_FEATURE,
 } from '@spartacus/core';
+import { Budget } from '../model/budget.model';
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';

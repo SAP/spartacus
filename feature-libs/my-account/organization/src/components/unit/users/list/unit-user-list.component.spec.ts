@@ -23,7 +23,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { UnitUserListComponent } from './unit-users.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -139,7 +138,7 @@ describe('UnitUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitUserListComponent,
         MockUrlPipe,

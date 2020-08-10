@@ -14,12 +14,12 @@ import {
   EntitiesModel,
   B2BUser,
   Permission,
-  UserGroup,
   StateUtils,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
 import { getOrganizationState } from './feature.selector';
+import { UserGroup } from '../../model/user-group.model';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,

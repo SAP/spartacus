@@ -14,11 +14,11 @@ import { B2BSearchConfig } from '../../model/search-config';
 
 import {
   CostCenter,
-  Budget,
-  CostCenterConnector,
   OccConfig,
 } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { Budget } from '../../model/budget.model';
+import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 
 const error = 'error';
 const costCenterCode = 'testCode';

@@ -18,16 +18,15 @@ import {
   B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitService,
   B2BUser,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
+import {OrgUnitService} from '../../../../core/services/org-unit.service';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
@@ -150,7 +149,7 @@ describe('UnitAssignApproversComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitAssignApproversComponent,
         MockUrlPipe,

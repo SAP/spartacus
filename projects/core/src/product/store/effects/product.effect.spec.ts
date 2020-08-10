@@ -6,7 +6,7 @@ import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
 import { Product } from '../../../model/product.model';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import { defaultOccProductConfig } from '@spartacus/my-account/organization/src/core/occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { ProductConnector } from '../../connectors/product/product.connector';

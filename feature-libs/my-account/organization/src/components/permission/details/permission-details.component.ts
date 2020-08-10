@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PermissionService, Permission } from '@spartacus/core';
+import {  Permission } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
-
+import { PermissionService } from '../../../core/services/permission.service';
 @Component({
   selector: 'cx-permission-details',
   templateUrl: './permission-details.component.html',

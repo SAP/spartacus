@@ -10,13 +10,13 @@ import {
 import { normalizeListPage } from '../../utils/serializer';
 import {
   Permission,
-  UserGroup,
   B2BUser,
   EntitiesModel,
-  B2BUserConnector,
   RoutingService,
   normalizeHttpError,
 } from '@spartacus/core';
+import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
+import { UserGroup } from '../../model/user-group.model';
 
 @Injectable()
 export class B2BUserEffects {

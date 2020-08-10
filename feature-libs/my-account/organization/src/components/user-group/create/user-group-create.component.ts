@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { RoutingService, UserGroupService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroupFormService } from '../form/user-group-form.service';
+import { UserGroupService } from '../../../core/services/user-group.service';
 
 @Component({
   selector: 'cx-user-group-create',

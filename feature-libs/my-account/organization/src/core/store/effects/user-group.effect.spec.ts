@@ -8,8 +8,6 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 import {
-  UserGroup,
-  UserGroupConnector,
   UserGroupActions,
   PermissionActions,
   B2BUserActions,
@@ -18,6 +16,8 @@ import {
 import * as fromEffects from './user-group.effect';
 import { B2BSearchConfig } from '../../model/search-config';
 import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { UserGroup } from '../../model/user-group.model';
+import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 
 const error = 'error';
 const userGroupId = 'testUid';

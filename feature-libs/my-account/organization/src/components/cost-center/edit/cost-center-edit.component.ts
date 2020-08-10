@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -12,6 +12,7 @@ import {
 } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-edit',

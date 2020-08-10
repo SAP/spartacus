@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { of, BehaviorSubject, Observable } from 'rxjs';
 
 import {
   I18nTestingModule,
-  OrgUnitService,
   B2BUnitNode,
   B2BApprovalProcess,
   Currency,
@@ -17,9 +17,11 @@ import {
 
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
-import { By } from '@angular/platform-browser';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import {
+  FormErrorsComponent,
+  DateTimePickerModule,
+} from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },
@@ -99,7 +101,7 @@ describe('UnitFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        DatePickerModule,
+        DateTimePickerModule,
         ReactiveFormsModule,
         NgSelectModule,
         RouterTestingModule,

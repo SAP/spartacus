@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CostCenter,
-  CostCenterService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -16,6 +15,8 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterEditComponent } from './cost-center-edit.component';
+import { CostCenterService } from '../../../core/services/cost-center.service';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

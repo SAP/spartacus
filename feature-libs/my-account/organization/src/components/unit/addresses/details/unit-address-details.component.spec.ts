@@ -15,7 +15,6 @@ import {
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
 
 const code = 'b1';
 const addressId = 'a1';
@@ -73,7 +72,7 @@ describe('UnitAddressDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [UnitAddressDetailsComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

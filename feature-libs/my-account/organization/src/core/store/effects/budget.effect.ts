@@ -5,13 +5,12 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import {
   EntitiesModel,
-  Budget,
-  BudgetConnector,
   normalizeHttpError,
 } from '@spartacus/core';
-
+import { Budget } from '../../model/budget.model';
 import { BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
+import { BudgetConnector } from '../../connectors/budget/budget.connector';
 
 @Injectable()
 export class BudgetEffects {

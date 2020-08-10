@@ -10,11 +10,11 @@ import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
-  PermissionService,
   EntitiesModel,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
+import { PermissionService } from './permission.service';
 import * as fromReducers from '../store/reducers/index';
 import createSpy = jasmine.createSpy;
 

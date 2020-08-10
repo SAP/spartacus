@@ -5,8 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  UserGroup,
-  UserGroupService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -16,6 +14,8 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { Observable, of } from 'rxjs';
 import { UserGroupEditComponent } from './user-group-edit.component';
 import { By } from '@angular/platform-browser';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
 import createSpy = jasmine.createSpy;
 
 @Component({

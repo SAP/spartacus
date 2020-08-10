@@ -1,7 +1,8 @@
-import { B2BSearchConfig } from '../../model/search-config';
+import { StateUtils, ListModel } from '@spartacus/core';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
-import { StateUtils, Budget, ListModel } from '@spartacus/core';
+import { B2BSearchConfig } from '../../model/search-config';
+import { Budget } from '../../model/budget.model';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroup, UserGroupService, RoutingService } from '@spartacus/core';
+import {RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,7 +11,8 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { UserGroupFormService } from '../form/user-group-form.service';
-
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
 @Component({
   selector: 'cx-user-group-edit',
   templateUrl: './user-group-edit.component.html',

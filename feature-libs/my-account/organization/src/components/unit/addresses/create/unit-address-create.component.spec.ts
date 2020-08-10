@@ -8,15 +8,15 @@ import {
   RoutingService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitService,
   B2BAddress,
 } from '@spartacus/core';
 
 import { UnitAddressCreateComponent } from './unit-address-create.component';
 import createSpy = jasmine.createSpy;
-import { UnitFormModule } from '../form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import {OrgUnitService} from '../../../../core/services/org-unit.service';
+import { UnitFormModule } from '../../form/unit-form.module';
 
 const orgUnitId = 'b1';
 const addressId = 'a1';

@@ -8,7 +8,6 @@ import {
   RoutingService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitService,
   Currency,
   CurrencyService,
   B2BUnitNode,
@@ -21,6 +20,7 @@ import createSpy = jasmine.createSpy;
 import { UnitFormModule } from '../form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const orgUnitCode = 'b1';
 

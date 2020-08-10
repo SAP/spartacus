@@ -5,11 +5,11 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   EntitiesModel,
   OrderApproval,
-  OrderApprovalConnector,
   normalizeHttpError,
 } from '@spartacus/core';
 import { OrderApprovalActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
+import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
 
 @Injectable()
 export class OrderApprovalEffects {

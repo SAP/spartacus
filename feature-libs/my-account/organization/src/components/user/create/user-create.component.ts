@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUserService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
 import { Observable } from 'rxjs';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 
 @Component({
   selector: 'cx-user-create',

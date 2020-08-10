@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Permission, B2BUserService, EntitiesModel } from '@spartacus/core';
+import { Permission, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,6 @@
-import { Budget, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { CostCenterActions, BudgetActions } from '../actions/index';
+import { Budget } from '../../model/budget.model';
 
 export const budgetInitialState = {};
 export const budgetsInitialState = undefined;

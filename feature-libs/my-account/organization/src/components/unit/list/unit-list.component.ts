@@ -10,13 +10,13 @@ import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import {
-  OrgUnitService,
   RoutingService,
   B2BUnitNode,
   SemanticPathService,
   RouterState,
 } from '@spartacus/core';
 import { NavigationNode } from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const BASE_CLASS = 'organization';
 

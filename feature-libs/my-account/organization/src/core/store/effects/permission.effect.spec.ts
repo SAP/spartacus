@@ -9,7 +9,6 @@ import { Observable, of, throwError } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
-  PermissionConnector,
   OccConfig,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -17,6 +16,7 @@ import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
 import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { PermissionConnector } from '../../connectors/permission/permission.connector';
 
 const error = 'error';
 const permissionCode = 'testCode';

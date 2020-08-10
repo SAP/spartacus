@@ -8,8 +8,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserAssignPermissionsComponent } from './user-assign-permission.component';
-import { UserAssignPermissionListService } from './user-assign-permission.service';
+import { UserAssignPermissionsComponent } from '../../permissions/assign/user-assign-permission.component';
+import { UserAssignPermissionListService } from '../../permissions/assign/user-assign-permission.service';
 
 const userCode = 'userCode';
 

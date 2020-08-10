@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CostCenter, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 import { Observable, of } from 'rxjs';
-import { CostCenterListService } from './budget-list.service';
+import { BudgetListService } from './budget-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [
@@ -28,14 +29,14 @@ export class MockTableService {
   }
 }
 
-describe('CostCenterListService', () => {
-  let service: CostCenterListService;
+describe('BudgetListService', () => {
+  let service: BudgetListService;
 
   describe('with table config', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          CostCenterListService,
+          BudgetListService,
           {
             provide: CostCenterService,
             useClass: MockCostCenterService,
@@ -46,7 +47,7 @@ describe('CostCenterListService', () => {
           },
         ],
       });
-      service = TestBed.inject(CostCenterListService);
+      service = TestBed.inject(BudgetListService);
     });
 
     it('should inject service', () => {

@@ -3,8 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  UserGroup,
-  UserGroupService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
@@ -13,6 +11,9 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { UserGroupDetailsComponent } from './user-group-details.component';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
+
 import createSpy = jasmine.createSpy;
 
 const userGroupCode = 'b1';

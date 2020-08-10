@@ -7,13 +7,13 @@ import { B2BSearchConfig } from '../model/search-config';
 import { StateWithOrganization, BudgetActions } from '../store/index';
 import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
 import {
-  Budget,
   EntitiesModel,
   CostCenter,
   AuthService,
   StateWithProcess,
   StateUtils,
 } from '@spartacus/core';
+import { Budget } from '../model/budget.model';
 
 @Injectable()
 export class BudgetService {

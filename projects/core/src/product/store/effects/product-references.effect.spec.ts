@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import { defaultOccProductConfig } from '@spartacus/my-account/organization/src/core/occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';

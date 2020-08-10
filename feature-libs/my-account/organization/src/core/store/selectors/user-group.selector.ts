@@ -12,7 +12,6 @@ import {
 } from '../../utils/serializer';
 import {
   StateUtils,
-  UserGroup,
   EntitiesModel,
   Permission,
   B2BUser,
@@ -20,6 +19,7 @@ import {
 import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
 import { getB2BUsersState } from './b2b-user.selector';
+import { UserGroup } from '../../model/user-group.model';
 
 export const getUserGroupManagementState: MemoizedSelector<
   StateWithOrganization,

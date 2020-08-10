@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils, Budget, EntitiesModel } from '@spartacus/core';
+import { StateUtils, EntitiesModel } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
@@ -9,6 +9,8 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
+import { Budget } from '../../model/budget.model';
+
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,

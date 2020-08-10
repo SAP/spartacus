@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { StoreCount } from '../../../model/store-finder.model';
-import { OccConfig } from '../../../occ';
+import { OccConfig } from '@spartacus/my-account/organization/src/core';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './view-all-stores.effect';

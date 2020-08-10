@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
 import { CurrentUserService } from '../current-user.service';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 
 @Component({
   selector: 'cx-user-edit',

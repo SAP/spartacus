@@ -1,6 +1,7 @@
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { BudgetActions } from './index';
-import { StateUtils, Budget } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { Budget } from '../../model/budget.model';
 
 const budgetCode = 'testBudgetId';
 const budget: Budget = {

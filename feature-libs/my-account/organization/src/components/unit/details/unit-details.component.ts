@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { CurrentUnitService } from '../current-unit.service';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @Component({
   selector: 'cx-unit-details',

@@ -7,8 +7,6 @@ import {
 import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
-  OrgUnitService,
-  PermissionService,
   OrderApprovalPermissionType,
   CurrencyService,
   Currency,
@@ -19,6 +17,8 @@ import {
   PermissionFormService,
   PermissionType,
 } from './permission-form.service';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { PermissionService } from '../../../core/services/permission.service';
 
 @Component({
   selector: 'cx-permission-form',

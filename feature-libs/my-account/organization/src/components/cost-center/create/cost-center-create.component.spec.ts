@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CostCenterService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -12,8 +12,9 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CostCenterCreateComponent } from './cost-center-create.component';
-import { By } from '@angular/platform-browser';
 import { CostCenterFormService } from '../form/cost-center-form.service';
+import { CostCenterService } from '../../../core/services/cost-center.service';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

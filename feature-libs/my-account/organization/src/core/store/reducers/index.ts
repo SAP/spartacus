@@ -13,13 +13,11 @@ import {
   B2BUnit,
   B2BUnitNode,
   B2BUser,
-  Budget,
   CostCenter,
   ListModel,
   OrderApproval,
   OrderApprovalPermissionType,
   Permission,
-  UserGroup,
   StateUtils,
 } from '@spartacus/core';
 
@@ -89,6 +87,8 @@ import {
   userGroupEntitiesReducer,
   userGroupsListReducer,
 } from './user-group.reducer';
+import { Budget } from '../../model/budget.model';
+import { UserGroup } from '../../model/user-group.model';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {

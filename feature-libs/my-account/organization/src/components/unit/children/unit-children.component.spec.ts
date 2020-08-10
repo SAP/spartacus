@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
   B2BUnitNode,
@@ -15,7 +14,7 @@ import {
 import { UnitChildrenComponent } from './unit-children.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const code = 'b1';
 
@@ -104,7 +103,7 @@ describe('UnitChildrenComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [UnitChildrenComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

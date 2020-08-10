@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  UserGroupService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -15,6 +14,7 @@ import { UserGroupCreateComponent } from './user-group-create.component';
 import { By } from '@angular/platform-browser';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import createSpy = jasmine.createSpy;
+import { UserGroupService } from '../../../core/services/user-group.service';
 
 @Component({
   selector: 'cx-user-group-form',

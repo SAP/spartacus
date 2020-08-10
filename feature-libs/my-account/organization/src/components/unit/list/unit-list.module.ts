@@ -5,7 +5,6 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitListComponent } from './unit-list.component';
 import {
   IconModule,
-  InteractiveTableModule,
   SplitViewModule,
 } from '@spartacus/storefront';
 import { UnitTreeModule } from '../unit-tree/unit-tree.module';
@@ -16,7 +15,6 @@ import { UnitTreeModule } from '../unit-tree/unit-tree.module';
     RouterModule,
     UrlModule,
     I18nModule,
-    InteractiveTableModule,
     UnitTreeModule,
     SplitViewModule,
     RouterModule,

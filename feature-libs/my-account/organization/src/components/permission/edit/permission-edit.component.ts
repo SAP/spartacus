@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroup, RoutingService, PermissionService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,6 +11,8 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { PermissionService } from '../../../core/services/permission.service';
 
 @Component({
   selector: 'cx-permission-edit',

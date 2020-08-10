@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  PermissionService,
 } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
@@ -14,6 +13,7 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { PermissionFormService } from '../form/permission-form.service';
 import { PermissionCreateComponent } from './permission-create.component';
+import { PermissionService } from '../../../core/services/permission.service';
 import createSpy = jasmine.createSpy;
 
 @Component({

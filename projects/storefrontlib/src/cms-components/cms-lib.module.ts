@@ -41,10 +41,6 @@ import {
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
-  OrderApprovalDetailsModule,
-  OrderApprovalListModule,
-} from './organization/index';
-import {
   ProductCarouselModule,
   ProductFacetNavigationModule,
   ProductIntroModule,
@@ -111,8 +107,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
-    OrderApprovalDetailsModule,
-    OrderApprovalListModule,
   ],
 })
 export class CmsLibModule {}

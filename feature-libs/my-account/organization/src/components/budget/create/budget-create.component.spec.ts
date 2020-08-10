@@ -2,11 +2,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CostCenterService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
@@ -15,6 +11,7 @@ import { BudgetCreateComponent } from './budget-create.component';
 import { By } from '@angular/platform-browser';
 import { BudgetFormService } from '../form/budget-form.service';
 import createSpy = jasmine.createSpy;
+import { BudgetService } from '../../../core/services/budget.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -27,7 +24,7 @@ class MockCostCenterFormComponent {
 
 const costCenterCode = 'b1';
 
-class MockCostCenterService implements Partial<CostCenterService> {
+class MockCostCenterService implements Partial<BudgetService> {
   create = createSpy('create');
   getBudgets = createSpy('getBudgets');
 }
@@ -58,7 +55,7 @@ class MockRoutingService {
 describe('BudgetCreateComponent', () => {
   let component: BudgetCreateComponent;
   let fixture: ComponentFixture<BudgetCreateComponent>;
-  let costCenterService: CostCenterService;
+  let costCenterService: BudgetService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;
@@ -76,12 +73,12 @@ describe('BudgetCreateComponent', () => {
       declarations: [BudgetCreateComponent, MockCostCenterFormComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: BudgetService, useClass: MockCostCenterService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.inject(CostCenterService);
+    costCenterService = TestBed.inject(BudgetService);
     routingService = TestBed.inject(RoutingService);
   }));
 

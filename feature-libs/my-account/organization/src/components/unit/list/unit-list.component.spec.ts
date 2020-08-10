@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 
 import { UnitListComponent } from './unit-list.component';
 import createSpy = jasmine.createSpy;
@@ -53,7 +52,7 @@ xdescribe('UnitListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [UnitListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

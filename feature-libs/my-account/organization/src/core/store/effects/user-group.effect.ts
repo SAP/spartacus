@@ -3,11 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
-  UserGroup,
   EntitiesModel,
   Permission,
   B2BUser,
-  UserGroupConnector,
   normalizeHttpError,
 } from '@spartacus/core';
 import {
@@ -16,6 +14,8 @@ import {
   B2BUserActions,
 } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
+import { UserGroup } from '../../model/user-group.model';
+import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 
 @Injectable()
 export class UserGroupEffects {

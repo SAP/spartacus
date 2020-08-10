@@ -4,15 +4,15 @@ import {
   B2BUnit,
   B2BUnitNode,
   B2BUser,
-  Budget,
   CostCenter,
   ListModel,
   OrderApproval,
   OrderApprovalPermissionType,
   Permission,
-  UserGroup,
   StateUtils,
 } from '@spartacus/core';
+import { UserGroup } from '../model/user-group.model';
+import { Budget } from '../model/budget.model';
 
 export const ORGANIZATION_FEATURE = 'organization';
 

@@ -16,12 +16,12 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  UserGroupService,
-  UserGroup,
   B2BUser,
   Permission,
   EntitiesModel,
 } from '@spartacus/core';
+import { UserGroup } from '../model';
+import { UserGroupService } from './user-group.service';
 
 const userId = 'current';
 const testUserGroupId = 'testUserGroup';

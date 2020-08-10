@@ -5,13 +5,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   B2BUnitNode,
   I18nTestingModule,
-  OrgUnitService,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { UserFormComponent } from './user-form.component';
 import createSpy = jasmine.createSpy;
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {

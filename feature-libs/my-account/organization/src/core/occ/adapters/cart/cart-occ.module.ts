@@ -1,0 +1,44 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { CartAdapter } from '../../../../../../../../projects/core/src/cart/connectors/cart/cart.adapter';
+import { CART_NORMALIZER } from '../../../../../../../../projects/core/src/cart/connectors/cart/converters';
+import { CartEntryAdapter } from '../../../../../../../../projects/core/src/cart/connectors/entry/cart-entry.adapter';
+import { SaveCartAdapter } from '../../../../../../../../projects/core/src/cart/connectors/save-cart/save-cart.adapter';
+import { CartVoucherAdapter } from '../../../../../../../../projects/core/src/cart/connectors/voucher/cart-voucher.adapter';
+import { provideDefaultConfig } from '../../../../../../../../projects/core/src/config/config.module';
+import { OccCartNormalizer } from './converters/occ-cart-normalizer';
+import { defaultOccCartConfig } from './default-occ-cart-config';
+import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
+import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
+import { OccCartAdapter } from './occ-cart.adapter';
+import { OccSaveCartAdapter } from './occ-save-cart.adapter';
+
+@NgModule({
+  imports: [CommonModule, HttpClientModule],
+  providers: [
+    provideDefaultConfig(defaultOccCartConfig),
+    {
+      provide: CartAdapter,
+      useClass: OccCartAdapter,
+    },
+    {
+      provide: CART_NORMALIZER,
+      useExisting: OccCartNormalizer,
+      multi: true,
+    },
+    {
+      provide: CartEntryAdapter,
+      useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartVoucherAdapter,
+      useClass: OccCartVoucherAdapter,
+    },
+    {
+      provide: SaveCartAdapter,
+      useClass: OccSaveCartAdapter,
+    },
+  ],
+})
+export class CartOccModule {}

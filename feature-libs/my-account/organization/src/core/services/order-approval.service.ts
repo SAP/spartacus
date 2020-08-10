@@ -9,6 +9,7 @@ import {
   StateWithProcess,
   EntitiesModel,
   StateUtils,
+  ProcessSelectors,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
@@ -16,16 +17,7 @@ import {
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
   StateWithOrganization,
 } from '../store/organization-state';
-import {
-  getOrderApproval,
-  getOrderApprovalList,
-} from '../store/selectors/order-approval.selector';
-
-import {
-  getProcessErrorFactory,
-  getProcessLoadingFactory,
-  getProcessSuccessFactory,
-} from 'projects/core/src/process/store/selectors/process.selectors';
+import { OrderApprovalSelectors } from '../store/selectors';
 
 @Injectable()
 export class OrderApprovalService {
@@ -56,13 +48,13 @@ export class OrderApprovalService {
   private getOrderApproval(
     orderApprovalCode: string
   ): Observable<StateUtils.LoaderState<OrderApproval>> {
-    return this.store.select(getOrderApproval(orderApprovalCode));
+    return this.store.select(OrderApprovalSelectors.getOrderApproval(orderApprovalCode));
   }
 
   private getOrderApprovalList(
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<OrderApproval>>> {
-    return this.store.select(getOrderApprovalList(params));
+    return this.store.select(OrderApprovalSelectors.getOrderApprovalList(params));
   }
 
   get(orderApprovalCode: string): Observable<OrderApproval> {
@@ -125,7 +117,7 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(ProcessSelectors.getProcessLoadingFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
     );
   }
 
@@ -135,7 +127,7 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(ProcessSelectors.getProcessErrorFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
     );
   }
 
@@ -145,7 +137,7 @@ export class OrderApprovalService {
    */
   getMakeDecisionResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+      select(ProcessSelectors.getProcessSuccessFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
     );
   }
 

@@ -6,12 +6,12 @@ import {
   OrderApprovalPermissionType,
   Permission,
   EntitiesModel,
-  PermissionActions,
-  PermissionConnector,
   normalizeHttpError,
 } from '@spartacus/core';
 
 import { normalizeListPage } from '../../utils/serializer';
+import { PermissionConnector } from '../../connectors/permission/permission.connector';
+import { PermissionActions } from '../actions';
 
 @Injectable()
 export class PermissionEffects {

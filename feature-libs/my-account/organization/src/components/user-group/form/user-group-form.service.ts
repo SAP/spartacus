@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserGroup } from '@spartacus/core';
+import { UserGroup } from '../../../core/model/user-group.model';
 
 @Injectable({
   providedIn: 'root',

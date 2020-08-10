@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Permission } from '@spartacus/core';
+
+
 import { StateWithOrganization } from '../store/organization-state';
 import { B2BUserActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-
 import {
   getB2BUserState,
   getUserList,
@@ -13,8 +15,6 @@ import {
   getB2BUserApprovers,
   getB2BUserUserGroups,
 } from '../store/selectors/b2b-user.selector';
-import { Permission, UserGroup } from '@spartacus/core';
-
 import {
   StateWithProcess,
   AuthService,
@@ -22,6 +22,7 @@ import {
   B2BUser,
   StateUtils,
 } from '@spartacus/core';
+import { UserGroup } from '../model/user-group.model';
 
 @Injectable()
 export class B2BUserService {

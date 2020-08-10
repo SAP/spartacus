@@ -9,7 +9,8 @@ import {
   PERMISSION_ENTITIES,
 } from '../organization-state';
 
-import { ListModel, UserGroup, StateUtils } from '@spartacus/core';
+import { ListModel, StateUtils } from '@spartacus/core';
+import { UserGroup } from '../../../core/model/user-group.model';
 
 export const LOAD_USER_GROUP = '[UserGroup] Load UserGroup Data';
 export const LOAD_USER_GROUP_FAIL = '[UserGroup] Load UserGroup Data Fail';

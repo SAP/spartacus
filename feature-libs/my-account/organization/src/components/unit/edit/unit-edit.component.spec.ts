@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
   Currency,
@@ -21,6 +20,7 @@ import createSpy = jasmine.createSpy;
 import { UnitFormModule } from '../form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const code = 'b1';
 

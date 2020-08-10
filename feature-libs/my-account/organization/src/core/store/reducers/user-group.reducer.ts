@@ -1,6 +1,8 @@
 import * as UserGroupActions from '../actions/user-group.action';
-import { UserGroup, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { B2BUserActions } from '../actions/index';
+import { UserGroup } from '../../model/user-group.model';
+
 export const userGroupInitialState = {};
 export const userGroupsInitialState = undefined;
 

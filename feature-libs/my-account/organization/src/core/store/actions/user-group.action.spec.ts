@@ -6,8 +6,9 @@ import {
   USER_GROUP_AVAILABLE_CUSTOMERS,
   B2B_USER_ENTITIES,
 } from '../organization-state';
-import { UserGroup, StateUtils } from '@spartacus/core';
+import {  StateUtils } from '@spartacus/core';
 import { UserGroupActions } from './index';
+import { UserGroup } from '../../../core/model/user-group.model';
 
 const userGroupId = 'testUserGroupId';
 const permissionUid = 'permissionUid';

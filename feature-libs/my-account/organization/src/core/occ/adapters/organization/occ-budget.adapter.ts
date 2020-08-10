@@ -1,0 +1,66 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+import { BudgetAdapter } from '../../../connectors/budget/budget.adapter';
+import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
+import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
+import {
+  BUDGET_NORMALIZER,
+  BUDGETS_NORMALIZER,
+} from '../../../connectors/budget/converters';
+import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
+import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { Budget } from '../../../model/budget.model';
+import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
+
+@Injectable()
+export class OccBudgetAdapter implements BudgetAdapter {
+  constructor(
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
+  ) {}
+
+  load(userId: string, budgetCode: string): Observable<Budget> {
+    return this.http
+      .get<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode))
+      .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+  }
+
+  loadList(
+    userId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
+    return this.http
+      .get<Occ.BudgetsList>(this.getBudgetsEndpoint(userId, params))
+      .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
+  }
+
+  create(userId: string, budget: Budget): Observable<Budget> {
+    return this.http
+      .post<Occ.Budget>(this.getBudgetsEndpoint(userId), budget)
+      .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+  }
+
+  update(
+    userId: string,
+    budgetCode: string,
+    budget: Budget
+  ): Observable<Budget> {
+    return this.http
+      .patch<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
+      .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+  }
+
+  protected getBudgetEndpoint(userId: string, budgetCode: string): string {
+    return this.occEndpoints.getUrl('budget', { userId, budgetCode });
+  }
+
+  protected getBudgetsEndpoint(
+    userId: string,
+    params?: B2BSearchConfig
+  ): string {
+    return this.occEndpoints.getUrl('budgets', { userId }, params);
+  }
+}

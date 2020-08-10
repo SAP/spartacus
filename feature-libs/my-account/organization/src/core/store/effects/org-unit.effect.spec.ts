@@ -13,7 +13,6 @@ import {
   B2BUnitNode,
   B2BUser,
   B2BUnit,
-  OrgUnitConnector,
   OccConfig,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model';
@@ -21,6 +20,7 @@ import { OrgUnitActions, B2BUserActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 
 const error = 'error';
 const userId = 'testUser';

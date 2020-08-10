@@ -7,13 +7,13 @@ import {
   Currency,
   CurrencyService,
   I18nTestingModule,
-  OrgUnitService,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {

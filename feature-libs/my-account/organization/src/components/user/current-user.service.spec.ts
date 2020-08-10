@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CurrentUserService } from './current-cost-center.service';
+import { CostCenterService } from '../../core/services/cost-center.service';
+import { CurrentCostCenterService } from '../cost-center/current-cost-center.service';
 
 export class MockCostCenterService implements Partial<CostCenterService> {
   get() {
@@ -11,8 +12,8 @@ export class MockCostCenterService implements Partial<CostCenterService> {
   }
 }
 
-describe('CurrentUserService', () => {
-  let service: CurrentUserService;
+describe('CurrentCostCenterService', () => {
+  let service: CurrentCostCenterService;
   let costCenterService: CostCenterService;
   let mockParams: Subject<object>;
 
@@ -21,14 +22,14 @@ describe('CurrentUserService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        CurrentUserService,
+        CurrentCostCenterService,
         { provide: ActivatedRoute, useValue: { params: mockParams } },
         { provide: CostCenterService, useClass: MockCostCenterService },
       ],
     });
 
     costCenterService = TestBed.inject(CostCenterService);
-    service = TestBed.inject(CurrentUserService);
+    service = TestBed.inject(CurrentCostCenterService);
   });
 
   afterEach(() => {

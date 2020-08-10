@@ -42,7 +42,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('getProcessLoadingFactory', () => {
+  describe('OrderApprovalSelectors.getProcessLoadingFactory', () => {
     it('should return loading flag', () => {
       store.dispatch(
         new StateUtils.EntityLoadAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
@@ -51,7 +51,11 @@ describe('Process selectors', () => {
       let result = false;
       store
         .pipe(
-          select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID))
+          select(
+            ProcessSelectors.OrderApprovalSelectors.getProcessLoadingFactory(
+              MOCK_PROCESS_ID
+            )
+          )
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -60,7 +64,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('getProcessSuccessFactory', () => {
+  describe('OrderApprovalSelectors.getProcessSuccessFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
         new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
@@ -69,7 +73,11 @@ describe('Process selectors', () => {
       let result = false;
       store
         .pipe(
-          select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID))
+          select(
+            ProcessSelectors.OrderApprovalSelectors.getProcessSuccessFactory(
+              MOCK_PROCESS_ID
+            )
+          )
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -78,7 +86,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('getProcessErrorFactory', () => {
+  describe('OrderApprovalSelectors.getProcessErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
         new StateUtils.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
@@ -86,7 +94,13 @@ describe('Process selectors', () => {
 
       let result = false;
       store
-        .pipe(select(ProcessSelectors.getProcessErrorFactory(MOCK_PROCESS_ID)))
+        .pipe(
+          select(
+            ProcessSelectors.OrderApprovalSelectors.getProcessErrorFactory(
+              MOCK_PROCESS_ID
+            )
+          )
+        )
         .subscribe((value) => (result = value))
         .unsubscribe();
 

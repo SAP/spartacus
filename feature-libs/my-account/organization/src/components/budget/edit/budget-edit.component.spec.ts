@@ -1,21 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CostCenter,
-  CostCenterService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { CostCenter, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { Observable, of } from 'rxjs';
-import { CostCenterEditComponent } from './budget-edit.component';
-import { By } from '@angular/platform-browser';
+import { BudgetEditComponent } from './budget-edit.component';
+import { BudgetService } from '../../../core/services/budget.service';
+import { Budget } from '../../../core/model/budget.model';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -28,17 +25,16 @@ class MockCostCenterFormComponent {
 
 const costCenterCode = 'b1';
 
-const mockCostCenter: CostCenter = {
+const mockCostCenter: Budget = {
   code: costCenterCode,
   name: 'costCenter1',
   currency: {
     symbol: '$',
     isocode: 'USD',
   },
-  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCostCenterService implements Partial<CostCenterService> {
+class MockBudgetService implements Partial<BudgetService> {
   get(_costCenterCode: string): Observable<CostCenter> {
     return of(mockCostCenter);
   }
@@ -69,10 +65,10 @@ class MockActivatedRoute {
   go() {}
 }
 
-describe('CostCenterEditComponent', () => {
-  let component: CostCenterEditComponent;
-  let fixture: ComponentFixture<CostCenterEditComponent>;
-  let costCenterService: MockCostCenterService;
+describe('BudgetEditService', () => {
+  let component: BudgetEditComponent;
+  let fixture: ComponentFixture<BudgetEditComponent>;
+  let costCenterService: MockBudgetService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;
@@ -88,21 +84,21 @@ describe('CostCenterEditComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
+      declarations: [BudgetEditComponent, MockCostCenterFormComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: BudgetService, useClass: MockBudgetService },
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.inject(CostCenterService);
+    costCenterService = TestBed.inject(BudgetService);
 
     routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterEditComponent);
+    fixture = TestBed.createComponent(BudgetEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     saveButton = fixture.debugElement.query(By.css('button[type=submit]'));

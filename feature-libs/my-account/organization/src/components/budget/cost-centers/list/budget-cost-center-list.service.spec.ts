@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
+import { BudgetService } from '../../../../core/services/budget.service';
+import { Budget } from '../../../../core/model/budget.model';
 
 const mockCostCenterEntities: EntitiesModel<Budget> = {
   values: [
@@ -23,7 +25,7 @@ const mockCostCenterEntities: EntitiesModel<Budget> = {
   ],
 };
 
-class MockCostCenterService {
+class MockBudgetService {
   getBudgets(): Observable<EntitiesModel<Budget>> {
     return of(mockCostCenterEntities);
   }
@@ -45,8 +47,8 @@ describe('BudgetCostCenterListService', () => {
       providers: [
         BudgetCostCenterListService,
         {
-          provide: CostCenterService,
-          useClass: MockCostCenterService,
+          provide: BudgetService,
+          useClass: MockBudgetService,
         },
         {
           provide: TableService,

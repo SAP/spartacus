@@ -12,13 +12,13 @@ import {
 } from '../store/selectors/cost-center.selector';
 import { B2BSearchConfig } from '../model/search-config';
 import {
-  Budget,
   CostCenter,
   EntitiesModel,
   StateWithProcess,
   AuthService,
   StateUtils,
 } from '@spartacus/core';
+import { Budget } from '../model/budget.model';
 
 @Injectable()
 export class CostCenterService {

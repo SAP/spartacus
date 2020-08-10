@@ -11,7 +11,6 @@ import {
   B2BUser,
   Permission,
   EntitiesModel,
-  UserGroup,
 } from '@spartacus/core';
 import { B2BUserService } from './b2b-user.service';
 import {
@@ -22,6 +21,7 @@ import {
 import * as fromReducers from '../store/reducers/index';
 
 import { B2BSearchConfig } from '../model/search-config';
+import { UserGroup } from '../model/user-group.model';
 
 const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';

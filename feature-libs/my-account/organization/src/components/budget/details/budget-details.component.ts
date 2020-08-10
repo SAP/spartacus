@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { BudgetService } from '../../../core/services/budget.service';
+import { Budget } from '../../../core/model/budget.model';
 
 @Component({
   selector: 'cx-budget-details',

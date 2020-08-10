@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { UnitFormService } from '../form/unit-form.service';
 import { FormGroup } from '@angular/forms';
 import { CurrentUnitService } from '../current-unit.service';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @Component({
   selector: 'cx-unit-edit',

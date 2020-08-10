@@ -7,10 +7,10 @@ import {
   CurrencyService,
   I18nModule,
   UrlModule,
-  OrgUnitService,
 } from '@spartacus/core';
 import { UnitFormComponent } from './unit-form.component';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @NgModule({
   imports: [

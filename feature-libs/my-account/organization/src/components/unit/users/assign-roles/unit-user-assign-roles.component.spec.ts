@@ -13,20 +13,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BSearchConfig,
   B2BUser,
-  B2BUserService,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { defaultStorefrontRoutesConfig } from '../../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
-import { UnitUserAssignRolesComponent } from './unit-assign-roles.component';
-
+import { UnitUserAssignRolesComponent } from './unit-user-assign-roles.component';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import createSpy = jasmine.createSpy;
 
 const code = 'unitCode';
@@ -176,7 +174,7 @@ describe('UnitAssignRolesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitUserAssignRolesComponent,
         MockUrlPipe,

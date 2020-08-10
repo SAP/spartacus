@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUnitService } from './current-unit.service';
+import { OrgUnitService } from '../../core/services/org-unit.service';
 
 export class MockOrgUnitService implements Partial<OrgUnitService> {
   get() {

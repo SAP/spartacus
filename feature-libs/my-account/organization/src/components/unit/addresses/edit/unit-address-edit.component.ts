@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { map, take, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from '../details/current-unit-address.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 @Component({
   selector: 'cx-unit-address-edit',

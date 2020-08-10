@@ -17,13 +17,13 @@ import * as fromEffects from './b2b-user.effect';
 import { B2BSearchConfig } from '../../model/search-config';
 import {
   Permission,
-  UserGroup,
   B2BUser,
-  B2BUserConnector,
   OccConfig,
   RoutingService,
 } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { UserGroup } from '../../model/user-group.model';
+import { B2BUserConnector } from '../../connectors';
 
 const error = 'error';
 const userId = 'testUser';

@@ -1,5 +1,5 @@
 import { Cart } from '../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/my-account/organization/src/core';
 import {
   getCartIdByUserId,
   getWishlistName,

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroup, UserGroupService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
 @Component({
   selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',

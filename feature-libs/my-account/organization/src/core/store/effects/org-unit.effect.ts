@@ -8,12 +8,12 @@ import {
   B2BUnitNode,
   B2BUser,
   B2BUnit,
-  OrgUnitConnector,
   normalizeHttpError,
 } from '@spartacus/core';
 
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
+import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 
 @Injectable()
 export class OrgUnitEffects {
