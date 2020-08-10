@@ -147,7 +147,7 @@ describe('Checkout Replenishment Order Connector', () => {
       expect(result).toEqual(true);
     });
 
-    it('should dispatch a ResetUpdateEmail action', () => {
+    it('should dispatch a ClearScheduleReplenishmentOrderAction action', () => {
       service.clearScheduleReplenishmentOrderState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
