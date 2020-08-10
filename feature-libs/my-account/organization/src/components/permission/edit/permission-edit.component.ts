@@ -11,6 +11,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
+import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-permission-edit',
@@ -52,6 +53,7 @@ export class PermissionEditComponent {
   save(permissionCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.permissionService.update(permissionCode, form.value);

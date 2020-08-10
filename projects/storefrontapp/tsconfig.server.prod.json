@@ -24,7 +24,8 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "../../dist/product/configurators/textfield"
-      ]
+      ],
+      "@spartacus/cdc": ["../../dist/cdc"]
     }
   }
 }
