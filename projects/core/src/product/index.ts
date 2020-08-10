@@ -6,4 +6,4 @@ export * from './services/index';
 export * from './store/actions/index';
 export * from './store/product-state';
 export * from './store/selectors/index';
-export * as ProductReducers from './store/reducers/index
+export * as ProductReducers from './store/reducers/index';
