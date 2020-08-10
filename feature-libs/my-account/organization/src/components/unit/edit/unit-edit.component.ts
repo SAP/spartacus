@@ -6,7 +6,7 @@ import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { UnitFormService } from '../form/unit-form.service';
 import { FormGroup } from '@angular/forms';
 import { CurrentUnitService } from '../current-unit.service';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-edit',

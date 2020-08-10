@@ -4,7 +4,7 @@ import { BudgetService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
 import { Observable } from 'rxjs';
-import { FormUtils } from 'projects/storefrontlib/src/utils';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-budget-create',
