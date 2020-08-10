@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CartActions } from '../../../cart/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { CheckoutReplenishmentOrderConnector } from '../../connectors/replenishment-order/replenishment-order.connector';
+import { CheckoutReplenishmentOrderConnector } from '../../connectors/index';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()

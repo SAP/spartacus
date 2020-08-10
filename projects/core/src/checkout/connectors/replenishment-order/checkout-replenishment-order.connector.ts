@@ -4,7 +4,7 @@ import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '../../../model/replenishment-order.model';
-import { CheckoutReplenishmentOrderAdapter } from './replenishment-order.adapter';
+import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';
 
 @Injectable({
   providedIn: 'root',

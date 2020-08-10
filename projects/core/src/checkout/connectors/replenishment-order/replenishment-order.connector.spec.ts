@@ -4,8 +4,8 @@ import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '../../../model/replenishment-order.model';
-import { CheckoutReplenishmentOrderAdapter } from './replenishment-order.adapter';
-import { CheckoutReplenishmentOrderConnector } from './replenishment-order.connector';
+import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';
+import { CheckoutReplenishmentOrderConnector } from './checkout-replenishment-order.connector';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -18,7 +18,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
-class MockReplenishmentOrderAdapter
+class MockCheckoutReplenishmentOrderAdapter
   implements CheckoutReplenishmentOrderAdapter {
   scheduleReplenishmentOrder(
     _cartId: string,
@@ -30,7 +30,7 @@ class MockReplenishmentOrderAdapter
   }
 }
 
-describe('Replenishment Order Connector', () => {
+describe('Checkout Replenishment Order Connector', () => {
   let adapter: CheckoutReplenishmentOrderAdapter;
   let connector: CheckoutReplenishmentOrderConnector;
 
@@ -39,7 +39,7 @@ describe('Replenishment Order Connector', () => {
       providers: [
         {
           provide: CheckoutReplenishmentOrderAdapter,
-          useClass: MockReplenishmentOrderAdapter,
+          useClass: MockCheckoutReplenishmentOrderAdapter,
         },
       ],
     });

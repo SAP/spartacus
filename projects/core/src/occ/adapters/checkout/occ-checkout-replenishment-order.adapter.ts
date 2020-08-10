@@ -41,8 +41,6 @@ export class OccCheckoutReplenishmentOrderAdapter
       .post(
         this.occEndpoints.getUrl('scheduleReplenishmentOrder', {
           userId,
-          cartId,
-          termsChecked,
         }),
         { scheduleReplenishmentForm },
         { headers, params }

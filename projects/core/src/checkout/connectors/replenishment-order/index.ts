@@ -1,3 +1,3 @@
+export * from './checkout-replenishment-order.adapter';
+export * from './checkout-replenishment-order.connector';
 export * from './converters';
-export * from './replenishment-order.adapter';
-export * from './replenishment-order.connector';

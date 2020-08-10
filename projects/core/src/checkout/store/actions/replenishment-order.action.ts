@@ -12,6 +12,8 @@ export const SCHEDULE_REPLENISHMENT_ORDER_SUCCESS =
   '[Checkout] Schedule Replenishment Order Success';
 export const SCHEDULE_REPLENISHMENT_ORDER_FAIL =
   '[Checkout] Schedule Replenishment Order Fail';
+export const CLEAR_SCHEDULE_REPLENISHMENT_ORDER =
+  '[Checkout] Clear Schedule Replenishment Data';
 
 export class ScheduleReplenishmentOrder extends StateUtils.EntityLoadAction {
   readonly type = SCHEDULE_REPLENISHMENT_ORDER;
@@ -41,7 +43,15 @@ export class ScheduleReplenishmentOrderFail extends StateUtils.EntityFailAction 
   }
 }
 
+export class ClearScheduleReplenishmentOrderAction extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_SCHEDULE_REPLENISHMENT_ORDER;
+  constructor() {
+    super(PROCESS_FEATURE, SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID);
+  }
+}
+
 export type ReplenishmentOrderActions =
   | ScheduleReplenishmentOrder
   | ScheduleReplenishmentOrderSuccess
-  | ScheduleReplenishmentOrderFail;
+  | ScheduleReplenishmentOrderFail
+  | ClearScheduleReplenishmentOrderAction;
