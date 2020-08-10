@@ -17,7 +17,10 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { PermissionType } from '../form/permission-form.service';
 import { PermissionEditComponent } from './permission-edit.component';
+<<<<<<< HEAD
 import { CurrentPermissionService } from '../current-permission.service';
+=======
+>>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -31,11 +34,14 @@ class MockPermissionFormComponent {
 
 const permissionCode = 'b1';
 
+<<<<<<< HEAD
 class MockCurrentPermissionService
   implements Partial<CurrentPermissionService> {
   code$ = of(permissionCode);
 }
 
+=======
+>>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
 const mockPermission: Permission = {
   code: permissionCode,
   orderApprovalPermissionType: {
@@ -95,7 +101,10 @@ describe('PermissionEditComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },
+<<<<<<< HEAD
         { provide: CurrentPermissionService, useClass: MockCurrentPermissionService },
+=======
+>>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
       ],
     }).compileComponents();
 
@@ -141,8 +150,11 @@ describe('PermissionEditComponent', () => {
         params: permissionFormComponent.form.value,
       });
     });
+<<<<<<< HEAD
     it('should trigger reload of permission model on each code change', () => {
       expect(permissionService.loadPermission).toHaveBeenCalledWith(mockPermission.code);
     });
+=======
+>>>>>>> 2f83660334100d80d0c7e351d34196f1737d2b2d
   });
 });

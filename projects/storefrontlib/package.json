@@ -26,7 +26,7 @@
     "@ngrx/effects": "^9.0.0",
     "@ngrx/store": "^9.0.0",
     "@spartacus/core": "2.1.0-dev.0",
-    "bootstrap": "^4.2.1",
+    "bootstrap": "4.2.1",
     "rxjs": "^6.5.4",
     "zone.js": "^0.10.2",
     "ngx-infinite-scroll": "^8.0.0"

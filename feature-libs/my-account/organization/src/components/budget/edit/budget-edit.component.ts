@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from '../current-budget.service';
+import { FormUtils } from 'projects/storefrontlib/src/utils';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -51,6 +52,7 @@ export class BudgetEditComponent {
   save(budgetCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);

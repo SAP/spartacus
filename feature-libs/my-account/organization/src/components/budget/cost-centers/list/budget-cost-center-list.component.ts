@@ -11,7 +11,6 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 })
 export class BudgetCostCenterListComponent {
   code$ = this.currentBudgetService.code$;
-
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.budgetCostCenterListService.getTable(code))
   );
