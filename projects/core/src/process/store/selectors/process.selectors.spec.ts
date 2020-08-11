@@ -51,11 +51,7 @@ describe('Process selectors', () => {
       let result = false;
       store
         .pipe(
-          select(
-            ProcessSelectors.OrderApprovalSelectors.getProcessLoadingFactory(
-              MOCK_PROCESS_ID
-            )
-          )
+          select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID))
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -73,11 +69,7 @@ describe('Process selectors', () => {
       let result = false;
       store
         .pipe(
-          select(
-            ProcessSelectors.OrderApprovalSelectors.getProcessSuccessFactory(
-              MOCK_PROCESS_ID
-            )
-          )
+          select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID))
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -94,13 +86,7 @@ describe('Process selectors', () => {
 
       let result = false;
       store
-        .pipe(
-          select(
-            ProcessSelectors.OrderApprovalSelectors.getProcessErrorFactory(
-              MOCK_PROCESS_ID
-            )
-          )
-        )
+        .pipe(select(ProcessSelectors.getProcessErrorFactory(MOCK_PROCESS_ID)))
         .subscribe((value) => (result = value))
         .unsubscribe();
 

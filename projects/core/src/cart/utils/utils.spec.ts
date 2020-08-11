@@ -1,15 +1,12 @@
 import { Cart } from '../../model/cart.model';
 import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '@spartacus/my-account/organization/src/core';
-import {
   getCartIdByUserId,
   getWishlistName,
   isCartNotFoundError,
   isSelectiveCart,
   isTempCartId,
 } from './utils';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {
