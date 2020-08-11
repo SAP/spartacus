@@ -17,4 +17,5 @@ export const environment: Environment = {
   b2b: false,
   cds: false,
   productconfig: true,
+  cdc: false,
 };

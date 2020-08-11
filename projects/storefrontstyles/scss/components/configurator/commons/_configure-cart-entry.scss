@@ -1,0 +1,14 @@
+%cx-configure-cart-entry {
+  button.link {
+    color: var(--cx-color-primary);
+    border-width: 0;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: inherit;
+    width: max-content;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
