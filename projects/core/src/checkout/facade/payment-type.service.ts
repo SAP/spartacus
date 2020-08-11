@@ -51,11 +51,6 @@ export class PaymentTypeService {
         }
       }),
       pluck(0),
-      map((paymentTypes) => {
-        return paymentTypes.sort((a, b) =>
-          a.code.toLowerCase().localeCompare(b.code.toLowerCase())
-        );
-      }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
