@@ -54,19 +54,18 @@
 
         <div class="property" *ngIf="orgUnit.parentOrgUnit">
           <label>{{ 'unit.parentUnit' | cxTranslate }}</label>
-          <span class="value">
-            <a
-              [routerLink]="
-                {
-                  cxRoute: 'orgUnitDetails',
-                  params: orgUnit.parentOrgUnit
-                } | cxUrl
-              "
-            >
-              {{ orgUnit.parentOrgUnit?.name }}
-              <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-            </a>
-          </span>
+          <a
+            class="value"
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: orgUnit.parentOrgUnit
+              } | cxUrl
+            "
+          >
+            {{ orgUnit.parentOrgUnit?.name }}
+            <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+          </a>
         </div>
       </div>
     </section>
