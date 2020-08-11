@@ -91,6 +91,7 @@ async function propagateAugmentableTypes(
 
   for (const packageJsonFile of files) {
     try {
+      // get typings file from package.json
       let packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
       const typingsFile = packageData.typings;
 
@@ -100,12 +101,14 @@ async function propagateAugmentableTypes(
       const typingsFilePath = path.join(libPath, typingsFile);
       let typingsFileSource = await fs.readFile(typingsFilePath, 'utf8');
 
+      // look for export from public api file
       const regex = /export \* from '(.+)\'/;
       const publicApiFile = typingsFileSource.match(regex)![1];
       const apiFilePath = path.join(libPath, publicApiFile + '.d.ts');
 
       let publicApiFileSource = await fs.readFile(apiFilePath, 'utf8');
 
+      // find augmentable types delimiter in public api file
       const augTypesStart = publicApiFileSource.indexOf(DELIMITER_START);
 
       if (augTypesStart === -1) {
@@ -115,20 +118,24 @@ async function propagateAugmentableTypes(
       const augTypesEnd =
         publicApiFileSource.indexOf(DELIMITER_END) + DELIMITER_END.length + 1;
 
+      // extract augmentable types block
       const augTypes = publicApiFileSource.substr(
         augTypesStart,
         augTypesEnd - augTypesStart
       );
+      // remove augmentable types block from public api file
       publicApiFileSource =
         publicApiFileSource.substr(0, augTypesStart) +
         publicApiFileSource.substr(augTypesEnd);
 
+      // incorporate augmentable types block into typings file
       const firstExportPos = typingsFileSource.indexOf('export *');
       typingsFileSource =
         typingsFileSource.substr(0, firstExportPos) +
         augTypes +
         typingsFileSource.substr(firstExportPos);
 
+      // write results
       await fs.writeFile(apiFilePath, publicApiFileSource, 'utf8');
       await fs.writeFile(typingsFilePath, typingsFileSource, 'utf8');
 
