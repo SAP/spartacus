@@ -1,25 +1,46 @@
-import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
-describe('Currency switch - cart page', () => {
+context('Currency switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
-  const jpCurrency_per_item = ' ¥9,720 ';
-  const jpCurrency_total = ' ¥29,160 ';
+  let cartId = '';
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    cy.requireLoggedIn();
-    cy.visit('/');
-    manipulateCartQuantity();
   });
 
-  siteContextSelector.stub(
-    siteContextSelector.CART_REQUEST,
-    siteContextSelector.CART_REQUEST_ALIAS
-  );
+  beforeEach(() => {
+    cy.requireLoggedIn();
+
+    cy.window().then((win) => {
+      const savedState = JSON.parse(
+        win.localStorage.getItem('spartacus-local-data')
+      );
+      const accessToken = savedState.auth.userToken.token.access_token;
+      cy.addToCart('300938', '3', accessToken).then((cartCode) => {
+        cartId = cartCode;
+      });
+    });
+
+    cy.server();
+    cy.visit('/cart');
+
+    cy.route('GET', siteContextSelector.CURRENCY_REQUEST).as(
+      'currencies_request'
+    );
+    cy.wait(`@currencies_request`).its('status').should('eq', 200);
+  });
 
   describe('cart page', () => {
+    const baseUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+      'OCC_PREFIX'
+    )}/${Cypress.env('BASE_SITE')}`;
+
     it('should change currency in the url', () => {
+      cy.route('GET', siteContextSelector.CART_REQUEST).as(
+        siteContextSelector.CART_REQUEST_ALIAS
+      );
+
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
         siteContextSelector.CART_REQUEST_ALIAS,
@@ -29,32 +50,30 @@ describe('Currency switch - cart page', () => {
       );
     });
 
-    it('should change currency for price per item in the page', () => {
-      siteContextSelector.siteContextChange(
-        cartPath,
-        siteContextSelector.CART_REQUEST_ALIAS,
+    it('should change currency for cart details', () => {
+      cy.route(
+        'GET',
+        `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`
+      ).as('switchedCartContext');
+
+      switchSiteContext(
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL
       );
+      cy.wait('@switchedCartContext').then((xhr) => {
+        const cartItemPrice =
+          xhr.response.body.entries[0].basePrice.formattedValue;
+        const cartSubtotal = xhr.response.body.subTotal.formattedValue;
+        cy.get('cx-cart-item-list .cx-price .cx-value').should(
+          'contain',
+          cartItemPrice
+        );
 
-      cy.get('cx-cart-item-list .cx-price .cx-value').should(
-        'have.text',
-        jpCurrency_per_item
-      );
-    });
-
-    it('should change currency for total price in the page', () => {
-      siteContextSelector.siteContextChange(
-        cartPath,
-        siteContextSelector.CART_REQUEST_ALIAS,
-        siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
-      );
-
-      cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-        'have.text',
-        jpCurrency_total
-      );
+        cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
+          'contain',
+          cartSubtotal
+        );
+      });
     });
   });
 });
