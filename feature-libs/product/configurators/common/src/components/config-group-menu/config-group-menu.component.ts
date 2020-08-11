@@ -64,22 +64,22 @@ export class ConfigGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
-  GROUPSTATUS = Configurator.GroupStatus;
+  groupStatus = Configurator.GroupStatus;
 
   constructor(
-    private configCommonsService: ConfiguratorCommonsService,
-    public configuratorGroupsService: ConfiguratorGroupsService,
-    private hamburgerMenuService: HamburgerMenuService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected hamburgerMenuService: HamburgerMenuService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   /**
    * Executes a click event to the given group.
    *
-   * @param event - Keyboard event
+   * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
-  clickOnEnter(event, group: Configurator.Group): void {
+  clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
     if (event.which === 13) {
       this.click(group);
     }
@@ -103,9 +103,9 @@ export class ConfigGroupMenuComponent {
   /**
    * Navigates to the subgroup.
    *
-   * @param event
+   * @param {KeyboardEvent} event - Keyboard event
    */
-  navigateUpOnEnter(event): void {
+  navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.which === 13) {
       this.navigateUp();
     }

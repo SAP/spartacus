@@ -22,17 +22,15 @@ import { filter, switchMap, take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAddToCartButtonComponent {
-  routerData$: Observable<
-    ConfigurationRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
-
   configuration$: Observable<
     Configurator.Configuration
-  > = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
-    )
-  );
+  > = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
 
   constructor(
     protected routingService: RoutingService,
@@ -51,13 +49,10 @@ export class ConfigAddToCartButtonComponent {
     configuratorType: string,
     owner: GenericConfigurator.Owner
   ): void {
-    this.routingService.go(
-      'configureOverview' +
-        configuratorType +
-        '/cartEntry/entityKey/' +
-        owner.id,
-      {}
-    );
+    this.routingService.go({
+      cxRoute: 'configureOverview' + configuratorType,
+      params: { ownerType: 'cartEntry', entityKey: owner.id },
+    });
   }
 
   protected displayConfirmationMessage(key: string): void {
