@@ -8,6 +8,9 @@ const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 const email = 'cpq02@sap.com';
 const password = 'welcome';
 
+const editConfigurationSelector =
+  'cx-configure-cart-entry button:contains("Edit")';
+
 export function clickOnConfigureBtn() {
   cy.get('cx-configure-product a')
     .click()
@@ -17,8 +20,7 @@ export function clickOnConfigureBtn() {
 }
 
 export function clickOnEditConfigurationLink() {
-  cy.get('cx-configure-cart-entry a')
-    .first()
+  cy.get(editConfigurationSelector)
     .click()
     .then(() => {
       this.isConfigPageDisplayed();

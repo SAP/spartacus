@@ -10,7 +10,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class ConfigConflictDescriptionComponent {
   @Input() currentGroup: Configurator.Group;
 
-  GroupType = Configurator.GroupType;
+  groupType = Configurator.GroupType;
   iconTypes = ICON_TYPE;
 
   constructor() {}

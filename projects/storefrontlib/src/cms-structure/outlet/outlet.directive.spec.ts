@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FeaturesConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
@@ -84,6 +85,10 @@ describe('OutletDirective', () => {
           {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -182,6 +187,10 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          {
+            provide: FeaturesConfig,
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
+          },
         ],
       }).compileComponents();
     }));
@@ -247,6 +256,10 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          {
+            provide: FeaturesConfig,
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
+          },
         ],
       }).compileComponents();
 
@@ -265,6 +278,54 @@ describe('OutletDirective', () => {
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
+    });
+  });
+
+  describe('on outlet name change', () => {
+    @Component({
+      template: `
+        <ng-template cxOutletRef="A">A</ng-template>
+        <ng-template cxOutletRef="B">B</ng-template>
+        <ng-container *cxOutlet="outletName"> </ng-container>
+      `,
+    })
+    class HostComponent {
+      outletName = 'A';
+    }
+
+    let hostFixture: ComponentFixture<HostComponent>;
+
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [HostComponent, OutletDirective, OutletRefDirective],
+        providers: [
+          {
+            provide: DeferLoaderService,
+            useClass: MockDeferLoaderService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
+          },
+        ],
+      }).compileComponents();
+
+      hostFixture = TestBed.createComponent(HostComponent);
+    }));
+
+    function getContent(fixture: ComponentFixture<any>): string {
+      return fixture.debugElement.nativeElement.innerText;
+    }
+
+    it('should render template for new outlet name', () => {
+      hostFixture.detectChanges();
+      expect(getContent(hostFixture)).toContain('A');
+
+      hostFixture.componentInstance.outletName = 'B';
+      hostFixture.detectChanges();
+
+      expect(getContent(hostFixture)).toContain('B');
     });
   });
 });

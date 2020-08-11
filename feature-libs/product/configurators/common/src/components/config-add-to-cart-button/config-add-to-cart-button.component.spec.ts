@@ -23,11 +23,12 @@ const URL_OVERVIEW =
   'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
-const navParamsOverview: any =
-  'configureOverview' +
-  configuratorType +
-  '/cartEntry/entityKey/' +
-  CART_ENTRY_KEY;
+
+const navParamsOverview: any = {
+  cxRoute: 'configureOverview' + configuratorType,
+  params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
+};
+
 const attributes = {};
 
 const mockRouterData: ConfigurationRouter.Data = {

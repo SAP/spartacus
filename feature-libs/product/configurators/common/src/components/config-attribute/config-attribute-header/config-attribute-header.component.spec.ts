@@ -24,6 +24,7 @@ export class MockIconFontLoaderService {
   }
   addLinkResource() {}
   getHtml(_iconType: ICON_TYPE) {}
+  getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;

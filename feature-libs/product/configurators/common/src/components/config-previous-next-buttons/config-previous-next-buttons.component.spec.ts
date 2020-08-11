@@ -16,6 +16,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 let routerStateObservable = null;
 
@@ -47,6 +48,10 @@ class MockConfiguratorCommonsService {
   }
 }
 
+class MockConfigUtilsService {
+  scrollToConfigurationElement(): void {}
+}
+
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfigPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfigPreviousNextButtonsComponent>;
@@ -70,6 +75,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfigUtilsService,
+          useClass: MockConfigUtilsService,
         },
       ],
     })

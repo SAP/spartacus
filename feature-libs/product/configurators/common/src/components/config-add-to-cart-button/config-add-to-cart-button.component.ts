@@ -14,7 +14,7 @@ import {
   ConfigurationRouter,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',
@@ -22,17 +22,18 @@ import { filter, switchMap, take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAddToCartButtonComponent {
-  routerData$: Observable<
-    ConfigurationRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
-
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
-    )
-  );
+  container$: Observable<{
+    routerData: ConfigurationRouter.Data;
+    configuration: Configurator.Configuration;
+  }> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(map((configuration) => ({ routerData, configuration })))
+      )
+    );
 
   constructor(
     protected routingService: RoutingService,
@@ -52,10 +53,10 @@ export class ConfigAddToCartButtonComponent {
     owner: GenericConfigurator.Owner
   ): void {
     this.routingService.go(
-      'configureOverview' +
-        configuratorType +
-        '/cartEntry/entityKey/' +
-        owner.id,
+      {
+        cxRoute: 'configureOverview' + configuratorType,
+        params: { ownerType: 'cartEntry', entityKey: owner.id },
+      },
       {}
     );
   }
