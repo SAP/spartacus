@@ -8,10 +8,10 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AsmAuthService,
   AsmService,
   AsmUi,
   AuthService,
+  CsAgentAuthService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -118,7 +118,7 @@ describe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
-  let asmAuthService: AsmAuthService;
+  let asmAuthService: CsAgentAuthService;
   let userService: UserService;
   let el: DebugElement;
   let globalMessageService: GlobalMessageService;
@@ -138,7 +138,7 @@ describe('AsmMainUiComponent', () => {
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AsmAuthService, useClass: MockAsmAuthService },
+        { provide: CsAgentAuthService, useClass: MockAsmAuthService },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -151,7 +151,7 @@ describe('AsmMainUiComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
     authService = TestBed.inject(AuthService);
-    asmAuthService = TestBed.inject(AsmAuthService);
+    asmAuthService = TestBed.inject(CsAgentAuthService);
     userService = TestBed.inject(UserService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);

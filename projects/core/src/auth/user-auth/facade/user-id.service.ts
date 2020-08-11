@@ -20,8 +20,4 @@ export class UserIdService {
   clearUserId() {
     return this.abstractUserIdService.clearUserId();
   }
-
-  isCustomerEmulated(): Observable<boolean> {
-    return this.abstractUserIdService.isCustomerEmulated();
-  }
 }

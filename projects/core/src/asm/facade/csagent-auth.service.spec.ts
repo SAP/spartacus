@@ -7,7 +7,7 @@ import { UserToken } from '../../auth/user-auth/models/user-token.model';
 import { AsmActions } from '../store/actions';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
-import { AsmAuthService } from './asm-auth.service';
+import { CsAgentAuthService } from './csagent-auth.service';
 
 const mockToken = {
   refresh_token: 'foo',
@@ -20,8 +20,8 @@ class MockUserIdService {
 }
 
 // TODO(#8249): Fix unit tests after finalizing the service
-describe('AsmAuthService', () => {
-  let service: AsmAuthService;
+describe('CsAgentAuthService', () => {
+  let service: CsAgentAuthService;
   let store: Store<AsmState>;
   let userIdService: UserIdService;
   // let authService: AuthService;
@@ -35,7 +35,7 @@ describe('AsmAuthService', () => {
       providers: [{ provide: UserIdService, useClass: MockUserIdService }],
     });
 
-    service = TestBed.inject(AsmAuthService);
+    service = TestBed.inject(CsAgentAuthService);
     userIdService = TestBed.inject(UserIdService);
     // authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);

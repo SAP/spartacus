@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 // TODO: Add unit tests after we finalize API shape
 export abstract class AbstractUserIdService {
@@ -17,6 +17,4 @@ export abstract class AbstractUserIdService {
   clearUserId() {
     return this.setUserId('');
   }
-
-  abstract isCustomerEmulated(): Observable<boolean>;
 }

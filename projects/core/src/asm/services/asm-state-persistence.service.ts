@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { UserToken } from '../../auth/user-auth/models/user-token.model';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
+import { AsmAuthStorageService } from './asm-auth-storage.service';
 
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAsmState {
@@ -23,7 +23,7 @@ export class AsmStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithAsm>,
-    protected authStorageService: AuthStorageService
+    protected authStorageService: AsmAuthStorageService
   ) {}
 
   public sync() {

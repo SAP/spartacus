@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { UserToken } from '../../auth/user-auth/models/user-token.model';
+import { AsmAuthStorageService } from '../services/asm-auth-storage.service';
+import { AsmAuthService } from '../services/asm-auth.service';
 import { AsmActions, StateWithAsm } from '../store';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthService {
+export class CsAgentAuthService {
   constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
+    protected authService: AsmAuthService,
+    protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected oAuthService: CxOAuthService,
     protected store: Store<StateWithAsm>
@@ -48,7 +48,7 @@ export class AsmAuthService {
    * Utility function to determine if customer is emulated.
    */
   isCustomerEmulated(): Observable<boolean> {
-    return this.userIdService.isCustomerEmulated();
+    return this.authStorageService.isEmulated();
   }
 
   /**

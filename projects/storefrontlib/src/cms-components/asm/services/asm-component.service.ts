@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  AsmAuthService,
-  AuthService,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { CsAgentAuthService, RoutingService, WindowRef } from '@spartacus/core';
+import { AsmAuthService } from 'projects/core/src/asm/services/asm-auth.service';
 import { Observable } from 'rxjs';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
@@ -13,14 +9,14 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 })
 export class AsmComponentService {
   constructor(
-    protected authService: AuthService,
-    protected asmAuthService: AsmAuthService,
+    protected authService: AsmAuthService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}
 
   logoutCustomerSupportAgentAndCustomer(): void {
-    this.asmAuthService.logoutCustomerSupportAgent();
+    this.csAgentAuthService.logoutCustomerSupportAgent();
   }
 
   logoutCustomer(): void {
@@ -29,7 +25,7 @@ export class AsmComponentService {
   }
 
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
-    return this.asmAuthService.isCustomerEmulated();
+    return this.csAgentAuthService.isCustomerEmulated();
   }
 
   /**

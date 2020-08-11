@@ -9,10 +9,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
-import {
-  InterceptorUtil,
-  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-} from '../../../occ/utils/interceptor-util';
 import { CxOAuthService } from '../facade/cx-oauth-service';
 import { AuthHeaderService } from '../services/auth-header/auth-header.service';
 
@@ -31,34 +27,19 @@ export class UserTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const isClientTokenRequest = this.authHeaderService.isClientTokenRequest(
-      request
-    );
-    const isCSAgentTokenRequest = this.authHeaderService.isCSAgentTokenRequest(
-      request
-    );
     const hasAuthorizationHeader = this.authHeaderService.getAuthorizationHeader(
       request
     );
 
-    if (
-      !isClientTokenRequest &&
-      !hasAuthorizationHeader &&
-      (this.isOccUrl(request.url) || isCSAgentTokenRequest)
-    ) {
+    let isUserTokenRequest = false;
+
+    if (!hasAuthorizationHeader && this.isOccUrl(request.url)) {
+      isUserTokenRequest = true;
       request = request.clone({
         setHeaders: {
-          ...this.authHeaderService.createAuthorizationHeader(
-            isCSAgentTokenRequest
-          ),
+          ...this.authHeaderService.createAuthorizationHeader(),
         },
       });
-      if (isCSAgentTokenRequest) {
-        request = InterceptorUtil.removeHeader(
-          USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-          request
-        );
-      }
     }
 
     return next.handle(request).pipe(
@@ -66,12 +47,11 @@ export class UserTokenInterceptor implements HttpInterceptor {
         if (errResponse instanceof HttpErrorResponse) {
           switch (errResponse.status) {
             case 401: // Unauthorized
-              if (!isClientTokenRequest) {
+              if (isUserTokenRequest) {
                 if (this.isExpiredToken(errResponse)) {
                   return this.authHeaderService.handleExpiredAccessToken(
                     request,
-                    next,
-                    isCSAgentTokenRequest
+                    next
                   );
                 } else if (
                   // Refresh expired token
@@ -79,9 +59,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
                   errResponse.url.includes(OAUTH_ENDPOINT) &&
                   errResponse.error.error === 'invalid_token'
                 ) {
-                  this.authHeaderService.handleExpiredRefreshToken(
-                    isCSAgentTokenRequest
-                  );
+                  this.authHeaderService.handleExpiredRefreshToken();
                   return of<HttpEvent<any>>();
                 }
               }
@@ -93,9 +71,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
               ) {
                 if (request.body.get('grant_type') === 'refresh_token') {
                   // refresh token fail, force user logout
-                  this.authHeaderService.handleExpiredRefreshToken(
-                    isCSAgentTokenRequest
-                  );
+                  this.authHeaderService.handleExpiredRefreshToken();
                 }
               }
               break;

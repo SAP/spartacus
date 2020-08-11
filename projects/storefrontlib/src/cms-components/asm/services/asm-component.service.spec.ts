@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  AsmAuthService,
   AuthService,
+  CsAgentAuthService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
@@ -44,7 +44,7 @@ const MockWindowRef = {
 
 describe('AsmComponentService', () => {
   let authService: AuthService;
-  let asmAuthService: AsmAuthService;
+  let csAgentAuthService: CsAgentAuthService;
   let routingService: RoutingService;
   let windowRef: WindowRef;
   let asmComponentService: AsmComponentService;
@@ -53,7 +53,7 @@ describe('AsmComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AsmAuthService, useClass: MockAsmAuthService },
+        { provide: CsAgentAuthService, useClass: MockAsmAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: WindowRef, useValue: MockWindowRef },
       ],
@@ -61,7 +61,7 @@ describe('AsmComponentService', () => {
 
     asmComponentService = TestBed.inject(AsmComponentService);
     authService = TestBed.inject(AuthService);
-    asmAuthService = TestBed.inject(AsmAuthService);
+    csAgentAuthService = TestBed.inject(CsAgentAuthService);
     routingService = TestBed.inject(RoutingService);
     windowRef = TestBed.inject(WindowRef);
   });
@@ -72,11 +72,11 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
     it('should logout csagent no matter the emulation state', () => {
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
     });
   });
 
@@ -92,7 +92,7 @@ describe('AsmComponentService', () => {
 
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', () => {
-      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
+      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(of(true));
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
@@ -102,7 +102,9 @@ describe('AsmComponentService', () => {
     });
 
     it('should return false when user token is not from an emulation session', () => {
-      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
+      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(
+        of(false)
+      );
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
