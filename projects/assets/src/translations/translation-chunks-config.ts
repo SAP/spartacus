@@ -1,6 +1,4 @@
-interface TranslationChunksConfig {
-  [chunk: string]: string[];
-}
+import { TranslationChunksConfig } from '@spartacus/core';
 
 export const translationChunksConfig: TranslationChunksConfig = {
   common: [
@@ -15,6 +13,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniLogin',
     'skipLink',
     'formErrors',
+    'errorHandlers',
   ],
   cart: [
     'cartDetails',
@@ -69,20 +68,16 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'anonymousConsents',
     'forgottenPassword',
     'loginForm',
+    'loginRegister',
     'register',
     'checkoutLogin',
   ],
+
   organization: [
     'breadcrumbs',
     'budgetsList',
     'budget',
     'budgetForm',
-    'budgetCostCenters',
-    'costCenter',
-    'costCentersList',
-    'costCenterForm',
-    'costCenterBudgets',
-    'costCenterAssignBudgets',
     'permissionsList',
     'permissionForm',
     'permission',
@@ -117,5 +112,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'userAssignUserGroups',
     'userApprovers',
     'userAssignApprovers',
+    'orderApproval',
+    'orderApprovalList',
   ],
 };

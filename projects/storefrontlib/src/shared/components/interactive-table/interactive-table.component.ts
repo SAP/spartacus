@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListingModel } from '../../../cms-components/organization/abstract-component/abstract-listing.component';
-import { Column } from '../table/table.component';
+import { Column } from '../table/table2.component';
 
 @Component({
   selector: 'cx-interactive-table',
@@ -35,6 +35,9 @@ export class InteractiveTableComponent {
   @Output()
   uncheck = new EventEmitter<any>();
 
+  @Output()
+  buttonClick = new EventEmitter<any>();
+
   viewPageEvent(event) {
     this.pageChange.emit(event);
   }
@@ -49,5 +52,9 @@ export class InteractiveTableComponent {
 
   uncheckEvent(event) {
     this.uncheck.emit(event);
+  }
+
+  buttonClickEvent(event) {
+    this.buttonClick.emit(event);
   }
 }

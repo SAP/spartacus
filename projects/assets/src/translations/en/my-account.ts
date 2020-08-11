@@ -35,6 +35,21 @@ export const myAccount = {
     statusDisplay_Error: 'Pending',
     statusDisplay_processing: 'Pending',
     statusDisplay_open: 'Open',
+    statusDisplay_pending: {
+      approval: 'Pending Approval',
+      merchant: {
+        approval: 'Pending Merchant Approval',
+      },
+    },
+    statusDisplay_approved: 'Approved',
+    statusDisplay_rejected: 'Rejected',
+    statusDisplay_merchant: {
+      approved: 'Merchant Approved',
+      rejected: 'Merchant Rejected',
+    },
+    statusDisplay_assigned: {
+      admin: 'Assigned To Administrator',
+    },
     consignmentTracking: {
       action: 'Track package',
       dialog: {
@@ -44,8 +59,7 @@ export const myAccount = {
         carrier: 'Delivery Service',
         trackingId: 'Tracking Number',
         noTracking:
-          'The package has not been dispatched from the warehouse. ' +
-          'The tracking information will be available after the package is shipped.',
+          'The package has not been dispatched from the warehouse. The tracking information will be available after the package is shipped.',
         loadingHeader: 'Consignment Tracking',
       },
     },
@@ -63,6 +77,20 @@ export const myAccount = {
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
+    },
+    approvalDetails: {
+      header: 'Customer Approval Details',
+      permission: 'Permission',
+      approver: 'Approver',
+      status: 'Status',
+      approverComments: 'Approver Comments',
+      noApprovalNotes: 'None',
+      permissionType_B2BBudgetExceededPermission:
+        'The budget associated with chosen cost center has been exceeded',
+      permissionType_B2BOrderThresholdPermission:
+        'Order total exceeded per-order limit',
+      permissionType_B2BOrderThresholdTimespanPermission:
+        'Order total exceeded per-timespan limit',
     },
   },
   orderHistory: {

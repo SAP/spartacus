@@ -1,26 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { ListNavigationModule } from '../list-navigation/list-navigation.module';
+import { I18nModule } from '@spartacus/core';
+import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { TableComponent } from './table.component';
-import { IconModule } from './../../../cms-components/misc/icon/icon.module';
 
+/**
+ * The TableModule provides a table component that is driven by (responsible) configuration.
+ */
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    NgSelectModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
-    IconModule,
-  ],
+  imports: [CommonModule, OutletModule, I18nModule, IconModule],
   declarations: [TableComponent],
   exports: [TableComponent],
-  entryComponents: [TableComponent],
 })
 export class TableModule {}

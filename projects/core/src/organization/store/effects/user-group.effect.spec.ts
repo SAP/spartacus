@@ -112,7 +112,7 @@ describe('UserGroup Effects', () => {
     expected = null;
   });
 
-  describe('loadUserGroup$', () => {
+  describe('load$', () => {
     it('should return LoadUserGroupSuccess action', () => {
       const action = new UserGroupActions.LoadUserGroup({
         userId,
@@ -144,7 +144,7 @@ describe('UserGroup Effects', () => {
     });
   });
 
-  describe('loadUserGroups$', () => {
+  describe('loadList$', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
     it('should return LoadUserGroupSuccess action', () => {

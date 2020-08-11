@@ -1,10 +1,13 @@
-import { OrderApprovalPermissionType } from './permission.model';
 import { Principal } from './cart.model';
 import { Order } from './order.model';
-import { CostCenter } from './org-unit.model';
+import { OrderApprovalPermissionType } from './permission.model';
 
+export enum OrderApprovalDecisionValue {
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+}
 export interface OrderApprovalDecision {
-  decision?: 'APPROVE' | 'REJECT';
+  decision?: OrderApprovalDecisionValue;
   comment?: string;
 }
 
@@ -13,14 +16,6 @@ export interface OrderApprovalRecord {
   comments?: string;
   permissionTypes?: OrderApprovalPermissionType[];
   statusDisplay?: string;
-}
-
-export interface B2BOrder extends Order {
-  chinesePaymentInfo?: any;
-  costCenter?: CostCenter;
-  paymentStatus?: string;
-  purchaseOrderNumber?: string;
-  totalUnitCount?: number;
 }
 
 export interface Trigger {
@@ -33,6 +28,13 @@ export interface OrderApproval {
   code?: string;
   customerOrderApprovalRecords?: OrderApprovalRecord[];
   merchantOrderApprovalRecords?: OrderApprovalRecord[];
-  order?: B2BOrder;
+  order?: Order;
   trigger?: Trigger;
+}
+
+export interface OrderApprovalPermissionResult {
+  approverName: string;
+  approverNotes: string;
+  permissionType: OrderApprovalPermissionType;
+  statusDisplay: string;
 }

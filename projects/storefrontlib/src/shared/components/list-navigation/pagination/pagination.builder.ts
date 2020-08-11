@@ -84,7 +84,6 @@ export class PaginationBuilder {
   ): void {
     const start = this.getStartOfRange(pageCount, current);
     const max = Math.min(this.config.rangeCount, pageCount);
-
     Array.from(Array(max)).forEach((_, i) => {
       pages.push({
         number: i + start,

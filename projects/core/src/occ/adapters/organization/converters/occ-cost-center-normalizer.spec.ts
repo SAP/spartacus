@@ -20,11 +20,13 @@ describe('CostCenterNormalizer', () => {
   const costCenter: Occ.CostCenter = {
     name: 'CostCenter1',
     code: 'testCode',
+    active: 'true',
   };
 
   const convertedCostCenter: CostCenter = {
     name: 'CostCenter1',
     code: 'testCode',
+    active: true,
   };
 
   beforeEach(() => {

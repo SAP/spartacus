@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserToken,
@@ -53,6 +55,12 @@ class MockCheckoutConfigService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel() {
+    return '2.0';
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -67,6 +75,7 @@ describe('LoginFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        FeaturesConfigModule,
         FormErrorsModule,
       ],
       declarations: [LoginFormComponent, MockUrlPipe],
@@ -80,6 +89,7 @@ describe('LoginFormComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -163,8 +173,8 @@ describe('LoginFormComponent', () => {
     });
   });
 
-  describe('guest checkout', () => {
-    it('should show "Register" when forced flag is false', () => {
+  describe('Guest checkout/register functionality', () => {
+    it('should show "Register" when guest checkout is off', () => {
       const registerLinkElement: HTMLElement = fixture.debugElement.query(
         By.css('.btn-register')
       ).nativeElement;
@@ -174,7 +184,7 @@ describe('LoginFormComponent', () => {
       expect(registerLinkElement).toBeTruthy();
     });
 
-    it('should show "Guest checkout" when forced flag is true', () => {
+    it('should show "Checkout as guest" button when guest checkout is on', () => {
       component.loginAsGuest = true;
       fixture.detectChanges();
 

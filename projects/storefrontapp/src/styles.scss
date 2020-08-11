@@ -1,3 +1,11 @@
 // Spartacus Application styles
 
+// Always bump to the latest (breaking) styles during development.
+$useLatestStyles: true;
+
 @import 'storefrontstyles/index';
+
+@import 'my-account';
+// @import '@spartacus/my-account';
+
+// @import 'my-account/organization/index';
