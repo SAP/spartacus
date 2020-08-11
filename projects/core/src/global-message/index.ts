@@ -7,3 +7,4 @@ export * from './models/global-message.model';
 export * from './store/actions/index';
 export * from './store/global-message-state';
 export * from './store/selectors/index';
+export * as GlobalMessageReducers from './store/reducers/index';

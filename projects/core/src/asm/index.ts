@@ -8,3 +8,4 @@ export * from './store/actions/index';
 export * from './store/asm-state';
 export * from './store/selectors/index';
 export * from './http-interceptors/csagent-token.interceptor';
+export * as AsmReducers from './store/reducers/index';
