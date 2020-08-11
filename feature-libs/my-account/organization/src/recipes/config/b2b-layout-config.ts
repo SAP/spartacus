@@ -1,4 +1,4 @@
-import { LayoutConfig } from '../../layout/config/layout-config';
+import { LayoutConfig } from '@spartacus/storefront';
 
 export const b2bLayoutConfig: LayoutConfig = {
   layoutSlots: {

@@ -1,5 +1,5 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { B2cStorefrontModule } from '@spartacus/storefront';
+import { B2cStorefrontModule } from '@spartacus/my-account';
 import { environment } from '../../environment';
 import { FeatureEnvironment } from '../../models/feature.model';
 

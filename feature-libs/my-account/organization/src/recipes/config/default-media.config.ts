@@ -1,4 +1,4 @@
-import { MediaConfig } from '../../shared/components/media/media.config';
+import { MediaConfig } from '@spartacus/storefront';
 
 export const mediaConfig: MediaConfig = {
   mediaFormats: {

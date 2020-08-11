@@ -3,8 +3,8 @@ import {
   OrganizationModule,
   organizationTranslationChunksConfig,
   organizationTranslations,
+  B2bStorefrontModule,
 } from '@spartacus/my-account/organization';
-import { B2bStorefrontModule } from '@spartacus/storefront';
 import { environment } from '../../environment';
 import { FeatureEnvironment } from '../../models/feature.model';
 

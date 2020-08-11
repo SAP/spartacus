@@ -4,14 +4,20 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsLibModule } from '../cms-components/cms-lib.module';
-import { StorefrontConfig } from '../storefront-config';
-import { b2cLayoutConfig, mediaConfig } from './config/index';
+import { CmsLibModule, StorefrontConfig } from '@spartacus/storefront';
+
+import {
+  b2bLayoutConfig,
+  defaultB2bOccConfig,
+  mediaConfig,
+} from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
+import { OrganizationModule } from '../organization.module';
 
 @NgModule({
   imports: [
+    OrganizationModule,
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
@@ -24,18 +30,19 @@ import { StorefrontModule } from './storefront.module';
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(b2bLayoutConfig),
     provideDefaultConfig(mediaConfig),
+    provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
   exports: [StorefrontModule],
 })
-export class B2cStorefrontModule {
+export class B2bStorefrontModule {
   static withConfig(
     config?: StorefrontConfig
-  ): ModuleWithProviders<B2cStorefrontModule> {
+  ): ModuleWithProviders<B2bStorefrontModule> {
     return {
-      ngModule: B2cStorefrontModule,
+      ngModule: B2bStorefrontModule,
       providers: [provideConfig(config)],
     };
   }

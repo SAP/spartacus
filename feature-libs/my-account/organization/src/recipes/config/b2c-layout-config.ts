@@ -1,4 +1,4 @@
-import { LayoutConfig } from '../../layout/config/layout-config';
+import { LayoutConfig } from '@spartacus/storefront';
 
 export const b2cLayoutConfig: LayoutConfig = {
   // deferredLoading: {
