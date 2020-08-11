@@ -102,7 +102,7 @@ class MockConfiguratorCommonsService {
 }
 
 export class MockIconFontLoaderService {
-  getFlipDirection(): void{}
+  getFlipDirection(): void {}
 }
 
 describe('ConfigProductTitleComponent', () => {
