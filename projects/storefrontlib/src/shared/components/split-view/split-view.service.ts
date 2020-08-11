@@ -41,8 +41,6 @@ export class SplitViewService {
   getActiveView(): Observable<number> {
     return this._views$.pipe(
       map((views) => this.getActive(views)),
-      // avoid emitting newly created split views without an visible view.
-      // filter((visible) => visible > 0),
       distinctUntilChanged()
     );
   }
@@ -50,9 +48,9 @@ export class SplitViewService {
   /**
    * Returns an observable with the SplitViewState for the given view position.
    */
-  getViewState(viewPosition: number): Observable<SplitViewState> {
+  getViewState(position: number): Observable<SplitViewState> {
     return this._views$.pipe(
-      map((views) => views[viewPosition]),
+      map((views) => views[position]),
       // we must filter here, since outlet driven views will destroyed the view
       filter((view) => Boolean(view))
     );
