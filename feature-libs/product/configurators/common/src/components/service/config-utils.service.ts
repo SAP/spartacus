@@ -68,7 +68,7 @@ export class ConfigUtilsService {
    * @param {Element} element - HTML element
    * @return {boolean} Returns 'true' if the HTML element is in the viewport, otherwise 'false'
    */
-  private isInViewport(element: Element): boolean {
+  protected isInViewport(element: Element): boolean {
     const bounding = element.getBoundingClientRect();
     return (
       bounding.top >= 0 &&
@@ -85,7 +85,7 @@ export class ConfigUtilsService {
    *
    * @param {Element | HTMLElement} element - HTML element
    */
-  private scroll(element: Element | HTMLElement): void {
+  protected scroll(element: Element | HTMLElement): void {
     let topOffset = 0;
     if (element instanceof HTMLElement) {
       topOffset = element.offsetTop;

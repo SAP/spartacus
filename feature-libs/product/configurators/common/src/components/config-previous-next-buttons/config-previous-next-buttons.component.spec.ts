@@ -16,7 +16,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
-import { ConfigUtilsService } from '@spartacus/product/configurators/common';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 let routerStateObservable = null;
 
