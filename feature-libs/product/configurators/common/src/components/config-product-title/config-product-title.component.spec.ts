@@ -16,6 +16,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
 import { ConfigProductTitleComponent } from './config-product-title.component';
+import { IconLoaderService } from '@spartacus/storefront';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT_NAME = 'productName';
@@ -100,6 +101,10 @@ class MockConfiguratorCommonsService {
   }
 }
 
+export class MockIconFontLoaderService {
+  getFlipDirection(): void{}
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfigProductTitleComponent;
   let fixture: ComponentFixture<ConfigProductTitleComponent>;
@@ -127,6 +132,7 @@ describe('ConfigProductTitleComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
       ],
     });
   }));
