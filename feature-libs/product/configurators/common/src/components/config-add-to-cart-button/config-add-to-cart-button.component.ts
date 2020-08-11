@@ -52,10 +52,13 @@ export class ConfigAddToCartButtonComponent {
     configuratorType: string,
     owner: GenericConfigurator.Owner
   ): void {
-    this.routingService.go({
-      cxRoute: 'configureOverview' + configuratorType,
-      params: { ownerType: 'cartEntry', entityKey: owner.id },
-    });
+    this.routingService.go(
+      {
+        cxRoute: 'configureOverview' + configuratorType,
+        params: { ownerType: 'cartEntry', entityKey: owner.id },
+      },
+      {}
+    );
   }
 
   protected displayConfirmationMessage(key: string): void {
