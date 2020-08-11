@@ -6,6 +6,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -22,6 +23,9 @@ const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
   state.paymentDetails;
 const getOrderDetailsSelector = (state: CheckoutStepsState) =>
   state.orderDetails;
+
+const getReplenishmentOrderDetailsSelector = (state: CheckoutStepsState) =>
+  state.replenishmentOrderDetails;
 
 export const getCheckoutState: MemoizedSelector<
   StateWithCheckout,
@@ -122,3 +126,8 @@ export const getCostCenter: MemoizedSelector<
   getCheckoutSteps,
   (state: CheckoutStepsState) => state.poNumber.costCenter
 );
+
+export const getCheckoutReplenishmentOrderDetails: MemoizedSelector<
+  StateWithCheckout,
+  ReplenishmentOrder
+> = createSelector(getCheckoutSteps, getReplenishmentOrderDetailsSelector);

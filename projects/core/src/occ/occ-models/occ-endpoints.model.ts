@@ -595,4 +595,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   b2bUserPermission?: string | OccEndpoint;
+  /**
+   * Endpoint to schedule a replenishment order
+   *
+   * * @member {string}
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
 }
