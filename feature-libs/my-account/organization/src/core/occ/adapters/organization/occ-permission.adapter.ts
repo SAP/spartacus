@@ -3,20 +3,20 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { PermissionAdapter } from '../../../connectors/permission/permission.adapter';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import {
   PERMISSION_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   PERMISSION_TYPES_NORMALIZER,
 } from '../../../connectors/permission/converters';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import {
+  EntitiesModel,
   OrderApprovalPermissionType,
+  Occ,
   Permission,
-} from '../../../../../../../../projects/core/src/model/permission.model';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
+  OccEndpointsService,
+  ConverterService,
+} from '@spartacus/core';
+import { B2BSearchConfig } from '../../../model';
 
 @Injectable()
 export class OccPermissionAdapter implements PermissionAdapter {

@@ -1,7 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BAddress, Occ } from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
+import { B2BAddress, Occ, OccEndpointsService } from '@spartacus/core';
 import { OccOrgUnitAddressNormalizer } from './occ-org-unit-address-normalizer';
 
 import createSpy = jasmine.createSpy;

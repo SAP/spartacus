@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { COST_CENTER_NORMALIZER } from '../../../../connectors/cost-center/converters';
 import {
   Converter,
+  Occ,
+  EntitiesModel,
+  CostCenter,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { COST_CENTER_NORMALIZER } from '../../../../connectors/cost-center/converters';
-import { EntitiesModel } from '../../../../../../../../../projects/core/src/model/misc.model';
-import { CostCenter } from '../../../../model/org-unit.model';
+} from '@spartacus/core';
 
 @Injectable()
 export class OccCostCenterListNormalizer

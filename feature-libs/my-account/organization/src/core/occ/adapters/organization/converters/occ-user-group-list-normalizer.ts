@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { UserGroup } from '../../../../model/user-group.model';
 import {
   Converter,
+  Occ,
+  EntitiesModel,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { UserGroup } from '../../../../model/user-group.model';
-import { EntitiesModel } from '../../../../../../../../../projects/core/src/model/misc.model';
-import { USER_GROUP_NORMALIZER } from '../../../../../../../../../projects/core/src/organization';
+} from '@spartacus/core';
+import { USER_GROUP_NORMALIZER } from '../../../../connectors';
 
 @Injectable()
 export class OccUserGroupListNormalizer

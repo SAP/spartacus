@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { B2B_ADDRESS_NORMALIZER } from '../../../../connectors/org-unit/converters';
 import {
   Converter,
+  Occ,
+  EntitiesModel,
+  B2BAddress,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { B2BAddress } from '../../../../model/org-unit.model';
-import { EntitiesModel } from '../../../../../../../../../projects/core/src/model/misc.model';
-import { B2B_ADDRESS_NORMALIZER } from '../../../../connectors/org-unit/converters';
+} from '@spartacus/core';
 
 @Injectable()
 export class OccOrgUnitAddressListNormalizer

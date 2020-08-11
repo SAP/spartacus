@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductSearchPage } from '../../../model/product-search.model';
-import { defaultOccProductConfig } from '@spartacus/my-account/organization/src/core/occ/adapters/product/default-occ-product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { Occ } from '../../../occ/occ-models/occ.models';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';

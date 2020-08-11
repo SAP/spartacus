@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ORDER_NORMALIZER } from '../../../../../../../../../projects/core/src/checkout/connectors/checkout/converters';
-import { OrderApproval } from '../../../../../../../../../projects/core/src/model/order-approval.model';
 import {
   Converter,
+  Occ,
+  OrderApproval,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+  ORDER_NORMALIZER,
+} from '@spartacus/core';
 
 @Injectable()
 export class OccOrderApprovalNormalizer

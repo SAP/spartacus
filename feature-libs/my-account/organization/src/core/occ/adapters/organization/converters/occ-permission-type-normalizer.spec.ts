@@ -1,9 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OrderApprovalPermissionType } from 'projects/core/src/model/permission.model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import { OccPermissionTypeNormalizer } from './occ-permission-type-normalizer';
+import { OccConfig, Occ, OrderApprovalPermissionType } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

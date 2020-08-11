@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import {
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -14,16 +12,18 @@ import {
 } from '../../../connectors/org-unit/converters';
 import { B2B_USERS_NORMALIZER } from '../../../connectors/b2b-user/converters';
 import { OrgUnitAdapter } from '../../../connectors/org-unit/org-unit.adapter';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import {
-  B2BUnitNode,
+  OccEndpointsService,
+  ConverterService,
   B2BUnit,
+  Occ,
+  B2BUnitNode,
   B2BApprovalProcess,
+  EntitiesModel,
   B2BUser,
   B2BAddress,
-} from '../../../model/org-unit.model';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
+} from '@spartacus/core';
+import { B2BSearchConfig } from '../../../model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {

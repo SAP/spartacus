@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import {
-  Converter,
-  ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../../connectors/budget/converters';
-import { EntitiesModel } from '../../../../../../../../../projects/core/src/model/misc.model';
 import { Budget } from '../../../../model/budget.model';
+import {
+  EntitiesModel,
+  Converter,
+  Occ,
+  ConverterService,
+} from '@spartacus/core';
 
 @Injectable()
 export class OccBudgetListNormalizer

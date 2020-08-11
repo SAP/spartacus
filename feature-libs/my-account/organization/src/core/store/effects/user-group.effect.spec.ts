@@ -7,17 +7,17 @@ import { Observable, of, throwError } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
+import { OccConfig } from '@spartacus/core';
+import * as fromEffects from './user-group.effect';
+import { B2BSearchConfig } from '../../model/search-config';
+import { UserGroup } from '../../model/user-group.model';
+import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 import {
   UserGroupActions,
   PermissionActions,
   B2BUserActions,
-  OccConfig,
-} from '@spartacus/core';
-import * as fromEffects from './user-group.effect';
-import { B2BSearchConfig } from '../../model/search-config';
-import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
-import { UserGroup } from '../../model/user-group.model';
-import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
+} from '../actions';
+import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 
 const error = 'error';
 const userGroupId = 'testUid';

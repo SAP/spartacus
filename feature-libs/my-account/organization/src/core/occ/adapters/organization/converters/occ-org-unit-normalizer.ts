@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { Converter } from '../../../../../../../../../projects/core/src/util/converter.service';
-import { B2BUnit } from '../../../../model/org-unit.model';
+import { B2BUnit, Converter, Occ } from '@spartacus/core';
 
 @Injectable()
 export class OccOrgUnitNormalizer implements Converter<Occ.B2BUnit, B2BUnit> {

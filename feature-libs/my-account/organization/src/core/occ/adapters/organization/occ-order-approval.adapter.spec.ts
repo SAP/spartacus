@@ -5,15 +5,17 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  ORDER_APPROVAL_NORMALIZER,
+  ORDER_APPROVALS_NORMALIZER,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
+} from '../../../connectors';
+import {
   ConverterService,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  ORDER_APPROVALS_NORMALIZER,
-  ORDER_APPROVAL_DECISION_NORMALIZER,
-  ORDER_APPROVAL_NORMALIZER,
+  OccEndpointsService,
 } from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
 import { OccOrderApprovalAdapter } from './occ-order-approval.adapter';
 
 import createSpy = jasmine.createSpy;

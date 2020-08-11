@@ -1,9 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { CostCenter } from '../../../../model/org-unit.model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import { OccCostCenterNormalizer } from './occ-cost-center-normalizer';
+import { Occ, OccConfig, CostCenter } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

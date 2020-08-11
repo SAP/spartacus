@@ -4,14 +4,13 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import {
-  ConverterService,
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
   BUDGETS_NORMALIZER,
-} from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { OccCostCenterAdapter } from './occ-cost-center.adapter';
+} from '../../../connectors';
 
 import createSpy = jasmine.createSpy;
 

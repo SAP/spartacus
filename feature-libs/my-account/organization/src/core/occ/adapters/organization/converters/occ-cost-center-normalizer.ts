@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CostCenter } from '../../../../model/org-unit.model';
-import { Converter } from '../../../../../../../../../projects/core/src/util/converter.service';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { CostCenter, Converter, Occ } from '@spartacus/core';
 
 @Injectable()
 export class OccCostCenterNormalizer

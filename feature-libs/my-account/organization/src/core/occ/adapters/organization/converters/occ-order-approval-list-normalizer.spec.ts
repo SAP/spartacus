@@ -1,9 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel } from '@spartacus/core';
-import { OrderApproval } from 'projects/core/src/model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { EntitiesModel, OccConfig, Occ, OrderApproval } from '@spartacus/core';
 import { OccOrderApprovalListNormalizer } from './occ-order-approval-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

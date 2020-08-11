@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import {
   B2BUserAdapter,
   B2B_USER_NORMALIZER,
@@ -13,9 +9,15 @@ import {
 } from '../../../connectors/b2b-user';
 import { PERMISSIONS_NORMALIZER } from '../../../connectors/permission';
 import { USER_GROUPS_NORMALIZER } from '../../../connectors/user-group/converters';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
-import { B2BUser } from '../../../../../../../../projects/core/src/model/org-unit.model';
 import { UserGroup } from '../../../model/user-group.model';
+import {
+  OccEndpointsService,
+  ConverterService,
+  B2BUser,
+  Occ,
+  EntitiesModel,
+} from '@spartacus/core';
+import { B2BSearchConfig } from '../../../model';
 
 @Injectable()
 export class OccB2BUserAdapter implements B2BUserAdapter {

@@ -4,15 +4,15 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ConverterService,
-  PERMISSION_NORMALIZER,
-  PERMISSIONS_NORMALIZER,
-} from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
+import { ConverterService } from '@spartacus/core';
+import { OccEndpointsService } from '@spartacus/core';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 
 import createSpy = jasmine.createSpy;
+import {
+  PERMISSION_NORMALIZER,
+  PERMISSIONS_NORMALIZER,
+} from '../../../connectors';
 
 const orderApprovalPermissionCode = 'testCode';
 const userId = 'userId';

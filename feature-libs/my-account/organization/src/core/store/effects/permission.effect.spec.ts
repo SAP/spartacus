@@ -15,8 +15,8 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
 import createSpy = jasmine.createSpy;
-import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
+import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 
 const error = 'error';
 const permissionCode = 'testCode';

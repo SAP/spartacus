@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { Converter } from '../../../../../../../../../projects/core/src/util/converter.service';
-import { OrderApprovalDecision } from '../../../../../../../../../projects/core/src/model/order-approval.model';
+import { Converter, Occ, OrderApprovalDecision } from '@spartacus/core';
 
 @Injectable()
 export class OccOrderApprovalDecisionNormalizer

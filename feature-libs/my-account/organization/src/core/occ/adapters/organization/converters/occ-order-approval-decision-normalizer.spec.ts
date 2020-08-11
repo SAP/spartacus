@@ -1,12 +1,13 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
+import { OccOrderApprovalDecisionNormalizer } from './occ-order-approval-decision-normalizer';
 import {
+  OccConfig,
+  Occ,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-} from 'projects/core/src/model/order-approval.model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { OccOrderApprovalDecisionNormalizer } from './occ-order-approval-decision-normalizer';
+} from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

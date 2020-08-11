@@ -8,8 +8,13 @@ import { PermissionService } from './services/permission.service';
 import { OrgUnitService } from './services/org-unit.service';
 import { UserGroupService } from './services/user-group.service';
 import { OrganizationStoreModule } from './store/organization-store.module';
+import { OrganizationOccModule } from './occ/adapters/organization/organization-occ.module';
 @NgModule({
-  imports: [OrganizationPageMetaModule, OrganizationStoreModule],
+  imports: [
+    OrganizationPageMetaModule,
+    OrganizationStoreModule,
+    OrganizationOccModule,
+  ],
 })
 export class OrganizationCoreModule {
   static forRoot(): ModuleWithProviders<OrganizationCoreModule> {

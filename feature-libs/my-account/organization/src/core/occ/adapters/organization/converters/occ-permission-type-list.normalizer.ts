@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+
+import { PERMISSION_TYPE_NORMALIZER } from '../../../../connectors/permission/converters';
 import {
   Converter,
+  Occ,
+  OrderApprovalPermissionType,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { OrderApprovalPermissionType } from '../../../../../../../../../projects/core/src/model/permission.model';
-import { PERMISSION_TYPE_NORMALIZER } from '../../../../connectors/permission/converters';
+} from '@spartacus/core';
 
 @Injectable()
 export class OccPermissionTypeListNormalizer

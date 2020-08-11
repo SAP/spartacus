@@ -6,20 +6,22 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   B2BAddress,
-  B2BSearchConfig,
-  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-  B2BUNIT_NODE_LIST_NORMALIZER,
-  B2BUNIT_NODE_NORMALIZER,
-  B2BUNIT_NORMALIZER,
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_USERS_NORMALIZER,
   ConverterService,
+  OccEndpointsService,
 } from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 
 import createSpy = jasmine.createSpy;
+import { B2BSearchConfig } from '../../../model';
+import {
+  B2BUNIT_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+} from '../../../connectors';
 
 const orgUnitId = 'testId';
 const userId = 'userId';

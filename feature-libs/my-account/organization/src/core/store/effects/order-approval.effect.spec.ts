@@ -18,7 +18,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 import createSpy = jasmine.createSpy;
-import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
 
 const error = 'error';

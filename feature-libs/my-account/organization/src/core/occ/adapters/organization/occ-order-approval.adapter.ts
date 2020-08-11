@@ -3,20 +3,20 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { OrderApprovalAdapter } from '../../../connectors/order-approval/order-approval.adapter';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import {
   ORDER_APPROVAL_NORMALIZER,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
 } from '../../../connectors/order-approval/converters';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import {
-  OrderApprovalDecision,
+  OccEndpointsService,
+  ConverterService,
   OrderApproval,
-} from '../../../../../../../../projects/core/src/model/order-approval.model';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
+  Occ,
+  EntitiesModel,
+  OrderApprovalDecision,
+} from '@spartacus/core';
+import { B2BSearchConfig } from '../../../model';
 
 @Injectable()
 export class OccOrderApprovalAdapter implements OrderApprovalAdapter {

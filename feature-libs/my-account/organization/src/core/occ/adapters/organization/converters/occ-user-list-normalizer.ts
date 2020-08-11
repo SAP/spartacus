@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import {
   Converter,
+  Occ,
+  EntitiesModel,
   ConverterService,
-} from '../../../../../../../../../projects/core/src/util/converter.service';
-import { EntitiesModel } from '../../../../../../../../../projects/core/src/model/misc.model';
-import { B2BUser } from '../../../../model/org-unit.model';
-import { B2B_USER_NORMALIZER } from '../../../../../../../../../projects/core/src/organization';
+  B2BUser,
+} from '@spartacus/core';
+import { B2B_USER_NORMALIZER } from '../../../../connectors';
 
 @Injectable()
 export class OccUserListNormalizer

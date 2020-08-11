@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+import {
+  OccEndpointsService,
+  ConverterService,
+  CostCenter,
+  Occ,
+  EntitiesModel,
+} from '@spartacus/core';
 import { CostCenterAdapter } from '../../../connectors/cost-center/cost-center.adapter';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
 } from '../../../connectors/cost-center/converters';
 import { BUDGETS_NORMALIZER } from '../../../connectors/budget/converters';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { CostCenter } from '../../../model/org-unit.model';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
 import { Budget } from '../../../model/budget.model';
+import { B2BSearchConfig } from '../../../model';
 
 @Injectable()
 export class OccCostCenterAdapter implements CostCenterAdapter {

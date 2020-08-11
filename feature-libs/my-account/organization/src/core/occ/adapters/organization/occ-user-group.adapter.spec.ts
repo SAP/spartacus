@@ -4,17 +4,16 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { OccUserGroupAdapter } from './occ-user-group.adapter';
+
+import createSpy = jasmine.createSpy;
 import {
-  ConverterService,
   USER_GROUP_NORMALIZER,
   USER_GROUPS_NORMALIZER,
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
-} from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { OccUserGroupAdapter } from './occ-user-group.adapter';
-
-import createSpy = jasmine.createSpy;
+} from '../../../connectors';
 
 const userGroupId = 'testUid';
 const permissionUid = 'permissionUid';

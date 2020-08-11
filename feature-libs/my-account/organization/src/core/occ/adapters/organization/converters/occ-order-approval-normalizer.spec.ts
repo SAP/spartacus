@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { ORDER_NORMALIZER } from 'projects/core/src/checkout/connectors/checkout/converters';
-import { ConverterService } from 'projects/core/src/util/converter.service';
-import { OrderApproval } from '../../../../../../../../../projects/core/src/model/order-approval.model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import {
+  OccConfig,
+  Occ,
+  OrderApproval,
+  ORDER_NORMALIZER,
+  ConverterService,
+} from '@spartacus/core';
 import { OccOrderApprovalNormalizer } from './occ-order-approval-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

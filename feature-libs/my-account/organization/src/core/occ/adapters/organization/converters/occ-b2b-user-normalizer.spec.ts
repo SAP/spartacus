@@ -1,9 +1,7 @@
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { B2BUser } from '../../../../../../../../../projects/core/src/model/org-unit.model';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
 import { OccB2BUserNormalizer } from './occ-b2b-user-normalizer';
+import { Occ, OccConfig, B2BUser } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

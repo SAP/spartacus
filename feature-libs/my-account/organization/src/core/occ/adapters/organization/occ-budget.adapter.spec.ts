@@ -4,15 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ConverterService,
-  BUDGET_NORMALIZER,
-  BUDGETS_NORMALIZER,
-} from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
 import createSpy = jasmine.createSpy;
+import { BUDGET_NORMALIZER, BUDGETS_NORMALIZER } from '../../../connectors';
 
 const budgetCode = 'testCode';
 const userId = 'userId';

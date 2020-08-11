@@ -1,9 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel } from '@spartacus/core';
-import { B2BUser } from 'projects/core/src/model';
-import { OccConfig } from '../../../../../../../../../projects/core/src/occ/config/occ-config';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
+import { EntitiesModel, OccConfig, Occ, B2BUser } from '@spartacus/core';
 import { OccUserListNormalizer } from './occ-user-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

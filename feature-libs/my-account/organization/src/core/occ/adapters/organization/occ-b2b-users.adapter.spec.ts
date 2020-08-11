@@ -6,15 +6,18 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
+  B2BUser,
+  OccEndpointsService,
+} from '@spartacus/core';
+
+import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
+import { B2BSearchConfig } from '../../../model';
+import {
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
-} from '@spartacus/core';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
-import { B2BUser } from '../../../model/org-unit.model';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
+} from '../../../connectors';
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';

@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+import {
+  OccEndpointsService,
+  ConverterService,
+  Occ,
+  EntitiesModel,
+} from '@spartacus/core';
 import { BudgetAdapter } from '../../../connectors/budget/budget.adapter';
-import { OccEndpointsService } from '../../../../../../../../projects/core/src/occ/services/occ-endpoints.service';
-import { ConverterService } from '../../../../../../../../projects/core/src/util/converter.service';
 import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,
 } from '../../../connectors/budget/converters';
-import { B2BSearchConfig } from '../../../../../../../../projects/core/src/organization/model/search-config';
-import { Occ } from '../../../../../../../../projects/core/src/occ/occ-models/occ.models';
 import { Budget } from '../../../model/budget.model';
-import { EntitiesModel } from '../../../../../../../../projects/core/src/model/misc.model';
+import { B2BSearchConfig } from '../../../model/search-config';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {

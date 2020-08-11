@@ -13,7 +13,7 @@ import * as fromEffects from './cost-center.effect';
 import { B2BSearchConfig } from '../../model/search-config';
 
 import { CostCenter, OccConfig } from '@spartacus/core';
-import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { Budget } from '../../model/budget.model';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 

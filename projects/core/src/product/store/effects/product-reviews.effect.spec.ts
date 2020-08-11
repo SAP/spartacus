@@ -9,7 +9,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
-import { defaultOccProductConfig } from '@spartacus/my-account/organization/src/core/occ/adapters/product/default-occ-product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../../../../../../../projects/core/src/occ/occ-models/occ.models';
-import { Converter } from '../../../../../../../../../projects/core/src/util/converter.service';
 import { UserGroup } from '../../../../model/user-group.model';
+import { Converter, Occ } from '@spartacus/core';
 
 @Injectable()
 export class OccUserGroupNormalizer

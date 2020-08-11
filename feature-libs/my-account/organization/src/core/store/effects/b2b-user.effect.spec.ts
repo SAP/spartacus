@@ -21,7 +21,7 @@ import {
   OccConfig,
   RoutingService,
 } from '@spartacus/core';
-import { defaultOccOrganizationConfig } from 'projects/core/src/occ/adapters/organization/default-occ-organization-config';
+import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { UserGroup } from '../../model/user-group.model';
 import { B2BUserConnector } from '../../connectors';
 
