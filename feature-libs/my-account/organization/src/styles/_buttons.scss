@@ -1,7 +1,8 @@
 @import 'node_modules/bootstrap/scss/buttons';
 
 .organization {
-  a.link {
+  a.link,
+  button.link {
     @extend .btn, .btn-link, .btn-sm;
     @include alt-visible-focus();
 
