@@ -16,6 +16,7 @@ import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-component
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
+import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 let mockGroupVisited = false;
@@ -72,6 +73,10 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+class MockConfigUtilsService {
+  scrollToConfigurationElement(): void {}
+}
+
 let component: ConfigGroupMenuComponent;
 let fixture: ComponentFixture<ConfigGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -115,6 +120,10 @@ describe('ConfigurationGroupMenuComponent', () => {
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
+        },
+        {
+          provide: ConfigUtilsService,
+          useClass: MockConfigUtilsService,
         },
       ],
     });

@@ -12,6 +12,7 @@ import {
   HamburgerMenuService,
 } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -70,7 +71,8 @@ export class ConfigGroupMenuComponent {
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configUtils: ConfigUtilsService
   ) {}
 
   /**
@@ -88,9 +90,11 @@ export class ConfigGroupMenuComponent {
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
-        this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
+        this.configUtils.scrollToConfigurationElement(
+          '.VariantConfigurationTemplate'
+        );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
@@ -237,14 +241,5 @@ export class ConfigGroupMenuComponent {
       return true;
     }
     return false;
-  }
-
-  protected scrollToVariantConfigurationHeader(): void {
-    const theElement = document.querySelector('.VariantConfigurationTemplate');
-    let topOffset = 0;
-    if (theElement instanceof HTMLElement) {
-      topOffset = theElement.offsetTop;
-    }
-    window.scroll(0, topOffset);
   }
 }
