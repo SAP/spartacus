@@ -11,7 +11,7 @@ export class ConfigConflictSuggestionComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() suggestionNumber: number;
 
-  GroupType = Configurator.GroupType;
+  groupType = Configurator.GroupType;
 
   constructor() {}
 

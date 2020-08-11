@@ -1,5 +1,6 @@
 <ng-container *ngIf="cartEntry">
-  <a
+  <button
+    class="link cx-action-link"
     [routerLink]="
       {
         cxRoute: getRoute(),
@@ -11,6 +12,7 @@
       } | cxUrl
     "
     [queryParams]="{ forceReload: true }"
+    [disabled]="disabled"
     (click)="closeActiveModal()"
     cxAutoFocus
   >
@@ -26,5 +28,5 @@
     <ng-container *ngIf="!readOnly && msgBanner">
       {{ 'configurator.header.resolveIssues' | cxTranslate }}
     </ng-container>
-  </a>
+  </button>
 </ng-container>

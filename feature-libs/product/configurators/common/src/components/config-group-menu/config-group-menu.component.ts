@@ -12,6 +12,7 @@ import {
   HamburgerMenuService,
 } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -64,22 +65,23 @@ export class ConfigGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
-  GROUPSTATUS = Configurator.GroupStatus;
+  groupStatus = Configurator.GroupStatus;
 
   constructor(
-    private configCommonsService: ConfiguratorCommonsService,
-    public configuratorGroupsService: ConfiguratorGroupsService,
-    private hamburgerMenuService: HamburgerMenuService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected hamburgerMenuService: HamburgerMenuService,
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configUtils: ConfigUtilsService
   ) {}
 
   /**
    * Executes a click event to the given group.
    *
-   * @param event - Keyboard event
+   * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
-  clickOnEnter(event, group: Configurator.Group): void {
+  clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
     if (event.which === 13) {
       this.click(group);
     }
@@ -88,9 +90,11 @@ export class ConfigGroupMenuComponent {
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
-        this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
+        this.configUtils.scrollToConfigurationElement(
+          '.VariantConfigurationTemplate'
+        );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
@@ -103,9 +107,9 @@ export class ConfigGroupMenuComponent {
   /**
    * Navigates to the subgroup.
    *
-   * @param event
+   * @param {KeyboardEvent} event - Keyboard event
    */
-  navigateUpOnEnter(event): void {
+  navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.which === 13) {
       this.navigateUp();
     }
@@ -140,6 +144,16 @@ export class ConfigGroupMenuComponent {
       return '(' + group.subGroups.length + ')';
     }
     return '';
+  }
+
+  /**
+   * Verifies whether the current group has a subgroups.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {boolean} - Returns 'true' if the current group has a subgroups, otherwise 'false'.
+   */
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorGroupsService.hasSubGroups(group);
   }
 
   protected getParentGroup(
@@ -227,14 +241,5 @@ export class ConfigGroupMenuComponent {
       return true;
     }
     return false;
-  }
-
-  protected scrollToVariantConfigurationHeader(): void {
-    const theElement = document.querySelector('.VariantConfigurationTemplate');
-    let topOffset = 0;
-    if (theElement instanceof HTMLElement) {
-      topOffset = theElement.offsetTop;
-    }
-    window.scroll(0, topOffset);
   }
 }

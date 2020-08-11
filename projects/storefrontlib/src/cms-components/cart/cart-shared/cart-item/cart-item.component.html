@@ -2,6 +2,7 @@
   [compact]="compact"
   [readonly]="readonly"
   [item]="item"
+  [disabled]="quantityControl.disabled"
 ></cx-configure-issues-notification>
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
@@ -52,6 +53,7 @@
             [cartEntry]="item"
             [readOnly]="readonly"
             [msgBanner]="false"
+            [disabled]="quantityControl.disabled"
           ></cx-configure-cart-entry>
 
           <!-- Variants -->
