@@ -14,7 +14,7 @@ import {
   ConfigurationRouter,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',
@@ -22,13 +22,16 @@ import { filter, switchMap, take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAddToCartButtonComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  container$: Observable<{
+    routerData: ConfigurationRouter.Data;
+    configuration: Configurator.Configuration;
+  }> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
+        this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(map((configuration) => ({ routerData, configuration })))
       )
     );
 

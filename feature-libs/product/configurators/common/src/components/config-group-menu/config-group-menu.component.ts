@@ -142,6 +142,16 @@ export class ConfigGroupMenuComponent {
     return '';
   }
 
+  /**
+   * Verifies whether the current group has a subgroups.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {boolean} - Returns 'true' if the current group has a subgroups, otherwise 'false'.
+   */
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorGroupsService.hasSubGroups(group);
+  }
+
   protected getParentGroup(
     group: Configurator.Group
   ): Observable<Configurator.Group> {
