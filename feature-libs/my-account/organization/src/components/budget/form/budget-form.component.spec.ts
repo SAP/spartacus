@@ -1,3 +1,4 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,13 +8,12 @@ import {
   Currency,
   CurrencyService,
   I18nTestingModule,
+  UrlTestingModule,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '../../..';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {

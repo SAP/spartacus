@@ -8,9 +8,9 @@ import {
   CurrencyService,
   I18nTestingModule,
   OrderApprovalPermissionType,
+  UrlTestingModule,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PermissionFormComponent } from './permission-form.component';
 import createSpy = jasmine.createSpy;

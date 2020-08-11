@@ -3,3 +3,4 @@ export * from './semantic-path.service';
 export * from './url-command';
 export * from './url.module';
 export * from './url.pipe';
+export * from './testing/url-testing.module';

@@ -4,16 +4,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import {
+  I18nTestingModule,
+  RoutingService,
+  UrlTestingModule,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UserGroupEditComponent } from './user-group-edit.component';
 import { By } from '@angular/platform-browser';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
 import createSpy = jasmine.createSpy;
+import {
+  SplitViewTestingModule,
+  IconTestingModule,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-group-form',

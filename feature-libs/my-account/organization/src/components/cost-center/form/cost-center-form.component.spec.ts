@@ -7,9 +7,9 @@ import {
   Currency,
   CurrencyService,
   I18nTestingModule,
+  UrlTestingModule,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import { OrgUnitService } from '../../../core/services/org-unit.service';

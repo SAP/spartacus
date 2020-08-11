@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { Table, TableModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { I18nTestingModule, UrlTestingModule } from '@spartacus/core';
+import {
+  Table,
+  TableModule,
+  SplitViewTestingModule,
+  IconTestingModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';

@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -5,14 +6,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CostCenter, I18nTestingModule, RoutingService } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { Observable, of } from 'rxjs';
+import {
+  CostCenter,
+  I18nTestingModule,
+  RoutingService,
+  UrlTestingModule,
+} from '@spartacus/core';
+import {
+  SplitViewTestingModule,
+  IconTestingModule,
+} from '@spartacus/storefront';
 import { BudgetEditComponent } from './budget-edit.component';
-import { BudgetService } from '../../../core/services/budget.service';
-import { Budget } from '../../../core/model/budget.model';
+import { Budget } from '../../../core/model';
+import { BudgetService } from '../../..';
 import createSpy = jasmine.createSpy;
 
 @Component({
