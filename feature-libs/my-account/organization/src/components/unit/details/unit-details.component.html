@@ -158,24 +158,25 @@
               [disabled]="
                 orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active
               "
-              (click)="update({ active: true })"
+              (click)="update({ uid: orgUnit.uid, active: true })"
             >
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
             </button>
           </ng-template>
         </span>
+        <p
+          class="instruction"
+          *ngIf="orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active"
+        >
+          {{ 'unit.messages.disabledParent' | cxTranslate }}
+        </p>
         <p class="instruction">
-          <ng-container
-            *ngIf="orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active"
-          >
-            <div>{{ 'unit.messages.disabledParent' | cxTranslate }}</div>
-          </ng-container>
           <ng-container *ngIf="orgUnit.active; else inactiveInstruction">
-            <div>{{ 'unit.messages.enabled' | cxTranslate }}</div>
+            {{ 'unit.messages.enabled' | cxTranslate }}
           </ng-container>
           <ng-template #inactiveInstruction>
-            <div>{{ 'unit.messages.disabled' | cxTranslate }}</div>
+            {{ 'unit.messages.disabled' | cxTranslate }}
           </ng-template>
         </p>
       </div>
