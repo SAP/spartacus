@@ -12,7 +12,10 @@ import {
 import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import { provideDefaultConfig } from '../../../config/config.module';
-import { OccOrderNormalizer } from './converters/occ-order-normalizer';
+import {
+  OccOrderNormalizer,
+  OccReplenishmentOrderNormalizer,
+} from './converters/index';
 import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
@@ -52,7 +55,7 @@ import { OccCheckoutAdapter } from './occ-checkout.adapter';
     },
     {
       provide: REPLENISHMENT_ORDER_NORMALIZER,
-      useExisting: OccOrderNormalizer,
+      useExisting: OccReplenishmentOrderNormalizer,
       multi: true,
     },
   ],
