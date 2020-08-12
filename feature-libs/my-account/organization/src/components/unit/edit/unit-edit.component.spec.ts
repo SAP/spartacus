@@ -9,8 +9,6 @@ import {
   OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  Currency,
-  CurrencyService,
   B2BUnitNode,
   LanguageService,
   B2BUnit,
@@ -19,8 +17,9 @@ import {
 import { UnitEditComponent } from './unit-edit.component';
 import createSpy = jasmine.createSpy;
 import { UnitFormModule } from '../form/unit-form.module';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { FormControl, FormGroup } from '@angular/forms';
 
 const code = 'b1';
 
@@ -50,38 +49,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   update = createSpy('update');
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-    },
-  },
-};
-
 class MockRoutingService {
   go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
 }
-
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = 'USD';
-const MockCurrencyService = {
-  active: mockActiveCurr,
-  getAll(): Observable<Currency[]> {
-    return of(mockCurrencies);
-  },
-  getActive(): Observable<string> {
-    return of(this.active);
-  },
-  setActive(isocode: string): void {
-    this.active = isocode;
-  },
-};
 
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
@@ -113,7 +83,6 @@ describe('UnitEditComponent', () => {
         },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useValue: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
@@ -133,31 +102,18 @@ describe('UnitEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load orgUnit', () => {
-      component.ngOnInit();
-      let orgUnit: any;
-      component.orgUnit$
-        .subscribe((value) => {
-          orgUnit = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnit);
-    });
-  });
-
   describe('update', () => {
     it('should update orgUnit', () => {
-      component.ngOnInit();
       const updateOrgUnit = {
         code,
         name: 'newName',
       };
+      const updateForm = new FormGroup({
+        code: new FormControl(updateOrgUnit.code),
+        name: new FormControl(updateOrgUnit.name),
+      });
 
-      component.updateOrgUnit(updateOrgUnit);
+      component.save(code, updateForm);
       expect(orgUnitsService.update).toHaveBeenCalledWith(code, updateOrgUnit);
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orgUnitDetails',

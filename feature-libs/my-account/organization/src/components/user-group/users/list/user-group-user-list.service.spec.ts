@@ -6,7 +6,7 @@ import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupUserListService } from './user-group-user-list.service';
 
-const mockUserGroupEntities: EntitiesModel<B2BUser> = {
+const mockUserEntities: EntitiesModel<B2BUser> = {
   values: [
     { uid: '1', customerId: 'first', name: 'b1', selected: true },
     {
@@ -25,9 +25,10 @@ const mockUserGroupEntities: EntitiesModel<B2BUser> = {
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<B2BUser>> {
-    return of(mockUserGroupEntities);
+  getAvailableOrgCustomers(): Observable<EntitiesModel<B2BUser>> {
+    return of(mockUserEntities);
   }
+  unassignMember() {}
 }
 
 @Injectable()

@@ -1,34 +1,39 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, B2BUserService, EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  B2BUserService,
+  EntitiesModel,
+  UserGroup,
+} from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserAssignPermissionListService } from './user-assign-permission.service';
+import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
 
-const mockUserPermissionEntities: EntitiesModel<Permission> = {
+const mockUserGroupEntities: EntitiesModel<UserGroup> = {
   values: [
     {
-      code: 'first',
+      uid: 'first',
       selected: true,
     },
     {
-      code: 'second',
+      uid: 'second',
       selected: false,
     },
     {
-      code: 'third',
+      uid: 'third',
       selected: true,
     },
   ],
 };
 
 class MockB2BUserService {
-  getB2BUserPermissions(): Observable<EntitiesModel<Permission>> {
-    return of(mockUserPermissionEntities);
+  getUserGroups(): Observable<EntitiesModel<UserGroup>> {
+    return of(mockUserGroupEntities);
   }
-  assignPermission() {}
-  unassignPermission() {}
+  assignUserGroup() {}
+  unassignUserGroup() {}
 }
 
 @Injectable()
@@ -38,15 +43,15 @@ export class MockTableService {
   }
 }
 
-describe('UserAssignPermissionListService', () => {
-  let service: UserAssignPermissionListService;
+describe('UserAssignUserGroupListService', () => {
+  let service: UserAssignUserGroupListService;
   let userService: B2BUserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserAssignPermissionListService,
+        UserAssignUserGroupListService,
         {
           provide: B2BUserService,
           useClass: MockB2BUserService,
@@ -57,7 +62,7 @@ describe('UserAssignPermissionListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserAssignPermissionListService);
+    service = TestBed.inject(UserAssignUserGroupListService);
     userService = TestBed.inject(B2BUserService);
   });
 

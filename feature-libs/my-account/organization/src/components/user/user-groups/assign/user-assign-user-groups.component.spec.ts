@@ -8,8 +8,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserAssignPermissionsComponent } from './user-assign-permission.component';
-import { UserAssignPermissionListService } from './user-assign-permission.service';
+import { UserAssignUserGroupsComponent } from './user-assign-user-groups.component';
+import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
 
 const userCode = 'userCode';
 
@@ -44,10 +44,10 @@ class MockUserPermissionListService {
   toggleAssign() {}
 }
 
-describe('UserAssignPermissionsComponent', () => {
-  let component: UserAssignPermissionsComponent;
-  let fixture: ComponentFixture<UserAssignPermissionsComponent>;
-  let service: UserAssignPermissionListService;
+describe('UserAssignUserGroupsComponent', () => {
+  let component: UserAssignUserGroupsComponent;
+  let fixture: ComponentFixture<UserAssignUserGroupsComponent>;
+  let service: UserAssignUserGroupListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,20 +59,20 @@ describe('UserAssignPermissionsComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserAssignPermissionsComponent],
+      declarations: [UserAssignUserGroupsComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserAssignPermissionListService,
+          provide: UserAssignUserGroupListService,
           useClass: MockUserPermissionListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserAssignPermissionListService);
+    service = TestBed.inject(UserAssignUserGroupListService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserAssignPermissionsComponent);
+    fixture = TestBed.createComponent(UserAssignUserGroupsComponent);
     component = fixture.componentInstance;
   });
 
