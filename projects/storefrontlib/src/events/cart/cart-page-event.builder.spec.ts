@@ -3,9 +3,9 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { createFrom, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { PageVisitedEvent } from '../page';
+import { PageEvent } from '../page';
 import { CartPageEventBuilder } from './cart-page-event.builder';
-import { CartPageVisitedEvent } from './cart-page.events';
+import { CartPageEvent } from './cart-page.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
@@ -25,20 +25,20 @@ describe('CartPageEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('CartPageVisitedEvent', () => {
-    let result: CartPageVisitedEvent;
+  it('CartPageEvent', () => {
+    let result: CartPageEvent;
     eventService
-      .get(CartPageVisitedEvent)
+      .get(CartPageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    const pageVisitedEvent = createFrom(PageVisitedEvent, {
+    const pageEvent = createFrom(PageEvent, {
       context: undefined,
       semanticRoute: 'cart',
       url: 'cart url',
       params: undefined,
     });
-    eventService.dispatch(pageVisitedEvent);
+    eventService.dispatch(pageEvent);
     expect(result).toBeTruthy();
   });
 });

@@ -1,44 +1,34 @@
 /**
- * The Spartacus team is cautious with introducing changing styles in a 
- * minor release, as it would conflict the [semantic versioning](https://semver.org/) 
- * model. In order to improve the style layer during minor releases, without 
- * breaking the semantic versioning system, a version flag is used. The version is 
- * used to register breaking styles classes and rules in the stable style layer. 
+ * The Spartacus team is cautious with introducing style changes in a 
+ * minor release, as it would conflict with the [semantic versioning](https://semver.org/) 
+ * model. To improve the style layer during minor releases, without breaking the versioning,
+ * a version flag is used. The version is used to control breaking styles during the 
+ * lifecycle of a major version.
  * 
- * To introduce breaking changes during the life cycle of a stable (major) releases, 
- * a technique is provided to register specific styles for specific versions.
- * Customers can opt-in for specific versions by declaring the `$styleVersion` variable.
- * The breaking changes until the declared version will be cumulated in the generated 
- * stylesheet. For example, if a customer declares to use version 2.3, it means that 
- * all breaking changes introduced in versions 2.1, 2.2 and 2.3 will end up in the 
- * stylesheet. 
+ * The breaking changes are added with the  `forVersion()` mixin. The mixin compares the 
+ * from version and (optional) to version, and will only add the mixin content if changes are 
+ * part of the stable release, or explicitly requested by the customer. 
  * 
- * Breaking changes which have been introduced before the latest stable release will
- * always be added. 
- * 
- * To make live easy for developers, prototypes and demo's, the `$useLatestStyles` 
- * has been added as well. If you set this flag to true, you will get all breaking
- * changes, always. 
- * 
- * Registration of minor driven styles can be done with the `forVersion` mixin. 
- * An example if given below: 
+ * An example of the usage of the mixin is given below: 
  * 
  * ```scss
  * @include forVersion(2.1){
- *   // style classes/rules go here
+ *  // valid when 2.1 is explicit requested or from 3.0 onwards
  * }
  * ```
+ * 
+ * Customers can opt-in for specific versions by declaring the `$styleVersion` variable or by 
+ * using the `$useLatestStyles:true` to always be up-to-date with the latest styles. 
  */
 
 /**
- * The `$stableVersion` indicates the major version of the style library. Any
- * version related styles that are left over from previous stable releases will
- * always end up in the generated stylesheet. 
- * 
- * The `$stableVersion` variable cannot be redeclared by customers. This version 
- * will be updated each time the major release number increases. 
- */
-$stableStyleVersion: 2;
+  * The $version indicates the latest style version. This version is used to control the 
+  * semantic versioning scheme of the final CSS, to avoid breaking changes in the style layer. 
+  * This allows to introduce breaking changes during minor version, but only if customers explicitly 
+  * enable this. It can be enabled by setting the `$useLatestStyles` to true, or `$styleVersion` to a
+  * specific version. 
+  */
+$version: 2.1;
 
 /**
  * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
@@ -54,16 +44,85 @@ $styleVersion: 0 !default;
 $useLatestStyles: false !default;
 
 /**
- * The `forVersion` mixin is used during development of the style layer. Breaking style
- * changes can be added for a specific version, so that customers must explicitly
- * _opt-in_ for all breaking changes till the requested $styleVersion. Non breaking changes 
- * added at any point in time will be build regardless of the selected $styleVersion. 
+ * The `$stableVersion` indicates the major version of the style library. Any
+ * version related styles that are left over from previous stable releases will
+ * always end up in the generated stylesheet. 
+ * 
+ * The `$stableVersion` variable cannot be redeclared by customers. This version 
+ * will be updated each time the major release number increases. 
  */
-@mixin forVersion($version) {
-  @if $useLatestStyles or
-    ($version <= $styleVersion) or
-    ($version <= $stableStyleVersion)
-  {
-    @content;
+@use 'sass:math';
+$stableStyleVersion: math.floor($version);
+
+/**
+ * The `forVersion` mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, and customers can only use those styles if
+ * they explicitly enable breaking changes. 
+ * 
+ * The mixin requires a $from version and optional to version. Content can be flagged for 
+ * specific versions or from a specific version onwards. 
+ * 
+ * Examples
+ * - `forVersion(2)` is valid from stable version 2 onwards.
+ * - `forVersion(2.1)` Valid for version 2.1 and higher, but only added as breaking change or when stable version reaches 3.0.
+ * - `forVersion(2, 2.1)` Valid for version 2 and 2.1. Will no longer be available after 2.1.
+ *
+ * The version related content is only created if the user opt-in for breaking changes.
+ */
+@mixin forVersion($from, $to: 0) {
+  // We never create content that is part of future releases, this should not really happen.
+  @if ($from <= $version) {
+    @if (
+      (isStableVersion($from, $to) and isValidVersion($from, $to)) or
+        addBreakingChange($from, $to)
+    ) {
+      @content;
+    }
   }
+}
+
+/**
+ * Indicates that from and to versions are valid for the stable version. 
+ * - from 0.9 to 1.1 is valid for version 1
+ * - from 1.0 to 1.2 is valid for version 1
+ * - from 1.1 to 1.2 is not valid for version 1
+ * - from 1.1 to 1.2 is valid for version 2
+ */
+@function isStableVersion($from, $to: 0) {
+  @if ($to == 0) {
+    @return $from <= $stableStyleVersion;
+  } @else {
+    @return $from <= $stableStyleVersion and $to >= $stableStyleVersion;
+  }
+}
+
+/**
+ * Indicates that the style rule should be created for the given opt-in rules. 
+ */
+@function addBreakingChange($from, $to) {
+  @if (useBreakingChanges() == false) {
+    @return false;
+  }
+  @return isValidVersion($from, $to);
+}
+
+/**
+ * Indicates that the given from / to versions are valid. 
+ */
+@function isValidVersion($from, $to: 0) {
+  @if ($to == 0) {
+    // ensure that we opt-in the from version
+    @return $useLatestStyles or $from <= $styleVersion;
+  } @else {
+    // ensure that we opt-in the from/to version
+    @return ($useLatestStyles and $from <= $version and $to >= $version) or
+      ($styleVersion > 0 and $from <= $styleVersion and $to >= $styleVersion);
+  }
+}
+
+/**
+ * Indicates if breaking changes are requested.
+ */
+@function useBreakingChanges() {
+  @return $useLatestStyles or $styleVersion > 0;
 }
