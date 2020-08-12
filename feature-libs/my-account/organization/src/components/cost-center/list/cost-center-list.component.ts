@@ -5,11 +5,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
+import { PaginationModel, RouterState, RoutingService } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { CostCenterListService } from './cost-center-list.service';
 import { map } from 'rxjs/operators';
+import { CostCenterListService } from './cost-center-list.service';
 
 const BASE_CLASS = 'organization';
 

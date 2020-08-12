@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -12,12 +13,12 @@ import {
 } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-cost-center-edit',
   templateUrl: './cost-center-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentCostCenterService],
 })
 export class CostCenterEditComponent {
   /**

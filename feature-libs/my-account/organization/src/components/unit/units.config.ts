@@ -100,11 +100,6 @@ export const unitsCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
-              path: 'edit',
-              component: UnitEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
               path: 'children',
               component: UnitChildrenComponent,
               canDeactivate: [SplitViewDeactivateGuard],
@@ -163,6 +158,10 @@ export const unitsCmsConfig: CmsConfig = {
               canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
+        },
+        {
+          path: ':code/edit',
+          component: UnitEditComponent,
         },
       ],
 
