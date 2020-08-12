@@ -23,19 +23,19 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers'],
       },
       costCenterCreate: {
-        paths: ['organization/cost-centers/create'],
+        paths: ['organization/cost-centers/add'],
       },
       costCenterDetails: {
         paths: ['organization/cost-centers/:code'],
-      },
-      costCenterEdit: {
-        paths: ['organization/cost-centers/:code/edit'],
       },
       costCenterBudgets: {
         paths: ['organization/cost-centers/:code/budgets'],
       },
       costCenterAssignBudgets: {
         paths: ['organization/cost-centers/:code/budgets/assign'],
+      },
+      costCenterEdit: {
+        paths: ['organization/cost-centers/:code/edit'],
       },
     },
   },
@@ -47,7 +47,7 @@ export const costCenterCmsConfig: CmsConfig = {
       component: CostCenterListComponent,
       childRoutes: [
         {
-          path: 'create',
+          path: 'add',
           component: CostCenterCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },
@@ -56,11 +56,6 @@ export const costCenterCmsConfig: CmsConfig = {
           component: CostCenterDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: CostCenterEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'budgets',
               component: CostCenterBudgetListComponent,
@@ -74,6 +69,10 @@ export const costCenterCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: ':code/edit',
+          component: CostCenterEditComponent,
         },
       ],
       guards: [AuthGuard],

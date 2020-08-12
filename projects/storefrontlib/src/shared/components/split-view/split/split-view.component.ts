@@ -40,6 +40,8 @@ export class SplitViewComponent implements OnDestroy {
   /**
    * Sets the default hide mode for views. This mode is useful in case views are dynamically being created,
    * for example when they are created by router components.
+   *
+   * The mode defaults to true, unless this is the first view; the first view is never hidden.
    */
   @Input()
   set hideMode(mode: boolean) {

@@ -4,21 +4,21 @@ import {
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
-import { UnitListComponent } from './list/unit-list.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
+import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
+import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
+import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
+import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-approvers.component';
+import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
+import { UnitChildrenComponent } from './children/unit-children.component';
+import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitEditComponent } from './edit/unit-edit.component';
-import { UnitUserListComponent } from './users/list/unit-user-list.component';
+import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
-import { UnitChildrenComponent } from './children/unit-children.component';
-import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
-import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-approvers.component';
-import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
-import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
-import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
-import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
-import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
-import { OrganizationTableType } from '../shared/organization.model';
+import { UnitUserListComponent } from './users/list/unit-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -30,7 +30,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units'],
       },
       orgUnitCreate: {
-        paths: ['organization/units/create'],
+        paths: ['organization/units/add'],
       },
       orgUnitDetails: {
         paths: ['organization/units/:code'],
@@ -90,7 +90,7 @@ export const unitsCmsConfig: CmsConfig = {
       component: UnitListComponent,
       childRoutes: [
         {
-          path: 'create',
+          path: 'add',
           component: UnitCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

@@ -25,14 +25,14 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paths: ['organization/user-groups'],
       },
       userGroupCreate: {
-        paths: ['organization/user-groups/create'],
+        paths: ['organization/user-groups/add'],
       },
       userGroupDetails: {
         paths: ['organization/user-groups/:code'],
         paramsMapping: { code: 'uid' },
       },
       userGroupEdit: {
-        paths: ['organization/user-groups/:code/edit'],
+        paths: ['organization/user-groups/edit/:code'],
         paramsMapping: { code: 'uid' },
       },
       userGroupUsers: {
@@ -61,7 +61,7 @@ export const userGroupCmsConfig: CmsConfig = {
       component: UserGroupListComponent,
       childRoutes: [
         {
-          path: 'create',
+          path: 'add',
           component: UserGroupCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },
@@ -70,11 +70,6 @@ export const userGroupCmsConfig: CmsConfig = {
           component: UserGroupDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: UserGroupEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'users',
               component: UserGroupUserListComponent,
@@ -100,6 +95,10 @@ export const userGroupCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: 'edit/:code',
+          component: UserGroupEditComponent,
         },
       ],
       guards: [AuthGuard],

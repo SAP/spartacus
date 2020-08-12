@@ -31,7 +31,7 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets/:code/cost-centers'],
       },
       budgetEdit: {
-        paths: ['organization/budgets/edit/:code'],
+        paths: ['organization/budgets/:code/edit'],
       },
     },
   },
@@ -60,7 +60,7 @@ export const budgetCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: 'edit/:code',
+          path: ':code/edit',
           component: BudgetEditComponent,
         },
       ],
