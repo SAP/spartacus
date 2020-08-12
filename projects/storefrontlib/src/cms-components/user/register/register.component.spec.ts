@@ -1,6 +1,7 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -133,6 +134,7 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        NgSelectModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
@@ -264,7 +266,7 @@ describe('RegisterComponent', () => {
         lastName: '',
         uid: '',
         password: '',
-        titleCode: '',
+        titleCode: null,
       });
     });
 

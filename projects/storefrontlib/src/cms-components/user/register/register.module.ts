@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
@@ -18,6 +19,7 @@ import { RegisterComponent } from './register.component';
     CommonModule,
     LoginModule,
     ReactiveFormsModule,
+    NgSelectModule,
     RouterModule,
     UrlModule,
     I18nModule,
