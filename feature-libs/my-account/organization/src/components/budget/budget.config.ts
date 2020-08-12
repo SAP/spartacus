@@ -22,13 +22,13 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets'],
       },
       budgetCreate: {
-        paths: ['organization/budgets/add'],
+        paths: [`organization/budgets/add`],
       },
       budgetDetails: {
-        paths: ['organization/budgets/view/:code'],
+        paths: ['organization/budgets/:code'],
       },
       budgetCostCenters: {
-        paths: ['organization/budgets/view/:code/cost-centers'],
+        paths: ['organization/budgets/:code/cost-centers'],
       },
       budgetEdit: {
         paths: ['organization/budgets/edit/:code'],
@@ -48,7 +48,7 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: 'view/:code',
+          path: ':code',
           component: BudgetDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -62,7 +62,6 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: 'edit/:code',
           component: BudgetEditComponent,
-          // canDeactivate: [SplitViewDeactivateGuard],
         },
       ],
       guards: [AuthGuard],
