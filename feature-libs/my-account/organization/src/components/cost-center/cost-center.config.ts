@@ -23,7 +23,7 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers'],
       },
       costCenterCreate: {
-        paths: [`organization/cost-centers/create`],
+        paths: ['organization/cost-centers/create'],
       },
       costCenterDetails: {
         paths: ['organization/cost-centers/:code'],

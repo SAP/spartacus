@@ -22,7 +22,7 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets'],
       },
       budgetCreate: {
-        paths: [`organization/budgets/create`],
+        paths: ['organization/budgets/create'],
       },
       budgetDetails: {
         paths: ['organization/budgets/:code'],
