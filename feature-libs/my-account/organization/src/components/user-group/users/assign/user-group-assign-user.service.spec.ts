@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
-const mockUserGroupEntities: EntitiesModel<B2BUser> = {
+const mockUserEntities: EntitiesModel<B2BUser> = {
   values: [
     {
       uid: 'user-1',
@@ -30,11 +30,11 @@ const mockUserGroupEntities: EntitiesModel<B2BUser> = {
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<B2BUser>> {
-    return of(mockUserGroupEntities);
-  }
   assignMember() {}
   unassignMember() {}
+  getAvailableOrgCustomers(): Observable<EntitiesModel<B2BUser>> {
+    return of(mockUserEntities);
+  }
 }
 
 @Injectable()
@@ -44,15 +44,15 @@ export class MockTableService {
   }
 }
 
-describe('UserGroupAssignUserListService', () => {
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignUserService', () => {
+  let service: UserGroupAssignUserService;
   let userGroupService: UserGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserGroupAssignUserListService,
+        UserGroupAssignUserService,
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,
@@ -63,7 +63,7 @@ describe('UserGroupAssignUserListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
     userGroupService = TestBed.inject(UserGroupService);
   });
 

@@ -1,0 +1,64 @@
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+    </a>
+    <span>{{
+      'unit.manageAddresses.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
+
+  <div class="actions">
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAddressCreate',
+          params: { uid: orgUnitCode }
+        } | cxUrl
+      "
+    >
+      {{ 'unit.manageAddresses.create' | cxTranslate }}
+    </a>
+  </div>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitManageAddresses.data.summary" let-model>
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAddressDetails',
+          params: { uid: orgUnitCode, id: model.id }
+        } | cxUrl
+      "
+      routerLinkActive="active"
+    >
+      <div>
+        <h3>{{ model.firstName }} {{ model.lastName }}</h3>
+        <small>{{ model.formattedAddress }}</small>
+      </div>
+
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>
+
+<router-outlet></router-outlet>

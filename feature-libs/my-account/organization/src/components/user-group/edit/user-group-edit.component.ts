@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { CurrentUserGroupService } from '../current-user-group.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-group-edit',
@@ -50,6 +51,7 @@ export class UserGroupEditComponent {
   save(userGroupCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userGroupService.update(userGroupCode, form.value);

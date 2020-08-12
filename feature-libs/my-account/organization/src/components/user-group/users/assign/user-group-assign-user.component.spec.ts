@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
 import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
@@ -44,10 +44,10 @@ class MockUserGroupUserListService {
   toggleAssign() {}
 }
 
-describe('UserGroupAssignUsersComponent', () => {
+describe('UserGroupAssignUserComponent', () => {
   let component: UserGroupAssignUsersComponent;
   let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: UserGroupAssignUserListService;
+  let service: UserGroupAssignUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -62,7 +62,7 @@ describe('UserGroupAssignUsersComponent', () => {
       declarations: [UserGroupAssignUsersComponent],
       providers: [
         {
-          provide: UserGroupAssignUserListService,
+          provide: UserGroupAssignUserService,
           useClass: MockUserGroupUserListService,
         },
         {
@@ -71,7 +71,7 @@ describe('UserGroupAssignUsersComponent', () => {
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
   }));
 
   beforeEach(() => {

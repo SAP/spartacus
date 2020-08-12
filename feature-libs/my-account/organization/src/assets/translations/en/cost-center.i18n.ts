@@ -10,13 +10,16 @@ export const costCenter = {
     enabled:
       'When you disable the cost center, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled Cost Center.',
+    disabledUnit: 'You cannot enable cost center if unit is disabled.',
     deactivate: 'Are you sure you want to disable this cost center?',
     deactivateHeader: 'Disable Cost Center',
   },
 
   budget: {
-    header: 'Budgets',
+    link: 'Budgets',
+    header: 'Budgets in {{code}}',
     assign: 'Assign budgets',
+    assignHeader: 'Assign budgets in {{code}}',
     back: 'Back',
     instructions: {
       check: 'To assign a budget to this cost center, select its check box.',

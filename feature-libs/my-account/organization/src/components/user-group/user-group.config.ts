@@ -9,9 +9,9 @@ import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
 import { UserGroupListComponent } from './list/user-group-list.component';
-import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
+import { UserGroupAssignPermissionComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
-import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
+import { UserGroupAssignUserComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
@@ -82,7 +82,7 @@ export const userGroupCmsConfig: CmsConfig = {
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignUsersComponent,
+                  component: UserGroupAssignUserComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -94,7 +94,7 @@ export const userGroupCmsConfig: CmsConfig = {
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignPermissionsComponent,
+                  component: UserGroupAssignPermissionComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -159,6 +159,7 @@ export const userGroupTableConfig: TableConfig = {
         headers: [
           { key: 'name', sortCode: 'byName' },
           { key: 'uid' },
+          { key: 'roles' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

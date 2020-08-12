@@ -31,7 +31,9 @@ export class UserGroupListComponent implements OnInit, OnDestroy {
   lastPath$ = this.routingService
     .getRouterState()
     .pipe(
-      map((state: RouterState) => state.state?.url.split('/').reverse()[0])
+      map((state: RouterState) =>
+        state.state?.url.split('/').reverse()[0].split('?').shift()
+      )
     );
 
   constructor(

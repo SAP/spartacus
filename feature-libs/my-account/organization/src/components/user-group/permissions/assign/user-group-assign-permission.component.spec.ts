@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { UserGroupAssignPermissionsComponent } from './user-group-assign-permission.component';
-import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
+import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
 import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
@@ -43,7 +43,7 @@ class MockUserGroupPermissionListService {
 describe('UserGroupAssignPermissionsComponent', () => {
   let component: UserGroupAssignPermissionsComponent;
   let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
-  let service: UserGroupAssignPermissionListService;
+  let service: UserGroupAssignPermissionService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,7 +58,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
       declarations: [UserGroupAssignPermissionsComponent],
       providers: [
         {
-          provide: UserGroupAssignPermissionListService,
+          provide: UserGroupAssignPermissionService,
           useClass: MockUserGroupPermissionListService,
         },
         {
@@ -67,7 +67,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignPermissionListService);
+    service = TestBed.inject(UserGroupAssignPermissionService);
   }));
 
   beforeEach(() => {
