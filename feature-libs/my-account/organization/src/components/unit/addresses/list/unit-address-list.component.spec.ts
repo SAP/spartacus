@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 
 import { UnitAddressListComponent } from './unit-address-list.component';
-import { InteractiveTableModule, TableModule } from '@spartacus/storefront';
+import { TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { UnitAddressListService } from './unit-address-list.service';
@@ -32,7 +32,6 @@ describe('UnitAddressListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        InteractiveTableModule,
         I18nTestingModule,
         UrlTestingModule,
         SplitViewTestingModule,
