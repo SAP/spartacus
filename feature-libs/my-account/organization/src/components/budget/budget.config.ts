@@ -81,7 +81,7 @@ export const budgetTableConfig: TableConfig = {
         headers: [{ key: 'name' }],
         pagination: {
           sort: 'byName',
-          pageSize: 10,
+          // pageSize: 2,
         },
       },
       {
