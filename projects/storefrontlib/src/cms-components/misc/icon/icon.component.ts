@@ -57,11 +57,13 @@ export class IconComponent {
   icon: SafeHtml;
 
   /**
-   * The flip direction adds information to the DOM on whether it should flipped for a specific
-   * direction (ltr vs rtl). Typically, icons are ltr based, and only in case of rtl some of
-   * the icons will be flipped.
+   * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
    */
   @HostBinding('class.flip-at-rtl') flipAtRtl: boolean;
+
+  /**
+   * The `flip-at-ltr` class is added to the DOM for the style layer to flip the icon in LTR direction.
+   */
   @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
 
   /**
@@ -83,12 +85,20 @@ export class IconComponent {
     this.icon = this.iconLoader.getHtml(type);
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
+    this.flipIcon(type);
+  }
 
-    // the flip direction is added so that icons can be flipped for rtl vs ltr
-    this.flipAtLtr =
-      this.iconLoader.getFlipDirection(type) === DirectionMode.LTR;
-    this.flipAtRtl =
-      this.iconLoader.getFlipDirection(type) === DirectionMode.RTL;
+  /**
+   * The icons supports flipping for some icons to support rtl and ltr directions.
+   */
+  protected flipIcon(type: ICON_TYPE) {
+    // TODO: this can be dropped with the next major release.
+    if (!this.iconLoader.getFlipDirection) {
+      return;
+    }
+    const iconDirection = this.iconLoader.getFlipDirection(type);
+    this.flipAtLtr = iconDirection === DirectionMode.LTR;
+    this.flipAtRtl = iconDirection === DirectionMode.RTL;
   }
 
   /**
