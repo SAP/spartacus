@@ -18,6 +18,24 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { UnitAddressFormService } from './unit-address-form.service';
 import { FormErrorsComponent } from '@spartacus/storefront';
 
+const mockForm: FormGroup = new FormGroup({
+  id: new FormControl(''),
+  titleCode: new FormControl(''),
+  firstName: new FormControl(''),
+  lastName: new FormControl(''),
+  line1: new FormControl(''),
+  line2: new FormControl(''),
+  town: new FormControl(''),
+  postalCode: new FormControl(''),
+  phone: new FormControl(''),
+  country: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+  region: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+});
+
 const mockTitles: Title[] = [
   {
     code: 'mr',
@@ -109,6 +127,7 @@ describe('UnitAddressFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAddressFormComponent);
     component = fixture.componentInstance;
+    component.form = mockForm;
     fixture.detectChanges();
   });
 
@@ -116,18 +135,11 @@ describe('UnitAddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should select country and call getRegions', () => {
-    component.form = new FormGroup({
-      country: new FormGroup({
-        isocode: new FormControl(null),
-      }),
-    });
-    fixture.detectChanges();
+  it('should select country and call getRegions', () => {
     component.countrySelected(mockCountries[0]);
-
-    expect(component.form['controls'].country['controls'].isocode).toEqual(
-      mockCountries[0].isocode
-    );
+    expect(
+      component.form['controls'].country['controls'].isocode.value
+    ).toEqual(mockCountries[0].isocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountries[0].isocode
     );
