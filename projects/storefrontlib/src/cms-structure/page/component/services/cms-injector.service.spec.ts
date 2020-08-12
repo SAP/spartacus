@@ -5,8 +5,9 @@ import { CmsService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '@spartacus/storefront';
 
-const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
+const mockCmsComponentsService = jasmine.createSpyObj('CmsMappingService', [
   'getMapping',
+  'getInjectors',
 ]);
 
 const mockCmsService = {
@@ -21,7 +22,7 @@ describe('CmsInjectorService', () => {
       providers: [
         {
           provide: CmsComponentsService,
-          useValue: mockCmsMappingService,
+          useValue: mockCmsComponentsService,
         },
         {
           provide: CmsService,
@@ -42,6 +43,10 @@ describe('CmsInjectorService', () => {
       const data = injector.get(CmsComponentData);
       expect(data).toBeTruthy();
       expect(data.uid).toEqual('sampleUid');
+    });
+    it('should call getInjectors from CmsComponentsService', () => {
+      service.getInjector('aaa', 'sampleUid');
+      expect(mockCmsComponentsService.getInjectors).toHaveBeenCalled();
     });
   });
 });
