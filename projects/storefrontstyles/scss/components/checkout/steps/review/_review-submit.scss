@@ -36,7 +36,9 @@
     }
 
     .cx-review-payment-col {
-      border-inline-end: 1px solid var(--cx-color-text);
+      @include media-breakpoint-up(lg) {
+        border-inline-end: 1px solid var(--cx-color-text);
+      }
     }
 
     .cx-review-summary-card {
@@ -52,7 +54,9 @@
       }
 
       &:not(:last-of-type) {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        @include media-breakpoint-up(lg) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        }
       }
 
       .cx-card-title {

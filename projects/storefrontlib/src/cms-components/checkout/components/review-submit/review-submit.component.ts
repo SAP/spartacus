@@ -181,7 +181,12 @@ export class ReviewSubmitComponent {
         return {
           title: textTitle,
           textBold: deliveryMode.name,
-          text: [deliveryMode.description],
+          text: [
+            deliveryMode.description,
+            deliveryMode.deliveryCost?.formattedValue
+              ? deliveryMode.deliveryCost?.formattedValue
+              : '',
+          ],
         };
       })
     );
@@ -215,7 +220,7 @@ export class ReviewSubmitComponent {
                 paymentDetails.billingAddress?.town +
                   ', ' +
                   region +
-                  paymentDetails.billingAddress?.country?.name,
+                  paymentDetails.billingAddress?.country?.isocode,
                 paymentDetails.billingAddress?.postalCode,
               ],
             },
@@ -258,5 +263,37 @@ export class ReviewSubmitComponent {
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
     const step = this.checkoutStepService.getCheckoutStep(stepType);
     return step && step.routeName;
+  }
+
+  shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
+    return steps.filter((step) => this.isShippingStep(step));
+  }
+
+  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
+    return steps.filter((step) => this.isPaymentStep(step));
+  }
+
+  protected isShippingStep(step: CheckoutStep): boolean {
+    switch (step.type[0]) {
+      case this.checkoutStepType.SHIPPING_ADDRESS:
+        return true;
+      case this.checkoutStepType.DELIVERY_MODE:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  protected isPaymentStep(step: CheckoutStep): boolean {
+    switch (step.type[0]) {
+      case this.checkoutStepType.PAYMENT_TYPE:
+        return true;
+      case this.checkoutStepType.PAYMENT_DETAILS:
+        return true;
+      case this.checkoutStepType.SHIPPING_ADDRESS:
+        return true;
+      default:
+        return false;
+    }
   }
 }
