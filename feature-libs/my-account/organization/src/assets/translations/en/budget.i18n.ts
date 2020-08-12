@@ -10,10 +10,10 @@ export const budget = {
 
   messages: {
     enabled:
-      'When you disable the cost center, the related data will be disabled as well. ',
-    disabled: 'You cannot edit a disabled Cost Center.',
-    deactivate: 'Are you sure you want to disable this cost center?',
-    deactivateHeader: 'Disable Cost Center',
+      'When you disable the budget, the related data will be disabled as well. ',
+    disabled: 'You cannot edit a disabled Budget.',
+    deactivate: 'Are you sure you want to disable this budget?',
+    deactivateHeader: 'Disable Budget',
   },
 
   form: {

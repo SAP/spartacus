@@ -31,9 +31,12 @@
       >
         {{ 'organization.edit' | cxTranslate }}
       </a>
-      <a class="link" (click)="openModal(orgUnitAddress, confirmDeleteAddress)">
+      <button
+        class="link"
+        (click)="openModal(orgUnitAddress, confirmDeleteAddress)"
+      >
         {{ 'organization.delete' | cxTranslate }}
-      </a>
+      </button>
     </div>
 
     <section>
