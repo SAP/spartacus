@@ -3,8 +3,8 @@ import { ActionsSubject } from '@ngrx/store';
 import { createFrom, EventService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PageVisitedEvent } from '../page/page.events';
-import { CartPageVisitedEvent } from './cart-page.events';
+import { PageEvent } from '../page/page.events';
+import { CartPageEvent } from './cart-page.events';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +18,13 @@ export class CartPageEventBuilder {
   }
 
   protected register(): void {
-    this.eventService.register(CartPageVisitedEvent, this.buildCartPageEvent());
+    this.eventService.register(CartPageEvent, this.buildCartPageEvent());
   }
 
-  protected buildCartPageEvent(): Observable<CartPageVisitedEvent> {
-    return this.eventService.get(PageVisitedEvent).pipe(
-      filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'cart'),
-      map((pageVisitedEvent) =>
-        createFrom(CartPageVisitedEvent, pageVisitedEvent)
-      )
+  protected buildCartPageEvent(): Observable<CartPageEvent> {
+    return this.eventService.get(PageEvent).pipe(
+      filter((pageEvent) => pageEvent.semanticRoute === 'cart'),
+      map((pageEvent) => createFrom(CartPageEvent, pageEvent))
     );
   }
 }
