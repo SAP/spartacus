@@ -52,6 +52,7 @@ export class SplitViewComponent implements OnDestroy {
    * can be fully controlled by css.
    */
   @HostBinding('style.--cx-active-view')
+  @HostBinding('attr.active-view')
   lastVisibleView = 1;
 
   protected subscription: Subscription = this.splitService

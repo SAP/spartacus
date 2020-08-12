@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -60,7 +61,8 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   constructor(
     protected splitService: SplitViewService,
-    protected elementRef: ElementRef
+    protected elementRef: ElementRef,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -77,6 +79,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         if (view.hidden) {
           setTimeout(() => {
             this.disappeared = true;
+            this.cd.markForCheck();
           }, this.duration * 1.25);
         } else {
           this.disappeared = false;
