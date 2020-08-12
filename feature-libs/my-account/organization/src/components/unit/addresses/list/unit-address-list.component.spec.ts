@@ -1,101 +1,61 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  I18nTestingModule,
-  RoutingService,
-  RoutesConfig,
-  RoutingConfig,
-  OrgUnitService,
-  B2BAddress,
-} from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 
 import { UnitAddressListComponent } from './unit-address-list.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '@spartacus/storefront';
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
+import { InteractiveTableModule, TableModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { UnitAddressListService } from './unit-address-list.service';
+import { CurrentUnitService } from '../../current-unit.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const code = 'b1';
-const addressId = 'a1';
 
-const mockAddress: Partial<B2BAddress> = {
-  id: addressId,
-  firstName: 'firstName',
-  lastName: 'lastName',
-  formattedAddress: 'formattedAddress',
-};
-
-const mockAddresses = { values: [mockAddress] };
-// const mockAddressUI = {
-//   values: [
-//     {
-//       id: addressId,
-//       name: 'firstName lastName',
-//       code,
-//       formattedAddress: 'formattedAddress',
-//     },
-//   ],
-// };
-
-const addressList = new BehaviorSubject(mockAddresses);
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadAddresses = createSpy('loadAddresses');
-  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
-  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
+class MockUnitAddressListService {
+  getTable = function () {
+    return of({});
+  };
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          code,
-        },
-      },
-    });
-  }
-}
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService {
+  code$ = of(code);
 }
 
-describe('UnitManageAddressesComponent', () => {
+describe('UnitAddressListComponent', () => {
   let component: UnitAddressListComponent;
   let fixture: ComponentFixture<UnitAddressListComponent>;
-  // let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [UnitAddressListComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        InteractiveTableModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        TableModule,
+      ],
+      declarations: [UnitAddressListComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: UnitAddressListService,
+          useClass: MockUnitAddressListService,
+        },
+        {
+          provide: CurrentUnitService,
+          useClass: MockCurrentUnitService,
+        },
       ],
     }).compileComponents();
-
-    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAddressListComponent);
     component = fixture.componentInstance;
-    addressList.next(mockAddresses);
     fixture.detectChanges();
   });
 
