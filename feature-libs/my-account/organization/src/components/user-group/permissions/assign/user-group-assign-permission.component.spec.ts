@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Permission, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -10,8 +9,14 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { UserGroupAssignPermissionsComponent } from './user-group-assign-permission.component';
 import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
+
+class MockCurrentUserGroupService
+  implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
+}
 
 const mockPermissionList: Table<Permission> = {
   data: [
@@ -27,15 +32,6 @@ const mockPermissionList: Table<Permission> = {
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   structure: { type: '' },
 };
-
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userGroupCode }),
-    },
-  };
-  snapshot = {};
-}
 
 class MockUserGroupPermissionListService {
   getTable(_code) {
@@ -61,10 +57,13 @@ describe('UserGroupAssignPermissionsComponent', () => {
       ],
       declarations: [UserGroupAssignPermissionsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupAssignPermissionListService,
           useClass: MockUserGroupPermissionListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -143,6 +142,13 @@ describe('UserGroupAssignPermissionsComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });

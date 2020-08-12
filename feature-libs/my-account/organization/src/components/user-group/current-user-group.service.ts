@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, UserGroupService } from '@spartacus/core';
+import { UserGroupService, UserGroup } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ export class CurrentUserGroupService {
   /**
    * Emits the current model or null, if there is no model available
    */
-  readonly userGroup$: Observable<CostCenter> = this.code$.pipe(
+  readonly userGroup$: Observable<UserGroup> = this.code$.pipe(
     switchMap((code: string) => (code ? this.service.get(code) : of(null)))
   );
 }

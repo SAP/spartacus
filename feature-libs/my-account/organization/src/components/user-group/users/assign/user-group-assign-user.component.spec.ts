@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, B2BUser } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -10,8 +9,14 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
 import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
+
+class MockCurrentUserGroupService
+  implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
+}
 
 const mockUserList: Table<B2BUser> = {
   data: [
@@ -31,15 +36,6 @@ const mockUserList: Table<B2BUser> = {
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   structure: { type: '' },
 };
-
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userGroupCode }),
-    },
-  };
-  snapshot = {};
-}
 
 class MockUserGroupUserListService {
   getTable(_code) {
@@ -65,10 +61,13 @@ describe('UserGroupAssignUsersComponent', () => {
       ],
       declarations: [UserGroupAssignUsersComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupAssignUserListService,
           useClass: MockUserGroupUserListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -147,6 +146,13 @@ describe('UserGroupAssignUsersComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });
