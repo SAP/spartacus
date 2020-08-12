@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -14,8 +14,8 @@ import {
 
 import { UnitDetailsComponent } from './unit-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { Table2Module } from '@spartacus/storefront';
 
 const code = 'b1';
 
@@ -37,19 +37,8 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   update = createSpy('update');
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-    },
-  },
-};
-
 class MockRoutingService {
   go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
 }
 
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
@@ -63,7 +52,7 @@ describe('UnitDetailsComponent', () => {
   let component: UnitDetailsComponent;
   let fixture: ComponentFixture<UnitDetailsComponent>;
   let orgUnitsService: MockOrgUnitService;
-  let routingService: RoutingService;
+  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -76,8 +65,8 @@ describe('UnitDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -90,26 +79,8 @@ describe('UnitDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load orgUnit', () => {
-      component.ngOnInit();
-      let orgUnit: any;
-      component.orgUnit$
-        .subscribe((value) => {
-          orgUnit = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnit);
-    });
-  });
-
   describe('update', () => {
     it('should update orgUnit', () => {
-      component.ngOnInit();
-
       component.update({ active: false });
       expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
         active: false,

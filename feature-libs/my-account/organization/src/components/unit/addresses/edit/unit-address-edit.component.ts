@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { map, take, withLatestFrom } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
 import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
@@ -17,7 +15,7 @@ export class UnitAddressEditComponent {
   code$ = this.currentUnitService.code$;
   address$ = this.currentUnitAddressService.unitAddress$;
 
-  protected form$: Observable<FormGroup> = this.address$.pipe(
+  form$ = this.address$.pipe(
     map((address) => this.unitAddressFormService.getForm(address))
   );
 
