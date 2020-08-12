@@ -21,6 +21,7 @@ import { PWAModuleConfig } from './cms-structure/pwa/pwa.module-config';
 import { FeatureToggles } from './feature-toggles';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
+import { DirectionConfig } from './layout/direction/config/direction.config';
 import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
 import { MediaConfig } from './shared/components/media/media.config';
 import { ViewConfig } from './shared/config/view-config';
@@ -35,6 +36,7 @@ export type StorefrontConfig =
   | PWAModuleConfig
   | SiteContextConfig
   | LayoutConfig
+  | DirectionConfig
   | MediaConfig
   | RoutingConfig
   | I18nConfig
