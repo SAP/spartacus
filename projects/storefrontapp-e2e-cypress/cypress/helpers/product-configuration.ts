@@ -41,13 +41,6 @@ export function clickOnEditConfigurationLink() {
     });
 }
 
-/**
- * Verifies whether the updating configuration message is not displayed on the top of the configuration.
- */
-function isUpdatingMessageNotDisplayed() {
-  cy.get('cx-config-message').should('not.be.visible');
-}
-
 function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
   cy.get(btnSelector)
     .click()
