@@ -310,6 +310,23 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
+- `ci-scripts/unit-tests-sonar.sh`
+
+Add the library unit tests with code coverage
+
+``` sh
+echo "Running unit tests and code coverage for TODO:"
+exec 5>&1
+output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+```
+
+Replace `TODO:` with the appropriate name.
+
 ## Multi-entry point library
 
 Sources:
