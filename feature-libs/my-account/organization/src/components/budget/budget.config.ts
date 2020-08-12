@@ -22,7 +22,7 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets'],
       },
       budgetCreate: {
-        paths: [`organization/budgets/add`],
+        paths: [`organization/budgets/create`],
       },
       budgetDetails: {
         paths: ['organization/budgets/:code'],
@@ -43,7 +43,7 @@ export const budgetCmsConfig: CmsConfig = {
       component: BudgetListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: BudgetCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

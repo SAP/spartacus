@@ -27,7 +27,7 @@ export const userRoutingConfig: RoutingConfig = {
         paths: ['organization/users'],
       },
       userCreate: {
-        paths: ['organization/users/add'],
+        paths: ['organization/users/create'],
       },
       userDetails: {
         paths: ['organization/users/:code'],
@@ -71,7 +71,7 @@ export const userCmsConfig: CmsConfig = {
       component: UserListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: UserCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

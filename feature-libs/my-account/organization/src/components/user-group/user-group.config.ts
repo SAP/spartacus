@@ -25,7 +25,7 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paths: ['organization/user-groups'],
       },
       userGroupCreate: {
-        paths: ['organization/user-groups/add'],
+        paths: ['organization/user-groups/create'],
       },
       userGroupDetails: {
         paths: ['organization/user-groups/:code'],
@@ -61,7 +61,7 @@ export const userGroupCmsConfig: CmsConfig = {
       component: UserGroupListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: UserGroupCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

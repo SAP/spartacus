@@ -23,7 +23,7 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers'],
       },
       costCenterCreate: {
-        paths: [`organization/cost-centers/add`],
+        paths: [`organization/cost-centers/create`],
       },
       costCenterDetails: {
         paths: ['organization/cost-centers/:code'],
@@ -47,7 +47,7 @@ export const costCenterCmsConfig: CmsConfig = {
       component: CostCenterListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: CostCenterCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

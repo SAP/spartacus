@@ -30,7 +30,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units'],
       },
       orgUnitCreate: {
-        paths: ['organization/units/add'],
+        paths: ['organization/units/create'],
       },
       orgUnitDetails: {
         paths: ['organization/units/:code'],
@@ -90,7 +90,7 @@ export const unitsCmsConfig: CmsConfig = {
       component: UnitListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: UnitCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },

@@ -18,7 +18,7 @@ export const permissionRoutingConfig: RoutingConfig = {
         paths: ['organization/purchase-limits'],
       },
       permissionCreate: {
-        paths: ['organization/purchase-limits/add'],
+        paths: ['organization/purchase-limits/create'],
       },
       permissionDetails: {
         paths: ['organization/purchase-limits/:code'],
@@ -36,7 +36,7 @@ export const permissionCmsConfig: CmsConfig = {
       component: PermissionListComponent,
       childRoutes: [
         {
-          path: 'add',
+          path: 'create',
           component: PermissionCreateComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },
