@@ -5,7 +5,6 @@ import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthConfig } from '../config/auth-config';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthStorageService } from './auth-storage.service';
-import { UserIdService } from './user-id.service';
 
 // TODO: Rethink the name
 @Injectable({
@@ -14,7 +13,6 @@ import { UserIdService } from './user-id.service';
 export class CxOAuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
-    protected userIdService: UserIdService,
     protected oAuthService: OAuthService,
     protected authStorageService: AuthStorageService,
     protected config: AuthConfig,
