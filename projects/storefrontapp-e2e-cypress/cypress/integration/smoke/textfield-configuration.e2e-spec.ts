@@ -44,7 +44,6 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
       addToCartAndVerify(testProduct);
       configuration.clickOnEditConfigurationButton();
-      configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -70,7 +69,6 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
       addToCartAndVerify(testProduct);
       configuration.clickOnEditConfigurationButton();
-      configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('Engraved Text');
       configuration.selectAttribute('Engraved Text', 'Hallo');
       addToCartAndVerify(testProduct);
