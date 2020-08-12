@@ -210,7 +210,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
@@ -463,6 +463,44 @@
             "tsConfig": [
               "feature-libs/product/tsconfig.lib.json",
               "feature-libs/product/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "cdc": {
+      "projectType": "library",
+      "root": "integration-libs/cdc",
+      "sourceRoot": "integration-libs/cdc/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "integration-libs/cdc/tsconfig.lib.json",
+            "project": "integration-libs/cdc/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/cdc/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/cdc/src/test.ts",
+            "tsConfig": "integration-libs/cdc/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/cdc/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "integration-libs/cdc/tsconfig.lib.json",
+              "integration-libs/cdc/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
