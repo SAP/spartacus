@@ -3,60 +3,73 @@ import { OAuthStorage } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserToken } from '../models/user-token.model';
 
-const nonStringifiedKeys = [
-  'access_token',
-  'refresh_token',
-  'expires_at',
-  'access_token_stored_at',
-];
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthStorageService extends OAuthStorage {
-  protected _userToken = new BehaviorSubject<UserToken>({} as UserToken);
+  /**
+   * Extracted keys that are not `JSON.stringify` from reading the angular-oauth2-oidc source code
+   */
+  protected static readonly nonStringifiedOAuthLibKeys = [
+    'PKCE_verifier',
+    'access_token',
+    'refresh_token',
+    'expires_at',
+    'access_token_stored_at',
+    'id_token',
+    'id_token_expires_at',
+    'id_token_stored_at',
+    'session_state',
+    'nonce',
+  ];
 
-  getUserToken(): Observable<UserToken> {
-    return this._userToken.asObservable();
-  }
+  protected _userToken$ = new BehaviorSubject<UserToken>({} as UserToken);
 
-  setUserToken(userToken: UserToken) {
-    this._userToken.next(userToken);
-  }
-
-  constructor() {
-    super();
-  }
-
-  getItem(key: string): string {
-    if (nonStringifiedKeys.includes(key)) {
-      return this.getUserToken()[key];
+  protected decode(key: string, value: any) {
+    if (AuthStorageService.nonStringifiedOAuthLibKeys.includes(key)) {
+      return value;
     }
-    return JSON.stringify(this.getUserToken()[key]);
+    return JSON.stringify(value);
+  }
+
+  protected encode(key: string, value: any) {
+    if (AuthStorageService.nonStringifiedOAuthLibKeys.includes(key)) {
+      return value;
+    } else {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+  }
+
+  /** Async API for spartacus use */
+  getUserToken(): Observable<UserToken> {
+    return this._userToken$.asObservable();
+  }
+
+  setUserToken(userToken: UserToken): void {
+    this._userToken$.next(userToken);
+  }
+
+  /** Sync API for oAuth lib use */
+  getItem(key: string): any {
+    return this.decode(key, this.getUserToken()[key]);
   }
 
   removeItem(key: string): void {
-    const val = { ...this._userToken.value };
+    const val = { ...this._userToken$.value };
     delete val[key];
-    this._userToken.next({
+    this._userToken$.next({
       ...val,
     });
   }
 
-  setItem(key: string, data: string): void {
-    let normalizedData;
-    if (nonStringifiedKeys.includes(key)) {
-      normalizedData = data;
-    } else {
-      try {
-        normalizedData = JSON.parse(data);
-      } catch {
-        normalizedData = data;
-      }
-    }
-    this._userToken.next({
-      ...this._userToken.value,
-      [key]: normalizedData,
+  setItem(key: string, data: any): void {
+    this._userToken$.next({
+      ...this._userToken$.value,
+      [key]: this.encode(key, data),
     });
   }
 }

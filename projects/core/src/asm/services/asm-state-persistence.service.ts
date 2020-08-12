@@ -14,6 +14,7 @@ export interface SyncedAsmState {
   token: {
     [token_param: string]: any;
   };
+  isEmulated: boolean;
 }
 
 @Injectable({
@@ -38,7 +39,8 @@ export class AsmStatePersistenceService {
     return combineLatest([
       this.store.pipe(select(AsmSelectors.getAsmUi)),
       this.authStorageService.getCSAgentToken(),
-    ]).pipe(map(([ui, token]) => ({ ui, token })));
+      this.authStorageService.isEmulated(),
+    ]).pipe(map(([ui, token, isEmulated]) => ({ ui, token, isEmulated })));
   }
 
   protected onRead(state: SyncedAsmState) {
@@ -48,6 +50,9 @@ export class AsmStatePersistenceService {
       }
       if (state.token) {
         this.authStorageService.setCSAgentToken(state.token as UserToken);
+      }
+      if (state.isEmulated) {
+        this.authStorageService.switchToEmulated();
       }
     }
   }

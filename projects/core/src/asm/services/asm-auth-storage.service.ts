@@ -4,13 +4,6 @@ import { map, take } from 'rxjs/operators';
 import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { UserToken } from '../../auth/user-auth/models/user-token.model';
 
-const nonStringifiedKeys = [
-  'access_token',
-  'refresh_token',
-  'expires_at',
-  'access_token_stored_at',
-];
-
 enum TokenTarget {
   CSAgent = 'CSAgent',
   User = 'User',
@@ -21,109 +14,85 @@ enum TokenTarget {
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
-  protected stream$: Observable<UserToken>;
+  protected stream$: Observable<UserToken> = this._userToken$.asObservable();
 
   protected _tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
-  protected _userToken = new BehaviorSubject<UserToken>({} as UserToken);
-  protected _csAgentToken = new BehaviorSubject<UserToken>({} as UserToken);
 
-  getUserToken(): Observable<UserToken> {
-    return this._userToken.asObservable();
-  }
+  protected _csAgentToken$ = new BehaviorSubject<UserToken>({} as UserToken);
 
+  /** Async API for spartacus use */
   getCSAgentToken(): Observable<UserToken> {
-    return this._csAgentToken.asObservable();
+    return this._csAgentToken$.asObservable();
   }
 
-  setUserToken(userToken: UserToken) {
-    this._userToken.next(userToken);
+  setCSAgentToken(csAgentToken: UserToken): void {
+    this._userToken$.next(csAgentToken);
   }
 
-  setCSAgentToken(csAgentToken: UserToken) {
-    this._userToken.next(csAgentToken);
+  copyCSAgentTokenForUser(): void {
+    this._userToken$.next(this._csAgentToken$.value);
   }
 
-  constructor() {
-    super();
-    this.switchToUser();
-  }
-
-  switchToCSAgent() {
-    this.stream$ = this._csAgentToken.asObservable();
+  switchToCSAgent(): void {
+    this.stream$ = this._csAgentToken$.asObservable();
     this._tokenTarget$.next(TokenTarget.CSAgent);
   }
 
-  switchToEmulated() {
-    this.stream$ = this._userToken.asObservable();
+  switchToEmulated(): void {
+    this.stream$ = this._userToken$.asObservable();
     this._tokenTarget$.next(TokenTarget.Emulated);
   }
 
-  isEmulated() {
+  switchToUser(): void {
+    this.stream$ = this._userToken$.asObservable();
+    this._tokenTarget$.next(TokenTarget.User);
+  }
+
+  isEmulated(): Observable<boolean> {
     return this._tokenTarget$
       .asObservable()
       .pipe(map((tokenTarget) => tokenTarget === TokenTarget.Emulated));
   }
 
-  copyCSAgentTokenForUser() {
-    this._userToken.next(this._csAgentToken.value);
-  }
-
-  switchToUser() {
-    this.stream$ = this._userToken.asObservable();
-    this._tokenTarget$.next(TokenTarget.User);
-  }
-
-  getToken() {
+  protected getToken(): Observable<UserToken> {
     let token;
     this.stream$.pipe(take(1)).subscribe((tok) => (token = tok));
     return token;
   }
 
-  getItem(key: string): string {
-    if (nonStringifiedKeys.includes(key)) {
-      return this.getToken()[key];
-    }
-    return JSON.stringify(this.getToken()[key]);
+  /** Sync API for oAuth lib use */
+  getItem(key: string): any {
+    return this.decode(key, this.getToken()[key]);
   }
 
   removeItem(key: string): void {
     if (this._tokenTarget$.value !== TokenTarget.User) {
-      const val = { ...this._csAgentToken.value };
+      const val = { ...this._csAgentToken$.value };
       delete val[key];
-      this._csAgentToken.next({
+      this._csAgentToken$.next({
         ...val,
       });
     }
     if (this._tokenTarget$.value !== TokenTarget.CSAgent) {
-      const val = { ...this._userToken.value };
+      const val = { ...this._userToken$.value };
       delete val[key];
-      this._userToken.next({
+      this._userToken$.next({
         ...val,
       });
     }
   }
 
-  setItem(key: string, data: string): void {
-    let normalizedData;
-    if (nonStringifiedKeys.includes(key)) {
-      normalizedData = data;
-    } else {
-      try {
-        normalizedData = JSON.parse(data);
-      } catch {
-        normalizedData = data;
-      }
-    }
+  setItem(key: string, data: any): void {
     if (this._tokenTarget$.value !== TokenTarget.User) {
-      this._csAgentToken.next({
-        ...this._csAgentToken.value,
-        [key]: normalizedData,
+      this._csAgentToken$.next({
+        ...this._csAgentToken$.value,
+        [key]: this.encode(key, data),
       });
     }
     if (this._tokenTarget$.value !== TokenTarget.CSAgent) {
-      this._userToken.next({
-        ...this._userToken.value,
-        [key]: normalizedData,
+      this._userToken$.next({
+        ...this._userToken$.value,
+        [key]: this.encode(key, data),
       });
     }
   }
