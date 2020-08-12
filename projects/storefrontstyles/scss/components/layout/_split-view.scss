@@ -24,13 +24,7 @@
     --cx-max-views: 2;
   }
 
-  /**
-     * Hide all split views by default.
-     */
   --cx-active-view: 1;
-
-  // Adds a gutter between each split view
-  --cx-split-view-gutter: 40px;
 }
 
 %cx-split-view {
@@ -43,8 +37,6 @@
     (100% / min(var(--cx-active-view), var(--cx-max-views)))
   );
 
-  margin-inline-end: calc(var(--cx-split-view-gutter) * -1);
-
   cx-view {
     width: 100%;
     height: 100%;
@@ -56,11 +48,9 @@
 
     flex: 1 0 calc((100% / min(var(--cx-active-view), var(--cx-max-views))));
 
-    // Add padding at the end of each view, so we get a gutter in between. This
-    // requires the split view to have a negative margin at the end with the
-    // same gutter size. Moreover, the split view parent should hide the overflow, as
-    // otherwise the animations will flow over the gutter at the end of the split view.
-    padding-inline-end: var(--cx-split-view-gutter);
+    // Add padding, so we get a gutter in between views. This padding also adds a surrounding
+    // padding, as the start and end of the split views are effected.
+    padding: 0 20px;
 
     // The inline start margin of the first flex item decreases to move
     // the flex items outside the flex container.
