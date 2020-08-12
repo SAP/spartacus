@@ -32,6 +32,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   @Input()
   @HostBinding('attr.position')
+  @HostBinding('style.--cx-view-position')
   position: string;
 
   /**
