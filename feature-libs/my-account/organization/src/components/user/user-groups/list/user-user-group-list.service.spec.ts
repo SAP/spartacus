@@ -1,32 +1,38 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, B2BUserService, EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  B2BUserService,
+  EntitiesModel,
+  UserGroup,
+} from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserUserGroupListService } from './user-user-group-list.service';
 
-const mockUserPermissionEntities: EntitiesModel<Permission> = {
+const mockUserGroupEntities: EntitiesModel<UserGroup> = {
   values: [
     {
-      code: 'first',
+      uid: 'first',
       selected: true,
     },
     {
-      code: 'second',
+      uid: 'second',
       selected: false,
     },
     {
-      code: 'third',
+      uid: 'third',
       selected: true,
     },
   ],
 };
 
 class MockB2BUserService {
-  getB2BUserPermissions(): Observable<EntitiesModel<Permission>> {
-    return of(mockUserPermissionEntities);
+  getUserGroups(): Observable<EntitiesModel<UserGroup>> {
+    return of(mockUserGroupEntities);
   }
+  unassignUserGroup() {}
 }
 
 @Injectable()
