@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -17,6 +18,7 @@ import { FormErrorsModule } from '../../../shared/index';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule,
     SpinnerModule,
     I18nModule,
     FormErrorsModule,
