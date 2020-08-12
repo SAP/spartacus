@@ -1,10 +1,10 @@
 import { Category, Price } from '@spartacus/core';
+import { PageEvent } from '../page/page.events';
 
 /**
- * Indicates that a user visited a product details page. A visited product code value is emitted whenever the product
- * details page is visited, together with the name, the price, and the categories of that product.
+ * Indicates that a user visited a product details page.
  */
-export class ProductDetailsPageEvent {
+export class ProductDetailsPageEvent extends PageEvent {
   categories?: Category[];
   code?: string;
   name?: string;
@@ -12,20 +12,19 @@ export class ProductDetailsPageEvent {
 }
 
 /**
- * Indicates that a user visited a category. The code and the name of the category
- * are emitted whenever a category page is visited.
+ * Indicates that a user visited a category page.
  */
-export class CategoryPageResultsEvent {
+export class CategoryPageResultsEvent extends PageEvent {
   categoryCode: string;
-  categoryName: string;
+  categoryName?: string;
+  numberOfResults: Number;
 }
 
 /**
- * Indicates that the search results have been retrieved.
- * The search term and the number of results are emitted
- * whenever a search has been executed.
+ * Indicates that the a user visited the search results page,
+ * and that the search results have been retrieved.
  */
-export class SearchPageResultsEvent {
+export class SearchPageResultsEvent extends PageEvent {
   searchTerm: string;
   numberOfResults: Number;
 }

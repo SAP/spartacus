@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { PageVisitedEvent } from '../page/page.events';
+import { PageEvent } from '../page/page.events';
 import { ProductPageEventBuilder } from './product-page-event.builder';
 import {
   CategoryPageResultsEvent,
@@ -65,19 +65,20 @@ describe('ProductPageEventModule', () => {
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
-      const pageVisitedEvent = createFrom(PageVisitedEvent, {
+      const pageEvent = createFrom(PageEvent, {
         context: undefined,
         semanticRoute: 'search',
         url: 'search url',
         params: undefined,
       });
-      eventService.dispatch(pageVisitedEvent);
+      eventService.dispatch(pageEvent);
       getResultsBehavior.next(searchResults);
 
       expect(result).toEqual(
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
     });
@@ -94,19 +95,20 @@ describe('ProductPageEventModule', () => {
         .get(SearchPageResultsEvent)
         .subscribe((value) => (result = value));
 
-      const pageVisitedEvent = createFrom(PageVisitedEvent, {
+      const pageEvent = createFrom(PageEvent, {
         context: undefined,
         semanticRoute: 'search',
         url: 'search url',
         params: undefined,
       });
 
-      eventService.dispatch(pageVisitedEvent);
+      eventService.dispatch(pageEvent);
       getResultsBehavior.next(searchResults);
       expect(result).toEqual(
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
 
@@ -118,6 +120,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: 'new',
           numberOfResults: searchResults.pagination.totalResults,
+          ...pageEvent,
         } as SearchPageResultsEvent)
       );
       sub.unsubscribe();
@@ -145,6 +148,7 @@ describe('ProductPageEventModule', () => {
   it('CategoryPageResultsEvent', () => {
     const searchResults: ProductSearchPage = {
       breadcrumbs: [{ facetValueName: 'Cat1' }],
+      pagination: { totalResults: 5 },
     };
 
     let result: CategoryPageResultsEvent;
@@ -153,19 +157,21 @@ describe('ProductPageEventModule', () => {
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    const pageVisitedEvent = createFrom(PageVisitedEvent, {
+    const pageEvent = createFrom(PageEvent, {
       context: { id: 'cat1' },
       semanticRoute: 'category',
       url: 'category url',
       params: undefined,
     });
-    eventService.dispatch(pageVisitedEvent);
+    eventService.dispatch(pageEvent);
     getResultsBehavior.next(searchResults);
 
     expect(result).toEqual(
       jasmine.objectContaining({
-        categoryCode: pageVisitedEvent.context.id,
+        ...pageEvent,
+        categoryCode: pageEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
+        numberOfResults: searchResults.pagination.totalResults,
       } as CategoryPageResultsEvent)
     );
   });
@@ -185,13 +191,13 @@ describe('ProductPageEventModule', () => {
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
-      const productPageVisitedEvent = createFrom(PageVisitedEvent, {
+      const productPageEvent = createFrom(PageEvent, {
         context: { id: product.code },
         semanticRoute: 'product',
         url: 'product url',
         params: undefined,
       });
-      eventService.dispatch(productPageVisitedEvent);
+      eventService.dispatch(productPageEvent);
       productGetBehavior.next(product);
 
       expect(result).toEqual(
@@ -217,14 +223,14 @@ describe('ProductPageEventModule', () => {
         .get(ProductDetailsPageEvent)
         .subscribe((value) => (result = value));
 
-      const productPageVisitedEvent = createFrom(PageVisitedEvent, {
+      const productPageEvent = createFrom(PageEvent, {
         context: { id: product.code },
         semanticRoute: 'product',
         url: 'product url',
         params: undefined,
       });
 
-      eventService.dispatch(productPageVisitedEvent);
+      eventService.dispatch(productPageEvent);
       productGetBehavior.next(product);
       expect(result).toEqual(
         jasmine.objectContaining({
