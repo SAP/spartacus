@@ -5,6 +5,8 @@ import { SplitViewService } from '../split-view.service';
 import { ViewComponent } from './view.component';
 
 class MockSplitViewService {
+  nextPosition = 0;
+
   generateNextPosition() {
     return 0;
   }
@@ -14,6 +16,10 @@ class MockSplitViewService {
   add() {}
   remove() {}
   toggle() {}
+
+  getViewState() {
+    return of();
+  }
 }
 
 describe('ViewComponent', () => {
@@ -53,13 +59,13 @@ describe('ViewComponent', () => {
   describe('add()', () => {
     it('should add view with position 0', () => {
       component.ngOnInit();
-      expect(service.add).toHaveBeenCalledWith(0, undefined);
+      expect(service.add).toHaveBeenCalledWith(0, {});
     });
 
     it('should add view with position 3', () => {
-      component.position = 3;
+      component.position = '3';
       component.ngOnInit();
-      expect(service.add).toHaveBeenCalledWith(3, undefined);
+      expect(service.add).toHaveBeenCalledWith(3, {});
     });
   });
 
@@ -70,7 +76,7 @@ describe('ViewComponent', () => {
     });
 
     it('should remove view with position 0', () => {
-      component.position = 3;
+      component.position = '3';
       component.ngOnInit();
       component.ngOnDestroy();
       expect(service.remove).toHaveBeenCalledWith(3);
@@ -78,23 +84,25 @@ describe('ViewComponent', () => {
   });
 
   describe('toggle()', () => {
-    it('should toggle view based on hidden state', () => {
-      component.position = 5;
-      component.hidden = true;
-      expect(service.toggle).toHaveBeenCalledWith(5, true);
-    });
-
     it('should delegate toggle the view', () => {
       component.toggle();
       expect(service.toggle).toHaveBeenCalledWith(0, undefined);
     });
 
+    it('should toggle view based on hidden state', () => {
+      component.position = '5';
+      component.hidden = true;
+      expect(service.toggle).toHaveBeenCalledWith(5, true);
+    });
+
     it('should force show', () => {
+      component.position = '0';
       component.toggle(false);
       expect(service.toggle).toHaveBeenCalledWith(0, false);
     });
 
     it('should force hide', () => {
+      component.position = '0';
       component.toggle(true);
       expect(service.toggle).toHaveBeenCalledWith(0, true);
     });
@@ -102,13 +110,14 @@ describe('ViewComponent', () => {
 
   describe('position', () => {
     it('should set position attribute to 0', () => {
-      const el: HTMLElement = fixture.debugElement.nativeElement;
+      component.ngOnInit();
       fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
       expect(el.getAttribute('position')).toEqual('0');
     });
 
     it('should set position attribute to given position', () => {
-      component.position = 5;
+      component.position = '5';
       component.ngOnInit();
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
