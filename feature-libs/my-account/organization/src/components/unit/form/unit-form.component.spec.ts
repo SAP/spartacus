@@ -3,23 +3,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, BehaviorSubject, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   I18nTestingModule,
   OrgUnitService,
   B2BUnitNode,
   B2BApprovalProcess,
-  Currency,
-  CurrencyService,
   B2BUnit,
 } from '@spartacus/core';
 
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },
@@ -64,25 +61,6 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   );
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine
-    .createSpy('getAll')
-    .and.returnValue(of(mockCurrencies.values));
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
-}
-
 @Pipe({
   name: 'cxUrl',
 })
@@ -105,10 +83,7 @@ describe('UnitFormComponent', () => {
         RouterTestingModule,
       ],
       declarations: [UnitFormComponent, MockUrlPipe, FormErrorsComponent],
-      providers: [
-        { provide: CurrencyService, useClass: MockCurrencyService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
-      ],
+      providers: [{ provide: OrgUnitService, useClass: MockOrgUnitService }],
     }).compileComponents();
 
     orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
@@ -153,7 +128,6 @@ describe('UnitFormComponent', () => {
 
     it('should setup clean form', () => {
       spyOn(component.form, 'patchValue');
-      component.orgUnitData = null;
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
@@ -161,7 +135,6 @@ describe('UnitFormComponent', () => {
 
     it('should setup form for update', () => {
       spyOn(component.form, 'patchValue').and.callThrough();
-      component.orgUnitData = mockOrgUnit;
       component.ngOnInit();
       expect(component.form.patchValue).toHaveBeenCalledWith(mockOrgUnit);
       expect(component.form.valid).toBeTruthy();
@@ -178,7 +151,6 @@ describe('UnitFormComponent', () => {
 
     it('should emit value if form is valid', () => {
       spyOn(component.submitForm, 'emit');
-      component.orgUnitData = mockOrgUnit;
       component.ngOnInit();
       const form = fixture.debugElement.query(By.css('form'));
       form.triggerEventHandler('submit', null);

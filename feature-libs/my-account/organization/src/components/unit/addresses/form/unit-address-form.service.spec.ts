@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { UnitAddressFormService } from './unit-address-form.service';
 import {
   Country,
-  Region,
   Title,
   UserAddressService,
   UserService,

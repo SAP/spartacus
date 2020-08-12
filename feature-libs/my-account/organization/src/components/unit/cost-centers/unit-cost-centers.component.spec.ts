@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -14,8 +14,8 @@ import {
 
 import { UnitCostCentersComponent } from './unit-cost-centers.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { Table2Module } from '@spartacus/storefront';
 
 const code = 'b1';
 
@@ -78,8 +78,8 @@ class MockRoutingConfig {
 describe('UnitCostCentersComponent', () => {
   let component: UnitCostCentersComponent;
   let fixture: ComponentFixture<UnitCostCentersComponent>;
-  let orgUnitsService: MockOrgUnitService;
-  let routingService: RoutingService;
+  // let orgUnitsService: MockOrgUnitService;
+  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,8 +92,8 @@ describe('UnitCostCentersComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -104,21 +104,5 @@ describe('UnitCostCentersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should load cost centers', () => {
-      component.ngOnInit();
-      let costCenters: CostCenter[];
-      component.data$
-        .subscribe((value) => {
-          costCenters = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.getCostCenters).toHaveBeenCalledWith(code);
-      expect(costCenters).toEqual(mockedCostCenters);
-    });
   });
 });

@@ -12,7 +12,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CostCenterDetailsComponent } from './budget-details.component';
+import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 
 const costCenterCode = 'b1';
@@ -49,9 +49,9 @@ class MockModalService {
 })
 export class MockBudgetCostCenterListComponent {}
 
-describe('CostCenterDetailsComponent', () => {
-  let component: CostCenterDetailsComponent;
-  let fixture: ComponentFixture<CostCenterDetailsComponent>;
+describe('BudgetDetailsComponent', () => {
+  let component: BudgetDetailsComponent;
+  let fixture: ComponentFixture<BudgetDetailsComponent>;
   let costCentersService: CostCenterService;
 
   beforeEach(async(() => {
@@ -64,10 +64,7 @@ describe('CostCenterDetailsComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [
-        CostCenterDetailsComponent,
-        MockBudgetCostCenterListComponent,
-      ],
+      declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CostCenterService, useClass: MockCostCenterService },
@@ -79,7 +76,7 @@ describe('CostCenterDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterDetailsComponent);
+    fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

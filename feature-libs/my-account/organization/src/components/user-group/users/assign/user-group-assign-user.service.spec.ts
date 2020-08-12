@@ -6,7 +6,7 @@ import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
-const mockUserGroupEntities: EntitiesModel<B2BUser> = {
+const mockUserEntities: EntitiesModel<B2BUser> = {
   values: [
     {
       uid: 'user-1',
@@ -30,11 +30,11 @@ const mockUserGroupEntities: EntitiesModel<B2BUser> = {
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<B2BUser>> {
-    return of(mockUserGroupEntities);
-  }
   assignMember() {}
   unassignMember() {}
+  getAvailableOrgCustomers(): Observable<EntitiesModel<B2BUser>> {
+    return of(mockUserEntities);
+  }
 }
 
 @Injectable()
@@ -63,7 +63,7 @@ describe('UserGroupAssignUserService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
     userGroupService = TestBed.inject(UserGroupService);
   });
 

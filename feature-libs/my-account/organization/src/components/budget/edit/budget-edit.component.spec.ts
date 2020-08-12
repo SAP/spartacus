@@ -14,7 +14,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { Observable, of } from 'rxjs';
-import { CostCenterEditComponent } from './budget-edit.component';
+import { BudgetEditComponent } from './budget-edit.component';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
@@ -69,9 +69,9 @@ class MockActivatedRoute {
   go() {}
 }
 
-describe('CostCenterEditComponent', () => {
-  let component: CostCenterEditComponent;
-  let fixture: ComponentFixture<CostCenterEditComponent>;
+describe('BudgetEditComponent', () => {
+  let component: BudgetEditComponent;
+  let fixture: ComponentFixture<BudgetEditComponent>;
   let costCenterService: MockCostCenterService;
   let routingService: RoutingService;
   let saveButton;
@@ -88,7 +88,7 @@ describe('CostCenterEditComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
+      declarations: [BudgetEditComponent, MockCostCenterFormComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -102,7 +102,7 @@ describe('CostCenterEditComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterEditComponent);
+    fixture = TestBed.createComponent(BudgetEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
