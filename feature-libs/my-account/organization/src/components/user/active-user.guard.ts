@@ -21,7 +21,7 @@ export class ActiveUserGuard implements CanActivate {
           return true;
         }
 
-        this.routingService.go({ cxRoute: 'orgUsers' });
+        this.routingService.go({ cxRoute: 'user' });
         return false;
       })
     );

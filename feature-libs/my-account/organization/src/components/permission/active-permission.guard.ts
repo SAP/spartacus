@@ -21,7 +21,7 @@ export class ActivePermissionGuard implements CanActivate {
           return true;
         }
 
-        this.routingService.go({ cxRoute: 'orgPermissions' });
+        this.routingService.go({ cxRoute: 'permission' });
         return false;
       })
     );
