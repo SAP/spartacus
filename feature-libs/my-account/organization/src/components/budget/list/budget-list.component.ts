@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { Budget, PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -42,5 +42,9 @@ export class BudgetListComponent {
    */
   sort(pagination: PaginationModel, sort: string) {
     this.budgetService.sort(pagination, sort);
+  }
+
+  isActive(model: Budget, code: string) {
+    return model.code === code ? -1 : 0;
   }
 }

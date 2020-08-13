@@ -33,9 +33,7 @@ export class BudgetDetailsComponent {
     protected budgetListService: BudgetListService,
 
     protected budgetRouterService: RoutingParamService
-  ) {
-    console.log('construct detail component');
-  }
+  ) {}
 
   update(budget: Budget) {
     this.budgetService.update(budget.code, budget);

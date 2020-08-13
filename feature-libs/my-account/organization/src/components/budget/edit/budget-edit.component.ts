@@ -35,7 +35,12 @@ export class BudgetEditComponent {
   // We have to keep all observable values consistent for a view,
   // that's why we are wrapping them into one observable
   viewModel$ = this.form$.pipe(
-    withLatestFrom(this.budget$, this.paramRoutingService.params$),
+    withLatestFrom(
+      this.budget$,
+      this.paramRoutingService.params$.pipe(
+        map((params) => params['budgetKey'])
+      )
+    ),
     map(([form, budget, code]) => ({ form, code, budget }))
   );
 

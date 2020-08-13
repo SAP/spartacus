@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
-import { Table, TableHeader } from './table.model';
+import { Table, TableHeader, TableValue } from './table.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -70,6 +70,11 @@ export class TableComponent {
   }
 
   /**
+   * If the suffix is true, each table row has a suffix td
+   */
+  @Input() suffix: boolean = true;
+
+  /**
    * The paginateEvent is triggered when a new page is required. This includes sorting.
    */
   @Output() paginateEvent: EventEmitter<PaginationModel> = new EventEmitter();
@@ -81,14 +86,21 @@ export class TableComponent {
 
   @Output() initEvent: EventEmitter<any> = new EventEmitter();
 
+  populateData(row: any, headers: TableHeader[]): TableValue[] {
+    return headers.map((header, index) => ({
+      ...header,
+      value: row[header.key] || Object.values(row)[index],
+    }));
+  }
+
   /**
    * Returns the configured data value by the label key.
    * If there's no headerKey available, or no corresponding value, the
    * first value in the data row is returned.
    */
-  getDataValue(dataRow: any, headerKey: string, index: number): string {
-    return dataRow[headerKey] || Object.values(dataRow)[index];
-  }
+  // getDataValue(dataRow: any, headerKey: string, index: number): string {
+  //   return dataRow[headerKey] || Object.values(dataRow)[index];
+  // }
 
   /**
    * Sorts the table by emitting the pagination to the container/host component.
@@ -107,5 +119,13 @@ export class TableComponent {
     if (isDevMode) {
       this.tableType = this.dataset?.structure?.type;
     }
+  }
+
+  trackRow(_i, item): any {
+    return item.code;
+  }
+
+  trackCol(_i, col): any {
+    return col.value;
   }
 }

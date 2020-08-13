@@ -20,6 +20,7 @@
             {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
           </ng-option>
         </ng-select>
+
         <button
           class="button primary"
           [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
@@ -31,7 +32,6 @@
 
       <cx-table
         [dataset]="dataTable"
-        (sortEvent)="sort(dataTable.pagination, $event)"
         [activeRow]="{ value: code$ | async, key: 'code' }"
       >
       </cx-table>
@@ -43,6 +43,7 @@
           (viewPageEvent)="viewPage(dataTable.pagination, $event)"
         ></cx-pagination>
       </div>
+
       <!-- <ng-template #emptyList>
       <p class="instruction is-empty">
         {{ 'organization.messages.emptyList' | cxTranslate }}
@@ -61,7 +62,7 @@
       context: {
         model: model,
         label: model.name,
-        tabIndex: 0
+        tabIndex: isActive(model, code$ | async)
       }
     "
   >
@@ -86,10 +87,7 @@
   <ng-container
     *ngTemplateOutlet="
       link;
-      context: {
-        model: model,
-        label: model.budget + ' ' + model.currency
-      }
+      context: { model: model, label: model.budget + ' ' + model.currency }
     "
   >
   </ng-container>
@@ -105,18 +103,23 @@
 </ng-template>
 
 <ng-template cxOutletRef="table.budget.data.unit" let-model>
+  <ng-container
+    *ngTemplateOutlet="
+      link;
+      context: { model: model, label: model.orgUnit?.name }
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template cxOutletRef="table.budget.data.suffix" let-model>
   <a
     [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
     tabindex="-1"
   >
-    {{ model.orgUnit?.name }}
     <cx-icon type="CARET_RIGHT"></cx-icon>
   </a>
 </ng-template>
-<!-- 
-<ng-template cxOutletRef="table.budget.data.amount" let-model>
-  <span class="text">{{ model.budget }} {{ model.currency }}</span>
-</ng-template> -->
 
 <ng-template #link let-model="model" let-label="label" let-tabIndex="tabIndex">
   <a

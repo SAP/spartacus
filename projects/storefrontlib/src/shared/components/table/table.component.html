@@ -29,20 +29,39 @@
           ></cx-icon>
         </ng-template>
       </th>
+
+      <th *ngIf="suffix" class="suffix">
+        <ng-template [cxOutlet]="'table.' + structure.type + '.header.suffix'">
+        </ng-template>
+      </th>
     </tr>
   </thead>
 
   <tr
-    *ngFor="let row of dataset.data"
+    *ngFor="let row of dataset.data; trackBy: trackRow"
     [class.is-active]="activeRow?.value === row[activeRow?.key]"
   >
-    <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
+    <td
+      *ngFor="
+        let col of populateData(row, structure.headers);
+        let i = index;
+        trackBy: trackCol
+      "
+      [class]="col.key"
+    >
       <!-- render an outlet for each cell -->
       <ng-template
         [cxOutlet]="'table.' + structure.type + '.data.' + (col.key || i)"
         [cxOutletContext]="row"
       >
-        {{ getDataValue(row, col.key, i) }}
+        {{ col.value }}
+      </ng-template>
+    </td>
+    <td *ngIf="suffix" class="suffix">
+      <ng-template
+        [cxOutlet]="'table.' + structure.type + '.data.suffix'"
+        [cxOutletContext]="row"
+      >
       </ng-template>
     </td>
   </tr>

@@ -92,3 +92,7 @@ export interface TableHeader {
    */
   sortCode?: string;
 }
+
+export interface TableValue extends TableHeader {
+  value?: any;
+}
