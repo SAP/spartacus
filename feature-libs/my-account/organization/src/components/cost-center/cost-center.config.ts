@@ -11,7 +11,7 @@ import { CostCenterDetailsComponent } from './details/cost-center-details.compon
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
-import { CostCenterGuard } from './cost-center.guard';
+import { ActiveCostCenterGuard } from './active-cost-center.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -55,7 +55,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: CostCenterDetailsComponent,
-          canActivate: [CostCenterGuard],
+          canActivate: [ActiveCostCenterGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {

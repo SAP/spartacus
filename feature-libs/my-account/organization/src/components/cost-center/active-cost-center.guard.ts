@@ -4,11 +4,13 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CostCenterService, RoutingService, CostCenter } from '@spartacus/core';
 
-@Injectable()
-export class CostCenterGuard implements CanActivate {
+@Injectable({
+  providedIn: 'root',
+})
+export class ActiveCostCenterGuard implements CanActivate {
   constructor(
     protected costCenterService$: CostCenterService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
@@ -19,13 +21,13 @@ export class CostCenterGuard implements CanActivate {
           return true;
         }
 
-        this.routingService.go({ cxRoute: 'organization' });
+        this.routingService.go({ cxRoute: 'costCenter' });
         return false;
       })
     );
   }
 
-  private isActive(costCenter: CostCenter): boolean {
+  protected isActive(costCenter: CostCenter): boolean {
     return costCenter.active;
   }
 }
