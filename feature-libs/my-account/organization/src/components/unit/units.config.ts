@@ -19,6 +19,7 @@ import { UnitAddressCreateComponent } from './addresses/create/unit-address-crea
 import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
 import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActiveUnitGuard } from './active-unit.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -97,6 +98,7 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: UnitDetailsComponent,
+          canActivate: [ActiveUnitGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
