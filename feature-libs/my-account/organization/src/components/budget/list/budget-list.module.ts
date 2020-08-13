@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, OrganizationModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
@@ -27,6 +29,9 @@ import { BudgetListComponent } from './budget-list.component';
     OutletRefModule,
 
     PaginationModule,
+
+    FormsModule,
+    NgSelectModule,
   ],
   declarations: [BudgetListComponent],
 })

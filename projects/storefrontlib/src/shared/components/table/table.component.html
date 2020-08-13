@@ -32,7 +32,10 @@
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data">
+  <tr
+    *ngFor="let row of dataset.data"
+    [class.active]="activeRow?.code === row[activeRow?.key]"
+  >
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
       <!-- render an outlet for each cell -->
       <ng-template

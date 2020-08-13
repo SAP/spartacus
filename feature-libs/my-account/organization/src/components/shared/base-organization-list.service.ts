@@ -44,11 +44,12 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
       switchMap((structure) =>
         this.load(structure, ...args).pipe(
           map(
-            ({ values, pagination }) =>
+            ({ values, pagination, sorts }) =>
               ({
                 structure,
                 data: values,
                 pagination,
+                sorts,
               } as Table<T>)
           )
         )

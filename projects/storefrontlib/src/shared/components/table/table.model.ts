@@ -23,6 +23,13 @@ export interface Table<T = any> {
    * The pagination component is used to paginate through the data.
    */
   pagination?: PaginationModel;
+
+  sorts?: Sort[];
+}
+
+export interface Sort {
+  code?: string;
+  selected?: boolean;
 }
 
 /**

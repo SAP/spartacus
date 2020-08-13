@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,6 +8,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserService } from '../current-user.service';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -17,6 +18,7 @@ const mockUser: B2BUser = {
   uid: userCode,
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
+  customerId: 'customerId',
 };
 
 class MockB2BUserService implements Partial<B2BUserService> {
@@ -41,6 +43,13 @@ class MockModalService {
 })
 export class MockUserUserListComponent {}
 
+@Injectable()
+export class MockCurrentUserService {
+  code$() {
+    return of(userCode);
+  }
+}
+
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
@@ -61,6 +70,7 @@ describe('UserDetailsComponent', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: B2BUserService, useClass: MockB2BUserService },
         { provide: ModalService, useClass: MockModalService },
+        { provide: CurrentUserService, useClass: MockCurrentUserService },
       ],
     }).compileComponents();
 
@@ -79,6 +89,9 @@ describe('UserDetailsComponent', () => {
 
   it('should update user', () => {
     component.update(mockUser);
-    expect(usersService.update).toHaveBeenCalledWith(mockUser.uid, mockUser);
+    expect(usersService.update).toHaveBeenCalledWith(
+      mockUser.customerId,
+      mockUser
+    );
   });
 });

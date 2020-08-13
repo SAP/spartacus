@@ -38,15 +38,19 @@
 </cx-split-view>
 
 <ng-template cxOutletRef="table.costCenter.data.name" let-model>
-  <div routerLinkActive="active">
-    <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
-      <span class="text">{{ model.name }}</span>
-      <cx-icon type="CARET_RIGHT"></cx-icon>
-    </a>
-    <i class="disabled" *ngIf="!model.active">
-      {{ 'costCenter.disabled' | cxTranslate }}
-    </i>
-  </div>
+  <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
+    <span class="text">{{ model.name }}</span>
+    <cx-icon type="CARET_RIGHT"></cx-icon>
+  </a>
+</ng-template>
+
+<ng-template cxOutletRef="table.costCenter.data.active" let-model>
+  <span [class.enabled]="model.active" [class.disabled]="!model.active"
+    >{{
+      (model.active ? 'organization.enabled' : 'organization.disabled')
+        | cxTranslate
+    }}
+  </span>
 </ng-template>
 
 <ng-template cxOutletRef="table.costCenter.data.unit" let-model>

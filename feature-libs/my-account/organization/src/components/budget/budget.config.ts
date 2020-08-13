@@ -78,10 +78,10 @@ export const budgetTableConfig: TableConfig = {
     [OrganizationTableType.BUDGET]: [
       // TODO: consider cascading from smallest size
       {
-        headers: [{ key: 'name' }],
+        headers: [{ key: 'name' }, { key: 'unit' }, { key: 'active' }],
         pagination: {
           sort: 'byName',
-          // pageSize: 2,
+          pageSize: 8,
         },
       },
       {
@@ -91,11 +91,11 @@ export const budgetTableConfig: TableConfig = {
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
+          { key: 'name' },
+          { key: 'active' },
+          { key: 'amount' },
           { key: 'dateRange' },
-          { key: 'unit', sortCode: 'byUnit' },
+          { key: 'unit' },
         ],
       },
     ],

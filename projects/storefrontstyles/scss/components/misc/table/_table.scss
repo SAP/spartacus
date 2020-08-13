@@ -9,22 +9,16 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
 
-    th {
       padding: var(--cx-spatial-base) var(--cx-spatial-md);
 
       color: var(--cx-color-secondary);
       text-transform: uppercase;
+      font-size: 0.9rem;
 
       &.sortable {
         cursor: pointer;
       }
-    }
-
-    thead tr,
-    > tr:not(:last-child) {
-      border-bottom: solid 1px var(--cx-color-light);
     }
 
     th,

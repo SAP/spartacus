@@ -1,8 +1,87 @@
 .organization {
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-transform: uppercase;
+
+    ng-select {
+      min-width: 293px;
+      max-height: 48px;
+    }
+  }
+
+  cx-split-view {
+    padding-top: 40px;
+    cx-view[position='0'] {
+      border-inline-end: solid 0 var(--cx-color-light);
+      border-inline-end-width: calc(min(var(--cx-active-view) - 1, 1) * 1px);
+    }
+  }
+
+  cx-table {
+    table {
+      border-top: solid 1px var(--cx-color-light);
+      margin: 25px 0;
+    }
+    thead tr {
+      &:hover {
+        background-color: transparent;
+      }
+      th {
+        height: 60px;
+      }
+    }
+
+    tr {
+      border-bottom: solid 1px var(--cx-color-light);
+      &:hover {
+        background-color: var(--cx-color-background);
+      }
+
+      td {
+        a {
+          display: flex;
+          align-items: center;
+          min-height: 74px;
+        }
+      }
+    }
+
+    td.active {
+      a.is-enabled {
+        color: var(--cx-color-success);
+      }
+      a.is-disabled {
+        color: var(--cx-color-disabled);
+      }
+    }
+
+    td:not(.name) {
+      a {
+        color: inherit;
+      }
+    }
+    td.unit {
+      a {
+        display: flex;
+        justify-content: space-between;
+        cx-icon {
+          font-size: 1.4rem;
+          color: var(--cx-color-disabled);
+        }
+      }
+    }
+  }
+
   // overflow-x: hidden;
-  .active {
-    background: var(--cx-color-light);
-    color: var(--cx-color-text);
+  .is-active {
+    // background: rgba(80, 176, 244, 0.1);
+    // border-style: solid;
+    // border-color: #50b0f4;
+
+    // opacity: 1;
   }
 
   h3 {
@@ -16,6 +95,8 @@
 
     margin: 0;
     padding: 0;
+
+    text-transform: uppercase;
 
     @include media-breakpoint-down(md) {
       padding: var(--cx-spatial-md);
@@ -41,17 +122,16 @@
       flex: 1;
     }
   }
-
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+  }
   cx-pagination {
-    display: inline-flex;
-    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
-
     @include media-breakpoint-down(md) {
       margin: 0 var(--cx-spatial-md);
     }
 
     a {
-      border: none;
       border-radius: 0;
 
       &:not(.current) {
@@ -75,23 +155,21 @@
         justify-content: flex-start;
         padding: var(--cx-spatial-md);
 
-        .text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         cx-icon {
           margin: -0.1rem 0 0 0.5rem;
 
-          &.active-state {
-            margin-inline-end: var(--cx-spatial-md);
-            color: var(--cx-color-success);
-          }
+          // &.active-state {
+          //   margin-inline-end: var(--cx-spatial-md);
+          //   color: var(--cx-color-success);
+          // }
 
-          &.inactive {
-            opacity: 0.25;
-          }
+          // &.inactive {
+          //   opacity: 0.25;
+          // }
 
           &.open {
             // hide open arrow on > mobile

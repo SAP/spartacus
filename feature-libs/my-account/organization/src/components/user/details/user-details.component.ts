@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { B2BUser, B2BUserService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { switchMap, tap, shareReplay } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CurrentUserService } from '../current-user.service';
 
 @Component({

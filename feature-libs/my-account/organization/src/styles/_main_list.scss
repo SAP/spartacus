@@ -22,9 +22,9 @@ cx-permission-list {
     }
   }
 
-  > cx-split-view[active-view='2'] > cx-view > section > cx-table > table {
-    th:nth-child(n + 2),
-    td:nth-child(n + 2) {
+  > cx-split-view[active-view='2'] > cx-view > cx-table > table {
+    th:nth-child(n + 4),
+    td:nth-child(n + 4) {
       opacity: 0;
       width: 0.1%;
     }

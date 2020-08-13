@@ -1,19 +1,19 @@
-import { unitAssignApprovers, unitAssignRoles, unit } from './units.i18n';
+import { budget } from './budget.i18n';
 import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
+import { orderApproval, orderApprovalList } from './order-approval.i18n';
+import { permission } from './permission.i18n';
+import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
 import {
   userGroup,
-  userGroupAssignUsers,
   userGroupAssignPermissions,
+  userGroupAssignUsers,
 } from './user-group.i18n';
-import { budget } from './budget.i18n';
 import {
   user,
   userAssignApprovers,
   userAssignPermissions,
   userAssignUserGroups,
 } from './user.i18n';
-import { permission } from './permission.i18n';
-import { orderApproval, orderApprovalList } from './order-approval.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -23,7 +23,7 @@ import { orderApproval, orderApprovalList } from './order-approval.i18n';
 
 export const organization = {
   organization: {
-    enabled: 'Enabled',
+    enabled: 'Active',
     disabled: 'Disabled',
     enable: 'Enable',
     disable: 'Disable',
@@ -34,6 +34,8 @@ export const organization = {
     back: '',
     close: '',
     cancel: 'Cancel',
+
+    add: 'Add',
 
     create: 'Create {{name}}',
     edit: 'Edit details',

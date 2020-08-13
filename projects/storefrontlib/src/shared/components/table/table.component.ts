@@ -52,6 +52,10 @@ import { Table, TableHeader } from './table.model';
 export class TableComponent {
   @HostBinding('attr.cx-table-type') tableType: string;
 
+  @Input() activeRow;
+
+  @Input() rowDirective;
+
   protected _dataset: Table;
   @Input()
   set dataset(dataset: Table) {
@@ -71,6 +75,8 @@ export class TableComponent {
    * The paginateEvent is triggered when a new page is required. This includes sorting.
    */
   @Output() sortEvent: EventEmitter<string> = new EventEmitter();
+
+  @Output() initEvent: EventEmitter<any> = new EventEmitter();
 
   /**
    * Returns the configured data value by the label key.

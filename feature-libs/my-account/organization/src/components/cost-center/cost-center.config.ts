@@ -101,6 +101,7 @@ export const costCenterTableConfig: TableConfig = {
         breakpoint: BREAKPOINT.lg,
         headers: [
           { key: 'name', sortCode: 'byName' },
+          { key: 'active' },
           { key: 'code', sortCode: 'byCode' },
           { key: 'currency' },
           { key: 'unit', sortCode: 'byUnit' },

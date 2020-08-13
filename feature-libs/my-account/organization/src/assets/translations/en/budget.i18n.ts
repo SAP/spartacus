@@ -1,12 +1,18 @@
 export const budget = {
-  header: 'Budgets',
+  header: 'All Budgets ({{count}})',
   disabled: '(disabled)',
   code: 'Code',
   name: 'Name',
+  active: 'Status',
   currency: 'Currency',
   unit: 'Parent Unit',
   amount: 'Amount',
   dateRange: 'Start - End',
+
+  byName: 'Name',
+  byUnitName: 'Unit',
+  byCode: 'Code',
+  byValue: 'Amount',
 
   messages: {
     enabled:

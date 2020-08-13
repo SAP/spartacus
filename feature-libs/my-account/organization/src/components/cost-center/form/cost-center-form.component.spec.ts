@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,6 +13,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -56,7 +58,12 @@ class MockCurrencyService implements Partial<CurrencyService> {
     return mockActiveCurr.subscribe();
   }
 }
-
+@Injectable()
+export class MockCurrentCostCenterService {
+  code$() {
+    return of();
+  }
+}
 describe('CostCenterFormComponent', () => {
   let component: CostCenterFormComponent;
   let fixture: ComponentFixture<CostCenterFormComponent>;
@@ -75,6 +82,11 @@ describe('CostCenterFormComponent', () => {
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+
+        {
+          provide: CurrentCostCenterService,
+          useClass: MockCurrentCostCenterService,
+        },
       ],
     }).compileComponents();
 
