@@ -17,6 +17,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { PermissionType } from '../form/permission-form.service';
 import { PermissionEditComponent } from './permission-edit.component';
+import { CurrentPermissionService } from '../current-permission.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -29,6 +30,11 @@ class MockPermissionFormComponent {
 }
 
 const permissionCode = 'b1';
+
+class MockCurrentPermissionService
+  implements Partial<CurrentPermissionService> {
+  code$ = of(permissionCode);
+}
 
 const mockPermission: Permission = {
   code: permissionCode,
@@ -89,6 +95,10 @@ describe('PermissionEditComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },
+        {
+          provide: CurrentPermissionService,
+          useClass: MockCurrentPermissionService,
+        },
       ],
     }).compileComponents();
 
@@ -133,6 +143,11 @@ describe('PermissionEditComponent', () => {
         cxRoute: 'permission',
         params: permissionFormComponent.form.value,
       });
+    });
+    it('should trigger reload of permission model on each code change', () => {
+      expect(permissionService.loadPermission).toHaveBeenCalledWith(
+        mockPermission.code
+      );
     });
   });
 });

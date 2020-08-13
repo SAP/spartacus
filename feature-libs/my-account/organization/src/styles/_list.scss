@@ -67,8 +67,6 @@
   cx-table {
     td {
       padding: 0;
-      overflow: visible;
-
       a {
         @include alt-visible-focus();
 

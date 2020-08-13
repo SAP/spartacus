@@ -12,7 +12,6 @@ import { PermissionFormModule } from '../form/permission-form.module';
     CommonModule,
     RouterModule,
     UrlModule,
-
     I18nModule,
     SplitViewModule,
     IconModule,
