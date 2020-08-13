@@ -11,6 +11,10 @@ const password = 'welcome';
 const editConfigurationSelector =
   'cx-configure-cart-entry button:contains("Edit")';
 
+const conflictDetectedMsgSelector = '.cx-config-attribute-conflict-container';
+const conflictHeaderGroupSelector =
+  'cx-config-group-menu li.cx-config-menu-conflict';
+
 /**
  * Verifies whether the global message is not displayed on the top of the configuration.
  */
@@ -151,6 +155,10 @@ export function getAttributeId(attributeName: string, uiType: string) {
   return `cx-config--${uiType}--${attributeName}`;
 }
 
+export function getAttributeLabelId(attributeName: string) {
+  return `cx-config--label--${attributeName}`;
+}
+
 export function selectAttribute(
   attributeName: string,
   uiType: string,
@@ -205,6 +213,32 @@ export function isImageNotSelected(
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.get(`#${valueId}`).should('not.be.checked');
+}
+
+export function isConflictDetectedMessageDisplayed(attributeName: string) {
+  const parent = cy.get(conflictDetectedMsgSelector).parent();
+  const attributeId = this.getAttributeLabelId(attributeName);
+  parent.children(`#${attributeId}`).should('be.visible');
+}
+
+export function isConflictDetectedMessageNotDisplayed(attributeName: string) {
+  const parent = cy.get(conflictDetectedMsgSelector).parent();
+  const attributeId = this.getAttributeLabelId(attributeName);
+  parent.children(`#${attributeId}`).should('not.exist');
+}
+
+export function isConflictHeaderGroupDisplayed() {
+  cy.get(conflictHeaderGroupSelector).should('be.visible');
+}
+
+export function isConflictHeaderGroupNotDisplayed() {
+  cy.get(conflictHeaderGroupSelector).should('not.exist');
+}
+
+export function verifyNumberOfConflicts(numberOfConflicts: number) {
+  cy.get('cx-config-group-menu .conflictNumberIndicator').contains(
+    '(' + numberOfConflicts.toString() + ')'
+  );
 }
 
 export function isGroupMenuDisplayed() {

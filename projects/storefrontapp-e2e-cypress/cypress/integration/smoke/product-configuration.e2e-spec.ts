@@ -54,9 +54,11 @@ const TITAN = 'TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
+const PROJECTOR_DLP = 'PROJECTOR_DLP';
 const P5 = 'P5';
 const VIDEO_SERVER_YES = 'VIDEO_SERVER_YES';
 const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
+const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
 
 // List of conflict groups
 const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
@@ -100,7 +102,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
@@ -135,7 +137,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
       goToConfigPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
@@ -156,7 +158,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
@@ -308,7 +310,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Handling', () => {
+  describe.skip('Group Handling', () => {
     it('should navigate between groups', () => {
       goToConfigPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -374,7 +376,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Order Confirmation and Order History', () => {
+  describe.skip('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
@@ -400,15 +402,50 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES
       );
+      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
+      configuration.isConflictHeaderGroupDisplayed();
+      configuration.verifyNumberOfConflicts(1);
+      configuration.selectAttribute(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_NO
+      );
+      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
+      configuration.isConflictHeaderGroupNotDisplayed();
+      configuration.selectAttribute(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_YES
+      );
+      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
+      configuration.isConflictHeaderGroupDisplayed();
+      configuration.verifyNumberOfConflicts(1);
       configuration.clickOnPreviousBtn(SUBWOOFER);
       configuration.clickOnPreviousBtn(REAR_SPEAKER);
       configuration.clickOnPreviousBtn(CENTER_SPEAKER);
       configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
       configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
       configuration.clickOnPreviousBtn(PROJECTOR);
+      configuration.isConflictDetectedMessageDisplayed(PROJECTOR_TYPE);
+      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
+
+      // Click 'Add to cart' and verify whether the resolve issues banner is displayed on the overview page
+
+      // Click 'Resolve issues' link in the banner and navigate back to the configuration
+
+      // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
+
+      // Click 'Resolve issues' link in the banner and navigate back to the configuration
+
+      // Navigate to the configuration
+
+      // Resolve issues in the conflict group
+      // Select 'No' for 'Gaming Console'
+
+      // Verify whether there is not resolve conflicts header in the group menu
     });
   });
 });
