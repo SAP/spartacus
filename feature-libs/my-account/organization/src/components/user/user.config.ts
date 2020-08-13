@@ -15,6 +15,7 @@ import { UserApproverListComponent } from './approvers/list/user-approver-list.c
 import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-group.component';
+import { ActiveUserGuard } from './active-user.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -78,6 +79,7 @@ export const userCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: UserDetailsComponent,
+          canActivate: [ActiveUserGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
