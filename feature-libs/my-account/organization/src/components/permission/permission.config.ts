@@ -9,6 +9,7 @@ import { PermissionListComponent } from './list/permission-list.component';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
+import { ActivePermissionGuard } from './active-permission.guard';
 
 // TODO: this doesn't work with lazy loaded feature
 export const permissionRoutingConfig: RoutingConfig = {
@@ -43,6 +44,7 @@ export const permissionCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: PermissionDetailsComponent,
+          canActivate: [ActivePermissionGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
