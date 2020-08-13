@@ -12,8 +12,7 @@ import { CurrentBudgetService } from '../current-budget.service';
   providers: [CurrentBudgetService],
 })
 export class BudgetDetailsComponent {
-
-    /**
+  /**
    * The model of the current budget.
    *
    * It reloads the model when the code of the current budget center changes.

@@ -12,8 +12,9 @@ import { CurrentPermissionService } from '../current-permission.service';
   providers: [CurrentPermissionService],
 })
 export class PermissionDetailsComponent {
-
-  permission$: Observable<Permission> = this.currentPermissionService.code$.pipe(
+  permission$: Observable<
+    Permission
+  > = this.currentPermissionService.code$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),
     switchMap((code) => this.permissionService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once

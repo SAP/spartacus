@@ -69,17 +69,17 @@ describe('PermissionDetailsComponent', () => {
         { provide: ModalService, useClass: MockModalService },
       ],
     })
-    .overrideComponent(PermissionDetailsComponent, {
-      set: {
-        providers: [
-          {
-            provide: CurrentPermissionService,
-            useClass: MockCurrentPermissionService,
-          },
-        ],
-      },
-    })
-    .compileComponents();
+      .overrideComponent(PermissionDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentPermissionService,
+              useClass: MockCurrentPermissionService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     permissionService = TestBed.inject(PermissionService);
   }));
@@ -94,7 +94,9 @@ describe('PermissionDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should trigger reload of cost center model on each code change', () => {
-    expect(permissionService.loadPermission).toHaveBeenCalledWith(mockPermission.code);
+    expect(permissionService.loadPermission).toHaveBeenCalledWith(
+      mockPermission.code
+    );
   });
 
   describe('costCenter$', () => {

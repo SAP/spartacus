@@ -13,8 +13,7 @@ import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
 
-class MockCurrentUserGroupService
-  implements Partial<CurrentUserGroupService> {
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
   code$ = of(userGroupCode);
 }
 

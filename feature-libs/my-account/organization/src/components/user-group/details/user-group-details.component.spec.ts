@@ -23,8 +23,7 @@ const mockUserGroup: UserGroup = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCurrentUserGroupService
-  implements Partial<CurrentUserGroupService> {
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
   code$ = of(userGroupCode);
 }
 
@@ -64,17 +63,18 @@ describe('UserGroupDetailsComponent', () => {
         { provide: UserGroupService, useClass: MockUserGroupService },
         { provide: ModalService, useClass: MockModalService },
       ],
-    }).overrideComponent(UserGroupDetailsComponent, {
-      set: {
-        providers: [
-          {
-            provide: CurrentUserGroupService,
-            useClass: MockCurrentUserGroupService,
-          },
-        ],
-      },
     })
-    .compileComponents();
+      .overrideComponent(UserGroupDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserGroupService,
+              useClass: MockCurrentUserGroupService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     userGroupsService = TestBed.inject(UserGroupService);
   }));

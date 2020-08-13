@@ -35,8 +35,7 @@ const mockUserGroup: UserGroup = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCurrentUserGroupService
-  implements Partial<CurrentUserGroupService> {
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
   code$ = of(userGroupCode);
 }
 

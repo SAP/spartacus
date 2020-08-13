@@ -12,7 +12,7 @@ import { CurrentBudgetService } from '../../current-budget.service';
 
 const costCenterCode = 'costCenterCode';
 
-class MockCurrentBudgetService implements Partial <CurrentBudgetService> {
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
   code$ = of(costCenterCode);
 }
 

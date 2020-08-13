@@ -11,7 +11,6 @@ import { CurrentUserGroupService } from '../current-user-group.service';
   providers: [CurrentUserGroupService],
 })
 export class UserGroupDetailsComponent {
-
   userGroup$: Observable<UserGroup> = this.currentUserGroupService.code$.pipe(
     // TODO: we should do this in the facade
     tap((code) => this.userGroupService.load(code)),

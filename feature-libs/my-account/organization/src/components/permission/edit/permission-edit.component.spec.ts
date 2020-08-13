@@ -95,7 +95,10 @@ describe('PermissionEditComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },
-        { provide: CurrentPermissionService, useClass: MockCurrentPermissionService },
+        {
+          provide: CurrentPermissionService,
+          useClass: MockCurrentPermissionService,
+        },
       ],
     }).compileComponents();
 
@@ -142,7 +145,9 @@ describe('PermissionEditComponent', () => {
       });
     });
     it('should trigger reload of permission model on each code change', () => {
-      expect(permissionService.loadPermission).toHaveBeenCalledWith(mockPermission.code);
+      expect(permissionService.loadPermission).toHaveBeenCalledWith(
+        mockPermission.code
+      );
     });
   });
 });
