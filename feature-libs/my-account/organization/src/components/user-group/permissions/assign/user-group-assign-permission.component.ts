@@ -4,7 +4,7 @@ import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentUserGroupService } from '../../current-user-group.service';
-import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
+import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
 
 @Component({
   selector: 'cx-user-group-assign-permission',
@@ -22,7 +22,7 @@ export class UserGroupAssignPermissionsComponent {
 
   constructor(
     protected currentUserGroupService: CurrentUserGroupService,
-    protected assignService: UserGroupAssignPermissionListService
+    protected assignService: UserGroupAssignPermissionService
   ) {}
 
   toggleAssign(userGroupCode: string, userCode: string, checked: boolean) {

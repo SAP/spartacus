@@ -27,7 +27,7 @@ class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
 }
 
 class MockBudgetService implements Partial<BudgetService> {
-  load = createSpy('load');
+  loadBudget = createSpy('loadBudget');
   update = createSpy('update');
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
