@@ -1,19 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
+import { B2BAddress, OrgUnitService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUnitAddressService } from './current-unit-address.service';
+import { CurrentUnitService } from '../../current-unit.service';
+
+const mockUnit: B2BAddress = { firstName: 'test unitAddress' };
 
 export class MockOrgUnitService implements Partial<OrgUnitService> {
-  get() {
-    return of(undefined);
+  getAddress() {
+    return of(mockUnit);
   }
 }
+export class MockCurrentUnitService {
+  code$ = of('code1');
+  parentUnit$ = of('parentUnit1');
+}
 
-describe('CurrentUnitService', () => {
+describe('CurrentUnitAddressService', () => {
   let service: CurrentUnitAddressService;
-  let unitAddressService: OrgUnitService;
+  let orgUnitService: OrgUnitService;
   let mockParams: Subject<object>;
 
   beforeEach(() => {
@@ -24,11 +31,12 @@ describe('CurrentUnitService', () => {
         CurrentUnitAddressService,
         { provide: ActivatedRoute, useValue: { params: mockParams } },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     });
 
-    unitAddressService = TestBed.inject(OrgUnitService);
     service = TestBed.inject(CurrentUnitAddressService);
+    orgUnitService = TestBed.inject(OrgUnitService);
   });
 
   afterEach(() => {
@@ -61,25 +69,24 @@ describe('CurrentUnitService', () => {
     });
   });
 
-  describe('model$', () => {
+  describe('unitAddress$', () => {
     it('should expose model for the current routing param `id`', () => {
-      const mockUnit: B2BUnit = { name: 'test unitAddress' };
-      spyOn(unitAddressService, 'get').and.returnValue(of(mockUnit));
+      spyOn(orgUnitService, 'getAddress').and.returnValue(of(mockUnit));
 
       let result;
       service.unitAddress$.subscribe((value) => (result = value));
-      mockParams.next({ id: '123' });
-      expect(unitAddressService.get).toHaveBeenCalledWith('123');
+      mockParams.next({ code: 'code1', id: '123' });
+      expect(orgUnitService.getAddress).toHaveBeenCalledWith('code1', '123');
       expect(result).toBe(mockUnit);
     });
 
     it('should emit null when no current param `id`', () => {
-      spyOn(unitAddressService, 'get');
+      spyOn(orgUnitService, 'getAddress');
 
       let result;
       service.unitAddress$.subscribe((value) => (result = value));
       mockParams.next({});
-      expect(unitAddressService.get).not.toHaveBeenCalled();
+      expect(orgUnitService.getAddress).not.toHaveBeenCalled();
       expect(result).toBe(null);
     });
   });

@@ -199,7 +199,7 @@ export const unitsTableConfig: TableConfig = {
     ],
     [OrganizationTableType.UNIT_APPROVERS]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,

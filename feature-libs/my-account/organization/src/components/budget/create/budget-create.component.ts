@@ -4,6 +4,7 @@ import { BudgetService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
 import { Observable } from 'rxjs';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-budget-create',
@@ -35,6 +36,7 @@ export class BudgetCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.budgetService.create(form.value);

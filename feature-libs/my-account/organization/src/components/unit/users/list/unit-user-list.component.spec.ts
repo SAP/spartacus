@@ -1,7 +1,6 @@
 import {
   Pipe,
   PipeTransform,
-  Type,
   Input,
   Output,
   EventEmitter,
@@ -13,31 +12,23 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   I18nTestingModule,
-  RoutingService,
   EntitiesModel,
-  B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
   B2BUser,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { UnitUserListComponent } from './unit-users.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
+import { UnitUserListComponent } from './unit-user-list.component';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import {
+  InteractiveTableModule,
+  PaginationConfig,
+} from '@spartacus/storefront';
 
-const code = 'unitCode';
-const roleId = 'b2bcustomergroup';
 const customerId = 'customerId1';
-
-const defaultParams: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 5,
-};
 
 const mockUserList: EntitiesModel<B2BUser> = {
   values: [
@@ -62,28 +53,6 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockUserUIList = {
-  values: [
-    {
-      name: 'b1',
-      email: 'aaa@bbb',
-      parentUnit: 'orgName',
-      uid: 'orgUid',
-      customerId,
-      roles: [],
-    },
-    {
-      name: 'b2',
-      email: 'aaa2@bbb',
-      customerId: 'customerId2',
-      parentUnit: 'orgName2',
-      uid: 'orgUid2',
-      roles: [],
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -103,28 +72,9 @@ const userList = new BehaviorSubject(mockUserList);
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadUsers = createSpy('loadUsers');
-
   getUsers = createSpy('getUsers').and.returnValue(userList);
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          code,
-          roleId,
-        },
-        queryParams: {
-          sort: 'byName',
-          currentPage: '0',
-          pageSize: '5',
-        },
-      },
-    });
-  }
-}
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
   getRouteConfig(routeName: string) {
@@ -135,7 +85,7 @@ class MockRoutingConfig {
 describe('UnitUsersComponent', () => {
   let component: UnitUserListComponent;
   let fixture: ComponentFixture<UnitUserListComponent>;
-  let orgUnitService: MockOrgUnitService;
+  // let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -147,7 +97,6 @@ describe('UnitUsersComponent', () => {
       ],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PaginationConfig,
@@ -158,7 +107,7 @@ describe('UnitUsersComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
@@ -183,28 +132,5 @@ describe('UnitUsersComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  });
-
-  describe('ngOnInit', () => {
-    it('should read user list', () => {
-      component.ngOnInit();
-
-      let usersList: any;
-      component.data$.subscribe((value) => {
-        usersList = value;
-      });
-
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(usersList).toEqual(mockUserUIList);
-    });
   });
 });

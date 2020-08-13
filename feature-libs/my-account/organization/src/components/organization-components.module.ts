@@ -5,6 +5,7 @@ import { UnitsComponentsModule } from './unit/units-components.module';
 import { UserGroupComponentsModule } from './user-group/user-group-components.module';
 import { UserComponentsModule } from './user/user-components.module';
 import { PermissionComponentsModule } from './permission/permission-components.module';
+import { OrderApprovalComponentsModule } from './order-approval/order-approval-components.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { PermissionComponentsModule } from './permission/permission-components.m
     UserGroupComponentsModule,
     UserComponentsModule,
     PermissionComponentsModule,
+    OrderApprovalComponentsModule,
   ],
 })
 export class OrganizationComponentsModule {}

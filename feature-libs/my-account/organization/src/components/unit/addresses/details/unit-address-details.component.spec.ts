@@ -1,24 +1,24 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-
 import {
   I18nTestingModule,
   RoutingService,
   OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
   B2BAddress,
 } from '@spartacus/core';
-
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table2.module';
+import { ModalService, Table2Module } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CurrentUnitService } from '../../current-unit.service';
+import { CurrentUnitAddressService } from './current-unit-address.service';
+import { of } from 'rxjs';
+import { TemplateRef } from '@angular/core';
+import { SplitViewTestingModule } from '../../../../../../../../projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 
 const code = 'b1';
 const addressId = 'a1';
+const unit = { name: 'testUnit' };
 
 const mockAddress: Partial<B2BAddress> = {
   id: addressId,
@@ -26,64 +26,58 @@ const mockAddress: Partial<B2BAddress> = {
 };
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadList = createSpy('loadList');
-  create = createSpy('create');
-  getApprovalProcesses = createSpy('getApprovalProcesses');
-  createAddress = createSpy('createAddress');
-  loadAddresses = createSpy('loadAddresses');
   deleteAddress = createSpy('deleteAddress');
-  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
 }
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-      id: addressId,
-    },
-  },
-};
 
 class MockRoutingService {
   go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockModalService {
+  open = createSpy('open').and.stub();
+}
+
+class MockCurrentUnitService {
+  unit$ = of(unit);
+  code$ = of(code);
+}
+
+class MockCurrentUnitAddressService {
+  unitAddress$ = of(mockAddress);
 }
 
 describe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
-  let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
+  let orgUnitsService: OrgUnitService;
+  let modalService: ModalService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
-      declarations: [UnitAddressDetailsComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        Table2Module,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+      ],
+      declarations: [UnitAddressDetailsComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: ModalService, useClass: MockModalService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
+        {
+          provide: CurrentUnitAddressService,
+          useClass: MockCurrentUnitAddressService,
+        },
       ],
     }).compileComponents();
 
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
+    orgUnitsService = TestBed.inject(OrgUnitService);
+    modalService = TestBed.inject(ModalService);
   }));
 
   beforeEach(() => {
@@ -96,34 +90,18 @@ describe('UnitAddressDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load address', () => {
-      component.ngOnInit();
-      let address: any;
-      component.address$
-        .subscribe((value) => {
-          address = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
-        code,
-        mockAddress.id
-      );
-      expect(address).toEqual({ ...mockAddress, orgUnitId: code });
-    });
+  it('should deleteAddress', () => {
+    component.addressId = mockAddress.id;
+    component.deleteAddress();
+    expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(code, addressId);
   });
 
-  describe('deleteAddress', () => {
-    it('should deleteAddress', () => {
-      component.ngOnInit();
-
-      component.deleteAddress();
-      expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(
-        code,
-        mockAddress.id
-      );
+  it('openModal', () => {
+    component.openModal(mockAddress, {} as TemplateRef<any>);
+    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orgUnitManageAddresses',
+      params: { uid: code },
     });
   });
 });

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { Table } from '@spartacus/storefront';
 import { UnitAddressListService } from './unit-address-list.service';
 import { CurrentUnitService } from '../../current-unit.service';
 
@@ -12,12 +10,12 @@ import { CurrentUnitService } from '../../current-unit.service';
 export class UnitAddressListComponent {
   code$ = this.currentUnitService.code$;
 
-  dataTable$: Observable<Table> = this.code$.pipe(
-    switchMap((code) => this.unitManageAddressesService.getTable(code))
+  dataTable$ = this.code$.pipe(
+    switchMap((code) => this.unitAddressListService.getTable(code))
   );
 
   constructor(
-    protected unitManageAddressesService: UnitAddressListService,
+    protected unitAddressListService: UnitAddressListService,
     protected currentUnitService: CurrentUnitService
   ) {}
 }

@@ -4,6 +4,7 @@ import { RoutingService, UserGroupService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroupFormService } from '../form/user-group-form.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-group-create',
@@ -35,6 +36,7 @@ export class UserGroupCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userGroupService.create(form.value);

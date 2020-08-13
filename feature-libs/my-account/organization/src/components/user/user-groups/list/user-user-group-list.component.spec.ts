@@ -7,8 +7,8 @@ import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
-import { UserPermissionListComponent } from './user-permission-list.component';
-import { UserPermissionListService } from './user-permission-list.service';
+import { UserUserGroupListComponent } from './user-user-group-list.component';
+import { UserUserGroupListService } from './user-user-group-list.service';
 
 const userCode = 'userCode';
 
@@ -44,10 +44,10 @@ export class MockUserUserListService {
   }
 }
 
-describe('UserPermissionListComponent', () => {
-  let component: UserPermissionListComponent;
-  let fixture: ComponentFixture<UserPermissionListComponent>;
-  let service: UserPermissionListService;
+describe('UserUserGroupListComponent', () => {
+  let component: UserUserGroupListComponent;
+  let fixture: ComponentFixture<UserUserGroupListComponent>;
+  let service: UserUserGroupListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,20 +58,20 @@ describe('UserPermissionListComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserPermissionListComponent],
+      declarations: [UserUserGroupListComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserPermissionListService,
+          provide: UserUserGroupListService,
           useClass: MockUserUserListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserPermissionListService);
+    service = TestBed.inject(UserUserGroupListService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserPermissionListComponent);
+    fixture = TestBed.createComponent(UserUserGroupListComponent);
     component = fixture.componentInstance;
   });
 

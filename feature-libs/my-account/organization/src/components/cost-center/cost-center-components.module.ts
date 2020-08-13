@@ -4,7 +4,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CostCenterAssignBudgetsModule } from './budgets/assign/cost-center-assign-budget.module';
+import { CostCenterAssignBudgetsModule } from './budgets/assign/cost-center-assign-budgets.module';
 import { CostCenterBudgetListModule } from './budgets/list/cost-center-budget-list.module';
 import {
   costCenterCmsConfig,

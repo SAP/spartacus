@@ -46,7 +46,7 @@
           { cxRoute: 'userApprovers', params: { customerId: userCode } } | cxUrl
         "
       >
-        {{ 'user.back' | cxTranslate }}
+        {{ 'user.approver.back' | cxTranslate }}
       </a>
     </div>
   </ng-container>
@@ -92,18 +92,17 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.userAssignApprovers.data.name" let-model>
-    <label>
-      <input
-        type="checkbox"
-        [checked]="model.selected"
-        (change)="
-          toggleAssign(userCode, model.customerId, $event.target.checked)
-        "
-      />
-      <!--      <span class="text">{{ model.name }}</span>-->
-
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="model.selected"
+          (change)="
+            toggleAssign(userCode, model.customerId, $event.target.checked)
+          "
+        />
+      </label>
       <a
-        class="link"
         [routerLink]="
           {
             cxRoute: 'userDetails',
@@ -114,21 +113,22 @@
         {{ model.name }}
         <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
       </a>
-    </label>
+    </div>
   </ng-template>
 
   <ng-template cxOutletRef="table.userAssignApprovers.data.roles" let-model>
-    <span *ngFor="let role of model.roles">
-      &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
-    </span>
+    <small>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userAssignApprovers.data.orgUnit" let-model>
     <a
-      class="link"
       [routerLink]="
         {
-          cxRoute: 'userDetails',
+          cxRoute: 'orgUnitDetails',
           params: model.orgUnit
         } | cxUrl
       "
