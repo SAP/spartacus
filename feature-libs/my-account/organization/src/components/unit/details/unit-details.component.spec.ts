@@ -51,7 +51,7 @@ class MockRoutingConfig {
 describe('UnitDetailsComponent', () => {
   let component: UnitDetailsComponent;
   let fixture: ComponentFixture<UnitDetailsComponent>;
-  let orgUnitsService: MockOrgUnitService;
+  // let orgUnitsService: MockOrgUnitService;
   // let routingService: RoutingService;
 
   beforeEach(async(() => {
