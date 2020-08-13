@@ -8,7 +8,7 @@ import {
   SplitViewModule,
 } from '@spartacus/storefront';
 import { PermissionDetailsComponent } from './permission-details.component';
-import { PermissionListModule } from '../list';
+import { PermissionListModule } from '../list/permission-list.module';
 
 @NgModule({
   imports: [

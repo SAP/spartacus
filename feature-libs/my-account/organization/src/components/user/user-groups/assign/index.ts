@@ -1,3 +1,3 @@
-export * from './user-assign-user-group.component';
-export * from './user-assign-user-group.module';
-export * from './user-assign-user-group.service';
+export * from './user-assign-user-groups.component';
+export * from './user-assign-user-groups.module';
+export * from './user-assign-user-groups.service';

@@ -22,6 +22,11 @@ export class CurrentCostCenterService {
     distinctUntilChanged()
   );
 
+  readonly parentUnit$ = this.route.queryParams.pipe(
+    pluck('parentUnit'),
+    distinctUntilChanged()
+  );
+
   /**
    * Emits the current model or null, if there is no model available
    */

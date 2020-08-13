@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';
 import { UnitRoleType } from '../../../shared/organization.model';
@@ -23,4 +23,12 @@ export class UnitApproverListComponent {
     protected unitApproversService: UnitApproverListService,
     protected currentUnitService: CurrentUnitService
   ) {}
+
+  unassign(model) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.unitApproversService.unassign(code, model.customerId)
+      );
+  }
 }

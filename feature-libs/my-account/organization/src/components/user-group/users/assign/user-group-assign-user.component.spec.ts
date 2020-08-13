@@ -8,8 +8,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignUserComponent } from './user-group-assign-user.component';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
 const userGroupCode = 'userGroupCode';
 
@@ -48,10 +48,10 @@ class MockUserGroupUserListService {
   toggleAssign() {}
 }
 
-describe('UserGroupAssignUsersComponent', () => {
-  let component: UserGroupAssignUsersComponent;
-  let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignUserComponent', () => {
+  let component: UserGroupAssignUserComponent;
+  let fixture: ComponentFixture<UserGroupAssignUserComponent>;
+  let service: UserGroupAssignUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -63,20 +63,20 @@ describe('UserGroupAssignUsersComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserGroupAssignUsersComponent],
+      declarations: [UserGroupAssignUserComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserGroupAssignUserListService,
+          provide: UserGroupAssignUserService,
           useClass: MockUserGroupUserListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignUsersComponent);
+    fixture = TestBed.createComponent(UserGroupAssignUserComponent);
     component = fixture.componentInstance;
   });
 

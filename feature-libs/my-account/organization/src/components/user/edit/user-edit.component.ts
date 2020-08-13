@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
 import { CurrentUserService } from '../current-user.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-edit',
@@ -50,6 +51,7 @@ export class UserEditComponent {
   save(customerId: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userService.update(customerId, form.value);

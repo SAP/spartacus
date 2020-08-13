@@ -4,6 +4,7 @@ import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-address-create',
@@ -24,6 +25,7 @@ export class UnitAddressCreateComponent {
     event.preventDefault();
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       // disabling form before save causing to refresh form state and adds region field
       // which shouldn't be included when disabled. This might need some change

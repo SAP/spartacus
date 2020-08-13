@@ -10,6 +10,7 @@ export const costCenter = {
     enabled:
       'When you disable the cost center, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled Cost Center.',
+    disabledUnit: 'You cannot enable cost center if unit is disabled.',
     deactivate: 'Are you sure you want to disable this cost center?',
     deactivateHeader: 'Disable Cost Center',
   },

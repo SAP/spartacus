@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { OrganizationPageMetaModule } from './services/organization-page-meta.module';
 
-@NgModule({})
+@NgModule({
+  imports: [OrganizationPageMetaModule],
+})
 export class OrganizationCoreModule {}

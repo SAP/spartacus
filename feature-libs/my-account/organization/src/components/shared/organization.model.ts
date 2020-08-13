@@ -24,6 +24,7 @@ export enum OrganizationTableType {
   USER_USER_GROUPS = 'userUserGroups',
   USER_ASSIGN_USER_GROUPS = 'userAssignUserGroups',
   PERMISSION = 'permission',
+  ORDER_APPROVAL = 'orderApproval',
 }
 
 export enum UnitRoleType {

@@ -11,6 +11,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -52,6 +53,7 @@ export class BudgetEditComponent {
   save(budgetCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
