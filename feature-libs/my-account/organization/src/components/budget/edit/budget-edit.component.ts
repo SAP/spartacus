@@ -11,7 +11,9 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { ParamRoutingService } from '../../budget.router.service';
 import { BudgetFormService } from '../form/budget-form.service';
+import { BudgetListService } from '../list/budget-list.service';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -19,11 +21,7 @@ import { BudgetFormService } from '../form/budget-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.params.pipe(
-    map((routingData) => routingData['code'])
-  );
-
-  protected budget$: Observable<Budget> = this.code$.pipe(
+  protected budget$: Observable<Budget> = this.budgetRouterService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
@@ -36,18 +34,20 @@ export class BudgetEditComponent {
   // We have to keep all observable values consistent for a view,
   // that's why we are wrapping them into one observable
   viewModel$ = this.form$.pipe(
-    withLatestFrom(this.budget$, this.code$),
+    withLatestFrom(this.budget$, this.budgetRouterService.key$),
     map(([form, budget, code]) => ({ form, code, budget }))
   );
 
   constructor(
+    protected budgetListService: BudgetListService,
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
     protected activatedRoute: ActivatedRoute,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected budgetRouterService: ParamRoutingService
   ) {}
 
   save(budgetCode: string, form: FormGroup): void {

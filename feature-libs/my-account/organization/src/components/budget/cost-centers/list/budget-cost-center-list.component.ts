@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { ParamRoutingService } from '../../../budget.router.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
@@ -10,8 +10,8 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
   templateUrl: './budget-cost-center-list.component.html',
 })
 export class BudgetCostCenterListComponent {
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
+  code$: Observable<string> = this.paramRoutingService.params$.pipe(
+    map((params) => params['budgetKey'])
   );
 
   dataTable$: Observable<Table> = this.code$.pipe(
@@ -19,7 +19,7 @@ export class BudgetCostCenterListComponent {
   );
 
   constructor(
-    protected route: ActivatedRoute,
+    protected paramRoutingService: ParamRoutingService,
     protected budgetCostCenterListService: BudgetCostCenterListService
   ) {}
 }

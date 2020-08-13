@@ -31,6 +31,7 @@ $text: #212738 !default;
 $transparent: transparent !default;
 $visual-focus: #6d9df7 !default;
 $disabled: #d3d6db !default;
+$background-focus: #ffeeee !default;
 
 $theme-colors: (
   'primary': $primary,
@@ -46,6 +47,7 @@ $theme-colors: (
   'text': $text,
   'transparent': $transparent,
   'visual-focus': $visual-focus,
+  'background-focus': $background-focus,
   'disabled': $disabled,
 );
 

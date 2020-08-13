@@ -1,4 +1,9 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -14,6 +19,9 @@ import { BudgetListComponent } from './list/budget-list.component';
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
+const paramsMapping: ParamsMapping = {
+  budgetKey: 'code',
+};
 // TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {
@@ -25,13 +33,16 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets/create'],
       },
       budgetDetails: {
-        paths: ['organization/budgets/:code'],
+        paths: ['organization/budgets/:budgetKey'],
+        paramsMapping,
       },
       budgetCostCenters: {
-        paths: ['organization/budgets/:code/cost-centers'],
+        paths: ['organization/budgets/:budgetKey/cost-centers'],
+        paramsMapping,
       },
       budgetEdit: {
-        paths: ['organization/budgets/:code/edit'],
+        paths: ['organization/budgets/:budgetKey/edit'],
+        paramsMapping,
       },
     },
   },
@@ -48,7 +59,7 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: ':budgetKey',
           component: BudgetDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -60,7 +71,7 @@ export const budgetCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: ':code/edit',
+          path: ':budgetKey/edit',
           component: BudgetEditComponent,
         },
       ],

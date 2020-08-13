@@ -80,7 +80,8 @@
     // background: rgba(80, 176, 244, 0.1);
     // border-style: solid;
     // border-color: #50b0f4;
-
+    outline: solid 3px var(--cx-color-primary);
+    background: var(--cx-color-background-focus);
     // opacity: 1;
   }
 

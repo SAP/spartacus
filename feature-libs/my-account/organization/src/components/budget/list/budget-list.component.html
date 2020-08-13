@@ -1,51 +1,54 @@
 <cx-split-view [hideMode]="false">
-  <cx-view *ngIf="dataTable$ | async as dataTable">
-    <h3>
-      {{
-        'budget.header'
-          | cxTranslate: { count: dataTable.pagination.totalResults }
-      }}
-    </h3>
+  <cx-view>
+    <ng-container *ngIf="dataTable$ | async as dataTable">
+      <h3>
+        {{
+          'budget.header'
+            | cxTranslate: { count: dataTable.pagination.totalResults }
+        }}
+      </h3>
 
-    <div class="actions">
-      <ng-select
-        [searchable]="false"
-        [clearable]="false"
-        (change)="sort(dataTable.pagination, $event)"
-        [tabIndex]="0"
-        [(ngModel)]="dataTable.pagination.sort"
+      <div class="actions">
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          (change)="sort(dataTable.pagination, $event)"
+          [tabIndex]="0"
+          [(ngModel)]="dataTable.pagination.sort"
+        >
+          <ng-option *ngFor="let sort of dataTable.sorts" [value]="sort.code">
+            {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
+          </ng-option>
+        </ng-select>
+        <button
+          class="button primary"
+          [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
+          routerLinkActive="disabled"
+        >
+          {{ 'organization.add' | cxTranslate }}
+        </button>
+      </div>
+
+      <cx-table
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+        [activeRow]="{ value: code$ | async, key: 'code' }"
       >
-        <ng-option *ngFor="let sort of dataTable.sorts" [value]="sort.code">
-          {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
-        </ng-option>
-      </ng-select>
-      <button
-        class="button primary"
-        [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
-        routerLinkActive="disabled"
-      >
-        {{ 'organization.add' | cxTranslate }}
-      </button>
-    </div>
+      </cx-table>
 
-    <cx-table
-      [dataset]="dataTable"
-      (sortEvent)="sort(dataTable.pagination, $event)"
-    >
-    </cx-table>
-
-    <div class="footer">
-      <cx-pagination
-        *ngIf="dataTable.pagination"
-        [pagination]="dataTable.pagination"
-        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
-      ></cx-pagination>
-    </div>
-    <!-- <ng-template #emptyList>
+      <div class="footer">
+        <cx-pagination
+          *ngIf="dataTable.pagination"
+          [pagination]="dataTable.pagination"
+          (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+        ></cx-pagination>
+      </div>
+      <!-- <ng-template #emptyList>
       <p class="instruction is-empty">
         {{ 'organization.messages.emptyList' | cxTranslate }}
       </p>
     </ng-template> -->
+    </ng-container>
   </cx-view>
 
   <router-outlet></router-outlet>
@@ -96,7 +99,6 @@
   <a
     [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
     [tabindex]="-1"
-    routerLinkActive="is-active"
   >
     {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
   </a>
@@ -120,7 +122,6 @@
   <a
     [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
     [tabindex]="tabIndex > -1 ? tabIndex : -1"
-    routerLinkActive="is-active"
   >
     {{ label }}
   </a>

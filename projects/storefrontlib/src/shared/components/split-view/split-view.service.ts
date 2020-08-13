@@ -100,6 +100,7 @@ export class SplitViewService {
     // If the position is already visible, we move to a previous position. Only if the hide
     // state is forced, we keep the current position.
     if (
+      position > 0 &&
       this.views[position] &&
       forceHide === undefined &&
       !this.views[position].hidden
@@ -111,10 +112,12 @@ export class SplitViewService {
   }
 
   protected updateState(position: number, hide?: boolean) {
+    // console.log('update state', position);
     const views = [...this.views];
     const split: number = this._splitViewCount - 1;
     // toggle the hidden state per view, based on the next position and number of views per split view
     views.forEach((view, pos) => {
+      // console.log('update each view', view, pos);
       if (pos === position) {
         view.hidden = hide ?? !(pos >= position - split && pos <= position);
       } else {

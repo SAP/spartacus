@@ -52,7 +52,7 @@ import { Table, TableHeader } from './table.model';
 export class TableComponent {
   @HostBinding('attr.cx-table-type') tableType: string;
 
-  @Input() activeRow;
+  @Input() activeRow: { value: any; key: string };
 
   @Input() rowDirective;
 
