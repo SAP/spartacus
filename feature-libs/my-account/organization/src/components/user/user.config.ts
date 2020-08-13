@@ -5,16 +5,16 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
+import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
 import { UserCreateComponent } from './create/user-create.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
 import { UserListComponent } from './list/user-list.component';
-import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
-import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
-import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
-import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
+import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
+import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -81,11 +81,6 @@ export const userCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
-              path: 'edit',
-              component: UserEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
               path: 'approvers',
               component: UserApproverListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
@@ -122,6 +117,10 @@ export const userCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: ':code/edit',
+          component: UserEditComponent,
         },
       ],
       guards: [AuthGuard],

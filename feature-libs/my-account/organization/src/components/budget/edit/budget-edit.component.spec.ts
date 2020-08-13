@@ -4,8 +4,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CostCenter,
-  CostCenterService,
+  Budget,
+  BudgetService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -23,37 +23,36 @@ import createSpy = jasmine.createSpy;
   selector: 'cx-budget-form',
   template: '',
 })
-class MockCostCenterFormComponent {
+class MockBudgetFormComponent {
   @Input() form;
 }
 
-const costCenterCode = 'b1';
+const budgetCode = 'b1';
 
-const mockCostCenter: CostCenter = {
-  code: costCenterCode,
+const mockBudget: Budget = {
+  code: budgetCode,
   name: 'costCenter1',
   currency: {
     symbol: '$',
     isocode: 'USD',
   },
-  unit: { name: 'orgName', uid: 'orgCode' },
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCurrentBudgetService
-  implements Partial<CurrentBudgetService> {
-  code$ = of(costCenterCode);
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  code$ = of(budgetCode);
 }
 
-class MockCostCenterService implements Partial<CostCenterService> {
+class MockBudgetService implements Partial<BudgetService> {
   update = createSpy('update');
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockCostCenter));
+  loadBudget = createSpy('loadBudget');
+  get = createSpy('get').and.returnValue(of(mockBudget));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code: costCenterCode,
+      code: budgetCode,
     },
   },
 };
@@ -68,7 +67,7 @@ class MockRoutingService {
 describe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
-  let costCenterService: CostCenterService;
+  let budgetService: BudgetService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;
@@ -84,18 +83,18 @@ describe('BudgetEditComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [BudgetEditComponent, MockCostCenterFormComponent],
+      declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: BudgetService, useClass: MockBudgetService },
         {
           provide: CurrentBudgetService,
           useClass: MockCurrentBudgetService,
-        }
+        },
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.inject(CostCenterService);
+    budgetService = TestBed.inject(BudgetService);
 
     routingService = TestBed.inject(RoutingService);
   }));
@@ -127,7 +126,7 @@ describe('BudgetEditComponent', () => {
 
     it('should create cost center', () => {
       saveButton.nativeElement.click();
-      expect(costCenterService.update).toHaveBeenCalled();
+      expect(budgetService.update).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
@@ -138,7 +137,7 @@ describe('BudgetEditComponent', () => {
       });
     });
     it('should trigger reload of cost center model on each code change', () => {
-      expect(costCenterService.load).toHaveBeenCalledWith(mockCostCenter.code);
+      expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
     });
   });
 });

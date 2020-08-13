@@ -11,7 +11,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  B2BSearchConfig,
   B2BUser,
   B2BUserService,
   EntitiesModel,
@@ -19,43 +18,19 @@ import {
   OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
-import { UnitUserAssignRolesComponent } from './unit-assign-roles.component';
+import { BehaviorSubject } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { UnitUserAssignRolesComponent } from './unit-user-assign-roles.component';
+import {
+  InteractiveTableModule,
+  PaginationConfig,
+} from '@spartacus/storefront';
 
-const code = 'unitCode';
 const roleId = 'b2bcustomergroup';
 const customerId = 'customerId1';
-
-const expectedCustomerId = 'testCustomerId';
-const inputEventAssign: any = {
-  key: 'b2badmingroup',
-  row: {
-    customerId: 'testCustomerId',
-    email: 'test@test.com',
-    roles: ['b2bcustomergroup', 'b2bmanagergroup'],
-  },
-};
-const inputEventUnassign: any = {
-  key: 'b2bcustomergroup',
-  row: {
-    customerId: 'testCustomerId',
-    email: 'test@test.com',
-    roles: ['b2bcustomergroup', 'b2bmanagergroup'],
-  },
-};
-
-const defaultParams: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 5,
-};
 
 const mockUserList: EntitiesModel<B2BUser> = {
   values: [
@@ -80,38 +55,6 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockUserUIList = {
-  sorts: [{ code: 'byName', selected: true }],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  values: [
-    {
-      selected: true,
-      email: 'aaa@bbb',
-      name: 'b1',
-      parentUnit: 'orgName',
-      uid: 'orgUid',
-      customerId,
-      roles: [],
-      b2badmingroup: false,
-      b2bapprovergroup: false,
-      b2bcustomergroup: false,
-      b2bmanagergroup: false,
-    },
-    {
-      selected: false,
-      email: 'aaa2@bbb',
-      name: 'b2',
-      uid: 'orgUid2',
-      parentUnit: 'orgName2',
-      customerId: 'customerId2',
-      roles: [],
-      b2badmingroup: false,
-      b2bapprovergroup: false,
-      b2bcustomergroup: false,
-      b2bmanagergroup: false,
-    },
-  ],
-};
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -143,24 +86,6 @@ class MockB2BUserService implements Partial<B2BUserService> {
   update = createSpy('update');
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          code,
-          roleId,
-        },
-        queryParams: {
-          sort: 'byName',
-          currentPage: '0',
-          pageSize: '5',
-        },
-      },
-    });
-  }
-}
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
   getRouteConfig(routeName: string) {
@@ -171,7 +96,7 @@ class MockRoutingConfig {
 describe('UnitAssignRolesComponent', () => {
   let component: UnitUserAssignRolesComponent;
   let fixture: ComponentFixture<UnitUserAssignRolesComponent>;
-  let orgUnitService: MockOrgUnitService;
+  // let orgUnitService: MockOrgUnitService;
   let b2bUsersService: MockB2BUserService;
 
   beforeEach(async(() => {
@@ -184,7 +109,6 @@ describe('UnitAssignRolesComponent', () => {
       ],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: B2BUserService, useClass: MockB2BUserService },
         {
@@ -196,7 +120,7 @@ describe('UnitAssignRolesComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     b2bUsersService = TestBed.get(B2BUserService as Type<B2BUserService>);
   }));
 
@@ -224,53 +148,34 @@ describe('UnitAssignRolesComponent', () => {
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
-  describe('ngOnInit', () => {
-    it('should read user list', () => {
-      component.ngOnInit();
-
-      let usersList: any;
-      component.data$.subscribe((value) => {
-        usersList = value;
-      });
-
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(usersList).toEqual(mockUserUIList);
-    });
-  });
-
   describe('assign', () => {
     it('should assign user', () => {
-      const expectedB2BUser = {
-        roles: ['b2bcustomergroup', 'b2bmanagergroup', 'b2badmingroup'],
-      };
+      const expectedRoles = [
+        'b2bcustomergroup',
+        'b2bmanagergroup',
+        'b2badmingroup',
+      ];
 
-      component.assign(inputEventAssign);
+      component.toggleAssign(customerId, expectedRoles, roleId, true);
       expect(b2bUsersService.update).toHaveBeenCalledWith(
-        expectedCustomerId,
-        expectedB2BUser
+        customerId,
+        expectedRoles,
+        roleId,
+        true
       );
     });
   });
 
   describe('unassign', () => {
     it('should unassign user', () => {
-      const expectedB2BUser = {
-        roles: ['b2bmanagergroup'],
-      };
+      const expectedRoles = ['b2bmanagergroup'];
 
-      component.unassign(inputEventUnassign);
+      component.toggleAssign(customerId, expectedRoles, roleId, false);
       expect(b2bUsersService.update).toHaveBeenCalledWith(
-        expectedCustomerId,
-        expectedB2BUser
+        customerId,
+        expectedRoles,
+        roleId,
+        false
       );
     });
   });

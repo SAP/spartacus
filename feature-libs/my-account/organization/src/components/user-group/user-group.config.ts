@@ -32,7 +32,7 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paramsMapping: { code: 'uid' },
       },
       userGroupEdit: {
-        paths: ['organization/user-groups/:code/edit'],
+        paths: ['organization/user-groups/edit/:code'],
         paramsMapping: { code: 'uid' },
       },
       userGroupUsers: {
@@ -71,11 +71,6 @@ export const userGroupCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
-              path: 'edit',
-              component: UserGroupEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
               path: 'users',
               component: UserGroupUserListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
@@ -100,6 +95,10 @@ export const userGroupCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: 'edit/:code',
+          component: UserGroupEditComponent,
         },
       ],
       guards: [AuthGuard],

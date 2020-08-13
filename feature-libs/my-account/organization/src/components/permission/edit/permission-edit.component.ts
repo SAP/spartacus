@@ -17,11 +17,12 @@ import { CurrentPermissionService } from '../current-permission.service';
   selector: 'cx-permission-edit',
   templateUrl: './permission-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentPermissionService],
 })
 export class PermissionEditComponent {
   protected code$ = this.currentPermissionService.code$;
 
-  protected permission$: Observable<UserGroup> = this.currentPermissionService.code$.pipe(
+  protected permission$: Observable<UserGroup> = this.code$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),
     switchMap((code) => this.permissionService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once

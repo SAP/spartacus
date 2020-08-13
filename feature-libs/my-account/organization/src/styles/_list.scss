@@ -1,4 +1,5 @@
 .organization {
+  // overflow-x: hidden;
   .active {
     background: var(--cx-color-light);
     color: var(--cx-color-text);
@@ -38,18 +39,6 @@
     // for the rest we decided to keep header text to the left, next to icon (i.e. back button)
     > span {
       flex: 1;
-    }
-  }
-
-  &.edit,
-  &.create,
-  &.assign {
-    cx-split-view {
-      --cx-max-views: 1;
-
-      cx-view:not(:last-child) {
-        visibility: hidden;
-      }
     }
   }
 

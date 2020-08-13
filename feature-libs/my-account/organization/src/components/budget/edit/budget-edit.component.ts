@@ -17,6 +17,7 @@ import { CurrentBudgetService } from '../current-budget.service';
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentBudgetService],
 })
 export class BudgetEditComponent {
   protected code$ = this.currentBudgetService.code$;
@@ -42,7 +43,6 @@ export class BudgetEditComponent {
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
     protected currentBudgetService: CurrentBudgetService,
-    // protected activatedRoute: ActivatedRoute,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.
