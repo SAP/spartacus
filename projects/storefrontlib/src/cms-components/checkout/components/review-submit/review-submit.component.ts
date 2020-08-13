@@ -23,7 +23,11 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { CheckoutStep } from '../../model/checkout-step.model';
+import {
+  checkoutPaymentSteps,
+  checkoutShippingSteps,
+  CheckoutStep,
+} from '../../model/checkout-step.model';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
 
@@ -266,34 +270,10 @@ export class ReviewSubmitComponent {
   }
 
   shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) => this.isShippingStep(step));
+    return steps.filter((step) => checkoutShippingSteps.includes(step.type[0]));
   }
 
   paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) => this.isPaymentStep(step));
-  }
-
-  protected isShippingStep(step: CheckoutStep): boolean {
-    switch (step.type[0]) {
-      case this.checkoutStepType.SHIPPING_ADDRESS:
-        return true;
-      case this.checkoutStepType.DELIVERY_MODE:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  protected isPaymentStep(step: CheckoutStep): boolean {
-    switch (step.type[0]) {
-      case this.checkoutStepType.PAYMENT_TYPE:
-        return true;
-      case this.checkoutStepType.PAYMENT_DETAILS:
-        return true;
-      case this.checkoutStepType.SHIPPING_ADDRESS:
-        return true;
-      default:
-        return false;
-    }
+    return steps.filter((step) => checkoutPaymentSteps.includes(step.type[0]));
   }
 }
