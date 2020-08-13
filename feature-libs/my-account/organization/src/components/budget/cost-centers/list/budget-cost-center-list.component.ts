@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ParamRoutingService } from '../../../budget.router.service';
+import { RoutingParamService } from '../../../routing-param.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class BudgetCostCenterListComponent {
   );
 
   constructor(
-    protected paramRoutingService: ParamRoutingService,
+    protected paramRoutingService: RoutingParamService,
     protected budgetCostCenterListService: BudgetCostCenterListService
   ) {}
 }

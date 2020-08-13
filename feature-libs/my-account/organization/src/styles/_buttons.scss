@@ -36,8 +36,10 @@
     }
 
     padding: var(--cx-spatial-base);
+
     font-size: 1rem;
     line-height: 1.5rem;
+    text-transform: uppercase;
 
     &.active {
       color: var(--cx-color-primary);

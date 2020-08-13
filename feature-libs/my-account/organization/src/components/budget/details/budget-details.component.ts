@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Budget, BudgetService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { ParamRoutingService } from '../../budget.router.service';
+import { RoutingParamService } from '../../routing-param.service';
 import { BudgetListService } from '../list/budget-list.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class BudgetDetailsComponent {
     protected modalService: ModalService,
     protected budgetListService: BudgetListService,
 
-    protected budgetRouterService: ParamRoutingService
+    protected budgetRouterService: RoutingParamService
   ) {
     console.log('construct detail component');
   }

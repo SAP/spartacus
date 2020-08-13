@@ -3,7 +3,7 @@ import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ParamRoutingService } from '../../budget.router.service';
+import { RoutingParamService } from '../../routing-param.service';
 import { BudgetListService } from './budget-list.service';
 
 const BASE_CLASS = 'organization';
@@ -18,12 +18,12 @@ export class BudgetListComponent {
 
   dataTable$: Observable<Table> = this.budgetService.getTable();
 
-  code$ = this.budgetRouterService.params$.pipe(
+  code$ = this.routingParamService.params$.pipe(
     map((params) => params['budgetKey'])
   );
 
   constructor(
-    protected budgetRouterService: ParamRoutingService,
+    protected routingParamService: RoutingParamService,
     protected budgetService: BudgetListService
   ) {}
 

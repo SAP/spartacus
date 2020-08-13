@@ -13,7 +13,7 @@ import { filter, map, shareReplay, startWith } from 'rxjs/operators';
  * TODO: consider moving to RoutingService or core lib.
  */
 @Injectable({ providedIn: 'root' })
-export class ParamRoutingService {
+export class RoutingParamService {
   protected routerEvent$ = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     startWith(this.router)

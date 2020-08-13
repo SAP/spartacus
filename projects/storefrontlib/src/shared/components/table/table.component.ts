@@ -52,6 +52,9 @@ import { Table, TableHeader } from './table.model';
 export class TableComponent {
   @HostBinding('attr.cx-table-type') tableType: string;
 
+  /**
+   * Provides a mechanism to compare a matching value for each table row.
+   */
   @Input() activeRow: { value: any; key: string };
 
   @Input() rowDirective;
