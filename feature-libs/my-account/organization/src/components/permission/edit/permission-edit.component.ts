@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroup, RoutingService, PermissionService } from '@spartacus/core';
+import { PermissionService, RoutingService, UserGroup } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,7 +12,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PermissionFormService } from '../form/permission-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-permission-edit',
@@ -19,7 +19,7 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
+  protected code$: Observable<string> = this.activatedRoute.params.pipe(
     map((routingData) => routingData['code'])
   );
 

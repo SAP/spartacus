@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -9,14 +10,14 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserFormService } from '../form/user-form.service';
 import { CurrentUserService } from '../current-user.service';
-import { FormUtils } from '@spartacus/storefront';
+import { UserFormService } from '../form/user-form.service';
 
 @Component({
   selector: 'cx-user-edit',
   templateUrl: './user-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUserService],
 })
 export class UserEditComponent {
   protected code$: Observable<string> = this.currentUserService.code$;

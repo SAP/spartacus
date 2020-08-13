@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
-import { OrgUnitService, RoutingService } from '@spartacus/core';
-import { UnitFormService } from '../form/unit-form.service';
 import { FormGroup } from '@angular/forms';
-import { CurrentUnitService } from '../current-unit.service';
+import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { CurrentUnitService } from '../current-unit.service';
+import { UnitFormService } from '../form/unit-form.service';
 
 @Component({
   selector: 'cx-unit-edit',
   templateUrl: './unit-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUnitService],
 })
 export class UnitEditComponent {
   protected form$: Observable<FormGroup> = this.currentUnitService.unit$.pipe(

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,7 +12,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { BudgetFormService } from '../form/budget-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -19,7 +19,7 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
+  protected code$: Observable<string> = this.activatedRoute.params.pipe(
     map((routingData) => routingData['code'])
   );
 
