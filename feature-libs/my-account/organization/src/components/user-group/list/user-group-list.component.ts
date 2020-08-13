@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { Observable } from 'rxjs';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
 import { UserGroupListService } from './user-group-list.service';
 
 const BASE_CLASS = 'organization';

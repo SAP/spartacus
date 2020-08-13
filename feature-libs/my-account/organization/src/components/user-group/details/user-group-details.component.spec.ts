@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   UserGroup,
@@ -13,6 +12,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { UserGroupDetailsComponent } from './user-group-details.component';
+import { CurrentUserGroupService } from '../current-user-group.service';
 import createSpy = jasmine.createSpy;
 
 const userGroupCode = 'b1';
@@ -23,16 +23,14 @@ const mockUserGroup: UserGroup = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockUserGroupService implements Partial<UserGroupService> {
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockUserGroup));
-  update = createSpy('update');
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
 }
 
-class MockActivatedRoute {
-  params = of({ code: userGroupCode });
-
-  snapshot = {};
+class MockUserGroupService implements Partial<UserGroupService> {
+  load = createSpy('load');
+  update = createSpy('update');
+  get = createSpy('get').and.returnValue(of(mockUserGroup));
 }
 
 class MockModalService {
@@ -62,11 +60,21 @@ describe('UserGroupDetailsComponent', () => {
       ],
       declarations: [UserGroupDetailsComponent, MockUserGroupUserListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: UserGroupService, useClass: MockUserGroupService },
         { provide: ModalService, useClass: MockModalService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserGroupService,
+              useClass: MockCurrentUserGroupService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     userGroupsService = TestBed.inject(UserGroupService);
   }));
@@ -87,5 +95,16 @@ describe('UserGroupDetailsComponent', () => {
       mockUserGroup.uid,
       mockUserGroup
     );
+  });
+  it('should trigger reload of cost center model on each code change', () => {
+    expect(userGroupsService.load).toHaveBeenCalledWith(mockUserGroup.uid);
+  });
+
+  describe('costCenter$', () => {
+    it('should emit current cost center model', () => {
+      let result;
+      component.userGroup$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(mockUserGroup);
+    });
   });
 });
