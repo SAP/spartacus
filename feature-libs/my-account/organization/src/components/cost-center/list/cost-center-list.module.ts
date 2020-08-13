@@ -10,7 +10,6 @@ import {
   TableModule,
 } from '@spartacus/storefront';
 import { CostCenterListComponent } from './cost-center-list.component';
-import { CostCenterGuard } from '../cost-center.guard';
 
 @NgModule({
   imports: [
@@ -29,7 +28,6 @@ import { CostCenterGuard } from '../cost-center.guard';
 
     PaginationModule,
   ],
-  providers: [CostCenterGuard],
   declarations: [CostCenterListComponent],
 })
 export class CostCenterListModule {}

@@ -136,6 +136,5 @@ export const common = {
     cxNoSelectedItemToCancel: 'Select at least one item to cancel',
     cxDateMin: 'Date cannot be before {{min}}',
     cxDateMax: 'Date cannot be after {{max}}',
-    cxInvalidCostCenterCode: `Cost center code cannot contain 'create' or 'edit' keywords`,
   },
 };
