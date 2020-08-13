@@ -51,8 +51,7 @@ class MockRoutingConfig {
 describe('UnitDetailsComponent', () => {
   let component: UnitDetailsComponent;
   let fixture: ComponentFixture<UnitDetailsComponent>;
-  // let orgUnitsService: MockOrgUnitService;
-  // let routingService: RoutingService;
+  let orgUnitsService: OrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -65,7 +64,7 @@ describe('UnitDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    orgUnitsService = TestBed.inject(OrgUnitService);
     // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
