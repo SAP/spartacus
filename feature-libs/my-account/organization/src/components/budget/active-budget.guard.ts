@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { BudgetService, RoutingService, Budget } from "@spartacus/core";
-import { Observable } from "rxjs";
-import { ActivatedRouteSnapshot, CanActivate } from "@angular/router";
-import { map } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { BudgetService, RoutingService, Budget } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 export class ActiveBudgetGuard implements CanActivate {
   constructor(
     protected budgetService$: BudgetService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
@@ -30,5 +30,4 @@ export class ActiveBudgetGuard implements CanActivate {
   protected isActive(budget: Budget): boolean {
     return budget.active;
   }
-
 }

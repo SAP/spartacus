@@ -10,7 +10,7 @@ import { B2BUserService, RoutingService, B2BUser } from '@spartacus/core';
 export class ActiveUserGuard implements CanActivate {
   constructor(
     protected userService$: B2BUserService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {

@@ -10,7 +10,7 @@ import { CostCenterService, RoutingService, CostCenter } from '@spartacus/core';
 export class ActiveCostCenterGuard implements CanActivate {
   constructor(
     protected costCenterService$: CostCenterService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {

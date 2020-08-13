@@ -10,7 +10,7 @@ import { OrgUnitService, RoutingService, OrgUnit } from '@spartacus/core';
 export class ActiveUnitGuard implements CanActivate {
   constructor(
     protected unitService$: OrgUnitService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {

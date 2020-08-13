@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
 
 @Injectable({
@@ -20,10 +16,7 @@ export class CostCenterFormService {
   }
 
   protected build(form: FormGroup) {
-    form.setControl(
-      'code',
-      new FormControl('', Validators.required)
-    );
+    form.setControl('code', new FormControl('', Validators.required));
     form.setControl('name', new FormControl('', Validators.required));
 
     form.setControl(

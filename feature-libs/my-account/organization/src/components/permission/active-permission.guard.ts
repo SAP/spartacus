@@ -10,7 +10,7 @@ import { PermissionService, RoutingService, Permission } from '@spartacus/core';
 export class ActivePermissionGuard implements CanActivate {
   constructor(
     protected permissionService$: PermissionService,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
