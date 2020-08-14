@@ -8,12 +8,12 @@ const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 const email = 'cpq02@sap.com';
 const password = 'welcome';
 
-const editConfigurationSelector =
-  'cx-configure-cart-entry button:contains("Edit")';
-
 const conflictDetectedMsgSelector = '.cx-config-attribute-conflict-container';
 const conflictHeaderGroupSelector =
   'cx-config-group-menu li.cx-config-menu-conflict';
+
+const resolveIssuesLinkSelector =
+  'cx-configure-cart-entry button.cx-action-link';
 
 /**
  * Verifies whether the global message is not displayed on the top of the configuration.
@@ -37,11 +37,16 @@ export function clickOnConfigureBtn() {
     });
 }
 
-export function clickOnEditConfigurationLink() {
-  cy.get(editConfigurationSelector)
-    .click()
-    .then(() => {
-      this.isConfigPageDisplayed();
+//works
+export function clickOnEditConfigurationLink(productId: string) {
+  cy.get('cx-cart-item div.cx-code')
+    .first()
+    .contains(productId)
+    .parentsUntil('.cx-info')
+    .children()
+    .filter('cx-configure-cart-entry')
+    .within(() => {
+      cy.get('button:contains("Edit")').click();
     });
 }
 
@@ -245,12 +250,12 @@ export function selectConflictingValue(
   attributeName: string,
   uiType: string,
   valueName: string,
-  umberOfConflicts: number
+  numberOfConflicts: number
 ) {
   this.selectAttribute(attributeName, uiType, valueName);
   this.isConflictDetectedMsgDisplayed(attributeName);
   isConflictHeaderGroupDisplayed();
-  verifyNumberOfConflicts(umberOfConflicts);
+  verifyNumberOfConflicts(numberOfConflicts);
 }
 
 export function deselectConflictingValue(
@@ -261,6 +266,54 @@ export function deselectConflictingValue(
   this.selectAttribute(attributeName, uiType, valueName);
   this.isConflictDetectedMsgNotDisplayed(attributeName);
   isConflictHeaderGroupNotDisplayed();
+}
+
+export function checkNotificationBanner(element, numberOfIssues?: number) {
+  const resolveIssuesText =
+    'issues must be resolved before checkout.  Resolve Issues';
+  element
+    .get('.cx-error-msg-container')
+    .first()
+    .invoke('text')
+    .then((text) => {
+      expect(text).contains(resolveIssuesText);
+      const issues = text.replace(resolveIssuesText, '').trim();
+      expect(issues).match(/^[0-9]/);
+      expect(issues).eq(numberOfIssues.toString());
+    });
+}
+
+// works
+export function verifyNotificationBannerInCart(
+  productId: string,
+  numberOfIssues?: number
+) {
+  const element = cy
+    .get('cx-cart-item div.cx-code')
+    .first()
+    .contains(productId)
+    .parentsUntil('.cx-item-list-items', 'cx-cart-item')
+    .children()
+    .filter('cx-configure-issues-notification');
+
+  if (numberOfIssues) {
+    checkNotificationBanner(element, numberOfIssues);
+  } else {
+    element.should('not.be.visible');
+  }
+}
+
+//works
+export function clickOnResolveIssuesLinkInCart(productId: string) {
+  cy.get('cx-cart-item div.cx-code')
+    .first()
+    .contains(productId)
+    .parentsUntil('.cx-item-list-items', 'cx-cart-item')
+    .children()
+    .filter('cx-configure-issues-notification')
+    .within(() => {
+      cy.get(resolveIssuesLinkSelector).click();
+    });
 }
 
 export function isGroupMenuDisplayed() {
@@ -316,6 +369,7 @@ export function isHamburgerDisplayed() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
 }
 
+//works
 export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
     .click()
@@ -343,8 +397,15 @@ export function clickOnAddToCartBtnOnPD() {
     });
 }
 
+// works
 export function clickOnViewCartBtnOnPD() {
-  cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').click();
+  cy.get('div.cx-dialog-buttons a.btn-primary')
+    .contains('view cart')
+    .click()
+    .then(() => {
+      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
+      cy.get('cx-cart-details').should('be.visible');
+    });
 }
 
 export function clickOnProceedToCheckoutBtnOnPD() {
