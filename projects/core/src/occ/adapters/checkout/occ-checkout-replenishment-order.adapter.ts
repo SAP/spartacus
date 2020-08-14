@@ -32,17 +32,14 @@ export class OccCheckoutReplenishmentOrderAdapter
       .set('termsChecked', termsChecked.toString())
       .set('fields', 'FULL');
 
-    const headers = new HttpHeaders().set(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
-    );
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
       .post(
         this.occEndpoints.getUrl('scheduleReplenishmentOrder', {
           userId,
         }),
-        { scheduleReplenishmentForm },
+        scheduleReplenishmentForm,
         { headers, params }
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
