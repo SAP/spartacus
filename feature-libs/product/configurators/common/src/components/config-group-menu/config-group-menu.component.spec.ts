@@ -164,9 +164,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
+
+  it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
