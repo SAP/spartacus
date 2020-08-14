@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BUser,
@@ -16,6 +16,7 @@ import { of } from 'rxjs';
 import { UserEditComponent } from './user-edit.component';
 import { By } from '@angular/platform-browser';
 import { CurrentUserService } from '../current-user.service';
+import { UserFormService } from '../form/user-form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -26,16 +27,17 @@ class MockUserFormComponent {
   @Input() form;
 }
 
-const userCode = 'b1';
+const customerId = 'b1';
 
 const mockUser: B2BUser = {
-  uid: userCode,
+  customerId,
+  uid: 'userCode',
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
 class MockCurrentUserService implements Partial<CurrentUserService> {
-  code$ = of(userCode);
+  code$ = of(customerId);
   user$ = of(mockUser);
 }
 
@@ -48,7 +50,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 const mockRouterState = {
   state: {
     params: {
-      code: userCode,
+      code: customerId,
     },
   },
 };
@@ -58,6 +60,14 @@ class MockRoutingService {
   getRouterState = createSpy('getRouterState').and.returnValue(
     of(mockRouterState)
   );
+}
+
+class MockUserFormService implements Partial<UserFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      customerId: new FormControl(customerId),
+    });
+  }
 }
 
 describe('UserEditComponent', () => {
@@ -83,12 +93,20 @@ describe('UserEditComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: B2BUserService, useClass: MockB2BUserService },
-        {
-          provide: CurrentUserService,
-          useClass: MockCurrentUserService,
-        },
+        { provide: UserFormService, useClass: MockUserFormService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserService,
+              useClass: MockCurrentUserService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     userService = TestBed.inject(B2BUserService);
 
@@ -119,16 +137,18 @@ describe('UserEditComponent', () => {
       expect(userFormComponent.form.disabled).toBeTruthy();
     });
 
-    it('should create cost center', () => {
+    it('should update user', () => {
       saveButton.nativeElement.click();
-      expect(userService.update).toHaveBeenCalled();
+      expect(userService.update).toHaveBeenCalledWith(customerId, {
+        customerId,
+      });
     });
 
     it('should navigate to the detail page', () => {
       saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'userDetails',
-        params: userFormComponent.form.value,
+        params: { customerId },
       });
     });
   });
