@@ -9,7 +9,6 @@ import {
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
-  DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
@@ -31,7 +30,6 @@ import {
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(DefaultMessageConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationMenu: {
