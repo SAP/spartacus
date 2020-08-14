@@ -11,12 +11,12 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
-import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 let mockGroupVisited = false;
@@ -164,9 +164,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
+  it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
