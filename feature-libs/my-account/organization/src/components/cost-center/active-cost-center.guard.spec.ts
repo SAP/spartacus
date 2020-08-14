@@ -8,6 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 
 const COST_CENTER_NOT_ACTIVE = Object.freeze({ active: false });
 const COST_CENTER_ACTIVE = Object.freeze({ active: true });
+const COST_CENTER_INVALID = Object.freeze({});
 
 class CostCenterServiceStub {
   get(): Observable<CostCenter> {
@@ -17,7 +18,7 @@ class CostCenterServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-describe('ActiveCostCenterGuard', () => {
+fdescribe('ActiveCostCenterGuard', () => {
   let activeCostCenterGuard: ActiveCostCenterGuard;
   let routingService: RoutingService;
   let costCenterService: CostCenterService;
@@ -61,7 +62,7 @@ describe('ActiveCostCenterGuard', () => {
           );
         });
 
-        it('then Router should redirect to costCenters page', () => {
+        it('then router should redirect to costCenters page', () => {
           activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
           expect(routingService.go).toHaveBeenCalledWith({
@@ -80,7 +81,7 @@ describe('ActiveCostCenterGuard', () => {
           );
         });
 
-        it('then Router should not redirect', () => {
+        it('then router should not redirect', () => {
           activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
           expect(routingService.go).not.toHaveBeenCalled()
@@ -99,5 +100,33 @@ describe('ActiveCostCenterGuard', () => {
 
       });
     });
+
+    describe('when costCenter is not loaded', () => {
+      beforeEach(() => {
+        spyOn(costCenterService, 'get').and.returnValue(
+          of(COST_CENTER_INVALID)
+        );
+      });
+
+      it('then router should redirect to costCenters page', () => {
+        activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'costCenter',
+        });
+      });
+
+      it('then returned observable should emit false', () => {
+        let emittedValue;
+
+        activeCostCenterGuard
+          .canActivate(route.snapshot)
+          .subscribe((result) => (emittedValue = result))
+          .unsubscribe();
+
+        expect(emittedValue).toBe(false);
+      });
+    });
+
   });
 });
