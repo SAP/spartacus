@@ -80,7 +80,7 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
         return (
           req.method === 'POST' &&
           req.url === '/scheduleReplenishmentOrder' &&
-          req.body.scheduleReplenishmentForm === mockReplenishmentOrderFormData
+          req.body === mockReplenishmentOrderFormData
         );
       });
 
@@ -112,8 +112,7 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
           (req) =>
             req.method === 'POST' &&
             req.url === '/scheduleReplenishmentOrder' &&
-            req.body.scheduleReplenishmentForm ===
-              mockReplenishmentOrderFormData
+            req.body === mockReplenishmentOrderFormData
         )
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
