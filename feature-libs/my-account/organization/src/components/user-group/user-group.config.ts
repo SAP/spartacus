@@ -9,9 +9,9 @@ import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
 import { UserGroupListComponent } from './list/user-group-list.component';
-import { UserGroupAssignPermissionComponent } from './permissions/assign/user-group-assign-permission.component';
+import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
-import { UserGroupAssignUserComponent } from './users/assign/user-group-assign-user.component';
+import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
@@ -32,7 +32,7 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paramsMapping: { code: 'uid' },
       },
       userGroupEdit: {
-        paths: ['organization/user-groups/:code/edit'],
+        paths: ['organization/user-groups/edit/:code'],
         paramsMapping: { code: 'uid' },
       },
       userGroupUsers: {
@@ -71,18 +71,13 @@ export const userGroupCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
-              path: 'edit',
-              component: UserGroupEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
               path: 'users',
               component: UserGroupUserListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignUserComponent,
+                  component: UserGroupAssignUsersComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -94,12 +89,16 @@ export const userGroupCmsConfig: CmsConfig = {
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignPermissionComponent,
+                  component: UserGroupAssignPermissionsComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
           ],
+        },
+        {
+          path: 'edit/:code',
+          component: UserGroupEditComponent,
         },
       ],
       guards: [AuthGuard],

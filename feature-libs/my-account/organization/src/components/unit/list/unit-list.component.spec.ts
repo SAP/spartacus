@@ -76,7 +76,6 @@ xdescribe('UnitListComponent', () => {
 
   xdescribe('ngOnInit', () => {
     it('should read orgUnit list', () => {
-      component.ngOnInit();
       let orgUnitsList: any;
       component.data$
         .subscribe((value) => {

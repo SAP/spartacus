@@ -1,15 +1,15 @@
 import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
 import {
   BREAKPOINT,
-  TableConfig,
   SplitViewDeactivateGuard,
+  TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
-import { PermissionListComponent } from './list/permission-list.component';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
 import { ActivePermissionGuard } from './active-permission.guard';
+import { PermissionListComponent } from './list/permission-list.component';
 
 // TODO: this doesn't work with lazy loaded feature
 export const permissionRoutingConfig: RoutingConfig = {
@@ -25,7 +25,7 @@ export const permissionRoutingConfig: RoutingConfig = {
         paths: ['organization/purchase-limits/:code'],
       },
       permissionEdit: {
-        paths: ['organization/purchase-limits/:code/edit'],
+        paths: ['organization/purchase-limits/edit/:code'],
       },
     },
   },
@@ -46,13 +46,10 @@ export const permissionCmsConfig: CmsConfig = {
           component: PermissionDetailsComponent,
           canActivate: [ActivePermissionGuard],
           canDeactivate: [SplitViewDeactivateGuard],
-          children: [
-            {
-              path: 'edit',
-              component: PermissionEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-          ],
+        },
+        {
+          path: 'edit/:code',
+          component: PermissionEditComponent,
         },
       ],
       guards: [AuthGuard],

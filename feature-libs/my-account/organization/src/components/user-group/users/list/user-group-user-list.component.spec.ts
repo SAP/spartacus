@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -9,14 +8,12 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { of } from 'rxjs';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userGroupCode }),
-  };
-  snapshot = {};
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
 }
 
 const mockUserList: Table<B2BUser> = {
@@ -60,10 +57,13 @@ describe('UserGroupUserListComponent', () => {
       ],
       declarations: [UserGroupUserListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupUserListService,
           useClass: MockUserGroupUserListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -122,6 +122,13 @@ describe('UserGroupUserListComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });
