@@ -215,30 +215,52 @@ export function isImageNotSelected(
   cy.get(`#${valueId}`).should('not.be.checked');
 }
 
-export function isConflictDetectedMessageDisplayed(attributeName: string) {
+export function isConflictDetectedMsgDisplayed(attributeName: string) {
   const parent = cy.get(conflictDetectedMsgSelector).parent();
   const attributeId = this.getAttributeLabelId(attributeName);
   parent.children(`#${attributeId}`).should('be.visible');
 }
 
-export function isConflictDetectedMessageNotDisplayed(attributeName: string) {
+export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
   const parent = cy.get(conflictDetectedMsgSelector).parent();
   const attributeId = this.getAttributeLabelId(attributeName);
   parent.children(`#${attributeId}`).should('not.exist');
 }
 
-export function isConflictHeaderGroupDisplayed() {
+function isConflictHeaderGroupDisplayed() {
   cy.get(conflictHeaderGroupSelector).should('be.visible');
 }
 
-export function isConflictHeaderGroupNotDisplayed() {
+function isConflictHeaderGroupNotDisplayed() {
   cy.get(conflictHeaderGroupSelector).should('not.exist');
 }
 
-export function verifyNumberOfConflicts(numberOfConflicts: number) {
+function verifyNumberOfConflicts(numberOfConflicts: number) {
   cy.get('cx-config-group-menu .conflictNumberIndicator').contains(
     '(' + numberOfConflicts.toString() + ')'
   );
+}
+
+export function selectConflictingValue(
+  attributeName: string,
+  uiType: string,
+  valueName: string,
+  umberOfConflicts: number
+) {
+  this.selectAttribute(attributeName, uiType, valueName);
+  this.isConflictDetectedMsgDisplayed(attributeName);
+  isConflictHeaderGroupDisplayed();
+  verifyNumberOfConflicts(umberOfConflicts);
+}
+
+export function deselectConflictingValue(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+) {
+  this.selectAttribute(attributeName, uiType, valueName);
+  this.isConflictDetectedMsgNotDisplayed(attributeName);
+  isConflictHeaderGroupNotDisplayed();
 }
 
 export function isGroupMenuDisplayed() {

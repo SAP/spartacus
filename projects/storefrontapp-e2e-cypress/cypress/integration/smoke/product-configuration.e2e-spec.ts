@@ -45,7 +45,6 @@ const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
 const ROOM_SIZE = 'ROOM_SIZE';
 const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
-const VIDEO_SERVER = 'VIDEO_SERVER';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
 
 // List of attribute values
@@ -54,9 +53,7 @@ const TITAN = 'TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
-const PROJECTOR_DLP = 'PROJECTOR_DLP';
 const P5 = 'P5';
-const VIDEO_SERVER_YES = 'VIDEO_SERVER_YES';
 const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
 
@@ -396,38 +393,34 @@ context('Product Configuration', () => {
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnGroup(3);
-      configuration.selectAttribute(VIDEO_SERVER, radioGroup, VIDEO_SERVER_YES);
-      configuration.selectAttribute(
+
+      configuration.selectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
-        GAMING_CONSOLE_YES
+        GAMING_CONSOLE_YES,
+        1
       );
-      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
-      configuration.isConflictHeaderGroupDisplayed();
-      configuration.verifyNumberOfConflicts(1);
-      configuration.selectAttribute(
+
+      configuration.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
-      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
-      configuration.isConflictHeaderGroupNotDisplayed();
-      configuration.selectAttribute(
+
+      configuration.selectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
-        GAMING_CONSOLE_YES
+        GAMING_CONSOLE_YES,
+        1
       );
-      configuration.isConflictDetectedMessageDisplayed(GAMING_CONSOLE);
-      configuration.isConflictHeaderGroupDisplayed();
-      configuration.verifyNumberOfConflicts(1);
+
       configuration.clickOnPreviousBtn(SUBWOOFER);
       configuration.clickOnPreviousBtn(REAR_SPEAKER);
       configuration.clickOnPreviousBtn(CENTER_SPEAKER);
       configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
       configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
       configuration.clickOnPreviousBtn(PROJECTOR);
-      configuration.isConflictDetectedMessageDisplayed(PROJECTOR_TYPE);
-      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
+      configuration.isConflictDetectedMsgDisplayed(PROJECTOR_TYPE);
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
