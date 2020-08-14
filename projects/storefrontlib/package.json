@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "2.1.0-next.0",
+  "version": "2.1.0-next.1",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
@@ -25,7 +25,7 @@
     "@ng-select/ng-select": "^4.0.0",
     "@ngrx/effects": "^9.0.0",
     "@ngrx/store": "^9.0.0",
-    "@spartacus/core": "2.1.0-next.0",
+    "@spartacus/core": "2.1.0-next.1",
     "bootstrap": "4.2.1",
     "rxjs": "^6.5.4",
     "zone.js": "^0.10.2",
