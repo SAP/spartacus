@@ -2,21 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { UserGroupEditComponent } from './user-group-edit.component';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UserGroupEditComponent } from './user-group-edit.component';
+import { CurrentUserGroupService } from '../current-user-group.service';
+
 import createSpy = jasmine.createSpy;
 import { SplitViewTestingModule } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 @Component({
   selector: 'cx-user-group-form',
@@ -34,12 +32,14 @@ const mockUserGroup: UserGroup = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
+}
+
 class MockUserGroupService implements Partial<UserGroupService> {
-  get(_userGroupCode: string): Observable<UserGroup> {
-    return of(mockUserGroup);
-  }
-  update(_userGroupCode: string, _userGroup: UserGroup) {}
-  load(_userGroupCode: string) {}
+  update = createSpy('update');
+  load = createSpy('load');
+  get = createSpy('get').and.returnValue(of(mockUserGroup));
 }
 
 const mockRouterState = {
@@ -57,18 +57,10 @@ class MockRoutingService {
   );
 }
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userGroupCode }),
-  };
-  snapshot = {};
-  go() {}
-}
-
 describe('UserGroupEditComponent', () => {
   let component: UserGroupEditComponent;
   let fixture: ComponentFixture<UserGroupEditComponent>;
-  let userGroupService: MockUserGroupService;
+  let userGroupService: UserGroupService;
   let routingService: RoutingService;
   let saveButton;
   let userGroupFormComponent;
@@ -86,9 +78,12 @@ describe('UserGroupEditComponent', () => {
       ],
       declarations: [UserGroupEditComponent, MockUserGroupFormComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserGroupService, useClass: MockUserGroupService },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
+        },
       ],
     }).compileComponents();
 
@@ -123,7 +118,6 @@ describe('UserGroupEditComponent', () => {
     });
 
     it('should create cost center', () => {
-      spyOn(userGroupService, 'update');
       saveButton.nativeElement.click();
       expect(userGroupService.update).toHaveBeenCalled();
     });
@@ -134,6 +128,9 @@ describe('UserGroupEditComponent', () => {
         cxRoute: 'userGroupDetails',
         params: userGroupFormComponent.form.value,
       });
+    });
+    it('should trigger reload of cost center model on each code change', () => {
+      expect(userGroupService.load).toHaveBeenCalledWith(mockUserGroup.uid);
     });
   });
 });

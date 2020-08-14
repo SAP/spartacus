@@ -16,6 +16,7 @@ import { of } from 'rxjs';
 import { UserAssignPermissionsComponent } from './user-assign-permissions.component';
 import { UserAssignPermissionsListService } from './user-assign-permissions.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { CurrentUserService } from '../../current-user.service';
 
 const userCode = 'userCode';
 
@@ -72,6 +73,7 @@ describe('UserAssignPermissionsComponent', () => {
           provide: UserAssignPermissionsListService,
           useClass: MockUserPermissionListService,
         },
+        { provide: CurrentUserService },
       ],
     }).compileComponents();
     service = TestBed.inject(UserAssignPermissionsListService);

@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -9,14 +8,12 @@ import { BudgetCostCenterListComponent } from './budget-cost-center-list.compone
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 import { Budget } from '../../../../core/model/budget.model';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { CurrentBudgetService } from '../../current-budget.service';
 
 const costCenterCode = 'costCenterCode';
 
-class MockActivatedRoute {
-  get params() {
-    return of({ code: costCenterCode });
-  }
-  snapshot = {};
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  code$ = of(costCenterCode);
 }
 
 const mockBudgetList: Table<Budget> = {
@@ -74,7 +71,7 @@ describe('BudgetCostCenterListComponent', () => {
       ],
       declarations: [BudgetCostCenterListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         {
           provide: BudgetCostCenterListService,
           useClass: MockBudgetCostCenterListService,
@@ -136,6 +133,13 @@ describe('BudgetCostCenterListComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(costCenterCode);
     });
   });
 });

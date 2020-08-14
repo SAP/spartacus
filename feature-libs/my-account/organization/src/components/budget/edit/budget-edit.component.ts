@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -13,19 +13,18 @@ import {
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetService } from '../../../core/services/budget.service';
 import { Budget } from '../../../core/model/budget.model';
-import { FormUtils } from '@spartacus/storefront';
+import { CurrentBudgetService } from '../current-budget.service';
 
 @Component({
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentBudgetService],
 })
 export class BudgetEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  protected code$ = this.currentBudgetService.code$;
 
-  protected budget$: Observable<Budget> = this.code$.pipe(
+  protected budget$: Observable<Budget> = this.currentBudgetService.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
@@ -45,7 +44,7 @@ export class BudgetEditComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected activatedRoute: ActivatedRoute,
+    protected currentBudgetService: CurrentBudgetService,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.

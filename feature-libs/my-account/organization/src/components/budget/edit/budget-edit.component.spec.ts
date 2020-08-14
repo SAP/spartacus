@@ -1,55 +1,58 @@
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CostCenter,
   I18nTestingModule,
   RoutingService,
   UrlTestingModule,
 } from '@spartacus/core';
 import { SplitViewTestingModule } from '@spartacus/storefront';
-import { BudgetEditComponent } from './budget-edit.component';
 import { Budget } from '../../../core/model';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import createSpy = jasmine.createSpy;
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetEditComponent } from './budget-edit.component';
 import { BudgetService } from '../../../core/services/budget.service';
+
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-budget-form',
   template: '',
 })
-class MockCostCenterFormComponent {
+class MockBudgetFormComponent {
   @Input() form;
 }
 
-const costCenterCode = 'b1';
+const budgetCode = 'b1';
 
-const mockCostCenter: Budget = {
-  code: costCenterCode,
+const mockBudget: Budget = {
+  code: budgetCode,
   name: 'costCenter1',
   currency: {
     symbol: '$',
     isocode: 'USD',
   },
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  code$ = of(budgetCode);
+}
+
 class MockBudgetService implements Partial<BudgetService> {
-  get(_costCenterCode: string): Observable<CostCenter> {
-    return of(mockCostCenter);
-  }
-  update(_costCenterCode: string, _costCenter: CostCenter) {}
-  load(_costCenterCode: string) {}
+  update = createSpy('update');
+  loadBudget = createSpy('loadBudget');
+  get = createSpy('get').and.returnValue(of(mockBudget));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code: costCenterCode,
+      code: budgetCode,
     },
   },
 };
@@ -61,18 +64,10 @@ class MockRoutingService {
   );
 }
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: costCenterCode }),
-  };
-  snapshot = {};
-  go() {}
-}
-
 describe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
-  let costCenterService: BudgetService;
+  let budgetService: BudgetService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;
@@ -88,15 +83,18 @@ describe('BudgetEditComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [BudgetEditComponent, MockCostCenterFormComponent],
+      declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetService, useClass: MockBudgetService },
+        {
+          provide: CurrentBudgetService,
+          useClass: MockCurrentBudgetService,
+        },
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.inject(BudgetService);
+    budgetService = TestBed.inject(BudgetService);
 
     routingService = TestBed.inject(RoutingService);
   }));
@@ -127,9 +125,8 @@ describe('BudgetEditComponent', () => {
     });
 
     it('should create cost center', () => {
-      spyOn(costCenterService, 'update');
       saveButton.nativeElement.click();
-      expect(costCenterService.update).toHaveBeenCalled();
+      expect(budgetService.update).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
@@ -138,6 +135,9 @@ describe('BudgetEditComponent', () => {
         cxRoute: 'costCenterDetails',
         params: costCenterFormComponent.form.value,
       });
+    });
+    it('should trigger reload of cost center model on each code change', () => {
+      expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
     });
   });
 });

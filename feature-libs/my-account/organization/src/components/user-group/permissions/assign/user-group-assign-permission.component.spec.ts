@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Permission,
@@ -13,11 +12,16 @@ import {
   SplitViewTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { UserGroupAssignPermissionComponent } from './user-group-assign-permission.component';
+import { UserGroupAssignPermissionsComponent } from './user-group-assign-permission.component';
 import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
+
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  code$ = of(userGroupCode);
+}
 
 const mockPermissionList: Table<Permission> = {
   data: [
@@ -34,15 +38,6 @@ const mockPermissionList: Table<Permission> = {
   structure: { type: '' },
 };
 
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userGroupCode }),
-    },
-  };
-  snapshot = {};
-}
-
 class MockUserGroupPermissionListService {
   getTable(_code) {
     return of(mockPermissionList);
@@ -51,8 +46,8 @@ class MockUserGroupPermissionListService {
 }
 
 describe('UserGroupAssignPermissionsComponent', () => {
-  let component: UserGroupAssignPermissionComponent;
-  let fixture: ComponentFixture<UserGroupAssignPermissionComponent>;
+  let component: UserGroupAssignPermissionsComponent;
+  let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
   let service: UserGroupAssignPermissionService;
 
   beforeEach(async(() => {
@@ -65,12 +60,15 @@ describe('UserGroupAssignPermissionsComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserGroupAssignPermissionComponent],
+      declarations: [UserGroupAssignPermissionsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupAssignPermissionService,
           useClass: MockUserGroupPermissionListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -78,7 +76,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignPermissionComponent);
+    fixture = TestBed.createComponent(UserGroupAssignPermissionsComponent);
     component = fixture.componentInstance;
   });
 
@@ -149,6 +147,13 @@ describe('UserGroupAssignPermissionsComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });

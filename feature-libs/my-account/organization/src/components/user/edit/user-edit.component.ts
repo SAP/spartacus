@@ -9,16 +9,17 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { B2BUser, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
-import { UserFormService } from '../form/user-form.service';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import { CurrentUserService } from '../current-user.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { UserFormService } from '../form/user-form.service';
 
 @Component({
   selector: 'cx-user-edit',
   templateUrl: './user-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUserService],
 })
 export class UserEditComponent {
   protected code$: Observable<string> = this.currentUserService.code$;

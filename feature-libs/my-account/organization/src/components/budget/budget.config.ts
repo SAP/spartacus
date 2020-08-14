@@ -5,11 +5,11 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
-import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -27,11 +27,11 @@ export const budgetRoutingConfig: RoutingConfig = {
       budgetDetails: {
         paths: ['organization/budgets/:code'],
       },
-      budgetEdit: {
-        paths: ['organization/budgets/:code/edit'],
-      },
       budgetCostCenters: {
         paths: ['organization/budgets/:code/cost-centers'],
+      },
+      budgetEdit: {
+        paths: ['organization/budgets/:code/edit'],
       },
     },
   },
@@ -53,16 +53,15 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
-              path: 'edit',
-              component: BudgetEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
               path: 'cost-centers',
               component: BudgetCostCenterListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
+        },
+        {
+          path: ':code/edit',
+          component: BudgetEditComponent,
         },
       ],
       guards: [AuthGuard],
