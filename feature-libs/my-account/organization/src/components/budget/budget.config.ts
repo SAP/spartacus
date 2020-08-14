@@ -22,6 +22,7 @@ const MAX_OCC_INTEGER_VALUE = 2147483647;
 const paramsMapping: ParamsMapping = {
   budgetKey: 'code',
 };
+
 // TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {

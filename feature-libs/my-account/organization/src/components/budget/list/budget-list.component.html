@@ -1,4 +1,8 @@
-<cx-organization-list [dataTable]="dataTable$ | async" type="budget">
+<cx-organization-list
+  [dataTable]="dataTable$ | async"
+  type="budget"
+  [activeRow]="{ value: code$ | async, key: 'code' }"
+>
 </cx-organization-list>
 
 <cx-td-link

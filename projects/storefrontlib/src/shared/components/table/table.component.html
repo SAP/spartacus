@@ -39,7 +39,7 @@
 
   <tr
     *ngFor="let row of dataset.data; trackBy: trackData"
-    [class.is-active]="activeRow?.value === row[activeRow?.key]"
+    [class.is-active]="isActiveRow(row)"
   >
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
       <!-- render an outlet for each cell -->

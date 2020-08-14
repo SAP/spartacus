@@ -115,4 +115,8 @@ export class TableComponent {
   trackData(_i: number, item): any {
     return JSON.stringify(item);
   }
+
+  isActiveRow(row): boolean {
+    return this.activeRow?.value === row?.[this.activeRow?.key];
+  }
 }

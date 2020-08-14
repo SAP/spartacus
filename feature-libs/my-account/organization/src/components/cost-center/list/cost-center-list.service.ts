@@ -61,7 +61,7 @@ export class CostCenterListService extends BaseOrganizationListService<
       sorts,
       values: values.map((value: any) => ({
         ...value,
-        currency: value.currency?.isocode,
+        currency: value?.currency?.isocode,
       })),
     };
     return costCenterModels;

@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { Budget, PaginationModel } from '@spartacus/core';
+import { Budget, PaginationModel, RoutingService } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingParamService } from '../../routing-param.service';
 import { BudgetListService } from './budget-list.service';
 
 const BASE_CLASS = 'organization';
@@ -18,12 +17,12 @@ export class BudgetListComponent {
 
   dataTable$: Observable<Table> = this.budgetService.getTable();
 
-  code$ = this.routingParamService.params$.pipe(
-    map((params) => params['budgetKey'])
-  );
+  code$ = this.routingService
+    .getParams()
+    .pipe(map((params) => params['budgetKey']));
 
   constructor(
-    protected routingParamService: RoutingParamService,
+    protected routingService: RoutingService,
     protected budgetService: BudgetListService
   ) {}
 

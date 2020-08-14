@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
+import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { RoutingParamService } from '../../routing-param.service';
 import { BudgetListService } from '../list/budget-list.service';
 
 @Component({
@@ -19,20 +17,20 @@ export class BudgetDetailsComponent {
   //   shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   // );
 
-  budget$ = this.budgetRouterService.params$.pipe(
+  budget$ = this.routingService.getParams().pipe(
+    tap(console.log),
     map((params) => params['budgetKey']),
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code))
   );
 
   constructor(
-    protected route: ActivatedRoute,
     protected budgetService: BudgetService,
     // TODO: consider relying on css only
     protected modalService: ModalService,
     protected budgetListService: BudgetListService,
 
-    protected budgetRouterService: RoutingParamService
+    protected routingService: RoutingService
   ) {}
 
   update(budget: Budget) {

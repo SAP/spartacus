@@ -11,6 +11,8 @@ export class OrganizationListComponent {
 
   @Input() dataTable: Table;
 
+  @Input() activeRow;
+
   constructor() {}
 
   view() {}

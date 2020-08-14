@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { CostCenter, CostCenterService } from '@spartacus/core';
+import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { shareReplay, switchMap, tap } from 'rxjs/operators';
-import { CurrentCostCenterService } from '../current-cost-center.service';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService],
 })
 export class CostCenterDetailsComponent {
   /**
@@ -17,16 +15,15 @@ export class CostCenterDetailsComponent {
    *
    * It reloads the model when the code of the current cost center changes.
    */
-  costCenter$: Observable<
-    CostCenter
-  > = this.currentCostCenterService.code$.pipe(
+  costCenter$: Observable<CostCenter> = this.routingService.getParams().pipe(
+    map((params) => params['costCenterKey']),
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(
-    protected currentCostCenterService: CurrentCostCenterService,
+    protected routingService: RoutingService,
     protected costCenterService: CostCenterService,
     // TODO: consider relying on css only
     protected modalService: ModalService

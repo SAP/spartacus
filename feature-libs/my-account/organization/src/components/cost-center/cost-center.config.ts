@@ -1,4 +1,9 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -15,6 +20,10 @@ import { CostCenterListComponent } from './list/cost-center-list.component';
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
+const paramsMapping: ParamsMapping = {
+  costCenterKey: 'code',
+};
+
 // TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
@@ -26,16 +35,20 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers/create'],
       },
       costCenterDetails: {
-        paths: ['organization/cost-centers/:code'],
+        paths: ['organization/cost-centers/:costCenterKey'],
+        paramsMapping,
       },
       costCenterBudgets: {
-        paths: ['organization/cost-centers/:code/budgets'],
+        paths: ['organization/cost-centers/:costCenterKey/budgets'],
+        paramsMapping,
       },
       costCenterAssignBudgets: {
-        paths: ['organization/cost-centers/:code/budgets/assign'],
+        paths: ['organization/cost-centers/:costCenterKey/budgets/assign'],
+        paramsMapping,
       },
       costCenterEdit: {
-        paths: ['organization/cost-centers/:code/edit'],
+        paths: ['organization/cost-centers/:costCenterKey/edit'],
+        paramsMapping,
       },
     },
   },
@@ -52,7 +65,7 @@ export const costCenterCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: ':costCenterKey',
           component: CostCenterDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -71,7 +84,7 @@ export const costCenterCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: ':code/edit',
+          path: ':costCenterKey/edit',
           component: CostCenterEditComponent,
         },
       ],

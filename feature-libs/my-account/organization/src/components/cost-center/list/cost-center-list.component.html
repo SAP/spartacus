@@ -1,2 +1,6 @@
-<cx-organization-list [dataTable]="dataTable$ | async" type="costCenter">
+<cx-organization-list
+  [dataTable]="dataTable$ | async"
+  type="costCenter"
+  [activeRow]="{ value: code$ | async, key: 'code' }"
+>
 </cx-organization-list>

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, RoutingService } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CostCenterListService } from './cost-center-list.service';
 
 const BASE_CLASS = 'organization';
@@ -16,7 +17,14 @@ export class CostCenterListComponent {
 
   dataTable$: Observable<Table> = this.costCentersService.getTable();
 
-  constructor(protected costCentersService: CostCenterListService) {}
+  code$ = this.routingService
+    .getParams()
+    .pipe(map((params) => params['costCenterKey']));
+
+  constructor(
+    protected costCentersService: CostCenterListService,
+    protected routingService: RoutingService
+  ) {}
 
   /**
    * Paginates the cost center list. Pagination is not using query parameters, as we like
