@@ -81,3 +81,8 @@ export interface ScheduleReplenishmentForm {
   recurrencePeriod?: string;
   replenishmentStartDate?: string;
 }
+
+export enum ORDER_TYPE {
+  PLACE_ORDER = 'PLACE_ORDER',
+  SCHEDULE_REPLENISHMENT_ORDER = 'SCHEDULE_REPLENISHMENT_ORDER',
+}

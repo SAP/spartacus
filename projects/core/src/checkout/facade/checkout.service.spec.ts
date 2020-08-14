@@ -3,6 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
+import { ORDER_TYPE } from '../../model';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
@@ -151,5 +152,27 @@ describe('CheckoutService', () => {
   it('should allow actions for login user or guest user', () => {
     authService['userId'] = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
+  });
+
+  it('should set checkout order type', () => {
+    service.setOrderType(ORDER_TYPE.PLACE_ORDER);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetOrderType(ORDER_TYPE.PLACE_ORDER)
+    );
+  });
+
+  it('should be able to get the current order type', () => {
+    store.dispatch(
+      new CheckoutActions.SetOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
+    );
+
+    let result: ORDER_TYPE;
+    service
+      .getCurrentOrderType()
+      .subscribe((data) => {
+        result = data;
+      })
+      .unsubscribe();
+    expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
   });
 });
