@@ -1,22 +1,53 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="row">
     <div class="col-md-9 col-lg-9">
-      <div class="form-group">
-        <div *ngIf="attribute.values && attribute.values.length !== 0">
-          <ng-select
+      <div role="listbox" class="form-group" class="ng-select ng-select-single ng-pristine ng-valid ng-touched ng-select-bottom">
+          <div class="ng-select-container ng-has-value"
+               *ngIf="attribute.values && attribute.values.length !== 0">
+            <div class="ng-value-container">
+              <div class="ng-placeholder"></div>
+          <select class="ng-value ng-value-label"
             [formControl]="attributeDropDownForm"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="attribute.values"
             [cxFocus]="{ key: attribute.name }"
-            bindLabel="valueDisplay"
-            bindValue="valueCode"
             (change)="onSelect()"
           >
-          </ng-select>
-        </div>
+<!--            <span class="ng-dropdown-panel ng-select-bottom">-->
+              <option
+                      *ngFor="let item of attribute.values"
+                      class="ng-option ng-dropdown-panel ng-select-bottom"
+                      [label] ="item.valueDisplay"
+                      [selected]="item.selected"
+                      [value]="item.valueCode"><span class="ng-option-label">{{item.valueDisplay}}</span>
+              </option>
+<!--            </span>-->
+          </select>
+      </div>
+          </div>
       </div>
     </div>
     <div class="cx-config-option-price col-md-3 col-lg-3"></div>
   </div>
+</div>
+
+
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <div class="row">
+    <div class="col-md-9 col-lg-9">
+      <div class="form-group">
+        <div *ngIf="attribute.values && attribute.values.length !== 0">
+          <ng-select
+              [formControl]="attributeDropDownForm"
+              [searchable]="false"
+              [clearable]="false"
+              [items]="attribute.values"
+              bindLabel="valueDisplay"
+              bindValue="valueCode"
+              (change)="onSelect()"
+            >
+              </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="cx-config-option-price col-md-3 col-lg-3"></div>
+    </div>
 </div>
