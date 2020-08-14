@@ -12,11 +12,9 @@ import { UserEditComponent } from './user-edit.component';
     CommonModule,
     RouterModule,
     UrlModule,
-
     I18nModule,
     SplitViewModule,
     IconModule,
-
     UserFormModule,
     ReactiveFormsModule,
   ],

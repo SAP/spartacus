@@ -12,11 +12,9 @@ import { CostCenterEditComponent } from './cost-center-edit.component';
     CommonModule,
     RouterModule,
     UrlModule,
-
     I18nModule,
     SplitViewModule,
     IconModule,
-
     CostCenterFormModule,
     ReactiveFormsModule,
   ],

@@ -120,7 +120,6 @@ describe('UserEditComponent', () => {
     });
 
     it('should create cost center', () => {
-      spyOn(userService, 'update');
       saveButton.nativeElement.click();
       expect(userService.update).toHaveBeenCalled();
     });

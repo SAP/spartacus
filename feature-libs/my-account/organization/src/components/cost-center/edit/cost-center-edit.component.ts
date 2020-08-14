@@ -30,9 +30,7 @@ export class CostCenterEditComponent {
    *
    * It reloads the model when the code of the current cost center changes.
    */
-  protected costCenter$: Observable<
-    CostCenter
-  > = this.currentCostCenterService.code$.pipe(
+  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
