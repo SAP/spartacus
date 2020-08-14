@@ -72,8 +72,9 @@
     }
 
     td.active {
-      .is-enabled {
-        color: var(--cx-color-success);
+      color: var(--cx-color-success);
+      .is-inactive {
+        color: #db0002;
       }
     }
 
