@@ -14,14 +14,16 @@ import * as fromReducers from '../store/reducers/index';
 import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
   B2BUser,
   Permission,
   EntitiesModel,
 } from '@spartacus/core';
 import { UserGroup } from '../model';
 import { UserGroupService } from './user-group.service';
+import {
+  StateWithOrganization,
+  ORGANIZATION_FEATURE,
+} from '../store/organization-state';
 
 const userId = 'current';
 const testUserGroupId = 'testUserGroup';

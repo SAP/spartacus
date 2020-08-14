@@ -22,6 +22,7 @@ import {
   LayoutModule,
   MediaModule,
   ViewConfigModule,
+  EventsModule,
 } from '@spartacus/storefront';
 
 @NgModule({
@@ -45,6 +46,7 @@ import {
     FeaturesConfigModule.forRoot('2.0'),
     LayoutModule,
     MediaModule.forRoot(),
+    EventsModule,
   ],
   exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],

@@ -1,10 +1,23 @@
 @import 'node_modules/bootstrap/scss/buttons';
 
 .organization {
-  a.link {
+  a.link,
+  button.link {
     @extend .btn, .btn-link, .btn-sm;
-    padding: var(--cx-spatial-base);
+    @include alt-visible-focus();
+
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     font-size: 1.125rem;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
     &.disabled {
       color: var(--cx-color-text);
       cursor: not-allowed;

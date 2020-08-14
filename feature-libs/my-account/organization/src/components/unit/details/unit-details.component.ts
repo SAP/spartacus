@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { B2BUnit } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { CurrentUnitService } from '../current-unit.service';
@@ -21,9 +20,7 @@ export class UnitDetailsComponent {
   ) {}
 
   update(orgUnit: B2BUnit) {
-    this.orgUnit$
-      .pipe(take(1))
-      .subscribe((unit) => this.orgUnitsService.update(unit.uid, orgUnit));
+    this.orgUnitsService.update(orgUnit.uid, orgUnit);
   }
 
   openModal(template: TemplateRef<any>): void {

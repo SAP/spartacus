@@ -8,6 +8,7 @@ import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 import { Budget } from '../../../../core/model/budget.model';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const costCenterCode = 'costCenterCode';
 

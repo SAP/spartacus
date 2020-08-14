@@ -1,9 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import {
-  BREAKPOINT,
-  BreakpointService,
-} from 'projects/storefrontlib/src/layout';
 import { Observable, of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { TableConfig } from './config/table.config';
 import { TableStructure } from './table.model';
 import { TableService } from './table.service';

@@ -5,15 +5,16 @@ import { of } from 'rxjs';
 
 import {
   AuthService,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
   EntitiesModel,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
   ProcessModule,
 } from '@spartacus/core';
-
+import {
+  StateWithOrganization,
+  ORGANIZATION_FEATURE,
+} from '../store/organization-state';
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';

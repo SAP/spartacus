@@ -2,17 +2,16 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import {
-  AuthService,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
-  EntitiesModel,
-} from '@spartacus/core';
+import { AuthService, EntitiesModel } from '@spartacus/core';
 import { BudgetActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
 import { B2BSearchConfig } from '../model/search-config';
 import { Budget } from '../model/budget.model';
+import {
+  StateWithOrganization,
+  ORGANIZATION_FEATURE,
+} from '../store/organization-state';
 
 import createSpy = jasmine.createSpy;
 

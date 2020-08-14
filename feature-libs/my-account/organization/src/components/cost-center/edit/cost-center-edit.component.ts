@@ -13,6 +13,7 @@ import {
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CostCenterService } from '../../../core/services/cost-center.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-cost-center-edit',
@@ -63,6 +64,7 @@ export class CostCenterEditComponent {
   save(costCenterCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.costCenterService.update(costCenterCode, form.value);

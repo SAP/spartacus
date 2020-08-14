@@ -10,14 +10,14 @@ import {
 import {
   ModalService,
   TableModule,
-  IconTestingModule,
   SplitViewTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BudgetDetailsComponent } from './budget-details.component';
-import { CostCenterService } from '../../..';
 
 import createSpy = jasmine.createSpy;
+import { CostCenterService } from '../../../core/services/cost-center.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const costCenterCode = 'b1';
 

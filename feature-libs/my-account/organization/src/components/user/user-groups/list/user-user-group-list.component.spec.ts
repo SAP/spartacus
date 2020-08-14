@@ -7,10 +7,11 @@ import {
   I18nTestingModule,
   UrlTestingModule,
 } from '@spartacus/core';
-import { Table, TableModule, IconTestingModule } from '@spartacus/storefront';
+import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { UserPermissionListComponent } from '../../../../components/user/permissions/list/user-permission-list.component';
-import { UserPermissionListService } from '../../../../components/user/permissions/list/user-permission-list.service';
+import { UserUserGroupListComponent } from './user-user-group-list.component';
+import { UserUserGroupListService } from './user-user-group-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const userCode = 'userCode';
 
@@ -46,10 +47,10 @@ export class MockUserUserListService {
   }
 }
 
-describe('UserPermissionListComponent', () => {
-  let component: UserPermissionListComponent;
-  let fixture: ComponentFixture<UserPermissionListComponent>;
-  let service: UserPermissionListService;
+describe('UserUserGroupListComponent', () => {
+  let component: UserUserGroupListComponent;
+  let fixture: ComponentFixture<UserUserGroupListComponent>;
+  let service: UserUserGroupListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,20 +61,20 @@ describe('UserPermissionListComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserPermissionListComponent],
+      declarations: [UserUserGroupListComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserPermissionListService,
+          provide: UserUserGroupListService,
           useClass: MockUserUserListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserPermissionListService);
+    service = TestBed.inject(UserUserGroupListService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserPermissionListComponent);
+    fixture = TestBed.createComponent(UserUserGroupListComponent);
     component = fixture.componentInstance;
   });
 

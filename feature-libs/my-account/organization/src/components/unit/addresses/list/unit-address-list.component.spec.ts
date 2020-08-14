@@ -1,129 +1,62 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {
-  I18nTestingModule,
-  RoutingService,
-  RoutesConfig,
-  RoutingConfig,
-  OrgUnitService,
-  B2BAddress,
-} from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { I18nTestingModule, UrlTestingModule } from '@spartacus/core';
+import { TableModule, SplitViewTestingModule } from '@spartacus/storefront';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 import { UnitAddressListComponent } from './unit-address-list.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
+import { UnitAddressListService } from './unit-address-list.service';
+import { CurrentUnitService } from '../../current-unit.service';
 
 const code = 'b1';
-const addressId = 'a1';
 
-const mockAddress: Partial<B2BAddress> = {
-  id: addressId,
-  firstName: 'firstName',
-  lastName: 'lastName',
-  formattedAddress: 'formattedAddress',
-};
-
-const mockAddresses = { values: [mockAddress] };
-const mockAddressUI = {
-  values: [
-    {
-      id: addressId,
-      name: 'firstName lastName',
-      code,
-      formattedAddress: 'formattedAddress',
-    },
-  ],
-};
-
-const addressList = new BehaviorSubject(mockAddresses);
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadAddresses = createSpy('loadAddresses');
-  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
-  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
+class MockUnitAddressListService {
+  getTable = function () {
+    return of({});
+  };
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          code,
-        },
-      },
-    });
-  }
-}
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService {
+  code$ = of(code);
 }
 
-describe('UnitManageAddressesComponent', () => {
+describe('UnitAddressListComponent', () => {
   let component: UnitAddressListComponent;
   let fixture: ComponentFixture<UnitAddressListComponent>;
-  let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [UnitAddressListComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        TableModule,
+      ],
+      declarations: [UnitAddressListComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: UnitAddressListService,
+          useClass: MockUnitAddressListService,
+        },
+        {
+          provide: CurrentUnitService,
+          useClass: MockCurrentUnitService,
+        },
       ],
     }).compileComponents();
-
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAddressListComponent);
     component = fixture.componentInstance;
-    addressList.next(mockAddresses);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-  // TODO:
-  xit('should display No addresses found page if no addresses are found', () => {
-    const emptyAddressList = { values: [] };
-
-    addressList.next(emptyAddressList);
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  });
-
-  describe('ngOnInit', () => {
-    it('should read addresses list', () => {
-      component.ngOnInit();
-
-      let addressesList: any;
-      component.data$.subscribe((value) => {
-        addressesList = value;
-      });
-
-      expect(orgUnitService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitService.getAddresses).toHaveBeenCalledWith(code);
-      expect(addressesList).toEqual(mockAddressUI);
-    });
   });
 });

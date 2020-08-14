@@ -7,10 +7,11 @@ import {
   ModalService,
   TableModule,
   SplitViewTestingModule,
-  IconTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+
 import createSpy = jasmine.createSpy;
 import { B2BUserService } from '../../../core/services/b2b-user.service';
 

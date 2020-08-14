@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { B2BUser } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, shareReplay } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
 import { CurrentUserService } from '../current-user.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
@@ -17,7 +17,7 @@ export class UserDetailsComponent {
     // TODO: we should do this in the facade
     tap((code) => this.usersService.load(code)),
     switchMap((code) => this.usersService.get(code)),
-    filter((user) => Boolean(user))
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(

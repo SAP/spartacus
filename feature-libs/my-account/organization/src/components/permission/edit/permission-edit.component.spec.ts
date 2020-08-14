@@ -11,14 +11,13 @@ import {
   Period,
   UrlTestingModule,
 } from '@spartacus/core';
-import {
-  SplitViewTestingModule,
-  IconTestingModule,
-} from '@spartacus/storefront';
+import { SplitViewTestingModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { PermissionType } from '../form/permission-form.service';
 import { PermissionEditComponent } from './permission-edit.component';
 import { PermissionService } from '../../../core/services/permission.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

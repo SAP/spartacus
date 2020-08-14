@@ -3,7 +3,6 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
-  B2BSearchConfig,
   B2BUnit,
   B2BUnitNode,
   B2BApprovalProcess,
@@ -11,8 +10,7 @@ import {
   B2BAddress,
   EntitiesModel,
   ListModel,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
+  CostCenter,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 
@@ -20,6 +18,11 @@ import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
 import createSpy = jasmine.createSpy;
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../store/organization-state';
+import { B2BSearchConfig } from '../model/search-config';
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
@@ -164,7 +167,7 @@ describe('OrgUnitService', () => {
   describe('get CostCenters', () => {
     it('getCostCenters() should trigger get()', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
-      let costCenters: any;
+      let costCenters: EntitiesModel<CostCenter>;
       service
         .getCostCenters(orgUnitId)
         .subscribe((data) => {
@@ -172,7 +175,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(costCenters).toEqual(orgUnit.costCenters);
+      expect(costCenters).toEqual({ values: orgUnit.costCenters });
     });
   });
 
@@ -262,14 +265,14 @@ describe('OrgUnitService', () => {
 
     it('getChildUnits()', () => {
       store.dispatch(new OrgUnitActions.LoadTreeSuccess(mockedTree));
-      let unitNode: any;
+      let unitNode: EntitiesModel<B2BUnitNode>;
       service
         .getChildUnits(mockedTree.children[0].id)
         .subscribe((data) => {
           unitNode = data;
         })
         .unsubscribe();
-      expect(unitNode).toEqual(mockedTree.children[0].children);
+      expect(unitNode).toEqual({ values: mockedTree.children[0].children });
     });
   });
 

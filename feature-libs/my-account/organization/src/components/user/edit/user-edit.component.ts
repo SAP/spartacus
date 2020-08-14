@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -9,6 +8,9 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+
+import { B2BUser, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { UserFormService } from '../form/user-form.service';
 import { CurrentUserService } from '../current-user.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
@@ -51,6 +53,7 @@ export class UserEditComponent {
   save(customerId: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userService.update(customerId, form.value);

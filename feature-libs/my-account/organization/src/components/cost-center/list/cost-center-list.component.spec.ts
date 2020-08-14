@@ -6,7 +6,6 @@ import {
   Table,
   TableModule,
   SplitViewTestingModule,
-  IconTestingModule,
   PaginationTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -15,6 +14,7 @@ import {
   CostCenterListService,
   CostCenterModel,
 } from './cost-center-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const mockCostCenterList: Table<CostCenterModel> = {
   data: [

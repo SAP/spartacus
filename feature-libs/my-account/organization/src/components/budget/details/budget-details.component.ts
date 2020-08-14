@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, shareReplay } from 'rxjs/operators';
 import { BudgetService } from '../../../core/services/budget.service';
 import { Budget } from '../../../core/model/budget.model';
 
@@ -21,7 +21,7 @@ export class BudgetDetailsComponent {
     // TODO: we should do this in the facade
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
-    filter((budgets) => Boolean(budgets))
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(

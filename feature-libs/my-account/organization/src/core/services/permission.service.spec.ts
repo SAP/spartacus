@@ -1,11 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  AuthService,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
-} from '@spartacus/core';
+import { AuthService } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
@@ -17,6 +13,10 @@ import { PermissionActions } from '../store/actions/index';
 import { PermissionService } from './permission.service';
 import * as fromReducers from '../store/reducers/index';
 import createSpy = jasmine.createSpy;
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../store/organization-state';
 
 const userId = 'current';
 const permissionCode = 'testPermission';

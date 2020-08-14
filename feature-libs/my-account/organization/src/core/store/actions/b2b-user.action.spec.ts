@@ -7,7 +7,8 @@ import {
   PERMISSION_ENTITIES,
   USER_GROUP_ENTITIES,
 } from '../organization-state';
-import { B2BUserActions, B2BUser, StateUtils } from '@spartacus/core';
+import { B2BUser, StateUtils } from '@spartacus/core';
+import { B2BUserActions } from '../../';
 
 const orgCustomerId = 'orgCustomerId';
 const orgCustomer: B2BUser = {

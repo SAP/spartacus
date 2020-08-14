@@ -6,12 +6,12 @@ import {
   Table,
   TableModule,
   SplitViewTestingModule,
-  IconTestingModule,
   PaginationTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BudgetListComponent } from './budget-list.component';
 import { BudgetListService, BudgetModel } from './budget-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const mockBudgetList: Table<BudgetModel> = {
   data: [

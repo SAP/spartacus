@@ -13,6 +13,8 @@ import {
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetService } from '../../../core/services/budget.service';
 import { Budget } from '../../../core/model/budget.model';
+import { FormUtils } from '@spartacus/storefront';
+
 @Component({
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
@@ -53,6 +55,7 @@ export class BudgetEditComponent {
   save(budgetCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);

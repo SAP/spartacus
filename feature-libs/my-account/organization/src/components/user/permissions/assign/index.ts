@@ -1,3 +1,3 @@
-export * from './user-assign-permission.component';
-export * from './user-assign-permission.module';
-export * from './user-assign-permission.service';
+export * from './user-assign-permissions.component';
+export * from './user-assign-permissions.module';
+export * from './user-assign-permissions.service';

@@ -8,14 +8,12 @@ import * as fromReducers from '../store/reducers/index';
 import { CostCenterActions, BudgetActions } from '../store/actions/index';
 import { CostCenterService } from './cost-center.service';
 import { B2BSearchConfig } from '../model/search-config';
+import { CostCenter, EntitiesModel, AuthService } from '@spartacus/core';
+import { Budget } from '../model/budget.model';
 import {
-  CostCenter,
-  EntitiesModel,
-  AuthService,
   StateWithOrganization,
   ORGANIZATION_FEATURE,
-} from '@spartacus/core';
-import { Budget } from '../model/budget.model';
+} from '../store/organization-state';
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';

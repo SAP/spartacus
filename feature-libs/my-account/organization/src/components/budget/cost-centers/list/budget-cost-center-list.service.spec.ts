@@ -8,7 +8,7 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 import { BudgetService } from '../../../../core/services/budget.service';
 import { Budget } from '../../../../core/model/budget.model';
 
-const mockCostCenterEntities: EntitiesModel<Budget> = {
+const mockBudgetEntities: EntitiesModel<Budget> = {
   values: [
     {
       code: 'first',
@@ -26,8 +26,8 @@ const mockCostCenterEntities: EntitiesModel<Budget> = {
 };
 
 class MockBudgetService {
-  getBudgets(): Observable<EntitiesModel<Budget>> {
-    return of(mockCostCenterEntities);
+  getList(): Observable<EntitiesModel<Budget>> {
+    return of(mockBudgetEntities);
   }
 }
 

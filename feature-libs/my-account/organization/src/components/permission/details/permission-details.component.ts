@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Permission } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, shareReplay } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
 import { PermissionService } from '../../../core/services/permission.service';
 @Component({
@@ -20,7 +20,7 @@ export class PermissionDetailsComponent {
     // TODO: we should do this in the facade
     tap((code) => this.permissionService.loadPermission(code)),
     switchMap((code) => this.permissionService.get(code)),
-    filter((permissions) => Boolean(permissions))
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -10,11 +10,11 @@ import {
   RoutingConfig,
   B2BUnitNode,
 } from '@spartacus/core';
+import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
 
 import { UnitChildrenComponent } from './unit-children.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import createSpy = jasmine.createSpy;
 
 const code = 'b1';
 
@@ -40,24 +40,6 @@ const mockedTree: B2BUnitNode = {
   name: 'orgUnit1',
 };
 
-const unitListUI = [
-  {
-    active: true,
-    children: [],
-    id: 'Rustic Services',
-    uid: 'Rustic Services',
-    name: 'Rustic Services',
-    parent: 'Rustic',
-  },
-  {
-    active: true,
-    children: [],
-    id: 'Rustic Retail',
-    uid: 'Rustic Retail',
-    name: 'Rustic Retail',
-    parent: 'Rustic',
-  },
-];
 @Pipe({
   name: 'cxUrl',
 })
@@ -98,8 +80,8 @@ class MockRoutingConfig {
 describe('UnitChildrenComponent', () => {
   let component: UnitChildrenComponent;
   let fixture: ComponentFixture<UnitChildrenComponent>;
-  let orgUnitsService: MockOrgUnitService;
-  let routingService: RoutingService;
+  // let orgUnitsService: MockOrgUnitService;
+  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -112,8 +94,8 @@ describe('UnitChildrenComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -124,21 +106,5 @@ describe('UnitChildrenComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should load children', () => {
-      component.ngOnInit();
-      let nodes: B2BUnitNode[];
-      component.data$
-        .subscribe((value) => {
-          nodes = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadTree).toHaveBeenCalledWith();
-      expect(orgUnitsService.getChildUnits).toHaveBeenCalledWith(code);
-      expect(nodes).toEqual(unitListUI);
-    });
   });
 });

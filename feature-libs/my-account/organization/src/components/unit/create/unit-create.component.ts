@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../current-unit.service';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-create',
@@ -33,6 +34,7 @@ export class UnitCreateComponent {
     event.preventDefault();
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.orgUnitService.create(form.value);

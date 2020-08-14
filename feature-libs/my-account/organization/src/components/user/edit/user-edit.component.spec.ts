@@ -14,11 +14,10 @@ import { Observable, of } from 'rxjs';
 import { UserEditComponent } from './user-edit.component';
 import { By } from '@angular/platform-browser';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+
 import createSpy = jasmine.createSpy;
-import {
-  SplitViewTestingModule,
-  IconTestingModule,
-} from '@spartacus/storefront';
+import { SplitViewTestingModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-form',

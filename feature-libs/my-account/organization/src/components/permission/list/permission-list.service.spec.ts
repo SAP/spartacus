@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, Permission, PermissionService } from '@spartacus/core';
+import { EntitiesModel, Permission } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { PermissionListService } from './permission-list.service';
+import { PermissionService } from '../../../core/services/permission.service';
 
 const code = 'permission';
 const mockPermissionEntities: EntitiesModel<Permission> = {

@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
-import { PermissionFormModule } from '../form/permission-form.module';
 import { PermissionCreateComponent } from './permission-create.component';
+import { PermissionFormModule } from '../form/permission-form.module';
 
 @NgModule({
   imports: [

@@ -6,8 +6,6 @@ import createSpy = jasmine.createSpy;
 
 import {
   AuthService,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
   B2BUser,
   Permission,
   EntitiesModel,
@@ -19,7 +17,10 @@ import {
   UserGroupActions,
 } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
-
+import {
+  StateWithOrganization,
+  ORGANIZATION_FEATURE,
+} from '../store/organization-state';
 import { B2BSearchConfig } from '../model/search-config';
 import { UserGroup } from '../model/user-group.model';
 

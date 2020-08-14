@@ -9,7 +9,6 @@ import {
 import {
   Table,
   TableModule,
-  IconTestingModule,
   SplitViewTestingModule,
   PaginationTestingModule,
 } from '@spartacus/storefront';
@@ -22,6 +21,7 @@ import {
 } from './permission-list.service';
 import { PermissionListComponent } from './permission-list.component';
 import { PermissionType } from '../form/permission-form.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const mockPermissionList: Table<PermissionModel> = {
   data: [

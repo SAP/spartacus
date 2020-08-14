@@ -4,7 +4,7 @@ import { CostCenter } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CostCenterService } from '../../core/services/cost-center.service';
-import { CurrentCostCenterService } from '../cost-center/current-cost-center.service';
+import { CurrentUserService } from './current-user.service';
 
 export class MockCostCenterService implements Partial<CostCenterService> {
   get() {
@@ -12,8 +12,8 @@ export class MockCostCenterService implements Partial<CostCenterService> {
   }
 }
 
-describe('CurrentCostCenterService', () => {
-  let service: CurrentCostCenterService;
+describe('CurrentUserService', () => {
+  let service: CurrentUserService;
   let costCenterService: CostCenterService;
   let mockParams: Subject<object>;
 
@@ -22,14 +22,14 @@ describe('CurrentCostCenterService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        CurrentCostCenterService,
+        CurrentUserService,
         { provide: ActivatedRoute, useValue: { params: mockParams } },
         { provide: CostCenterService, useClass: MockCostCenterService },
       ],
     });
 
     costCenterService = TestBed.inject(CostCenterService);
-    service = TestBed.inject(CurrentCostCenterService);
+    service = TestBed.inject(CurrentUserService);
   });
 
   afterEach(() => {
@@ -68,7 +68,7 @@ describe('CurrentCostCenterService', () => {
       spyOn(costCenterService, 'get').and.returnValue(of(mockCostCenter));
 
       let result;
-      service.costCenter$.subscribe((value) => (result = value));
+      service.user$.subscribe((value) => (result = value));
       mockParams.next({ code: '123' });
       expect(costCenterService.get).toHaveBeenCalledWith('123');
       expect(result).toBe(mockCostCenter);
@@ -78,7 +78,7 @@ describe('CurrentCostCenterService', () => {
       spyOn(costCenterService, 'get');
 
       let result;
-      service.costCenter$.subscribe((value) => (result = value));
+      service.user$.subscribe((value) => (result = value));
       mockParams.next({});
       expect(costCenterService.get).not.toHaveBeenCalled();
       expect(result).toBe(null);

@@ -1,7 +1,6 @@
 import {
   Pipe,
   PipeTransform,
-  Type,
   Input,
   Output,
   EventEmitter,
@@ -10,35 +9,29 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, of } from 'rxjs';
 
 import {
   I18nTestingModule,
   RoutingService,
   EntitiesModel,
-  B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
   B2BUser,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-
+import {
+  IconLoaderService,
+  defaultStorefrontRoutesConfig,
+  PaginationConfig,
+} from '@spartacus/storefront';
 import { UnitApproverListComponent } from './unit-approver-list.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
-import { IconLoaderService } from '../../../misc';
-import { MockIconLoaderService } from '../../../misc/icon/icon.component.spec';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import createSpy = jasmine.createSpy;
+import { MockIconLoaderService } from 'projects/storefrontlib/src/cms-components/misc/icon/icon.component.spec';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
 const customerId = 'customerId1';
-
-const params: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 2147483647,
-};
 
 const mockUserList: EntitiesModel<B2BUser> = {
   values: [
@@ -63,20 +56,6 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockUserUIList = {
-  values: [
-    {
-      name: 'b1',
-      email: 'aaa@bbb',
-      parentUnit: 'orgName',
-      uid: 'orgUid',
-      customerId,
-      roles: [],
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -128,7 +107,7 @@ class MockRoutingConfig {
 describe('UnitApproversComponent', () => {
   let component: UnitApproverListComponent;
   let fixture: ComponentFixture<UnitApproverListComponent>;
-  let orgUnitService: MockOrgUnitService;
+  // let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -152,7 +131,7 @@ describe('UnitApproversComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
@@ -177,28 +156,5 @@ describe('UnitApproversComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  });
-
-  describe('ngOnInit', () => {
-    it('should read user list', () => {
-      component.ngOnInit();
-
-      let usersList: any;
-      component.data$.subscribe((value) => {
-        usersList = value;
-      });
-
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        params
-      );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        params
-      );
-      expect(usersList).toEqual(mockUserUIList);
-    });
   });
 });

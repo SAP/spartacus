@@ -159,6 +159,7 @@ export const userGroupTableConfig: TableConfig = {
         headers: [
           { key: 'name', sortCode: 'byName' },
           { key: 'uid' },
+          { key: 'roles' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

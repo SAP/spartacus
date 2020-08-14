@@ -11,6 +11,7 @@ import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserPermissionListComponent } from './user-permission-list.component';
 import { UserPermissionListService } from './user-permission-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const userCode = 'userCode';
 

@@ -1,14 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  B2BAddress,
-  B2BApprovalProcess,
-  B2BSearchConfig,
-} from '@spartacus/core';
+import { B2BAddress, B2BApprovalProcess } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
 import createSpy = jasmine.createSpy;
+import { B2BSearchConfig } from '../../model/search-config';
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';

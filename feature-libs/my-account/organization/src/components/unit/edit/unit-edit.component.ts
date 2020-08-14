@@ -7,6 +7,7 @@ import { UnitFormService } from '../form/unit-form.service';
 import { FormGroup } from '@angular/forms';
 import { CurrentUnitService } from '../current-unit.service';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-unit-edit',
@@ -33,6 +34,7 @@ export class UnitEditComponent {
   save(orgUnitCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.orgUnitsService.update(orgUnitCode, form.value);

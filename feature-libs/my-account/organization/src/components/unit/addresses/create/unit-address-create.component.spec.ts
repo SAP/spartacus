@@ -1,22 +1,25 @@
-import { Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import {
-  I18nTestingModule,
+  Occ,
   RoutingService,
-  RoutesConfig,
-  RoutingConfig,
-  B2BAddress,
+  UrlTestingModule,
+  I18nTestingModule,
 } from '@spartacus/core';
-
+import { TableModule, SplitViewTestingModule } from '@spartacus/storefront';
 import { UnitAddressCreateComponent } from './unit-address-create.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
-import { UnitFormModule } from '../../form/unit-form.module';
+import { UnitAddressFormService } from '../form/unit-address-form.service';
+import { CurrentUnitService } from '../../current-unit.service';
+
+import B2BAddress = Occ.B2BAddress;
+
+import createSpy = jasmine.createSpy;
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const orgUnitId = 'b1';
 const addressId = 'a1';
@@ -26,59 +29,66 @@ const mockAddress: Partial<B2BAddress> = {
   firstName: 'orgUnit1',
 };
 
-const mockAddresses = [mockAddress];
+const mockAddressForm = new FormGroup({
+  id: new FormControl(addressId),
+  firstName: new FormControl('orgUnit1'),
+});
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadList = createSpy('loadList');
-  create = createSpy('create');
-  getApprovalProcesses = createSpy('getApprovalProcesses');
   createAddress = createSpy('createAddress');
-  loadAddresses = createSpy('loadAddresses');
-  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
-  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      code: orgUnitId,
-    },
-  },
-};
-
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockUnitAddressFormService implements Partial<UnitAddressFormService> {
+  getForm = createSpy('getForm').and.returnValue(new FormGroup({}));
+}
+
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  code$ = of(orgUnitId);
+}
+
+@Component({
+  selector: 'cx-unit-address-form',
+  template: '',
+})
+class MockUnitAddressFormComponent {
+  @Input() form: FormGroup;
 }
 
 describe('UnitAddressCreateComponent', () => {
   let component: UnitAddressCreateComponent;
   let fixture: ComponentFixture<UnitAddressCreateComponent>;
-  let orgUnitService: MockOrgUnitService;
+  let orgUnitService: OrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
-      declarations: [UnitAddressCreateComponent],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        TableModule,
+        IconTestingModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [UnitAddressCreateComponent, MockUnitAddressFormComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: UnitAddressFormService,
+          useClass: MockUnitAddressFormService,
+        },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    orgUnitService = TestBed.inject(OrgUnitService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -91,16 +101,17 @@ describe('UnitAddressCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('createAddress', () => {
+  describe('save', () => {
     it('should create orgUnit Address', () => {
-      component.createAddress(mockAddress);
+      const evt = new Event('submit');
+      component.save(evt, mockAddressForm);
       expect(orgUnitService.createAddress).toHaveBeenCalledWith(
         orgUnitId,
         mockAddress
       );
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orgUnitManageAddresses',
-        params: { code: orgUnitId },
+        params: { uid: orgUnitId },
       });
     });
   });

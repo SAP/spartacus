@@ -52,6 +52,7 @@ export const userGroupAssignUsers = {
   name: 'Name',
   uid: 'Email',
   orgUnit: 'Unit',
+  roles: 'Roles',
 };
 
 export const userGroupAssignPermissions = {

@@ -13,6 +13,8 @@ import {
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
+import { FormUtils } from '@spartacus/storefront';
+
 @Component({
   selector: 'cx-user-group-edit',
   templateUrl: './user-group-edit.component.html',
@@ -53,6 +55,7 @@ export class UserGroupEditComponent {
   save(userGroupCode: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userGroupService.update(userGroupCode, form.value);

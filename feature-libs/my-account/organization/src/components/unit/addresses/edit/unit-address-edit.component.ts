@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { map, take, withLatestFrom } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 import { RoutingService } from '@spartacus/core';
-import { FormGroup } from '@angular/forms';
+import { FormUtils } from '@spartacus/storefront';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from '../details/current-unit-address.service';
 import { CurrentUnitService } from '../../current-unit.service';
@@ -17,7 +17,7 @@ export class UnitAddressEditComponent {
   code$ = this.currentUnitService.code$;
   address$ = this.currentUnitAddressService.unitAddress$;
 
-  protected form$: Observable<FormGroup> = this.address$.pipe(
+  form$ = this.address$.pipe(
     map((address) => this.unitAddressFormService.getForm(address))
   );
 
@@ -38,6 +38,7 @@ export class UnitAddressEditComponent {
     event.preventDefault();
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       // disabling form before save causing to refresh form state and adds region field
       // which shouldn't be included when disabled. This might need some change

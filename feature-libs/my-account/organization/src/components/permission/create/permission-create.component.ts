@@ -1,10 +1,12 @@
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
+import { FormUtils } from '@spartacus/storefront';
 import { PermissionFormService } from '../form/permission-form.service';
-import { Observable } from 'rxjs';
 import { PermissionService } from '../../../core/services/permission.service';
+
 @Component({
   selector: 'cx-permission-create',
   templateUrl: './permission-create.component.html',
@@ -35,9 +37,9 @@ export class PermissionCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
-      console.log(form.value);
       this.permissionService.create(form.value);
 
       this.routingService.go({

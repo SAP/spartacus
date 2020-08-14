@@ -7,11 +7,11 @@ import {
   TableModule,
   SplitViewTestingModule,
   PaginationTestingModule,
-  IconTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserListComponent } from './user-list.component';
 import { UserListService, UserModel } from './user-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const mockUserList: Table<UserModel> = {
   data: [

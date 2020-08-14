@@ -13,6 +13,7 @@ import {
   userAssignUserGroups,
 } from './user.i18n';
 import { permission } from './permission.i18n';
+import { orderApproval, orderApprovalList } from './order-approval.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -73,4 +74,6 @@ export const organization = {
   userAssignPermissions,
   userAssignUserGroups,
   permission,
+  orderApproval,
+  orderApprovalList,
 };

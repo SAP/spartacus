@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   BaseOrganizationListService,
   OrganizationTableType,
+  UnitRoleType,
 } from '../../../shared/index';
 import { EntitiesModel, B2BUser } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
@@ -45,5 +46,13 @@ export class UnitApproverListService extends BaseOrganizationListService<
       sorts,
       values: values.filter((value) => value.selected),
     };
+  }
+
+  unassign(orgUnitId: string, orgCustomerId: string) {
+    this.orgUnitService.unassignApprover(
+      orgUnitId,
+      orgCustomerId,
+      UnitRoleType.APPROVER
+    );
   }
 }

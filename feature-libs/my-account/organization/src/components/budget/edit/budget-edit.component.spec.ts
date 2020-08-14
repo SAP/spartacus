@@ -12,14 +12,12 @@ import {
   RoutingService,
   UrlTestingModule,
 } from '@spartacus/core';
-import {
-  SplitViewTestingModule,
-  IconTestingModule,
-} from '@spartacus/storefront';
+import { SplitViewTestingModule } from '@spartacus/storefront';
 import { BudgetEditComponent } from './budget-edit.component';
 import { Budget } from '../../../core/model';
-import { BudgetService } from '../../..';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import createSpy = jasmine.createSpy;
+import { BudgetService } from '../../../core/services/budget.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -71,10 +69,10 @@ class MockActivatedRoute {
   go() {}
 }
 
-describe('BudgetEditService', () => {
+describe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
-  let costCenterService: MockBudgetService;
+  let costCenterService: BudgetService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;

@@ -15,11 +15,11 @@ import { UserFormModule } from './form/user-form.module';
 import { UserListModule } from './list/user-list.module';
 import { UserDetailsModule } from './details/user-details.module';
 
-import { UserAssignPermissionsModule } from './permissions/assign/user-assign-permission.module';
+import { UserAssignPermissionsModule } from './permissions/assign/user-assign-permissions.module';
 import { UserPermissionListModule } from './permissions/list/user-permission-list.module';
 import { UserAssignApproversModule } from './approvers/assign/user-assign-approvers.module';
 import { UserApproverListModule } from './approvers/list/user-approver-list.module';
-import { UserAssignUserGroupsModule } from './user-groups/assign/user-assign-user-group.module';
+import { UserAssignUserGroupsModule } from './user-groups/assign/user-assign-user-groups.module';
 import { UserUserGroupListModule } from './user-groups/list/user-user-group-list.module';
 
 @NgModule({

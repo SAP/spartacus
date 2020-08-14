@@ -11,11 +11,11 @@ import {
   Table,
   TableModule,
   SplitViewTestingModule,
-  IconTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserGroupAssignPermissionComponent } from './user-group-assign-permission.component';
 import { UserGroupAssignPermissionService } from './user-group-assign-permission.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const userGroupCode = 'userGroupCode';
 

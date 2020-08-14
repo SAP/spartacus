@@ -3,10 +3,11 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, I18nTestingModule, UrlTestingModule } from '@spartacus/core';
-import { Table, TableModule, IconTestingModule } from '@spartacus/storefront';
+import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const userGroupCode = 'userGroupCode';
 

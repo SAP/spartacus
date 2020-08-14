@@ -61,6 +61,12 @@
     </small>
   </ng-template>
 
+  <ng-template cxOutletRef="table.unitApprovers.data.unassign" let-model>
+    <button class="button" (click)="unassign(model)">
+      <cx-icon type="CLOSE"></cx-icon>
+    </button>
+  </ng-template>
+
   <ng-template cxOutletRef="table.unitApprovers.data.link" let-model>
     <a
       class="link"

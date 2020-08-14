@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import { UserFormService } from '../form/user-form.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
+import { UserFormService } from '../form/user-form.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
 
 @Component({
@@ -36,9 +37,9 @@ export class UserCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
-      console.log(form.value);
       this.userService.create(form.value);
 
       this.routingService.go({

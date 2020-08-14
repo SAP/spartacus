@@ -9,13 +9,12 @@ import {
   RoutingService,
   UrlTestingModule,
 } from '@spartacus/core';
-import {
-  SplitViewTestingModule,
-  IconTestingModule,
-} from '@spartacus/storefront';
+import { SplitViewTestingModule } from '@spartacus/storefront';
 import { PermissionFormService } from '../form/permission-form.service';
 import { PermissionCreateComponent } from './permission-create.component';
 import { PermissionService } from '../../../core/services/permission.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

@@ -7,9 +7,11 @@ import {
   Table,
   TableModule,
   SplitViewTestingModule,
-  IconTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { UserGroupAssignUserComponent } from './user-group-assign-user.component';
+import { UserGroupAssignUserService } from './user-group-assign-user.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const userGroupCode = 'userGroupCode';
 
@@ -48,10 +50,10 @@ class MockUserGroupUserListService {
   toggleAssign() {}
 }
 
-describe('UserGroupAssignUsersComponent', () => {
-  let component: UserGroupAssignUsersComponent;
-  let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignUserComponent', () => {
+  let component: UserGroupAssignUserComponent;
+  let fixture: ComponentFixture<UserGroupAssignUserComponent>;
+  let service: UserGroupAssignUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -63,20 +65,20 @@ describe('UserGroupAssignUsersComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserGroupAssignUsersComponent],
+      declarations: [UserGroupAssignUserComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserGroupAssignUserListService,
+          provide: UserGroupAssignUserService,
           useClass: MockUserGroupUserListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignUserService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignUsersComponent);
+    fixture = TestBed.createComponent(UserGroupAssignUserComponent);
     component = fixture.componentInstance;
   });
 

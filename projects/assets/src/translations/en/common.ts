@@ -137,4 +137,8 @@ export const common = {
     cxDateMin: 'Date cannot be before {{min}}',
     cxDateMax: 'Date cannot be after {{max}}',
   },
+  errorHandlers: {
+    scriptFailedToLoad: 'Failed to load the script.',
+    refreshThePage: 'Please refresh the page.',
+  },
 };

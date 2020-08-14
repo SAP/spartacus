@@ -13,10 +13,8 @@ import { By } from '@angular/platform-browser';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import createSpy = jasmine.createSpy;
 import { UserGroupService } from '../../../core/services/user-group.service';
-import {
-  IconTestingModule,
-  SplitViewTestingModule,
-} from '@spartacus/storefront';
+import { SplitViewTestingModule } from '@spartacus/storefront';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 @Component({
   selector: 'cx-user-group-form',

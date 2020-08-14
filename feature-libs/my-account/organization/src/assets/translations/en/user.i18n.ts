@@ -1,12 +1,12 @@
 export const user = {
   header: 'Users',
   disabled: '(disabled)',
-  uid: 'Code',
+  uid: 'Email',
   name: 'Name',
   firstName: 'Fist name',
   lastName: 'Last name',
   email: 'Email',
-  orgUnit: 'Parent Unit',
+  orgUnit: 'Unit',
   roles: 'Roles',
   title: 'Title',
   assignAprover: 'Add to the approvers list',
@@ -15,6 +15,7 @@ export const user = {
     enabled:
       'When you disable the user, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled User.',
+    disabledUnit: 'You cannot enable user if unit is disabled.',
     deactivate: 'Are you sure you want to disable this user?',
     deactivateHeader: 'Disable User',
   },

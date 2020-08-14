@@ -1,4 +1,3 @@
-import { B2BSearchConfig } from '@spartacus/core';
 import {
   ListModel,
   B2BUnit,
@@ -22,6 +21,7 @@ import {
   ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
 import { OrgUnitActions } from './index';
+import { B2BSearchConfig } from '../../model/search-config';
 
 const orgUnitId = 'testOrgUnitId';
 const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };

@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { FormUtils } from '@spartacus/storefront';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { UserGroupService } from '../../../core/services/user-group.service';
 
@@ -36,6 +37,7 @@ export class UserGroupCreateComponent {
   save(form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
     } else {
       form.disable();
       this.userGroupService.create(form.value);
