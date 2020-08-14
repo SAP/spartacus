@@ -9,10 +9,12 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
+import {
+  ConfigRouterExtractorService,
+  ConfigurationRouter,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
-import { ConfigurationRouter } from '../../generic/service/config-router-data';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',
@@ -20,18 +22,18 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAddToCartButtonComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  container$: Observable<{
+    routerData: ConfigurationRouter.Data;
+    configuration: Configurator.Configuration;
+  }> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
+        this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(map((configuration) => ({ routerData, configuration })))
       )
     );
-  routerData$: Observable<
-    ConfigurationRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
 
   constructor(
     protected routingService: RoutingService,
@@ -42,37 +44,67 @@ export class ConfigAddToCartButtonComponent {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  protected navigateToCart() {
+  protected navigateToCart(): void {
     this.routingService.go('cart');
   }
 
   protected navigateToOverview(
     configuratorType: string,
     owner: GenericConfigurator.Owner
-  ) {
+  ): void {
     this.routingService.go(
-      'configureOverview' +
-        configuratorType +
-        '/cartEntry/entityKey/' +
-        owner.id,
+      {
+        cxRoute: 'configureOverview' + configuratorType,
+        params: { ownerType: 'cartEntry', entityKey: owner.id },
+      },
       {}
     );
   }
 
-  protected displayConfirmationMessage(key: string) {
+  protected displayConfirmationMessage(key: string): void {
     this.globalMessageService.add(
       { key: key },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
+
+  /**
+   * Performs the navigation to the corresponding location (cart or overview pages).
+   *
+   * @param {string} configuratorType - Configurator type
+   * @param {GenericConfigurator.Owner} owner - Owner
+   * @param {boolean} isAdd - Is add to cart
+   * @param {boolean} isOverview - Is overview page
+   * @param {boolean} showMessage - Show message
+   */
+  performNavigation(
+    configuratorType: string,
+    owner: GenericConfigurator.Owner,
+    isAdd: boolean,
+    isOverview: boolean,
+    showMessage: boolean
+  ): void {
+    const messageKey = isAdd
+      ? 'configurator.addToCart.confirmation'
+      : 'configurator.addToCart.confirmationUpdate';
+    if (isOverview) {
+      this.navigateToCart();
+    } else {
+      this.navigateToOverview(configuratorType, owner);
+    }
+    if (showMessage) {
+      this.displayConfirmationMessage(messageKey);
+    }
+  }
+
   /**
    * Decides on the resource key for the button. Depending on the business process (owner of the configuration) and the
    * need for a cart update, the text will differ
-   * @param routerData
-   * @param configuration
+   * @param {ConfigurationRouter.Data} routerData - Reflects the current router state
+   * @param {Configurator.Configuration} configuration - Configuration
    * @returns {string} The resource key that controls the button description
    */
-  public getButtonResourceKey(
+  getButtonResourceKey(
     routerData: ConfigurationRouter.Data,
     configuration: Configurator.Configuration
   ): string {
@@ -94,11 +126,11 @@ export class ConfigAddToCartButtonComponent {
   /**
    * Triggers action and navigation, both depending on the context. Might result in an addToCart, updateCartEntry,
    * just a cart navigation or a browser back navigation
-   * @param configuration Configuration
-   * @param routerData Reflects the current router state
-  
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @param {ConfigurationRouter.Data} routerData - Reflects the current router state
+
    */
-  public onAddToCart(
+  onAddToCart(
     configuration: Configurator.Configuration,
     routerData: ConfigurationRouter.Data
   ): void {
@@ -154,26 +186,6 @@ export class ConfigAddToCartButtonComponent {
           );
           this.configuratorCommonsService.removeConfiguration(owner);
         });
-    }
-  }
-
-  performNavigation(
-    configuratorType: string,
-    owner: GenericConfigurator.Owner,
-    isAdd: boolean,
-    isOverview: boolean,
-    showMessage: boolean
-  ): void {
-    const messageKey = isAdd
-      ? 'configurator.addToCart.confirmation'
-      : 'configurator.addToCart.confirmationUpdate';
-    if (isOverview) {
-      this.navigateToCart();
-    } else {
-      this.navigateToOverview(configuratorType, owner);
-    }
-    if (showMessage) {
-      this.displayConfirmationMessage(messageKey);
     }
   }
 }

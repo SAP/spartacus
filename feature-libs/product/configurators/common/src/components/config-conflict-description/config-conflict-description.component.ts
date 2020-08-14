@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-config-conflict-description',
@@ -8,13 +8,19 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigConflictDescriptionComponent {
-  GroupType = Configurator.GroupType;
+  @Input() currentGroup: Configurator.Group;
+
+  groupType = Configurator.GroupType;
   iconTypes = ICON_TYPE;
 
   constructor() {}
 
-  @Input() currentGroup: Configurator.Group;
-
+  /**
+   * Verifies whether the  conflict description should be displayed for the current group.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {boolean} - 'True' if the conflict description should be displayed, otherwise 'false'.
+   */
   displayConflictDescription(group: Configurator.Group): boolean {
     return group.groupType === Configurator.GroupType.CONFLICT_GROUP;
   }

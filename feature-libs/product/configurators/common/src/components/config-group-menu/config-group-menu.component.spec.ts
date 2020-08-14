@@ -11,23 +11,21 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigUtilsService } from '@spartacus/product/configurators/common';
+import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
-
-let groupVisited = false;
-
-const config: Configurator.Configuration =
+let mockGroupVisited = false;
+const mockProductConfiguration: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
 }
 
@@ -41,14 +39,14 @@ class MockConfiguratorGroupService {
     return of(null);
   }
   isGroupVisited() {
-    return of(groupVisited);
+    return groupVisitedObservable;
   }
   findParentGroup() {
     return null;
   }
   navigateToGroup() {}
   getCurrentGroup(): Observable<Configurator.Group> {
-    return of(config.groups[0]);
+    return of(mockProductConfiguration.groups[0]);
   }
   getMenuParentGroup(): Observable<Configurator.Group> {
     return of(null);
@@ -63,7 +61,7 @@ class MockConfiguratorGroupService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
+    return productConfigurationObservable;
   }
 }
 
@@ -75,14 +73,31 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
-  let component: ConfigGroupMenuComponent;
-  let fixture: ComponentFixture<ConfigGroupMenuComponent>;
-  let configuratorGroupsService: ConfiguratorGroupsService;
-  let hamburgerMenuService: HamburgerMenuService;
-  let htmlElem: HTMLElement;
-  let configuratorUtils: GenericConfigUtilsService;
+class MockConfigUtilsService {
+  scrollToConfigurationElement(): void {}
+}
 
+let component: ConfigGroupMenuComponent;
+let fixture: ComponentFixture<ConfigGroupMenuComponent>;
+let configuratorGroupsService: ConfiguratorGroupsService;
+let hamburgerMenuService: HamburgerMenuService;
+let htmlElem: HTMLElement;
+let configuratorUtils: GenericConfigUtilsService;
+let routerStateObservable = null;
+let groupVisitedObservable = null;
+let productConfigurationObservable = null;
+
+function initialize() {
+  routerStateObservable = of(mockRouterState);
+  groupVisitedObservable = of(mockGroupVisited);
+  productConfigurationObservable = of(mockProductConfiguration);
+  fixture = TestBed.createComponent(ConfigGroupMenuComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+}
+
+describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -106,14 +121,18 @@ describe('ConfigurationGroupMenuComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
         },
+        {
+          provide: ConfigUtilsService,
+          useClass: MockConfigUtilsService,
+        },
       ],
     });
   }));
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigGroupMenuComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
 
+  beforeEach(() => {
+    routerStateObservable = null;
+    groupVisitedObservable = null;
+    productConfigurationObservable = null;
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -124,7 +143,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
-    configuratorUtils.setOwnerKey(config.owner);
+    configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
     spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
@@ -134,54 +153,48 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should create component', () => {
+    initialize();
     expect(component).toBeDefined();
   });
 
   it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
+    initialize();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(ConfigurationTestData.PRODUCT_CODE);
     });
   });
 
-  it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+  it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
-    component.ngOnInit();
+    initialize();
     component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
       expect(groups.length).toBe(5);
     });
   });
 
   it('should set current group in case of clicking on a group', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    component.click(config.groups[1]);
+    initialize();
+    component.click(mockProductConfiguration.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
 
   it('should condense groups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(component.condenseGroups(config.groups)[2].id).toBe(
-      config.groups[2].subGroups[0].id
-    );
+    initialize();
+    expect(
+      component.condenseGroups(mockProductConfiguration.groups)[2].id
+    ).toBe(mockProductConfiguration.groups[2].subGroups[0].id);
   });
 
   it('should get correct parent group for condensed groups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+    initialize();
     //Condensed case
     component
-      .getCondensedParentGroup(config.groups[2])
+      .getCondensedParentGroup(mockProductConfiguration.groups[2])
       .pipe(take(1))
       .subscribe((group) => {
         expect(group).toBe(null);
@@ -189,30 +202,33 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     //Non condensed case
     component
-      .getCondensedParentGroup(config.groups[0])
+      .getCondensedParentGroup(mockProductConfiguration.groups[0])
       .pipe(take(1))
       .subscribe((group) => {
-        expect(group).toBe(config.groups[0]);
+        expect(group).toBe(mockProductConfiguration.groups[0]);
       });
   });
 
   it('should call correct methods for groups with and without subgroups', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+    initialize();
     //Set group
-    component.click(config.groups[2].subGroups[0]);
+    component.click(mockProductConfiguration.groups[2].subGroups[0]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
 
     //Display subgroups
-    component.click(config.groups[2]);
+    component.click(mockProductConfiguration.groups[2]);
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
   it('should not call status method if group has not been visited', () => {
+    mockGroupVisited = false;
+    initialize();
     component
-      .getGroupStatus(config.groups[0], config)
+      .getGroupStatus(
+        mockProductConfiguration.groups[0],
+        mockProductConfiguration
+      )
       .pipe(take(1))
       .subscribe();
 
@@ -221,6 +237,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should return number of conflicts only for conflict header group', () => {
+    initialize();
     const groupWithConflicts = {
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       subGroups: [
@@ -240,6 +257,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should return true if groupType is a conflict group type otherwise false', () => {
+    initialize();
     expect(
       component.isConflictGroupType(
         Configurator.GroupType.CONFLICT_HEADER_GROUP
@@ -254,9 +272,13 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should call status method if group has been visited', () => {
-    groupVisited = true;
+    mockGroupVisited = true;
+    initialize();
     component
-      .getGroupStatus(config.groups[0], config)
+      .getGroupStatus(
+        mockProductConfiguration.groups[0],
+        mockProductConfiguration
+      )
       .pipe(take(1))
       .subscribe();
 

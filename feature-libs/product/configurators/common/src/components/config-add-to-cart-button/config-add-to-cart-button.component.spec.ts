@@ -11,9 +11,9 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigurationRouter } from '@spartacus/storefront';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
-import { ConfigurationRouter } from '../../generic/service/config-router-data';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '1';
@@ -22,20 +22,34 @@ const configuratorType = 'cpqconfigurator';
 const URL_OVERVIEW =
   'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
 
-const productConfiguration = ConfigurationTestData.productConfiguration;
-const navParamsOverview: any =
-  'configureOverview' +
-  configuratorType +
-  '/cartEntry/entityKey/' +
-  CART_ENTRY_KEY;
-const attribs = {};
+const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 
-const routerData: ConfigurationRouter.Data = {
+const navParamsOverview: any = {
+  cxRoute: 'configureOverview' + configuratorType,
+  params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
+};
+
+const attributes = {};
+
+const mockRouterData: ConfigurationRouter.Data = {
   configuratorType: configuratorType,
   pageType: ConfigurationRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
-  owner: productConfiguration.owner,
+  owner: mockProductConfiguration.owner,
 };
+
+let component: ConfigAddToCartButtonComponent;
+let fixture: ComponentFixture<ConfigAddToCartButtonComponent>;
+let routerStateObservable = null;
+let productConfigurationObservable = null;
+
+function initialize() {
+  routerStateObservable = of(mockRouterState);
+  productConfigurationObservable = of(mockProductConfiguration);
+  fixture = TestBed.createComponent(ConfigAddToCartButtonComponent);
+  component = fixture.componentInstance;
+  fixture.detectChanges();
+}
 
 class MockGlobalMessageService {
   add(): void {}
@@ -43,7 +57,7 @@ class MockGlobalMessageService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(ConfigurationTestData.productConfiguration);
+    return productConfigurationObservable;
   }
   removeConfiguration() {}
   removeUiState() {}
@@ -58,53 +72,65 @@ class MockConfiguratorGroupsService {
   setGroupStatus() {}
 }
 
-function performAddToCartOnOverview(
-  classUnderTest: ConfigAddToCartButtonComponent
-) {
-  mockRouterState.state = {
-    params: {
-      entityKey: ConfigurationTestData.PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: URL_OVERVIEW,
+function setRouterTestDataCartBoundAndConfigPage() {
+  mockRouterState.state.params = {
+    entityKey: CART_ENTRY_KEY,
+    ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
   };
-  classUnderTest.onAddToCart(productConfiguration, routerData);
+  mockRouterState.state.url = URL_CONFIGURATION;
+  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
 }
 
-function performUpdateCart(classUnderTest: ConfigAddToCartButtonComponent) {
-  ensureCartBound();
-
-  classUnderTest.onAddToCart(productConfiguration, routerData);
-}
-
-function ensureCartBound() {
-  routerData.isOwnerCartEntry = true;
-  routerData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-  routerData.owner.id = CART_ENTRY_KEY;
-  productConfiguration.owner.id = CART_ENTRY_KEY;
-}
-
-function ensureCartBoundAndOnOverview() {
-  routerData.isOwnerCartEntry = true;
-  routerData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-  routerData.owner.id = CART_ENTRY_KEY;
-  routerData.pageType = ConfigurationRouter.PageType.OVERVIEW;
-  productConfiguration.owner.id = CART_ENTRY_KEY;
-}
-
-function ensureProductBound() {
+function setRouterTestDataProductBoundAndConfigPage() {
   mockRouterState.state.params = {
     entityKey: ConfigurationTestData.PRODUCT_CODE,
     ownerType: GenericConfigurator.OwnerType.PRODUCT,
   };
   mockRouterState.state.url = URL_CONFIGURATION;
-  productConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
+  mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
 }
 
-function performUpdateOnOV(classUnderTest: ConfigAddToCartButtonComponent) {
+function performAddToCartOnOverview() {
+  setRouterTestDataProductBoundAndConfigPage();
+  mockRouterState.state.url = URL_OVERVIEW;
+  mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
+  initialize();
+  component.onAddToCart(mockProductConfiguration, mockRouterData);
+}
+
+function performUpdateCart() {
+  ensureCartBound();
+  component.onAddToCart(mockProductConfiguration, mockRouterData);
+}
+
+function ensureCartBound() {
+  setRouterTestDataCartBoundAndConfigPage();
+  mockProductConfiguration.owner.id = CART_ENTRY_KEY;
+  initialize();
+}
+
+function ensureCartBoundAndOnOverview() {
+  setRouterTestDataCartBoundAndConfigPage();
+  mockRouterState.state.url = URL_OVERVIEW;
+  mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
+  initialize();
+}
+
+function ensureProductBound() {
+  setRouterTestDataProductBoundAndConfigPage();
+  mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  initialize();
+}
+
+function performUpdateOnOV() {
   ensureCartBoundAndOnOverview();
-  classUnderTest.onAddToCart(productConfiguration, routerData);
+  component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
 const URL_CONFIGURATION =
   'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR';
@@ -120,14 +146,12 @@ const mockRouterState: any = {
 };
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
   go() {}
 }
 
 describe('ConfigAddToCartButtonComponent', () => {
-  let classUnderTest: ConfigAddToCartButtonComponent;
-  let fixture: ComponentFixture<ConfigAddToCartButtonComponent>;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -166,9 +190,9 @@ describe('ConfigAddToCartButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigAddToCartButtonComponent);
-    classUnderTest = fixture.componentInstance;
-    fixture.detectChanges();
+    routerStateObservable = null;
+    productConfigurationObservable = null;
+    initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -186,37 +210,39 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   it('should create', () => {
-    expect(classUnderTest).toBeTruthy();
+    initialize();
+    expect(component).toBeTruthy();
   });
 
   describe('onAddToCart', () => {
     it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
-      routerData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
-      performUpdateCart(classUnderTest);
+      mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
+      performUpdateCart();
       expect(routingService.go).toHaveBeenCalledWith(
         navParamsOverview,
-        attribs
+        attributes
       );
 
       expect(configuratorGroupsService.setGroupStatus).toHaveBeenCalled();
     });
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
-      performUpdateOnOV(classUnderTest);
+      performUpdateOnOV();
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
 
-    it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page', () => {
-      performUpdateOnOV(classUnderTest);
+    it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page and no changes happened', () => {
+      mockProductConfiguration.isCartEntryUpdateRequired = false;
+      performUpdateOnOV();
       expect(
         configuratorCommonsService.removeConfiguration
       ).toHaveBeenCalledTimes(0);
     });
 
     it('should not remove configuration and display no message in case continue to cart is triggered on config page', () => {
-      productConfiguration.isCartEntryUpdateRequired = false;
-      routerData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
-      performUpdateCart(classUnderTest);
+      mockProductConfiguration.isCartEntryUpdateRequired = false;
+      mockRouterData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
+      performUpdateCart();
       expect(
         configuratorCommonsService.removeConfiguration
       ).toHaveBeenCalledTimes(0);
@@ -224,40 +250,41 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should display a message in case done is triggered on config page which means that there are pending changes', () => {
-      productConfiguration.isCartEntryUpdateRequired = true;
-      performUpdateCart(classUnderTest);
+      mockProductConfiguration.isCartEntryUpdateRequired = true;
+      performUpdateCart();
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
     it('should display updateCart message if configuration has already been added', () => {
       ensureCartBound();
-      classUnderTest.onAddToCart(productConfiguration, routerData);
+      mockProductConfiguration.isCartEntryUpdateRequired = true;
+      component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
     it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
       ensureProductBound();
-      classUnderTest.onAddToCart(productConfiguration, routerData);
+      component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(routingService.go).toHaveBeenCalledWith(
         navParamsOverview,
-        attribs
+        attributes
       );
     });
 
     it('should display addToCart message in case configuration has not been added yet', () => {
       ensureProductBound();
-      classUnderTest.onAddToCart(productConfiguration, routerData);
+      component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
     it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
-      routerData.pageType = ConfigurationRouter.PageType.OVERVIEW;
-      performAddToCartOnOverview(classUnderTest);
+      mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
+      performAddToCartOnOverview();
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
 
     it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {
-      performAddToCartOnOverview(classUnderTest);
+      performAddToCartOnOverview();
       expect(
         configuratorCommonsService.removeConfiguration
       ).toHaveBeenCalledTimes(1);
@@ -266,9 +293,9 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   describe('performNavigation', () => {
     it('should display message on addToCart ', () => {
-      classUnderTest.performNavigation(
+      component.performNavigation(
         configuratorType,
-        productConfiguration.owner,
+        mockProductConfiguration.owner,
         true,
         true,
         true
@@ -276,9 +303,9 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
     it('should display no message on addToCart in case this is not desired', () => {
-      classUnderTest.performNavigation(
+      component.performNavigation(
         configuratorType,
-        productConfiguration.owner,
+        mockProductConfiguration.owner,
         true,
         true,
         false
