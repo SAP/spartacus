@@ -12,7 +12,7 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { UserEditComponent } from './user-edit.component';
 import { By } from '@angular/platform-browser';
 import { CurrentUserService } from '../current-user.service';
@@ -40,11 +40,9 @@ class MockCurrentUserService implements Partial<CurrentUserService> {
 }
 
 class MockB2BUserService implements Partial<B2BUserService> {
-  get(_userCode: string): Observable<B2BUser> {
-    return of(mockUser);
-  }
-  update(_userCode: string, _user: B2BUser) {}
-  load(_userCode: string) {}
+  update = createSpy('update');
+  load = createSpy('load');
+  get = createSpy('get').and.returnValue(of(mockUser));
 }
 
 const mockRouterState = {
@@ -65,7 +63,7 @@ class MockRoutingService {
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let fixture: ComponentFixture<UserEditComponent>;
-  let userService: MockB2BUserService;
+  let userService: B2BUserService;
   let routingService: RoutingService;
   let saveButton;
   let userFormComponent;
