@@ -56,23 +56,14 @@
   </p>
 </ng-template>
 
-<cx-td-link outletRef="table.budget.data.name" prop="name" tabIndex="0">
+<cx-td-link outlet="table.budget.data.name" prop="name" tabIndex="0">
 </cx-td-link>
-
-<cx-td-link outletRef="table.budget.data.active" [template]="active">
+<cx-td-link outlet="table.budget.data.active" [template]="active"> </cx-td-link>
+<cx-td-link outlet="table.budget.data.amount" [template]="amount"> </cx-td-link>
+<cx-td-link outlet="table.budget.data.suffix" [template]="suffix"> </cx-td-link>
+<cx-td-link outlet="table.budget.data.dateRange" [template]="dataRange">
 </cx-td-link>
-
-<cx-td-link outletRef="table.budget.data.amount" [template]="amount">
-</cx-td-link>
-
-<cx-td-link outletRef="table.budget.data.suffix" [template]="suffix">
-</cx-td-link>
-
-<cx-td-link outletRef="table.budget.data.dateRange" [template]="dataRange">
-</cx-td-link>
-
-<cx-td-link outletRef="table.budget.data.unit" prop="orgUnit.name">
-</cx-td-link>
+<cx-td-link outlet="table.budget.data.unit" prop="orgUnit.name"> </cx-td-link>
 
 <ng-template #amount let-model="model">
   {{ model.budget + ' ' + model.currency }}
@@ -99,17 +90,3 @@
 <ng-template #suffix>
   <cx-icon type="CARET_RIGHT"></cx-icon>
 </ng-template>
-
-<!-- <ng-template cxOutletRef="table.budget.data.active" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
-    [class.is-enabled]="model.active"
-    [class.is-disabled]="!model.active"
-    tabindex="-1"
-  >
-    {{
-      (model.active ? 'organization.enabled' : 'organization.disabled')
-        | cxTranslate
-    }}
-  </a>
-</ng-template> -->

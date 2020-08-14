@@ -17,7 +17,7 @@ export class TableDataLinkComponent {
 
   @Input() cxRoute: string;
 
-  @Input() outletRef: string;
+  @Input() outlet: string;
 
   @Input() tabIndex = -1;
 
