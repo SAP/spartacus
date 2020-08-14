@@ -88,7 +88,7 @@ export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: [
       {
-        headers: [{ key: 'name' }],
+        headers: [{ key: 'name' }, { key: 'active' }, { key: 'unit' }],
         pagination: {
           sort: 'byName',
         },
@@ -100,11 +100,10 @@ export const costCenterTableConfig: TableConfig = {
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'name', sortCode: 'byName' },
+          { key: 'name' },
           { key: 'active' },
-          { key: 'code', sortCode: 'byCode' },
           { key: 'currency' },
-          { key: 'unit', sortCode: 'byUnit' },
+          { key: 'unit' },
         ],
       },
     ],
@@ -118,6 +117,7 @@ export const costCenterTableConfig: TableConfig = {
         },
       },
     ],
+
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: [
       {
         pagination: {

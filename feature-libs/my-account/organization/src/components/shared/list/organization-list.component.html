@@ -1,0 +1,100 @@
+<cx-split-view [hideMode]="false">
+  <cx-view>
+    <ng-container *ngIf="dataTable; else emptyList">
+      <h3>
+        {{ type + '.header' | cxTranslate }}
+      </h3>
+
+      <div class="actions">
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          (change)="sort(dataTable.pagination, $event)"
+          [tabIndex]="0"
+          [(ngModel)]="dataTable.pagination.sort"
+        >
+          <ng-option *ngFor="let sort of dataTable.sorts" [value]="sort.code">
+            {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
+          </ng-option>
+        </ng-select>
+
+        <button
+          class="button primary"
+          [routerLink]="{ cxRoute: type + 'Create' } | cxUrl"
+          routerLinkActive="disabled"
+        >
+          {{ 'organization.add' | cxTranslate }}
+        </button>
+      </div>
+
+      <cx-table
+        *ngIf="dataTable; else emptyList"
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+        [suffix]="true"
+      >
+      </cx-table>
+
+      <div class="footer">
+        <cx-pagination
+          *ngIf="dataTable.pagination"
+          [pagination]="dataTable.pagination"
+          (viewPageEvent)="view(dataTable.pagination, $event)"
+        ></cx-pagination>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyList>
+      <p class="instruction is-empty">
+        {{ 'organization.messages.emptyList' | cxTranslate }}
+      </p>
+    </ng-template>
+
+    <cx-td-link
+      outlet="table.budget.data.suffix"
+      [cxRoute]="type + 'Details'"
+      [template]="suffix"
+    >
+    </cx-td-link>
+
+    <cx-td-link
+      [outlet]="'table.' + type + '.data.name'"
+      [cxRoute]="type + 'Details'"
+      prop="name"
+    ></cx-td-link>
+
+    <cx-td-link
+      outlet="'table.' + type + '.data.active'"
+      [cxRoute]="type + 'Details'"
+      prop="currency"
+    ></cx-td-link>
+
+    <cx-td-link
+      [outlet]="'table.' + type + '.data.active'"
+      [cxRoute]="type + 'Details'"
+      [template]="status"
+    ></cx-td-link>
+
+    <cx-td-link
+      [outlet]="'table.' + type + '.data.unit'"
+      [cxRoute]="type + 'Details'"
+      prop="unit.name"
+    ></cx-td-link>
+  </cx-view>
+
+  <!-- nested split views are rendered inside child routes -->
+  <router-outlet></router-outlet>
+</cx-split-view>
+
+<ng-template #status let-model="model">
+  <span [class.is-inactive]="!model.active">
+    {{
+      (model.active ? 'organization.enabled' : 'organization.disabled')
+        | cxTranslate
+    }}
+  </span>
+</ng-template>
+
+<ng-template #suffix>
+  <cx-icon type="CARET_RIGHT"></cx-icon>
+</ng-template>

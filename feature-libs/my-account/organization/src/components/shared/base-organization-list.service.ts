@@ -5,6 +5,9 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from './organization.model';
 
+// we could introduce the default pagination to the global table config
+// for now, we support feature specific config
+const DEFAULT_PAGINATION: PaginationModel = { pageSize: 10 };
 /**
  * The `BaseOrganizationListService` deals with the table structure, table data and
  * initial/runtime pagination of tables inside the b2b organization.
@@ -62,6 +65,7 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
    * Updates the pagination with the new page number.
    */
   viewPage(pagination: P, page: number): void {
+    console.log('view page');
     this.pagination$.next({ ...pagination, currentPage: page });
   }
 
@@ -69,6 +73,7 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
    * Updates the sort code for the PaginationModel, and resets the `currentPage`.
    */
   sort(pagination: P, sortCode: string): void {
+    console.log('sort');
     this.pagination$.next({
       ...pagination,
       currentPage: 0,
@@ -87,7 +92,11 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
     ]).pipe(
       map(([structure, pagination]: [TableStructure, P]) => ({
         ...structure,
-        pagination: { ...structure.pagination, ...pagination },
+        pagination: {
+          ...structure.pagination,
+          ...pagination,
+          ...DEFAULT_PAGINATION,
+        },
       }))
     );
   }

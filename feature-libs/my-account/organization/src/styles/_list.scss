@@ -74,7 +74,7 @@
     td.active {
       color: var(--cx-color-success);
       .is-inactive {
-        color: #db0002;
+        color: var(--cx-color-alert, var(--cx-color-danger));
       }
     }
 

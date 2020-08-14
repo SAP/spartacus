@@ -1,6 +1,6 @@
 <ng-template [cxOutletRef]="outlet" let-model>
   <a
-    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
+    [routerLink]="{ cxRoute: cxRoute, params: model } | cxUrl"
     [tabindex]="tabIndex"
   >
     <!-- required dom node to have ellipses wrap inside flex element -->

@@ -61,6 +61,8 @@ export class BudgetListService extends BaseOrganizationListService<
       values: values.map((value: any) => ({
         ...value,
         currency: value.currency?.isocode,
+        // TODO: normalize the data at core normalizer
+        unit: value.orgUnit,
       })),
     };
     return budgetModels;

@@ -70,7 +70,7 @@ export class TableComponent {
   /**
    * If the suffix is true, each table row has a suffix td
    */
-  @Input() suffix: boolean = true;
+  @Input() suffix: boolean;
 
   /**
    * The paginateEvent is triggered when a new page is required. This includes sorting.

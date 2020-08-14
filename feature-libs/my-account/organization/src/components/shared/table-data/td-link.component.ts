@@ -5,8 +5,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-const BASE_CLASS = 'organization';
-
 @Component({
   selector: 'cx-td-link',
   templateUrl: './td-link.component.html',
@@ -19,6 +17,11 @@ export class TableDataLinkComponent {
 
   @Input() outlet: string;
 
+  /**
+   * The tabIndex is used to render a tabindex attribue on the anchor link.
+   *
+   * defaults to `-1`.
+   */
   @Input() tabIndex = -1;
 
   @Input() template: TemplateRef<any>;
@@ -26,7 +29,7 @@ export class TableDataLinkComponent {
   constructor() {}
 
   getProperty(model) {
-    if (!this.prop) {
+    if (!this.prop || !model) {
       return null;
     }
 
@@ -34,7 +37,7 @@ export class TableDataLinkComponent {
 
     let m = model;
     props.forEach((prop) => {
-      m = m[prop];
+      m = m?.[prop];
     });
 
     return m;
