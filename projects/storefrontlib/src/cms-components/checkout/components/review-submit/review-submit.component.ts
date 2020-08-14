@@ -22,7 +22,12 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { CheckoutStep } from '../../model/checkout-step.model';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import {
+  checkoutPaymentSteps,
+  checkoutShippingSteps,
+  CheckoutStep,
+} from '../../model/checkout-step.model';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
 
@@ -32,6 +37,7 @@ import { CheckoutStepService } from '../../services/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent {
+  iconTypes = ICON_TYPE;
   checkoutStepType = CheckoutStepType;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -179,7 +185,12 @@ export class ReviewSubmitComponent {
         return {
           title: textTitle,
           textBold: deliveryMode.name,
-          text: [deliveryMode.description],
+          text: [
+            deliveryMode.description,
+            deliveryMode.deliveryCost?.formattedValue
+              ? deliveryMode.deliveryCost?.formattedValue
+              : '',
+          ],
         };
       })
     );
@@ -192,12 +203,32 @@ export class ReviewSubmitComponent {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
+      this.translation.translate('paymentForm.billingAddress'),
     ]).pipe(
-      map(([textTitle, textExpires]) => {
+      map(([textTitle, textExpires, billingAddress]) => {
+        const region = paymentDetails.billingAddress?.region?.isocode
+          ? paymentDetails.billingAddress?.region?.isocode + ', '
+          : '';
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
           text: [paymentDetails.cardNumber, textExpires],
+          paragraphs: [
+            {
+              title: billingAddress + ':',
+              text: [
+                paymentDetails.billingAddress?.firstName +
+                  ' ' +
+                  paymentDetails.billingAddress?.lastName,
+                paymentDetails.billingAddress?.line1,
+                paymentDetails.billingAddress?.town +
+                  ', ' +
+                  region +
+                  paymentDetails.billingAddress?.country?.isocode,
+                paymentDetails.billingAddress?.postalCode,
+              ],
+            },
+          ],
         };
       })
     );
@@ -236,5 +267,13 @@ export class ReviewSubmitComponent {
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
     const step = this.checkoutStepService.getCheckoutStep(stepType);
     return step && step.routeName;
+  }
+
+  shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
+    return steps.filter((step) => checkoutShippingSteps.includes(step.type[0]));
+  }
+
+  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
+    return steps.filter((step) => checkoutPaymentSteps.includes(step.type[0]));
   }
 }

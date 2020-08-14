@@ -12,8 +12,6 @@ import {
   CostCenter,
   Country,
   DeliveryMode,
-  FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
@@ -28,7 +26,6 @@ import { PromotionsModule } from '../../..';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CheckoutStep, CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
@@ -207,18 +204,12 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        PromotionsModule,
-        RouterTestingModule,
-        FeaturesConfigModule,
-      ],
+      imports: [I18nTestingModule, PromotionsModule, RouterTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
         MockCardComponent,
         MockUrlPipe,
-        MockFeatureLevelDirective,
       ],
       providers: [
         {
@@ -250,12 +241,6 @@ describe('ReviewSubmitComponent', () => {
         {
           provide: UserCostCenterService,
           useClass: MockUserCostCenterService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
         },
       ],
     }).compileComponents();
@@ -403,11 +388,14 @@ describe('ReviewSubmitComponent', () => {
       code: 'standard-gross',
       name: 'Standard gross',
       description: 'Standard Delivery description',
+      deliveryCost: {
+        formattedValue: '$9.99',
+      },
     };
     component.getDeliveryModeCard(selectedMode).subscribe((card) => {
       expect(card.title).toEqual('checkoutShipping.shippingMethod');
       expect(card.textBold).toEqual('Standard gross');
-      expect(card.text).toEqual(['Standard Delivery description']);
+      expect(card.text).toEqual(['Standard Delivery description', '$9.99']);
     });
   });
 
