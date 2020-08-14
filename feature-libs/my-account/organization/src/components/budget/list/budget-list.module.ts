@@ -11,6 +11,7 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
+import { TableDataLinkModule } from '../../shared/table-data/td-link.module';
 import { BudgetListComponent } from './budget-list.component';
 
 @NgModule({
@@ -32,6 +33,8 @@ import { BudgetListComponent } from './budget-list.component';
 
     FormsModule,
     NgSelectModule,
+
+    TableDataLinkModule,
   ],
   declarations: [BudgetListComponent],
 })

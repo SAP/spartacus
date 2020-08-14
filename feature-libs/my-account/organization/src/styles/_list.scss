@@ -58,7 +58,7 @@
 
       td {
         a {
-          display: flex;
+          // display: flex;
           align-items: center;
           min-height: 74px;
         }
@@ -72,11 +72,8 @@
     }
 
     td.active {
-      a.is-enabled {
+      .is-enabled {
         color: var(--cx-color-success);
-      }
-      a.is-disabled {
-        color: var(--cx-color-disabled);
       }
     }
 
@@ -164,26 +161,20 @@
       overflow: visible;
 
       a {
-        @include alt-visible-focus();
-
         justify-content: flex-start;
         padding: var(--cx-spatial-md);
 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // avoid a11y outline as we add this to the full row instead
+        outline-width: 0;
+
+        .label {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
         cx-icon {
           margin: -0.1rem 0 0 0.5rem;
-
-          // &.active-state {
-          //   margin-inline-end: var(--cx-spatial-md);
-          //   color: var(--cx-color-success);
-          // }
-
-          // &.inactive {
-          //   opacity: 0.25;
-          // }
 
           &.open {
             // hide open arrow on > mobile

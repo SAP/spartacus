@@ -1,0 +1,20 @@
+<ng-template [cxOutletRef]="outletRef" let-model>
+  <a
+    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
+    [tabindex]="tabIndex"
+  >
+    <!-- required dom node to have ellipses wrap inside flex element -->
+    <span class="label">
+      <!-- either render properties directly or render the given template -->
+      <ng-container *ngIf="getProperty(model) as prop; else tmpl">
+        {{ prop }}
+      </ng-container>
+
+      <ng-template #tmpl>
+        <ng-container
+          *ngTemplateOutlet="template; context: { model: model }"
+        ></ng-container>
+      </ng-template>
+    </span>
+  </a>
+</ng-template>

@@ -4,7 +4,7 @@
       <h3>
         {{
           'budget.header'
-            | cxTranslate: { count: dataTable.pagination.totalResults }
+            | cxTranslate: { count: dataTable.pagination?.totalResults }
         }}
       </h3>
 
@@ -31,6 +31,7 @@
       </div>
 
       <cx-table
+        *ngIf="dataTable.pagination?.totalResults > 0; else emptyList"
         [dataset]="dataTable"
         [activeRow]="{ value: code$ | async, key: 'code' }"
       >
@@ -43,33 +44,63 @@
           (viewPageEvent)="viewPage(dataTable.pagination, $event)"
         ></cx-pagination>
       </div>
-
-      <!-- <ng-template #emptyList>
-      <p class="instruction is-empty">
-        {{ 'organization.messages.emptyList' | cxTranslate }}
-      </p>
-    </ng-template> -->
     </ng-container>
   </cx-view>
 
   <router-outlet></router-outlet>
 </cx-split-view>
 
-<ng-template cxOutletRef="table.budget.data.name" let-model>
-  <ng-container
-    *ngTemplateOutlet="
-      link;
-      context: {
-        model: model,
-        label: model.name,
-        tabIndex: isActive(model, code$ | async)
-      }
-    "
-  >
-  </ng-container>
+<ng-template #emptyList>
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
 </ng-template>
 
-<ng-template cxOutletRef="table.budget.data.active" let-model>
+<cx-td-link outletRef="table.budget.data.name" prop="name" tabIndex="0">
+</cx-td-link>
+
+<cx-td-link outletRef="table.budget.data.active" [template]="active">
+</cx-td-link>
+
+<cx-td-link outletRef="table.budget.data.amount" [template]="amount">
+</cx-td-link>
+
+<cx-td-link outletRef="table.budget.data.suffix" [template]="suffix">
+</cx-td-link>
+
+<cx-td-link outletRef="table.budget.data.dateRange" [template]="dataRange">
+</cx-td-link>
+
+<cx-td-link outletRef="table.budget.data.unit" prop="orgUnit.name">
+</cx-td-link>
+
+<ng-template #amount let-model="model">
+  {{ model.budget + ' ' + model.currency }}
+</ng-template>
+
+<ng-template #active let-model="model">
+  <span [class.is-enabled]="model.active">
+    {{
+      (model.active ? 'organization.enabled' : 'organization.disabled')
+        | cxTranslate
+    }}
+  </span>
+</ng-template>
+
+<ng-template #dataRange let-model="model">
+  <a
+    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
+    [tabindex]="-1"
+  >
+    {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+  </a>
+</ng-template>
+
+<ng-template #suffix>
+  <cx-icon type="CARET_RIGHT"></cx-icon>
+</ng-template>
+
+<!-- <ng-template cxOutletRef="table.budget.data.active" let-model>
   <a
     [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
     [class.is-enabled]="model.active"
@@ -81,51 +112,4 @@
         | cxTranslate
     }}
   </a>
-</ng-template>
-
-<ng-template cxOutletRef="table.budget.data.amount" let-model>
-  <ng-container
-    *ngTemplateOutlet="
-      link;
-      context: { model: model, label: model.budget + ' ' + model.currency }
-    "
-  >
-  </ng-container>
-</ng-template>
-
-<ng-template cxOutletRef="table.budget.data.dateRange" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
-    [tabindex]="-1"
-  >
-    {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
-  </a>
-</ng-template>
-
-<ng-template cxOutletRef="table.budget.data.unit" let-model>
-  <ng-container
-    *ngTemplateOutlet="
-      link;
-      context: { model: model, label: model.orgUnit?.name }
-    "
-  >
-  </ng-container>
-</ng-template>
-
-<ng-template cxOutletRef="table.budget.data.suffix" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
-    tabindex="-1"
-  >
-    <cx-icon type="CARET_RIGHT"></cx-icon>
-  </a>
-</ng-template>
-
-<ng-template #link let-model="model" let-label="label" let-tabIndex="tabIndex">
-  <a
-    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
-    [tabindex]="tabIndex > -1 ? tabIndex : -1"
-  >
-    {{ label }}
-  </a>
-</ng-template>
+</ng-template> -->
