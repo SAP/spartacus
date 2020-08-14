@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -54,7 +53,6 @@ export class CostCenterEditComponent {
     protected costCenterService: CostCenterService,
     protected currentCostCenterService: CurrentCostCenterService,
     protected costCenterFormService: CostCenterFormService,
-    protected activatedRoute: ActivatedRoute,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.

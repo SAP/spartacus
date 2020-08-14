@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BUser,
@@ -16,6 +15,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { Observable, of } from 'rxjs';
 import { UserEditComponent } from './user-edit.component';
 import { By } from '@angular/platform-browser';
+import { CurrentUserService } from '../current-user.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -33,6 +33,11 @@ const mockUser: B2BUser = {
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
+
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  code$ = of(userCode);
+  user$ = of(mockUser);
+}
 
 class MockB2BUserService implements Partial<B2BUserService> {
   get(_userCode: string): Observable<B2BUser> {
@@ -57,14 +62,6 @@ class MockRoutingService {
   );
 }
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userCode }),
-  };
-  snapshot = {};
-  go() {}
-}
-
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let fixture: ComponentFixture<UserEditComponent>;
@@ -86,9 +83,12 @@ describe('UserEditComponent', () => {
       ],
       declarations: [UserEditComponent, MockUserFormComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: B2BUserService, useClass: MockB2BUserService },
+        {
+          provide: CurrentUserService,
+          useClass: MockCurrentUserService,
+        },
       ],
     }).compileComponents();
 
