@@ -67,6 +67,21 @@ export interface CMSComponentConfig
   [componentType: string]: CmsComponentMapping;
 }
 
+export interface FeatureModuleConfig {
+  /**
+   * Lazy resolved feature module
+   */
+  module?: () => Promise<any>;
+  /**
+   * Lazy resolved dependency modules
+   */
+  dependencies?: (() => Promise<any>)[];
+  /**
+   * Cms components covered by this feature
+   */
+  cmsComponents?: string[];
+}
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -79,6 +94,6 @@ export abstract class CmsConfig extends OccConfig
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };
-
+  featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }
