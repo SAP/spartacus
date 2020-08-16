@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnInit,
+} from '@angular/core';
 import { Budget, PaginationModel, RoutingService } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -12,9 +17,9 @@ const BASE_CLASS = 'organization';
   templateUrl: './budget-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetListComponent {
+export class BudgetListComponent implements OnInit {
   @HostBinding('class') hostClass = BASE_CLASS;
-
+  type = 'budget';
   dataTable$: Observable<Table> = this.budgetService.getTable();
 
   code$ = this.routingService
@@ -26,12 +31,16 @@ export class BudgetListComponent {
     protected budgetService: BudgetListService
   ) {}
 
+  ngOnInit() {
+    // this.dataTable$ = this.budgetService.getTable();
+  }
+
   /**
    * Paginates the budget list. Pagination is not using query parameters, as we like
    * pagination to be driven by infinite scrolling going forward.
    */
-  viewPage(pagination: PaginationModel, currentPage: number): void {
-    this.budgetService.viewPage(pagination, currentPage);
+  viewPage(event: { pagination: PaginationModel; page: number }): void {
+    this.budgetService.viewPage(event.pagination, event.page);
   }
 
   /**
@@ -39,8 +48,8 @@ export class BudgetListComponent {
    *
    * TODO: consider query parameter for sorting.
    */
-  sort(pagination: PaginationModel, sort: string) {
-    this.budgetService.sort(pagination, sort);
+  sort(event: { pagination: PaginationModel; sort: string }) {
+    this.budgetService.sort(event.pagination, event.sort);
   }
 
   isActive(model: Budget, code: string) {

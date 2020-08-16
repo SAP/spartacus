@@ -5,8 +5,8 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   OutletRefModule,
-  TableModule,
   SplitViewModule,
+  TableModule,
 } from '@spartacus/storefront';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 

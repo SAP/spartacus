@@ -2,5 +2,7 @@
   [dataTable]="dataTable$ | async"
   type="costCenter"
   [activeRow]="{ value: code$ | async, key: 'code' }"
+  (sortEvent)="sort($event)"
+  (paginateEvent)="viewPage($event)"
 >
 </cx-organization-list>

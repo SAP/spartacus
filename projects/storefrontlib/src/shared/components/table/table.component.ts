@@ -117,6 +117,9 @@ export class TableComponent {
   }
 
   isActiveRow(row): boolean {
+    if (!this.activeRow || !this.activeRow.value) {
+      return;
+    }
     return this.activeRow?.value === row?.[this.activeRow?.key];
   }
 }

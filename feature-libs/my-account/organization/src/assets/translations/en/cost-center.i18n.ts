@@ -6,6 +6,10 @@ export const costCenter = {
   currency: 'Currency',
   unit: 'Parent Unit',
 
+  byName: 'Sort by name',
+  byCode: 'Sort by code',
+  byUnitName: 'Sort by unit',
+
   messages: {
     enabled:
       'When you disable the cost center, the related data will be disabled as well. ',

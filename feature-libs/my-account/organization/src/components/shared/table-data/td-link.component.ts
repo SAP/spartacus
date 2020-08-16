@@ -18,15 +18,13 @@ export class TableDataLinkComponent {
   @Input() outlet: string;
 
   /**
-   * The tabIndex is used to render a tabindex attribue on the anchor link.
+   * The tabIndex is used to render a tabindex attribute on the anchor link.
    *
-   * defaults to `-1`.
+   * Defaults to `-1`.
    */
   @Input() tabIndex = -1;
 
   @Input() template: TemplateRef<any>;
-
-  constructor() {}
 
   getProperty(model) {
     if (!this.prop || !model) {

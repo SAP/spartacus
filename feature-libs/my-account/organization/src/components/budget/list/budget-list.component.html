@@ -1,10 +1,3 @@
-<cx-organization-list
-  [dataTable]="dataTable$ | async"
-  type="budget"
-  [activeRow]="{ value: code$ | async, key: 'code' }"
->
-</cx-organization-list>
-
 <cx-td-link
   outlet="table.budget.data.amount"
   cxRoute="budgetDetails"
@@ -26,3 +19,12 @@
 <ng-template #dataRange let-model="model">
   {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
 </ng-template>
+
+<cx-organization-list
+  [dataTable]="dataTable$ | async"
+  type="budget"
+  [activeRow]="{ value: code$ | async, key: 'code' }"
+  (sortEvent)="sort($event)"
+  (paginateEvent)="viewPage($event)"
+>
+</cx-organization-list>

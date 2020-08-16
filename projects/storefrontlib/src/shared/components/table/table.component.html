@@ -1,4 +1,7 @@
-<table *ngIf="dataset?.structure as structure">
+<table
+  *ngIf="dataset?.structure as structure"
+  [class]="dataset?.structure.styleClass"
+>
   <thead *ngIf="!structure.hideHeader">
     <tr>
       <th
@@ -37,10 +40,7 @@
     </tr>
   </thead>
 
-  <tr
-    *ngFor="let row of dataset.data; trackBy: trackData"
-    [class.is-active]="isActiveRow(row)"
-  >
+  <tr *ngFor="let row of dataset.data" [class.is-active]="isActiveRow(row)">
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
       <!-- render an outlet for each cell -->
       <ng-template

@@ -90,7 +90,7 @@ export const budgetTableConfig: TableConfig = {
     [OrganizationTableType.BUDGET]: [
       // TODO: consider cascading from smallest size
       {
-        headers: [{ key: 'name' }, { key: 'unit' }, { key: 'active' }],
+        headers: [{ key: 'name' }],
         pagination: {
           sort: 'byName',
         },

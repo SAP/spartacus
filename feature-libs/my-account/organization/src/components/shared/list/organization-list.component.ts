@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 
 @Component({
@@ -13,8 +20,20 @@ export class OrganizationListComponent {
 
   @Input() activeRow;
 
-  constructor() {}
+  @Output() sortEvent = new EventEmitter();
+  @Output() paginateEvent = new EventEmitter();
 
-  view() {}
-  sort() {}
+  viewPage(pagination: PaginationModel, page: number) {
+    this.paginateEvent.emit({
+      pagination,
+      page,
+    });
+  }
+
+  sort(pagination: PaginationModel, sort: string) {
+    this.sortEvent.emit({
+      pagination,
+      sort,
+    });
+  }
 }

@@ -9,10 +9,10 @@ export const budget = {
   amount: 'Amount',
   dateRange: 'Start - End',
 
-  byName: 'Name',
-  byUnitName: 'Unit',
-  byCode: 'Code',
-  byValue: 'Amount',
+  byName: 'Sort by Name',
+  byUnitName: 'Sort by Unit',
+  byCode: 'Sort by Code',
+  byValue: 'Sort by Amount',
 
   messages: {
     enabled:

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { BudgetListService } from '../list/budget-list.service';
 
 @Component({
   selector: 'cx-budget-details',
@@ -10,27 +9,16 @@ import { BudgetListService } from '../list/budget-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsComponent {
-  // budget$: Observable<Budget> = this.budgetRouterService.key$.pipe(
-  //   // TODO: we should do this in the facade
-  //   tap((code) => this.budgetService.loadBudget(code)),
-  //   switchMap((code) => this.budgetService.get(code)),
-  //   shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
-  // );
-
   budget$ = this.routingService.getParams().pipe(
-    tap(console.log),
     map((params) => params['budgetKey']),
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code))
   );
 
   constructor(
-    protected budgetService: BudgetService,
-    // TODO: consider relying on css only
+    protected routingService: RoutingService,
     protected modalService: ModalService,
-    protected budgetListService: BudgetListService,
-
-    protected routingService: RoutingService
+    protected budgetService: BudgetService
   ) {}
 
   update(budget: Budget) {

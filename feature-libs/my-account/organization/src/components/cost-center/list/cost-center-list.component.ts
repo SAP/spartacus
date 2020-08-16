@@ -30,8 +30,8 @@ export class CostCenterListComponent {
    * Paginates the cost center list. Pagination is not using query parameters, as we like
    * pagination to be driven by infinite scrolling going forward.
    */
-  viewPage(pagination: PaginationModel, currentPage: number): void {
-    this.costCentersService.viewPage(pagination, currentPage);
+  viewPage(event: { pagination: PaginationModel; page: number }): void {
+    this.costCentersService.viewPage(event.pagination, event.page);
   }
 
   /**
@@ -39,7 +39,7 @@ export class CostCenterListComponent {
    *
    * TODO: consider query parameter for sorting.
    */
-  sort(pagination: PaginationModel, sort: string) {
-    this.costCentersService.sort(pagination, sort);
+  sort(event: { pagination: PaginationModel; sort: string }) {
+    this.costCentersService.sort(event.pagination, event.sort);
   }
 }
