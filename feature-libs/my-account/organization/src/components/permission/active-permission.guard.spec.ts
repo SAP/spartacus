@@ -1,10 +1,9 @@
-import { Permission, RoutingService, PermissionService } from "@spartacus/core";
-import { of, Observable } from "rxjs";
-import { ActivePermissionGuard } from "./active-permission.guard";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-
+import { Permission, RoutingService, PermissionService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+import { ActivePermissionGuard } from './active-permission.guard';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
 const PERMISSION_NOT_ACTIVE = Object.freeze({ active: false });
 const PERMISSION_ACTIVE = Object.freeze({ active: true });
@@ -37,7 +36,7 @@ fdescribe('ActivePermissionGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'permissionCode' } } }
+          useValue: { snapshot: { params: { code: 'permissionCode' } } },
         },
       ],
       imports: [RouterTestingModule],
@@ -63,13 +62,15 @@ fdescribe('ActivePermissionGuard', () => {
         });
 
         it('then router should redirect to permissions page', () => {
-          activePermissionGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activePermissionGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'permission',
           });
         });
-
       });
     });
 
@@ -82,9 +83,12 @@ fdescribe('ActivePermissionGuard', () => {
         });
 
         it('then router should not redirect', () => {
-          activePermissionGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activePermissionGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled()
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,19 +101,19 @@ fdescribe('ActivePermissionGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-
       });
     });
 
     describe('when permission is not loaded', () => {
       beforeEach(() => {
-        spyOn(permissionService, 'get').and.returnValue(
-          of(PERMISSION_INVALID)
-        );
+        spyOn(permissionService, 'get').and.returnValue(of(PERMISSION_INVALID));
       });
 
       it('then router should redirect to permissions page', () => {
-        activePermissionGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+        activePermissionGuard
+          .canActivate(route.snapshot)
+          .subscribe()
+          .unsubscribe();
 
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'permission',
@@ -127,6 +131,5 @@ fdescribe('ActivePermissionGuard', () => {
         expect(emittedValue).toBe(false);
       });
     });
-
   });
 });

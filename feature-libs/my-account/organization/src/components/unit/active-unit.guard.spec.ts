@@ -1,10 +1,9 @@
-import { Unit, RoutingService, UnitService } from "@spartacus/core";
-import { of, Observable } from "rxjs";
-import { ActiveUnitGuard } from "./active-unit.guard";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-
+import { Unit, RoutingService, UnitService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+import { ActiveUnitGuard } from './active-unit.guard';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
 const PERMISSION_NOT_ACTIVE = Object.freeze({ active: false });
 const PERMISSION_ACTIVE = Object.freeze({ active: true });
@@ -37,7 +36,7 @@ fdescribe('ActiveUnitGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'unitCode' } } }
+          useValue: { snapshot: { params: { code: 'unitCode' } } },
         },
       ],
       imports: [RouterTestingModule],
@@ -57,9 +56,7 @@ fdescribe('ActiveUnitGuard', () => {
     describe('when unit is loaded', () => {
       describe('and is not active', () => {
         beforeEach(() => {
-          spyOn(unitService, 'get').and.returnValue(
-            of(PERMISSION_NOT_ACTIVE)
-          );
+          spyOn(unitService, 'get').and.returnValue(of(PERMISSION_NOT_ACTIVE));
         });
 
         it('then router should redirect to units page', () => {
@@ -69,22 +66,19 @@ fdescribe('ActiveUnitGuard', () => {
             cxRoute: 'orgUnits',
           });
         });
-
       });
     });
 
     describe('when unit is loaded', () => {
       describe('and is active', () => {
         beforeEach(() => {
-          spyOn(unitService, 'get').and.returnValue(
-            of(PERMISSION_ACTIVE)
-          );
+          spyOn(unitService, 'get').and.returnValue(of(PERMISSION_ACTIVE));
         });
 
         it('then router should not redirect', () => {
           activeUnitGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled()
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,15 +91,12 @@ fdescribe('ActiveUnitGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-
       });
     });
 
     describe('when unit is not loaded', () => {
       beforeEach(() => {
-        spyOn(unitService, 'get').and.returnValue(
-          of(PERMISSION_INVALID)
-        );
+        spyOn(unitService, 'get').and.returnValue(of(PERMISSION_INVALID));
       });
 
       it('then router should redirect to units page', () => {
@@ -127,6 +118,5 @@ fdescribe('ActiveUnitGuard', () => {
         expect(emittedValue).toBe(false);
       });
     });
-
   });
 });

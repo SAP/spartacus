@@ -1,10 +1,9 @@
-import { Budget, RoutingService, BudgetService } from "@spartacus/core";
-import { of, Observable } from "rxjs";
-import { ActiveBudgetGuard } from "./active-budget.guard";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-
+import { Budget, RoutingService, BudgetService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+import { ActiveBudgetGuard } from './active-budget.guard';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
 const BUDGET_NOT_ACTIVE = Object.freeze({ active: false });
 const BUDGET_ACTIVE = Object.freeze({ active: true });
@@ -37,7 +36,7 @@ fdescribe('ActiveBudgetGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'budgetCode' } } }
+          useValue: { snapshot: { params: { code: 'budgetCode' } } },
         },
       ],
       imports: [RouterTestingModule],
@@ -57,34 +56,35 @@ fdescribe('ActiveBudgetGuard', () => {
     describe('when budget is loaded', () => {
       describe('and is not active', () => {
         beforeEach(() => {
-          spyOn(budgetService, 'get').and.returnValue(
-            of(BUDGET_NOT_ACTIVE)
-          );
+          spyOn(budgetService, 'get').and.returnValue(of(BUDGET_NOT_ACTIVE));
         });
 
         it('then router should redirect to budgets page', () => {
-          activeBudgetGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activeBudgetGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'budget',
           });
         });
-
       });
     });
 
     describe('when budget is loaded', () => {
       describe('and is active', () => {
         beforeEach(() => {
-          spyOn(budgetService, 'get').and.returnValue(
-            of(BUDGET_ACTIVE)
-          );
+          spyOn(budgetService, 'get').and.returnValue(of(BUDGET_ACTIVE));
         });
 
         it('then router should not redirect', () => {
-          activeBudgetGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activeBudgetGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled()
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,15 +97,12 @@ fdescribe('ActiveBudgetGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-
       });
     });
 
     describe('when budget is not loaded', () => {
       beforeEach(() => {
-        spyOn(budgetService, 'get').and.returnValue(
-          of(BUDGET_INVALID)
-        );
+        spyOn(budgetService, 'get').and.returnValue(of(BUDGET_INVALID));
       });
 
       it('then router should redirect to budgets page', () => {
@@ -127,6 +124,5 @@ fdescribe('ActiveBudgetGuard', () => {
         expect(emittedValue).toBe(false);
       });
     });
-
   });
 });

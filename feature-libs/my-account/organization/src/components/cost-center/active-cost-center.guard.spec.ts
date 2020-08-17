@@ -1,10 +1,9 @@
-import { CostCenter, RoutingService, CostCenterService } from "@spartacus/core";
-import { of, Observable } from "rxjs";
-import { ActiveCostCenterGuard } from "./active-cost-center.guard";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-
+import { CostCenter, RoutingService, CostCenterService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+import { ActiveCostCenterGuard } from './active-cost-center.guard';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
 const COST_CENTER_NOT_ACTIVE = Object.freeze({ active: false });
 const COST_CENTER_ACTIVE = Object.freeze({ active: true });
@@ -37,7 +36,7 @@ fdescribe('ActiveCostCenterGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'costCenterCode' } } }
+          useValue: { snapshot: { params: { code: 'costCenterCode' } } },
         },
       ],
       imports: [RouterTestingModule],
@@ -63,13 +62,15 @@ fdescribe('ActiveCostCenterGuard', () => {
         });
 
         it('then router should redirect to costCenters page', () => {
-          activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activeCostCenterGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'costCenter',
           });
         });
-
       });
     });
 
@@ -82,9 +83,12 @@ fdescribe('ActiveCostCenterGuard', () => {
         });
 
         it('then router should not redirect', () => {
-          activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+          activeCostCenterGuard
+            .canActivate(route.snapshot)
+            .subscribe()
+            .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled()
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,7 +101,6 @@ fdescribe('ActiveCostCenterGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-
       });
     });
 
@@ -109,7 +112,10 @@ fdescribe('ActiveCostCenterGuard', () => {
       });
 
       it('then router should redirect to costCenters page', () => {
-        activeCostCenterGuard.canActivate(route.snapshot).subscribe().unsubscribe();
+        activeCostCenterGuard
+          .canActivate(route.snapshot)
+          .subscribe()
+          .unsubscribe();
 
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'costCenter',
@@ -127,6 +133,5 @@ fdescribe('ActiveCostCenterGuard', () => {
         expect(emittedValue).toBe(false);
       });
     });
-
   });
 });

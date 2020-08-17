@@ -1,10 +1,9 @@
-import { B2BUser, RoutingService, B2BUserService } from "@spartacus/core";
-import { of, Observable } from "rxjs";
-import { ActiveUserGuard } from "./active-user.guard";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-
+import { B2BUser, RoutingService, B2BUserService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+import { ActiveUserGuard } from './active-user.guard';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
 const B2B_USER_NOT_ACTIVE = Object.freeze({ active: false });
 const B2B_USER_ACTIVE = Object.freeze({ active: true });
@@ -37,7 +36,7 @@ fdescribe('ActiveUserGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'b2bUserCode' } } }
+          useValue: { snapshot: { params: { code: 'b2bUserCode' } } },
         },
       ],
       imports: [RouterTestingModule],
@@ -57,9 +56,7 @@ fdescribe('ActiveUserGuard', () => {
     describe('when user is loaded', () => {
       describe('and is not active', () => {
         beforeEach(() => {
-          spyOn(b2bUserService, 'get').and.returnValue(
-            of(B2B_USER_NOT_ACTIVE)
-          );
+          spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_NOT_ACTIVE));
         });
 
         it('then router should redirect to users page', () => {
@@ -69,22 +66,19 @@ fdescribe('ActiveUserGuard', () => {
             cxRoute: 'user',
           });
         });
-
       });
     });
 
     describe('when user is loaded', () => {
       describe('and is active', () => {
         beforeEach(() => {
-          spyOn(b2bUserService, 'get').and.returnValue(
-            of(B2B_USER_ACTIVE)
-          );
+          spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_ACTIVE));
         });
 
         it('then router should not redirect', () => {
           activeUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled()
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,15 +91,12 @@ fdescribe('ActiveUserGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-
       });
     });
 
     describe('when user is not loaded', () => {
       beforeEach(() => {
-        spyOn(b2bUserService, 'get').and.returnValue(
-          of(B2B_USER_INVALID)
-        );
+        spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_INVALID));
       });
 
       it('then router should redirect to users page', () => {
@@ -127,6 +118,5 @@ fdescribe('ActiveUserGuard', () => {
         expect(emittedValue).toBe(false);
       });
     });
-
   });
 });
