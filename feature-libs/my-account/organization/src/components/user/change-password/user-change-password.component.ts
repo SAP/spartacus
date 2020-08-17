@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   map,
   shareReplay,
@@ -11,7 +11,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { CurrentUserService } from '../current-user.service';
-import { UserFormService } from '../form/user-form.service';
+import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
 
 @Component({
   selector: 'cx-user-change-password',
@@ -22,26 +22,18 @@ import { UserFormService } from '../form/user-form.service';
 export class UserChangePasswordComponent {
   protected code$: Observable<string> = this.currentUserService.code$;
 
-  protected user$: Observable<B2BUser> = this.code$.pipe(
-    tap((code) => this.userService.load(code)),
-    switchMap((code) => this.userService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
-  );
-
-  protected form$: Observable<FormGroup> = this.user$.pipe(
-    map((user) => this.userFormService.getForm(user))
-  );
+  protected form$ = of(this.changePasswordFormService.getForm());
 
   // We have to keep all observable values consistent for a view,
   // that's why we are wrapping them into one observable
   viewModel$ = this.form$.pipe(
-    withLatestFrom(this.user$, this.code$),
-    map(([form, user, customerId]) => ({ form, customerId, user }))
+    withLatestFrom(this.code$),
+    map(([form, customerId]) => ({ form, customerId }))
   );
 
   constructor(
     protected userService: B2BUserService,
-    protected userFormService: UserFormService,
+    protected changePasswordFormService: ChangePasswordFormService,
     protected currentUserService: CurrentUserService,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
