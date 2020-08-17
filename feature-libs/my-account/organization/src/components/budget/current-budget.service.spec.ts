@@ -20,6 +20,7 @@ class MockRoutingService {
 
 describe('CurrentBudgetService', () => {
   let service: CurrentBudgetService;
+  let routingService: RoutingService;
   let budgetService: BudgetService;
 
   beforeEach(() => {
@@ -33,6 +34,7 @@ describe('CurrentBudgetService', () => {
 
     budgetService = TestBed.inject(BudgetService);
     service = TestBed.inject(CurrentBudgetService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   describe('emit budget code', () => {
@@ -114,4 +116,15 @@ describe('CurrentBudgetService', () => {
       expect(result).toBe(null);
     });
   });
+
+  describe('launch', () => {
+    fit('should launch the route with the given params', () => {
+      spyOn(routingService, 'go');
+      service.launch({ code: '123' });
+      expect(routingService.go).toHaveBeenCalledWith('budgetDetails', {
+        code: '123',
+      });
+    });
+  });
+  '';
 });

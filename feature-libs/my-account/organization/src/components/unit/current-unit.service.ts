@@ -1,27 +1,23 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { Budget, OrgUnitService, RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../constants';
+import { BaseCurrentService } from '../shared/base-current.service';
 
-@Injectable()
-export class CurrentUnitService {
+@Injectable({
+  providedIn: 'root',
+})
+export class CurrentUnitService extends BaseCurrentService<Budget> {
+  paramCode = ROUTE_PARAMS.unitCode;
+
   constructor(
-    protected service: OrgUnitService,
-    protected route: ActivatedRoute
-  ) {}
+    protected routingService: RoutingService,
+    protected unitService: OrgUnitService
+  ) {
+    super(routingService);
+  }
 
-  readonly code$ = this.route.params.pipe(
-    pluck('code'),
-    distinctUntilChanged()
-  );
-
-  readonly parentUnit$ = this.route.queryParams.pipe(
-    pluck('parentUnit'),
-    distinctUntilChanged()
-  );
-
-  readonly unit$: Observable<B2BUnit> = this.code$.pipe(
-    switchMap((code: string) => (code ? this.service.get(code) : of(null)))
-  );
+  getModel(code: string): Observable<Budget> {
+    return this.unitService.get(code);
+  }
 }
