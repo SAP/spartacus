@@ -5,7 +5,7 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
-import { ORDER_TYPE } from 'projects/core/src/model';
+import { ORDER_TYPE } from '../../../model/replenishment-order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CheckoutActions } from '../actions/index';
 import {
@@ -45,7 +45,7 @@ export function resetCheckoutOrderType(
   reducer: ActionReducer<CheckoutState, Action>
 ): ActionReducer<CheckoutState, Action> {
   return function (state, action) {
-    if (action.type === CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER) {
+    if (action.type === CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS) {
       state = {
         ...state,
         orderType: {
