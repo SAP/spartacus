@@ -1,4 +1,4 @@
-import { ORDER_TYPE } from 'projects/core/src/model/replenishment-order.model';
+import { ORDER_TYPE } from '../../../model/replenishment-order.model';
 import { CheckoutActions } from './../actions/index';
 import * as fromReducer from './order-types.reducer';
 

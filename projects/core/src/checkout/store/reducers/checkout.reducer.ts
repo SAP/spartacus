@@ -1,7 +1,7 @@
-import { ReplenishmentOrder } from 'projects/core/src/model/replenishment-order.model';
 import { Address } from '../../../model/address.model';
 import { Cart } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
