@@ -75,9 +75,9 @@ describe('UserGroupAssignUserService', () => {
     let result: Table<B2BUser>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
-    expect(result.data[0].customerId).toEqual('first');
-    expect(result.data[1].customerId).toEqual('second');
-    expect(result.data[2].customerId).toEqual('third');
+    expect(result.data[0].customerId).toEqual('user-1');
+    expect(result.data[1].customerId).toEqual('user-2');
+    expect(result.data[2].customerId).toEqual('user-3');
   });
 
   it('should assign user', () => {

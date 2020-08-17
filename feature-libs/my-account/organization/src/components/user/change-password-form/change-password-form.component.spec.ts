@@ -2,47 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  B2BUnitNode,
-  I18nTestingModule,
-  OrgUnitService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
 import { ChangePasswordFormComponent } from './change-password-form.component';
-import createSpy = jasmine.createSpy;
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-  {
-    active: true,
-    children: [],
-    id: 'unitNode2',
-    name: 'Org Unit 2',
-    parent: 'parentUnit',
-  },
-];
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  load = createSpy('load');
-  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
-    of(mockOrgUnits)
-  );
-  loadList = jasmine.createSpy('loadList');
-  getList = jasmine.createSpy('getList');
-}
-
-describe('UserFormComponent', () => {
+describe('ChangePasswordFormComponent', () => {
   let component: ChangePasswordFormComponent;
   let fixture: ComponentFixture<ChangePasswordFormComponent>;
-  let orgUnitService: OrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,10 +20,8 @@ describe('UserFormComponent', () => {
         NgSelectModule,
       ],
       declarations: [ChangePasswordFormComponent, FormErrorsComponent],
-      providers: [{ provide: OrgUnitService, useClass: MockOrgUnitService }],
+      providers: [],
     }).compileComponents();
-
-    orgUnitService = TestBed.inject(OrgUnitService);
   }));
 
   beforeEach(() => {
@@ -80,11 +45,5 @@ describe('UserFormComponent', () => {
     fixture.detectChanges();
     const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
     expect(formGroups.length).toBe(0);
-  });
-
-  it('should load units', () => {
-    component.form = new FormGroup({});
-    fixture.detectChanges();
-    expect(orgUnitService.getList).toHaveBeenCalled();
   });
 });

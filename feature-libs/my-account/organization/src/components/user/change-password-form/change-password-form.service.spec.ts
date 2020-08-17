@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ChangePasswordFormService } from './change-password-form.service';
 
-describe('UserFormService', () => {
+describe('ChangePasswordFormService', () => {
   let service: ChangePasswordFormService;
 
   beforeEach(() => {
@@ -14,15 +14,8 @@ describe('UserFormService', () => {
   });
 
   it('should build the form', () => {
-    const form = service.getForm({});
-    expect(form.get('uid')).toBeDefined();
-    expect(form.get('name')).toBeDefined();
-    expect(form.get('orgUnit').get('uid')).toBeDefined();
-  });
-
-  it('should apply the model', () => {
-    const form = service.getForm({ uid: 'test' });
-    expect(form.get('uid')).toBeDefined();
-    expect(form.get('uid').value).toEqual('test');
+    const form = service.getForm();
+    expect(form.get('password')).not.toBeNull();
+    expect(form.get('confirmPassword')).not.toBeNull();
   });
 });

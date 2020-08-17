@@ -15,14 +15,14 @@ describe('PermissionFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm({});
-    expect(form.get('orderApprovalPermissionType')).toBeDefined();
-    expect(form.get('code')).toBeDefined();
-    expect(form.get('orgUnit').get('code')).toBeDefined();
+    expect(form.get('orderApprovalPermissionType')).not.toBeNull();
+    expect(form.get('code')).not.toBeNull();
+    expect(form.get('orgUnit').get('code')).not.toBeNull();
   });
 
   it('should apply the model', () => {
     const form = service.getForm({ code: 'test' });
-    expect(form.get('code')).toBeDefined();
+    expect(form.get('code')).not.toBeNull();
     expect(form.get('code').value).toEqual('test');
   });
 });

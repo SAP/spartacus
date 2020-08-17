@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-change-password-form',
@@ -13,5 +12,5 @@ export class ChangePasswordFormComponent {
    */
   @Input() form: FormGroup;
 
-  constructor(protected userService: UserService) {}
+  constructor() {}
 }

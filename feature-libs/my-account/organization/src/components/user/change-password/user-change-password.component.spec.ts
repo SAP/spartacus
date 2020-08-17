@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import {
   B2BUser,
   B2BUserService,
@@ -12,11 +14,9 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { of } from 'rxjs';
 import { UserChangePasswordComponent } from './user-change-password.component';
-import { By } from '@angular/platform-browser';
 import { CurrentUserService } from '../current-user.service';
-import { UserFormService } from '../form/user-form.service';
+import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -62,7 +62,8 @@ class MockRoutingService {
   );
 }
 
-class MockUserFormService implements Partial<UserFormService> {
+class MockChangePasswordFormService
+  implements Partial<ChangePasswordFormService> {
   getForm(): FormGroup {
     return new FormGroup({
       customerId: new FormControl(customerId),
@@ -76,7 +77,7 @@ describe('UserChangePasswordComponent', () => {
   let userService: B2BUserService;
   let routingService: RoutingService;
   let saveButton;
-  let userFormComponent;
+  let changePasswordFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -93,7 +94,10 @@ describe('UserChangePasswordComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: B2BUserService, useClass: MockB2BUserService },
-        { provide: UserFormService, useClass: MockUserFormService },
+        {
+          provide: ChangePasswordFormService,
+          useClass: MockChangePasswordFormService,
+        },
       ],
     })
       .overrideComponent(UserChangePasswordComponent, {
@@ -118,8 +122,9 @@ describe('UserChangePasswordComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
-    userFormComponent = fixture.debugElement.query(By.css('cx-user-form'))
-      .componentInstance;
+    changePasswordFormComponent = fixture.debugElement.query(
+      By.css('cx-change-password-form')
+    ).componentInstance;
   });
 
   // not sure why this is needed, but we're failing otherwise
@@ -134,7 +139,7 @@ describe('UserChangePasswordComponent', () => {
   describe('save valid form', () => {
     it('should disable form on save ', () => {
       saveButton.nativeElement.click();
-      expect(userFormComponent.form.disabled).toBeTruthy();
+      expect(changePasswordFormComponent.form.disabled).toBeTruthy();
     });
 
     it('should update user', () => {
