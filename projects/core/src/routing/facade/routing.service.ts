@@ -19,11 +19,11 @@ export class RoutingService {
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService: RoutingParamsService
+    protected routingParamsService?: RoutingParamsService
   ) {}
 
   getParams(): Observable<{ [key: string]: string }> {
-    return this.routingParamsService.getParams();
+    return this.routingParamsService?.getParams();
   }
 
   /**

@@ -10,14 +10,15 @@ import { filter, map, shareReplay, startWith } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class RoutingParamsService {
-  protected routerEvent$ = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    startWith(this.router)
+  protected navigationEndEvent$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd)
   );
 
   protected readonly params$: Observable<{
     [key: string]: string;
-  }> = this.routerEvent$.pipe(
+  }> = this.navigationEndEvent$.pipe(
+    // tslint:disable-next-line: deprecation (https://github.com/ReactiveX/rxjs/issues/4772)
+    startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
     map(() => this.findAllParam(this.router.routerState.snapshot.root)),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
