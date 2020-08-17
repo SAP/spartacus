@@ -40,14 +40,17 @@ const mockRouterData: ConfigurationRouter.Data = {
 
 let component: ConfigAddToCartButtonComponent;
 let fixture: ComponentFixture<ConfigAddToCartButtonComponent>;
+let htmlElem: HTMLElement;
 let routerStateObservable = null;
 let productConfigurationObservable = null;
+let pendingChangesObservable = null;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
   productConfigurationObservable = of(mockProductConfiguration);
   fixture = TestBed.createComponent(ConfigAddToCartButtonComponent);
   component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
 
@@ -62,7 +65,7 @@ class MockConfiguratorCommonsService {
   removeConfiguration() {}
   removeUiState() {}
   hasPendingChanges() {
-    return of(false);
+    return pendingChangesObservable;
   }
 }
 
@@ -195,6 +198,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   beforeEach(() => {
     routerStateObservable = null;
     productConfigurationObservable = null;
+    pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     configuratorCommonsService = TestBed.inject(
@@ -215,6 +219,25 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should create', () => {
     initialize();
     expect(component).toBeTruthy();
+  });
+
+  it('should render button that is not disabled in case there are no pending changes', () => {
+    initialize();
+    expect(
+      htmlElem
+        .querySelector('.cx-config-add-to-cart-btn')
+        .innerHTML.includes('disabled')
+    ).toBe(false);
+  });
+
+  it('should render disabled button in case there are pending changes', () => {
+    pendingChangesObservable = of(true);
+    initialize();
+    expect(
+      htmlElem
+        .querySelector('.cx-config-add-to-cart-btn')
+        .innerHTML.includes('disabled')
+    ).toBe(true);
   });
 
   describe('onAddToCart', () => {
