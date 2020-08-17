@@ -9,13 +9,13 @@ import { CostCenterService, RoutingService, CostCenter } from '@spartacus/core';
 })
 export class ActiveCostCenterGuard implements CanActivate {
   constructor(
-    protected costCenterService$: CostCenterService,
+    protected costCenterService: CostCenterService,
     protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
     const code = activatedRoute.params['code'];
-    return this.costCenterService$.get(code).pipe(
+    return this.costCenterService.get(code).pipe(
       map((costCenter) => {
         if (costCenter && this.isActive(costCenter)) {
           return true;
