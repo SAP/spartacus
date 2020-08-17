@@ -1,2 +1,2 @@
-export * from './order-approval-detail/order-approval-details.module';
-export * from './order-approval-list/order-approval-list.module';
+export * from './details/order-approval-details.module';
+export * from './list/order-approval-list.module';
