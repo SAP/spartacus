@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { OrgUnitService, RoutingService, OrgUnit } from '@spartacus/core';
+import { OrgUnitService, RoutingService, B2BUnit } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class ActiveUnitGuard implements CanActivate {
     );
   }
 
-  protected isActive(unit: OrgUnit): boolean {
+  protected isActive(unit: B2BUnit): boolean {
     return unit.active;
   }
 }

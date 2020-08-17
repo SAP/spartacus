@@ -1,4 +1,4 @@
-import { Unit, RoutingService, UnitService } from '@spartacus/core';
+import { B2BUnit, RoutingService, OrgUnitService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 import { ActiveUnitGuard } from './active-unit.guard';
 import { TestBed } from '@angular/core/testing';
@@ -10,7 +10,7 @@ const PERMISSION_ACTIVE = Object.freeze({ active: true });
 const PERMISSION_INVALID = Object.freeze({});
 
 class UnitServiceStub {
-  get(): Observable<Unit> {
+  get(): Observable<B2BUnit> {
     return of();
   }
 }
@@ -20,7 +20,7 @@ const mockRoutingService = { go: () => {} };
 describe('ActiveUnitGuard', () => {
   let activeUnitGuard: ActiveUnitGuard;
   let routingService: RoutingService;
-  let unitService: UnitService;
+  let unitService: OrgUnitService;
   let route: ActivatedRoute;
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('ActiveUnitGuard', () => {
           useValue: mockRoutingService,
         },
         {
-          provide: UnitService,
+          provide: OrgUnitService,
           useClass: UnitServiceStub,
         },
         {
@@ -44,7 +44,7 @@ describe('ActiveUnitGuard', () => {
 
     activeUnitGuard = TestBed.inject(ActiveUnitGuard);
     routingService = TestBed.inject(RoutingService);
-    unitService = TestBed.inject(UnitService);
+    unitService = TestBed.inject(OrgUnitService);
     route = TestBed.inject(ActivatedRoute);
   });
 
