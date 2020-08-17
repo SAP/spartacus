@@ -15,6 +15,7 @@ import { UserAssignPermissionsComponent } from './permissions/assign/user-assign
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
+import { UserChangePasswordComponent } from './change-password/user-change-password.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -35,6 +36,10 @@ export const userRoutingConfig: RoutingConfig = {
       },
       userEdit: {
         paths: ['organization/users/:code/edit'],
+        paramsMapping: { code: 'customerId' },
+      },
+      userChangePassword: {
+        paths: ['organization/users/:code/change-password'],
         paramsMapping: { code: 'customerId' },
       },
       userApprovers: {
@@ -121,6 +126,10 @@ export const userCmsConfig: CmsConfig = {
         {
           path: ':code/edit',
           component: UserEditComponent,
+        },
+        {
+          path: ':code/change-password',
+          component: UserChangePasswordComponent,
         },
       ],
       guards: [AuthGuard],
