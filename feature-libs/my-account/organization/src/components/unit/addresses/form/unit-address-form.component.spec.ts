@@ -68,21 +68,6 @@ const mockRegions: Region[] = [
   },
 ];
 
-// const addressId = 'a1';
-
-// const mockAddress: Partial<B2BAddress> = {
-//   id: addressId,
-//   firstName: 'John',
-//   lastName: 'Doe',
-//   titleCode: 'mr',
-//   line1: 'Toyosaki 2 create on cart',
-//   line2: 'line2',
-//   town: 'town',
-//   region: { isocode: 'JP-27' },
-//   postalCode: 'zip',
-//   country: { isocode: 'JP' },
-// };
-
 class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy('getRegions').and.returnValue(of(mockRegions));
 }

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { I18nTestingModule } from '@spartacus/core';
+import { B2BUnitNode, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitChildrenComponent } from './unit-children.component';
 import { TableModule } from '@spartacus/storefront';
 import { CurrentUnitService } from '../current-unit.service';
@@ -12,9 +12,28 @@ import { UnitChildrenService } from './unit-children.service';
 
 const code = 'b1';
 
+const mockChildren: EntitiesModel<B2BUnitNode> = {
+  values: [
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Services',
+      name: 'Rustic Services',
+      parent: 'Rustic',
+    },
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Retail',
+      name: 'Rustic Retail',
+      parent: 'Rustic',
+    },
+  ],
+};
+
 class MockUnitChildrenService {
   getTable = function () {
-    return of({});
+    return of(mockChildren);
   };
 }
 
