@@ -61,6 +61,9 @@ class MockConfiguratorCommonsService {
   }
   removeConfiguration() {}
   removeUiState() {}
+  hasPendingChanges() {
+    return of(false);
+  }
 }
 
 class MockConfiguratorCartService {
