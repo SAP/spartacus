@@ -15,6 +15,13 @@
       <a
         class="link"
         [class.disabled]="!user.active"
+        [routerLink]="{ cxRoute: 'userChangePassword', params: user } | cxUrl"
+      >
+        {{ 'organization.changePassword' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [class.disabled]="!user.active"
         [routerLink]="{ cxRoute: 'userEdit', params: user } | cxUrl"
       >
         {{ 'organization.edit' | cxTranslate }}

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { B2BUserService, RoutingService, B2BUser } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   map,
   shareReplay,
@@ -22,13 +22,20 @@ import { ChangePasswordFormService } from '../change-password-form/change-passwo
 export class UserChangePasswordComponent {
   protected code$: Observable<string> = this.currentUserService.code$;
 
-  protected form$ = of(this.changePasswordFormService.getForm());
+  protected user$: Observable<B2BUser> = this.code$.pipe(
+    tap((code) => this.userService.load(code)),
+    switchMap((code) => this.userService.get(code)),
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+  );
 
+  protected form$: Observable<FormGroup> = this.user$.pipe(
+    map(() => this.changePasswordFormService.getForm())
+  );
   // We have to keep all observable values consistent for a view,
   // that's why we are wrapping them into one observable
   viewModel$ = this.form$.pipe(
-    withLatestFrom(this.code$),
-    map(([form, customerId]) => ({ form, customerId }))
+    withLatestFrom(this.user$, this.code$),
+    map(([form, user, customerId]) => ({ form, customerId, user }))
   );
 
   constructor(

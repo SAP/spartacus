@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
-import { UserFormModule } from '../form/user-form.module';
+import { ChangePasswordFormModule } from '../change-password-form/change-password-form.module';
 import { UserChangePasswordComponent } from './user-change-password.component';
 
 @NgModule({
@@ -12,12 +12,10 @@ import { UserChangePasswordComponent } from './user-change-password.component';
     CommonModule,
     RouterModule,
     UrlModule,
-
     I18nModule,
     SplitViewModule,
     IconModule,
-
-    UserFormModule,
+    ChangePasswordFormModule,
     ReactiveFormsModule,
   ],
   declarations: [UserChangePasswordComponent],
