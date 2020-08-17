@@ -34,7 +34,7 @@ describe('ChangePasswordFormComponent', () => {
   });
 
   it('should render form groups', () => {
-    component.form = new FormGroup({ uid: new FormControl() });
+    component.form = new FormGroup({ password: new FormControl() });
     fixture.detectChanges();
     const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
     expect(formGroups.length).toBeGreaterThan(0);

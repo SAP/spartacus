@@ -18,7 +18,7 @@ describe('BudgetFormService', () => {
     expect(form.get('code')).not.toBeNull();
     expect(form.get('name')).not.toBeNull();
     expect(form.get('currency').get('isocode')).not.toBeNull();
-    expect(form.get('unit').get('uid')).not.toBeNull();
+    expect(form.get('orgUnit').get('uid')).not.toBeNull();
   });
 
   it('should apply the model', () => {

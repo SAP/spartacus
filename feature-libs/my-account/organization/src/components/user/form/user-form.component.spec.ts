@@ -45,7 +45,6 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
     of(mockOrgUnits)
   );
   loadList = jasmine.createSpy('loadList');
-  getList = jasmine.createSpy('getList');
 }
 
 describe('UserFormComponent', () => {
@@ -97,6 +96,6 @@ describe('UserFormComponent', () => {
   it('should load units', () => {
     component.form = new FormGroup({});
     fixture.detectChanges();
-    expect(orgUnitService.getList).toHaveBeenCalled();
+    expect(orgUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 });
