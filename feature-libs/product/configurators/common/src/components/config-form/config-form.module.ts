@@ -14,6 +14,8 @@ import { ConfigAttributeNumericInputFieldModule } from './../config-attribute/co
 import { ConfigAttributeRadioButtonModule } from './../config-attribute/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.module';
 import { ConfigAttributeReadOnlyModule } from './../config-attribute/config-attribute-types/config-attribute-read-only/config-attribute-read-only.module';
 import { ConfigAttributeSingleSelectionImageModule } from './../config-attribute/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.module';
+import { ConfigConflictDescriptionModule } from './../config-conflict-description/config-conflict-description.module';
+import { ConfigConflictSuggestionModule } from './../config-conflict-suggestion/config-conflict-suggestion.module';
 import { ConfigFormComponent } from './config-form.component';
 
 @NgModule({
@@ -35,6 +37,8 @@ import { ConfigFormComponent } from './config-form.component';
     ConfigAttributeCheckboxListModule,
     ConfigAttributeDropDownModule,
     ConfigAttributeMultiSelectionImageModule,
+    ConfigConflictDescriptionModule,
+    ConfigConflictSuggestionModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationForm: {
