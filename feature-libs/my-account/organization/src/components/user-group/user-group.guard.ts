@@ -14,11 +14,9 @@ export class UserGroupGuard implements CanActivate {
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
-    console.log(' GUARD ACTIVATED');
     const code = activatedRoute.params['code'];
     return this.userGroupService.get(code).pipe(
       map((userGroup) => {
-        console.log(userGroup);
         if (this.isEmpty(userGroup)) {
           this.routingService.go({ cxRoute: 'userGroup' });
           return false;
