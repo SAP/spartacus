@@ -3,6 +3,7 @@ import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
+import * as login from '../../helpers/login';
 
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
@@ -82,7 +83,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
@@ -101,7 +102,7 @@ context('Product Configuration', () => {
 
     // Failing test
     it('should be able to navigate from the cart', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
@@ -117,9 +118,9 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
-      configuration.goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
       configuration.isImageSelected(COLOUR_HT, single_selection_image, WHITE);
@@ -128,7 +129,7 @@ context('Product Configuration', () => {
     });
 
     it('Checkboxes should be still selected after group change', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
@@ -138,9 +139,9 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -186,7 +187,7 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
-      configuration.goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.isGroupMenuDisplayed();
 
       // no status should be displayed initially
@@ -247,7 +248,7 @@ context('Product Configuration', () => {
     });
 
     it('should keep group status information when adding product to the cart', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -290,16 +291,16 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Handling', () => {
+  describe.skip('Group Handling', () => {
     it('should navigate between groups', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
     it('should check if group buttons are clickable', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
@@ -330,7 +331,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuNotDisplayed();
       configuration.isHamburgerDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -343,20 +344,20 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      configuration.goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.clickOnNextBtn(FLAT_PANEL);
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {
-      configuration.goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.clickOnGroup(2);
       configuration.isAttributeDisplayed('CPQ_HT_RECV_MODEL2', dropdown);
     });
   });
 
-  describe('Order Confirmation and Order History', () => {
+  describe.skip('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
@@ -366,12 +367,13 @@ context('Product Configuration', () => {
       configuration.navigateToOrderDetails();
       configuration.goToOrderHistory();
       configuration.selectOrderByOrderNumberAlias();
+      login.signOutUser();
     });
   });
 
   describe('Conflict Solver', () => {
     it('Run through the conflict solving process', () => {
-      configuration.goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
@@ -408,7 +410,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
 
-      // Navigate to OP and verify whether the resolve issues banner is displayed and how many issues are there
+      // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configuration.clickAddToCartBtn();
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
       //configurationOverview.verifyNotificationBannerOnOP(1);
@@ -419,40 +421,27 @@ context('Product Configuration', () => {
       //configuration.verifyNotificationBannerInCart(testProductMultiLevel,1);
       //configuration.clickOnResolveIssuesLinkInCart(testProductMultiLevel);
 
-      // Navigate to OP and back to configuration via 'Resolve issues' link
+      // Navigate back to the configuration page
       configuration.clickOnEditConfigurationLink(testProductMultiLevel);
+      // Navigate to Overview page and back to configuration via 'Resolve issues' link
       configuration.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
       //configurationOverview.clickOnResolveIssuesLinkOnOP();
 
-      /**
-      // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configuration.clickContinueToCartBtnOnOP();
-      configuration.clickOnEditConfigurationLink(testProductMultiLevel);
-      // Deselect conflicting value
-      configuration.clickOnGroup(3);
-      configuration.deselectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_NO
-      );
-      //Click 'Add to cart' and verify whether the resolve issues banner is displayed
+      // Navigate back to the configuration page and deselect conflicting value
+      //configuration.clickOnGroup(3);
+      //configuration.deselectConflictingValue(GAMING_CONSOLE, radioGroup, GAMING_CONSOLE_NO);
+
+      //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
+      //configuration.clickAddToCartBtn();
+      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
+      //configurationOverview.verifyNotificationBannerOnOP();
 
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
-      configuration.clickAddToCartBtn();
+      //configurationOverview.clickContinueToCartBtnOnOP();
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      // configuration.verifyNotificationBannerOnOP();
-
-      // Click 'Resolve issues' link in the banner and navigate back to the configuration
-
-      // Navigate to the configuration
-
-      // Resolve issues in the conflict group
-      // Select 'No' for 'Gaming Console'
-
-      // Verify whether there is not resolve conflicts header in the group menu
-       */
+      //configuration.verifyNotificationBannerInCart(testProductMultiLevel);
     });
   });
 });

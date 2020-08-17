@@ -21,7 +21,10 @@ const resolveIssuesLinkSelector =
  * @param {string} configuratorType - Configuration type
  * @param {string} productId - Product ID
  */
-export function goToConfigPage(configuratorType: string, productId: string) {
+export function goToConfigurationPage(
+  configuratorType: string,
+  productId: string
+) {
   cy.visit(
     `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`
   ).then(() => {
@@ -40,7 +43,7 @@ function isGlobalMessageNotDisplayed() {
  * Verifies whether the updating configuration message is not displayed on the top of the configuration.
  */
 function isUpdatingMessageNotDisplayed() {
-  cy.get('cx-config-message').should('not.be.visible');
+  cy.get('.cx-config-update-message').should('not.be.visible');
 }
 
 /**
