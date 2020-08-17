@@ -45,6 +45,7 @@
           bindLabel="name"
           bindValue="isocode"
           [class.invalid]="form.get('currency.isocode').invalid"
+          appendTo="body"
         >
         </ng-select>
         <cx-form-errors
@@ -71,6 +72,7 @@
           bindLabel="name"
           bindValue="id"
           [readonly]="form.get('unit.uid').disabled"
+          appendTo="body"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
