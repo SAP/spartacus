@@ -64,23 +64,6 @@ const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
 const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
-function goToConfigPage(configuratorType, product) {
-  cy.visit(
-    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
-  ).then(() => {
-    configuration.isConfigPageDisplayed();
-  });
-}
-
-function goToConfigOverviewPage(configuratorType, product) {
-  cy.visit(
-    `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${product}`
-  ).then(() => {
-    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    configurationOverview.isConfigOverviewPageDisplayed();
-  });
-}
-
 function goToPDPage(product) {
   cy.visit(`electronics-spa/en/USD/product/${product}/${product}`).then(() => {
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
@@ -99,7 +82,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe.skip('Navigate to Product Configuration Page', () => {
+  describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
@@ -111,14 +94,14 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the overview page', () => {
-      goToConfigOverviewPage(configurator, testProduct);
+      configurationOverview.goToConfigOverviewPage(configurator, testProduct);
       configurationOverview.navigateToConfigurationPage();
       configuration.isConfigPageDisplayed();
     });
 
     // Failing test
     it('should be able to navigate from the cart', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
@@ -134,9 +117,9 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Configure Product', () => {
+  describe('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
-      goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
       configuration.isImageSelected(COLOUR_HT, single_selection_image, WHITE);
@@ -145,7 +128,7 @@ context('Product Configuration', () => {
     });
 
     it('Checkboxes should be still selected after group change', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
@@ -155,9 +138,9 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Group Status', () => {
+  describe('Group Status', () => {
     it('should set group status for single level product', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -203,7 +186,7 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
-      goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigPage(configurator, testProductMultiLevel);
       configuration.isGroupMenuDisplayed();
 
       // no status should be displayed initially
@@ -264,7 +247,7 @@ context('Product Configuration', () => {
     });
 
     it('should keep group status information when adding product to the cart', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -291,7 +274,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       configuration.clickAddToCartBtn();
-      configurationOverview.clickAddToCartBtnOnOP();
+      configurationOverview.clickContinueToCartBtnOnOP();
 
       //We assume only one product is in the cart
       configuration.clickOnEditConfigurationLink(testProduct);
@@ -307,16 +290,16 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Group Handling', () => {
+  describe('Group Handling', () => {
     it('should navigate between groups', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
     it('should check if group buttons are clickable', () => {
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
@@ -347,7 +330,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
-      goToConfigPage(configurator, testProduct);
+      configuration.goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuNotDisplayed();
       configuration.isHamburgerDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -360,20 +343,20 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigPage(configurator, testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.clickOnNextBtn(FLAT_PANEL);
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {
-      goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigPage(configurator, testProductMultiLevel);
       configuration.clickOnGroup(2);
       configuration.isAttributeDisplayed('CPQ_HT_RECV_MODEL2', dropdown);
     });
   });
 
-  describe.skip('Order Confirmation and Order History', () => {
+  describe('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
@@ -388,7 +371,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('Run through the conflict solving process', () => {
-      goToConfigPage(configurator, testProductMultiLevel);
+      configuration.goToConfigPage(configurator, testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
@@ -431,7 +414,7 @@ context('Product Configuration', () => {
       //configurationOverview.verifyNotificationBannerOnOP(1);
 
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configurationOverview.clickAddToCartBtnOnOP();
+      configurationOverview.clickContinueToCartBtnOnOP();
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
       //configuration.verifyNotificationBannerInCart(testProductMultiLevel,1);
       //configuration.clickOnResolveIssuesLinkInCart(testProductMultiLevel);
@@ -445,7 +428,7 @@ context('Product Configuration', () => {
 
       /**
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configuration.clickAddToCartBtnOnOP();
+      configuration.clickContinueToCartBtnOnOP();
       configuration.clickOnEditConfigurationLink(testProductMultiLevel);
       // Deselect conflicting value
       configuration.clickOnGroup(3);
