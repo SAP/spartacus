@@ -36,7 +36,7 @@ export class CheckoutEffects {
   @Effect()
   addDeliveryAddress$: Observable<
     | UserActions.LoadUserAddresses
-    | CheckoutActions.SetDeliveryAddressSuccess
+    | CheckoutActions.SetDeliveryAddress
     | CheckoutActions.AddDeliveryAddressFail
   > = this.actions$.pipe(
     ofType(CheckoutActions.ADD_DELIVERY_ADDRESS),
@@ -53,11 +53,21 @@ export class CheckoutEffects {
               });
             }
             if (payload.userId === OCC_USER_ID_ANONYMOUS) {
-              return [new CheckoutActions.SetDeliveryAddressSuccess(address)];
+              return [
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
             } else {
               return [
                 new UserActions.LoadUserAddresses(payload.userId),
-                new CheckoutActions.SetDeliveryAddressSuccess(address),
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
               ];
             }
           }),

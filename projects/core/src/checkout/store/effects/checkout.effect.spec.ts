@@ -114,9 +114,11 @@ describe('Checkout effect', () => {
       });
 
       const completion1 = new UserActions.LoadUserAddresses(userId);
-      const completion2 = new CheckoutActions.SetDeliveryAddressSuccess(
-        address
-      );
+      const completion2 = new CheckoutActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -131,7 +133,11 @@ describe('Checkout effect', () => {
         address: address,
       });
 
-      const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
+      const completion = new CheckoutActions.SetDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
