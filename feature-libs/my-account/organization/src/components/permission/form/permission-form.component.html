@@ -42,30 +42,6 @@
     </div>
   </ng-container>
 
-  <ng-container
-    *ngIf="form.get('orgUnit') && units$ | async as units"
-    [formGroup]="form.get('orgUnit')"
-  >
-    <div class="form-group">
-      <label aria-required="true">
-        <span class="label-content required">{{
-          'permission.orgUnit' | cxTranslate
-        }}</span>
-        <ng-select
-          formControlName="uid"
-          [searchable]="false"
-          [clearable]="false"
-          [items]="units"
-          bindLabel="name"
-          bindValue="id"
-          [readonly]="form.get('orgUnit').disabled"
-        >
-        </ng-select>
-        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
   <ng-container *ngIf="form.get('periodRange')">
     <div class="form-group">
       <label aria-required="true">
@@ -122,5 +98,30 @@
         />
         <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
       </label>
-    </div> </ng-container
-></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="form.get('orgUnit') && units$ | async as units"
+    [formGroup]="form.get('orgUnit')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'permission.orgUnit' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="units"
+          bindLabel="name"
+          bindValue="id"
+          [readonly]="form.get('orgUnit').disabled"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+</ng-container>
