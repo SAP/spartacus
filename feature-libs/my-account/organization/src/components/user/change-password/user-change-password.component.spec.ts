@@ -1,59 +1,56 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import {
-  CostCenter,
-  CostCenterService,
+  B2BUser,
+  B2BUserService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { of } from 'rxjs';
-import { CurrentCostCenterService } from '../current-cost-center.service';
-import { CostCenterEditComponent } from './cost-center-edit.component';
-import { CostCenterFormService } from '../form/cost-center-form.service';
+import { UserChangePasswordComponent } from './user-change-password.component';
+import { CurrentUserService } from '../current-user.service';
+import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-cost-center-form',
+  selector: 'cx-user-form',
   template: '',
 })
-class MockCostCenterFormComponent {
+class MockUserFormComponent {
   @Input() form;
 }
 
-const costCenterCode = 'b1';
+const customerId = 'b1';
 
-const mockCostCenter: CostCenter = {
-  code: costCenterCode,
-  name: 'costCenter1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
+const mockUser: B2BUser = {
+  customerId,
+  uid: 'userCode',
+  name: 'user1',
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCurrentCostCenterService
-  implements Partial<CurrentCostCenterService> {
-  code$ = of(costCenterCode);
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  code$ = of(customerId);
+  user$ = of(mockUser);
 }
 
-class MockCostCenterService implements Partial<CostCenterService> {
+class MockB2BUserService implements Partial<B2BUserService> {
   update = createSpy('update');
   load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockCostCenter));
+  get = createSpy('get').and.returnValue(of(mockUser));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code: costCenterCode,
+      code: customerId,
     },
   },
 };
@@ -65,21 +62,22 @@ class MockRoutingService {
   );
 }
 
-class MockCostCenterFormService implements Partial<CostCenterFormService> {
+class MockChangePasswordFormService
+  implements Partial<ChangePasswordFormService> {
   getForm(): FormGroup {
     return new FormGroup({
-      code: new FormControl(costCenterCode),
+      customerId: new FormControl(customerId),
     });
   }
 }
 
-describe('CostCenterEditComponent', () => {
-  let component: CostCenterEditComponent;
-  let fixture: ComponentFixture<CostCenterEditComponent>;
-  let costCenterService: CostCenterService;
+describe('UserChangePasswordComponent', () => {
+  let component: UserChangePasswordComponent;
+  let fixture: ComponentFixture<UserChangePasswordComponent>;
+  let userService: B2BUserService;
   let routingService: RoutingService;
   let saveButton;
-  let costCenterFormComponent;
+  let changePasswordFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,37 +90,40 @@ describe('CostCenterEditComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
+      declarations: [UserChangePasswordComponent, MockUserFormComponent],
       providers: [
-        { provide: CostCenterFormService, useClass: MockCostCenterFormService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: B2BUserService, useClass: MockB2BUserService },
+        {
+          provide: ChangePasswordFormService,
+          useClass: MockChangePasswordFormService,
+        },
       ],
     })
-      .overrideComponent(CostCenterEditComponent, {
+      .overrideComponent(UserChangePasswordComponent, {
         set: {
           providers: [
             {
-              provide: CurrentCostCenterService,
-              useClass: MockCurrentCostCenterService,
+              provide: CurrentUserService,
+              useClass: MockCurrentUserService,
             },
           ],
         },
       })
       .compileComponents();
 
-    costCenterService = TestBed.inject(CostCenterService);
+    userService = TestBed.inject(B2BUserService);
 
     routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterEditComponent);
+    fixture = TestBed.createComponent(UserChangePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
-    costCenterFormComponent = fixture.debugElement.query(
-      By.css('cx-cost-center-form')
+    changePasswordFormComponent = fixture.debugElement.query(
+      By.css('cx-change-password-form')
     ).componentInstance;
   });
 
@@ -138,26 +139,22 @@ describe('CostCenterEditComponent', () => {
   describe('save valid form', () => {
     it('should disable form on save ', () => {
       saveButton.nativeElement.click();
-      expect(costCenterFormComponent.form.disabled).toBeTruthy();
+      expect(changePasswordFormComponent.form.disabled).toBeTruthy();
     });
 
-    it('should update cost center', () => {
+    it('should update user', () => {
       saveButton.nativeElement.click();
-      expect(costCenterService.update).toHaveBeenCalledWith(costCenterCode, {
-        code: costCenterCode,
+      expect(userService.update).toHaveBeenCalledWith(customerId, {
+        customerId,
       });
     });
 
     it('should navigate to the detail page', () => {
       saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'costCenterDetails',
-        params: costCenterFormComponent.form.value,
+        cxRoute: 'userDetails',
+        params: { customerId },
       });
     });
-  });
-
-  it('should trigger reload of cost center model on each code change', () => {
-    expect(costCenterService.load).toHaveBeenCalledWith(mockCostCenter.code);
   });
 });
