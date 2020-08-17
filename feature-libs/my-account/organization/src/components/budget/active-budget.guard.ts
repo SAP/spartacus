@@ -9,13 +9,13 @@ import { map } from 'rxjs/operators';
 })
 export class ActiveBudgetGuard implements CanActivate {
   constructor(
-    protected budgetService$: BudgetService,
+    protected budgetService: BudgetService,
     protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
     const code = activatedRoute.params['code'];
-    return this.budgetService$.get(code).pipe(
+    return this.budgetService.get(code).pipe(
       map((budget) => {
         if (budget && this.isActive(budget)) {
           return true;
