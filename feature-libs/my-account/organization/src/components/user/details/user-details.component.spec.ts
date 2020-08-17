@@ -9,9 +9,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
-import createSpy = jasmine.createSpy;
-import { UserEditComponent } from '../edit/user-edit.component';
 import { CurrentUserService } from '../current-user.service';
+import createSpy = jasmine.createSpy;
 
 const customerId = 'b1';
 
@@ -71,7 +70,7 @@ describe('UserDetailsComponent', () => {
         { provide: ModalService, useClass: MockModalService },
       ],
     })
-      .overrideComponent(UserEditComponent, {
+      .overrideComponent(UserDetailsComponent, {
         set: {
           providers: [
             {
