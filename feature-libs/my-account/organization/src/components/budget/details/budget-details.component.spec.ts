@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BudgetService, Budget, I18nTestingModule } from '@spartacus/core';
+import { Budget, BudgetService, I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { BudgetDetailsComponent } from './budget-details.component';
 import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 
 const budgetCode = 'b1';

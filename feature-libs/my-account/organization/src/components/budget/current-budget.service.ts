@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
+import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import { BUDGET_CODE } from '../constants';
 
 /**
  * Provides appropriate model based on the routing params.
@@ -10,22 +10,38 @@ import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
  * It's NOT meant to be provided in the root injector, BUT on the level
  * of the component activated by the route with routing params.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CurrentBudgetService {
   constructor(
-    protected service: BudgetService,
-    protected route: ActivatedRoute
+    protected routingService: RoutingService,
+    protected budgetService: BudgetService
   ) {}
 
-  readonly code$ = this.route.params.pipe(
-    pluck('code'),
-    distinctUntilChanged()
-  );
+  /**
+   * Exposes the budget code from the full route, including any of the child routes.
+   */
+  readonly code$: Observable<string> = this.routingService
+    .getParams()
+    .pipe(pluck(BUDGET_CODE), distinctUntilChanged());
+
+  readonly parentUnit$: Observable<
+    string
+  > = this.routingService
+    .getRouterState()
+    .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
 
   /**
    * Emits the current model or null, if there is no model available
    */
   readonly Budget$: Observable<Budget> = this.code$.pipe(
-    switchMap((code: string) => (code ? this.service.get(code) : of(null)))
+    switchMap((code: string) =>
+      code ? this.budgetService.get(code) : of(null)
+    )
   );
+
+  launch(params: any) {
+    this.routingService.go({ cxRoute: 'budgetDetails', params });
+  }
 }

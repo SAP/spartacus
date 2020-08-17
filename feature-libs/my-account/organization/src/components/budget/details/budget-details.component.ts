@@ -9,7 +9,6 @@ import { CurrentBudgetService } from '../current-budget.service';
   selector: 'cx-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentBudgetService],
 })
 export class BudgetDetailsComponent {
   /**
@@ -24,10 +23,10 @@ export class BudgetDetailsComponent {
   );
 
   constructor(
+    protected currentBudgetService: CurrentBudgetService,
     protected budgetService: BudgetService,
     // TODO: consider relying on css only
-    protected modalService: ModalService,
-    protected currentBudgetService: CurrentBudgetService
+    protected modalService: ModalService
   ) {}
 
   update(budget: Budget) {

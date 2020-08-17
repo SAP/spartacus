@@ -1,9 +1,15 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { BUDGET_CODE } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
@@ -13,6 +19,10 @@ import { BudgetListComponent } from './list/budget-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
+
+const paramsMapping: ParamsMapping = {
+  [BUDGET_CODE]: 'code',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
@@ -25,13 +35,16 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets/create'],
       },
       budgetDetails: {
-        paths: ['organization/budgets/:code'],
+        paths: [`organization/budgets/:${BUDGET_CODE}`],
+        paramsMapping,
       },
       budgetCostCenters: {
-        paths: ['organization/budgets/:code/cost-centers'],
+        paths: [`organization/budgets/:${BUDGET_CODE}/cost-centers`],
+        paramsMapping,
       },
       budgetEdit: {
-        paths: ['organization/budgets/:code/edit'],
+        paths: [`organization/budgets/:${BUDGET_CODE}/edit`],
+        paramsMapping,
       },
     },
   },
@@ -48,7 +61,7 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${BUDGET_CODE}`,
           component: BudgetDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -60,7 +73,7 @@ export const budgetCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: ':code/edit',
+          path: `:${BUDGET_CODE}/edit`,
           component: BudgetEditComponent,
         },
       ],

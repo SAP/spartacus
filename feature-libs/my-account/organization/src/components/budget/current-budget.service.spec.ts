@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
+import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BUDGET_CODE } from '../constants';
 import { CurrentBudgetService } from './current-budget.service';
 
 export class MockBudgetService implements Partial<BudgetService> {
@@ -11,18 +10,23 @@ export class MockBudgetService implements Partial<BudgetService> {
   }
 }
 
+const mockParams = new Subject();
+
+class MockRoutingService {
+  getParams() {
+    return mockParams;
+  }
+}
+
 describe('CurrentBudgetService', () => {
   let service: CurrentBudgetService;
   let budgetService: BudgetService;
-  let mockParams: Subject<object>;
 
   beforeEach(() => {
-    mockParams = new Subject();
-
     TestBed.configureTestingModule({
       providers: [
         CurrentBudgetService,
-        { provide: ActivatedRoute, useValue: { params: mockParams } },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetService, useClass: MockBudgetService },
       ],
     });
@@ -31,32 +35,59 @@ describe('CurrentBudgetService', () => {
     service = TestBed.inject(CurrentBudgetService);
   });
 
-  afterEach(() => {
-    mockParams.complete();
-  });
-
-  describe('code$', () => {
-    it('should return undefined when route param `code` is undefined', async () => {
-      const results = [];
-      service.code$.pipe(take(2)).subscribe((value) => results.push(value));
-      mockParams.next({ code: 'code1' });
-      mockParams.next({ code: 'code2' });
-      expect(results).toEqual(['code1', 'code2']);
+  describe('emit budget code', () => {
+    it('should emit budget code from route parameter', async () => {
+      let result;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({ [BUDGET_CODE]: 'code1' });
+      expect(result).toEqual('code1');
     });
 
-    it('should expose route param `code` from activated route', () => {
-      const results = [];
-      service.code$.subscribe((value) => results.push(value));
-      mockParams.next({ code: 'code1' });
-      mockParams.next({ code: 'code2' });
-      expect(results).toEqual(['code1', 'code2']);
+    it('should emit budget code from route parameters', async () => {
+      let result;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({ foo: 'bar' });
+      mockParams.next({ bar: 'foo' });
+      mockParams.next({ [BUDGET_CODE]: 'code1' });
+      expect(result).toEqual('code1');
+    });
+
+    it('should not emit code$ if there is no route parameters for budget code', async () => {
+      let result: string;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({ foo: 'bar' });
+      expect(result).toBeFalsy();
+    });
+
+    it('should no longer emit the previous code', async () => {
+      let result: string;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({ [BUDGET_CODE]: 'code1' });
+      mockParams.next({});
+      expect(result).toBeFalsy();
+    });
+
+    it('should emit the code after it is changed', async () => {
+      let result: string;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({});
+      mockParams.next({ [BUDGET_CODE]: 'code1' });
+      expect(result).toEqual('code1');
+    });
+
+    it('should update the budget code with next route param value', async () => {
+      let result: string;
+      service.code$.subscribe((value) => (result = value));
+      mockParams.next({ [BUDGET_CODE]: 'code1' });
+      mockParams.next({ [BUDGET_CODE]: 'code2' });
+      expect(result).toEqual('code2');
     });
 
     it('should not emit when param `code` did not change', () => {
       const results = [];
       service.code$.subscribe((value) => results.push(value));
-      mockParams.next({ name: 'name1', code: 'code' });
-      mockParams.next({ name: 'name2', code: 'code' });
+      mockParams.next({ name: 'name1', [BUDGET_CODE]: 'code' });
+      mockParams.next({ name: 'name2', [BUDGET_CODE]: 'code' });
       expect(results).toEqual(['code']);
     });
   });
@@ -68,7 +99,7 @@ describe('CurrentBudgetService', () => {
 
       let result;
       service.Budget$.subscribe((value) => (result = value));
-      mockParams.next({ code: '123' });
+      mockParams.next({ [BUDGET_CODE]: '123' });
       expect(budgetService.get).toHaveBeenCalledWith('123');
       expect(result).toBe(mockBudget);
     });

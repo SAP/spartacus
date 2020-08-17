@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BudgetService, RoutingService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import { BudgetFormService } from '../form/budget-form.service';
-import { Observable } from 'rxjs';
+import { BudgetService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetFormService } from '../form/budget-form.service';
 
 @Component({
   selector: 'cx-budget-create',
@@ -12,14 +13,7 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCreateComponent {
-  // It would be nice to replace this query param approach with a session service that
-  // provides a generic approach for session-interests, so that we can autofill forms, without
-  // changing the URL. This can keep the current language, currency, parent unit, cost center, cost-center, etc.
-  protected parentUnit$: Observable<
-    string
-  > = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
+  protected parentUnit$ = this.currentBudgetService.parentUnit$;
 
   form$: Observable<FormGroup> = this.parentUnit$.pipe(
     map((parentUnit: string) =>
@@ -28,9 +22,9 @@ export class BudgetCreateComponent {
   );
 
   constructor(
+    protected currentBudgetService: CurrentBudgetService,
     protected budgetService: BudgetService,
-    protected budgetFormService: BudgetFormService,
-    protected routingService: RoutingService
+    protected budgetFormService: BudgetFormService
   ) {}
 
   save(form: FormGroup): void {
@@ -40,11 +34,7 @@ export class BudgetCreateComponent {
     } else {
       form.disable();
       this.budgetService.create(form.value);
-
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.currentBudgetService.launch(form.value);
     }
   }
 }
