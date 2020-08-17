@@ -4,14 +4,14 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { delay, map, switchMap, take } from 'rxjs/operators';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
   HamburgerMenuService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
@@ -58,8 +58,7 @@ export class ConfigGroupMenuComponent {
           } else {
             return this.condenseGroups(configuration.groups);
           }
-        }),
-        delay(0)
+        })
       );
     })
   );
@@ -223,7 +222,8 @@ export class ConfigGroupMenuComponent {
           } else {
             return of(null);
           }
-        })
+        }),
+        take(1)
       );
   }
 
