@@ -40,7 +40,6 @@ export function verifyCorrectTabs() {
 }
 
 export function verifyTextInTabs() {
-  cy.get(tabsHeaderList).eq(0).click();
   cy.get(activeTabContainer)
     .should(
       'contain',

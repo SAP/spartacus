@@ -8,6 +8,23 @@ const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 const email = 'cpq02@sap.com';
 const password = 'welcome';
 
+const editConfigurationSelector =
+  'cx-configure-cart-entry button:contains("Edit")';
+
+/**
+ * Verifies whether the global message is not displayed on the top of the configuration.
+ */
+function isGlobalMessageNotDisplayed() {
+  cy.get('cx-global-message').should('not.be.visible');
+}
+
+/**
+ * Verifies whether the updating configuration message is not displayed on the top of the configuration.
+ */
+function isUpdatingMessageNotDisplayed() {
+  cy.get('cx-config-message').should('not.be.visible');
+}
+
 export function clickOnConfigureBtn() {
   cy.get('cx-configure-product a')
     .click()
@@ -17,8 +34,7 @@ export function clickOnConfigureBtn() {
 }
 
 export function clickOnEditConfigurationLink() {
-  cy.get('cx-configure-cart-entry a')
-    .first()
+  cy.get(editConfigurationSelector)
     .click()
     .then(() => {
       this.isConfigPageDisplayed();
@@ -33,6 +49,7 @@ function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
   cy.get(btnSelector)
     .click()
     .then(() => {
+      isUpdatingMessageNotDisplayed();
       cy.get('a.active:contains(' + `${followingGroup}` + ')').should(
         'be.visible'
       );
@@ -55,6 +72,7 @@ export function clickOnPreviousBtn(previousGroup: string) {
 
 export function isConfigPageDisplayed() {
   cy.get('cx-config-form').should('be.visible');
+  isUpdatingMessageNotDisplayed();
 }
 
 export function isPreviousBtnEnabled() {
@@ -161,6 +179,8 @@ export function selectAttribute(
     case 'input':
       cy.get(`#${valueId}`).clear().type(value);
   }
+
+  isUpdatingMessageNotDisplayed();
 }
 
 export function isCheckboxSelected(attributeName: string, valueName: string) {
@@ -237,7 +257,11 @@ export function clickOnGroup(groupIndex: number) {
 }
 
 export function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+  cy.get('cx-hamburger-menu [aria-label="Menu"]')
+    .click()
+    .then(() => {
+      isUpdatingMessageNotDisplayed();
+    });
 }
 
 export function isHamburgerDisplayed() {
@@ -248,6 +272,9 @@ export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
+      isUpdatingMessageNotDisplayed();
+      isGlobalMessageNotDisplayed();
+      isUpdatingMessageNotDisplayed();
       cy.get('cx-config-overview-form').should('be.visible');
     });
 }
@@ -304,7 +331,7 @@ export function login() {
 
 export function navigateToOrderDetails() {
   // Verify whether the ordered product is displayed in the order list
-  cy.get('cx-cart-item-list cx-configure-cart-entry a')
+  cy.get('cx-cart-item-list cx-configure-cart-entry button')
     .first()
     .click()
     .then(() => {

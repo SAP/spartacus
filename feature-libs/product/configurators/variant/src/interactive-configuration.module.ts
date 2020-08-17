@@ -3,19 +3,12 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
-  ConfigPriceSummaryComponent,
-  ConfigProductTitleComponent,
-  ConfigTabBarComponent,
+  ConfigAddToCartButtonComponent,
+  ConfigGroupMenuComponent,
+  ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
-  ConfigAddToCartButtonComponent,
-  ConfigFormComponent,
-  ConfigGroupMenuComponent,
-  ConfigGroupTitleComponent,
-  ConfigPreviousNextButtonsComponent,
-  ConfigurationMessageLoaderModule,
-  DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
@@ -37,29 +30,10 @@ import {
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(DefaultMessageConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationTabBar: {
-          component: ConfigTabBarComponent,
-        },
-        VariantConfigurationTitle: {
-          component: ConfigProductTitleComponent,
-        },
-        VariantConfigurationGroupTitle: {
-          component: ConfigGroupTitleComponent,
-        },
-        VariantConfigurationForm: {
-          component: ConfigFormComponent,
-        },
         VariantConfigurationMenu: {
           component: ConfigGroupMenuComponent,
-        },
-        VariantConfigurationPriceSummary: {
-          component: ConfigPriceSummaryComponent,
-        },
-        VariantConfigurationPrevNext: {
-          component: ConfigPreviousNextButtonsComponent,
         },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,

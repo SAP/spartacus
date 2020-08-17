@@ -3,15 +3,9 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
-  ConfigPriceSummaryComponent,
-  ConfigTabBarComponent,
-} from '@spartacus/product/configurators/common';
-import {
-  CmsPageGuard,
   ConfigAddToCartButtonComponent,
-  ConfigOverviewFormComponent,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+} from '@spartacus/product/configurators/common';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -40,15 +34,6 @@ import {
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationTabBar: {
-          component: ConfigTabBarComponent,
-        },
-        VariantConfigurationOverview: {
-          component: ConfigOverviewFormComponent,
-        },
-        VariantConfigurationPriceSummary: {
-          component: ConfigPriceSummaryComponent,
-        },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,
         },
@@ -81,6 +66,7 @@ import {
           md: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
@@ -88,6 +74,7 @@ import {
           xs: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],

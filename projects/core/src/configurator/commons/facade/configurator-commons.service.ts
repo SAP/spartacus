@@ -23,9 +23,9 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if there are any pending changes, otherwise false
+   * @returns {Observable<boolean>} Returns true if there are any pending changes, otherwise false
    */
-  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -36,11 +36,11 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
+   * @returns {Observable<boolean>} Returns true if the configuration is loading, otherwise false
    */
   isConfigurationLoading(
     owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -125,12 +125,10 @@ export class ConfiguratorCommonsService {
    * Updates a configuration, specified by the configuration owner key, group ID and a changed attribute.
    *
    * @param ownerKey - Configuration owner key
-   * @param groupId - Group ID
    * @param changedAttribute - Changes attribute
    */
   updateConfiguration(
     ownerKey: string,
-    groupId: string,
     changedAttribute: Configurator.Attribute
   ): void {
     this.store
@@ -141,11 +139,7 @@ export class ConfiguratorCommonsService {
       .subscribe((configuration) => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
-            this.createConfigurationExtract(
-              groupId,
-              changedAttribute,
-              configuration
-            )
+            this.createConfigurationExtract(changedAttribute, configuration)
           )
         );
       });
@@ -196,7 +190,6 @@ export class ConfiguratorCommonsService {
   }
 
   createConfigurationExtract(
-    groupId: string,
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration
   ): Configurator.Configuration {
@@ -208,12 +201,16 @@ export class ConfiguratorCommonsService {
     };
 
     const groupPath: Configurator.Group[] = [];
-    this.buildGroupPath(groupId, configuration.groups, groupPath);
+    this.buildGroupPath(
+      changedAttribute.groupId,
+      configuration.groups,
+      groupPath
+    );
     const groupPathLength = groupPath.length;
     if (groupPathLength === 0) {
       throw new Error(
         'At this point we expect that group is available in the configuration: ' +
-          groupId +
+          changedAttribute.groupId +
           ', ' +
           JSON.stringify(configuration.groups.map((cGroup) => cGroup.id))
       );

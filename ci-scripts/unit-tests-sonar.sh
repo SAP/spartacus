@@ -13,7 +13,7 @@ if [[ -n "$coverage" ]]; then
     exit 1
 fi
 
-echo "Running unit tests and code coverage for Spartacus core"
+echo "Running unit tests and code coverage for core"
 exec 5>&1
 output=$(ng test core --watch=false --sourceMap --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
@@ -22,9 +22,22 @@ if [[ -n "$coverage" ]]; then
     exit 1
 fi
 
-echo "Running unit tests and code coverage for storefront library"
+echo "Running unit tests and code coverage for storefrontlib"
 exec 5>&1
 output=$(ng test storefrontlib --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+
+echo "Running unit tests and code coverage for product library"
+exec 5>&1
+output=$(ng test product --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+
+echo "Running unit tests and code coverage for CDC"
+exec 5>&1
+output=$(ng test cdc --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"

@@ -5,4 +5,5 @@ export interface Environment {
   b2b: boolean;
   cds: boolean;
   productconfig: boolean;
+  cdc: boolean;
 }

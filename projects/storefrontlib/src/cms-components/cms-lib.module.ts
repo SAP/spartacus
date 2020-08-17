@@ -4,8 +4,6 @@ import { AnonymousConsentManagementBannerModule } from './anonymous-consent-mana
 import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
-import { VariantConfiguratorOverviewModule } from './configurator/variant/variant-configurator-overview.module';
-import { VariantConfiguratorModule } from './configurator/variant/variant-configurator.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
   BannerModule,
@@ -104,9 +102,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
-    VariantConfiguratorModule,
-    VariantConfiguratorOverviewModule,
-
     MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,

@@ -6,7 +6,12 @@ export function clickOnConfigureButton() {
 }
 
 export function clickOnEditConfigurationButton() {
-  cy.get('cx-configure-cart-entry a').click({ force: true });
+  cy.get('cx-configure-cart-entry button')
+    .contains('Edit')
+    .click()
+    .then(() => {
+      this.verifyConfigurationPageIsDisplayed();
+    });
 }
 
 export function verifyConfigurationPageIsDisplayed() {
