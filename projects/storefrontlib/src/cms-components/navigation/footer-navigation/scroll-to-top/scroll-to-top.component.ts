@@ -1,5 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 
+const SCROLL_TO_TOP_TRUE = 100;
+const SCROLL_TO_TOP_FALSE = 10;
+const SCROLL_TO_TOP_TRANSITION_SPEED = 8;
+
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
@@ -15,13 +19,13 @@ export class ScrollToTopComponent implements OnInit {
     if (
       window.pageYOffset ||
       document.documentElement.scrollTop ||
-      document.body.scrollTop > 100
+      document.body.scrollTop > SCROLL_TO_TOP_TRUE
     ) {
       this.windowScrolled = true;
     } else if (
       (this.windowScrolled && window.pageYOffset) ||
       document.documentElement.scrollTop ||
-      document.body.scrollTop < 10
+      document.body.scrollTop < SCROLL_TO_TOP_FALSE
     ) {
       this.windowScrolled = false;
     }
@@ -33,7 +37,10 @@ export class ScrollToTopComponent implements OnInit {
         document.documentElement.scrollTop || document.body.scrollTop;
       if (currentScroll > 0) {
         window.requestAnimationFrame(smoothscroll);
-        window.scrollTo(0, currentScroll - currentScroll / 8);
+        window.scrollTo(
+          0,
+          currentScroll - currentScroll / SCROLL_TO_TOP_TRANSITION_SPEED
+        );
       }
     })();
   }
