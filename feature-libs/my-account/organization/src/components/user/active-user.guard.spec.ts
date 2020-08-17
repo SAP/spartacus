@@ -17,7 +17,7 @@ class B2BUserServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-fdescribe('ActiveUserGuard', () => {
+describe('ActiveUserGuard', () => {
   let activeUserGuard: ActiveUserGuard;
   let routingService: RoutingService;
   let b2bUserService: B2BUserService;
