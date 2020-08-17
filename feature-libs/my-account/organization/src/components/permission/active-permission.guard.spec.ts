@@ -17,7 +17,7 @@ class PermissionServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-fdescribe('ActivePermissionGuard', () => {
+describe('ActivePermissionGuard', () => {
   let activePermissionGuard: ActivePermissionGuard;
   let routingService: RoutingService;
   let permissionService: PermissionService;

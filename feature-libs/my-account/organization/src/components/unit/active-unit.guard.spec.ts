@@ -17,7 +17,7 @@ class UnitServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-fdescribe('ActiveUnitGuard', () => {
+describe('ActiveUnitGuard', () => {
   let activeUnitGuard: ActiveUnitGuard;
   let routingService: RoutingService;
   let unitService: UnitService;

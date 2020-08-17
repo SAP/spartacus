@@ -9,13 +9,13 @@ import { OrgUnitService, RoutingService, OrgUnit } from '@spartacus/core';
 })
 export class ActiveUnitGuard implements CanActivate {
   constructor(
-    protected unitService$: OrgUnitService,
+    protected unitService: OrgUnitService,
     protected routingService: RoutingService
   ) {}
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
     const code = activatedRoute.params['code'];
-    return this.unitService$.get(code).pipe(
+    return this.unitService.get(code).pipe(
       map((unit) => {
         if (unit && this.isActive(unit)) {
           return true;

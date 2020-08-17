@@ -17,7 +17,7 @@ class CostCenterServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-fdescribe('ActiveCostCenterGuard', () => {
+describe('ActiveCostCenterGuard', () => {
   let activeCostCenterGuard: ActiveCostCenterGuard;
   let routingService: RoutingService;
   let costCenterService: CostCenterService;

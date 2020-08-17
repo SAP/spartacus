@@ -17,7 +17,7 @@ class BudgetServiceStub {
 
 const mockRoutingService = { go: () => {} };
 
-fdescribe('ActiveBudgetGuard', () => {
+describe('ActiveBudgetGuard', () => {
   let activeBudgetGuard: ActiveBudgetGuard;
   let routingService: RoutingService;
   let budgetService: BudgetService;
