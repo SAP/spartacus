@@ -70,7 +70,7 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
-      //cy.wait(3000);
+      cy.wait(2000);
       cy.get('cx-config-update-message').should('not.be.visible');
 
       configuration.checkFocus('cx-config--radioGroup--CAMERA_COLOR--METALLIC');
@@ -83,7 +83,7 @@ context('Product Configuration', () => {
         CAMERA_SD_CARD_SDXC
       );
 
-      //cy.wait(3000);
+      cy.wait(2000);
       cy.get('cx-config-update-message').should('not.be.visible');
 
       configuration.checkFocus('cx-config--checkBoxList--CAMERA_SD_CARD--SDXC');
