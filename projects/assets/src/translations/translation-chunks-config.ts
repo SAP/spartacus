@@ -1,4 +1,4 @@
-interface TranslationChunksConfig {
+export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
 
