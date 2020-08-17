@@ -11,7 +11,6 @@ import { CostCenterCreateComponent } from './create/cost-center-create.component
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
-import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { ActiveCostCenterGuard } from './active-cost-center.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?

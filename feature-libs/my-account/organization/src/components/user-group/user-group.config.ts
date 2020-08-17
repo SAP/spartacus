@@ -13,6 +13,7 @@ import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-g
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
 import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
+import { UserGroupGuard } from './user-group.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -68,6 +69,7 @@ export const userGroupCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: UserGroupDetailsComponent,
+          canActivate: [UserGroupGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
