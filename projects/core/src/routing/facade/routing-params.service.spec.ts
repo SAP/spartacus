@@ -90,8 +90,6 @@ describe('RoutingParamsService', () => {
     service.getParams().subscribe((params) => (result2 = params));
 
     expect(result1.budgetCode).toEqual('1234');
-    expect(result1.budgetCode).toEqual('1234');
-    expect(result2.childCode).toEqual('5678');
     expect(result2.childCode).toEqual('5678');
   });
 
