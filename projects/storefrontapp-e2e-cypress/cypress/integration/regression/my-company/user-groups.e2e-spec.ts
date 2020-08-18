@@ -6,9 +6,9 @@ const config: myCompany.MyCompanyConfig = {
   url: `${CONTEXT_URL_EN_USD}/organization/user-group`,
   apiEndpoint: '/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
+  cxSelector: 'cx-user-group',
   list: {
     pageTitle: 'User groups',
-    selector: 'cx-user-group-list',
     rows: [
       {
         header: 'Name',
@@ -29,7 +29,6 @@ const config: myCompany.MyCompanyConfig = {
     ],
   },
   details: {
-    selector: 'cx-user-group-details',
     tabs: [
       {
         label: 'Purchase limits',
@@ -39,82 +38,44 @@ const config: myCompany.MyCompanyConfig = {
         availableEndpoint: '**/availableOrderApprovalPermissions**',
         availableParam: 'orderApprovalPermissions',
         selector: 'cx-user-group-permissions',
-        dataConfig: {
-          type: 'orderApprovalPermissions',
-          rowConfig: [
-            {
-              header: 'Code',
-              text: 'code',
-              link: '/organization/purchase-limit/',
-            },
-            { header: 'Type', text: 'orderApprovalPermissionType.name' },
-            { header: 'Threshold Value', text: 'threshold' },
-            { header: 'Time Period', text: 'periodRange' },
-            {
-              header: 'Parent Unit',
-              text: 'orgUnit.name',
-              link: `/organization/unit/`,
-            },
-          ],
-        },
-        rowHeaders: [
-          'Code',
-          'Type',
-          'Threshold Value',
-          'Time Period',
-          'Parent Unit',
-        ],
-        sorts: [
+        objectType: 'orderApprovalPermissions',
+        rows: [
           {
-            urlParams: '?sort=byUnitName',
-            value: 'Unit Name',
-            rowOrder: [1, 0],
+            header: 'Code',
+            text: 'code',
+            // link: '/organization/purchase-limit/',
           },
+          { header: 'Limit', text: 'orderApprovalPermissionType.name' },
+          // { header: 'Threshold Value', text: 'threshold' },
+          // { header: 'Time Period', text: 'periodRange' },
           {
-            urlParams: '',
-            value: 'Name',
-            rowOrder: [0, 1],
-            default: true,
+            header: 'Unit',
+            text: 'orgUnit.name',
+            link: `/organization/unit/`,
           },
         ],
       },
       {
         label: 'Users',
-        link: `/users/limitedPermissions`,
+        link: `/users`,
         manageLink: '/assign-users/limitedPermissions',
         manageSelector: 'cx-user-group-assign-users',
         availableEndpoint: '**/availableOrgCustomers**',
         availableParam: 'members',
         selector: 'cx-user-group-users',
+        objectType: 'users',
         unassignAll: true,
-        rowHeaders: ['Email', 'Name', 'Unit'],
-        dataConfig: {
-          type: 'users',
-          rowConfig: [
-            {
-              text: 'uid',
-              link: '/organization/user/',
-            },
-            {
-              text: 'name',
-            },
-            {
-              text: 'orgUnit.name',
-              link: `/organization/unit/`,
-            },
-          ],
-        },
-        sorts: [
+        rows: [
           {
-            urlParams: '?sort=byUnit',
-            value: 'Unit Name',
-            rowOrder: [0, 1],
+            text: 'uid',
+            link: '/organization/user/',
           },
           {
-            urlParams: '',
-            value: 'Name',
-            rowOrder: [0, 1],
-            default: true,
+            text: 'name',
+          },
+          {
+            text: 'orgUnit.name',
+            link: `/organization/unit/`,
           },
         ],
       },
@@ -122,7 +83,6 @@ const config: myCompany.MyCompanyConfig = {
   },
 
   form: {
-    selector: 'cx-user-group-form',
     inputs: [
       {
         label: 'Code',
@@ -137,14 +97,7 @@ const config: myCompany.MyCompanyConfig = {
         link: 'Custom%20Retail',
       },
     ],
-    create: {
-      selector: 'cx-user-group-create',
-      entity: {
-        id: 'test-user-group',
-      },
-    },
     edit: {
-      selector: 'cx-user-group-edit',
       header: 'Edit User Group',
       btn: 'Update User Group',
       inputs: [
@@ -166,8 +119,8 @@ const config: myCompany.MyCompanyConfig = {
 };
 
 describe(`My Company - ${config.navLink}`, () => {
-  // myCompany.testListFromConfig(config);
-  // myCompany.testDetailsFromConfig(config);
-  // myCompany.testCreateUpdateFromConfig(config);
+  myCompany.testListFromConfig(config);
+  myCompany.testDetailsFromConfig(config);
+  myCompany.testCreateUpdateFromConfig(config);
   myCompany.testAssignmentFromConfig(config);
 });
