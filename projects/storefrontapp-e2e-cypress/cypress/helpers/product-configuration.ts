@@ -491,7 +491,6 @@ export function verifyNotificationBannerInCart(
  *
  * @param {number} cartItemIndex - Index of cart item
  */
-//TODO: add cart item number
 export function clickOnResolveIssuesLinkInCart(cartItemIndex: number) {
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
