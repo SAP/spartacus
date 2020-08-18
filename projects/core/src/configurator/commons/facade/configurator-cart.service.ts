@@ -56,7 +56,11 @@ export class ConfiguratorCartService {
           owner.key
         )
       ),
-      delayWhen(() => this.checkForActiveCartUpdateDone()),
+      //needed as we cannot read the cart in general and for the OV
+      //in parallel, this can lead to cache issues with promotions
+      delayWhen(() =>
+        this.activeCartService.isStable().pipe(filter((stable) => stable))
+      ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           this.activeCartService
