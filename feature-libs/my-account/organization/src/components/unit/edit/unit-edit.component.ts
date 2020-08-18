@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
@@ -14,17 +14,18 @@ import { UnitFormService } from '../form/unit-form.service';
   providers: [CurrentUnitService],
 })
 export class UnitEditComponent {
-  protected form$: Observable<FormGroup> = this.currentUnitService.unit$.pipe(
+  protected form$: Observable<
+    FormGroup
+  > = this.currentUnitService.parentUnit$.pipe(
     map((unit) => this.unitFormService.getForm(unit))
   );
 
   viewModel$ = this.form$.pipe(
-    withLatestFrom(this.currentUnitService.unit$),
-    map(([form, orgUnit]) => ({ form, orgUnit }))
+    withLatestFrom(this.currentUnitService.code$),
+    map(([form, b2bUnit]) => ({ form, b2bUnit: { uid: b2bUnit } }))
   );
 
   constructor(
-    protected routingService: RoutingService,
     protected orgUnitsService: OrgUnitService,
     protected unitFormService: UnitFormService,
     protected currentUnitService: CurrentUnitService
@@ -37,11 +38,7 @@ export class UnitEditComponent {
     } else {
       form.disable();
       this.orgUnitsService.update(orgUnitCode, form.value);
-
-      this.routingService.go({
-        cxRoute: 'orgUnitDetails',
-        params: form.value,
-      });
+      this.currentUnitService.launch('orgUnitDetails', form.value);
     }
   }
 }

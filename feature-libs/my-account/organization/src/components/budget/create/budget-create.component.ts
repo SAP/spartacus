@@ -34,7 +34,7 @@ export class BudgetCreateComponent {
     } else {
       form.disable();
       this.budgetService.create(form.value);
-      this.currentBudgetService.launch(form.value);
+      this.currentBudgetService.launch('budgetDetails', form.value);
     }
   }
 }

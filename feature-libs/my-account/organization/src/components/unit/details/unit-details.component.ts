@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { B2BUnit, OrgUnitService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUnitService],
 })
 export class UnitDetailsComponent {
-  orgUnit$ = this.currentUnitService.unit$;
+  b2bUnit$: Observable<B2BUnit> = this.currentUnitService.model$;
 
   constructor(
+    protected currentUnitService: CurrentUnitService,
     protected orgUnitsService: OrgUnitService,
-    protected modalService: ModalService,
-    protected currentUnitService: CurrentUnitService
+    protected modalService: ModalService
   ) {}
 
-  update(orgUnit: B2BUnit) {
-    this.orgUnitsService.update(orgUnit.uid, orgUnit);
+  update(b2bUnit: B2BUnit) {
+    this.orgUnitsService.update(b2bUnit.uid, b2bUnit);
   }
 
   openModal(template: TemplateRef<any>): void {

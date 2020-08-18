@@ -8,13 +8,11 @@ import { BaseCurrentService } from '../shared/base-current.service';
   providedIn: 'root',
 })
 export class CurrentUnitService extends BaseCurrentService<Budget> {
-  paramCode = ROUTE_PARAMS.unitCode;
-
   constructor(
     protected routingService: RoutingService,
     protected unitService: OrgUnitService
   ) {
-    super(routingService);
+    super(routingService, ROUTE_PARAMS.unitCode);
   }
 
   getModel(code: string): Observable<Budget> {

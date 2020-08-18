@@ -8,16 +8,14 @@ import { BaseCurrentService } from '../shared/base-current.service';
   providedIn: 'root',
 })
 export class CurrentBudgetService extends BaseCurrentService<Budget> {
-  paramCode = ROUTE_PARAMS.budgetCode;
-
   constructor(
     protected routingService: RoutingService,
     protected budgetService: BudgetService
   ) {
-    super(routingService);
+    super(routingService, ROUTE_PARAMS.budgetCode);
   }
 
-  getModel(code: string): Observable<Budget> {
+  protected getModel(code: string): Observable<Budget> {
     return this.budgetService.get(code);
   }
 }

@@ -51,7 +51,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-      this.currentBudgetService.launch(form.value);
+      this.currentBudgetService.launch('budgetDetails', form.value);
     }
   }
 }

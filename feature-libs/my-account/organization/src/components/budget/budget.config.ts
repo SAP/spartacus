@@ -9,7 +9,7 @@ import {
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
-import { BUDGET_CODE } from '../constants';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
@@ -20,8 +20,9 @@ import { BudgetListComponent } from './list/budget-list.component';
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
+const listPath = `organization/units/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
-  [BUDGET_CODE]: 'code',
+  [ROUTE_PARAMS.budgetCode]: 'code',
 };
 
 // TODO: this doesn't work with lazy loaded feature
@@ -35,15 +36,15 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets/create'],
       },
       budgetDetails: {
-        paths: [`organization/budgets/:${BUDGET_CODE}`],
+        paths: [`${listPath}`],
         paramsMapping,
       },
       budgetCostCenters: {
-        paths: [`organization/budgets/:${BUDGET_CODE}/cost-centers`],
+        paths: [`${listPath}/cost-centers`],
         paramsMapping,
       },
       budgetEdit: {
-        paths: [`organization/budgets/:${BUDGET_CODE}/edit`],
+        paths: [`${listPath}/edit`],
         paramsMapping,
       },
     },
@@ -61,7 +62,7 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: `:${BUDGET_CODE}`,
+          path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -73,7 +74,7 @@ export const budgetCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: `:${BUDGET_CODE}/edit`,
+          path: `:${ROUTE_PARAMS.budgetCode}/edit`,
           component: BudgetEditComponent,
         },
       ],

@@ -1,86 +1,61 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
+import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { ROUTE_PARAMS } from '../constants';
 import { CurrentUnitService } from './current-unit.service';
 
-export class MockOrgUnitService implements Partial<OrgUnitService> {
+const mockParams = new Subject();
+
+class MockRoutingService {
+  getParams() {
+    return mockParams;
+  }
+
+  getRouterState() {
+    return of();
+  }
+}
+
+class MockUnitService {
   get() {
-    return of(undefined);
+    return of();
   }
 }
 
 describe('CurrentUnitService', () => {
   let service: CurrentUnitService;
   let unitService: OrgUnitService;
-  let mockParams: Subject<object>;
 
   beforeEach(() => {
-    mockParams = new Subject();
-
     TestBed.configureTestingModule({
       providers: [
         CurrentUnitService,
-        { provide: ActivatedRoute, useValue: { params: mockParams } },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OrgUnitService, useClass: MockUnitService },
       ],
     });
 
-    unitService = TestBed.inject(OrgUnitService);
     service = TestBed.inject(CurrentUnitService);
+    unitService = TestBed.inject(OrgUnitService);
   });
 
-  afterEach(() => {
-    mockParams.complete();
-  });
-
-  describe('code$', () => {
-    it('should return undefined when route param `code` is undefined', async () => {
-      const results = [];
-      service.code$.pipe(take(2)).subscribe((value) => results.push(value));
-      mockParams.next({ code: 'code1' });
-      mockParams.next({ code: 'code2' });
-      expect(results).toEqual(['code1', 'code2']);
-    });
-
-    it('should expose route param `code` from activated route', () => {
-      const results = [];
-      service.code$.subscribe((value) => results.push(value));
-      mockParams.next({ code: 'code1' });
-      mockParams.next({ code: 'code2' });
-      expect(results).toEqual(['code1', 'code2']);
-    });
-
-    it('should not emit when param `code` did not change', () => {
-      const results = [];
-      service.code$.subscribe((value) => results.push(value));
-      mockParams.next({ name: 'name1', code: 'code' });
-      mockParams.next({ name: 'name2', code: 'code' });
-      expect(results).toEqual(['code']);
-    });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
   describe('model$', () => {
-    it('should expose model for the current routing param `code`', () => {
-      const mockUnit: B2BUnit = { name: 'test unit' };
-      spyOn(unitService, 'get').and.returnValue(of(mockUnit));
-
-      let result;
-      service.unit$.subscribe((value) => (result = value));
-      mockParams.next({ code: '123' });
+    it('should load budget', () => {
+      spyOn(unitService, 'get').and.callThrough();
+      service.model$.subscribe();
+      mockParams.next({ [ROUTE_PARAMS.unitCode]: '123' });
       expect(unitService.get).toHaveBeenCalledWith('123');
-      expect(result).toBe(mockUnit);
     });
 
-    it('should emit null when no current param `code`', () => {
-      spyOn(unitService, 'get');
-
-      let result;
-      service.unit$.subscribe((value) => (result = value));
-      mockParams.next({});
+    it('should not load budget', () => {
+      spyOn(unitService, 'get').and.callThrough();
+      service.model$.subscribe();
+      mockParams.next({ foo: 'bar' });
       expect(unitService.get).not.toHaveBeenCalled();
-      expect(result).toBe(null);
     });
   });
 });
