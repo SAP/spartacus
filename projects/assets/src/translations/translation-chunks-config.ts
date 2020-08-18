@@ -1,4 +1,4 @@
-interface TranslationChunksConfig {
+export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
 
@@ -15,6 +15,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniLogin',
     'skipLink',
     'formErrors',
+    'errorHandlers',
   ],
   cart: [
     'cartDetails',

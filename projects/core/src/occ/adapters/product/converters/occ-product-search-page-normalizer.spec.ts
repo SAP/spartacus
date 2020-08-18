@@ -62,6 +62,11 @@ const mockPlpWithFacets: Occ.ProductSearchPage = {
       name: 'facet-2',
       values: [{ count: 1 }, { count: 2 }, { count: 3 }],
     },
+    {
+      name: 'facet-3',
+      values: [{ count: 1 }, { count: 2 }, { count: 3 }],
+      topValues: [],
+    },
   ] as Occ.Facet[],
 };
 
@@ -108,7 +113,7 @@ describe('OccProductSearchPageNormalizer', () => {
       expect(converter.convert).toHaveBeenCalled();
     });
 
-    it('should fallback to default top values', () => {
+    it('should fallback to default top values when topValues is undefined', () => {
       const EXPECTED_COUNT = 6;
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
@@ -116,16 +121,24 @@ describe('OccProductSearchPageNormalizer', () => {
       expect(result.facets[1].topValueCount).toEqual(EXPECTED_COUNT);
       expect(converter.convert).toHaveBeenCalled();
     });
+
+    it('should fallback to default top value when topValues is an empty list', () => {
+      const converter = TestBed.inject(ConverterService);
+      const result = normalizer.convert(mockPlpWithFacets);
+
+      expect(result.facets[2].topValueCount).toEqual(6);
+      expect(converter.convert).toHaveBeenCalled();
+    });
   });
 
   describe('normalize facet value count', () => {
-    it('should remove useles facet from facet list', () => {
+    it('should remove useless facet from facet list', () => {
       const result = normalizer.convert(mockPlpWithUselessFacets);
       expect(result.facets.length).toEqual(1);
       expect(result.facets[0].name).toEqual('useful-facet');
     });
 
-    it('should not remove useles facet facet list if pagination is not used', () => {
+    it('should not remove useless facet facet list if pagination is not used', () => {
       const EXPECTED_COUNT = 2;
       const result = normalizer.convert(mockPlpWithoutPagination);
       expect(result.facets.length).toEqual(EXPECTED_COUNT);
