@@ -4,7 +4,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsLibModule, StorefrontConfig } from '@spartacus/storefront';
+import { CmsLibModule, StorefrontConfig, StorefrontModule } from '@spartacus/storefront';
 
 import {
   b2bLayoutConfig,
@@ -12,7 +12,6 @@ import {
   mediaConfig,
 } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
-import { StorefrontModule } from './storefront.module';
 import { OrganizationModule } from '../organization.module';
 
 @NgModule({

@@ -22,8 +22,8 @@ import {
   LayoutModule,
   MediaModule,
   ViewConfigModule,
-  EventsModule,
 } from '@spartacus/storefront';
+import { EventsModule } from '../events/events.module';
 
 @NgModule({
   imports: [

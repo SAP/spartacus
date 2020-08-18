@@ -42,7 +42,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('OrderApprovalSelectors.getProcessLoadingFactory', () => {
+  describe('getProcessLoadingFactory', () => {
     it('should return loading flag', () => {
       store.dispatch(
         new StateUtils.EntityLoadAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
@@ -60,7 +60,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('OrderApprovalSelectors.getProcessSuccessFactory', () => {
+  describe('getProcessSuccessFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
         new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
@@ -78,7 +78,7 @@ describe('Process selectors', () => {
     });
   });
 
-  describe('OrderApprovalSelectors.getProcessErrorFactory', () => {
+  describe('getProcessErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
         new StateUtils.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
