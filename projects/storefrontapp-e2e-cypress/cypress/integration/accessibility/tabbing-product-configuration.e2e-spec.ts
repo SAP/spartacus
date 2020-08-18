@@ -32,7 +32,7 @@ context('Product Configuration', () => {
     it('should allow to navigate with tab key', () => {
       configuration.goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
-      configuration.isConfigHeaderDisplayed();
+      configuration.isConfigProductTitleDisplayed();
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -48,10 +48,10 @@ context('Product Configuration', () => {
       configuration.clickAddToCartBtn();
       configurationOverview.isConfigOverviewPageDisplayed();
 
-      cy.get('cx-global-message').should('not.be.visible');
-      cy.get('cx-config-update-message').should('not.be.visible');
-      cy.get('.cx-config-add-to-cart-btn').should('be.visible');
-      cy.get('.cx-config-group-attribute').should('be.visible');
+      configuration.isGlobalMessageNotDisplayed();
+      configuration.isUpdatingMessageNotDisplayed();
+      configuration.isConfigAddToCartButtonDisplayed();
+      configuration.isOverviewContentDisplayed();
 
       verifyTabbingOrder(
         containerSelectorOverviewForm,
@@ -72,7 +72,7 @@ context('Product Configuration', () => {
 
       // TODO: Replace implicit wait
       cy.wait(2000);
-      cy.get('cx-config-update-message').should('not.be.visible');
+      configuration.isUpdatingMessageNotDisplayed();
 
       configuration.checkFocus('cx-config--radioGroup--CAMERA_COLOR--METALLIC');
 
@@ -86,7 +86,7 @@ context('Product Configuration', () => {
 
       // TODO: Replace implicit wait
       cy.wait(2000);
-      cy.get('cx-config-update-message').should('not.be.visible');
+      configuration.isUpdatingMessageNotDisplayed();
 
       configuration.checkFocus('cx-config--checkBoxList--CAMERA_SD_CARD--SDXC');
     });

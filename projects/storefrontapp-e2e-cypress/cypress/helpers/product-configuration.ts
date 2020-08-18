@@ -14,15 +14,15 @@ const editConfigurationSelector =
 /**
  * Verifies whether the global message is not displayed on the top of the configuration.
  */
-function isGlobalMessageNotDisplayed() {
+export function isGlobalMessageNotDisplayed() {
   cy.get('cx-global-message').should('not.be.visible');
 }
 
 /**
  * Verifies whether the updating configuration message is not displayed on the top of the configuration.
  */
-function isUpdatingMessageNotDisplayed() {
-  cy.get('cx-config-message').should('not.be.visible');
+export function isUpdatingMessageNotDisplayed() {
+  cy.get('div#cx-config-update-message').should('not.be.visible');
 }
 
 export function clickOnConfigureBtn() {
@@ -33,6 +33,11 @@ export function clickOnConfigureBtn() {
     });
 }
 
+/**
+ * Clicks on the 'Edit Configuration' link in cart for a certain cart item.
+ *
+ * TODO: assumes that there is only one item, add parameter to click a certain item
+ */
 export function clickOnEditConfigurationLink() {
   cy.get(editConfigurationSelector)
     .click()
@@ -221,8 +226,25 @@ export function isGroupMenuDisplayed() {
   cy.get('cx-config-group-menu').should('be.visible');
 }
 
-export function isConfigHeaderDisplayed() {
+/**
+ * Verifies whether the product title component is displayed.
+ */
+export function isConfigProductTitleDisplayed() {
   cy.get('a:contains("show more")').should('be.visible');
+}
+
+/**
+ * Verifies whether the Add To Cart Button component is displayed.
+ */
+export function isConfigAddToCartButtonDisplayed() {
+  cy.get('.cx-config-add-to-cart-btn').should('be.visible');
+}
+
+/**
+ * Verifies whether the overview content is displayed.
+ */
+export function isOverviewContentDisplayed() {
+  cy.get('.cx-config-group-attribute').should('be.visible');
 }
 
 export function isGroupMenuNotDisplayed() {
