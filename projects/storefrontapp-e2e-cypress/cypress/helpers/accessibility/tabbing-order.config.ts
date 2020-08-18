@@ -222,6 +222,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Continue to Cart',
       type: TabbingOrderTypes.BUTTON,
     },

@@ -6,8 +6,8 @@ import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 const testProduct = 'CONF_CAMERA_SL';
 const configurator = 'CPQCONFIGURATOR';
 
-const containerSelectorConfigForm = '.VariantConfigurationTemplate';
-const containerSelectorOverviewForm = '[class*=VariantConfig]';
+const containerSelectorConfigForm = 'main';
+const containerSelectorOverviewForm = 'main';
 
 // List of attributes
 const CAMERA_MODE = 'CAMERA_MODE';
@@ -70,6 +70,7 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
+      // TODO: Replace implicit wait
       cy.wait(2000);
       cy.get('cx-config-update-message').should('not.be.visible');
 
@@ -83,6 +84,7 @@ context('Product Configuration', () => {
         CAMERA_SD_CARD_SDXC
       );
 
+      // TODO: Replace implicit wait
       cy.wait(2000);
       cy.get('cx-config-update-message').should('not.be.visible');
 
