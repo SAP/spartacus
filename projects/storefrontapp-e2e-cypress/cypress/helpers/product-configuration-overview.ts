@@ -3,7 +3,7 @@ const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
 /**
- * Navigate to the configured product overview page.
+ * Navigates to the configured product overview page.
  *
  * @param configuratorType - Configuration type
  * @param productId - Product ID
@@ -25,7 +25,7 @@ export function isConfigOverviewPageDisplayed() {
 }
 
 /**
- * Navigate to the configuration page via configuration tab.
+ * Navigates to the configuration page via configuration tab.
  */
 export function navigateToConfigurationPage() {
   cy.get('cx-config-tab-bar div div:first a').click({
@@ -34,7 +34,7 @@ export function navigateToConfigurationPage() {
 }
 
 /**
- * Click on 'Continue to cart' on the product overview page.
+ * Clicks on 'Continue to cart' on the product overview page.
  */
 export function clickContinueToCartBtnOnOP() {
   cy.get(continueToCartButtonSelector)

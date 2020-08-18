@@ -16,7 +16,7 @@ const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
 /**
- * Navigate to the product configuration page.
+ * Navigates to the product configuration page.
  *
  * @param {string} configuratorType - Configuration type
  * @param {string} productId - Product ID
@@ -47,7 +47,7 @@ function isUpdatingMessageNotDisplayed() {
 }
 
 /**
- * Click on 'Add to Cart' button
+ * Clicks on 'Add to Cart' button
  */
 export function clickOnConfigureBtn() {
   cy.get('cx-configure-product a')
@@ -58,7 +58,7 @@ export function clickOnConfigureBtn() {
 }
 
 /**
- * Click on the 'Edit Configuration' link in cart for a certain cart item.
+ * Clicks on the 'Edit Configuration' link in cart for a certain cart item.
  *
  * @param {number} cartItemIndex - Index of cart item
  */
@@ -72,7 +72,21 @@ export function clickOnEditConfigurationLink(cartItemIndex: number) {
 }
 
 /**
- * Click on 'previous' or 'next' button.
+ * Verifies whether the current group is active.
+ *
+ * @param {string} currentGroup - Active group
+ */
+function isCurrentGroupActive(currentGroup: string) {
+  cy.get(
+    'cx-config-group-title .cx-config-group-title:contains(' +
+      `${currentGroup}` +
+      ')'
+  ).should('be.visible');
+  cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
+}
+
+/**
+ * Clicks on 'previous' or 'next' button.
  *
  * @param {string} btnSelector - Button selector
  * @param {string} activeGroup - Name of the group that should be active after click
@@ -82,16 +96,13 @@ function clickOnPreviousOrNextBtn(btnSelector: string, activeGroup: string) {
     .click()
     .then(() => {
       isUpdatingMessageNotDisplayed();
-      cy.get('a.active:contains(' + `${activeGroup}` + ')').should(
-        'be.visible'
-      );
-
+      isCurrentGroupActive(activeGroup);
       isUpdatingMessageNotDisplayed();
     });
 }
 
 /**
- * Click on the next group Button and verifies that an element of the next group is displayed.
+ * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
  * @param {string} nextGroup - Expected next group name
  */
@@ -100,7 +111,7 @@ export function clickOnNextBtn(nextGroup: string) {
 }
 
 /**
- * Click on the previous group Button and verifies that an element of the previous group is displayed.
+ * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
  * @param {string} previousGroup - Expected previous group name
  */
@@ -260,7 +271,7 @@ export function getAttributeLabelId(attributeName: string) {
 }
 
 /**
- * Select a corresponding attribute value.
+ * Selects a corresponding attribute value.
  *
  * @param {string} attributeName - Attribute name
  * @param {string} uiType - UI type
@@ -540,7 +551,7 @@ export function isTotalPrice(formattedPrice: string) {
 }
 
 /**
- * Navigate to the overview page via the overview tab.
+ * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage() {
   cy.get('cx-config-tab-bar div div:last a').click({
@@ -549,7 +560,7 @@ export function navigateToOverviewPage() {
 }
 
 /**
- * Click on the group via its index in the group menu.
+ * Clicks on the group via its index in the group menu.
  *
  * @param {number} groupIndex - Group index
  */
@@ -561,7 +572,7 @@ export function clickOnGroup(groupIndex: number) {
 }
 
 /**
- * Click the group menu.
+ * Clicks the group menu.
  */
 export function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]')
@@ -579,7 +590,7 @@ export function isHamburgerDisplayed() {
 }
 
 /**
- * Click on the 'Add to cart' button.
+ * Clicks on the 'Add to cart' button.
  */
 export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
@@ -593,7 +604,7 @@ export function clickAddToCartBtn() {
 }
 
 /**
- * Click on 'Add to cart' on the product details page.
+ * Clicks on 'Add to cart' on the product details page.
  */
 export function clickOnAddToCartBtnOnPD() {
   cy.get('cx-add-to-cart button.btn-primary')
@@ -612,7 +623,7 @@ export function clickOnAddToCartBtnOnPD() {
 }
 
 /**
- * Click on 'View Cart' on the product details page.
+ * Clicks on 'View Cart' on the product details page.
  */
 export function clickOnViewCartBtnOnPD() {
   cy.get('div.cx-dialog-buttons a.btn-primary')
@@ -625,7 +636,7 @@ export function clickOnViewCartBtnOnPD() {
 }
 
 /**
- * Click on 'Proceed to Checkout' on the product details page.
+ * Clicks on 'Proceed to Checkout' on the product details page.
  */
 export function clickOnProceedToCheckoutBtnOnPD() {
   cy.get('div.cx-dialog-buttons a.btn-secondary')
@@ -642,7 +653,7 @@ export function clickOnProceedToCheckoutBtnOnPD() {
 }
 
 /**
- * Log in.
+ * Logs in.
  */
 export function login() {
   // Click on the 'Sign in / Register' link
@@ -661,7 +672,7 @@ export function login() {
 }
 
 /**
- * Navigate to the order details page.
+ * Navigates to the order details page.
  */
 export function navigateToOrderDetails() {
   // Verify whether the ordered product is displayed in the order list
@@ -674,7 +685,7 @@ export function navigateToOrderDetails() {
 }
 
 /**
- * Navigate to the oder history page.
+ * Navigates to the oder history page.
  */
 export function goToOrderHistory() {
   cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
@@ -683,7 +694,7 @@ export function goToOrderHistory() {
 }
 
 /**
- * Select the order by the oder number alias.
+ * Selects the order by the oder number alias.
  */
 export function selectOrderByOrderNumberAlias() {
   cy.get('@orderNumber').then((orderNumber) => {
@@ -700,7 +711,7 @@ export function selectOrderByOrderNumberAlias() {
 }
 
 /**
- * Define the order number alias.
+ * Defines the order number alias.
  */
 export function defineOrderNumberAlias() {
   const orderConfirmationText = 'Confirmation of Order:';
@@ -717,7 +728,7 @@ export function defineOrderNumberAlias() {
 }
 
 /**
- * Perform to the checkout.
+ * Conducts the checkout.
  */
 export function checkout() {
   // If 'Continue' button is disable, click on 'Ship to this address' link to enable it
