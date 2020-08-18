@@ -41,6 +41,10 @@ export class SearchBoxComponentService {
       return;
     }
 
+    if (config.exactMatchEnabled === undefined) {
+      config.exactMatchEnabled = true;
+    }
+
     if (config.displayProducts) {
       this.searchService.search(query, {
         pageSize: config.maxProducts,
@@ -149,7 +153,9 @@ export class SearchBoxComponentService {
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
-        return productResult.products && productResult.products.length > 0
+        return config.exactMatchEnabled &&
+          productResult.products &&
+          productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
