@@ -15,6 +15,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniLogin',
     'skipLink',
     'formErrors',
+    'errorHandlers',
   ],
   cart: [
     'cartDetails',
@@ -75,6 +76,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'configurator.addToCart',
     'configurator.overviewForm',
     'configurator.group',
+    'configurator.conflict',
   ],
 
   configuratorTextfield: ['configuratorTextfield.addToCart'],

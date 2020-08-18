@@ -12,6 +12,7 @@ export namespace Configurator {
     dataType?: string;
     quantity?: number;
     values?: Value[];
+    groupId?: string;
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;
@@ -20,6 +21,7 @@ export namespace Configurator {
     numDecimalPlaces?: number;
     numTotalLength?: number;
     negativeAllowed?: boolean;
+    hasConflicts?: boolean;
   }
 
   export interface Value {
@@ -80,8 +82,8 @@ export namespace Configurator {
 
   export interface GroupOverview {
     id: string;
-    groupDescription: string;
-    attributes: AttributeOverview[];
+    groupDescription?: string;
+    attributes?: AttributeOverview[];
   }
 
   export interface AttributeOverview {

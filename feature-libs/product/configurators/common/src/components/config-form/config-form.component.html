@@ -1,15 +1,27 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-item-list-row cx-config-group-attribute">
     <ng-container *ngIf="currentGroup$ | async as currentGroup">
+      <cx-config-conflict-description
+        [currentGroup]="currentGroup"
+      ></cx-config-conflict-description>
       <div
         class="cx-item-list-row cx-config-group-attribute"
-        *ngFor="let attribute of currentGroup.attributes"
+        *ngFor="
+          let attribute of currentGroup.attributes;
+          let indexOfAttribute = index
+        "
       >
+        <cx-config-conflict-suggestion
+          [currentGroup]="currentGroup"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+        ></cx-config-conflict-suggestion>
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
             [attribute]="attribute"
             [owner]="configuration.owner"
             [groupId]="currentGroup.id"
+            [groupType]="currentGroup.groupType"
           ></cx-config-attribute-header>
         </div>
         <div
@@ -21,7 +33,6 @@
           <cx-config-attribute-radio-button
             *ngIf="attribute.uiType === uiType.RADIOBUTTON"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-config-attribute-radio-button>
@@ -95,7 +106,8 @@
             [owner]="configuration.owner"
             [groupId]="currentGroup.id"
           ></cx-config-attribute-footer>
-        </div></div
-    ></ng-container>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </ng-container>

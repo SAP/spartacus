@@ -47,8 +47,8 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,
         uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
       },
-      groupId: this.group,
     };
 
     this.inputChange.emit(event);

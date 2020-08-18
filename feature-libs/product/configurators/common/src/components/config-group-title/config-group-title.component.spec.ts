@@ -14,6 +14,7 @@ import {
 import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { ConfigGroupTitleComponent } from './config-group-title.component';
+import { IconLoaderService } from '@spartacus/storefront';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -48,6 +49,10 @@ class MockConfiguratorCommonsService {
   }
 }
 
+export class MockIconFontLoaderService {
+  getFlipDirection(): void {}
+}
+
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfigGroupTitleComponent;
   let fixture: ComponentFixture<ConfigGroupTitleComponent>;
@@ -77,6 +82,7 @@ describe('ConfigurationGroupTitleComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
         },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
       ],
     });
   }));

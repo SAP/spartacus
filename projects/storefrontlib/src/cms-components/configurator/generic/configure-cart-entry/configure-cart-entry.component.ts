@@ -15,6 +15,7 @@ export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
 
   public getOwnerType(): GenericConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined

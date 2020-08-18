@@ -95,7 +95,6 @@ export class ConfigFormComponent implements OnInit {
 
     this.configuratorCommonsService.updateConfiguration(
       event.productCode,
-      event.groupId,
       event.changedAttribute
     );
 
@@ -110,7 +109,7 @@ export class ConfigFormComponent implements OnInit {
       .subscribe(() =>
         this.configuratorGroupsService.setGroupStatus(
           owner,
-          event.groupId,
+          event.changedAttribute.groupId,
           false
         )
       );

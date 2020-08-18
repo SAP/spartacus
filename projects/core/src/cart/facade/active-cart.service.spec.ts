@@ -43,7 +43,9 @@ class MultiCartServiceStub {
   }
   updateEntry() {}
   removeEntry() {}
-  getEntries() {}
+  getEntries() {
+    return of([]);
+  }
   createCart() {}
   mergeToCurrentCart() {}
   addEntry() {}
