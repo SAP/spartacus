@@ -3,7 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { Budget, BudgetService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetFormService } from '../form/budget-form.service';
 
@@ -15,8 +21,9 @@ import { BudgetFormService } from '../form/budget-form.service';
 export class BudgetEditComponent {
   protected code$ = this.currentBudgetService.code$;
 
-  protected budget$: Observable<Budget> = this.currentBudgetService.model$.pipe(
-    tap((model) => this.budgetService.loadBudget(model.code)),
+  protected budget$: Observable<Budget> = this.currentBudgetService.code$.pipe(
+    tap((code) => this.budgetService.loadBudget(code)),
+    switchMap(() => this.currentBudgetService.model$),
     // we have side effects here, we want the to run only once
     shareReplay({ bufferSize: 1, refCount: true })
   );

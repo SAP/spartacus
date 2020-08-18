@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { B2BUser, B2BUserService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -17,15 +17,15 @@ import { UserFormService } from '../form/user-form.service';
   selector: 'cx-user-edit',
   templateUrl: './user-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserService],
 })
 export class UserEditComponent {
   protected code$: Observable<string> = this.currentUserService.code$;
 
   protected user$: Observable<B2BUser> = this.code$.pipe(
     tap((code) => this.userService.load(code)),
-    switchMap((code) => this.userService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentUserService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   protected form$: Observable<FormGroup> = this.user$.pipe(
@@ -42,11 +42,7 @@ export class UserEditComponent {
   constructor(
     protected userService: B2BUserService,
     protected userFormService: UserFormService,
-    protected currentUserService: CurrentUserService,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
-    protected routingService: RoutingService
+    protected currentUserService: CurrentUserService
   ) {}
 
   save(customerId: string, form: FormGroup): void {
@@ -57,10 +53,7 @@ export class UserEditComponent {
       form.disable();
       this.userService.update(customerId, form.value);
 
-      this.routingService.go({
-        cxRoute: 'userDetails',
-        params: { customerId },
-      });
+      this.currentUserService.launch('userDetails', { customerId });
     }
   }
 }

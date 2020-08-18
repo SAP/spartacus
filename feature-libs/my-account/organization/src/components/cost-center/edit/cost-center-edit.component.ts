@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { CostCenter, CostCenterService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -18,7 +17,6 @@ import { CostCenterFormService } from '../form/cost-center-form.service';
   selector: 'cx-cost-center-edit',
   templateUrl: './cost-center-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService],
 })
 export class CostCenterEditComponent {
   /**
@@ -31,12 +29,13 @@ export class CostCenterEditComponent {
    *
    * It reloads the model when the code of the current cost center changes.
    */
-  protected costCenter$: Observable<
+  costCenter$: Observable<
     CostCenter
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMap((code) => this.costCenterService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentCostCenterService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   protected form$: Observable<FormGroup> = this.costCenter$.pipe(
@@ -53,12 +52,7 @@ export class CostCenterEditComponent {
   constructor(
     protected costCenterService: CostCenterService,
     protected currentCostCenterService: CurrentCostCenterService,
-    protected costCenterFormService: CostCenterFormService,
-    protected activatedRoute: ActivatedRoute,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
-    protected routingService: RoutingService
+    protected costCenterFormService: CostCenterFormService
   ) {}
 
   save(costCenterCode: string, form: FormGroup): void {
@@ -69,10 +63,7 @@ export class CostCenterEditComponent {
       form.disable();
       this.costCenterService.update(costCenterCode, form.value);
 
-      this.routingService.go({
-        cxRoute: 'costCenterDetails',
-        params: form.value,
-      });
+      this.currentCostCenterService.launch('costCenterDetails', form.value);
     }
   }
 }

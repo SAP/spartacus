@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { B2BUser, B2BUserService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { switchMap, tap, shareReplay } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CurrentUserService } from '../current-user.service';
 
 @Component({
   selector: 'cx-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserService],
 })
 export class UserDetailsComponent {
   user$: Observable<B2BUser> = this.currentUserService.code$.pipe(
-    // TODO: we should do this in the facade
     tap((code) => this.usersService.load(code)),
-    switchMap((code) => this.usersService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentUserService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

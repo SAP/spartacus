@@ -8,14 +8,13 @@ import { CurrentUserGroupService } from '../current-user-group.service';
   selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserGroupService],
 })
 export class UserGroupDetailsComponent {
   userGroup$: Observable<UserGroup> = this.currentUserGroupService.code$.pipe(
-    // TODO: we should do this in the facade
     tap((code) => this.userGroupService.load(code)),
-    switchMap((code) => this.userGroupService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentUserGroupService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

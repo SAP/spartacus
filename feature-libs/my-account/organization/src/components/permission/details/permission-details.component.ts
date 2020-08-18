@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { PermissionService, Permission } from '@spartacus/core';
+import { Permission, PermissionService } from '@spartacus/core';
+import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
-import { ModalService } from '@spartacus/storefront';
 import { CurrentPermissionService } from '../current-permission.service';
 
 @Component({
@@ -16,8 +16,9 @@ export class PermissionDetailsComponent {
     Permission
   > = this.currentPermissionService.code$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),
-    switchMap((code) => this.permissionService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentPermissionService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

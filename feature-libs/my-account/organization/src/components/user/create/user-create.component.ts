@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUserService, RoutingService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import { UserFormService } from '../form/user-form.service';
-import { Observable } from 'rxjs';
+import { B2BUserService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CurrentUserService } from '../current-user.service';
+import { UserFormService } from '../form/user-form.service';
 
 @Component({
   selector: 'cx-user-create',
@@ -12,14 +13,8 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserCreateComponent {
-  // It would be nice to replace this query param approach with a session service that
-  // provides a generic approach for session-interests, so that we can autofill forms, without
-  // changing the URL. This can keep the current language, currency, parent unit, cost center, user, etc.
-  protected parentUnit$: Observable<
-    string
-  > = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
+  protected parentUnit$: Observable<string> = this.currentUserService
+    .parentUnit$;
 
   form$: Observable<FormGroup> = this.parentUnit$.pipe(
     map((parentUnit: string) =>
@@ -30,7 +25,7 @@ export class UserCreateComponent {
   constructor(
     protected userService: B2BUserService,
     protected userFormService: UserFormService,
-    protected routingService: RoutingService
+    protected currentUserService: CurrentUserService
   ) {}
 
   save(form: FormGroup): void {
@@ -41,10 +36,7 @@ export class UserCreateComponent {
       form.disable();
       this.userService.create(form.value);
 
-      this.routingService.go({
-        cxRoute: 'userDetails',
-        params: form.value,
-      });
+      this.currentUserService.launch('userDetails', form.value);
     }
   }
 }

@@ -21,8 +21,9 @@ export class CostCenterDetailsComponent {
     CostCenter
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMap((code) => this.costCenterService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    switchMap(() => this.currentCostCenterService.model$),
+    // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

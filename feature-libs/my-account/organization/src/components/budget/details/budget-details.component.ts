@@ -18,7 +18,7 @@ export class BudgetDetailsComponent {
    */
   budget$: Observable<Budget> = this.currentBudgetService.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
-    switchMap((code) => this.budgetService.get(code)),
+    switchMap(() => this.currentBudgetService.model$),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
