@@ -1,157 +1,161 @@
 import { CONTEXT_URL_EN_USD } from './site-context-selector';
 import { nextPage } from './product-search';
 
-export function testListFromConfig(config) {
+export interface MyCompanyConfig {
+  navLink: string;
+  url: string;
+  apiEndpoint: string;
+  objectType: string;
+  list: MyCompanyListConfig;
+  details: any;
+  form: any;
+}
+
+export interface MyCompanyListConfig {
+  pageTitle: string;
+  selector: string;
+  rows: MyCompanyRowConfig[]; // First object is default sort
+}
+
+export interface MyCompanyRowConfig {
+  header: string;
+  sortByUrl?: string;
+  text: string;
+  link?: string;
+}
+
+export function testListFromConfig(config: MyCompanyConfig) {
+  const defaultRow = config.list.rows[0];
+  const apiEndpoint = config.apiEndpoint;
+  const objectType = config.objectType;
+
+  // TODO: We should perform our own sort function to compare data returned with expected result
+
   describe(`${config.navLink} List`, () => {
     beforeEach(() => {
-      cy.requireLoggedIn({
-        user: 'linda.wolf@rustic-hw.com',
-        registrationData: {
-          firstName: 'Linda',
-          lastName: 'Wolf',
-          titleCode: '',
-          password: '12341234',
-          email: 'linda.wolf@rustic-hw.com',
-        },
-      });
+      loginAsAdmin();
+      cy.server();
     });
 
     it('should show list', () => {
-      cy.server();
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      cy.route('GET', `**${apiEndpoint}**`).as('getData');
       waitForData((data) => {
-        verifyList(
-          config,
-          getListRowsFromBody(data, config.list.dataConfig),
-          config.list.rowHeaders
-        );
-
-        const defaultSort = config.list.sorts.find((sort) => sort.default);
-        cy.url().should('contain', `${config.url}s${defaultSort.urlParams}`);
-        cy.get('cx-sorting .ng-select').should(
-          'contain.text',
-          defaultSort.value
-        );
+        checkUrlHasSortParams(defaultRow);
+        cy.get(config.list.selector).within(() => {
+          cy.get('h3').should('contain.text', config.list.pageTitle);
+          verifyList(
+            config,
+            getListRowsFromBody(data, objectType, config.list.rows),
+            config.list.rows
+          );
+        });
       }, cy.visit(`${config.url}s`));
     });
 
     it('should sort table data', () => {
-      cy.server();
-      config.list.sorts.forEach((sort) => {
+      config.list.rows.forEach((row) => {
         cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-        waitForData(
-          (data) => {
-            cy.url().should('contain', `${config.url}s${sort.urlParams}`);
+        waitForData((data) => {
+          // TODO: Should be checked but sort param in url not currently implemented. Uncomment once it is.
+          // checkUrlHasSortParams(row);
+
+          cy.get(config.list.selector).within(() => {
             verifyList(
               config,
-              getListRowsFromBody(data, config.list.dataConfig),
-              config.list.rowHeaders
+              getListRowsFromBody(data, objectType, config.list.rows),
+              config.list.rows
             );
-          },
-          cy.get(config.list.selector).within(() => {
-            ngSelect(sort.value);
-          })
-        );
+          });
+        }, clickSortButton(row));
       });
     });
   });
+
+  function checkUrlHasSortParams(row: MyCompanyRowConfig) {
+    cy.url().should('contain', `${config.url}s${row.sortByUrl ?? ''}`);
+  }
+
+  function clickSortButton(row: MyCompanyRowConfig) {
+    cy.get(config.list.selector)
+      .contains(row.header)
+      .within(() => {
+        cy.get('cx-icon[class^="cx-icon fas fa-sort"]').click();
+      });
+  }
 }
 
-export function testDetailsFromConfig(config) {
+export function testDetailsFromConfig(config: MyCompanyConfig) {
+  const apiEndpoint = config.apiEndpoint;
+  const objectType = config.objectType;
+
   describe(`${config.navLink} Details`, () => {
     beforeEach(() => {
-      cy.requireLoggedIn({
-        user: 'linda.wolf@rustic-hw.com',
-        registrationData: {
-          firstName: 'Linda',
-          lastName: 'Wolf',
-          titleCode: '',
-          password: '12341234',
-          email: 'linda.wolf@rustic-hw.com',
-        },
-      });
+      loginAsAdmin();
       cy.visit(`${config.url}s`);
     });
 
     it('should show details', () => {
-      navigateToDetails(
-        config.url,
-        config.list.selector,
-        config.details.entity.id
-      );
+      let firstRow;
+
+      cy.route('GET', `**${apiEndpoint}**`).as('getData');
+      waitForData((data) => {
+        const rows = getListRowsFromBody(data, objectType, config.list.rows);
+        firstRow = rows[0];
+
+        cy.get(config.list.selector).within(() => {
+          cy.get('a').contains(`${firstRow.text[0]}`).click({ force: true });
+        });
+
+        cy.url().should('contain', `${firstRow.links[0]}`);
+      }, cy.visit(`${config.url}s`));
 
       cy.get(config.details.selector).within(() => {
-        cy.get('h3').should(
-          'contain.text',
-          `Details for ${config.details.entity.id}`
-        );
-        cy.get('div.row')
-          .should('contain.text', 'ID')
-          .and('contain.text', config.details.entity.id);
-        if (config.details.entity.parentUnit) {
-          cy.get('div.row')
-            .should('contain.text', 'Parent Unit')
-            .and('contain.text', config.details.entity.parentUnit)
-            .and(
-              'contain.html',
-              `href="${CONTEXT_URL_EN_USD}/organization/unit/${config.details.entity.parentUnit}"`
-            );
-        }
-        cy.get('div.row')
-          .should('contain.text', 'Name')
-          .and('contain.text', config.details.entity.name);
+        // Check details exist on menu
+        cy.get('h3').should('contain.text', firstRow.text[0]);
 
-        cy.get('a')
-          .contains(config.details.editBtn.text)
-          .parent()
-          .should(
-            'contain.html',
-            `href="${config.url}${config.details.editBtn.link}"`
-          );
-
-        cy.get('a')
-          .contains('Back to list')
-          .parent()
-          .should('contain.html', `href="${config.url}s"`);
-
-        cy.get('cx-fake-tabs-desktop').within(() => {
-          config.details.tabs.forEach((tab) => {
-            cy.get('a')
-              .contains(tab.label)
-              .parent()
-              .and('contain.html', `href="${config.url}${tab.link}"`);
-          });
+        // TODO: We should check labels are correct for property values
+        config.list.rows.forEach((rowConfig) => {
+          cy.get('div.property label').should('contain.text', rowConfig.header);
         });
+        firstRow.text.forEach((row) => {
+          cy.get('div.property').should('contain.text', row);
+        });
+
+        // TODO: Need to check links but not the link to itself
+        // console.log(firstRow.links);
+        // firstRow.links.forEach((link) => {
+        //   cy.get('div.property a').should('contain.html', link);
+        // });
+
+        // Close details
+        cy.get('cx-icon[type="CARET_LEFT"]').click();
       });
+
+      cy.url().should('contain', `${config.url}s`);
+      cy.get(config.details.selector).should('not.exist');
     });
   });
 }
 
 export function testCreateUpdateFromConfig(config) {
+  const apiEndpoint = config.apiEndpoint;
+  const objectType = config.objectType;
+
   describe(`${config.navLink} Create / Update`, () => {
     beforeEach(() => {
-      cy.requireLoggedIn({
-        user: 'linda.wolf@rustic-hw.com',
-        registrationData: {
-          firstName: 'Linda',
-          lastName: 'Wolf',
-          titleCode: '',
-          password: '12341234',
-          email: 'linda.wolf@rustic-hw.com',
-        },
-      });
+      loginAsAdmin();
       cy.visit(`${config.url}s`);
     });
 
     it(`should create`, () => {
       cy.get(config.list.selector).within(() => {
-        cy.get('a').contains(config.list.createBtn.text).click();
+        cy.get('cx-icon[type="EXPAND"]').click();
       });
 
       cy.url().should('contain', `${config.url}s/create`);
 
       cy.get(config.form.create.selector).within(() => {
-        cy.get('h3').should('contain.text', config.form.create.header);
+        cy.get('h3').should('contain.text', 'Create');
 
         cy.get(config.form.selector).within(() => {
           cy.get('label').should('have.length', config.form.inputs.length);
@@ -171,72 +175,62 @@ export function testCreateUpdateFromConfig(config) {
                 }
               });
           });
-
-          cy.get('button').contains(config.form.create.header).click();
         });
+        cy.get('button').contains('Save').click();
       });
 
       cy.url().should(
         'contain',
-        `${config.url}/${config.form.inputs[0].value}`
+        `${config.url}s/${config.form.inputs[0].value}`
       );
 
       cy.get(config.details.selector).within(() => {
-        cy.get('h3').should(
-          'contain.text',
-          `Details for ${config.form.inputs[0].value}`
-        );
+        const inputs = config.form.inputs;
+        // TODO: This is not the best way to get the row with the name
+        const rowWithName = inputs[1];
 
-        if (config.details.entity.parentUnit) {
-          cy.get('div.row')
-            .should('contain.text', 'Parent Unit')
-            .and('contain.text', config.form.inputs[2].value)
-            .and(
-              'contain.html',
-              `href="${CONTEXT_URL_EN_USD}/organization/unit/${config.form.inputs[2].link}"`
-            );
-        }
-        cy.get('div.row')
-          .should('contain.text', 'Name')
-          .and('contain.text', config.form.inputs[1].value);
+        // Check details exist on menu
+        cy.get('h3').should('contain.text', rowWithName.value);
 
-        cy.get('a')
-          .contains(config.details.editBtn.text)
-          .parent()
-          .should(
-            'contain.html',
-            `href="${config.url}/edit/${config.form.inputs[0].value}"`
-          );
+        // TODO: We should check labels are correct for property values
+        inputs.forEach((rowConfig) => {
+          console.log(rowConfig);
+          cy.get('div.property label').should('contain.text', rowConfig.label);
+          cy.get('div.property').should('contain.text', rowConfig.value);
+          // if (rowConfig.link) {
+          //   cy.get('div.property a').should('contain.html', rowConfig.link);
+          // }
+        });
+
+        // TODO: Need to check links but not the link to itself
+        // console.log(firstRow.links);
+        // firstRow.links.forEach((link) => {
+        //   cy.get('div.property a').should('contain.html', link);
+        // });
+
+        // Close details
+        cy.get('cx-icon[type="CARET_LEFT"]').click();
       });
-
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-      waitForData((data) => {
-        verifyList(
-          config,
-          getListRowsFromBody(data, config.list.dataConfig),
-          config.list.rowHeaders
-        );
-      }, cy.get('a').contains('Back to list').parent().should('contain.html', `href="${config.url}s"`).click());
     });
 
     it(`should update`, () => {
-      navigateToDetails(
-        config.url,
-        config.list.selector,
-        config.form.inputs[0].value
-      );
+      cy.route('GET', `**${apiEndpoint}**`).as('getData');
+      waitForData(() => {
+        cy.get(config.list.selector).within(() => {
+          cy.get('a')
+            .contains(`${config.form.inputs[1].value}`)
+            .click({ force: true });
+        });
+
+        cy.url().should('contain', `${config.form.inputs[0].value}`);
+      }, cy.visit(`${config.url}s`));
 
       cy.get(config.details.selector).within(() => {
-        cy.get('h3').should(
-          'contain.text',
-          `Details for ${config.form.inputs[0].value}`
-        );
-
-        cy.get('a').contains(config.details.editBtn.text).click();
+        cy.get('a.link').contains('Edit details').click();
       });
 
       cy.get(config.form.edit.selector).within(() => {
-        cy.get('h3').should('contain.text', config.form.edit.header);
+        cy.get('h3').should('contain.text', 'Edit details');
 
         cy.get(config.form.selector).within(() => {
           cy.get('label').should('have.length', config.form.edit.inputs.length);
@@ -256,56 +250,41 @@ export function testCreateUpdateFromConfig(config) {
                 }
               });
           });
-
-          cy.get('button').contains(config.form.edit.btn).click();
         });
+
+        cy.get('button').contains('Save').click();
       });
 
       cy.url().should(
         'contain',
-        `${config.url}/${config.form.edit.inputs[0].value}`
+        `${config.url}s/${config.form.edit.inputs[0].value}`
       );
 
       cy.get(config.details.selector).within(() => {
-        cy.get('h3').should(
-          'contain.text',
-          `Details for ${config.form.edit.inputs[0].value}`
-        );
+        const inputs = config.form.edit.inputs;
+        // TODO: This is not the best way to get the row with the name
+        const rowWithName = inputs[1];
 
-        cy.get('div.row')
-          .should('contain.text', 'ID')
-          .and('contain.text', config.form.edit.inputs[0].value);
+        // Check details exist on menu
+        cy.get('h3').should('contain.text', rowWithName.value);
 
-        if (config.details.entity.parentUnit) {
-          cy.get('div.row')
-            .should('contain.text', 'Parent Unit')
-            .and('contain.text', config.form.edit.inputs[2].value)
-            .and(
-              'contain.html',
-              `href="${CONTEXT_URL_EN_USD}/organization/unit/${config.form.edit.inputs[2].link}"`
-            );
-        }
-        cy.get('div.row')
-          .should('contain.text', 'Name')
-          .and('contain.text', config.form.edit.inputs[1].value);
+        // TODO: We should check labels are correct for property values
+        inputs.forEach((rowConfig) => {
+          cy.get('div.property label').should('contain.text', rowConfig.label);
+          cy.get('div.property').should('contain.text', rowConfig.value);
+          // if (rowConfig.link) {
+          //   cy.get('div.property a').should('contain.html', rowConfig.link);
+          // }
+        });
 
-        cy.get('a')
-          .contains(config.details.editBtn.text)
-          .parent()
-          .should(
-            'contain.html',
-            `href="${config.url}/edit/${config.form.edit.inputs[0].value}"`
-          );
+        // TODO: Need to check links but not the link to itself
+        // firstRow.links.forEach((link) => {
+        //   cy.get('div.property a').should('contain.html', link);
+        // });
+
+        // Close details
+        cy.get('cx-icon[type="CARET_LEFT"]').click();
       });
-
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-      waitForData((data) => {
-        verifyList(
-          config,
-          getListRowsFromBody(data, config.list.dataConfig),
-          config.list.rowHeaders
-        );
-      }, cy.get('a').contains('Back to list').parent().should('contain.html', `href="${config.url}s"`).click());
     });
 
     after(() => {
@@ -315,39 +294,49 @@ export function testCreateUpdateFromConfig(config) {
 }
 
 export function testAssignmentFromConfig(config) {
+  const apiEndpoint = config.apiEndpoint;
+  const objectType = config.objectType;
+
   config.details.tabs.forEach((tab) => {
     describe(`${config.navLink} Assignment - ${tab.label}`, () => {
       before(() => {
-        cy.requireLoggedIn({
-          user: 'linda.wolf@rustic-hw.com',
-          registrationData: {
-            firstName: 'Linda',
-            lastName: 'Wolf',
-            titleCode: '',
-            password: '12341234',
-            email: 'linda.wolf@rustic-hw.com',
-          },
-        });
+        loginAsAdmin();
         cy.visit(`${config.url}s`);
       });
 
       it('should show list', () => {
-        cy.get(config.list.selector).within(() => {
-          cy.get('a')
-            .contains(`${config.details.entity.id}`)
-            .click({ force: true });
-        });
+        let firstRow;
 
-        cy.server();
+        cy.route('GET', `**${apiEndpoint}**`).as('getData');
+        waitForData((data) => {
+          const rows = getListRowsFromBody(data, objectType, config.list.rows);
+          firstRow = rows[0];
+
+          cy.get(config.list.selector).within(() => {
+            cy.get('a').contains(`${firstRow.text[0]}`).click({ force: true });
+          });
+
+          cy.url().should('contain', `${firstRow.links[0]}`);
+        }, cy.visit(`${config.url}s`));
+
+        // cy.server();
         cy.route('GET', `${tab.availableEndpoint}`).as('getData');
         waitForData((data) => {
-          cy.url().should('contain', tab.link);
+          cy.url().should(
+            'contain',
+            `${config.url}s/${firstRow.text[1]}${tab.link}`
+          );
+
           verifyList(
             config,
-            getListRowsFromBody(data, tab.dataConfig),
-            tab.rowHeaders
+            getListRowsFromBody(
+              data,
+              tab.availableParam,
+              tab.dataConfig.rowConfig
+            ),
+            tab.dataConfig.rowConfig
           );
-        }, cy.get('cx-fake-tabs a').contains(tab.label).click({ force: true }));
+        }, cy.get('a').contains(tab.label).click({ force: true }));
       });
 
       it('should sort table data', () => {
@@ -359,7 +348,7 @@ export function testAssignmentFromConfig(config) {
               cy.url().should('contain', `${tab.link}${sort.urlParams}`);
               verifyList(
                 config,
-                getListRowsFromBody(data, tab.dataConfig),
+                getListRowsFromBody(data, tab.availableParam, tab.dataConfig),
                 tab.rowHeaders
               );
             }, ngSelect(sort.value));
@@ -536,14 +525,14 @@ export function testAssignmentFromConfig(config) {
   });
 }
 
-function checkRowHeaders(headers: string[]): void {
-  headers.forEach((header: string) => {
-    cy.get('th').should('contain.text', header);
+function checkRowHeaders(rowConfigs: any): void {
+  rowConfigs.forEach((config: any) => {
+    cy.get('th').should('contain.text', config.header);
   });
 }
 
 function checkRows(rows): void {
-  let j = 0;
+  let j = 1; // Skip header table row at 0
   rows.forEach((row: any) => {
     if (row.text.length) {
       cy.get('tr')
@@ -611,17 +600,17 @@ function deleteEntity(id: string, config) {
   });
 }
 
-function getListRowsFromBody(body, dataConfig) {
-  return body[dataConfig.type].map((data) => {
+function getListRowsFromBody(body, objectType, rows: MyCompanyRowConfig[]) {
+  return body[objectType].map((data) => {
     const table = { text: [], links: [] };
-    dataConfig.rowConfig.map((row) => {
-      if (!data.hasOwnProperty('selected') || data.selected) {
-        const foundText = row.text
-          .split('.')
-          .reduce((p, c) => (p && p[c]) || null, data);
-        table.text.push(foundText);
-        table.links.push(row.link ? row.link : null);
-      }
+    rows.map((row) => {
+      // if (!data.hasOwnProperty('selected') || data.selected) {
+      const foundText = row.text
+        .split('.')
+        .reduce((p, c) => (p && p[c]) || null, data);
+      table.text.push(foundText);
+      table.links.push(row.link ? row.link : null);
+      // }
     });
     return table;
   });
@@ -638,9 +627,9 @@ function waitForData(thenCommand, waitForCommand?) {
   });
 }
 
-function verifyList(config, rows, rowHeaders) {
+function verifyList(config, rows, rowConfig) {
   // cy.get(config.list.selector).within(() => {
-  // cy.get('h3').should('contain.text', config.list.pageTitle);
+
   // cy.get('a')
   //   .contains(config.list.createBtn.text)
   //   .parent()
@@ -648,16 +637,23 @@ function verifyList(config, rows, rowHeaders) {
   //     'contain.html',
   //     `href="${config.url}s${config.list.createBtn.link}"`
   //   );
+
   cy.get('cx-table').within(() => {
-    checkRowHeaders(rowHeaders);
+    checkRowHeaders(rowConfig);
     checkRows(rows);
   });
   // });
 }
 
-function navigateToDetails(url, listSelector, id) {
-  cy.get(listSelector).within(() => {
-    cy.get('a').contains(`${id}`).click({ force: true });
+function loginAsAdmin() {
+  cy.requireLoggedIn({
+    user: 'linda.wolf@rustic-hw.com',
+    registrationData: {
+      firstName: 'Linda',
+      lastName: 'Wolf',
+      titleCode: '',
+      password: '12341234',
+      email: 'linda.wolf@rustic-hw.com',
+    },
   });
-  cy.url().should('contain', `${url}/${id}`);
 }

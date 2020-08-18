@@ -1,63 +1,39 @@
 import * as myCompany from '../../../helpers/my-company';
 import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
 
-const config = {
+const config: myCompany.MyCompanyConfig = {
   navLink: 'User Groups',
   url: `${CONTEXT_URL_EN_USD}/organization/user-group`,
   apiEndpoint: '/orgUnitUserGroup',
+  objectType: 'orgUnitUserGroups',
   list: {
-    pageTitle: 'User Group Management',
-    createBtn: {
-      text: 'Create new user group',
-      link: '/create',
-    },
+    pageTitle: 'User groups',
     selector: 'cx-user-group-list',
-    rowHeaders: ['ID', 'Name', 'Parent Unit'],
-    sorts: [
+    rows: [
       {
-        urlParams: '?sort=byUnitName',
-        value: 'Unit Name',
+        header: 'Name',
+        text: 'name',
+        link: '/organization/user-groups/',
       },
       {
-        urlParams: '?sort=byGroupID',
-        value: 'Group ID',
+        header: 'Code',
+        sortByUrl: '?sort=byUnitName',
+        text: 'uid',
       },
       {
-        urlParams: '',
-        value: 'Name',
-        default: true,
+        header: 'Parent Unit',
+        sortByUrl: '?sort=byGroupID',
+        text: 'orgUnit.name',
+        link: `/organization/units/`,
       },
     ],
-    dataConfig: {
-      type: 'orgUnitUserGroups',
-      rowConfig: [
-        {
-          text: 'uid',
-          link: '/organization/user-group/',
-        },
-        { text: 'name' },
-        {
-          text: 'orgUnit.name',
-          link: `/organization/unit/`,
-        },
-      ],
-    },
   },
   details: {
     selector: 'cx-user-group-details',
-    entity: {
-      id: 'limitedPermissions',
-      parentUnit: 'Rustic',
-      name: 'Limited Permissions',
-    },
-    editBtn: {
-      text: 'Edit',
-      link: '/edit/limitedPermissions',
-    },
     tabs: [
       {
         label: 'Purchase limits',
-        link: `/purchase-limits/limitedPermissions`,
+        link: `/purchase-limits`,
         manageLink: '/assign-purchase-limits/limitedPermissions',
         manageSelector: 'cx-user-group-assign-permissions',
         availableEndpoint: '**/availableOrderApprovalPermissions**',
@@ -67,13 +43,15 @@ const config = {
           type: 'orderApprovalPermissions',
           rowConfig: [
             {
+              header: 'Code',
               text: 'code',
               link: '/organization/purchase-limit/',
             },
-            { text: 'orderApprovalPermissionType.name' },
-            { text: 'threshold' },
-            { text: 'periodRange' },
+            { header: 'Type', text: 'orderApprovalPermissionType.name' },
+            { header: 'Threshold Value', text: 'threshold' },
+            { header: 'Time Period', text: 'periodRange' },
             {
+              header: 'Parent Unit',
               text: 'orgUnit.name',
               link: `/organization/unit/`,
             },
@@ -147,13 +125,13 @@ const config = {
     selector: 'cx-user-group-form',
     inputs: [
       {
-        label: 'User Group ID',
+        label: 'Code',
         type: 'text',
         value: 'test-entity',
       },
-      { label: 'User Group name', type: 'text', value: 'Test Entity' },
+      { label: 'Name', type: 'text', value: 'Test Entity' },
       {
-        label: 'Parent business unit',
+        label: 'Parent Unit',
         type: 'ngSelect',
         value: 'Custom Retail',
         link: 'Custom%20Retail',
@@ -161,7 +139,6 @@ const config = {
     ],
     create: {
       selector: 'cx-user-group-create',
-      header: 'Create User Group',
       entity: {
         id: 'test-user-group',
       },
@@ -172,13 +149,13 @@ const config = {
       btn: 'Update User Group',
       inputs: [
         {
-          label: 'User Group ID',
+          label: 'Code',
           type: 'text',
           value: 'edited-user-group',
         },
-        { label: 'User Group name', type: 'text', value: 'Edited User Group' },
+        { label: 'Name', type: 'text', value: 'Edited User Group' },
         {
-          label: 'Parent business unit',
+          label: 'Parent Unit',
           type: 'ngSelect',
           value: 'Rustic',
           link: 'Rustic',
