@@ -1,7 +1,10 @@
 import { Address, AddressValidation } from '../../model/address.model';
 import { CardType, PaymentDetails, PaymentType } from '../../model/cart.model';
 import { DeliveryMode, Order } from '../../model/order.model';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
+import {
+  ORDER_TYPE,
+  ReplenishmentOrder,
+} from '../../model/replenishment-order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 
 export const CHECKOUT_FEATURE = 'checkout';
@@ -49,9 +52,14 @@ export interface PaymentTypesState {
   selected: string;
 }
 
+export interface OrderTypesState {
+  selected: ORDER_TYPE;
+}
+
 export interface CheckoutState {
   steps: LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
   paymentTypes: PaymentTypesState;
+  orderType: OrderTypesState;
 }
