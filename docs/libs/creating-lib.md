@@ -310,6 +310,23 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
+- `ci-scripts/unit-tests-sonar.sh`
+
+Add the library unit tests with code coverage
+
+``` sh
+echo "Running unit tests and code coverage for TODO:"
+exec 5>&1
+output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+```
+
+Replace `TODO:` with the appropriate name.
+
 ## Multi-entry point library
 
 Sources:
@@ -321,8 +338,8 @@ Sources:
 If adding multiple entry points to the generated library, make sure to do the following changes:
 
 - `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
-- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved from `lib-name/src/test.ts` one level up - `lib-name/test.ts`.
-This change should be updated in the:
+- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+This change requires an update in the:
 
   1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
   2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
