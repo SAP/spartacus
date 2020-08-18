@@ -270,7 +270,6 @@ describe('ConfigurationFormComponent', () => {
         configuratorGroupsService,
         'navigateToFirstIncompleteGroup'
       ).and.callThrough();
-      mockRouterState.state.queryParams = { resolveIssues: 'true' };
       routerStateObservable = of(mockRouterState);
 
       const fixture = TestBed.createComponent(ConfigFormComponent);
