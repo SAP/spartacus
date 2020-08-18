@@ -46,7 +46,7 @@ class MockActiveCartService {
   }
 }
 
-describe('Checkout Replenishment Order Connector', () => {
+describe('Checkout Replenishment Order Service', () => {
   let service: CheckoutReplenishmentOrderService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
 
@@ -96,6 +96,24 @@ describe('Checkout Replenishment Order Connector', () => {
           userId: mockUserId,
         })
       );
+    });
+
+    it('should get the replenishment order details after successfully scheduling an order', () => {
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+          mockReplenishmentOrder
+        )
+      );
+
+      let result: ReplenishmentOrder;
+      service
+        .getReplenishmentOrderDetails()
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
+
+      expect(result).toEqual(mockReplenishmentOrder);
     });
 
     it('should return the loading flag', () => {

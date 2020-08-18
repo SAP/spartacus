@@ -153,19 +153,117 @@ cx-place-order {
     --cx-flex-basis: 45%;
   }
 
+  .scaled-input {
+    transform: scale(0.7);
+  }
+
   .cx-place-order-form {
-    @include type('7');
+    font-size: 12px;
     padding: 0;
 
     .form-check {
       &-input {
         margin: 0;
         top: 1rem;
+
+        @include media-breakpoint-down(sm) {
+          top: 0.5rem;
+        }
       }
 
       &-label {
         padding: 0;
-        margin: 0 0 0.5rem 3rem;
+        margin: 0.3rem 0 0.5rem 2rem;
+      }
+    }
+  }
+}
+
+cx-schedule-replenishment-order {
+  .scaled-input {
+    transform: scale(0.7);
+  }
+
+  .cx-label-container {
+    display: inline-flex;
+
+    span {
+      font-size: $small-font-size;
+      color: $secondary;
+
+      margin-left: 8px;
+      margin-top: 3px;
+    }
+  }
+
+  .cx-order-type-card {
+    font-size: $small-font-size;
+    background-color: #ecf2f7;
+
+    border: 1px solid $light;
+    border-radius: var(--cx-buttons-border-radius);
+
+    margin-bottom: 10px;
+    padding: 10px;
+
+    .cx-order-type-container {
+      &:first-child {
+        margin-top: 10px;
+      }
+
+      .form-check-label {
+        top: 5px;
+      }
+    }
+
+    .cx-replenishment-form-data-container {
+      display: flex;
+      flex-direction: row;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      .form-data-label {
+        align-self: center;
+
+        margin-left: 15px;
+        margin-right: 10px;
+      }
+
+      .form-data-input {
+        flex: 1;
+      }
+
+      .cx-days {
+        width: 5rem;
+        margin-right: 1rem;
+      }
+
+      .cx-day-of-month {
+        width: 5rem;
+      }
+
+      .cx-month {
+        flex-grow: 1;
+
+        @include media-breakpoint-down(sm) {
+          flex-grow: unset;
+          width: 50%;
+        }
+      }
+
+      &.cx-repeat-days-container {
+        flex-direction: unset;
+        flex-wrap: wrap;
+
+        .cx-repeat-days {
+          flex: 0 100%;
+        }
+
+        .form-check {
+          flex: 0 50%;
+        }
       }
     }
   }

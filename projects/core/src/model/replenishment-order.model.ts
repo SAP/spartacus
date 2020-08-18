@@ -63,6 +63,15 @@ export interface ReplenishmentOrderList {
   sorts?: SortModel[];
 }
 
+export interface ScheduleReplenishmentForm {
+  daysOfWeek?: DaysOfWeek[];
+  nthDayOfMonth?: string;
+  numberOfDays?: string;
+  numberOfWeeks?: string;
+  recurrencePeriod?: string;
+  replenishmentStartDate?: string;
+}
+
 export enum DaysOfWeek {
   SUNDAY = 'SUNDAY',
   MONDAY = 'MONDAY',
@@ -73,14 +82,11 @@ export enum DaysOfWeek {
   SATURDAY = 'SATURDAY',
 }
 
-export interface ScheduleReplenishmentForm {
-  daysOfWeek?: DaysOfWeek[];
-  nthDayOfMonth?: string;
-  numberOfDays?: string;
-  numberOfWeeks?: string;
-  recurrencePeriod?: string;
-  replenishmentStartDate?: string;
-}
+export const recurrencePeriod = {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+};
 
 export enum ORDER_TYPE {
   PLACE_ORDER = 'PLACE_ORDER',
