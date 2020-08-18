@@ -1,21 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
-  B2BUnit,
-} from '@spartacus/core';
-
-import { UnitDetailsComponent } from './unit-details.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { B2BUnit, I18nTestingModule, OrgUnitService } from '@spartacus/core';
 import { Table2Module } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { CurrentUnitService } from '../current-unit.service';
+import { UnitDetailsComponent } from './unit-details.component';
+
+import createSpy = jasmine.createSpy;
 
 const code = 'b1';
 
@@ -37,15 +29,12 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   update = createSpy('update');
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-}
-
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  code$ = of('u1');
+  model$ = of({
+    uid: 'u1',
+  } as B2BUnit);
+  launch = createSpy();
 }
 
 describe('UnitDetailsComponent', () => {
@@ -58,14 +47,12 @@ describe('UnitDetailsComponent', () => {
       imports: [RouterTestingModule, Table2Module, I18nTestingModule],
       declarations: [UnitDetailsComponent, MockUrlPipe],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     }).compileComponents();
 
     orgUnitsService = TestBed.inject(OrgUnitService);
-    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {

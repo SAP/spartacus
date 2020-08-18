@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
 import { Budget, RouterState, RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
-import { BaseCurrentService } from './base-current.service';
+import { CurrentOrganizationService } from './base-current.service';
 
 const mockCode = 'b1';
 const PARAM = 'myParam';
@@ -29,11 +29,12 @@ export interface Mock {
 }
 
 @Injectable({ providedIn: 'root' })
-class MockCurrentService extends BaseCurrentService<Mock> {
-  constructor(protected routingService: RoutingService) {
-    super(routingService, PARAM);
+class MockCurrentService extends CurrentOrganizationService<Mock> {
+  getParam(): string {
+    return PARAM;
   }
 
+  // we make these public for easy testing
   getModel(..._params: any[]): Observable<Mock> {
     return of({});
   }

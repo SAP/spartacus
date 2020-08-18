@@ -3,42 +3,49 @@ import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 import { QUERY_PARAMS } from '../constants';
 
-export abstract class BaseCurrentService<T> {
-  code$: Observable<string>;
+export abstract class CurrentOrganizationService<T> {
+  /**
+   * Observes the code parameter from the (child)route. The code parameter
+   * must be implemented by the concrete implementation, as we like to use
+   * semantic, configurable route parameters, rather than a static "code"
+   * route parameter.
+   */
+  readonly code$: Observable<string> = this.routingService
+    .getParams()
+    .pipe(pluck(this.getParam()), distinctUntilChanged());
 
-  model$: Observable<T>;
+  /**
+   * Observes the data for the current code$.
+   */
+  readonly model$: Observable<T> = this.code$.pipe(
+    switchMap((code: string) => (code ? this.getModel(code) : of(null)))
+  );
 
-  readonly parentUnit$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map(
-        (routingData) =>
-          routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
-      )
-    );
+  /**
+   * Observes the b2bUnit based on the query parameters.
+   */
+  readonly parentUnit$ = this.routingService.getRouterState().pipe(
+    map(
+      (routingData) => routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
+    ),
+    distinctUntilChanged()
+  );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected param: string
-  ) {
-    this.init();
-  }
+  constructor(protected routingService: RoutingService) {}
 
-  protected init() {
-    this.code$ = this.routingService
-      .getParams()
-      .pipe(pluck(this.param), distinctUntilChanged());
-
-    this.model$ = this.code$.pipe(
-      switchMap((code: string) => (code ? this.getModel(code) : of(null)))
-    );
-  }
+  /**
+   * Returns the route parameter key, that is used to bind to the router parameter.
+   */
+  protected abstract getParam(...params: any[]): string;
 
   /**
    * Emits the current model or null, if there is no model available
    */
-  protected abstract getModel(...params): Observable<T>;
+  protected abstract getModel(...params: any[]): Observable<T>;
 
+  /**
+   * Navigation to the given cxRoute.
+   */
   launch(cxRoute: string, params: any) {
     this.routingService.go({ cxRoute, params });
   }

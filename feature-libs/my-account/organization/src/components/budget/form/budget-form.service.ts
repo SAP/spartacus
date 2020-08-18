@@ -7,6 +7,7 @@ import { Budget } from '@spartacus/core';
 })
 export class BudgetFormService {
   getForm(model?: Budget): FormGroup {
+    console.log('get form', model);
     const form = new FormGroup({});
     this.build(form);
     if (model) {

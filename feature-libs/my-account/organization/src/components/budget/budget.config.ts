@@ -20,7 +20,7 @@ import { BudgetListComponent } from './list/budget-list.component';
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
-const listPath = `organization/units/:${ROUTE_PARAMS.budgetCode}`;
+const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
   [ROUTE_PARAMS.budgetCode]: 'code',
 };

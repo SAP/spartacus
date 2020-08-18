@@ -14,9 +14,7 @@ import { UnitFormService } from '../form/unit-form.service';
   providers: [CurrentUnitService],
 })
 export class UnitEditComponent {
-  protected form$: Observable<
-    FormGroup
-  > = this.currentUnitService.parentUnit$.pipe(
+  protected form$: Observable<FormGroup> = this.currentUnitService.model$.pipe(
     map((unit) => this.unitFormService.getForm(unit))
   );
 
