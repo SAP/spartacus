@@ -41,10 +41,6 @@ export class SearchBoxComponentService {
       return;
     }
 
-    if (config.exactMatchEnabled === undefined) {
-      config.exactMatchEnabled = true;
-    }
-
     if (config.displayProducts) {
       this.searchService.search(query, {
         pageSize: config.maxProducts,
