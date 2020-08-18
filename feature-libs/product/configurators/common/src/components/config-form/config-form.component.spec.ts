@@ -115,8 +115,8 @@ class MockConfiguratorGroupsService {
   }
   subscribeToUpdateConfiguration() {}
   setGroupStatus(): void {}
-  goToConflictSolver(): void {}
-  goToFirstUncompletedGroup(): void {}
+  navigateToConflictSolver(): void {}
+  navigateToFirstIncompleteGroup(): void {}
 }
 function checkConfigurationObs(
   routerMarbels: string,
@@ -260,45 +260,77 @@ describe('ConfigurationFormComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  it('should go to conflict solver in case the router requires this - has conflicts', () => {
-    spyOn(configuratorGroupsService, 'goToConflictSolver').and.callThrough();
-    spyOn(
-      configuratorGroupsService,
-      'goToFirstUncompletedGroup'
-    ).and.callThrough();
-    mockRouterState.state.queryParams = { resolveIssues: 'true' };
-    routerStateObservable = of(mockRouterState);
-    hasConfigurationConflictsObservable = of(true);
-    const fixture = TestBed.createComponent(ConfigFormComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
+  describe('resolve issues navigation', () => {
+    it('should go to neither conflict solver nor first incomplete group', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      mockRouterState.state.queryParams = { resolveIssues: 'true' };
+      routerStateObservable = of(mockRouterState);
 
-    expect(configuratorGroupsService.goToConflictSolver).toHaveBeenCalledTimes(
-      1
-    );
-    expect(
-      configuratorGroupsService.goToFirstUncompletedGroup
-    ).toHaveBeenCalledTimes(0);
-  });
+      const fixture = TestBed.createComponent(ConfigFormComponent);
+      const component = fixture.componentInstance;
+      component.ngOnInit();
 
-  it('should go to first uncompleted group in case the router requires this - has no conflicts', () => {
-    spyOn(configuratorGroupsService, 'goToConflictSolver').and.callThrough();
-    spyOn(
-      configuratorGroupsService,
-      'goToFirstUncompletedGroup'
-    ).and.callThrough();
-    mockRouterState.state.queryParams = { resolveIssues: 'true' };
-    routerStateObservable = of(mockRouterState);
-    const fixture = TestBed.createComponent(ConfigFormComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(0);
+    });
 
-    expect(configuratorGroupsService.goToConflictSolver).toHaveBeenCalledTimes(
-      0
-    );
-    expect(
-      configuratorGroupsService.goToFirstUncompletedGroup
-    ).toHaveBeenCalledTimes(1);
+    it('should go to conflict solver in case the router requires this - has conflicts', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      mockRouterState.state.queryParams = { resolveIssues: 'true' };
+      routerStateObservable = of(mockRouterState);
+      hasConfigurationConflictsObservable = of(true);
+      const fixture = TestBed.createComponent(ConfigFormComponent);
+      const component = fixture.componentInstance;
+      component.ngOnInit();
+
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      mockRouterState.state.queryParams = { resolveIssues: 'true' };
+      routerStateObservable = of(mockRouterState);
+      const fixture = TestBed.createComponent(ConfigFormComponent);
+      const component = fixture.componentInstance;
+      component.ngOnInit();
+
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {

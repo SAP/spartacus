@@ -101,15 +101,15 @@ describe('ConfiguratorGroupStatusService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
-    it('should get first uncompleted group', () => {
-      expect(
-        classUnderTest.getFirstUncompletedGroup(productConfiguration)
-      ).toBe(productConfiguration.flatGroups[0]);
+    it('should get first incomplete group', () => {
+      expect(classUnderTest.getFirstIncompleteGroup(productConfiguration)).toBe(
+        productConfiguration.flatGroups[0]
+      );
     });
 
-    it('should get first uncompleted group - only consider non conflict groups', () => {
+    it('should get first incomplete group - only consider non conflict groups', () => {
       expect(
-        classUnderTest.getFirstUncompletedGroup(
+        classUnderTest.getFirstIncompleteGroup(
           productConfigurationWithConflicts
         )
       ).toBe(productConfigurationWithConflicts.flatGroups[3]);

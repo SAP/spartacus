@@ -272,7 +272,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfigurationWithConflicts)
     );
-    classUnderTest.goToConflictSolver(productConfigurationWithConflicts.owner);
+    classUnderTest.navigateToConflictSolver(
+      productConfigurationWithConflicts.owner
+    );
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.ChangeGroup({
@@ -287,7 +289,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    classUnderTest.goToFirstUncompletedGroup(productConfiguration.owner);
+    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.ChangeGroup({

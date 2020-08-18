@@ -75,13 +75,13 @@ export class ConfigFormComponent implements OnInit {
             .pipe(take(1))
             .subscribe((hasConflicts) => {
               if (hasConflicts) {
-                this.configuratorGroupsService.goToConflictSolver(
+                this.configuratorGroupsService.navigateToConflictSolver(
                   routingData.owner
                 );
 
-                //Only check for uncompleted group when there are no conflicts
+                //Only check for Incomplete group when there are no conflicts
               } else {
-                this.configuratorGroupsService.goToFirstUncompletedGroup(
+                this.configuratorGroupsService.navigateToFirstIncompleteGroup(
                   routingData.owner
                 );
               }

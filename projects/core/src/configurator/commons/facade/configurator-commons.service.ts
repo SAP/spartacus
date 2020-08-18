@@ -190,6 +190,8 @@ export class ConfiguratorCommonsService {
    * Verifies weather the configuration contains conflicts
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<boolean>} - Returns true if the configuration has conflicts, otherwise false
    */
   hasConflicts(owner: GenericConfigurator.Owner): Observable<boolean> {
     return this.getConfiguration(owner).pipe(

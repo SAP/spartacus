@@ -58,19 +58,19 @@ export class ConfiguratorGroupsService {
 
   /**
    * Navigates to the first non-conflict group of the configuration which is not completed.
-   * This method assumes that the configuration has uncompleted groups,
+   * This method assumes that the configuration has incomplete groups,
    * the caller has to verify this prior to calling this method.
    *
    * @param owner - Configuration owner
    */
-  goToFirstUncompletedGroup(owner: GenericConfigurator.Owner): void {
+  navigateToFirstIncompleteGroup(owner: GenericConfigurator.Owner): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
       .subscribe((configuration) =>
         this.navigateToGroup(
           configuration,
-          this.configuratorGroupStatusService.getFirstUncompletedGroup(
+          this.configuratorGroupStatusService.getFirstIncompleteGroup(
             configuration
           )?.id,
           true
@@ -85,7 +85,7 @@ export class ConfiguratorGroupsService {
    *
    * @param owner Configuration Owner
    */
-  goToConflictSolver(owner: GenericConfigurator.Owner): void {
+  navigateToConflictSolver(owner: GenericConfigurator.Owner): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
@@ -192,14 +192,14 @@ export class ConfiguratorGroupsService {
    *
    * @param configuration - Configuration
    * @param groupId - Group ID
-   * @param doNotSetStatus - Group status will not be set for previous group
+   * @param setStatus - Group status will be set for previous group, default true
    */
   public navigateToGroup(
     configuration: Configurator.Configuration,
     groupId: string,
-    doNotSetStatus?: boolean
+    setStatus = true
   ) {
-    if (!doNotSetStatus) {
+    if (setStatus) {
       //Set Group status for current group
       this.getCurrentGroup(configuration.owner)
         .pipe(take(1))

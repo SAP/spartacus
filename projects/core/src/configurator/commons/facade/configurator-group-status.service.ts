@@ -52,9 +52,11 @@ export class ConfiguratorGroupStatusService {
    * Returns the first non-conflict group of the configuration which is not completed
    * and undefined if all are completed.
    *
-   * * @param configuration - Configuration
+   * @param configuration - Configuration
+   *
+   * @return {Configurator.Group} - First incomplete group or undefined
    */
-  getFirstUncompletedGroup(
+  getFirstIncompleteGroup(
     configuration: Configurator.Configuration
   ): Configurator.Group {
     return configuration.flatGroups
@@ -90,7 +92,7 @@ export class ConfiguratorGroupStatusService {
     configuration: Configurator.Configuration,
     parentGroup: Configurator.Group,
     completedGroupIds: string[],
-    uncompletedGroupdIds: string[]
+    incompleteGroupdIds: string[]
   ) {
     if (parentGroup === null) {
       return;
@@ -106,7 +108,7 @@ export class ConfiguratorGroupStatusService {
     if (allSubGroupsComplete) {
       completedGroupIds.push(parentGroup.id);
     } else {
-      uncompletedGroupdIds.push(parentGroup.id);
+      incompleteGroupdIds.push(parentGroup.id);
     }
 
     this.getParentGroupStatusCompleted(
@@ -120,7 +122,7 @@ export class ConfiguratorGroupStatusService {
         null
       ),
       completedGroupIds,
-      uncompletedGroupdIds
+      incompleteGroupdIds
     );
   }
 
@@ -204,20 +206,20 @@ export class ConfiguratorGroupStatusService {
     parentGroup: Configurator.Group
   ) {
     const completedGroupIds = [];
-    const uncompletedOrErrorGroupdIds = [];
+    const incompleteOrErrorGroupdIds = [];
 
     //Currently only check for completness, no validation of input types
     if (this.checkIsGroupComplete(group)) {
       completedGroupIds.push(group.id);
     } else {
-      uncompletedOrErrorGroupdIds.push(group.id);
+      incompleteOrErrorGroupdIds.push(group.id);
     }
 
     this.getParentGroupStatusCompleted(
       configuration,
       parentGroup,
       completedGroupIds,
-      uncompletedOrErrorGroupdIds
+      incompleteOrErrorGroupdIds
     );
 
     this.store.dispatch(
@@ -230,7 +232,7 @@ export class ConfiguratorGroupStatusService {
     this.store.dispatch(
       new ConfiguratorActions.SetGroupsError({
         entityKey: configuration.owner.key,
-        errorGroups: uncompletedOrErrorGroupdIds,
+        errorGroups: incompleteOrErrorGroupdIds,
       })
     );
   }

@@ -653,7 +653,7 @@ describe('ConfiguratorCommonsService', () => {
         .unsubscribe();
     });
 
-    it('should return false in case of conflicts', (done) => {
+    it('should return true in case of conflicts', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(productConfigurationWithConflicts)
       );
