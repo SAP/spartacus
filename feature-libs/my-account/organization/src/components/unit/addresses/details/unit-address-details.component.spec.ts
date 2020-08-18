@@ -96,7 +96,7 @@ describe('UnitAddressDetailsComponent', () => {
     expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(code, addressId);
   });
 
-  it('openModal', () => {
+  it('should open modal for confirmation', () => {
     component.openModal(mockAddress, {} as TemplateRef<any>);
     expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
     expect(routingService.go).toHaveBeenCalledWith({
