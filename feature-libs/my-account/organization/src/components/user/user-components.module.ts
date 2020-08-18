@@ -12,6 +12,8 @@ import {
 import { UserCreateModule } from './create/user-create.module';
 import { UserEditModule } from './edit/user-edit.module';
 import { UserFormModule } from './form/user-form.module';
+import { ChangePasswordFormModule } from './change-password-form/change-password-form.module';
+import { UserChangePasswordModule } from './change-password/user-change-password.module';
 import { UserListModule } from './list/user-list.module';
 import { UserDetailsModule } from './details/user-details.module';
 
@@ -35,6 +37,8 @@ import { UserUserGroupListModule } from './user-groups/list/user-user-group-list
     UserCreateModule,
     UserEditModule,
     UserFormModule,
+    ChangePasswordFormModule,
+    UserChangePasswordModule,
     UserListModule,
   ],
   providers: [

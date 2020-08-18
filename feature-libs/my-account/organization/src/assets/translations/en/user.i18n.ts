@@ -10,6 +10,12 @@ export const user = {
   roles: 'Roles',
   title: 'Title',
   assignAprover: 'Add to the approvers list',
+  changePassword: {
+    link: 'Change password',
+    header: 'Change password of {{code}}',
+    password: 'New password',
+    confirmPassword: 'Retype new password',
+  },
 
   messages: {
     enabled:

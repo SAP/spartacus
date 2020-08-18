@@ -15,15 +15,15 @@ describe('CostCenterFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm({});
-    expect(form.get('uid')).toBeDefined();
-    expect(form.get('name')).toBeDefined();
-    expect(form.get('parentOrgUnit').get('uid')).toBeDefined();
-    expect(form.get('approvalProcess').get('code')).toBeDefined();
+    expect(form.get('uid')).not.toBeNull();
+    expect(form.get('name')).not.toBeNull();
+    expect(form.get('parentOrgUnit').get('uid')).not.toBeNull();
+    expect(form.get('approvalProcess').get('code')).not.toBeNull();
   });
 
   it('should apply the model', () => {
     const form = service.getForm({ uid: 'test' });
-    expect(form.get('uid')).toBeDefined();
+    expect(form.get('uid')).not.toBeNull();
     expect(form.get('uid').value).toEqual('test');
   });
 });

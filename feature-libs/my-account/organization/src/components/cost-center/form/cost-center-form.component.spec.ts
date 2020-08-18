@@ -11,9 +11,10 @@ import {
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {
@@ -31,6 +32,11 @@ const mockOrgUnits: B2BUnitNode[] = [
     parent: 'parentUnit',
   },
 ];
+
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  parentUnit$ = NEVER;
+}
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadList = createSpy('loadList');
@@ -76,7 +82,18 @@ describe('CostCenterFormComponent', () => {
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CostCenterFormComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentCostCenterService,
+              useClass: MockCurrentCostCenterService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     orgUnitService = TestBed.inject(OrgUnitService);
     currencyService = TestBed.inject(CurrencyService);
