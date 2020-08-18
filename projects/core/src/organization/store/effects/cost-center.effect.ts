@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import { CostCenter } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { Budget } from '../../../model/budget.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 import { CostCenterActions, BudgetActions } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
+import {
+  normalizeListPage,
+  serializeB2BSearchConfig,
+} from '../../utils/serializer';
 
 @Injectable()
 export class CostCenterEffects {
@@ -122,27 +125,36 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
-    switchMap(({ userId, costCenterCode, params }) =>
-      this.costCenterConnector.getBudgets(userId, costCenterCode, params).pipe(
-        switchMap((budgets: EntitiesModel<Budget>) => {
-          const { values, page } = normalizeListPage(budgets, 'code');
-          return [
-            new BudgetActions.LoadBudgetSuccess(values),
-            new CostCenterActions.LoadAssignedBudgetsSuccess({
-              costCenterCode,
-              page,
-              params,
-            }),
-          ];
-        }),
-        catchError((error) =>
-          of(
-            new CostCenterActions.LoadAssignedBudgetsFail({
-              costCenterCode,
-              params,
-              error: makeErrorSerializable(error),
-            })
-          )
+    groupBy(({ userId, costCenterCode, params }) =>
+      [userId, costCenterCode, serializeB2BSearchConfig(params)].join('_')
+    ),
+    mergeMap((group) =>
+      group.pipe(
+        switchMap(({ userId, costCenterCode, params }) =>
+          this.costCenterConnector
+            .getBudgets(userId, costCenterCode, params)
+            .pipe(
+              switchMap((budgets: EntitiesModel<Budget>) => {
+                const { values, page } = normalizeListPage(budgets, 'code');
+                return [
+                  new BudgetActions.LoadBudgetSuccess(values),
+                  new CostCenterActions.LoadAssignedBudgetsSuccess({
+                    costCenterCode,
+                    page,
+                    params,
+                  }),
+                ];
+              }),
+              catchError((error) =>
+                of(
+                  new CostCenterActions.LoadAssignedBudgetsFail({
+                    costCenterCode,
+                    params,
+                    error: makeErrorSerializable(error),
+                  })
+                )
+              )
+            )
         )
       )
     )

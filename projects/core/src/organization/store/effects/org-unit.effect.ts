@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import {
   B2BApprovalProcess,
   B2BUnitNode,
@@ -12,7 +12,10 @@ import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
+import {
+  normalizeListPage,
+  serializeB2BSearchConfig,
+} from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -180,34 +183,41 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
-    switchMap(({ userId, orgUnitId, roleId, params }) => {
-      return this.orgUnitConnector
-        .getUsers(userId, orgUnitId, roleId, params)
-        .pipe(
-          switchMap((users: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(users, 'customerId');
-            return [
-              new B2BUserActions.LoadB2BUserSuccess(values),
-              new OrgUnitActions.LoadAssignedUsersSuccess({
-                orgUnitId,
-                roleId,
-                page,
-                params,
+    groupBy(({ userId, orgUnitId, roleId, params }) =>
+      [userId, orgUnitId, roleId, serializeB2BSearchConfig(params)].join('_')
+    ),
+    mergeMap((group) =>
+      group.pipe(
+        switchMap(({ userId, orgUnitId, roleId, params }) => {
+          return this.orgUnitConnector
+            .getUsers(userId, orgUnitId, roleId, params)
+            .pipe(
+              switchMap((users: EntitiesModel<B2BUser>) => {
+                const { values, page } = normalizeListPage(users, 'customerId');
+                return [
+                  new B2BUserActions.LoadB2BUserSuccess(values),
+                  new OrgUnitActions.LoadAssignedUsersSuccess({
+                    orgUnitId,
+                    roleId,
+                    page,
+                    params,
+                  }),
+                ];
               }),
-            ];
-          }),
-          catchError((error) =>
-            of(
-              new OrgUnitActions.LoadAssignedUsersFail({
-                orgUnitId,
-                roleId,
-                params,
-                error: makeErrorSerializable(error),
-              })
-            )
-          )
-        );
-    })
+              catchError((error) =>
+                of(
+                  new OrgUnitActions.LoadAssignedUsersFail({
+                    orgUnitId,
+                    roleId,
+                    params,
+                    error: makeErrorSerializable(error),
+                  })
+                )
+              )
+            );
+        })
+      )
+    )
   );
 
   @Effect()
