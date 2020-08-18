@@ -83,7 +83,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe.skip('Navigate to Product Configuration Page', () => {
+  describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
@@ -106,7 +106,7 @@ context('Product Configuration', () => {
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
-      configuration.clickOnEditConfigurationLink(testProduct);
+      configuration.clickOnEditConfigurationLink(0);
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -114,11 +114,11 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      configuration.clickOnEditConfigurationLink(testProduct);
+      configuration.clickOnEditConfigurationLink(0);
     });
   });
 
-  describe.skip('Configure Product', () => {
+  describe('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
       configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
@@ -139,7 +139,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Group Status', () => {
+  describe('Group Status', () => {
     it('should set group status for single level product', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
@@ -278,7 +278,7 @@ context('Product Configuration', () => {
       configurationOverview.clickContinueToCartBtnOnOP();
 
       //We assume only one product is in the cart
-      configuration.clickOnEditConfigurationLink(testProduct);
+      configuration.clickOnEditConfigurationLink(0);
 
       configuration.isGroupMenuDisplayed();
 
@@ -291,7 +291,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Group Handling', () => {
+  describe('Group Handling', () => {
     it('should navigate between groups', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -357,7 +357,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Order Confirmation and Order History', () => {
+  describe('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
@@ -418,11 +418,9 @@ context('Product Configuration', () => {
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
       configurationOverview.clickContinueToCartBtnOnOP();
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configuration.verifyNotificationBannerInCart(testProductMultiLevel,1);
-      //configuration.clickOnResolveIssuesLinkInCart(testProductMultiLevel);
-
+      //configuration.verifyNotificationBannerInCart(0,1);
       // Navigate back to the configuration page
-      configuration.clickOnEditConfigurationLink(testProductMultiLevel);
+      configuration.clickOnEditConfigurationLink(0);
       // Navigate to Overview page and back to configuration via 'Resolve issues' link
       configuration.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
@@ -441,7 +439,7 @@ context('Product Configuration', () => {
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
       //configurationOverview.clickContinueToCartBtnOnOP();
       // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configuration.verifyNotificationBannerInCart(testProductMultiLevel);
+      //configuration.verifyNotificationBannerInCart(0);
     });
   });
 });

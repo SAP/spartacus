@@ -57,6 +57,27 @@ export function clickOnResolveIssuesLinkOnOP() {
 }
 
 /**
+ * Verifies whether the issues banner is displayed.
+ *
+ * @param element - HTML element
+ * @param {number} numberOfIssues - Expected number of conflicts
+ */
+export function checkNotificationBannerOnOP(element, numberOfIssues?: number) {
+  const resolveIssuesText =
+    'issues must be resolved before checkout.  Resolve Issues';
+  element
+    .get('.cx-error-msg-container')
+    .first()
+    .invoke('text')
+    .then((text) => {
+      expect(text).contains(resolveIssuesText);
+      const issues = text.replace(resolveIssuesText, '').trim();
+      expect(issues).match(/^[0-9]/);
+      expect(issues).eq(numberOfIssues.toString());
+    });
+}
+
+/**
  * Verifies whether the issues banner is displayed and the number of issues are accurate.
  *
  * @param {number} numberOfIssues - Expected number of issues
@@ -64,7 +85,7 @@ export function clickOnResolveIssuesLinkOnOP() {
 export function verifyNotificationBannerOnOP(numberOfIssues?: number) {
   const element = cy.get('cx-configure-issues-notification');
   if (numberOfIssues) {
-    this.checkNotificationBanner(element, numberOfIssues);
+    this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
     element.should('not.be.visible');
   }

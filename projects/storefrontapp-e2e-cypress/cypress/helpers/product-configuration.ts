@@ -60,15 +60,12 @@ export function clickOnConfigureBtn() {
 /**
  * Click on the 'Edit Configuration' link in cart for a certain cart item.
  *
- * @param productId - Product ID
+ * @param {number} cartItemIndex - Index of cart item
  */
-export function clickOnEditConfigurationLink(productId: string) {
-  cy.get('cx-cart-item div.cx-code')
-    .first()
-    .contains(productId)
-    .parentsUntil('.cx-info')
-    .children()
-    .filter('cx-configure-cart-entry')
+export function clickOnEditConfigurationLink(cartItemIndex: number) {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-cart-entry')
     .within(() => {
       cy.get('button:contains("Edit")').click();
     });
@@ -115,6 +112,7 @@ export function clickOnPreviousBtn(previousGroup: string) {
  * Verifies whether the configuration page is displayed.
  */
 export function isConfigPageDisplayed() {
+  isUpdatingMessageNotDisplayed();
   cy.get('cx-config-form').should('be.visible');
   isUpdatingMessageNotDisplayed();
 }
@@ -467,21 +465,19 @@ export function checkNotificationBanner(element, numberOfIssues?: number) {
 }
 
 /**
- * Verifies whether the issues banner is displayed in the cart.
- * @param {string} productId - Product ID
+ * Verifies whether the issues banner is displayed in the cart for a certain cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
  * @param {number} numberOfIssues - Expected number of conflicts
  */
 export function verifyNotificationBannerInCart(
-  productId: string,
+  cartItemIndex: number,
   numberOfIssues?: number
 ) {
   const element = cy
-    .get('cx-cart-item div.cx-code')
-    .first()
-    .contains(productId)
-    .parentsUntil('.cx-item-list-items', 'cx-cart-item')
-    .children()
-    .filter('cx-configure-issues-notification');
+    .get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-issues-notification');
 
   if (numberOfIssues) {
     checkNotificationBanner(element, numberOfIssues);
@@ -493,15 +489,13 @@ export function verifyNotificationBannerInCart(
 /**
  * Clicks on 'Resolve Issues' link in the cart.
  *
- * @param {string} productId - Product ID
+ * @param {number} cartItemIndex - Index of cart item
  */
-export function clickOnResolveIssuesLinkInCart(productId: string) {
-  cy.get('cx-cart-item div.cx-code')
-    .first()
-    .contains(productId)
-    .parentsUntil('.cx-item-list-items', 'cx-cart-item')
-    .children()
-    .filter('cx-configure-issues-notification')
+//TODO: add cart item number
+export function clickOnResolveIssuesLinkInCart(cartItemIndex: number) {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-issues-notification')
     .within(() => {
       cy.get(resolveIssuesLinkSelector).click();
     });
