@@ -4,6 +4,7 @@
       <button
         class="cx-btn btn btn-block btn-primary"
         (click)="onAddToCart(container.configuration, container.routerData)"
+        [disabled]="container.hasPendingChanges"
       >
         {{
           getButtonResourceKey(container.routerData, container.configuration)
