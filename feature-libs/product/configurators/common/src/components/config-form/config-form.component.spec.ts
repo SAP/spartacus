@@ -249,8 +249,13 @@ describe('ConfigurationFormComponent', () => {
 
   it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    mockRouterState.state.queryParams = { forceReload: 'true' };
-    routerStateObservable = of(mockRouterState);
+    routerStateObservable = of({
+      ...mockRouterState,
+      state: {
+        ...mockRouterState.state,
+        queryParams: { forceReload: 'true' },
+      },
+    });
     const fixture = TestBed.createComponent(ConfigFormComponent);
     const component = fixture.componentInstance;
     component.ngOnInit();
@@ -270,7 +275,9 @@ describe('ConfigurationFormComponent', () => {
         configuratorGroupsService,
         'navigateToFirstIncompleteGroup'
       ).and.callThrough();
-      routerStateObservable = of(mockRouterState);
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
 
       const fixture = TestBed.createComponent(ConfigFormComponent);
       const component = fixture.componentInstance;
@@ -293,8 +300,13 @@ describe('ConfigurationFormComponent', () => {
         configuratorGroupsService,
         'navigateToFirstIncompleteGroup'
       ).and.callThrough();
-      mockRouterState.state.queryParams = { resolveIssues: 'true' };
-      routerStateObservable = of(mockRouterState);
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true' },
+        },
+      });
       hasConfigurationConflictsObservable = of(true);
       const fixture = TestBed.createComponent(ConfigFormComponent);
       const component = fixture.componentInstance;
@@ -317,8 +329,13 @@ describe('ConfigurationFormComponent', () => {
         configuratorGroupsService,
         'navigateToFirstIncompleteGroup'
       ).and.callThrough();
-      mockRouterState.state.queryParams = { resolveIssues: 'true' };
-      routerStateObservable = of(mockRouterState);
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true' },
+        },
+      });
       const fixture = TestBed.createComponent(ConfigFormComponent);
       const component = fixture.componentInstance;
       component.ngOnInit();
