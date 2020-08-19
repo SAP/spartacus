@@ -4,6 +4,7 @@ import {
   Directive,
   EmbeddedViewRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -16,7 +17,11 @@ import { Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
 import { OutletRendererService } from './outlet-renderer.service';
-import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
+import {
+  OutletContextData,
+  OutletPosition,
+  USE_STACKED_OUTLETS,
+} from './outlet.model';
 import { OutletService } from './outlet.service';
 
 @Directive({
@@ -114,18 +119,25 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
     const components = [];
     templates.forEach((obj) => {
-      const component = this.create(obj);
+      const component = this.create(obj, position);
       components.push(component);
     });
 
     this.renderedComponents.set(position, components);
   }
 
-  private create(tmplOrFactory: any): ComponentRef<any> | EmbeddedViewRef<any> {
+  private create(
+    tmplOrFactory: any,
+    position: OutletPosition
+  ): ComponentRef<any> | EmbeddedViewRef<any> {
     this.renderedTemplate.push(tmplOrFactory);
 
     if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(tmplOrFactory);
+      const component = this.vcr.createComponent(
+        tmplOrFactory,
+        undefined,
+        this.getComponentInjector(position)
+      );
       return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
@@ -140,6 +152,28 @@ export class OutletDirective implements OnDestroy, OnChanges {
       view.markForCheck();
       return view;
     }
+  }
+
+  /**
+   * Returns injector with OutletContextData that can be injected to the component
+   * rendered in the outlet
+   */
+  private getComponentInjector(position: OutletPosition): Injector {
+    const contextData: OutletContextData = {
+      name: this.cxOutlet,
+      position,
+      context: this.cxOutletContext,
+    };
+
+    return Injector.create({
+      providers: [
+        {
+          provide: OutletContextData,
+          useValue: contextData,
+        },
+      ],
+      parent: this.vcr.injector,
+    });
   }
 
   /**
