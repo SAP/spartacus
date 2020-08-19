@@ -123,7 +123,9 @@ export class SearchBoxComponentService {
    * Loads suggestions from the backend. In case there's no suggestion
    * available, we try to get an exact match suggestion.
    */
-  protected getProductSuggestions(config: SearchBoxConfig): Observable<string[]> {
+  protected getProductSuggestions(
+    config: SearchBoxConfig
+  ): Observable<string[]> {
     if (!config.displaySuggestions) {
       return of([]);
     } else {
