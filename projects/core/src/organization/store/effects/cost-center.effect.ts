@@ -8,10 +8,7 @@ import { Budget } from '../../../model/budget.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 import { CostCenterActions, BudgetActions } from '../actions/index';
-import {
-  normalizeListPage,
-  serializeB2BSearchConfig,
-} from '../../utils/serializer';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
 
 @Injectable()
 export class CostCenterEffects {
@@ -125,8 +122,8 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
-    groupBy(({ userId, costCenterCode, params }) =>
-      [userId, costCenterCode, serializeB2BSearchConfig(params)].join('_')
+    groupBy(({ costCenterCode, params }) =>
+      serializeParams(costCenterCode, params)
     ),
     mergeMap((group) =>
       group.pipe(

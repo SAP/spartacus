@@ -14,10 +14,7 @@ import {
   PermissionActions,
   B2BUserActions,
 } from '../actions/index';
-import {
-  normalizeListPage,
-  serializeB2BSearchConfig,
-} from '../../utils/serializer';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 
 @Injectable()
@@ -85,9 +82,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
     map((action: UserGroupActions.LoadPermissions) => action.payload),
-    groupBy(({ userId, userGroupId, params }) =>
-      [userId, userGroupId, serializeB2BSearchConfig(params)].join('_')
-    ),
+    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
     mergeMap((group) =>
       group.pipe(
         switchMap((payload) =>
@@ -132,9 +127,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
     map((action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload),
-    groupBy(({ userId, userGroupId, params }) =>
-      [userId, userGroupId, serializeB2BSearchConfig(params)].join('_')
-    ),
+    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
     mergeMap((group) =>
       group.pipe(
         switchMap((payload) =>

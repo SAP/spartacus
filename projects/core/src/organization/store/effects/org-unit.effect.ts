@@ -12,10 +12,7 @@ import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
-import {
-  normalizeListPage,
-  serializeB2BSearchConfig,
-} from '../../utils/serializer';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -183,8 +180,8 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
-    groupBy(({ userId, orgUnitId, roleId, params }) =>
-      [userId, orgUnitId, roleId, serializeB2BSearchConfig(params)].join('_')
+    groupBy(({ orgUnitId, roleId, params }) =>
+      serializeParams([orgUnitId, roleId], params)
     ),
     mergeMap((group) =>
       group.pipe(
