@@ -52,7 +52,7 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterBudgets.data.unassign" let-model>
-    <button class="button" (click)="unassign(model)">
+    <button class="button" (click)="unassign(costCenterCode, model)">
       <cx-icon type="CLOSE"></cx-icon>
     </button>
   </ng-template>

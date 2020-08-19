@@ -5,6 +5,7 @@ import { Budget, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
@@ -56,6 +57,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
       declarations: [CostCenterAssignBudgetsComponent],
       providers: [
@@ -77,7 +79,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
+  // destroy as otherwise we have some left overs
   afterEach(() => {
     fixture.destroy();
   });
@@ -150,7 +152,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
   describe('code$', () => {
     it('should emit the current cost center code', () => {
       let result;
-      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      component.code$.subscribe((r) => (result = r));
       expect(result).toBe(costCenterCode);
     });
   });
