@@ -117,9 +117,11 @@ const configurationState: ConfigurationState = {
 
 let configCartObservable;
 let configOrderObservable;
+let activeCartObservable;
+
 class MockConfiguratorCartService {
-  checkForActiveCartUpdateDone(): Observable<boolean> {
-    return of(true);
+  checkForActiveCartUpdates(): Observable<boolean> {
+    return activeCartObservable;
   }
   readConfigurationForCartEntry() {
     return configCartObservable;
@@ -172,6 +174,7 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
+  activeCartObservable = of(false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -310,6 +313,19 @@ describe('ConfiguratorCommonsService', () => {
 
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
+
+  it('should do nothing on update in case cart updates are pending', () => {
+    activeCartObservable = of(true);
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalledTimes(
+      0
+    );
+  });
+
   describe('getConfigurationWithOverview', () => {
     it('should get an overview from occ, accessing the store', () => {
       expect(productConfiguration.overview).toBeUndefined();

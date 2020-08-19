@@ -26,7 +26,7 @@ export class ConfiguratorCartService {
    * Checks if there are no updates for the active cart pending
    * @returns Observable emitting that no changes are pending
    */
-  checkForActiveCartUpdateDone(): Observable<boolean> {
+  checkForActiveCartUpdates(): Observable<boolean> {
     return this.activeCartService.requireLoadedCart().pipe(
       take(1),
       switchMap((cartState) =>
@@ -35,8 +35,7 @@ export class ConfiguratorCartService {
             MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
               this.genericConfigUtilsService.getCartId(cartState.value)
             )
-          ),
-          filter((hasPendingChanges) => !hasPendingChanges)
+          )
         )
       )
     );
@@ -56,7 +55,11 @@ export class ConfiguratorCartService {
           owner.key
         )
       ),
-      delayWhen(() => this.checkForActiveCartUpdateDone()),
+      delayWhen(() =>
+        this.checkForActiveCartUpdates().pipe(
+          filter((hasPendingChanges) => !hasPendingChanges)
+        )
+      ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           this.activeCartService

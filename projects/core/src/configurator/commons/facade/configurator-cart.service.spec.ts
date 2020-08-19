@@ -112,12 +112,8 @@ describe('ConfiguratorCartService', () => {
       z: false,
     });
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-    const obsCartUpdateDone = serviceUnderTest.checkForActiveCartUpdateDone();
-    expect(obsCartUpdateDone).toBeObservable(
-      cold('--z', {
-        z: false,
-      })
-    );
+    const obsCartUpdateDone = serviceUnderTest.checkForActiveCartUpdates();
+    expect(obsCartUpdateDone).toBeObservable(obs);
   });
   describe('readConfigurationForCartEntry', () => {
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {

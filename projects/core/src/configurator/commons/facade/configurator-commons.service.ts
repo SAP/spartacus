@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -131,10 +131,18 @@ export class ConfiguratorCommonsService {
     ownerKey: string,
     changedAttribute: Configurator.Attribute
   ): void {
-    this.store
+    // in case cart updates pending: Do nothing
+    this.configuratorCartService
+      .checkForActiveCartUpdates()
       .pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
-        take(1)
+        take(1),
+        filter((pendingChanges) => !pendingChanges),
+        switchMapTo(
+          this.store.pipe(
+            select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+            take(1)
+          )
+        )
       )
       .subscribe((configuration) => {
         this.store.dispatch(
