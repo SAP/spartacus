@@ -31,10 +31,6 @@ describe('CurrentPermissionService', () => {
     service = TestBed.inject(CurrentPermissionService);
   });
 
-  afterEach(() => {
-    mockParams.complete();
-  });
-
   describe('code$', () => {
     it('should return undefined when route param `code` is undefined', async () => {
       const results = [];

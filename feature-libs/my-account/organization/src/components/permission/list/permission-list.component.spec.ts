@@ -8,14 +8,13 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import {
-  PermissionModel,
-  PermissionListService,
-} from './permission-list.service';
-import { PermissionListComponent } from './permission-list.component';
 import { PermissionType } from '../form/permission-form.service';
+import { PermissionListComponent } from './permission-list.component';
+import {
+  PermissionListService,
+  PermissionModel,
+} from './permission-list.service';
+import createSpy = jasmine.createSpy;
 
 const mockPermissionList: Table<PermissionModel> = {
   data: [
@@ -81,11 +80,6 @@ describe('PermissionListComponent', () => {
 
     service = TestBed.inject(PermissionListService);
   }));
-
-  // Not sure why this is needed, but we're failing otherwise.
-  afterEach(() => {
-    fixture.destroy();
-  });
 
   describe('with table data', () => {
     beforeEach(() => {
