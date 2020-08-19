@@ -103,6 +103,8 @@ export class OutletDirective implements OnDestroy, OnChanges {
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
 
+    templates = templates?.filter((el) => !this.renderedTemplate.includes(el));
+
     if (!templates && position === OutletPosition.REPLACE) {
       templates = [this.templateRef];
     }
@@ -112,8 +114,6 @@ export class OutletDirective implements OnDestroy, OnChanges {
     if (!Array.isArray(templates)) {
       templates = [templates];
     }
-
-    templates = templates?.filter((el) => !this.renderedTemplate.includes(el));
 
     const components = [];
     templates.forEach((obj) => {
