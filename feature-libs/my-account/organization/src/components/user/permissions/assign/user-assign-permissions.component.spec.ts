@@ -5,6 +5,7 @@ import { B2BUser, I18nTestingModule, Permission } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CurrentUserService } from '../../current-user.service';
@@ -61,6 +62,7 @@ describe('UserAssignPermissionsComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
       declarations: [UserAssignPermissionsComponent],
       providers: [
@@ -80,7 +82,11 @@ describe('UserAssignPermissionsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should create ', () => {
     expect(component).toBeTruthy();
   });
 
