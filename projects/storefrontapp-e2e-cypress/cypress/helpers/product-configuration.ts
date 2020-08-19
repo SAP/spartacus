@@ -53,9 +53,9 @@ export function isUpdatingMessageNotDisplayed() {
 }
 
 /**
- * Clicks on 'Add to Cart' button.
+ * Clicks on 'Add to Cart' button in catalog list.
  */
-export function clickOnConfigureBtn(): void {
+export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {

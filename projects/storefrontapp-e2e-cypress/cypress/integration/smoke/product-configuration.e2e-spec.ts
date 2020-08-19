@@ -90,12 +90,12 @@ context('Product Configuration', () => {
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
-      configuration.clickOnConfigureBtn();
+      configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
       goToPDPage(testProduct);
-      configuration.clickOnConfigureBtn();
+      configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the overview page', () => {
@@ -318,9 +318,6 @@ context('Product Configuration', () => {
 
     it('should navigate using the group menu', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
-      configuration.clickOnConfigureBtn();
-      configuration.isCategoryNavigationNotDisplayed();
-      configuration.isGroupMenuDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
 
       configuration.clickOnGroup(2);
