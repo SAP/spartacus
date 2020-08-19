@@ -66,13 +66,17 @@ const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
 function goToPDPage(product) {
-  cy.visit(`electronics-spa/en/USD/product/${product}/${product}`).then(() => {
+  const location = `electronics-spa/en/USD/product/${product}/${product}`;
+  cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
   });
 }
 
 function goToCart() {
+  const location = '/electronics-spa/en/USD/cart';
   cy.visit('/electronics-spa/en/USD/cart').then(() => {
+    cy.location('pathname').should('contain', location);
     cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
@@ -110,7 +114,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      goToPDPage(testProduct);
+      productSearch.searchForProduct(testProduct);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
@@ -313,9 +317,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu', () => {
-      goToPDPage(testProduct);
-      configuration.isCategoryNavigationDisplayed();
-
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.clickOnConfigureBtn();
       configuration.isCategoryNavigationNotDisplayed();
       configuration.isGroupMenuDisplayed();
@@ -332,7 +334,6 @@ context('Product Configuration', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       configuration.goToConfigurationPage(configurator, testProduct);
-      configuration.isGroupMenuNotDisplayed();
       configuration.isHamburgerDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
 

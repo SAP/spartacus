@@ -31,10 +31,8 @@ context('Product Configuration', () => {
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
-      configuration.isGroupMenuDisplayed();
-      configuration.isShowMoreLinkAtProductTitleDisplayed();
-      configuration.isProductTitleDisplayed();
-
+      // TODO: Replace implicit wait
+      cy.wait(2000);
       verifyTabbingOrder(
         containerSelectorConfigForm,
         tabConfig.productConfigurationPage
@@ -46,6 +44,9 @@ context('Product Configuration', () => {
         CAMERA_MODE_PROFESSIONAL
       );
       configuration.clickAddToCartBtn();
+      // TODO: Replace implicit wait
+      cy.wait(2000);
+
       configuration.isGlobalMessageNotDisplayed();
       configuration.isUpdatingMessageNotDisplayed();
       configurationOverview.isConfigOverviewPageDisplayed();

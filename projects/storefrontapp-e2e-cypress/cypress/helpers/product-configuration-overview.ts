@@ -15,14 +15,12 @@ export function goToConfigOverviewPage(
   configuratorType,
   productId
 ): Chainable<Window> {
-  return cy
-    .visit(
-      `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`
-    )
-    .then(() => {
-      cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-      this.isConfigOverviewPageDisplayed();
-    });
+  const location = `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
+    this.isConfigOverviewPageDisplayed();
+  });
 }
 
 /**

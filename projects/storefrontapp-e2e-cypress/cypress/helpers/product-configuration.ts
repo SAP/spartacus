@@ -27,13 +27,11 @@ export function goToConfigurationPage(
   configuratorType: string,
   productId: string
 ): Chainable<Window> {
-  return cy
-    .visit(
-      `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`
-    )
-    .then(() => {
-      this.isConfigPageDisplayed();
-    });
+  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    this.isConfigPageDisplayed();
+  });
 }
 
 /**
@@ -61,6 +59,7 @@ export function clickOnConfigureBtn(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
       this.isConfigPageDisplayed();
     });
 }
@@ -75,7 +74,11 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .within(() => {
-      cy.get('button:contains("Edit")').click();
+      cy.get('button:contains("Edit")')
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
     });
 }
 
@@ -155,10 +158,10 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * @return - 'True' if the configuration page is visible, otherwise 'false'
  */
 export function isConfigPageDisplayed() {
+  isGlobalMessageNotDisplayed();
   isUpdatingMessageNotDisplayed();
   isUpdatingMessageNotDisplayed();
   isConfigTabBarDisplayed();
-  isGroupMenuDisplayed();
   isGroupTitleDisplayed();
   isGroupFormDisplayed();
   isPreviousAndNextBtnsDispalyed();
@@ -604,7 +607,11 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-issues-notification')
     .within(() => {
-      cy.get(resolveIssuesLinkSelector).click();
+      cy.get(resolveIssuesLinkSelector)
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', ' /cartEntry/entityKey/');
+        });
     });
 }
 
@@ -618,7 +625,6 @@ export function isGroupMenuDisplayed() {
 }
 
 /**
-<<<<<<< HEAD
  * Verifies whether the group title is displayed.
  *
  * @return - 'True' if the group title is visible, otherwise 'false'
@@ -764,11 +770,11 @@ export function clickAddToCartBtn(): void {
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       isUpdatingMessageNotDisplayed();
       isGlobalMessageNotDisplayed();
       isUpdatingMessageNotDisplayed();
       isGlobalMessageNotDisplayed();
-      cy.get('cx-config-overview-form').should('be.visible');
     });
 }
 
@@ -799,6 +805,7 @@ export function clickOnViewCartBtnOnPD(): void {
     .contains('view cart')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/cart');
       cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });
