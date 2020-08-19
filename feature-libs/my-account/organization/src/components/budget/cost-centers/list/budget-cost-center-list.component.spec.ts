@@ -6,9 +6,9 @@ import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
+import { CurrentBudgetService } from '../../current-budget.service';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
-import { CurrentBudgetService } from '../../current-budget.service';
 
 const costCenterCode = 'costCenterCode';
 
