@@ -1,4 +1,5 @@
 import * as authentication from './auth-forms';
+import Chainable = Cypress.Chainable;
 
 const nextBtnSelector = 'cx-config-previous-next-buttons div div:last button';
 const previousBtnSelector =
@@ -8,11 +9,37 @@ const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 const email = 'cpq02@sap.com';
 const password = 'welcome';
 
-const editConfigurationSelector =
-  'cx-configure-cart-entry button:contains("Edit")';
+const conflictDetectedMsgSelector = '.cx-config-attribute-conflict-container';
+const conflictHeaderGroupSelector =
+  'cx-config-group-menu li.cx-config-menu-conflict';
+
+const resolveIssuesLinkSelector =
+  'cx-configure-cart-entry button.cx-action-link';
+
+/**
+ * Navigates to the product configuration page.
+ *
+ * @param {string} configuratorType - Configuration type
+ * @param {string} productId - Product ID
+ * @return {Chainable<Window>} - New configuration window
+ */
+export function goToConfigurationPage(
+  configuratorType: string,
+  productId: string
+): Chainable<Window> {
+  return cy
+    .visit(
+      `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`
+    )
+    .then(() => {
+      this.isConfigPageDisplayed();
+    });
+}
 
 /**
  * Verifies whether the global message is not displayed on the top of the configuration.
+ *
+ * @return - 'True' if the global message component is not visible, otherwise 'false'
  */
 function isGlobalMessageNotDisplayed() {
   cy.get('cx-global-message').should('not.be.visible');
@@ -20,12 +47,17 @@ function isGlobalMessageNotDisplayed() {
 
 /**
  * Verifies whether the updating configuration message is not displayed on the top of the configuration.
+ *
+ * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
 function isUpdatingMessageNotDisplayed() {
-  cy.get('cx-config-message').should('not.be.visible');
+  cy.get('.cx-config-update-message').should('not.be.visible');
 }
 
-export function clickOnConfigureBtn() {
+/**
+ * Clicks on 'Add to Cart' button
+ */
+export function clickOnConfigureBtn(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
@@ -33,60 +65,125 @@ export function clickOnConfigureBtn() {
     });
 }
 
-export function clickOnEditConfigurationLink() {
-  cy.get(editConfigurationSelector)
-    .click()
-    .then(() => {
-      this.isConfigPageDisplayed();
+/**
+ * Clicks on the 'Edit Configuration' link in cart for a certain cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnEditConfigurationLink(cartItemIndex: number): void {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-cart-entry')
+    .within(() => {
+      cy.get('button:contains("Edit")').click();
     });
 }
 
-function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
+/**
+ * Verifies whether the current group is active.
+ *
+ * @param {string} currentGroup - Active group
+ * @return - 'True' if the current group is active, otherwise 'false'
+ */
+function isCurrentGroupActive(currentGroup: string) {
+  cy.get(
+    'cx-config-group-title .cx-config-group-title:contains(' +
+      `${currentGroup}` +
+      ')'
+  ).should('be.visible');
+  cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
+}
+
+/**
+ * Clicks on 'previous' or 'next' button.
+ *
+ * @param {string} btnSelector - Button selector
+ * @param {string} activeGroup - Name of the group that should be active after click
+ */
+function clickOnPreviousOrNextBtn(
+  btnSelector: string,
+  activeGroup: string
+): void {
   cy.get(btnSelector)
     .click()
     .then(() => {
       isUpdatingMessageNotDisplayed();
-      cy.get('a.active:contains(' + `${followingGroup}` + ')').should(
-        'be.visible'
-      );
+      isCurrentGroupActive(activeGroup);
+      isUpdatingMessageNotDisplayed();
     });
 }
 
 /**
- * Click on the next group Button and verifies that an element of the next group is displayed
+ * Clicks on the next group Button and verifies that an element of the next group is displayed.
+ *
+ * @param {string} nextGroup - Expected next group name
  */
-export function clickOnNextBtn(nextGroup: string) {
+export function clickOnNextBtn(nextGroup: string): void {
   clickOnPreviousOrNextBtn(nextBtnSelector, nextGroup);
 }
 
 /**
- * Click on the previous group Button and verifies that an element of the previous group is displayed
+ * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
+ *
+ * @param {string} previousGroup - Expected previous group name
  */
-export function clickOnPreviousBtn(previousGroup: string) {
+export function clickOnPreviousBtn(previousGroup: string): void {
   clickOnPreviousOrNextBtn(previousBtnSelector, previousGroup);
 }
 
+/**
+ * Verifies whether the configuration page is displayed.
+ *
+ * @return - 'True' if the configuration page is visible, otherwise 'false'
+ */
 export function isConfigPageDisplayed() {
+  isUpdatingMessageNotDisplayed();
   cy.get('cx-config-form').should('be.visible');
   isUpdatingMessageNotDisplayed();
 }
 
+/**
+ * Verifies whether the 'previous' button is enabled.
+ *
+ * @return - 'True' if the 'previous' button is not disabled, otherwise 'false'
+ */
 export function isPreviousBtnEnabled() {
   cy.get(previousBtnSelector).should('be.not.disabled');
 }
 
+/**
+ * Verifies whether the 'previous' button is disabled.
+ *
+ * @return - 'True' if the 'previous' button is disabled, otherwise 'false'
+ */
 export function isPreviousBtnDisabled() {
   cy.get(previousBtnSelector).should('be.disabled');
 }
 
+/**
+ * Verifies whether the 'next' button is enabled.
+ *
+ * @return - 'True' if the 'next' button is not disabled, otherwise 'false'
+ */
 export function isNextBtnEnabled() {
   cy.get(nextBtnSelector).should('be.not.disabled');
 }
 
+/**
+ * Verifies whether the 'next' button is disabled.
+ *
+ * @return - 'True' if the 'next' button is disabled, otherwise 'false'
+ */
 export function isNextBtnDisabled() {
   cy.get(nextBtnSelector).should('be.disabled');
 }
 
+/**
+ * Verifies whether status icon is not displayed.
+ *
+ * @param {string} groupName - Group name
+ * @return - 'True' if the status icon does not exist, otherwise 'false'
+ */
 export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
     '.' +
@@ -105,6 +202,13 @@ export function isStatusIconNotDisplayed(groupName: string) {
   ).should('not.exist');
 }
 
+/**
+ * Verifies whether status icon is displayed.
+ *
+ * @param {string} groupName - Group name
+ * @param {string} status - Status
+ * @return - 'True' if the status icon exists, otherwise 'false'
+ */
 export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
     '.' +
@@ -115,16 +219,38 @@ export function isStatusIconDisplayed(groupName: string, status: string) {
   ).should('exist');
 }
 
+/**
+ * Verifies whether the attribute is displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @return - 'True' if the attribute is displayed, otherwise 'false'
+ */
 export function isAttributeDisplayed(attributeName: string, uiType: string) {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.visible');
 }
 
+/**
+ * Verifies whether the attribute is not displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @return - 'True' if the attribute is not displayed, otherwise 'false'
+ */
 export function isAttributeNotDisplayed(attributeName: string, uiType: string) {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
+/**
+ * Verifies whether the attribute value is displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @return - 'True' if the attribute value is visible, otherwise 'false'
+ */
 export function isAttributeValueDisplayed(
   attributeName: string,
   uiType: string,
@@ -135,6 +261,14 @@ export function isAttributeValueDisplayed(
   cy.get(`#${valueId}`).should('be.visible');
 }
 
+/**
+ * Verifies whether the attribute value is not displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @return - 'True' if the attribute value is not visible, otherwise 'false'
+ */
 export function isAttributeValueNotDisplayed(
   attributeName: string,
   uiType: string,
@@ -145,16 +279,41 @@ export function isAttributeValueNotDisplayed(
   cy.get(`#${valueId}`).should('be.not.visible');
 }
 
-export function getAttributeId(attributeName: string, uiType: string) {
+/**
+ * Retrieves attribute ID.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @return {string} - Attribute ID
+ */
+export function getAttributeId(attributeName: string, uiType: string): string {
   return `cx-config--${uiType}--${attributeName}`;
 }
 
+/**
+ * Retrieves the attribute label id.
+ *
+ * @param {string} attributeName - Attribute name
+ * @return {string} - Attribute label ID
+ */
+export function getAttributeLabelId(attributeName: string): string {
+  return `cx-config--label--${attributeName}`;
+}
+
+/**
+ * Selects a corresponding attribute value.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {string} value - Value
+ */
 export function selectAttribute(
   attributeName: string,
   uiType: string,
   valueName: string,
   value?: string
-) {
+): void {
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}`;
 
@@ -179,12 +338,27 @@ export function selectAttribute(
   isUpdatingMessageNotDisplayed();
 }
 
+/**
+ * Verifies whether the checkbox is selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ * @return - 'True' if the checkbox is selected, otherwise 'false'
+ */
 export function isCheckboxSelected(attributeName: string, valueName: string) {
   const attributeId = getAttributeId(attributeName, 'checkBoxList');
   const valueId = `${attributeId}--${valueName}`;
   cy.get(`#${valueId}`).should('be.checked');
 }
 
+/**
+ * Verifies whether the image value is selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @return - 'True' if the image element is selected, otherwise 'false'
+ */
 export function isImageSelected(
   attributeName: string,
   uiType: string,
@@ -195,6 +369,14 @@ export function isImageSelected(
   cy.get(`#${valueId}`).should('be.checked');
 }
 
+/**
+ * Verifies whether the image value is not selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @return - 'True' if the image element is not selected, otherwise 'false'
+ */
 export function isImageNotSelected(
   attributeName: string,
   uiType: string,
@@ -205,42 +387,246 @@ export function isImageNotSelected(
   cy.get(`#${valueId}`).should('not.be.checked');
 }
 
+/**
+ * Verifies whether the conflict detected under the attribute name is displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @return - 'True' if the conflict detected message is visible, otherwise 'false'
+ */
+export function isConflictDetectedMsgDisplayed(attributeName: string) {
+  const parent = cy.get(conflictDetectedMsgSelector).parent();
+  const attributeId = this.getAttributeLabelId(attributeName);
+  parent.children(`#${attributeId}`).should('be.visible');
+}
+
+/**
+ * Verifies whether the conflict detected under the attribute name is not displayed.
+ *
+ * @param {string} attributeName - Attribute name
+ * @return - 'True' if the conflict detected message does not exist, otherwise 'false'
+ */
+export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
+  const parent = cy.get(conflictDetectedMsgSelector).parent();
+  const attributeId = this.getAttributeLabelId(attributeName);
+  parent.children(`#${attributeId}`).should('not.exist');
+}
+
+/**
+ * Verifies whether the conflict description is displayed.
+ *
+ * @param {string} description - Conflict description
+ * @return - 'True' if the expected conflict description equals the actual one, otherwise 'false'
+ */
+export function isConflictDescriptionDisplayed(description: string) {
+  cy.get('.cx-config-conflict-description').should(($div) => {
+    expect($div).to.contain(description);
+  });
+}
+
+/**
+ * Verifies whether the conflict header group is displayed.
+ *
+ * @return - 'True' if the conflict header group is visible, otherwise 'false'
+ */
+function isConflictHeaderGroupDisplayed() {
+  cy.get(conflictHeaderGroupSelector).should('be.visible');
+}
+
+/**
+ * Verifies whether the conflict header group is not displayed.
+ *
+ * @return - 'True' if the conflict header group is not visible, otherwise 'false'
+ */
+function isConflictHeaderGroupNotDisplayed() {
+  cy.get(conflictHeaderGroupSelector).should('not.exist');
+}
+
+/**
+ * Verifies whether the expected number of conflicts is accurate.
+ *
+ * @param {number} numberOfConflicts - Expected number of conflicts
+ */
+function verifyNumberOfConflicts(numberOfConflicts: number): void {
+  cy.get('cx-config-group-menu .conflictNumberIndicator').contains(
+    '(' + numberOfConflicts.toString() + ')'
+  );
+}
+
+/**
+ * Selects a conflicting value, namely selects a value.
+ * Then verifies whether the conflict detected message under the attribute name is displayed,
+ * The conflict header group in the group menu is displayed and
+ * Finally verifies whether the expected number of conflicts is accurate.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {number} numberOfConflicts - Expected number of conflicts
+ */
+export function selectConflictingValue(
+  attributeName: string,
+  uiType: string,
+  valueName: string,
+  numberOfConflicts: number
+): void {
+  this.selectAttribute(attributeName, uiType, valueName);
+  this.isConflictDetectedMsgDisplayed(attributeName);
+  isConflictHeaderGroupDisplayed();
+  verifyNumberOfConflicts(numberOfConflicts);
+}
+
+/**
+ * Deselects a conflicting value, namely deselects a value.
+ * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
+ * the conflict header group in the group menu is not displayed either.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function deselectConflictingValue(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+): void {
+  this.selectAttribute(attributeName, uiType, valueName);
+  this.isConflictDetectedMsgNotDisplayed(attributeName);
+  isConflictHeaderGroupNotDisplayed();
+}
+
+/**
+ * Verifies whether the issues banner is displayed.
+ *
+ * @param element - HTML element
+ * @param {number} numberOfIssues - Expected number of conflicts
+ */
+export function checkNotificationBanner(
+  element,
+  numberOfIssues?: number
+): void {
+  const resolveIssuesText =
+    'issues must be resolved before checkout.  Resolve Issues';
+  element
+    .get('.cx-error-msg-container')
+    .first()
+    .invoke('text')
+    .then((text) => {
+      expect(text).contains(resolveIssuesText);
+      const issues = text.replace(resolveIssuesText, '').trim();
+      expect(issues).match(/^[0-9]/);
+      expect(issues).eq(numberOfIssues.toString());
+    });
+}
+
+/**
+ * Verifies whether the issues banner is displayed in the cart for a certain cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} numberOfIssues - Expected number of conflicts
+ */
+export function verifyNotificationBannerInCart(
+  cartItemIndex: number,
+  numberOfIssues?: number
+): void {
+  const element = cy
+    .get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-issues-notification');
+
+  if (numberOfIssues) {
+    checkNotificationBanner(element, numberOfIssues);
+  } else {
+    element.should('not.be.visible');
+  }
+}
+
+/**
+ * Clicks on 'Resolve Issues' link in the cart.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-issues-notification')
+    .within(() => {
+      cy.get(resolveIssuesLinkSelector).click();
+    });
+}
+
+/**
+ * Verifies whether the group menu is displayed.
+ *
+ * @return - 'True' if the group menu is visible, otherwise 'false'
+ */
 export function isGroupMenuDisplayed() {
   cy.get('cx-config-group-menu').should('be.visible');
 }
 
+/**
+ * Verifies whether the group menu is not displayed.
+ *
+ * @return - 'True' if the group menu is not visible, otherwise 'false'
+ */
 export function isGroupMenuNotDisplayed() {
   cy.get('cx-config-group-menu').should('not.be.visible');
 }
 
+/**
+ * Verifies whether the category navigation is displayed.
+ *
+ * @return - 'True' if the category navigation is visible, otherwise 'false'
+ */
 export function isCategoryNavigationDisplayed() {
   cy.get('cx-category-navigation').should('be.visible');
 }
 
+/**
+ * Verifies whether the category navigation is displayed.
+ *
+ * @return - 'True' if the category navigation is not visible, otherwise 'false'
+ */
 export function isCategoryNavigationNotDisplayed() {
   cy.get('cx-category-navigation').should('not.be.visible');
 }
 
-export function isTotalPrice(formattedPrice) {
+/**
+ * Verifies the accuracy of the formatted price.
+ *
+ * @param {string} formattedPrice - Formatted price
+ * @return - 'True' if the expected total price equals the actual one, otherwise 'false'
+ */
+export function isTotalPrice(formattedPrice: string) {
   cy.get('cx-price-summary-total-price cx-summary-amount').should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
 }
 
-export function navigateToOverviewPage() {
+/**
+ * Navigates to the overview page via the overview tab.
+ */
+export function navigateToOverviewPage(): void {
   cy.get('cx-config-tab-bar div div:last a').click({
     force: true,
   });
 }
 
-export function clickOnGroup(groupIndex: number) {
+/**
+ * Clicks on the group via its index in the group menu.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroup(groupIndex: number): void {
   cy.get('.cx-config-menu>li')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
 }
 
-export function clickHamburger() {
+/**
+ * Clicks the group menu.
+ */
+export function clickHamburger(): void {
   cy.get('cx-hamburger-menu [aria-label="Menu"]')
     .click()
     .then(() => {
@@ -248,11 +634,19 @@ export function clickHamburger() {
     });
 }
 
+/**
+ * Verifies whether the group menu is displayed.
+ *
+ * @return - 'True' if the group menu / hamburger menu is visible, otherwise 'false'
+ */
 export function isHamburgerDisplayed() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
 }
 
-export function clickAddToCartBtn() {
+/**
+ * Clicks on the 'Add to cart' button.
+ */
+export function clickAddToCartBtn(): void {
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
@@ -263,7 +657,10 @@ export function clickAddToCartBtn() {
     });
 }
 
-export function clickOnAddToCartBtnOnPD() {
+/**
+ * Clicks on 'Add to cart' on the product details page.
+ */
+export function clickOnAddToCartBtnOnPD(): void {
   cy.get('cx-add-to-cart button.btn-primary')
     .contains('Add to cart')
     .click()
@@ -279,11 +676,23 @@ export function clickOnAddToCartBtnOnPD() {
     });
 }
 
-export function clickOnViewCartBtnOnPD() {
-  cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').click();
+/**
+ * Clicks on 'View Cart' on the product details page.
+ */
+export function clickOnViewCartBtnOnPD(): void {
+  cy.get('div.cx-dialog-buttons a.btn-primary')
+    .contains('view cart')
+    .click()
+    .then(() => {
+      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
+      cy.get('cx-cart-details').should('be.visible');
+    });
 }
 
-export function clickOnProceedToCheckoutBtnOnPD() {
+/**
+ * Clicks on 'Proceed to Checkout' on the product details page.
+ */
+export function clickOnProceedToCheckoutBtnOnPD(): void {
   cy.get('div.cx-dialog-buttons a.btn-secondary')
     .contains('proceed to checkout')
     .click()
@@ -297,7 +706,10 @@ export function clickOnProceedToCheckoutBtnOnPD() {
     });
 }
 
-export function login() {
+/**
+ * Logs in.
+ */
+export function login(): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
   cy.get('cx-login [role="link"]')
@@ -313,7 +725,10 @@ export function login() {
   cy.get('.cx-login-greet').should('contain', user);
 }
 
-export function navigateToOrderDetails() {
+/**
+ * Navigates to the order details page.
+ */
+export function navigateToOrderDetails(): void {
   // Verify whether the ordered product is displayed in the order list
   cy.get('cx-cart-item-list cx-configure-cart-entry button')
     .first()
@@ -323,13 +738,21 @@ export function navigateToOrderDetails() {
     });
 }
 
-export function goToOrderHistory() {
-  cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
+/**
+ * Navigates to the oder history page.
+ *
+ * @return {Chainable<Window>} - New order history window
+ */
+export function goToOrderHistory(): Chainable<Window> {
+  return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
     cy.get('cx-order-history').should('be.visible');
   });
 }
 
-export function selectOrderByOrderNumberAlias() {
+/**
+ * Selects the order by the oder number alias.
+ */
+export function selectOrderByOrderNumberAlias(): void {
   cy.get('@orderNumber').then((orderNumber) => {
     cy.get(
       'cx-order-history a.cx-order-history-value:contains(' +
@@ -343,7 +766,10 @@ export function selectOrderByOrderNumberAlias() {
   });
 }
 
-export function defineOrderNumberAlias() {
+/**
+ * Defines the order number alias.
+ */
+export function defineOrderNumberAlias(): void {
   const orderConfirmationText = 'Confirmation of Order:';
 
   cy.get('cx-order-confirmation-thank-you-message h1.cx-page-title')
@@ -357,7 +783,10 @@ export function defineOrderNumberAlias() {
     });
 }
 
-export function checkout() {
+/**
+ * Conducts the checkout.
+ */
+export function checkout(): void {
   // If 'Continue' button is disable, click on 'Ship to this address' link to enable it
   cy.get('button.btn-primary')
     .contains('Continue')

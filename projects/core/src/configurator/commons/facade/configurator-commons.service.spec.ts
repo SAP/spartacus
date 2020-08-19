@@ -4,6 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -117,10 +118,15 @@ const configurationState: ConfigurationState = {
 
 let configCartObservable;
 let configOrderObservable;
-class MockConfiguratorCartService {
-  checkForActiveCartUpdateDone(): Observable<boolean> {
-    return of(true);
+let isStableObservable;
+
+class MockActiveCartService {
+  isStable(): Observable<boolean> {
+    return isStableObservable;
   }
+}
+
+class MockConfiguratorCartService {
   readConfigurationForCartEntry() {
     return configCartObservable;
   }
@@ -172,6 +178,7 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
+  isStableObservable = of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -187,6 +194,10 @@ describe('ConfiguratorCommonsService', () => {
         {
           provide: ConfiguratorCartService,
           useClass: MockConfiguratorCartService,
+        },
+        {
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();
@@ -310,6 +321,19 @@ describe('ConfiguratorCommonsService', () => {
 
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
+
+  it('should do nothing on update in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalledTimes(
+      0
+    );
+  });
+
   describe('getConfigurationWithOverview', () => {
     it('should get an overview from occ, accessing the store', () => {
       expect(productConfiguration.overview).toBeUndefined();
