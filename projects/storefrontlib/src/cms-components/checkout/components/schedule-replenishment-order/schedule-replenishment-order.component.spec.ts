@@ -23,7 +23,7 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
 
 class MockCheckoutService {
   getCurrentOrderType(): Observable<ORDER_TYPE> {
-    return of();
+    return of(ORDER_TYPE.PLACE_ORDER);
   }
 
   setOrderType(_orderType: ORDER_TYPE): void {}
@@ -70,25 +70,21 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     );
 
     component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
-
-    spyOn(checkoutService, 'getCurrentOrderType').and.returnValue(
-      of(ORDER_TYPE.PLACE_ORDER)
-    );
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should get selected order type', () => {
-  //   let result: ORDER_TYPE;
+  it('should get selected order type', () => {
+    let result: ORDER_TYPE;
 
-  //   component.selectedOrderType$.subscribe((data) => {
-  //     result = data;
-  //   });
+    component.selectedOrderType$
+      .subscribe((data) => (result = data))
+      .unsubscribe();
 
-  //   expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
-  // });
+    expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
+  });
 
   it('should change order type', () => {
     spyOn(checkoutService, 'setOrderType').and.callThrough();
@@ -115,6 +111,24 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       numberOfDays: mockNumberOfDays,
+    });
+  });
+
+  it('should change number of weeks of replenishment form data', () => {
+    spyOn(
+      checkoutReplenishmentFormService,
+      'setScheduleReplenishmentFormData'
+    ).and.callThrough();
+
+    const mockNumberOfWeeks = 'new-test-num-weeks';
+
+    component.changeNumberOfWeeks(mockNumberOfWeeks);
+
+    expect(
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+    ).toHaveBeenCalledWith({
+      ...mockReplenishmentOrderFormData,
+      numberOfWeeks: mockNumberOfWeeks,
     });
   });
 
@@ -154,23 +168,103 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     });
   });
 
-  // it('should change replenishment start date of replenishment form data', () => {
-  //   spyOn(
-  //     checkoutReplenishmentFormService,
-  //     'setScheduleReplenishmentFormData'
-  //   ).and.callThrough();
+  describe('changeReplenishmentStartDate', () => {
+    describe('when form data for numbers of days and day in a month > current current numb of days', () => {
+      it('should change replenishment start date of replenishment form data', () => {
+        spyOn(
+          checkoutReplenishmentFormService,
+          'setScheduleReplenishmentFormData'
+        ).and.callThrough();
 
-  //   const mockStartDate = 'new-test-date';
+        component.scheduleReplenishmentFormData.numberOfDays = '1';
+        component.scheduleReplenishmentFormData.nthDayOfMonth = '1';
 
-  //   component.changeReplenishmentStartDate(mockStartDate);
+        const mockStartDate = new Date('1994-02-11').toISOString();
 
-  //   expect(
-  //     checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-  //   ).toHaveBeenCalledWith({
-  //     ...mockReplenishmentOrderFormData,
-  //     replenishmentStartDate: mockStartDate,
-  //   });
-  // });
+        component.changeReplenishmentStartDate(mockStartDate);
+
+        expect(
+          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+        ).toHaveBeenCalledWith({
+          ...mockReplenishmentOrderFormData,
+          replenishmentStartDate: mockStartDate,
+        });
+      });
+    });
+
+    describe('when form data for day in a month > current current numb of days', () => {
+      it('should change replenishment start date of replenishment form data', () => {
+        spyOn(
+          checkoutReplenishmentFormService,
+          'setScheduleReplenishmentFormData'
+        ).and.callThrough();
+
+        component.scheduleReplenishmentFormData.numberOfDays = '1';
+        component.scheduleReplenishmentFormData.nthDayOfMonth = '31';
+
+        const mockStartDate = new Date('1994-02-11').toISOString();
+
+        component.changeReplenishmentStartDate(mockStartDate);
+
+        expect(
+          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+        ).toHaveBeenCalledWith({
+          ...mockReplenishmentOrderFormData,
+          nthDayOfMonth: '1',
+          replenishmentStartDate: mockStartDate,
+        });
+      });
+    });
+
+    describe('when form data for number of days > current current numb of days', () => {
+      it('should change replenishment start date of replenishment form data', () => {
+        spyOn(
+          checkoutReplenishmentFormService,
+          'setScheduleReplenishmentFormData'
+        ).and.callThrough();
+
+        component.scheduleReplenishmentFormData.nthDayOfMonth = '1';
+        component.scheduleReplenishmentFormData.numberOfDays = '31';
+
+        const mockStartDate = new Date('1994-02-11').toISOString();
+
+        component.changeReplenishmentStartDate(mockStartDate);
+
+        expect(
+          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+        ).toHaveBeenCalledWith({
+          ...mockReplenishmentOrderFormData,
+          numberOfDays: '1',
+          replenishmentStartDate: mockStartDate,
+        });
+      });
+    });
+
+    describe('when form data for numbers of days and day in a month > current current numb of days', () => {
+      it('should change replenishment start date of replenishment form data', () => {
+        spyOn(
+          checkoutReplenishmentFormService,
+          'setScheduleReplenishmentFormData'
+        ).and.callThrough();
+
+        component.scheduleReplenishmentFormData.numberOfDays = '31';
+        component.scheduleReplenishmentFormData.nthDayOfMonth = '31';
+
+        const mockStartDate = new Date('1994-02-11').toISOString();
+
+        component.changeReplenishmentStartDate(mockStartDate);
+
+        expect(
+          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+        ).toHaveBeenCalledWith({
+          ...mockReplenishmentOrderFormData,
+          numberOfDays: '1',
+          nthDayOfMonth: '1',
+          replenishmentStartDate: mockStartDate,
+        });
+      });
+    });
+  });
 
   it('should change repeat days when reoccurence is weekly of replenishment form data', () => {
     spyOn(
@@ -188,5 +282,29 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       ...mockReplenishmentOrderFormData,
       daysOfWeek: [mockRepeatDays],
     });
+  });
+
+  it('should return TRUE if the day does exist in the currentDaysOfWeek array', () => {
+    component.currentDaysOfWeek = [DaysOfWeek.FRIDAY];
+
+    const result = component.hasDaysOfWeekChecked(DaysOfWeek.FRIDAY);
+
+    expect(result).toBeTruthy();
+  });
+
+  it('should return FALSE if the day does NOT exist in the currentDaysOfWeek array', () => {
+    component.currentDaysOfWeek = [DaysOfWeek.FRIDAY];
+
+    const result = component.hasDaysOfWeekChecked(DaysOfWeek.MONDAY);
+
+    expect(result).toBeFalsy();
+  });
+
+  it('should get the date and format to YYYY-MM-DD', () => {
+    const ISODateFormat = '1994-01-11T00:00Z';
+
+    const result = component.currentISODate(ISODateFormat);
+
+    expect(result).toEqual('1994-01-11');
   });
 });

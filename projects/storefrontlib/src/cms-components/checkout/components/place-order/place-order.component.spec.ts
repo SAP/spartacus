@@ -42,11 +42,13 @@ class MockCheckoutReplenishmentFormService {
   setScheduleReplenishmentFormData(
     _formData: ScheduleReplenishmentForm
   ): void {}
+
+  resetScheduleReplenishmentFormData(): void {}
 }
 
-const routingServiceStub = {
-  go(): void {},
-};
+class MockRoutingService {
+  go(): void {}
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -63,6 +65,7 @@ describe('PlaceOrderComponent', () => {
   let checkoutService: CheckoutService;
   let checkoutReplenishmentOrderService: CheckoutReplenishmentOrderService;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -78,7 +81,7 @@ describe('PlaceOrderComponent', () => {
           provide: CheckoutReplenishmentFormService,
           useClass: MockCheckoutReplenishmentFormService,
         },
-        { provide: RoutingService, useValue: routingServiceStub },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));
@@ -96,6 +99,7 @@ describe('PlaceOrderComponent', () => {
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(checkoutService, 'placeOrder').and.callThrough();
     spyOn(
@@ -106,6 +110,10 @@ describe('PlaceOrderComponent', () => {
       checkoutReplenishmentFormService,
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
+    spyOn(
+      checkoutReplenishmentFormService,
+      'resetScheduleReplenishmentFormData'
+    ).and.callThrough();
   });
 
   it('should be created', () => {
@@ -114,61 +122,78 @@ describe('PlaceOrderComponent', () => {
 
   describe('when order type is PLACE_ORDER', () => {
     it('should not place order when checkbox not checked', () => {
-      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
-      controls.termsAndConditions.setValue(false);
-      component.submitForm();
+      submitForm(ORDER_TYPE.PLACE_ORDER, false);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
       expect(
         checkoutReplenishmentOrderService.scheduleReplenishmentOrder
       ).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-      ).not.toHaveBeenCalled();
     });
 
     it('should place order when checkbox checked', () => {
-      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
-      controls.termsAndConditions.setValue(true);
-      component.submitForm();
+      submitForm(ORDER_TYPE.PLACE_ORDER, true);
 
       expect(checkoutService.placeOrder).toHaveBeenCalled();
       expect(
         checkoutReplenishmentOrderService.scheduleReplenishmentOrder
       ).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-      ).not.toHaveBeenCalled();
     });
+
+    /**
+     * // TODO: when process state functionality is added to place_order store (GH-8659)
+     * onSuccess function
+     */
   });
 
   describe('when order type is SCHEDULE_REPLENISHMENT_ORDER', () => {
     it('should not schedule a replenishment order when checkbox not checked', () => {
-      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
-      controls.termsAndConditions.setValue(false);
-      component.submitForm();
+      submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, false);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
       expect(
         checkoutReplenishmentOrderService.scheduleReplenishmentOrder
-      ).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentFormService.setScheduleReplenishmentFormData
       ).not.toHaveBeenCalled();
     });
 
     it('should schedule a replenishment order when checkbox checked', () => {
-      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
-      controls.termsAndConditions.setValue(true);
-      component.submitForm();
+      submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, true);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
       expect(
         checkoutReplenishmentOrderService.scheduleReplenishmentOrder
       ).toHaveBeenCalled();
+    });
+
+    it('should NOT change page and reset form data when there is no successful replenishment order', () => {
+      spyOn(routingService, 'go').and.stub();
+
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      component.onSuccess(false);
+
+      expect(routingService.go).not.toHaveBeenCalled();
       expect(
-        checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+        checkoutReplenishmentFormService.resetScheduleReplenishmentFormData
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should change page and reset form data on a successful replenishment order', () => {
+      spyOn(routingService, 'go').and.stub();
+
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      component.onSuccess(true);
+
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'replenishmentConfirmation',
+      });
+      expect(
+        checkoutReplenishmentFormService.resetScheduleReplenishmentFormData
       ).toHaveBeenCalled();
     });
   });
+
+  function submitForm(orderType: ORDER_TYPE, isTermsCondition: boolean): void {
+    component.currentOrderType = orderType;
+    controls.termsAndConditions.setValue(isTermsCondition);
+    component.submitForm();
+  }
 });

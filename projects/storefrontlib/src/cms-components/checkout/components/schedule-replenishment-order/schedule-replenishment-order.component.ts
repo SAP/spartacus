@@ -23,15 +23,12 @@ import { CheckoutReplenishmentFormService } from '../../services/checkout-replen
 export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
-  numberOfDays = Array(31)
-    .fill(0)
-    .map((_, y) => (y + 1).toString());
-
   iconTypes = ICON_TYPE;
   orderTypes = ORDER_TYPE;
-  daysOfWeek = DaysOfWeek;
-  recurrencePeriodType = recurrencePeriod;
-  scheduleReplenishmentFormData: ScheduleReplenishmentForm;
+  daysOfWeek = Object.keys(DaysOfWeek).map((key) => DaysOfWeek[key]);
+  recurrencePeriodType = Object.keys(recurrencePeriod).map(
+    (key) => recurrencePeriod[key]
+  );
 
   selectedOrderType$: Observable<
     ORDER_TYPE
@@ -40,6 +37,10 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   isMonthly: Boolean = false;
   isWeekly: Boolean = false;
   currentDaysOfWeek: DaysOfWeek[] = [];
+  numberOfDays: string[];
+  numberOfWeeks: string[];
+  currentDate: string;
+  scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -69,18 +70,16 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeRecurrencePeriodType(type: string): void {
-    if (type === recurrencePeriod.WEEKLY) {
-      this.isWeekly = true;
-    } else {
-      this.isWeekly = false;
-    }
+  changeNumberOfWeeks(nWeeks: string): void {
+    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+      ...this.scheduleReplenishmentFormData,
+      numberOfWeeks: nWeeks,
+    });
+  }
 
-    if (type === recurrencePeriod.MONTHLY) {
-      this.isMonthly = true;
-    } else {
-      this.isMonthly = false;
-    }
+  changeRecurrencePeriodType(type: string): void {
+    this.isWeekly = type === recurrencePeriod.WEEKLY;
+    this.isMonthly = type === recurrencePeriod.MONTHLY;
 
     this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
@@ -95,14 +94,52 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeReplenishmentStartDate(date: string) {
-    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-      ...this.scheduleReplenishmentFormData,
-      replenishmentStartDate: new Date(date).toISOString().split('.')[0] + 'Z',
-    });
+  changeReplenishmentStartDate(date: string): void {
+    if (Boolean(date)) {
+      this.numberOfDays = this.createNumberStringArray(
+        this.getNumberOfDayInAMonth(date)
+      );
+
+      if (
+        Number(this.scheduleReplenishmentFormData.nthDayOfMonth) >
+          Number(this.numberOfDays[this.numberOfDays.length - 1]) &&
+        Number(this.scheduleReplenishmentFormData.numberOfDays) >
+          Number(this.numberOfDays[this.numberOfDays.length - 1])
+      ) {
+        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+          ...this.scheduleReplenishmentFormData,
+          numberOfDays: '1',
+          nthDayOfMonth: '1',
+          replenishmentStartDate: date,
+        });
+      } else if (
+        Number(this.scheduleReplenishmentFormData.nthDayOfMonth) >
+        Number(this.numberOfDays[this.numberOfDays.length - 1])
+      ) {
+        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+          ...this.scheduleReplenishmentFormData,
+          nthDayOfMonth: '1',
+          replenishmentStartDate: date,
+        });
+      } else if (
+        Number(this.scheduleReplenishmentFormData.numberOfDays) >
+        Number(this.numberOfDays[this.numberOfDays.length - 1])
+      ) {
+        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+          ...this.scheduleReplenishmentFormData,
+          numberOfDays: '1',
+          replenishmentStartDate: date,
+        });
+      } else {
+        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+          ...this.scheduleReplenishmentFormData,
+          replenishmentStartDate: date,
+        });
+      }
+    }
   }
 
-  changeRepeatDays(day: DaysOfWeek, isChecked: boolean) {
+  changeRepeatDays(day: DaysOfWeek, isChecked: boolean): void {
     if (isChecked) {
       this.currentDaysOfWeek.push(day);
 
@@ -123,27 +160,51 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  hasDaysOfWeekChecked(day: DaysOfWeek) {
+  hasDaysOfWeekChecked(day: DaysOfWeek): boolean {
     return this.currentDaysOfWeek.includes(day);
   }
 
-  private initConfig() {
+  currentISODate(date: string): string {
+    return date.split('T')[0];
+  }
+
+  private initConfig(): void {
     this.isMonthly =
       this.scheduleReplenishmentFormData.recurrencePeriod ===
-      recurrencePeriod.MONTHLY
-        ? true
-        : false;
+      recurrencePeriod.MONTHLY;
 
     this.isWeekly =
       this.scheduleReplenishmentFormData.recurrencePeriod ===
-      recurrencePeriod.WEEKLY
-        ? true
-        : false;
+      recurrencePeriod.WEEKLY;
 
     this.currentDaysOfWeek =
       this.scheduleReplenishmentFormData.daysOfWeek.length !== 0
         ? this.scheduleReplenishmentFormData.daysOfWeek
         : [];
+
+    this.numberOfDays = this.createNumberStringArray(
+      this.getNumberOfDayInAMonth(
+        this.scheduleReplenishmentFormData.replenishmentStartDate
+      )
+    );
+
+    this.numberOfWeeks = this.createNumberStringArray(12);
+
+    this.currentDate = this.scheduleReplenishmentFormData.replenishmentStartDate;
+  }
+
+  private createNumberStringArray(n: number): string[] {
+    return Array(n)
+      .fill(0)
+      .map((_, y) => (y + 1).toString());
+  }
+
+  private getNumberOfDayInAMonth(date: string): number {
+    const year = new Date(date).getFullYear();
+    const month = new Date(date).getMonth() + 1;
+    const numberOfDaysInAGivenMonth = new Date(year, month, 0).getDate();
+
+    return numberOfDaysInAGivenMonth;
   }
 
   ngOnDestroy(): void {

@@ -7,6 +7,11 @@ const mockDefaultReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
 };
 
+const newReplenishmentFormData: ScheduleReplenishmentForm = {
+  recurrencePeriod: 'test-period',
+  numberOfWeeks: 'test-num-weeks',
+};
+
 describe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
@@ -39,11 +44,6 @@ describe('Checkout Replenishment Form Service', () => {
   });
 
   it('should set new replenishment form data', () => {
-    const newReplenishmentFormData: ScheduleReplenishmentForm = {
-      recurrencePeriod: 'test-period',
-      numberOfWeeks: 'test-num-weeks',
-    };
-
     service.setScheduleReplenishmentFormData(newReplenishmentFormData);
 
     let result: ScheduleReplenishmentForm;
@@ -54,5 +54,21 @@ describe('Checkout Replenishment Form Service', () => {
       .unsubscribe();
 
     expect(result).toEqual(newReplenishmentFormData);
+  });
+
+  it('should reset the form data to default', () => {
+    service.setScheduleReplenishmentFormData(newReplenishmentFormData);
+
+    let result: ScheduleReplenishmentForm;
+
+    service
+      .getScheduleReplenishmentFormData()
+      .subscribe((data) => (result = data));
+
+    expect(result).toEqual(newReplenishmentFormData);
+
+    service.resetScheduleReplenishmentFormData();
+
+    expect(result).toEqual(service.defaultFormData);
   });
 });

@@ -38,7 +38,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   constructor(
     protected checkoutService: CheckoutService,
     protected checkoutReplenishmentService: CheckoutReplenishmentOrderService,
-    protected checkoutReplenishmentForm: CheckoutReplenishmentFormService,
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected routingService: RoutingService,
     protected fb: FormBuilder
   ) {}
@@ -56,10 +56,6 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
             this.scheduleReplenishmentFormData,
             this.checkoutSubmitForm.valid
           );
-
-          this.checkoutReplenishmentForm.setScheduleReplenishmentFormData(
-            this.checkoutReplenishmentForm.defaultFormData
-          );
           break;
         }
       }
@@ -69,6 +65,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // TODO: when process state functionality is added to place_order store (GH-8659)
     this.subscription.add(
       this.checkoutService
         .getOrderDetails()
@@ -80,11 +77,8 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.checkoutReplenishmentService
-        .getReplenishmentOrderDetails()
-        .pipe(filter((order) => Object.keys(order).length !== 0))
-        .subscribe(() => {
-          this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
-        })
+        .getScheduleReplenishmentOrderSuccess()
+        .subscribe((success) => this.onSuccess(success))
     );
 
     this.subscription.add(
@@ -94,15 +88,33 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.checkoutReplenishmentForm
+      this.checkoutReplenishmentFormService
         .getScheduleReplenishmentFormData()
         .subscribe((data) => (this.scheduleReplenishmentFormData = data))
     );
+  }
+
+  onSuccess(data: boolean): void {
+    if (data) {
+      switch (this.currentOrderType) {
+        case ORDER_TYPE.PLACE_ORDER: {
+          // TODO: when process state functionality is added to place_order store (GH-8659)
+          break;
+        }
+
+        case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
+          this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
+          this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
+          break;
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.checkoutReplenishmentService.clearScheduleReplenishmentOrderState();
   }
 }

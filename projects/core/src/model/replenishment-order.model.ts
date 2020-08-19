@@ -73,13 +73,13 @@ export interface ScheduleReplenishmentForm {
 }
 
 export enum DaysOfWeek {
-  SUNDAY = 'SUNDAY',
   MONDAY = 'MONDAY',
   TUESDAY = 'TUESDAY',
   WEDNESDAY = 'WEDNESDAY',
   THURSDAY = 'THURSDAY',
   FRIDAY = 'FRIDAY',
   SATURDAY = 'SATURDAY',
+  SUNDAY = 'SUNDAY',
 }
 
 export const recurrencePeriod = {

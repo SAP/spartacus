@@ -37,17 +37,34 @@
         'checkoutReview.every' | cxTranslate
       }}</span>
       <div *ngIf="!isMonthly" class="cx-days">
-        <select
-          class="form-control"
-          (change)="changeNumberOfDays($event.target.value)"
-        >
-          <option
-            *ngFor="let nDays of numberOfDays"
-            [value]="nDays"
-            [selected]="nDays === scheduleReplenishmentFormData.numberOfDays"
-            >{{ nDays }}</option
+        <ng-container *ngIf="isWeekly; else isDaily">
+          <select
+            class="form-control"
+            (change)="changeNumberOfWeeks($event.target.value)"
           >
-        </select>
+            <option
+              *ngFor="let nWeeks of numberOfWeeks"
+              [value]="nWeeks"
+              [selected]="
+                nWeeks === scheduleReplenishmentFormData.numberOfWeeks
+              "
+              >{{ nWeeks }}</option
+            >
+          </select>
+        </ng-container>
+        <ng-template #isDaily>
+          <select
+            class="form-control"
+            (change)="changeNumberOfDays($event.target.value)"
+          >
+            <option
+              *ngFor="let nDays of numberOfDays"
+              [value]="nDays"
+              [selected]="nDays === scheduleReplenishmentFormData.numberOfDays"
+              >{{ nDays }}</option
+            >
+          </select>
+        </ng-template>
       </div>
       <div class="cx-month">
         <select
@@ -55,14 +72,12 @@
           (change)="changeRecurrencePeriodType($event.target.value)"
         >
           <option
-            *ngFor="let type of recurrencePeriodType | keyvalue"
-            [value]="type.value"
-            [selected]="
-              type.value === scheduleReplenishmentFormData.recurrencePeriod
-            "
+            *ngFor="let type of recurrencePeriodType"
+            [value]="type"
+            [selected]="type === scheduleReplenishmentFormData.recurrencePeriod"
             >{{
               'checkoutReview.recurrencePeriodType'
-                | cxTranslate: { context: type.value }
+                | cxTranslate: { context: type }
             }}
           </option>
         </select>
@@ -96,9 +111,7 @@
         <input
           type="date"
           placeholder="yyyy-mm-dd"
-          [value]="
-            scheduleReplenishmentFormData.replenishmentStartDate.split('T')[0]
-          "
+          [value]="currentISODate(currentDate)"
           (change)="changeReplenishmentStartDate($event.target.value)"
         />
       </div>
@@ -111,13 +124,13 @@
       <span class="cx-repeat-days form-data-label">{{
         'checkoutReview.repeatOnDays' | cxTranslate
       }}</span>
-      <div *ngFor="let day of daysOfWeek | keyvalue" class="form-check">
-        <span>{{ day.value | titlecase }}</span
+      <div *ngFor="let day of daysOfWeek" class="form-check">
+        <span>{{ day | titlecase }}</span
         ><input
           type="checkbox"
           class="form-check-input"
-          [checked]="hasDaysOfWeekChecked(day.value)"
-          (change)="changeRepeatDays(day.value, $event.target.checked)"
+          [checked]="hasDaysOfWeekChecked(day)"
+          (change)="changeRepeatDays(day, $event.target.checked)"
         />
       </div>
     </div>
