@@ -88,7 +88,7 @@ describe('BudgetCostCenterListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  afterAll(() => {
+  afterEach(() => {
     fixture.destroy();
   });
 

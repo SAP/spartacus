@@ -59,6 +59,10 @@ describe('BudgetListComponent', () => {
     service = TestBed.inject(BudgetListService);
   }));
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   describe('with table data', () => {
     beforeEach(() => {
       spyOn(service, 'getTable').and.returnValue(of(mockBudgetList));
