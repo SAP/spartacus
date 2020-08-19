@@ -77,11 +77,6 @@ describe('CostCenterAssignBudgetsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
