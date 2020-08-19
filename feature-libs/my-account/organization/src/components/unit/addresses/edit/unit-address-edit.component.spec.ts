@@ -14,7 +14,6 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 
-
 import createSpy = jasmine.createSpy;
 
 const code = 'b1';

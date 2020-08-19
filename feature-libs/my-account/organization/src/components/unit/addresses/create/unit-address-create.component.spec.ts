@@ -5,11 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
-import {
-  I18nTestingModule,
-  Occ,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, Occ, RoutingService } from '@spartacus/core';
 import { TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';

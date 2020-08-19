@@ -19,10 +19,7 @@ import {
   RoutingService,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  IconLoaderService,
-  PaginationConfig,
-} from '@spartacus/storefront';
+import { IconLoaderService, PaginationConfig } from '@spartacus/storefront';
 import { MockIconLoaderService } from 'projects/storefrontlib/src/cms-components/misc/icon/icon.component.spec';
 import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
