@@ -25,15 +25,27 @@ export class ConfigAddToCartButtonComponent {
   container$: Observable<{
     routerData: ConfigurationRouter.Data;
     configuration: Configurator.Configuration;
-  }> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService
-          .getConfiguration(routerData.owner)
-          .pipe(map((configuration) => ({ routerData, configuration })))
-      )
-    );
+    hasPendingChanges: boolean;
+  }> = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService
+        .getConfiguration(routerData.owner)
+        .pipe(map((configuration) => ({ routerData, configuration })))
+        .pipe(
+          switchMap((cont) =>
+            this.configuratorCommonsService
+              .hasPendingChanges(cont.configuration.owner)
+              .pipe(
+                map((hasPendingChanges) => ({
+                  routerData: cont.routerData,
+                  configuration: cont.configuration,
+                  hasPendingChanges,
+                }))
+              )
+          )
+        )
+    )
+  );
 
   constructor(
     protected routingService: RoutingService,

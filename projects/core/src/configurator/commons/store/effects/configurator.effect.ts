@@ -317,37 +317,30 @@ export class ConfiguratorEffects {
     ofType(ConfiguratorActions.ADD_TO_CART),
     map((action: ConfiguratorActions.AddToCart) => action.payload),
     switchMap((payload: Configurator.AddToCartParameters) => {
-      return this.store.pipe(
-        select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
-        take(1),
-        filter((hasPendingChanges) => hasPendingChanges === false),
-        switchMap(() => {
-          return this.configuratorCommonsConnector.addToCart(payload).pipe(
-            switchMap((entry: CartModification) => {
-              return [
-                new ConfiguratorActions.AddNextOwner({
-                  ownerKey: payload.ownerKey,
-                  cartEntryNo: '' + entry.entry.entryNumber,
-                }),
-                new CartActions.CartAddEntrySuccess({
-                  ...entry,
-                  userId: payload.userId,
-                  cartId: payload.cartId,
-                  productCode: payload.productCode,
-                  quantity: entry.quantity,
-                  deliveryModeChanged: entry.deliveryModeChanged,
-                  entry: entry.entry,
-                  quantityAdded: entry.quantityAdded,
-                  statusCode: entry.statusCode,
-                  statusMessage: entry.statusMessage,
-                }),
-              ];
+      return this.configuratorCommonsConnector.addToCart(payload).pipe(
+        switchMap((entry: CartModification) => {
+          return [
+            new ConfiguratorActions.AddNextOwner({
+              ownerKey: payload.ownerKey,
+              cartEntryNo: '' + entry.entry.entryNumber,
             }),
-            catchError((error) =>
-              of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
-            )
-          );
-        })
+            new CartActions.CartAddEntrySuccess({
+              ...entry,
+              userId: payload.userId,
+              cartId: payload.cartId,
+              productCode: payload.productCode,
+              quantity: entry.quantity,
+              deliveryModeChanged: entry.deliveryModeChanged,
+              entry: entry.entry,
+              quantityAdded: entry.quantityAdded,
+              statusCode: entry.statusCode,
+              statusMessage: entry.statusMessage,
+            }),
+          ];
+        }),
+        catchError((error) =>
+          of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+        )
       );
     })
   );
@@ -360,39 +353,28 @@ export class ConfiguratorEffects {
     map((action: ConfiguratorActions.UpdateCartEntry) => action.payload),
     switchMap(
       (payload: Configurator.UpdateConfigurationForCartEntryParameters) => {
-        return this.store.pipe(
-          select(
-            ConfiguratorSelectors.hasPendingChanges(
-              payload.configuration.owner.key
-            )
-          ),
-          take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
-          switchMap(() => {
-            return this.configuratorCommonsConnector
-              .updateConfigurationForCartEntry(payload)
-              .pipe(
-                switchMap((entry: CartModification) => {
-                  return [
-                    new CartActions.CartUpdateEntrySuccess({
-                      ...entry,
-                      userId: payload.userId,
-                      cartId: payload.cartId,
-                      entryNumber: entry.entry.entryNumber.toString(),
-                      quantity: entry.quantity,
-                    }),
-                  ];
+        return this.configuratorCommonsConnector
+          .updateConfigurationForCartEntry(payload)
+          .pipe(
+            switchMap((entry: CartModification) => {
+              return [
+                new CartActions.CartUpdateEntrySuccess({
+                  ...entry,
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  entryNumber: entry.entry.entryNumber.toString(),
+                  quantity: entry.quantity,
                 }),
-                catchError((error) =>
-                  of(
-                    new CartActions.CartUpdateEntryFail(
-                      makeErrorSerializable(error)
-                    )
-                  )
+              ];
+            }),
+            catchError((error) =>
+              of(
+                new CartActions.CartUpdateEntryFail(
+                  makeErrorSerializable(error)
                 )
-              );
-          })
-        );
+              )
+            )
+          );
       }
     )
   );

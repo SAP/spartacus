@@ -30,9 +30,9 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
-      configuration.isConfigHeaderDisplayed();
+      configuration.isShowMoreLinkAtProductTitleDisplayed();
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -44,15 +44,11 @@ context('Product Configuration', () => {
         RADIO_GROUP,
         CAMERA_MODE_PROFESSIONAL
       );
-
       configuration.clickAddToCartBtn();
+      configuration.isGlobalMessageNotDisplayed();
+      configuration.isUpdatingMessageNotDisplayed();
       configurationOverview.isConfigOverviewPageDisplayed();
-
-      cy.get('cx-global-message').should('not.be.visible');
-      cy.get('cx-config-update-message').should('not.be.visible');
-      cy.get('.cx-config-add-to-cart-btn').should('be.visible');
-      cy.get('.cx-config-group-attribute').should('be.visible');
-
+      configurationOverview.isContinueToCartBtnDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
@@ -62,7 +58,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      configuration.goToConfigPage(configurator, testProduct);
+      configuration.goToConfigurationPage(configurator, testProduct);
 
       configuration.selectAttribute(
         CAMERA_COLOR,
@@ -70,12 +66,11 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
-      // TODO: Replace implicit wait
-      cy.wait(2000);
-      cy.get('cx-config-update-message').should('not.be.visible');
-
-      configuration.checkFocus('cx-config--radioGroup--CAMERA_COLOR--METALLIC');
-
+      configuration.checkFocus(
+        CAMERA_COLOR,
+        RADIO_GROUP,
+        CAMERA_COLOR_METALLIC
+      );
       configuration.clickOnNextBtn(SPECIFICATION);
 
       configuration.selectAttribute(
@@ -84,11 +79,11 @@ context('Product Configuration', () => {
         CAMERA_SD_CARD_SDXC
       );
 
-      // TODO: Replace implicit wait
-      cy.wait(2000);
-      cy.get('cx-config-update-message').should('not.be.visible');
-
-      configuration.checkFocus('cx-config--checkBoxList--CAMERA_SD_CARD--SDXC');
+      configuration.checkFocus(
+        CAMERA_SD_CARD,
+        CHECKBOX_LIST,
+        CAMERA_SD_CARD_SDXC
+      );
     });
   });
 });
