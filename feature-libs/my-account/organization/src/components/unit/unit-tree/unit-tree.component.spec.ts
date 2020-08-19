@@ -1,20 +1,20 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  Input,
   DebugElement,
+  Input,
 } from '@angular/core';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of, Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
 import { I18nTestingModule } from '@spartacus/core';
-import { UnitTreeComponent } from './unit-tree.component';
 import {
   BREAKPOINT,
   BreakpointService,
   NavigationNode,
 } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
+import { UnitTreeComponent } from './unit-tree.component';
 
 @Component({
   template: '',
@@ -97,7 +97,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-describe('UnitTreeNavigationUIComponent', () => {
+xdescribe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
   let element: DebugElement;
@@ -131,7 +131,7 @@ describe('UnitTreeNavigationUIComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('executing constructor and calling breakpoint service', async () => {
+  xdescribe('executing constructor and calling breakpoint service', async () => {
     beforeEach(() => {
       spyOnProperty(breakpointService, 'isDown').and.returnValue(
         of(BREAKPOINT.md)
@@ -145,7 +145,7 @@ describe('UnitTreeNavigationUIComponent', () => {
     expect(component.mapUlElementToExpand).toHaveBeenCalled();
   });
 
-  describe('DOM UI tests', () => {
+  xdescribe('DOM UI tests', () => {
     beforeEach(() => {
       component.selectedNode = mockNode;
       fixture.detectChanges();
@@ -182,7 +182,7 @@ describe('UnitTreeNavigationUIComponent', () => {
       expect(childElement.innerText).toContain(`(${mockNode.children.length})`);
     });
 
-    describe('testing selected node tree', () => {
+    xdescribe('testing selected node tree', () => {
       const nodeRootElement = mockNode.children[0],
         nodeFirstChildElement = mockNode.children[0].children[0],
         nodeSecondChildElement = mockNode.children[0].children[1],

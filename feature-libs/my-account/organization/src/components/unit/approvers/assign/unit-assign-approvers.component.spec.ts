@@ -1,11 +1,11 @@
 import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
   Pipe,
   PipeTransform,
   Type,
-  Input,
-  Output,
-  EventEmitter,
-  Component,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,12 +13,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 
 import {
-  I18nTestingModule,
-  RoutingService,
-  EntitiesModel,
-  RoutesConfig,
-  RoutingConfig,
   B2BUser,
+  EntitiesModel,
+  I18nTestingModule,
+  RoutesConfig,
+  RoutingService,
+  RoutingConfig,
 } from '@spartacus/core';
 import { PaginationConfig } from '@spartacus/storefront';
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
@@ -108,7 +108,7 @@ class MockRoutingConfig {
   }
 }
 
-describe('UnitAssignApproversComponent', () => {
+xdescribe('UnitAssignApproversComponent', () => {
   let component: UnitAssignApproversComponent;
   let fixture: ComponentFixture<UnitAssignApproversComponent>;
   let orgUnitService: MockOrgUnitService;
@@ -161,7 +161,7 @@ describe('UnitAssignApproversComponent', () => {
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
-  describe('assign', () => {
+  xdescribe('assign', () => {
     it('should assign approver', () => {
       component.toggleAssign(code, customerId, true);
       expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
@@ -172,7 +172,7 @@ describe('UnitAssignApproversComponent', () => {
     });
   });
 
-  describe('unassign', () => {
+  xdescribe('unassign', () => {
     it('should unassign approver', () => {
       component.toggleAssign(code, customerId, false);
       expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(

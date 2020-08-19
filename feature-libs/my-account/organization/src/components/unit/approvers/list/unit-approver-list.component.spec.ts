@@ -1,10 +1,10 @@
 import {
-  Pipe,
-  PipeTransform,
+  Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  Component,
+  Pipe,
+  PipeTransform,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,19 +12,23 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 
 import {
-  I18nTestingModule,
-  RoutingService,
-  EntitiesModel,
-  RoutesConfig,
-  RoutingConfig,
   B2BUser,
+  EntitiesModel,
+  I18nTestingModule,
+  RoutesConfig,
+  RoutingService,
+  RoutingConfig,
 } from '@spartacus/core';
-import { IconLoaderService, PaginationConfig } from '@spartacus/storefront';
-import { UnitApproverListComponent } from './unit-approver-list.component';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
-import createSpy = jasmine.createSpy;
+import {
+  IconLoaderService,
+  PaginationConfig,
+} from '@spartacus/storefront';
 import { MockIconLoaderService } from 'projects/storefrontlib/src/cms-components/misc/icon/icon.component.spec';
 import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { UnitApproverListComponent } from './unit-approver-list.component';
+
+import createSpy = jasmine.createSpy;
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
@@ -101,7 +105,7 @@ class MockRoutingConfig {
   }
 }
 
-describe('UnitApproversComponent', () => {
+xdescribe('UnitApproversComponent', () => {
   let component: UnitApproverListComponent;
   let fixture: ComponentFixture<UnitApproverListComponent>;
   // let orgUnitService: MockOrgUnitService;
