@@ -27,13 +27,11 @@ export function goToConfigurationPage(
   configuratorType: string,
   productId: string
 ): Chainable<Window> {
-  return cy
-    .visit(
-      `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`
-    )
-    .then(() => {
-      this.isConfigPageDisplayed();
-    });
+  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    this.isConfigPageDisplayed();
+  });
 }
 
 /**
@@ -41,7 +39,7 @@ export function goToConfigurationPage(
  *
  * @return - 'True' if the global message component is not visible, otherwise 'false'
  */
-function isGlobalMessageNotDisplayed() {
+export function isGlobalMessageNotDisplayed() {
   cy.get('cx-global-message').should('not.be.visible');
 }
 
@@ -50,17 +48,18 @@ function isGlobalMessageNotDisplayed() {
  *
  * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
-function isUpdatingMessageNotDisplayed() {
-  cy.get('.cx-config-update-message').should('not.be.visible');
+export function isUpdatingMessageNotDisplayed() {
+  cy.get('div#cx-config-update-message').should('not.be.visible');
 }
 
 /**
- * Clicks on 'Add to Cart' button
+ * Clicks on 'Add to Cart' button in catalog list.
  */
-export function clickOnConfigureBtn(): void {
+export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
       this.isConfigPageDisplayed();
     });
 }
@@ -75,8 +74,30 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .within(() => {
-      cy.get('button:contains("Edit")').click();
+      cy.get('button:contains("Edit")')
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
     });
+}
+
+/**
+ * Verifies whether the corresponding value ID is focused.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} uiType - UI type
+ * @param {string} valueName - Value name
+ * @return - 'True' if attribute ID is focused, otherwise 'false'
+ */
+export function checkFocus(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}`;
+  cy.focused().should('have.attr', 'id', valueId);
 }
 
 /**
@@ -137,9 +158,45 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * @return - 'True' if the configuration page is visible, otherwise 'false'
  */
 export function isConfigPageDisplayed() {
+  isGlobalMessageNotDisplayed();
   isUpdatingMessageNotDisplayed();
-  cy.get('cx-config-form').should('be.visible');
   isUpdatingMessageNotDisplayed();
+  isConfigTabBarDisplayed();
+  isGroupTitleDisplayed();
+  isGroupFormDisplayed();
+  isPreviousAndNextBtnsDispalyed();
+  isPriceSummaryDisplayed();
+  isAddToCartBtnDisplayed();
+  isProductTitleDisplayed();
+  isShowMoreLinkAtProductTitleDisplayed();
+  isUpdatingMessageNotDisplayed();
+}
+
+/**
+ * Verifies whether the product title component is displayed.
+ *
+ * @return - 'True' if the product title is visible, otherwise 'false'
+ */
+export function isProductTitleDisplayed() {
+  cy.get('cx-config-product-title').should('be.visible');
+}
+
+/**
+ * Verifies whether 'show more' link is displayed in the product title component.
+ *
+ * @return - 'True' if show more' link is visible, otherwise 'false'
+ */
+export function isShowMoreLinkAtProductTitleDisplayed() {
+  cy.get('a:contains("show more")').should('be.visible');
+}
+
+/**
+ * Verifies whether the product title component is displayed.
+ *
+ * @return - 'True' if the product title is visible, otherwise 'false'
+ */
+function isConfigTabBarDisplayed() {
+  cy.get('cx-config-tab-bar').should('be.visible');
 }
 
 /**
@@ -406,9 +463,8 @@ export function isConflictDetectedMsgDisplayed(attributeName: string) {
  * @return - 'True' if the conflict detected message does not exist, otherwise 'false'
  */
 export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
-  const parent = cy.get(conflictDetectedMsgSelector).parent();
   const attributeId = this.getAttributeLabelId(attributeName);
-  parent.children(`#${attributeId}`).should('not.exist');
+  cy.get(`#${attributeId}`).next().should('not.exist');
 }
 
 /**
@@ -550,7 +606,11 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-issues-notification')
     .within(() => {
-      cy.get(resolveIssuesLinkSelector).click();
+      cy.get(resolveIssuesLinkSelector)
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', ' /cartEntry/entityKey/');
+        });
     });
 }
 
@@ -564,12 +624,71 @@ export function isGroupMenuDisplayed() {
 }
 
 /**
+ * Verifies whether the group title is displayed.
+ *
+ * @return - 'True' if the group title is visible, otherwise 'false'
+ */
+function isGroupTitleDisplayed() {
+  cy.get('cx-config-group-title').should('be.visible');
+}
+
+/**
+ * Verifies whether the group form is displayed.
+ *
+ * @return - 'True' if the group form is visible, otherwise 'false'
+ */
+function isGroupFormDisplayed() {
+  cy.get('cx-config-form').should('be.visible');
+}
+
+/**
+ * Verifies whether the 'previous' and 'next' buttons are displayed.
+ *
+ * @return - 'True' if the 'previous' and 'next' buttons are visible, otherwise 'false'
+ */
+function isPreviousAndNextBtnsDispalyed() {
+  cy.get('cx-config-previous-next-buttons').should('be.visible');
+}
+
+/**
+ * Verifies whether the price summary is displayed.
+ *
+ * @return - 'True' if the price summary is visible, otherwise 'false'
+ */
+function isPriceSummaryDisplayed() {
+  cy.get('cx-config-price-summary').should('be.visible');
+}
+
+/**
+ * Verifies whether the 'add to cart' button is displayed.
+ *
+ * @return - 'True' if the 'add to cart' button is visible, otherwise 'false'
+ */
+function isAddToCartBtnDisplayed() {
+  cy.get('cx-config-add-to-cart-button').should('be.visible');
+}
+
+/**
  * Verifies whether the group menu is not displayed.
  *
  * @return - 'True' if the group menu is not visible, otherwise 'false'
  */
-export function isGroupMenuNotDisplayed() {
-  cy.get('cx-config-group-menu').should('not.be.visible');
+export function isConfigProductTitleDisplayed() {
+  cy.get('a:contains("show more")').should('be.visible');
+}
+
+/**
+ * Verifies whether the Add To Cart Button component is displayed.
+ */
+export function isConfigAddToCartButtonDisplayed() {
+  cy.get('.cx-config-add-to-cart-btn').should('be.visible');
+}
+
+/**
+ * Verifies whether the overview content is displayed.
+ */
+export function isOverviewContentDisplayed() {
+  cy.get('.cx-config-group-attribute').should('be.visible');
 }
 
 /**
@@ -650,10 +769,11 @@ export function clickAddToCartBtn(): void {
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       isUpdatingMessageNotDisplayed();
       isGlobalMessageNotDisplayed();
       isUpdatingMessageNotDisplayed();
-      cy.get('cx-config-overview-form').should('be.visible');
+      isGlobalMessageNotDisplayed();
     });
 }
 
@@ -684,6 +804,7 @@ export function clickOnViewCartBtnOnPD(): void {
     .contains('view cart')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/cart');
       cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });

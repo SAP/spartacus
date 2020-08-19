@@ -15,14 +15,12 @@ export function goToConfigOverviewPage(
   configuratorType,
   productId
 ): Chainable<Window> {
-  return cy
-    .visit(
-      `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`
-    )
-    .then(() => {
-      cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-      this.isConfigOverviewPageDisplayed();
-    });
+  const location = `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
+    this.isConfigOverviewPageDisplayed();
+  });
 }
 
 /**
@@ -32,6 +30,17 @@ export function goToConfigOverviewPage(
  */
 export function isConfigOverviewPageDisplayed() {
   cy.get('cx-config-overview-form').should('be.visible');
+}
+
+/**
+ * Verifies whether 'Continue to Cart' button is displayed.
+ *
+ * @return - 'True' if the button is visible, otherwise 'false'
+ */
+export function isContinueToCartBtnDisplayed() {
+  cy.get('.cx-config-add-to-cart-btn button.btn-primary')
+    .contains('Continue to Cart')
+    .should('be.visible');
 }
 
 /**
