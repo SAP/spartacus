@@ -59,7 +59,6 @@ describe('BudgetListComponent', () => {
     service = TestBed.inject(BudgetListService);
   }));
 
-  // Not sure why this is needed, but we're failing otherwise.
   afterEach(() => {
     fixture.destroy();
   });

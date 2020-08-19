@@ -79,7 +79,6 @@ describe('CostCenterAssignBudgetsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // destroy as otherwise we have some left overs
   afterEach(() => {
     fixture.destroy();
   });

@@ -5,10 +5,11 @@ import { Budget, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentBudgetService } from '../../current-budget.service';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
-import { CurrentBudgetService } from '../../current-budget.service';
 
 const costCenterCode = 'costCenterCode';
 
@@ -68,6 +69,7 @@ describe('BudgetCostCenterListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewTestingModule,
       ],
       declarations: [BudgetCostCenterListComponent],
       providers: [
@@ -86,7 +88,6 @@ describe('BudgetCostCenterListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
@@ -138,7 +139,7 @@ describe('BudgetCostCenterListComponent', () => {
   describe('code$', () => {
     it('should emit the current cost center code', () => {
       let result;
-      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      component.code$.subscribe((r) => (result = r));
       expect(result).toBe(costCenterCode);
     });
   });
