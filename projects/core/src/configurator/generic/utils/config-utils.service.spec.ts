@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
+import { OrderEntry } from 'projects/core/src/model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from './config-utils.service';
 
@@ -18,6 +19,8 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
+let cartItem: OrderEntry;
+
 describe('GenericConfigUtilsService', () => {
   let classUnderTest: GenericConfigUtilsService;
 
@@ -29,6 +32,7 @@ describe('GenericConfigUtilsService', () => {
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     owner = {};
+    cartItem = {};
   });
 
   it('should create component', () => {
@@ -120,6 +124,46 @@ describe('GenericConfigUtilsService', () => {
   describe('getUserId', () => {
     it('should return anonymous user id if user is anonymous', () => {
       expect(classUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    });
+  });
+
+  describe('Cart item issue handling', () => {
+    it('should return number of issues of ERROR status', () => {
+      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+      expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(2);
+    });
+
+    it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
+      cartItem.statusSummaryList = [
+        { numberOfIssues: 1, status: 'SUCCESS' },
+        { numberOfIssues: 3, status: 'ERROR' },
+      ];
+      expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(3);
+    });
+
+    it('should return number of issues as 0 if only SUCCESS status is present', () => {
+      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'SUCCESS' }];
+      expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(0);
+    });
+
+    it('should return number of issues as 0 if statusSummaryList is undefined', () => {
+      cartItem.statusSummaryList = undefined;
+      expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(0);
+    });
+
+    it('should return number of issues as 0 if statusSummaryList is empty', () => {
+      cartItem.statusSummaryList = [];
+      expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(0);
+    });
+
+    it('should return true if number of issues of ERROR status is > 0', () => {
+      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+      expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
+    });
+
+    it('should return false if number of issues of ERROR status is = 0', () => {
+      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'SUCCESS' }];
+      expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
     });
   });
 });
