@@ -463,9 +463,8 @@ export function isConflictDetectedMsgDisplayed(attributeName: string) {
  * @return - 'True' if the conflict detected message does not exist, otherwise 'false'
  */
 export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
-  const parent = cy.get(conflictDetectedMsgSelector).parent();
   const attributeId = this.getAttributeLabelId(attributeName);
-  parent.children(`#${attributeId}`).should('not.exist');
+  cy.get(`#${attributeId}`).next().should('not.exist');
 }
 
 /**

@@ -87,7 +87,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtnInCatalog();
@@ -122,7 +122,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
       configuration.goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
@@ -143,7 +143,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
@@ -295,7 +295,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Handling', () => {
+  describe.skip('Group Handling', () => {
     it('should navigate between groups', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -355,7 +355,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Order Confirmation and Order History', () => {
+  describe.skip('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
