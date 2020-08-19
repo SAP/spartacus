@@ -12,10 +12,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
 
-import {
-  defaultStorefrontRoutesConfig,
-  PaginationConfig,
-} from '@spartacus/storefront';
+import { PaginationConfig } from '@spartacus/storefront';
 import {
   B2BUser,
   EntitiesModel,
@@ -27,6 +24,7 @@ import { B2BUserService } from '../../../../core/services/b2b-user.service';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { UnitUserAssignRolesComponent } from './unit-user-assign-roles.component';
 import createSpy = jasmine.createSpy;
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const roleId = 'b2bcustomergroup';
 const customerId = 'customerId1';

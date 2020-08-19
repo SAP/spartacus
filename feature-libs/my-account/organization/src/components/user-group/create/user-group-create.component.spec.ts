@@ -2,19 +2,14 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { UserGroupCreateComponent } from './user-group-create.component';
 import { By } from '@angular/platform-browser';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import createSpy = jasmine.createSpy;
 import { UserGroupService } from '../../../core/services/user-group.service';
-import { SplitViewTestingModule } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 @Component({
   selector: 'cx-user-group-form',
@@ -68,8 +63,7 @@ describe('UserGroupCreateComponent', () => {
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        IconTestingModule,
+
         ReactiveFormsModule,
       ],
       declarations: [UserGroupCreateComponent, MockUserGroupFormComponent],

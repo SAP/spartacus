@@ -4,17 +4,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
-import { SplitViewTestingModule } from '@spartacus/storefront';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+
 import { PermissionFormService } from '../form/permission-form.service';
 import { PermissionCreateComponent } from './permission-create.component';
 import { PermissionService } from '../../../core/services/permission.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import createSpy = jasmine.createSpy;
 
 @Component({

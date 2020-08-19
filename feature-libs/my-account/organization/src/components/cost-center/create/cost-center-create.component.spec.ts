@@ -3,19 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CostCenterCreateComponent } from './cost-center-create.component';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CostCenterService } from '../../../core/services/cost-center.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 import createSpy = jasmine.createSpy;
-import { SplitViewTestingModule } from '@spartacus/storefront';
+
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 
 @Component({
   selector: 'cx-cost-center-form',

@@ -8,10 +8,10 @@ import {
   RoutingConfig,
   B2BUnitNode,
 } from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
 import { UnitListComponent } from './unit-list.component';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
 import createSpy = jasmine.createSpy;
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const mockOrgUnitTree: B2BUnitNode = {
   active: true,

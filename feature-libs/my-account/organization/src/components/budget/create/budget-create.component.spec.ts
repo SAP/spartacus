@@ -2,19 +2,16 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
-import { SplitViewTestingModule } from '@spartacus/storefront';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { BudgetCreateComponent } from './budget-create.component';
 import { By } from '@angular/platform-browser';
 import { BudgetFormService } from '../form/budget-form.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import createSpy = jasmine.createSpy;
 import { BudgetService } from '../../../core/services/budget.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 @Component({
   selector: 'cx-budget-form',

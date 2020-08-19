@@ -18,7 +18,7 @@ import { UnitFormModule } from '../form/unit-form.module';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { UnitCreateComponent } from './unit-create.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const orgUnitCode = 'b1';
 

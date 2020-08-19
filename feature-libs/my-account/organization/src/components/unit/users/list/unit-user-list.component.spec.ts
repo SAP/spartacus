@@ -17,13 +17,11 @@ import {
   RoutingConfig,
   B2BUser,
 } from '@spartacus/core';
-import {
-  PaginationConfig,
-  defaultStorefrontRoutesConfig,
-} from '@spartacus/storefront';
+import { PaginationConfig } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 import { UnitUserListComponent } from './unit-user-list.component';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const customerId = 'customerId1';
 

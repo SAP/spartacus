@@ -13,7 +13,7 @@ import {
   LanguageService,
   B2BUnit,
 } from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import { UnitEditComponent } from './unit-edit.component';
 import { UnitFormModule } from '../form/unit-form.module';
 import { OrgUnitService } from '../../../core/services/org-unit.service';

@@ -9,12 +9,12 @@ import { By } from '@angular/platform-browser';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UserGroupEditComponent } from './user-group-edit.component';
 import { CurrentUserGroupService } from '../current-user-group.service';
 
 import createSpy = jasmine.createSpy;
-import { SplitViewTestingModule } from '@spartacus/storefront';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 @Component({
   selector: 'cx-user-group-form',

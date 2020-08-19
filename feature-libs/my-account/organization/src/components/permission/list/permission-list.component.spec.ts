@@ -1,17 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlTestingModule,
-} from '@spartacus/core';
-import {
-  Table,
-  TableModule,
-  SplitViewTestingModule,
-  PaginationTestingModule,
-} from '@spartacus/storefront';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
@@ -22,6 +13,9 @@ import {
 import { PermissionListComponent } from './permission-list.component';
 import { PermissionType } from '../form/permission-form.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 
 const mockPermissionList: Table<PermissionModel> = {
   data: [

@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { UnitDetailsComponent } from './unit-details.component';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import createSpy = jasmine.createSpy;
 
 const code = 'b1';

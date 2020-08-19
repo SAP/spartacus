@@ -19,15 +19,12 @@ import {
   RoutingConfig,
   B2BUser,
 } from '@spartacus/core';
-import {
-  IconLoaderService,
-  defaultStorefrontRoutesConfig,
-  PaginationConfig,
-} from '@spartacus/storefront';
+import { IconLoaderService, PaginationConfig } from '@spartacus/storefront';
 import { UnitApproverListComponent } from './unit-approver-list.component';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import createSpy = jasmine.createSpy;
 import { MockIconLoaderService } from 'projects/storefrontlib/src/cms-components/misc/icon/icon.component.spec';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';

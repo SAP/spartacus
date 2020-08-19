@@ -1,17 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Permission,
-  I18nTestingModule,
-  UrlTestingModule,
-} from '@spartacus/core';
+import { Permission, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserGroupPermissionListComponent } from './user-group-permission-list.component';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CurrentUserGroupService } from '../../current-user-group.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 const userGroupCode = 'userGroupCode';
 

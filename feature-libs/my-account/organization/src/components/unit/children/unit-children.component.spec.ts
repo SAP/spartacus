@@ -10,7 +10,7 @@ import {
   RoutingConfig,
   B2BUnitNode,
 } from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 import { UnitChildrenComponent } from './unit-children.component';
 import { OrgUnitService } from '../../../core/services/org-unit.service';

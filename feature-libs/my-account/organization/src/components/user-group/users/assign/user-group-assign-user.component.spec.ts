@@ -1,17 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, B2BUser, UrlTestingModule } from '@spartacus/core';
-import {
-  Table,
-  TableModule,
-  SplitViewTestingModule,
-} from '@spartacus/storefront';
+import { I18nTestingModule, B2BUser } from '@spartacus/core';
+import { Table, TableModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CurrentUserGroupService } from '../../current-user-group.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 
 const userGroupCode = 'userGroupCode';
 

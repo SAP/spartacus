@@ -4,7 +4,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsLibModule, StorefrontConfig, StorefrontModule } from '@spartacus/storefront';
+import { CmsLibModule, StorefrontConfig } from '@spartacus/storefront';
 
 import {
   b2bLayoutConfig,
@@ -17,8 +17,6 @@ import { OrganizationModule } from '../organization.module';
 @NgModule({
   imports: [
     OrganizationModule,
-    StorefrontModule,
-
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
   ],
@@ -34,7 +32,6 @@ import { OrganizationModule } from '../organization.module';
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
-  exports: [StorefrontModule],
 })
 export class B2bStorefrontModule {
   static withConfig(

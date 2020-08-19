@@ -3,12 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
   B2BUnitNode,
   Currency,
   CurrencyService,
   I18nTestingModule,
-  UrlTestingModule,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { BudgetFormComponent } from './budget-form.component';
