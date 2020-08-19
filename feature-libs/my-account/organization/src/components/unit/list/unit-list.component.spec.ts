@@ -1,20 +1,19 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import {
+  B2BUnitNode,
   I18nTestingModule,
   OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  B2BUnitNode,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-
-import { UnitListComponent } from './unit-list.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import { InteractiveTableModule } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { BehaviorSubject } from 'rxjs';
+import { UnitListComponent } from './unit-list.component';
+
+import createSpy = jasmine.createSpy;
 
 const mockOrgUnitTree: B2BUnitNode = {
   active: true,
