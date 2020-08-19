@@ -1,3 +1,5 @@
+export * from './connectors/index';
+export * from './occ/adapters/index';
 export * from './organization-core.module';
 export * from './services/index';
 export * from './store/actions/index';
