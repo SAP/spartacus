@@ -168,101 +168,21 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     });
   });
 
-  describe('changeReplenishmentStartDate', () => {
-    describe('when form data for numbers of days and day in a month > current current numb of days', () => {
-      it('should change replenishment start date of replenishment form data', () => {
-        spyOn(
-          checkoutReplenishmentFormService,
-          'setScheduleReplenishmentFormData'
-        ).and.callThrough();
+  it('should change replenishment start date of replenishment form data', () => {
+    spyOn(
+      checkoutReplenishmentFormService,
+      'setScheduleReplenishmentFormData'
+    ).and.callThrough();
 
-        component.scheduleReplenishmentFormData.numberOfDays = '1';
-        component.scheduleReplenishmentFormData.nthDayOfMonth = '1';
+    const mockStartDate = 'new-test-start-date';
 
-        const mockStartDate = new Date('1994-02-11').toISOString();
+    component.changeReplenishmentStartDate(mockStartDate);
 
-        component.changeReplenishmentStartDate(mockStartDate);
-
-        expect(
-          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-        ).toHaveBeenCalledWith({
-          ...mockReplenishmentOrderFormData,
-          replenishmentStartDate: mockStartDate,
-        });
-      });
-    });
-
-    describe('when form data for day in a month > current current numb of days', () => {
-      it('should change replenishment start date of replenishment form data', () => {
-        spyOn(
-          checkoutReplenishmentFormService,
-          'setScheduleReplenishmentFormData'
-        ).and.callThrough();
-
-        component.scheduleReplenishmentFormData.numberOfDays = '1';
-        component.scheduleReplenishmentFormData.nthDayOfMonth = '31';
-
-        const mockStartDate = new Date('1994-02-11').toISOString();
-
-        component.changeReplenishmentStartDate(mockStartDate);
-
-        expect(
-          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-        ).toHaveBeenCalledWith({
-          ...mockReplenishmentOrderFormData,
-          nthDayOfMonth: '1',
-          replenishmentStartDate: mockStartDate,
-        });
-      });
-    });
-
-    describe('when form data for number of days > current current numb of days', () => {
-      it('should change replenishment start date of replenishment form data', () => {
-        spyOn(
-          checkoutReplenishmentFormService,
-          'setScheduleReplenishmentFormData'
-        ).and.callThrough();
-
-        component.scheduleReplenishmentFormData.nthDayOfMonth = '1';
-        component.scheduleReplenishmentFormData.numberOfDays = '31';
-
-        const mockStartDate = new Date('1994-02-11').toISOString();
-
-        component.changeReplenishmentStartDate(mockStartDate);
-
-        expect(
-          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-        ).toHaveBeenCalledWith({
-          ...mockReplenishmentOrderFormData,
-          numberOfDays: '1',
-          replenishmentStartDate: mockStartDate,
-        });
-      });
-    });
-
-    describe('when form data for numbers of days and day in a month > current current numb of days', () => {
-      it('should change replenishment start date of replenishment form data', () => {
-        spyOn(
-          checkoutReplenishmentFormService,
-          'setScheduleReplenishmentFormData'
-        ).and.callThrough();
-
-        component.scheduleReplenishmentFormData.numberOfDays = '31';
-        component.scheduleReplenishmentFormData.nthDayOfMonth = '31';
-
-        const mockStartDate = new Date('1994-02-11').toISOString();
-
-        component.changeReplenishmentStartDate(mockStartDate);
-
-        expect(
-          checkoutReplenishmentFormService.setScheduleReplenishmentFormData
-        ).toHaveBeenCalledWith({
-          ...mockReplenishmentOrderFormData,
-          numberOfDays: '1',
-          nthDayOfMonth: '1',
-          replenishmentStartDate: mockStartDate,
-        });
-      });
+    expect(
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+    ).toHaveBeenCalledWith({
+      ...mockReplenishmentOrderFormData,
+      replenishmentStartDate: mockStartDate,
     });
   });
 

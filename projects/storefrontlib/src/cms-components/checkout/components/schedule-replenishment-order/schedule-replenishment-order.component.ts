@@ -81,6 +81,10 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     this.isWeekly = type === recurrencePeriod.WEEKLY;
     this.isMonthly = type === recurrencePeriod.MONTHLY;
 
+    this.numberOfDays = this.isMonthly
+      ? this.createNumberStringArray(31)
+      : this.createNumberStringArray(30);
+
     this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
       recurrencePeriod: type,
@@ -96,46 +100,10 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   changeReplenishmentStartDate(date: string): void {
     if (Boolean(date)) {
-      this.numberOfDays = this.createNumberStringArray(
-        this.getNumberOfDayInAMonth(date)
-      );
-
-      if (
-        Number(this.scheduleReplenishmentFormData.nthDayOfMonth) >
-          Number(this.numberOfDays[this.numberOfDays.length - 1]) &&
-        Number(this.scheduleReplenishmentFormData.numberOfDays) >
-          Number(this.numberOfDays[this.numberOfDays.length - 1])
-      ) {
-        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-          ...this.scheduleReplenishmentFormData,
-          numberOfDays: '1',
-          nthDayOfMonth: '1',
-          replenishmentStartDate: date,
-        });
-      } else if (
-        Number(this.scheduleReplenishmentFormData.nthDayOfMonth) >
-        Number(this.numberOfDays[this.numberOfDays.length - 1])
-      ) {
-        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-          ...this.scheduleReplenishmentFormData,
-          nthDayOfMonth: '1',
-          replenishmentStartDate: date,
-        });
-      } else if (
-        Number(this.scheduleReplenishmentFormData.numberOfDays) >
-        Number(this.numberOfDays[this.numberOfDays.length - 1])
-      ) {
-        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-          ...this.scheduleReplenishmentFormData,
-          numberOfDays: '1',
-          replenishmentStartDate: date,
-        });
-      } else {
-        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-          ...this.scheduleReplenishmentFormData,
-          replenishmentStartDate: date,
-        });
-      }
+      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+        ...this.scheduleReplenishmentFormData,
+        replenishmentStartDate: date,
+      });
     }
   }
 
@@ -177,16 +145,11 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       this.scheduleReplenishmentFormData.recurrencePeriod ===
       recurrencePeriod.WEEKLY;
 
-    this.currentDaysOfWeek =
-      this.scheduleReplenishmentFormData.daysOfWeek.length !== 0
-        ? this.scheduleReplenishmentFormData.daysOfWeek
-        : [];
+    this.currentDaysOfWeek = this.scheduleReplenishmentFormData.daysOfWeek;
 
-    this.numberOfDays = this.createNumberStringArray(
-      this.getNumberOfDayInAMonth(
-        this.scheduleReplenishmentFormData.replenishmentStartDate
-      )
-    );
+    this.numberOfDays = this.isMonthly
+      ? this.createNumberStringArray(31)
+      : this.createNumberStringArray(30);
 
     this.numberOfWeeks = this.createNumberStringArray(12);
 
@@ -197,14 +160,6 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     return Array(n)
       .fill(0)
       .map((_, y) => (y + 1).toString());
-  }
-
-  private getNumberOfDayInAMonth(date: string): number {
-    const year = new Date(date).getFullYear();
-    const month = new Date(date).getMonth() + 1;
-    const numberOfDaysInAGivenMonth = new Date(year, month, 0).getDate();
-
-    return numberOfDaysInAGivenMonth;
   }
 
   ngOnDestroy(): void {

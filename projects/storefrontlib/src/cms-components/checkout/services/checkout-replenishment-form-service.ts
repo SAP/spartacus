@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { recurrencePeriod, ScheduleReplenishmentForm } from '@spartacus/core';
+import {
+  DaysOfWeek,
+  recurrencePeriod,
+  ScheduleReplenishmentForm,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -10,9 +14,9 @@ export class CheckoutReplenishmentFormService {
    * Default form data
    */
   readonly defaultFormData: ScheduleReplenishmentForm = {
-    daysOfWeek: [],
+    daysOfWeek: [DaysOfWeek.MONDAY],
     nthDayOfMonth: '1',
-    numberOfDays: '7',
+    numberOfDays: '14',
     numberOfWeeks: '1',
     recurrencePeriod: recurrencePeriod.DAILY,
     replenishmentStartDate: new Date().toISOString(),
