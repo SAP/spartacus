@@ -6,16 +6,14 @@ import {
 } from '@spartacus/core';
 import {
   CmsLibModule,
+  defaultCmsContentConfig,
+  mediaConfig,
   StorefrontConfig,
   StorefrontModule,
 } from '@spartacus/storefront';
 import { OrganizationModule } from '../organization.module';
-import {
-  b2bLayoutConfig,
-  defaultB2bOccConfig,
-  mediaConfig,
-} from './config/index';
-import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
+import { b2bLayoutConfig } from './config/b2b-layout-config';
+import { defaultB2bOccConfig } from './config/b2b-occ-config';
 
 @NgModule({
   imports: [
