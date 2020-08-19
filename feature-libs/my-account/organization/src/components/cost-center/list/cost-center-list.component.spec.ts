@@ -62,11 +62,6 @@ describe('CostCenterListComponent', () => {
     service = TestBed.inject(CostCenterListService);
   }));
 
-  // Not sure why this is needed, but we're failing otherwise.
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   describe('with table data', () => {
     beforeEach(() => {
       spyOn(service, 'getTable').and.returnValue(of(mockCostCenterList));
