@@ -1,20 +1,20 @@
+import { TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
   B2BAddress,
+  I18nTestingModule,
+  OrgUnitService,
+  RoutingService,
 } from '@spartacus/core';
-import { UnitAddressDetailsComponent } from './unit-address-details.component';
-import createSpy = jasmine.createSpy;
 import { ModalService, Table2Module } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
+import { SplitViewTestingModule } from '../../../../../../../../projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { CurrentUnitService } from '../../current-unit.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
-import { of } from 'rxjs';
-import { TemplateRef } from '@angular/core';
-import { SplitViewTestingModule } from '../../../../../../../../projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { UnitAddressDetailsComponent } from './unit-address-details.component';
+import createSpy = jasmine.createSpy;
 
 const code = 'b1';
 const addressId = 'a1';
@@ -46,7 +46,7 @@ class MockCurrentUnitAddressService {
   unitAddress$ = of(mockAddress);
 }
 
-describe('UnitAddressDetailsComponent', () => {
+xdescribe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
   let routingService: RoutingService;
