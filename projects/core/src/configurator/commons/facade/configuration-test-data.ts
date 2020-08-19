@@ -14,12 +14,18 @@ export const GROUP_ID_8 = '1234-56-7898';
 export const GROUP_ID_9 = '1234-56-7899';
 export const GROUP_ID_10 = '1234-56-7900';
 
+export const GROUP_ID_CONFLICT_HEADER = '9999-99-0000';
+export const GROUP_ID_CONFLICT_1 = '9999-99-0001';
+export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
+export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   groups: [
     {
       id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
         {
           name: 'ATTRIBUTE_1_CHECKBOX',
@@ -33,6 +39,7 @@ export const productConfiguration: Configurator.Configuration = {
 
     {
       id: GROUP_ID_2,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
         {
           name: 'ATTRIBUTE_2_RADIOBUTTON',
@@ -45,38 +52,59 @@ export const productConfiguration: Configurator.Configuration = {
     },
     {
       id: GROUP_ID_3,
-      attributes: [
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+      attributes: [],
+      subGroups: [
         {
-          name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
-          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
-          required: true,
-          incomplete: true,
+          id: GROUP_ID_4,
+          subGroups: [],
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [
+            {
+              name: 'ATTRIBUTE_5_STRING',
+              uiType: Configurator.UiType.STRING,
+              required: true,
+              incomplete: false,
+            },
+            {
+              name: 'ATTRIBUTE_5_DROPDOWN',
+              uiType: Configurator.UiType.DROPDOWN,
+              required: true,
+              incomplete: true,
+            },
+          ],
         },
       ],
-      subGroups: [{ id: GROUP_ID_4, subGroups: [], attributes: [] }],
     },
     {
       id: GROUP_ID_5,
-      attributes: [
-        {
-          name: 'ATTRIBUTE_5_STRING',
-          uiType: Configurator.UiType.STRING,
-          required: true,
-          incomplete: false,
-        },
-        {
-          name: 'ATTRIBUTE_5_DROPDOWN',
-          uiType: Configurator.UiType.DROPDOWN,
-          required: true,
-          incomplete: true,
-        },
-      ],
-
+      attributes: [],
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
-        { id: GROUP_ID_6, subGroups: [], attributes: [] },
+        {
+          id: GROUP_ID_6,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          subGroups: [],
+          attributes: [
+            {
+              name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
+              uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+              required: true,
+              incomplete: true,
+            },
+          ],
+        },
         {
           id: GROUP_ID_7,
-          subGroups: [{ id: GROUP_ID_8, subGroups: [], attributes: [] }],
+          groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+          subGroups: [
+            {
+              id: GROUP_ID_8,
+              groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+              subGroups: [],
+              attributes: [],
+            },
+          ],
           attributes: [],
         },
       ],
@@ -84,9 +112,12 @@ export const productConfiguration: Configurator.Configuration = {
 
     {
       id: GROUP_ID_9,
+      attributes: [],
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
         {
           id: GROUP_ID_10,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
@@ -101,12 +132,341 @@ export const productConfiguration: Configurator.Configuration = {
     },
   ],
   flatGroups: [
-    { id: GROUP_ID_1 },
-    { id: GROUP_ID_2 },
-    { id: GROUP_ID_4 },
-    { id: GROUP_ID_6 },
-    { id: GROUP_ID_7 },
-    { id: GROUP_ID_10 },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_1_CHECKBOX',
+          uiType: Configurator.UiType.CHECKBOXLIST,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_2,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_2_RADIOBUTTON',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          required: false,
+          incomplete: false,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_4,
+      subGroups: [],
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_5_STRING',
+          uiType: Configurator.UiType.STRING,
+          required: true,
+          incomplete: false,
+        },
+        {
+          name: 'ATTRIBUTE_5_DROPDOWN',
+          uiType: Configurator.UiType.DROPDOWN,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_6,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
+          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_7,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_8,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_10,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_10_DROPDOWN',
+          uiType: Configurator.UiType.DROPDOWN,
+          required: true,
+          incomplete: false,
+        },
+      ],
+    },
+  ],
+  owner: {
+    id: PRODUCT_CODE,
+    type: GenericConfigurator.OwnerType.PRODUCT,
+  },
+  interactionState: {
+    currentGroup: GROUP_ID_2,
+    menuParentGroup: GROUP_ID_3,
+    groupsStatus: {},
+    groupsVisited: {},
+  },
+};
+
+export const productConfigurationWithConflicts: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  productCode: PRODUCT_CODE,
+  groups: [
+    {
+      id: GROUP_ID_CONFLICT_HEADER,
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      attributes: [],
+      subGroups: [
+        {
+          id: GROUP_ID_CONFLICT_1,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [],
+        },
+        {
+          id: GROUP_ID_CONFLICT_2,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [],
+        },
+        {
+          id: GROUP_ID_CONFLICT_3,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [],
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_1_CHECKBOX',
+          uiType: Configurator.UiType.CHECKBOXLIST,
+          required: true,
+          incomplete: true,
+        },
+      ],
+      subGroups: [],
+    },
+
+    {
+      id: GROUP_ID_2,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_2_RADIOBUTTON',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          required: false,
+          incomplete: false,
+        },
+      ],
+      subGroups: [],
+    },
+    {
+      id: GROUP_ID_3,
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+      attributes: [],
+      subGroups: [
+        {
+          id: GROUP_ID_4,
+          subGroups: [],
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [
+            {
+              name: 'ATTRIBUTE_5_STRING',
+              uiType: Configurator.UiType.STRING,
+              required: true,
+              incomplete: false,
+            },
+            {
+              name: 'ATTRIBUTE_5_DROPDOWN',
+              uiType: Configurator.UiType.DROPDOWN,
+              required: true,
+              incomplete: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_5,
+      attributes: [],
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+      subGroups: [
+        {
+          id: GROUP_ID_6,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          subGroups: [],
+          attributes: [
+            {
+              name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
+              uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+              required: true,
+              incomplete: true,
+            },
+          ],
+        },
+        {
+          id: GROUP_ID_7,
+          groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+          subGroups: [
+            {
+              id: GROUP_ID_8,
+              groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+              subGroups: [],
+              attributes: [],
+            },
+          ],
+          attributes: [],
+        },
+      ],
+    },
+
+    {
+      id: GROUP_ID_9,
+      attributes: [],
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+      subGroups: [
+        {
+          id: GROUP_ID_10,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [
+            {
+              name: 'ATTRIBUTE_10_DROPDOWN',
+              uiType: Configurator.UiType.DROPDOWN,
+              required: true,
+              incomplete: false,
+            },
+          ],
+          subGroups: [],
+        },
+      ],
+    },
+  ],
+  flatGroups: [
+    {
+      id: GROUP_ID_CONFLICT_1,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_CONFLICT_2,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_CONFLICT_3,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_1_CHECKBOX',
+          uiType: Configurator.UiType.CHECKBOXLIST,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_2,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_2_RADIOBUTTON',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          required: false,
+          incomplete: false,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_4,
+      subGroups: [],
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_5_STRING',
+          uiType: Configurator.UiType.STRING,
+          required: true,
+          incomplete: false,
+        },
+        {
+          name: 'ATTRIBUTE_5_DROPDOWN',
+          uiType: Configurator.UiType.DROPDOWN,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_6,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
+          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+          required: true,
+          incomplete: true,
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_7,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_8,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [],
+    },
+    {
+      id: GROUP_ID_10,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [
+        {
+          name: 'ATTRIBUTE_10_DROPDOWN',
+          uiType: Configurator.UiType.DROPDOWN,
+          required: true,
+          incomplete: false,
+        },
+      ],
+    },
   ],
   owner: {
     id: PRODUCT_CODE,

@@ -11,6 +11,7 @@ import {
   GROUP_ID_2,
   GROUP_ID_4,
   productConfiguration,
+  productConfigurationWithConflicts,
 } from './configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -176,18 +177,6 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
-  it('should delegate setting the current group to the store', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    classUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
-    const expectedAction = new ConfiguratorActions.SetCurrentGroup({
-      entityKey: productConfiguration.owner.key,
-      currentGroup: GROUP_ID_1,
-    });
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should delegate setting the parent group to the store', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
@@ -265,5 +254,49 @@ describe('ConfiguratorGroupsService', () => {
       productConfiguration.groups[2]
     );
     expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalled();
+  });
+
+  it('should get first conflict group from configuration, no conflicts', () => {
+    expect(classUnderTest.getFirstConflictGroup(productConfiguration)).toBe(
+      undefined
+    );
+  });
+
+  it('should get first conflict group from configuration', () => {
+    expect(
+      classUnderTest.getFirstConflictGroup(productConfigurationWithConflicts)
+    ).toBe(productConfigurationWithConflicts.flatGroups[0]);
+  });
+
+  it('should go to conflict solver', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfigurationWithConflicts)
+    );
+    classUnderTest.navigateToConflictSolver(
+      productConfigurationWithConflicts.owner
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.ChangeGroup({
+        configuration: productConfigurationWithConflicts,
+        groupId: productConfigurationWithConflicts.flatGroups[0].id,
+        parentGroupId: productConfigurationWithConflicts.groups[0].id,
+      })
+    );
+  });
+
+  it('should go to first incomplete group', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
+    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: productConfiguration.flatGroups[0].id,
+        parentGroupId: null,
+      })
+    );
   });
 });

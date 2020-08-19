@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { GenericConfigUtilsService, OrderEntry } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon';
-import { OrderEntry } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configure-issues-notification',
@@ -13,7 +13,7 @@ export class ConfigureIssuesNotificationComponent {
   @Input() disabled: boolean;
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
 
   /**
    * Verifies whether the item has any issues.
@@ -21,7 +21,7 @@ export class ConfigureIssuesNotificationComponent {
    * @returns {boolean} - whether there are any issues
    */
   hasIssues(): boolean {
-    return this.getNumberOfIssues() > 0;
+    return this.genericConfigUtilsService.hasIssues(this.item);
   }
 
   /**
@@ -30,15 +30,7 @@ export class ConfigureIssuesNotificationComponent {
    * @returns {number} - the number of issues at the cart item
    */
   getNumberOfIssues(): number {
-    let numberOfIssues = 0;
-    if (this.item.statusSummaryList) {
-      this.item.statusSummaryList.forEach((statusSummary) => {
-        if (statusSummary.status === 'ERROR') {
-          numberOfIssues = statusSummary.numberOfIssues;
-        }
-      });
-    }
-    return numberOfIssues;
+    return this.genericConfigUtilsService.getNumberOfIssues(this.item);
   }
 
   /**

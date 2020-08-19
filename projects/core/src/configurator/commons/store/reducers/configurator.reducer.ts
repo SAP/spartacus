@@ -154,8 +154,8 @@ function setInitialCurrentGroup(
   }
   let initialCurrentGroup = null;
 
-  if (state?.groups?.length > 0) {
-    initialCurrentGroup = state?.groups[0]?.id;
+  if (state?.flatGroups?.length > 0) {
+    initialCurrentGroup = state?.flatGroups[0]?.id;
   }
 
   const result = {

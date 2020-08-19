@@ -17,6 +17,15 @@ export class ConfigureCartEntryComponent {
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
 
+  /**
+   * Verifies whether the entry has any issues.
+   *
+   * @returns {boolean} - whether there are any issues
+   */
+  hasIssues(): boolean {
+    return this.genericConfigUtilsService.hasIssues(this.cartEntry);
+  }
+
   public getOwnerType(): GenericConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
       ? GenericConfigurator.OwnerType.ORDER_ENTRY
