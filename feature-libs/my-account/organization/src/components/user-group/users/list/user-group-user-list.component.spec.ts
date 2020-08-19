@@ -5,10 +5,11 @@ import { B2BUser, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
 
@@ -54,6 +55,7 @@ describe('UserGroupUserListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewTestingModule,
       ],
       declarations: [UserGroupUserListComponent],
       providers: [
