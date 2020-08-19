@@ -10,8 +10,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetFormService } from '../form/budget-form.service';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -22,7 +22,7 @@ import { CurrentBudgetService } from '../current-budget.service';
 export class BudgetEditComponent {
   protected code$ = this.currentBudgetService.code$;
 
-  protected budget$: Observable<Budget> = this.currentBudgetService.code$.pipe(
+  protected budget$: Observable<Budget> = this.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
