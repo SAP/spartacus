@@ -1,23 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, I18nTestingModule } from '@spartacus/core';
+import { B2BUser, I18nTestingModule, Permission } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserService } from '../../current-user.service';
 import { UserUserGroupListComponent } from './user-user-group-list.component';
 import { UserUserGroupListService } from './user-user-group-list.service';
-
-const userCode = 'userCode';
-
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userCode }),
-  };
-  snapshot = {};
-}
 
 const mockUserList: Table<Permission> = {
   data: [
@@ -38,10 +30,24 @@ const mockUserList: Table<Permission> = {
   structure: { type: '' },
 };
 
-export class MockUserUserListService {
+class MockUserUserListService {
   getTable(_code) {
     return of(mockUserList);
   }
+}
+
+const customerId = 'b1';
+
+const mockUser: B2BUser = {
+  customerId,
+  uid: 'userCode',
+  name: 'user1',
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
+};
+
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  code$ = of(customerId);
+  user$ = of(mockUser);
 }
 
 describe('UserUserGroupListComponent', () => {
@@ -57,10 +63,11 @@ describe('UserUserGroupListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewTestingModule,
       ],
       declarations: [UserUserGroupListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CurrentUserService, useClass: MockCurrentUserService },
         {
           provide: UserUserGroupListService,
           useClass: MockUserUserListService,
@@ -75,7 +82,6 @@ describe('UserUserGroupListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });

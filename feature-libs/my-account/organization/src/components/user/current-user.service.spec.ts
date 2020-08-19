@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUserService, B2BUser } from '@spartacus/core';
+import { B2BUser, B2BUserService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUserService } from './current-user.service';
@@ -29,10 +29,6 @@ describe('CurrentUserService', () => {
 
     b2bUserService = TestBed.inject(B2BUserService);
     service = TestBed.inject(CurrentUserService);
-  });
-
-  afterEach(() => {
-    mockParams.complete();
   });
 
   describe('code$', () => {

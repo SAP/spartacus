@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import {
   B2BUser,
   B2BUserService,
@@ -14,9 +13,10 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { UserChangePasswordComponent } from './user-change-password.component';
-import { CurrentUserService } from '../current-user.service';
+import { of } from 'rxjs';
 import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
+import { CurrentUserService } from '../current-user.service';
+import { UserChangePasswordComponent } from './user-change-password.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -71,6 +71,14 @@ class MockChangePasswordFormService
   }
 }
 
+@Component({
+  selector: 'cx-change-password-form',
+  template: '',
+})
+class MockChangePasswordFormComponent {
+  @Input() form;
+}
+
 describe('UserChangePasswordComponent', () => {
   let component: UserChangePasswordComponent;
   let fixture: ComponentFixture<UserChangePasswordComponent>;
@@ -90,7 +98,11 @@ describe('UserChangePasswordComponent', () => {
         IconTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [UserChangePasswordComponent, MockUserFormComponent],
+      declarations: [
+        UserChangePasswordComponent,
+        MockChangePasswordFormComponent,
+        MockUserFormComponent,
+      ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: B2BUserService, useClass: MockB2BUserService },
@@ -121,13 +133,13 @@ describe('UserChangePasswordComponent', () => {
     fixture = TestBed.createComponent(UserChangePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'))
+      .nativeElement;
     changePasswordFormComponent = fixture.debugElement.query(
       By.css('cx-change-password-form')
     ).componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
@@ -138,19 +150,19 @@ describe('UserChangePasswordComponent', () => {
 
   describe('save valid form', () => {
     it('should disable form on save ', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(changePasswordFormComponent.form.disabled).toBeTruthy();
     });
 
     it('should update user', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(userService.update).toHaveBeenCalledWith(customerId, {
         customerId,
       });
     });
 
     it('should navigate to the detail page', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'userDetails',
         params: { customerId },
