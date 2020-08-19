@@ -99,11 +99,13 @@ export class OutletDirective implements OnDestroy, OnChanges {
   }
 
   private buildOutlet(position: OutletPosition): void {
-    let templates = this.outletService.get(
-      this.cxOutlet,
-      position,
-      USE_STACKED_OUTLETS
+    let templates: any[] = <any[]>(
+      this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
+
+    if (!templates && position === OutletPosition.REPLACE) {
+      templates = [this.templateRef];
+    }
 
     // Just in case someone extended the `OutletService` and
     // returns a singular object.
@@ -113,11 +115,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
     templates = templates?.filter((el) => !this.renderedTemplate.includes(el));
 
-    if (!templates && position === OutletPosition.REPLACE) {
-      templates = [this.templateRef];
-    }
-
-    const components: Array<ComponentRef<any> | EmbeddedViewRef<any>> = [];
+    const components = [];
     templates.forEach((obj) => {
       const component = this.create(obj, position);
       components.push(component);
@@ -127,7 +125,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
   }
 
   private create(
-    tmplOrFactory: TemplateRef<any> | ComponentFactory<any>,
+    tmplOrFactory: any,
     position: OutletPosition
   ): ComponentRef<any> | EmbeddedViewRef<any> {
     this.renderedTemplate.push(tmplOrFactory);
