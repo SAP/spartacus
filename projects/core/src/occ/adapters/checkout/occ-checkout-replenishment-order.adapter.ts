@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   CheckoutReplenishmentOrderAdapter,
+  REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '../../../checkout/index';
 import {
@@ -27,6 +28,11 @@ export class OccCheckoutReplenishmentOrderAdapter
     termsChecked: boolean,
     userId: string
   ): Observable<ReplenishmentOrder> {
+    scheduleReplenishmentForm = this.converter.convert(
+      scheduleReplenishmentForm,
+      REPLENISHMENT_ORDER_FORM_SERIALIZER
+    );
+
     const params = new HttpParams()
       .set('cartId', cartId)
       .set('termsChecked', termsChecked.toString())
