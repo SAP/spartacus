@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BSearchConfig,
   EntitiesModel,
@@ -121,7 +122,7 @@ describe('OrderApprovalListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
         OrderApprovalListComponent,
         MockUrlPipe,
