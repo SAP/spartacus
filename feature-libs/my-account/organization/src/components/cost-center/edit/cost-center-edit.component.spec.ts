@@ -15,8 +15,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../current-cost-center.service';
-import { CostCenterEditComponent } from './cost-center-edit.component';
 import { CostCenterFormService } from '../form/cost-center-form.service';
+import { CostCenterEditComponent } from './cost-center-edit.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -124,11 +124,6 @@ describe('CostCenterEditComponent', () => {
     costCenterFormComponent = fixture.debugElement.query(
       By.css('cx-cost-center-form')
     ).componentInstance;
-  });
-
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
