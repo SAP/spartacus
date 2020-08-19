@@ -145,6 +145,7 @@
             bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
             bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
             placeholder="{{ 'unit.addressForm.selectOne' | cxTranslate }}"
+            appendTo=".organization"
           >
           </ng-select>
           <cx-form-errors

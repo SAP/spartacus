@@ -4,22 +4,29 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { UserDetailsComponent } from './user-details.component';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { CurrentUserService } from '../current-user.service';
+import { UserDetailsComponent } from './user-details.component';
 
 import createSpy = jasmine.createSpy;
-import { B2BUserService } from '../../../core/services/b2b-user.service';
 
-const userCode = 'b1';
+const customerId = 'b1';
 
 const mockUser: B2BUser = {
-  uid: userCode,
+  customerId,
+  uid: 'userCode',
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
+
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  code$ = of(customerId);
+  user$ = of(mockUser);
+}
 
 class MockB2BUserService implements Partial<B2BUserService> {
   load = createSpy('load');
@@ -28,7 +35,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 class MockActivatedRoute {
-  params = of({ code: userCode });
+  params = of({ code: customerId });
 
   snapshot = {};
 }
@@ -64,8 +71,18 @@ describe('UserDetailsComponent', () => {
         { provide: B2BUserService, useClass: MockB2BUserService },
         { provide: ModalService, useClass: MockModalService },
       ],
-    }).compileComponents();
-
+    })
+      .overrideComponent(UserDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserService,
+              useClass: MockCurrentUserService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
     usersService = TestBed.inject(B2BUserService);
   }));
 
@@ -81,6 +98,6 @@ describe('UserDetailsComponent', () => {
 
   it('should update user', () => {
     component.update(mockUser);
-    expect(usersService.update).toHaveBeenCalledWith(mockUser.uid, mockUser);
+    expect(usersService.update).toHaveBeenCalledWith(customerId, mockUser);
   });
 });

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from '../current-cost-center.service';
+import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CostCenterEditComponent } from './cost-center-edit.component';
 import { CostCenterService } from '../../../core/services/cost-center.service';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
@@ -60,6 +61,14 @@ class MockRoutingService {
   );
 }
 
+class MockCostCenterFormService implements Partial<CostCenterFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      code: new FormControl(costCenterCode),
+    });
+  }
+}
+
 describe('CostCenterEditComponent', () => {
   let component: CostCenterEditComponent;
   let fixture: ComponentFixture<CostCenterEditComponent>;
@@ -81,14 +90,22 @@ describe('CostCenterEditComponent', () => {
       ],
       declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
       providers: [
+        { provide: CostCenterFormService, useClass: MockCostCenterFormService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
-        {
-          provide: CurrentCostCenterService,
-          useClass: MockCurrentCostCenterService,
-        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CostCenterEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentCostCenterService,
+              useClass: MockCurrentCostCenterService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     costCenterService = TestBed.inject(CostCenterService);
 
@@ -105,11 +122,6 @@ describe('CostCenterEditComponent', () => {
     ).componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -120,9 +132,11 @@ describe('CostCenterEditComponent', () => {
       expect(costCenterFormComponent.form.disabled).toBeTruthy();
     });
 
-    it('should create cost center', () => {
+    it('should update cost center', () => {
       saveButton.nativeElement.click();
-      expect(costCenterService.update).toHaveBeenCalled();
+      expect(costCenterService.update).toHaveBeenCalledWith(costCenterCode, {
+        code: costCenterCode,
+      });
     });
 
     it('should navigate to the detail page', () => {

@@ -46,6 +46,7 @@
             bindLabel="name"
             bindValue="code"
             [class.invalid]="isNotValid('approvalProcess')"
+            appendTo=".organization"
           >
           </ng-select>
           <cx-form-errors
@@ -74,6 +75,7 @@
             bindLabel="name"
             bindValue="id"
             [class.invalid]="isNotValid('parentOrgUnit')"
+            appendTo=".organization"
           >
           </ng-select>
           <cx-form-errors

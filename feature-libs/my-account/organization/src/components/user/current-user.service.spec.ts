@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter } from '@spartacus/core';
+import { B2BUser } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CostCenterService } from '../../core/services/cost-center.service';
+import { B2BUserService } from '../../core/services/b2b-user.service';
 import { CurrentUserService } from './current-user.service';
 
-export class MockCostCenterService implements Partial<CostCenterService> {
+export class MockB2BUserService implements Partial<B2BUserService> {
   get() {
     return of(undefined);
   }
@@ -14,7 +14,7 @@ export class MockCostCenterService implements Partial<CostCenterService> {
 
 describe('CurrentUserService', () => {
   let service: CurrentUserService;
-  let costCenterService: CostCenterService;
+  let b2bUserService: B2BUserService;
   let mockParams: Subject<object>;
 
   beforeEach(() => {
@@ -24,16 +24,12 @@ describe('CurrentUserService', () => {
       providers: [
         CurrentUserService,
         { provide: ActivatedRoute, useValue: { params: mockParams } },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: B2BUserService, useClass: MockB2BUserService },
       ],
     });
 
-    costCenterService = TestBed.inject(CostCenterService);
+    b2bUserService = TestBed.inject(B2BUserService);
     service = TestBed.inject(CurrentUserService);
-  });
-
-  afterEach(() => {
-    mockParams.complete();
   });
 
   describe('code$', () => {
@@ -64,23 +60,23 @@ describe('CurrentUserService', () => {
 
   describe('model$', () => {
     it('should expose model for the current routing param `code`', () => {
-      const mockCostCenter: CostCenter = { name: 'test cost center' };
-      spyOn(costCenterService, 'get').and.returnValue(of(mockCostCenter));
+      const mockUser: B2BUser = { name: 'test cost center' };
+      spyOn(b2bUserService, 'get').and.returnValue(of(mockUser));
 
       let result;
       service.user$.subscribe((value) => (result = value));
       mockParams.next({ code: '123' });
-      expect(costCenterService.get).toHaveBeenCalledWith('123');
-      expect(result).toBe(mockCostCenter);
+      expect(b2bUserService.get).toHaveBeenCalledWith('123');
+      expect(result).toBe(mockUser);
     });
 
     it('should emit null when no current param `code`', () => {
-      spyOn(costCenterService, 'get');
+      spyOn(b2bUserService, 'get');
 
       let result;
       service.user$.subscribe((value) => (result = value));
       mockParams.next({});
-      expect(costCenterService.get).not.toHaveBeenCalled();
+      expect(b2bUserService.get).not.toHaveBeenCalled();
       expect(result).toBe(null);
     });
   });

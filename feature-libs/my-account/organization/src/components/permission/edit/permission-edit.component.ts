@@ -12,8 +12,8 @@ import {
 } from 'rxjs/operators';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { PermissionService } from '../../../core/services/permission.service';
-import { PermissionFormService } from '../form/permission-form.service';
 import { CurrentPermissionService } from '../current-permission.service';
+import { PermissionFormService } from '../form/permission-form.service';
 
 @Component({
   selector: 'cx-permission-edit',

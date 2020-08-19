@@ -1,21 +1,5 @@
 <ng-container *ngIf="form" [formGroup]="form">
-  <div class="form-group" *ngIf="form.get('code')">
-    <label>
-      <span class="label-content required">{{
-        'budget.form.code.label' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="text"
-        required
-        placeholder="{{ 'budget.form.code.placeholder' | cxTranslate }}"
-        formControlName="code"
-      />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
-    </label>
-  </div>
-
-  <div class="form-group" *ngIf="form.get('name')">
+  <div class="form-group">
     <label>
       <span class="label-content required">{{
         'budget.form.name.label' | cxTranslate
@@ -31,107 +15,118 @@
     </label>
   </div>
 
-  <ng-container
-    *ngIf="form.get('orgUnit') && units$ | async as units"
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'budget.form.code.label' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'budget.form.code.placeholder' | cxTranslate }}"
+        formControlName="code"
+      />
+      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'budget.form.startDate' | cxTranslate
+      }}</span>
+      <cx-date-time-picker
+        formControlName="startDate"
+        [max]="form.controls.endDate.value"
+        (change)="form.controls.endDate.updateValueAndValidity()"
+      ></cx-date-time-picker>
+      <cx-form-errors
+        [control]="form.get('startDate')"
+        [translationParams]="{ max: form.controls.endDate.value | cxDate }"
+      ></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'budget.form.endDate' | cxTranslate
+      }}</span>
+      <cx-date-time-picker
+        formControlName="endDate"
+        [min]="form.controls.startDate.value"
+        (change)="form.controls.startDate.updateValueAndValidity()"
+      ></cx-date-time-picker>
+      <cx-form-errors
+        [control]="form.get('endDate')"
+        [translationParams]="{
+          min: form.controls.startDate.value | cxDate
+        }"
+      ></cx-form-errors>
+    </label>
+  </div>
+
+  <div
+    *ngIf="form.get('currency')"
+    class="form-group"
+    [formGroup]="form.get('currency')"
+  >
+    <label aria-required="true">
+      <span class="label-content required">{{
+        'budget.form.currency' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="isocode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="currencies$ | async"
+        bindLabel="name"
+        bindValue="isocode"
+        [class.invalid]="form.get('currency.isocode').invalid"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div *ngIf="form.get('budget')" class="form-group">
+    <label>
+      <span class="label-content">{{
+        'budget.form.amount.label' | cxTranslate
+      }}</span>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="{{ 'budget.form.amount.placeholder' | cxTranslate }}"
+        formControlName="budget"
+      />
+      <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div
+    *ngIf="form.get('orgUnit') && b2bUnits$ | async as b2bUnits"
+    class="form-group"
     [formGroup]="form.get('orgUnit')"
   >
-    <div class="form-group">
-      <label aria-required="true">
-        <span class="label-content required">{{
-          'budget.form.businessUnits.label' | cxTranslate
-        }}</span>
-        <ng-select
-          formControlName="uid"
-          [searchable]="false"
-          [clearable]="false"
-          [items]="units"
-          bindLabel="name"
-          bindValue="id"
-          [readonly]="form.get('orgUnit.uid').disabled"
-        >
-        </ng-select>
-        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
-  <ng-container>
-    <div class="form-group">
-      <label>
-        <span class="label-content">{{
-          'budget.form.startDate' | cxTranslate
-        }}</span>
-        <cx-date-time-picker
-          formControlName="startDate"
-          [max]="form.controls.endDate.value"
-          (change)="form.controls.endDate.updateValueAndValidity()"
-        ></cx-date-time-picker>
-        <cx-form-errors
-          [control]="form.get('startDate')"
-          [translationParams]="{ max: form.controls.endDate.value | cxDate }"
-        ></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
-  <ng-container>
-    <div class="form-group">
-      <label>
-        <span class="label-content">{{
-          'budget.form.endDate' | cxTranslate
-        }}</span>
-        <cx-date-time-picker
-          formControlName="endDate"
-          [min]="form.controls.startDate.value"
-          (change)="form.controls.startDate.updateValueAndValidity()"
-        ></cx-date-time-picker>
-        <cx-form-errors
-          [control]="form.get('endDate')"
-          [translationParams]="{
-            min: form.controls.startDate.value | cxDate
-          }"
-        ></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="form.get('currency')" [formGroup]="form.get('currency')">
-    <div class="form-group">
-      <label aria-required="true">
-        <span class="label-content required">{{
-          'budget.form.currency' | cxTranslate
-        }}</span>
-        <ng-select
-          formControlName="isocode"
-          [searchable]="false"
-          [clearable]="false"
-          [items]="currencies$ | async"
-          bindLabel="name"
-          bindValue="isocode"
-          [class.invalid]="form.get('currency.isocode').invalid"
-        >
-        </ng-select>
-        <cx-form-errors
-          [control]="form.get('currency.isocode')"
-        ></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="form.get('budget')">
-    <div class="form-group">
-      <label>
-        <span class="label-content">{{
-          'budget.form.amount.label' | cxTranslate
-        }}</span>
-        <input
-          type="number"
-          class="form-control"
-          placeholder="{{ 'budget.form.amount.placeholder' | cxTranslate }}"
-          formControlName="budget"
-        />
-        <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
+    <label aria-required="true">
+      <span class="label-content required">{{
+        'budget.form.businessUnits.label' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="b2bUnits"
+        bindLabel="name"
+        bindValue="id"
+        [readonly]="form.get('orgUnit.uid').disabled"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+    </label>
+  </div>
 </ng-container>

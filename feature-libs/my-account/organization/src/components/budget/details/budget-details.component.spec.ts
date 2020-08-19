@@ -3,15 +3,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { BudgetDetailsComponent } from './budget-details.component';
-import { CurrentBudgetService } from '../current-budget.service';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { BudgetService } from '../../../core/services/budget.service';
-import createSpy = jasmine.createSpy;
-import { Budget } from '../../../core/model/budget.model';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
+import { Budget } from '../../../core/model/budget.model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetDetailsComponent } from './budget-details.component';
+import createSpy = jasmine.createSpy;
 
 const budgetCode = 'b1';
 
@@ -84,6 +84,10 @@ describe('BudgetDetailsComponent', () => {
     fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {

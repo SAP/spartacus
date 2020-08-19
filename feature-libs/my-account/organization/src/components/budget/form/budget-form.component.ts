@@ -20,7 +20,10 @@ export class BudgetFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
-  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
+  b2bUnits$: Observable<
+    B2BUnitNode[]
+  > = this.orgUnitService.getActiveUnitList();
+
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(

@@ -1,12 +1,12 @@
-import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { UserGroup } from '../../../../core/model/user-group.model';
 import { B2BUserService } from '../../../../core/services/b2b-user.service';
 import { UserUserGroupListService } from './user-user-group-list.service';
-import { UserGroup } from '../../../../core/model/user-group.model';
 
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {
   values: [
@@ -65,10 +65,10 @@ describe('UserUserGroupListService', () => {
   });
 
   it('should filter selected permissions', () => {
-    let result: Table<Permission>;
+    let result: Table<UserGroup>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(2);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('third');
+    expect(result.data[0].uid).toEqual('first');
+    expect(result.data[1].uid).toEqual('third');
   });
 });

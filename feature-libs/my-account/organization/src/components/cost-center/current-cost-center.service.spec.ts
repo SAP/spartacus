@@ -15,15 +15,17 @@ export class MockCostCenterService implements Partial<CostCenterService> {
 describe('CurrentCostCenterService', () => {
   let service: CurrentCostCenterService;
   let costCenterService: CostCenterService;
-  let mockParams: Subject<object>;
+  const mockParams: Subject<object> = new Subject();
+  const mockQueryParams: Subject<object> = new Subject();
 
   beforeEach(() => {
-    mockParams = new Subject();
-
     TestBed.configureTestingModule({
       providers: [
         CurrentCostCenterService,
-        { provide: ActivatedRoute, useValue: { params: mockParams } },
+        {
+          provide: ActivatedRoute,
+          useValue: { params: mockParams, queryParams: mockQueryParams },
+        },
         { provide: CostCenterService, useClass: MockCostCenterService },
       ],
     });
@@ -32,8 +34,8 @@ describe('CurrentCostCenterService', () => {
     service = TestBed.inject(CurrentCostCenterService);
   });
 
-  afterEach(() => {
-    mockParams.complete();
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
   });
 
   describe('code$', () => {
@@ -59,6 +61,22 @@ describe('CurrentCostCenterService', () => {
       mockParams.next({ name: 'name1', code: 'code' });
       mockParams.next({ name: 'name2', code: 'code' });
       expect(results).toEqual(['code']);
+    });
+  });
+
+  describe('parentUnit$', () => {
+    it('should emit parentUnit$ from query parameter', () => {
+      let result;
+      service.parentUnit$.subscribe((value) => (result = value));
+      mockQueryParams.next({ parentUnit: 'ppp' });
+      expect(result).toEqual('ppp');
+    });
+
+    it('should not emit parentUnit$ from query parameter', () => {
+      let result;
+      service.parentUnit$.subscribe((value) => (result = value));
+      mockQueryParams.next({ foo: 'bar' });
+      expect(result).toBeFalsy();
     });
   });
 

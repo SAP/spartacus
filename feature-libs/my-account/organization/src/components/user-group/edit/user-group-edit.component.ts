@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -9,11 +10,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CurrentUserGroupService } from '../current-user-group.service';
-import { UserGroupFormService } from '../form/user-group-form.service';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
-import { FormUtils } from '@spartacus/storefront';
+import { CurrentUserGroupService } from '../current-user-group.service';
+import { UserGroupFormService } from '../form/user-group-form.service';
 
 @Component({
   selector: 'cx-user-group-edit',
