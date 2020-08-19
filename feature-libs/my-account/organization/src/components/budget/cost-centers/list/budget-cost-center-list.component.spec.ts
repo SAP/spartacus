@@ -88,6 +88,10 @@ describe('BudgetCostCenterListComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterAll(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -135,7 +139,7 @@ describe('BudgetCostCenterListComponent', () => {
   describe('code$', () => {
     it('should emit the current cost center code', () => {
       let result;
-      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      component.code$.subscribe((r) => (result = r));
       expect(result).toBe(costCenterCode);
     });
   });
