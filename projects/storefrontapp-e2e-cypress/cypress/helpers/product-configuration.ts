@@ -174,7 +174,7 @@ export function isConfigPageDisplayed() {
  *
  * @return - 'True' if the product title is visible, otherwise 'false'
  */
-function isProductTitleDisplayed() {
+export function isProductTitleDisplayed() {
   cy.get('cx-config-product-title').should('be.visible');
 }
 
@@ -618,6 +618,7 @@ export function isGroupMenuDisplayed() {
 }
 
 /**
+<<<<<<< HEAD
  * Verifies whether the group title is displayed.
  *
  * @return - 'True' if the group title is visible, otherwise 'false'
@@ -667,8 +668,22 @@ function isAddToCartBtnDisplayed() {
  *
  * @return - 'True' if the group menu is not visible, otherwise 'false'
  */
-export function isGroupMenuNotDisplayed() {
-  cy.get('cx-config-group-menu').should('not.be.visible');
+export function isConfigProductTitleDisplayed() {
+  cy.get('a:contains("show more")').should('be.visible');
+}
+
+/**
+ * Verifies whether the Add To Cart Button component is displayed.
+ */
+export function isConfigAddToCartButtonDisplayed() {
+  cy.get('.cx-config-add-to-cart-btn').should('be.visible');
+}
+
+/**
+ * Verifies whether the overview content is displayed.
+ */
+export function isOverviewContentDisplayed() {
+  cy.get('.cx-config-group-attribute').should('be.visible');
 }
 
 /**

@@ -33,6 +33,7 @@ context('Product Configuration', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
       configuration.isShowMoreLinkAtProductTitleDisplayed();
+      configuration.isProductTitleDisplayed();
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -49,6 +50,8 @@ context('Product Configuration', () => {
       configuration.isUpdatingMessageNotDisplayed();
       configurationOverview.isConfigOverviewPageDisplayed();
       configurationOverview.isContinueToCartBtnDisplayed();
+      configuration.isGlobalMessageNotDisplayed();
+      configuration.isUpdatingMessageNotDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
@@ -59,7 +62,6 @@ context('Product Configuration', () => {
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
-
       configuration.selectAttribute(
         CAMERA_COLOR,
         RADIO_GROUP,
@@ -71,8 +73,8 @@ context('Product Configuration', () => {
         RADIO_GROUP,
         CAMERA_COLOR_METALLIC
       );
-      configuration.clickOnNextBtn(SPECIFICATION);
 
+      configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
