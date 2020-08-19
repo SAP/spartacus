@@ -1,7 +1,10 @@
-import * as myCompany from '../../../helpers/my-company';
 import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
+import {
+  testMyCompanyFeatureFromConfig,
+  MyCompanyConfig,
+} from '../../../helpers/my-company';
 
-const config: myCompany.MyCompanyConfig = {
+const config: MyCompanyConfig = {
   navLink: 'User Groups',
   url: `${CONTEXT_URL_EN_USD}/organization/user-group`,
   apiEndpoint: '/orgUnitUserGroup',
@@ -28,60 +31,6 @@ const config: myCompany.MyCompanyConfig = {
       },
     ],
   },
-  details: {
-    tabs: [
-      {
-        label: 'Purchase limits',
-        link: `/purchase-limits`,
-        manageLink: '/assign-purchase-limits/limitedPermissions',
-        manageSelector: 'cx-user-group-assign-permissions',
-        availableEndpoint: '**/availableOrderApprovalPermissions**',
-        availableParam: 'orderApprovalPermissions',
-        selector: 'cx-user-group-permissions',
-        objectType: 'orderApprovalPermissions',
-        rows: [
-          {
-            header: 'Code',
-            text: 'code',
-            // link: '/organization/purchase-limit/',
-          },
-          { header: 'Limit', text: 'orderApprovalPermissionType.name' },
-          // { header: 'Threshold Value', text: 'threshold' },
-          // { header: 'Time Period', text: 'periodRange' },
-          {
-            header: 'Unit',
-            text: 'orgUnit.name',
-            link: `/organization/unit/`,
-          },
-        ],
-      },
-      {
-        label: 'Users',
-        link: `/users`,
-        manageLink: '/assign-users/limitedPermissions',
-        manageSelector: 'cx-user-group-assign-users',
-        availableEndpoint: '**/availableOrgCustomers**',
-        availableParam: 'members',
-        selector: 'cx-user-group-users',
-        objectType: 'users',
-        unassignAll: true,
-        rows: [
-          {
-            text: 'uid',
-            link: '/organization/user/',
-          },
-          {
-            text: 'name',
-          },
-          {
-            text: 'orgUnit.name',
-            link: `/organization/unit/`,
-          },
-        ],
-      },
-    ],
-  },
-
   form: {
     inputs: [
       {
@@ -116,11 +65,57 @@ const config: myCompany.MyCompanyConfig = {
       ],
     },
   },
+  details: {
+    tabs: [
+      {
+        label: 'Purchase limits',
+        link: `/purchase-limits`,
+        manageLink: '/assign-purchase-limits/limitedPermissions',
+        manageSelector: 'cx-user-group-assign-permissions',
+        availableEndpoint: '**/availableOrderApprovalPermissions**',
+        availableParam: 'orderApprovalPermissions',
+        selector: 'cx-user-group-permissions',
+        objectType: 'orderApprovalPermissions',
+        rows: [
+          {
+            header: 'Code',
+            text: 'code',
+            // link: '/organization/purchase-limit/',
+          },
+          { header: 'Limit', text: 'orderApprovalPermissionType.name' },
+          {
+            header: 'Unit',
+            text: 'orgUnit.name',
+            link: `/organization/unit/`,
+          },
+        ],
+      },
+      {
+        label: 'Users',
+        link: `/users`,
+        manageLink: '/assign-users/limitedPermissions',
+        manageSelector: 'cx-user-group-assign-users',
+        availableEndpoint: '**/availableOrgCustomers**',
+        availableParam: 'members',
+        selector: 'cx-user-group-users',
+        objectType: 'users',
+        unassignAll: true,
+        rows: [
+          {
+            text: 'uid',
+            link: '/organization/user/',
+          },
+          {
+            text: 'name',
+          },
+          {
+            text: 'orgUnit.name',
+            link: `/organization/unit/`,
+          },
+        ],
+      },
+    ],
+  },
 };
 
-describe(`My Company - ${config.navLink}`, () => {
-  myCompany.testListFromConfig(config);
-  myCompany.testDetailsFromConfig(config);
-  myCompany.testCreateUpdateFromConfig(config);
-  myCompany.testAssignmentFromConfig(config);
-});
+testMyCompanyFeatureFromConfig(config);
