@@ -2,20 +2,18 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  B2BAddress,
-  I18nTestingModule,
-  OrgUnitService,
-  RoutingService,
-} from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CurrentUnitService } from '../../current-unit.service';
-import { CurrentUnitAddressService } from '../details/current-unit-address.service';
-import { UnitAddressFormService } from '../form';
+import { I18nTestingModule, RoutingService, B2BAddress } from '@spartacus/core';
+
 import { UnitAddressEditComponent } from './unit-address-edit.component';
+import { UnitAddressFormService } from '../form';
+import { CurrentUnitAddressService } from '../details/current-unit-address.service';
+import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+
 import createSpy = jasmine.createSpy;
 
 const code = 'b1';

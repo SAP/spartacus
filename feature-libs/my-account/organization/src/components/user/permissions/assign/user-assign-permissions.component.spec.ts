@@ -70,7 +70,6 @@ describe('UserAssignPermissionsComponent', () => {
           provide: UserAssignPermissionsListService,
           useClass: MockUserPermissionListService,
         },
-
         { provide: CurrentUserService, useClass: MockCurrentUserService },
       ],
     }).compileComponents();

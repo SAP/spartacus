@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Permission, PermissionService } from '@spartacus/core';
+import { Permission } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { PermissionService } from '../../core/services/permission.service';
 
 /**
  * Provides appropriate model based on the routing params.

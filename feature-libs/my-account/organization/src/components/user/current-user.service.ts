@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUser, B2BUserService } from '@spartacus/core';
+import { B2BUser } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import { B2BUserService } from '../../core/services/b2b-user.service';
 
 /**
  * Provides appropriate model based on the routing params.

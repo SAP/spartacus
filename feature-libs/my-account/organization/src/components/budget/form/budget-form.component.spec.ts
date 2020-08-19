@@ -2,17 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CurrencyService,
-  I18nTestingModule,
-  OrgUnitService,
-} from '@spartacus/core';
+import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
+import { OrgUnitService } from '../../..';
 import { BudgetFormComponent } from './budget-form.component';
 
 const mockForm = new FormGroup({

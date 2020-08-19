@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { OutletModule } from '../../../cms-structure';
-import { LayoutConfig } from '../../../layout';
+import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { LayoutConfig } from '../../../layout/config/layout-config';
 import { TableComponent } from './table.component';
 import { Table, TableHeader } from './table.model';
 

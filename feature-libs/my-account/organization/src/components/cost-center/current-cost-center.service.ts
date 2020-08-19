@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { CostCenterService } from '../../core/services/cost-center.service';
 
 /**
  * Provides appropriate model based on the routing params.

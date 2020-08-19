@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroupService, UserGroup } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { UserGroupService } from '../../core/services/user-group.service';
+import { UserGroup } from '../../core/model/user-group.model';
 
 /**
  * Provides appropriate model based on the routing params.

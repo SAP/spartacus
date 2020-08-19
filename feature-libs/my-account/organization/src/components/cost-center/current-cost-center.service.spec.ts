@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentCostCenterService } from './current-cost-center.service';
+import { CostCenterService } from '../../core/services/cost-center.service';
 
 export class MockCostCenterService implements Partial<CostCenterService> {
   get() {

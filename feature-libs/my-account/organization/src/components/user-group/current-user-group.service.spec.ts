@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { UserGroup, UserGroupService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUserGroupService } from './current-user-group.service';
-
+import { UserGroupService } from '../../core/services/user-group.service';
+import { UserGroup } from '../../core/model/user-group.model';
 export class MockUserGroupService implements Partial<UserGroupService> {
   get() {
     return of(undefined);

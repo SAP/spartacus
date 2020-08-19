@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { PermissionService, Permission } from '@spartacus/core';
+import { Permission } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
+import { PermissionService } from '../../../core/services/permission.service';
 import { CurrentPermissionService } from '../current-permission.service';
 
 @Component({

@@ -11,12 +11,12 @@ import { Observable, Subscription } from 'rxjs';
 import {
   B2BUnitNode,
   CurrencyService,
-  OrgUnitService,
   B2BApprovalProcess,
 } from '@spartacus/core';
-import { AbstractFormComponent } from '@spartacus/storefront';
 import { filter, map } from 'rxjs/operators';
 import { CurrentUnitService } from '../current-unit.service';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
 @Component({
   selector: 'cx-unit-form',

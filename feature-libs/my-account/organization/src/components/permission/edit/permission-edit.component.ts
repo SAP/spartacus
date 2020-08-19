@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { PermissionService, RoutingService, UserGroup } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -10,6 +10,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { PermissionService } from '../../../core/services/permission.service';
 import { CurrentPermissionService } from '../current-permission.service';
 import { PermissionFormService } from '../form/permission-form.service';
 

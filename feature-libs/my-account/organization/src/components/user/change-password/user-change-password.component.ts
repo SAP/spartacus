@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -10,6 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
 import { CurrentUserService } from '../current-user.service';
 

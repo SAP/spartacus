@@ -8,19 +8,20 @@ import {
   I18nTestingModule,
   Period,
   Permission,
-  PermissionService,
   RoutingService,
 } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { PermissionService } from '../../../core/services/permission.service';
 import { CurrentPermissionService } from '../current-permission.service';
 import {
   PermissionFormService,
   PermissionType,
 } from '../form/permission-form.service';
 import { PermissionEditComponent } from './permission-edit.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

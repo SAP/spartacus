@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../current-unit.service';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { FormUtils } from '@spartacus/storefront';
 
 @Component({

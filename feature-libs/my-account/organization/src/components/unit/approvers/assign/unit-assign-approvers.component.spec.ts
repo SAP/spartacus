@@ -10,22 +10,20 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, of } from 'rxjs';
+
 import {
   B2BUser,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
-  RoutingConfig,
   RoutingService,
+  RoutingConfig,
 } from '@spartacus/core';
-import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { BehaviorSubject, of } from 'rxjs';
+import { PaginationConfig } from '@spartacus/storefront';
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 import createSpy = jasmine.createSpy;
 
@@ -117,7 +115,7 @@ xdescribe('UnitAssignApproversComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitAssignApproversComponent,
         MockUrlPipe,

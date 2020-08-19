@@ -14,7 +14,6 @@ export * from './src/global-message/index';
 export * from './src/i18n/index';
 export * from './src/kyma/index';
 export * from './src/model/index';
-export * from './src/organization/index';
 export * from './src/occ/index';
 export * from './src/personalization/index';
 export * from './src/process/index';

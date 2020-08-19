@@ -4,15 +4,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { of } from 'rxjs';
+
 import {
+  I18nTestingModule,
+  B2BUnitNode,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
-  I18nTestingModule,
-  OrgUnitService,
 } from '@spartacus/core';
-import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import {
+  FormErrorsComponent,
+  DateTimePickerModule,
+} from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { UnitFormComponent } from './unit-form.component';
 
 import createSpy = jasmine.createSpy;
@@ -76,7 +80,7 @@ xdescribe('UnitFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        DatePickerModule,
+        DateTimePickerModule,
         ReactiveFormsModule,
         NgSelectModule,
         RouterTestingModule,

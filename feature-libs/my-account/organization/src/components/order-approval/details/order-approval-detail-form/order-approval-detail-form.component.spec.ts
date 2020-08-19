@@ -12,11 +12,11 @@ import {
   I18nTestingModule,
   OrderApproval,
   OrderApprovalDecisionValue,
-  OrderApprovalService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+import { OrderApprovalService } from '../../../../core/services/order-approval.service';
 
 // TODO:
 // - uncomment failing test

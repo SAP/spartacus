@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { B2BUser, B2BUserService } from '@spartacus/core';
+import { B2BUser } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, tap, shareReplay } from 'rxjs/operators';
 import { ModalService } from '@spartacus/storefront';
 import { CurrentUserService } from '../current-user.service';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 
 @Component({
   selector: 'cx-user-details',

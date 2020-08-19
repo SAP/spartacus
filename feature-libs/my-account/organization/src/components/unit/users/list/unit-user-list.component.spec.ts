@@ -1,3 +1,7 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject } from 'rxjs';
 import {
   Component,
   EventEmitter,
@@ -6,23 +10,17 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   B2BUser,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
+import { PaginationConfig } from '@spartacus/storefront';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { BehaviorSubject } from 'rxjs';
 import { UnitUserListComponent } from './unit-user-list.component';
 
 import createSpy = jasmine.createSpy;
@@ -88,7 +86,7 @@ xdescribe('UnitUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitUserListComponent,
         MockUrlPipe,

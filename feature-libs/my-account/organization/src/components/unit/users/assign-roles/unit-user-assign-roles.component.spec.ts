@@ -10,21 +10,19 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject } from 'rxjs';
+
+import { PaginationConfig } from '@spartacus/storefront';
 import {
   B2BUser,
-  B2BUserService,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
 import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { BehaviorSubject } from 'rxjs';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { UnitUserAssignRolesComponent } from './unit-user-assign-roles.component';
 
 import createSpy = jasmine.createSpy;
@@ -101,7 +99,7 @@ xdescribe('UnitAssignRolesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitUserAssignRolesComponent,
         MockUrlPipe,

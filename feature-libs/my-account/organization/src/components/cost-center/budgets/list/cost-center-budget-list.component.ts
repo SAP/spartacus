@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Budget } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Budget } from '../../../../core/model';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
