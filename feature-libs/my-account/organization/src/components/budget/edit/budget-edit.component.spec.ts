@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
@@ -39,6 +39,7 @@ const mockBudget: Budget = {
 
 class MockCurrentBudgetService {
   code$ = of(budgetCode);
+  launch = createSpy('launch').and.stub();
 }
 
 class MockBudgetFormService implements Partial<BudgetFormService> {
@@ -55,26 +56,11 @@ class MockBudgetService implements Partial<BudgetService> {
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      code: budgetCode,
-    },
-  },
-};
-
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
-}
-
 describe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
   let budgetService: BudgetService;
-  let routingService: RoutingService;
+  let currentBudgetService: CurrentBudgetService;
   let saveButton;
   let budgetFormComponent;
 
@@ -91,25 +77,14 @@ describe('BudgetEditComponent', () => {
       ],
       declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
       ],
-    })
-      .overrideComponent(BudgetEditComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentBudgetService,
-              useClass: MockCurrentBudgetService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
-    routingService = TestBed.inject(RoutingService);
+    currentBudgetService = TestBed.inject(CurrentBudgetService);
   }));
 
   beforeEach(() => {
@@ -143,10 +118,10 @@ describe('BudgetEditComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: budgetFormComponent.form.value,
-      });
+      expect(currentBudgetService.launch).toHaveBeenCalledWith(
+        'budgetDetails',
+        budgetFormComponent.form.value
+      );
     });
 
     it('should reload budget on each code change', () => {

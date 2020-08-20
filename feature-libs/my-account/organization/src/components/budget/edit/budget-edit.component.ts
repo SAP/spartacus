@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -19,7 +18,6 @@ import { BudgetFormService } from '../form/budget-form.service';
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentBudgetService],
 })
 export class BudgetEditComponent {
   protected code$ = this.currentBudgetService.code$;
@@ -44,11 +42,7 @@ export class BudgetEditComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected currentBudgetService: CurrentBudgetService,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
-    protected routingService: RoutingService
+    protected currentBudgetService: CurrentBudgetService
   ) {}
 
   save(budgetCode: string, form: FormGroup): void {
@@ -59,10 +53,7 @@ export class BudgetEditComponent {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
 
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.currentBudgetService.launch('budgetDetails', form.value);
     }
   }
 }
