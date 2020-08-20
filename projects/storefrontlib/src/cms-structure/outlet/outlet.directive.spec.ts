@@ -331,7 +331,7 @@ fdescribe('OutletDirective', () => {
     });
   });
 
-  fdescribe('ComponentFactory in outlet', () => {
+  describe('ComponentFactory in outlet', () => {
     @Component({
       template: `
         <div id="kept">
