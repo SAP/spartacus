@@ -174,6 +174,7 @@ export class SearchBoxComponentService {
 
   /**
    * Emits a 'no match' message, in case the product search results and search suggestions are empty.
+   * Otherwise it emits null.
    */
   protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
     return combineLatest([
