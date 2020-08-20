@@ -1,12 +1,11 @@
+import { InjectionToken, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { FeatureModulesService } from './feature-modules.service';
 import {
   CmsConfig,
   ConfigInitializerService,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { InjectionToken, NgModule } from '@angular/core';
+import { FeatureModulesService } from './feature-modules.service';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -122,13 +121,14 @@ describe('FeatureModulesService', () => {
     });
 
     it('should return dependency injectors', async () => {
+      const EXPECTED_LENGTH = 2;
       // initialize feature
       await service.getCmsMapping('component2').toPromise();
 
       const injectors = service.getInjectors('component2');
 
       expect(injectors).toBeTruthy();
-      expect(injectors.length).toBe(2);
+      expect(injectors.length).toBe(EXPECTED_LENGTH);
 
       const testProviderValue = injectors[1].get(TEST_DEP_TOKEN);
       expect(testProviderValue).toBe('test-dependency-value');
