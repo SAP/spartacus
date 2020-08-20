@@ -43,8 +43,7 @@ export interface CheckoutStepsState {
     selected: string;
   };
   paymentDetails: PaymentDetails;
-  orderDetails: Order;
-  replenishmentOrderDetails: ReplenishmentOrder;
+  orderDetails: Order | ReplenishmentOrder;
 }
 
 export interface PaymentTypesState {
