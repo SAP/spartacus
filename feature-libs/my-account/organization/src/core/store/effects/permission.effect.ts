@@ -12,6 +12,7 @@ import {
 import { normalizeListPage } from '../../utils/serializer';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { PermissionActions } from '../actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PermissionEffects {
@@ -27,7 +28,7 @@ export class PermissionEffects {
         map((permission: Permission) => {
           return new PermissionActions.LoadPermissionSuccess([permission]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new PermissionActions.LoadPermissionFail({
               permissionCode,
@@ -59,7 +60,7 @@ export class PermissionEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new PermissionActions.LoadPermissionsFail({
               params: payload.params,
@@ -81,7 +82,7 @@ export class PermissionEffects {
     switchMap((payload) =>
       this.permissionConnector.create(payload.userId, payload.permission).pipe(
         map((data) => new PermissionActions.CreatePermissionSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new PermissionActions.CreatePermissionFail({
               permissionCode: payload.permission.code,
@@ -105,7 +106,7 @@ export class PermissionEffects {
         .update(payload.userId, payload.permissionCode, payload.permission)
         .pipe(
           map((data) => new PermissionActions.UpdatePermissionSuccess(data)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new PermissionActions.UpdatePermissionFail({
                 permissionCode: payload.permission.code,
@@ -129,7 +130,7 @@ export class PermissionEffects {
           (permissionTypeList: OrderApprovalPermissionType[]) =>
             new PermissionActions.LoadPermissionTypesSuccess(permissionTypeList)
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new PermissionActions.LoadPermissionTypesFail({
               error: normalizeHttpError(error),

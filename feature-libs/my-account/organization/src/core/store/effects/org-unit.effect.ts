@@ -14,6 +14,7 @@ import {
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -39,7 +40,7 @@ export class OrgUnitEffects {
             new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({
               orgUnitId,
@@ -63,7 +64,7 @@ export class OrgUnitEffects {
           (orgUnitsList: B2BUnitNode[]) =>
             new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList)
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.LoadOrgUnitNodesFail({
               error: normalizeHttpError(error),
@@ -83,7 +84,7 @@ export class OrgUnitEffects {
     switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
         map((data) => new OrgUnitActions.CreateUnitSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.CreateUnitFail({
               unitCode: payload.unit.uid,
@@ -115,7 +116,7 @@ export class OrgUnitEffects {
                 orgUnitId: payload.unitCode,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.UpdateUnitFail({
                 unitCode: payload.unit.uid,
@@ -138,7 +139,7 @@ export class OrgUnitEffects {
         map(
           (orgUnit: B2BUnitNode) => new OrgUnitActions.LoadTreeSuccess(orgUnit)
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.LoadTreeFail({
               error: normalizeHttpError(error),
@@ -162,7 +163,7 @@ export class OrgUnitEffects {
           (approvalProcesses: B2BApprovalProcess[]) =>
             new OrgUnitActions.LoadApprovalProcessesSuccess(approvalProcesses)
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.LoadApprovalProcessesFail({
               error: normalizeHttpError(error),
@@ -197,7 +198,7 @@ export class OrgUnitEffects {
               }),
             ];
           }),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadAssignedUsersFail({
                 orgUnitId,
@@ -227,7 +228,7 @@ export class OrgUnitEffects {
               selected: true,
             })
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.AssignRoleFail({
               orgCustomerId,
@@ -255,7 +256,7 @@ export class OrgUnitEffects {
               selected: false,
             })
         ),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.UnassignRoleFail({
               orgCustomerId,
@@ -285,7 +286,7 @@ export class OrgUnitEffects {
                 selected: true,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.AssignApproverFail({
                 orgCustomerId,
@@ -315,7 +316,7 @@ export class OrgUnitEffects {
                 selected: false,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.UnassignApproverFail({
                 orgCustomerId,
@@ -338,7 +339,7 @@ export class OrgUnitEffects {
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
         .pipe(
           map((data) => new OrgUnitActions.CreateAddressSuccess(data)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.CreateAddressFail({
                 addressId: payload.address.id,
@@ -364,7 +365,7 @@ export class OrgUnitEffects {
           // TODO: Workaround for empty PATCH response:
           // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
           map(() => new OrgUnitActions.LoadAddresses({ userId, orgUnitId })),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.UpdateAddressFail({
                 addressId: address.id,
@@ -390,7 +391,7 @@ export class OrgUnitEffects {
             () =>
               new OrgUnitActions.DeleteAddressSuccess({ id: payload.addressId })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.DeleteAddressFail({
                 addressId: payload.addressId,

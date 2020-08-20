@@ -16,6 +16,7 @@ import {
 import { normalizeListPage } from '../../utils/serializer';
 import { UserGroup } from '../../model/user-group.model';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserGroupEffects {
@@ -30,7 +31,7 @@ export class UserGroupEffects {
         map((userGroup: UserGroup) => {
           return new UserGroupActions.LoadUserGroupSuccess([userGroup]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new UserGroupActions.LoadUserGroupFail({
               userGroupId,
@@ -62,7 +63,7 @@ export class UserGroupEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new UserGroupActions.LoadUserGroupsFail({
               params: payload.params,
@@ -101,7 +102,7 @@ export class UserGroupEffects {
               }),
             ];
           }),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.LoadPermissionsFail({
                 userGroupId: payload.userGroupId,
@@ -141,7 +142,7 @@ export class UserGroupEffects {
               }),
             ];
           }),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.LoadAvailableOrgCustomersFail({
                 userGroupId: payload.userGroupId,
@@ -164,7 +165,7 @@ export class UserGroupEffects {
     switchMap((payload) =>
       this.userGroupConnector.create(payload.userId, payload.userGroup).pipe(
         map((data) => new UserGroupActions.CreateUserGroupSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new UserGroupActions.CreateUserGroupFail({
               userGroupId: payload.userGroup.uid,
@@ -190,7 +191,7 @@ export class UserGroupEffects {
           // TODO: Workaround for empty PATCH response:
           // map(data => new UserGroupActions.UpdateUserGroupSuccess(data)),
           map(() => new UserGroupActions.LoadUserGroup(payload)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.UpdateUserGroupFail({
                 userGroupId: payload.userGroup.uid,
@@ -212,7 +213,7 @@ export class UserGroupEffects {
     switchMap((payload) =>
       this.userGroupConnector.delete(payload.userId, payload.userGroupId).pipe(
         map((data) => new UserGroupActions.DeleteUserGroupSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new UserGroupActions.DeleteUserGroupFail({
               userGroupId: payload.userGroupId,
@@ -246,7 +247,7 @@ export class UserGroupEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.AssignPermissionFail({
                 userGroupId: payload.userGroupId,
@@ -276,7 +277,7 @@ export class UserGroupEffects {
                 selected: true,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.AssignMemberFail({
                 userGroupId: payload.userGroupId,
@@ -306,7 +307,7 @@ export class UserGroupEffects {
                 selected: false,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.UnassignMemberFail({
                 userGroupId: payload.userGroupId,
@@ -341,7 +342,7 @@ export class UserGroupEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.UnassignPermissionFail({
                 userGroupId: payload.userGroupId,
@@ -371,7 +372,7 @@ export class UserGroupEffects {
                 selected: false,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new UserGroupActions.UnassignAllMembersFail({
                 userGroupId: payload.userGroupId,
