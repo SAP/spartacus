@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
@@ -6,6 +7,7 @@ import { QUERY_PARAMS } from '../constants';
 /**
  * Abstract Base class for all organization features.
  */
+@Injectable()
 export abstract class CurrentItemService<T> {
   /**
    * Observes the code parameter from the (child)route. The code parameter

@@ -40,7 +40,7 @@ class MockCurrentService extends CurrentItemService<Mock> {
   }
 }
 
-describe('BaseCurrentService', () => {
+describe('CurrentItemService', () => {
   let service: MockCurrentService;
   let routingService: RoutingService;
 
