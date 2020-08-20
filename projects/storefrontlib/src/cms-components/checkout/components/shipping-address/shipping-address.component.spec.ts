@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
   Address,
+  B2BAddress,
   CheckoutCostCenterService,
   CheckoutDeliveryService,
   I18nTestingModule,
@@ -304,9 +305,33 @@ describe('ShippingAddressComponent', () => {
     });
   });
 
+  describe('getSupportedAddresses', () => {
+    describe('ACCOUNT payment', () => {
+      it('should automatically select shipping address when there is one', () => {
+        spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
+          of([mockAddress1 as B2BAddress])
+        );
+        isAccount.next(true);
+        component.ngOnInit();
+        component.getSupportedAddresses().subscribe().unsubscribe();
+        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
+      });
+
+      it('should not select shipping address when there is more than one', () => {
+        spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
+          of([mockAddress1 as B2BAddress, mockAddress2 as B2BAddress])
+        );
+        isAccount.next(true);
+        component.ngOnInit();
+        component.getSupportedAddresses().subscribe().unsubscribe();
+        expect(component.selectAddress).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', () => {
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
+      spyOn(userCostCenterService, 'getCostCenterAddresses').and.callThrough();
       isAccount.next(true);
       component.ngOnInit();
       component.getSupportedAddresses();

@@ -107,7 +107,15 @@ export class ShippingAddressComponent implements OnInit {
         .getCostCenter()
         .pipe(take(1))
         .subscribe((selected) => (costCenterId = selected));
-      return this.userCostCenterService.getCostCenterAddresses(costCenterId);
+      return this.userCostCenterService
+        .getCostCenterAddresses(costCenterId)
+        .pipe(
+          tap((addresses) => {
+            if (addresses.length === 1) {
+              this.selectAddress(addresses[0]);
+            }
+          })
+        );
     } else {
       return this.userAddressService.getAddresses();
     }
