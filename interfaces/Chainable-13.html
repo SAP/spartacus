@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/cart.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/select-user-menu-option.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#addToCart">addToCart</a>
+                                        <a href="#selectUserMenuOption">selectUserMenuOption</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="addToCart"></a>
-                                        <span class="name"><b>addToCart</b><a href="#addToCart"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="selectUserMenuOption"></a>
+                                        <span class="name"><b>selectUserMenuOption</b><a href="#selectUserMenuOption"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>addToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>selectUserMenuOption:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Creates a new cart and adds items to it</p>
+                                    <div class="io-description"><p>Select user menu option</p>
 </div>
                                 </td>
                             </tr>
@@ -132,35 +132,42 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { createCart, addToCart } from &#x27;./utils/cart&#x27;;
-
-declare namespace Cypress {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
   interface Chainable {
     /**
-       * Creates a new cart and adds items to it
+       * Select user menu option
+       *
        * @memberof Cypress.Chainable
+       *
        * @example
         &#x60;&#x60;&#x60;
-        cy.addToCart(productCode, quantity, accessToken)
+        cy.selectUserMenuOption({
+          option: &#x27;Sign out&#x27;
+        })
         &#x60;&#x60;&#x60;
        */
-    addToCart: (itemId: string, quantity: string, accessToken: string) &#x3D;&gt; void;
+    selectUserMenuOption: ({
+      option,
+      isMobile,
+    }: {
+      option: string;
+      isMobile?: boolean;
+    }) &#x3D;&gt; void;
   }
 }
 
 Cypress.Commands.add(
-  &#x27;addToCart&#x27;,
-  (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
-    cy.server();
+  &#x27;selectUserMenuOption&#x27;,
+  ({ isMobile, option }: { option: string; isMobile?: boolean }) &#x3D;&gt; {
+    if (isMobile) {
+      // below click is exactly the same as clickHamburger() but we cannot import it here
+      cy.get(&#x27;cx-hamburger-menu [aria-label&#x3D;&quot;Menu&quot;]&#x27;).click({ force: true });
+    }
 
-    createCart(accessToken).then((response) &#x3D;&gt; {
-      cy.log(&#x60;Create cart ${JSON.stringify(response.body)}&#x60;);
-      const cartId &#x3D; response.body.code;
-      addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {
-        cy.log(&#x60;Add to cart ${cartId}&#x60;);
-        cy.wrap(cartId);
-      });
-    });
+    cy.get(&#x27;nav a&#x27;)
+      .getAllByText(new RegExp(option, &#x27;i&#x27;))
+      .first()
+      .click({ force: true });
   }
 );
 </code></pre>
@@ -190,7 +197,7 @@ Cypress.Commands.add(
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'Chainable-1.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'Chainable-13.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

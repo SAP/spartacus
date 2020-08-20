@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/order-placed.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#waitForOrderToBePlacedRequest">waitForOrderToBePlacedRequest</a>
+                                        <a href="#ngSelect">ngSelect</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="waitForOrderToBePlacedRequest"></a>
-                                        <span class="name"><b>waitForOrderToBePlacedRequest</b><a href="#waitForOrderToBePlacedRequest"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="ngSelect"></a>
+                                        <span class="name"><b>ngSelect</b><a href="#ngSelect"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>waitForOrderToBePlacedRequest:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Wait for backend to create order after completing checkout.</p>
+                                    <div class="io-description"><p>Selects in ng select</p>
 </div>
                                 </td>
                             </tr>
@@ -132,34 +132,30 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { waitForOrderToBePlacedRequest } from &#x27;./utils/order-placed&#x27;;
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Wait for backend to create order after completing checkout.
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Selects in ng select
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.waitForOrderToBePlacedRequest(contentCatalog, currency, orderNumber);
+        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
         &#x60;&#x60;&#x60;
        */
-      waitForOrderToBePlacedRequest: (
-        contentCatalog?: string,
-        currency?: string,
-        orderNumber?: string
-      ) &#x3D;&gt; void;
-    }
+    ngSelect: (option: string) &#x3D;&gt; void;
   }
 }
 
 Cypress.Commands.add(
-  &#x27;waitForOrderToBePlacedRequest&#x27;,
-  (contentCatalog &#x3D; &#x27;electronics-spa&#x27;, currency &#x3D; &#x27;USD&#x27;, orderNumber) &#x3D;&gt; {
-    waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
+  &#x27;ngSelect&#x27;,
+  {
+    prevSubject: &#x27;element&#x27;,
+  },
+  (element, option) &#x3D;&gt; {
+    cy.wrap(element).click();
+    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
   }
 );
 </code></pre>
