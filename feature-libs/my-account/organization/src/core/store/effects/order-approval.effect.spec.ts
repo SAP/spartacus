@@ -12,7 +12,7 @@ import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
   OccConfig,
-  normalizeHttpError
+  normalizeHttpError,
 } from '@spartacus/core';
 
 import { B2BSearchConfig } from '../../model/search-config';

@@ -7,7 +7,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  Pipe, PipeTransform,
+  Pipe,
+  PipeTransform,
 } from '@angular/core';
 
 import {
