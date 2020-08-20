@@ -12,12 +12,12 @@ import { CostCenterActions, BudgetActions } from '../actions/index';
 import * as fromEffects from './cost-center.effect';
 import { B2BSearchConfig } from '../../model/search-config';
 
-import { CostCenter, OccConfig } from '@spartacus/core';
+import { CostCenter, OccConfig, normalizeHttpError } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { Budget } from '../../model/budget.model';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const costCenterCode = 'testCode';
 const userId = 'testUser';
 const costCenter: CostCenter = {

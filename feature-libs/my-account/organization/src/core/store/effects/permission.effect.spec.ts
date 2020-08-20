@@ -10,6 +10,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
   OccConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionActions } from '../actions/index';
@@ -18,7 +19,7 @@ import createSpy = jasmine.createSpy;
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const permissionCode = 'testCode';
 const userId = 'testUser';
 const permission: Permission = {

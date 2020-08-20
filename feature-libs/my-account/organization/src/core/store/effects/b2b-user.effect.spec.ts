@@ -20,12 +20,13 @@ import {
   B2BUser,
   OccConfig,
   RoutingService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { UserGroup } from '../../model/user-group.model';
 import { B2BUserConnector } from '../../connectors';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
 

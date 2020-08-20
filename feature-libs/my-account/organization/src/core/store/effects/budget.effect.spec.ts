@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, normalizeHttpError } from '@spartacus/core';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -16,7 +16,7 @@ import { Budget } from '../../model/budget.model';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const budgetCode = 'testCode';
 const userId = 'testUser';
 const budget: Budget = {
