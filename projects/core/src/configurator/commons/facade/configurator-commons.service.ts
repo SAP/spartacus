@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
@@ -138,6 +138,11 @@ export class ConfiguratorCommonsService {
       .isStable()
       .pipe(
         take(1),
+        tap((stable) => {
+          if (isDevMode() && !stable) {
+            console.warn('Cart is busy, no configuration updates possible');
+          }
+        }),
         filter((stable) => stable),
         switchMapTo(
           this.store.pipe(
