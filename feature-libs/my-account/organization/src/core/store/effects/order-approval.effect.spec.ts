@@ -12,6 +12,7 @@ import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
   OccConfig,
+  normalizeHttpError
 } from '@spartacus/core';
 
 import { B2BSearchConfig } from '../../model/search-config';
@@ -21,7 +22,7 @@ import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const orderApprovalCode = 'testCode';
 const userId = 'testUser';
 const orderApproval: OrderApproval = {

@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { EntitiesModel, ListModel, B2BAddress } from '@spartacus/core';
+import { EntitiesModel, ListModel, B2BAddress, normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -22,7 +22,7 @@ import createSpy = jasmine.createSpy;
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 
-const error = 'error';
+const error = normalizeHttpError('error');
 const userId = 'testUser';
 
 const orgUnitId = 'testOrgUnitId';
