@@ -166,6 +166,70 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
+  productConfigurationPage: [
+    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT,
+    },
+    {
+      value: 'Basics',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Specification',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Display',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Lens',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Options',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'Next',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+
+  productConfigurationOverview: [
+    {
+      value: 'show more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Continue to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   cart: [
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',

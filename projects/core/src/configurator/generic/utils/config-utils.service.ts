@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../../../model';
+import { Cart, OrderEntry } from '../../../model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
 
@@ -72,5 +72,31 @@ export class GenericConfigUtilsService {
     return cart.user.uid === OCC_USER_ID_ANONYMOUS
       ? cart.user.uid
       : OCC_USER_ID_CURRENT;
+  }
+
+  /**
+   * Verifies whether the item has any issues.
+   *
+   * @param cartItem - Cart item
+   * @returns {boolean} - whether there are any issues
+   */
+  hasIssues(cartItem: OrderEntry): boolean {
+    return this.getNumberOfIssues(cartItem) > 0;
+  }
+
+  /**
+   * Retrieves the number of issues at the cart item.
+   *
+   * @param cartItem - Cart item
+   * @returns {number} - the number of issues at the cart item
+   */
+  getNumberOfIssues(cartItem: OrderEntry): number {
+    let numberOfIssues = 0;
+    cartItem?.statusSummaryList?.forEach((statusSummary) => {
+      if (statusSummary.status === 'ERROR') {
+        numberOfIssues = statusSummary.numberOfIssues;
+      }
+    });
+    return numberOfIssues;
   }
 }

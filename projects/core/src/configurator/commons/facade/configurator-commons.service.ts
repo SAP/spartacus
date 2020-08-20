@@ -190,6 +190,24 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  /**
+   * Verifies weather the configuration contains conflicts
+   *
+   * @param owner - Configuration owner
+   *
+   * @returns {Observable<boolean>} - Returns true if the configuration has conflicts, otherwise false
+   */
+  hasConflicts(owner: GenericConfigurator.Owner): Observable<boolean> {
+    return this.getConfiguration(owner).pipe(
+      map(
+        (configuration) =>
+          //We expect that the first group must always be the conflict group
+          configuration.groups[0]?.groupType ===
+          Configurator.GroupType.CONFLICT_HEADER_GROUP
+      )
+    );
+  }
+
   ////
   // Helper methods
   ////

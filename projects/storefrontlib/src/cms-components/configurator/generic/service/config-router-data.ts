@@ -11,5 +11,6 @@ export namespace ConfigurationRouter {
     owner?: GenericConfigurator.Owner;
     displayOnly?: boolean;
     forceReload?: boolean;
+    resolveIssues?: boolean;
   }
 }

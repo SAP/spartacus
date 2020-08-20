@@ -37,6 +37,8 @@ export class ConfigRouterExtractorService {
             routingData.state.url
           ),
           displayOnly: routingData.state.params.displayOnly,
+          resolveIssues:
+            routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
           pageType: routingData.state.url.includes('configureOverview')
             ? ConfigurationRouter.PageType.OVERVIEW

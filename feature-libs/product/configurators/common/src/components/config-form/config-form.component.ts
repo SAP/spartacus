@@ -66,6 +66,27 @@ export class ConfigFormComponent implements OnInit {
             routingData.owner
           );
         }
+
+        //In case of resolving issues, check if the configuration contains conflicts,
+        //if not, check if the configuration contains missing mandatory fields and show the group
+        if (routingData.resolveIssues) {
+          this.configuratorCommonsService
+            .hasConflicts(routingData.owner)
+            .pipe(take(1))
+            .subscribe((hasConflicts) => {
+              if (hasConflicts) {
+                this.configuratorGroupsService.navigateToConflictSolver(
+                  routingData.owner
+                );
+
+                //Only check for Incomplete group when there are no conflicts
+              } else {
+                this.configuratorGroupsService.navigateToFirstIncompleteGroup(
+                  routingData.owner
+                );
+              }
+            });
+        }
       });
   }
 

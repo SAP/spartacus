@@ -15,9 +15,10 @@ export function goToConfigurationPage(
   configuratorType: string,
   productId: string
 ): Chainable<Window> {
-  return cy.visit(
-    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`
-  );
+  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+  });
 }
 
 /**
@@ -27,7 +28,10 @@ export function goToConfigurationPage(
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToProductDetailsPage(productId: string): Chainable<Window> {
-  return cy.visit(`electronics-spa/en/USD/product/${productId}/${productId}`);
+  const location = `electronics-spa/en/USD/product/${productId}/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+  });
 }
 
 /**
@@ -45,6 +49,7 @@ export function clickOnEditConfigurationBtn(): void {
     .contains('Edit')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/cartEntry/entityKey/');
       this.isConfigurationPageIsDisplayed();
     });
 }
@@ -88,7 +93,7 @@ export function getAttributeId(attributeName: string): string {
  */
 export function selectAttribute(attributeName: string, value?: string): void {
   const attributeId = getAttributeId(attributeName);
-  const selector = '#' + attributeId + ' div div div input';
+  const selector = '#' + attributeId + ' input';
   cy.get(selector).clear().type(value);
 }
 

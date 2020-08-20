@@ -11,7 +11,7 @@
         }
       } | cxUrl
     "
-    [queryParams]="{ forceReload: true }"
+    [queryParams]="{ forceReload: true, resolveIssues: hasIssues() }"
     [disabled]="disabled"
     (click)="closeActiveModal()"
     cxAutoFocus

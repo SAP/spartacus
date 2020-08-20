@@ -13,6 +13,7 @@ import {
   GROUP_ID_7,
   GROUP_ID_8,
   productConfiguration,
+  productConfigurationWithConflicts,
 } from './configuration-test-data';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
@@ -100,6 +101,20 @@ describe('ConfiguratorGroupStatusService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
+    it('should get first incomplete group', () => {
+      expect(classUnderTest.getFirstIncompleteGroup(productConfiguration)).toBe(
+        productConfiguration.flatGroups[0]
+      );
+    });
+
+    it('should get first incomplete group - only consider non conflict groups', () => {
+      expect(
+        classUnderTest.getFirstIncompleteGroup(
+          productConfigurationWithConflicts
+        )
+      ).toBe(productConfigurationWithConflicts.flatGroups[3]);
+    });
+
     it('should return status completed if required fields are filled', () => {
       // required checkbox not filled
       expect(
@@ -111,11 +126,15 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBe(true);
       // two required attributes, only one is filled
       expect(
-        classUnderTest.checkIsGroupComplete(productConfiguration.groups[3])
+        classUnderTest.checkIsGroupComplete(
+          productConfiguration.groups[2].subGroups[0]
+        )
       ).toBe(false);
       //required single selection image not filled
       expect(
-        classUnderTest.checkIsGroupComplete(productConfiguration.groups[2])
+        classUnderTest.checkIsGroupComplete(
+          productConfiguration.groups[3].subGroups[0]
+        )
       ).toBe(false);
     });
 

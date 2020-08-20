@@ -1,8 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ConfigureIssuesNotificationComponent } from './configure-issues-notification.component';
-import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
+import { ConfigureIssuesNotificationComponent } from './configure-issues-notification.component';
 
 @Pipe({
   name: 'cxTranslate',
