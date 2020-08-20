@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CostCenterService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { Observable } from 'rxjs';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { FormUtils } from '@spartacus/storefront';
 

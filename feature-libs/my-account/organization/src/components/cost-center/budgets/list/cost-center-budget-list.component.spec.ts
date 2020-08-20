@@ -1,11 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Budget, I18nTestingModule } from '@spartacus/core';
-import { Table, TableModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  SplitViewModule,
+  SplitViewService,
+  Table,
+  TableModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
+import { Budget } from '../../../../core/model/budget.model';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
@@ -69,6 +75,7 @@ describe('CostCenterBudgetListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewModule,
       ],
       declarations: [CostCenterBudgetListComponent],
       providers: [
@@ -80,6 +87,7 @@ describe('CostCenterBudgetListComponent', () => {
           provide: CurrentCostCenterService,
           useClass: MockCurrentCostCenterService,
         },
+        SplitViewService,
       ],
     }).compileComponents();
     service = TestBed.inject(CostCenterBudgetListService);
@@ -90,7 +98,6 @@ describe('CostCenterBudgetListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });

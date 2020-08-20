@@ -7,8 +7,6 @@ import {
   Currency,
   CurrencyService,
   I18nTestingModule,
-  OrgUnitService,
-  PermissionService,
   OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
@@ -16,6 +14,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PermissionFormComponent } from './permission-form.component';
 import createSpy = jasmine.createSpy;
+import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { PermissionService } from '../../../core/services/permission.service';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {

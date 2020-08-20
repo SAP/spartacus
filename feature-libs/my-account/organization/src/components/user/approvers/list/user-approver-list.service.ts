@@ -3,10 +3,11 @@ import {
   BaseOrganizationListService,
   OrganizationTableType,
 } from '../../../shared';
-import { EntitiesModel, B2BUserService, B2BUser } from '@spartacus/core';
+import { EntitiesModel, B2BUser } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
 
 @Injectable({
   providedIn: 'root',

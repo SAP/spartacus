@@ -2,21 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  B2BUser,
-  B2BUserService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { B2BUser, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserEditComponent } from './user-edit.component';
-import { By } from '@angular/platform-browser';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { CurrentUserService } from '../current-user.service';
 import { UserFormService } from '../form/user-form.service';
+import { UserEditComponent } from './user-edit.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -120,11 +117,6 @@ describe('UserEditComponent', () => {
     saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
     userFormComponent = fixture.debugElement.query(By.css('cx-user-form'))
       .componentInstance;
-  });
-
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {

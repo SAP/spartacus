@@ -1,3 +1,4 @@
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   Component,
   DebugElement,
@@ -10,15 +11,15 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  B2BSearchConfig,
   EntitiesModel,
   I18nTestingModule,
   OrderApproval,
-  OrderApprovalService,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApprovalListComponent } from './order-approval-list.component';
+import { OrderApprovalService } from '../../../core/services/order-approval.service';
+import { B2BSearchConfig } from '../../../core/model/search-config';
+
 import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {

@@ -1,17 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, I18nTestingModule } from '@spartacus/core';
+import { B2BUser, I18nTestingModule, Permission } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserService } from '../../current-user.service';
 import { UserAssignPermissionsComponent } from './user-assign-permissions.component';
 import { UserAssignPermissionsListService } from './user-assign-permissions.service';
-
-const userCode = 'userCode';
 
 const mockPermissionList: Table<Permission> = {
   data: [
@@ -28,20 +27,25 @@ const mockPermissionList: Table<Permission> = {
   structure: { type: '' },
 };
 
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userCode }),
-    },
-  };
-  snapshot = {};
-}
-
 class MockUserPermissionListService {
   getTable(_code) {
     return of(mockPermissionList);
   }
   toggleAssign() {}
+}
+
+const customerId = 'b1';
+
+const mockUser: B2BUser = {
+  customerId,
+  uid: 'userCode',
+  name: 'user1',
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
+};
+
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  code$ = of(customerId);
+  user$ = of(mockUser);
 }
 
 describe('UserAssignPermissionsComponent', () => {
@@ -58,14 +62,15 @@ describe('UserAssignPermissionsComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
       declarations: [UserAssignPermissionsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserAssignPermissionsListService,
           useClass: MockUserPermissionListService,
         },
+        { provide: CurrentUserService, useClass: MockCurrentUserService },
       ],
     }).compileComponents();
     service = TestBed.inject(UserAssignPermissionsListService);
@@ -76,12 +81,11 @@ describe('UserAssignPermissionsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
 
-  it('should create', () => {
+  it('should create ', () => {
     expect(component).toBeTruthy();
   });
 

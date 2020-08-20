@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentBudgetService } from './current-budget.service';
+import { Budget } from '../../core/model/budget.model';
+import { BudgetService } from '../../core/services/budget.service';
 
 export class MockBudgetService implements Partial<BudgetService> {
   get() {
@@ -29,10 +30,6 @@ describe('CurrentBudgetService', () => {
 
     budgetService = TestBed.inject(BudgetService);
     service = TestBed.inject(CurrentBudgetService);
-  });
-
-  afterEach(() => {
-    mockParams.complete();
   });
 
   describe('code$', () => {

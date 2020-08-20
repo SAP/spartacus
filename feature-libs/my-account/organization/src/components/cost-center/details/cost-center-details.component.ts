@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { CostCenter, CostCenterService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../current-cost-center.service';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',

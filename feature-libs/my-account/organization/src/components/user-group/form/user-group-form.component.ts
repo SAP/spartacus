@@ -5,8 +5,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnitNode, OrgUnitService } from '@spartacus/core';
+import { B2BUnitNode } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @Component({
   selector: 'cx-user-group-form',

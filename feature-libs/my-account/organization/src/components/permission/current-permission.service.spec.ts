@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, PermissionService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentPermissionService } from './current-permission.service';
+import { PermissionService } from '../../core/services/permission.service';
 
 export class MockCostCenterService implements Partial<PermissionService> {
   get() {
@@ -29,10 +30,6 @@ describe('CurrentPermissionService', () => {
 
     costCenterService = TestBed.inject(PermissionService);
     service = TestBed.inject(CurrentPermissionService);
-  });
-
-  afterEach(() => {
-    mockParams.complete();
   });
 
   describe('code$', () => {

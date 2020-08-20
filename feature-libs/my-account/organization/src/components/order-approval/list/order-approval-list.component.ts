@@ -1,14 +1,14 @@
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  B2BSearchConfig,
   EntitiesModel,
   OrderApproval,
-  OrderApprovalService,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { OrderApprovalService } from '../../../core/services/order-approval.service';
+import { B2BSearchConfig } from '../../../core/model/search-config';
 
 @Component({
   selector: 'cx-order-approval-list',

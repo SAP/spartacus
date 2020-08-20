@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { BudgetService } from '../../core/services/budget.service';
+import { Budget } from '../../core/model/budget.model';
 
 /**
  * Provides appropriate model based on the routing params.

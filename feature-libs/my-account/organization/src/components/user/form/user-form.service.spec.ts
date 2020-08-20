@@ -15,7 +15,6 @@ describe('UserFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm();
-    console.log(form);
     expect(form.get('email')).not.toBeNull();
     expect(form.get('firstName')).not.toBeNull();
     expect(form.get('orgUnit').get('uid')).not.toBeNull();

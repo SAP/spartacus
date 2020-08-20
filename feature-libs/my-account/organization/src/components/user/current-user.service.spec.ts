@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUserService, B2BUser } from '@spartacus/core';
+import { B2BUser } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { B2BUserService } from '../../core/services/b2b-user.service';
 import { CurrentUserService } from './current-user.service';
 
 export class MockB2BUserService implements Partial<B2BUserService> {
@@ -29,10 +30,6 @@ describe('CurrentUserService', () => {
 
     b2bUserService = TestBed.inject(B2BUserService);
     service = TestBed.inject(CurrentUserService);
-  });
-
-  afterEach(() => {
-    mockParams.complete();
   });
 
   describe('code$', () => {

@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { Budget, BudgetService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, shareReplay } from 'rxjs/operators';
+import { BudgetService } from '../../../core/services/budget.service';
+import { Budget } from '../../../core/model/budget.model';
 import { CurrentBudgetService } from '../current-budget.service';
 
 @Component({

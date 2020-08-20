@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { B2BUnit, OrgUnitService } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { OrgUnitService } from '../../core/services/org-unit.service';
 
 @Injectable()
 export class CurrentUnitService {

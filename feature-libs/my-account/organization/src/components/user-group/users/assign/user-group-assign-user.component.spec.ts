@@ -1,15 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, B2BUser } from '@spartacus/core';
+import { B2BUser, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
-import { CurrentUserGroupService } from '../../current-user-group.service';
 
 const userGroupCode = 'userGroupCode';
 
@@ -57,6 +58,7 @@ describe('UserGroupAssignUserComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
       declarations: [UserGroupAssignUsersComponent],
       providers: [

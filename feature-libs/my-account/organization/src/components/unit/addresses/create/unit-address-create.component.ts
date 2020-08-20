@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { FormUtils } from '@spartacus/storefront';
 
 @Component({
