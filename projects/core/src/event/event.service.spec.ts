@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
 import { EventService } from './event.service';
 
-const eventNumbers = [1, 2, 3, 4, 100];
+const NUMTWO = 2,
+  NUMTHREE = 3,
+  NUMFOUR = 4,
+  NUMHUNDRED = 100;
+const eventNumbers = [1, NUMTWO, NUMTHREE, NUMFOUR, NUMHUNDRED];
 
 class EventA {
   a: number;
@@ -35,7 +39,7 @@ describe('EventService', () => {
 
   it('should register different event sources for different types', () => {
     service.register(EventA, of(new EventA(1), new EventA(eventNumbers[1])));
-    service.register(EventB, of(new EventB(eventNumbers[4])));
+    service.register(EventB, of(new EventB(eventNumbers[NUMFOUR])));
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
@@ -44,16 +48,16 @@ describe('EventService', () => {
 
   it('should register many sources for the same type', () => {
     service.register(EventA, of(new EventA(1), new EventA(eventNumbers[1])));
-    service.register(EventA, of(new EventA(eventNumbers[2])));
-    service.register(EventA, of(new EventA(eventNumbers[3])));
+    service.register(EventA, of(new EventA(eventNumbers[NUMTWO])));
+    service.register(EventA, of(new EventA(eventNumbers[NUMTHREE])));
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([
       new EventA(1),
       new EventA(eventNumbers[1]),
-      new EventA(eventNumbers[2]),
-      new EventA(eventNumbers[3]),
+      new EventA(eventNumbers[NUMTWO]),
+      new EventA(eventNumbers[NUMTHREE]),
     ]);
   });
 
@@ -63,11 +67,11 @@ describe('EventService', () => {
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
-    service.dispatch(new EventA(eventNumbers[2]));
+    service.dispatch(new EventA(eventNumbers[NUMTWO]));
 
     expect(results).toEqual([
       new EventA(eventNumbers[1]),
-      new EventA(eventNumbers[2]),
+      new EventA(eventNumbers[NUMTWO]),
     ]);
   });
 
@@ -78,7 +82,7 @@ describe('EventService', () => {
     );
     service.register(
       EventA,
-      of(new EventA(eventNumbers[2]), new EventA(eventNumbers[3]))
+      of(new EventA(eventNumbers[NUMTWO]), new EventA(eventNumbers[NUMTHREE]))
     );
     unregister();
 
@@ -86,8 +90,8 @@ describe('EventService', () => {
     sub = service.get(EventA).subscribe((e) => results.push(e));
 
     expect(results).toEqual([
-      new EventA(eventNumbers[2]),
-      new EventA(eventNumbers[3]),
+      new EventA(eventNumbers[NUMTWO]),
+      new EventA(eventNumbers[NUMTHREE]),
     ]);
   });
 

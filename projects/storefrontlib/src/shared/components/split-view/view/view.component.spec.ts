@@ -96,9 +96,10 @@ describe('ViewComponent', () => {
     });
 
     it('should toggle view based on hidden state', () => {
+      const EXPECTED_RESULT = 5;
       component.position = '5';
       component.hidden = true;
-      expect(service.toggle).toHaveBeenCalledWith(5, true);
+      expect(service.toggle).toHaveBeenCalledWith(EXPECTED_RESULT, true);
     });
 
     it('should force show', () => {

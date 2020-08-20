@@ -173,6 +173,7 @@ describe('DirectionService', () => {
         const TEST_LANGUAGE_2 = 'testLanguage_2';
         const TEST_DIRECTION_1 = 'testDirection_1' as DirectionMode;
         const TEST_DIRECTION_2 = 'testDirection_2' as DirectionMode;
+        const EXPECTED_TIMES_CALLED = 2;
 
         const mockActiveLanguage$ = new Subject<string>();
         spyOn(languageService, 'getActive').and.returnValue(
@@ -200,7 +201,9 @@ describe('DirectionService', () => {
           TEST_DIRECTION_2
         );
 
-        expect(service.getDirection).toHaveBeenCalledTimes(2);
+        expect(service.getDirection).toHaveBeenCalledTimes(
+          EXPECTED_TIMES_CALLED
+        );
       });
     });
   });

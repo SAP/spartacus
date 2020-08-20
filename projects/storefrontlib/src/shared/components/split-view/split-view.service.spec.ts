@@ -86,10 +86,11 @@ describe('SplitViewService', () => {
     });
 
     it('should add view with explicit hidden state', () => {
+      const INPUT_POSITION = 2;
       let result: number;
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
+      service.add(INPUT_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -271,9 +272,12 @@ describe('SplitViewService', () => {
   describe('toggle()', () => {
     it('should add view during toggling if it was not added before', () => {
       const TOGGLED_POSITION = 2;
+      const EXPECTED_TIMES_CALLED = 2;
       spyOn(service, 'add');
       service.toggle(TOGGLED_POSITION);
-      expect(service.add).toHaveBeenCalledWith(2, { hidden: false });
+      expect(service.add).toHaveBeenCalledWith(EXPECTED_TIMES_CALLED, {
+        hidden: false,
+      });
     });
 
     it('should change activeView after toggling', () => {
@@ -314,9 +318,10 @@ describe('SplitViewService', () => {
 
     it('should keep the activeView for the position if hide is forced', () => {
       let result: number;
+      const INPUT_POSITION = 2;
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
+      service.add(INPUT_POSITION);
 
       service.toggle(1, false);
       service

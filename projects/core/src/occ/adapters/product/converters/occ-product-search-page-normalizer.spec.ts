@@ -123,10 +123,12 @@ describe('OccProductSearchPageNormalizer', () => {
     });
 
     it('should fallback to default top value when topValues is an empty list', () => {
+      const EXPECTED_RESULT = 6;
+      const FACET_INDEX = 2;
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[2].topValueCount).toEqual(6);
+      expect(result.facets[FACET_INDEX].topValueCount).toEqual(EXPECTED_RESULT);
       expect(converter.convert).toHaveBeenCalled();
     });
   });
