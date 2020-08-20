@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
-import { Budget, RouterState, RoutingService } from '@spartacus/core';
+import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CurrentItemService } from './current-item.service';
 
@@ -154,7 +154,7 @@ describe('BaseCurrentService', () => {
 
   describe('model$', () => {
     it('should call getModel() with route parameter', () => {
-      const mockBudget: Budget = { name: 'test cost center' };
+      const mockBudget = { name: 'test cost center' };
       spyOn(service, 'getModel').and.returnValue(of(mockBudget));
 
       let result;
