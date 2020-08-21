@@ -15,8 +15,16 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { Budget } from '../../model/budget.model';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-const error = normalizeHttpError('error');
+const httpErrorResponse = new HttpErrorResponse({
+  error: 'error',
+  headers: new HttpHeaders().set('xxx', 'xxx'),
+  status: 500,
+  statusText: 'Unknown error',
+  url: '/xxx',
+});
+const error = normalizeHttpError(httpErrorResponse);
 const budgetCode = 'testCode';
 const userId = 'testUser';
 const budget: Budget = {
@@ -90,7 +98,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetFail action if budget not updated', () => {
-      budgetConnector.get = createSpy().and.returnValue(throwError(error));
+      budgetConnector.get = createSpy().and.returnValue(
+        throwError(httpErrorResponse)
+      );
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetFail({
         budgetCode,
@@ -122,7 +132,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
-      budgetConnector.getList = createSpy().and.returnValue(throwError(error));
+      budgetConnector.getList = createSpy().and.returnValue(
+        throwError(httpErrorResponse)
+      );
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetsFail({ error, params });
       actions$ = hot('-a', { a: action });
@@ -145,7 +157,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return CreateBudgetFail action if budget not created', () => {
-      budgetConnector.create = createSpy().and.returnValue(throwError(error));
+      budgetConnector.create = createSpy().and.returnValue(
+        throwError(httpErrorResponse)
+      );
       const action = new BudgetActions.CreateBudget({ userId, budget });
       const completion = new BudgetActions.CreateBudgetFail({
         budgetCode,
@@ -179,7 +193,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
-      budgetConnector.update = createSpy().and.returnValue(throwError(error));
+      budgetConnector.update = createSpy().and.returnValue(
+        throwError(httpErrorResponse)
+      );
       const action = new BudgetActions.UpdateBudget({
         userId,
         budgetCode,

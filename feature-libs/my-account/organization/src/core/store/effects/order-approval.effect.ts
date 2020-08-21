@@ -10,6 +10,7 @@ import {
 import { OrderApprovalActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class OrderApprovalEffects {
@@ -27,7 +28,7 @@ export class OrderApprovalEffects {
             orderApproval,
           ]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrderApprovalActions.LoadOrderApprovalFail({
               orderApprovalCode,
@@ -59,7 +60,7 @@ export class OrderApprovalEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new OrderApprovalActions.LoadOrderApprovalsFail({
               params: params,
@@ -93,7 +94,7 @@ export class OrderApprovalEffects {
               orderApprovalCode,
             }),
           ]),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new OrderApprovalActions.MakeDecisionFail({
                 orderApprovalCode: orderApprovalCode,
