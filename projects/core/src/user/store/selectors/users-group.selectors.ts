@@ -12,6 +12,7 @@ export * from './user-addresses.selectors';
 export * from './user-consents.selectors';
 export * from './user-details.selectors';
 export * from './user-orders.selectors';
+export * from './user-replenishment-orders.selectors';
 export * from './customer-coupons.selectors';
 export * from './notification-preference.selectors';
 export * from './product-interests.selectors';
