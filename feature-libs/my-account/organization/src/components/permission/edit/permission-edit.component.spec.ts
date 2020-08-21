@@ -37,7 +37,7 @@ const permissionCode = 'b1';
 
 class MockCurrentPermissionService
   implements Partial<CurrentPermissionService> {
-  code$ = of(permissionCode);
+  key$ = of(permissionCode);
 }
 
 const mockPermission: Permission = {

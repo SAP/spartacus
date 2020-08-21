@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Permission, Period } from '@spartacus/core';
+import { I18nTestingModule, Period, Permission } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { PermissionType } from '../form/permission-form.service';
-import { PermissionDetailsComponent } from './permission-details.component';
-import { PermissionService } from '../../../core/services/permission.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
+import { PermissionService } from '../../../core/services/permission.service';
 import { CurrentPermissionService } from '../current-permission.service';
+import { PermissionType } from '../form/permission-form.service';
+import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -37,7 +37,7 @@ class MockPermissionService implements Partial<PermissionService> {
 
 class MockCurrentPermissionService
   implements Partial<CurrentPermissionService> {
-  code$ = of(permissionCode);
+  key$ = of(permissionCode);
 }
 
 class MockModalService {

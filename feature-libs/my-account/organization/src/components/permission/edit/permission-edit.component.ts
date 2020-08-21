@@ -22,7 +22,7 @@ import { PermissionFormService } from '../form/permission-form.service';
   providers: [CurrentPermissionService],
 })
 export class PermissionEditComponent {
-  protected code$ = this.currentPermissionService.code$;
+  protected code$ = this.currentPermissionService.key$;
 
   protected permission$: Observable<UserGroup> = this.code$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),

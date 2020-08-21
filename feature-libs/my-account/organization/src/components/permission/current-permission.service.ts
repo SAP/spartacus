@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Permission } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { Permission, RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { PermissionService } from '../../core/services/permission.service';
+import { ROUTE_PARAMS } from '../constants';
+import { CurrentItemService } from '../shared/current-item.service';
 
-/**
- * Provides appropriate model based on the routing params.
- *
- * It's NOT meant to be provided in the root injector, BUT on the level
- * of the component activated by the route with routing params.
- */
-@Injectable()
-export class CurrentPermissionService {
+@Injectable({
+  providedIn: 'root',
+})
+export class CurrentPermissionService extends CurrentItemService<Permission> {
   constructor(
-    protected service: PermissionService,
-    protected route: ActivatedRoute
-  ) {}
+    protected routingService: RoutingService,
+    protected permissionService: PermissionService
+  ) {
+    super(routingService);
+  }
 
-  readonly code$ = this.route.params.pipe(
-    pluck('code'),
-    distinctUntilChanged()
-  );
+  protected getParamKey() {
+    return ROUTE_PARAMS.permissionCode;
+  }
 
-  /**
-   * Emits the current model or null, if there is no model available
-   */
-  readonly permission$: Observable<Permission> = this.code$.pipe(
-    switchMap((code: string) => (code ? this.service.get(code) : of(null)))
-  );
+  protected getItem(code: string): Observable<Permission> {
+    return this.permissionService.get(code);
+  }
 }
