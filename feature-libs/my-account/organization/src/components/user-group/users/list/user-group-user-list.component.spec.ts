@@ -14,7 +14,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
 const userGroupCode = 'userGroupCode';
 
 class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
-  code$ = of(userGroupCode);
+  key$ = of(userGroupCode);
 }
 
 const mockUserList: Table<B2BUser> = {
