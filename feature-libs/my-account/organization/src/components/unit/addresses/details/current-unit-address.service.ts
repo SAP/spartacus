@@ -8,8 +8,8 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CurrentUnitService } from '../../current-unit.service';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { CurrentUnitService } from '../../current-unit.service';
 
 @Injectable()
 export class CurrentUnitAddressService {
@@ -22,7 +22,7 @@ export class CurrentUnitAddressService {
   readonly id$ = this.route.params.pipe(pluck('id'), distinctUntilChanged());
 
   readonly unitAddress$: Observable<B2BAddress> = this.id$.pipe(
-    withLatestFrom(this.currentUnitService.code$),
+    withLatestFrom(this.currentUnitService.key$),
     switchMap(([id, code]) =>
       id ? this.service.getAddress(code, id) : of(null)
     )

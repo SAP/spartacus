@@ -1,4 +1,3 @@
-import { BehaviorSubject, Observable } from 'rxjs';
 import {
   Component,
   DebugElement,
@@ -10,15 +9,17 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   EntitiesModel,
   I18nTestingModule,
   OrderApproval,
   RoutingService,
 } from '@spartacus/core';
-import { OrderApprovalListComponent } from './order-approval-list.component';
-import { OrderApprovalService } from '../../../core/services/order-approval.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../../core/model/search-config';
+import { OrderApprovalService } from '../../../core/services/order-approval.service';
+import { OrderApprovalListComponent } from './order-approval-list.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -122,7 +123,7 @@ describe('OrderApprovalListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
         OrderApprovalListComponent,
         MockUrlPipe,

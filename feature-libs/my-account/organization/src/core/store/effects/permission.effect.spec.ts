@@ -10,6 +10,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
   OccConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionActions } from '../actions/index';
@@ -17,8 +18,16 @@ import * as fromEffects from './permission.effect';
 import createSpy = jasmine.createSpy;
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-const error = 'error';
+const httpErrorResponse = new HttpErrorResponse({
+  error: 'error',
+  headers: new HttpHeaders().set('xxx', 'xxx'),
+  status: 500,
+  statusText: 'Unknown error',
+  url: '/xxx',
+});
+const error = normalizeHttpError(httpErrorResponse);
 const permissionCode = 'testCode';
 const userId = 'testUser';
 const permission: Permission = {
@@ -105,7 +114,9 @@ describe('Permission Effects', () => {
     });
 
     it('should return LoadPermissionFail action if permission not updated', () => {
-      permissionConnector.get = createSpy().and.returnValue(throwError(error));
+      permissionConnector.get = createSpy().and.returnValue(
+        throwError(httpErrorResponse)
+      );
       const action = new PermissionActions.LoadPermission({
         userId,
         permissionCode,
@@ -146,7 +157,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionsFail action if permissions not loaded', () => {
       permissionConnector.getList = createSpy().and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissions({ userId, params });
       const completion = new PermissionActions.LoadPermissionsFail({
@@ -182,7 +193,7 @@ describe('Permission Effects', () => {
 
     it('should return CreatePermissionFail action if permission not created', () => {
       permissionConnector.create = createSpy().and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new PermissionActions.CreatePermission({
         userId,
@@ -226,7 +237,7 @@ describe('Permission Effects', () => {
 
     it('should return UpdatePermissionFail action if permission not created', () => {
       permissionConnector.update = createSpy('update').and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new PermissionActions.UpdatePermission({
         userId,
@@ -264,7 +275,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
       permissionConnector.getTypes = createSpy().and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissionTypes();
       const completion = new PermissionActions.LoadPermissionTypesFail({

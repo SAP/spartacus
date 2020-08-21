@@ -51,6 +51,9 @@ class MockRoutingService {
   getRouterState = createSpy('getRouterState').and.returnValue(
     of(mockRouterState)
   );
+  getParams() {
+    return of();
+  }
 }
 
 describe('CostCenterCreateComponent', () => {

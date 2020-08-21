@@ -11,7 +11,7 @@ import { UserAssignUserGroupListService } from './user-assign-user-groups.servic
   templateUrl: './user-assign-user-groups.component.html',
 })
 export class UserAssignUserGroupsComponent {
-  code$: Observable<string> = this.currentUserService.code$;
+  code$: Observable<string> = this.currentUserService.key$;
   name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(

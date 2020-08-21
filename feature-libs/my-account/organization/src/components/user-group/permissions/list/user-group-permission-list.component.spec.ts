@@ -14,7 +14,7 @@ import { UserGroupPermissionListService } from './user-group-permission-list.ser
 const userGroupCode = 'userGroupCode';
 
 class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
-  code$ = of(userGroupCode);
+  key$ = of(userGroupCode);
 }
 
 const mockUserList: Table<Permission> = {

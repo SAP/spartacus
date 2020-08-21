@@ -17,6 +17,7 @@ import {
 } from '@spartacus/core';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { UserGroup } from '../../model/user-group.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class B2BUserEffects {
@@ -31,7 +32,7 @@ export class B2BUserEffects {
         map((b2bUser: B2BUser) => {
           return new B2BUserActions.LoadB2BUserSuccess([b2bUser]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new B2BUserActions.LoadB2BUserFail({
               orgCustomerId,
@@ -59,7 +60,7 @@ export class B2BUserEffects {
           return new B2BUserActions.CreateB2BUserSuccess(data);
         }),
 
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
               orgCustomerId: payload.orgCustomer.customerId,
@@ -85,7 +86,7 @@ export class B2BUserEffects {
           // TODO: Workaround for empty PATCH response:
           // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
           map(() => new B2BUserActions.LoadB2BUser(payload)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
@@ -117,7 +118,7 @@ export class B2BUserEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new B2BUserActions.LoadB2BUsersFail({
               params: payload.params,
@@ -160,7 +161,7 @@ export class B2BUserEffects {
                   }),
                 ];
               }),
-              catchError((error) =>
+              catchError((error: HttpErrorResponse) =>
                 of(
                   new B2BUserActions.LoadB2BUserApproversFail({
                     orgCustomerId: payload.orgCustomerId,
@@ -207,7 +208,7 @@ export class B2BUserEffects {
                   }),
                 ];
               }),
-              catchError((error) =>
+              catchError((error: HttpErrorResponse) =>
                 of(
                   new B2BUserActions.LoadB2BUserPermissionsFail({
                     orgCustomerId: payload.orgCustomerId,
@@ -254,7 +255,7 @@ export class B2BUserEffects {
                   }),
                 ];
               }),
-              catchError((error) =>
+              catchError((error: HttpErrorResponse) =>
                 of(
                   new B2BUserActions.LoadB2BUserUserGroupsFail({
                     orgCustomerId: payload.orgCustomerId,
@@ -292,7 +293,7 @@ export class B2BUserEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.CreateB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
@@ -328,7 +329,7 @@ export class B2BUserEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.DeleteB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
@@ -363,7 +364,7 @@ export class B2BUserEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.CreateB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
@@ -398,7 +399,7 @@ export class B2BUserEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.DeleteB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
@@ -433,7 +434,7 @@ export class B2BUserEffects {
                 selected: data.selected,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.CreateB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,
@@ -474,7 +475,7 @@ export class B2BUserEffects {
                 selected: false,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.DeleteB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,

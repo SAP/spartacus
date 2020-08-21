@@ -8,6 +8,7 @@ import { Budget } from '../../model/budget.model';
 import { BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BudgetEffects {
@@ -22,7 +23,7 @@ export class BudgetEffects {
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.LoadBudgetFail({
               budgetCode,
@@ -54,7 +55,7 @@ export class BudgetEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.LoadBudgetsFail({
               params: payload.params,
@@ -75,7 +76,7 @@ export class BudgetEffects {
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
         map((data) => new BudgetActions.CreateBudgetSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.CreateBudgetFail({
               budgetCode: payload.budget.code,
@@ -98,7 +99,7 @@ export class BudgetEffects {
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
           map((data) => new BudgetActions.UpdateBudgetSuccess(data)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new BudgetActions.UpdateBudgetFail({
                 budgetCode: payload.budget.code,

@@ -12,6 +12,7 @@ import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
   OccConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 
 import { B2BSearchConfig } from '../../model/search-config';
@@ -20,8 +21,16 @@ import * as fromEffects from './order-approval.effect';
 import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-const error = 'error';
+const httpErrorResponse = new HttpErrorResponse({
+  error: 'error',
+  headers: new HttpHeaders().set('xxx', 'xxx'),
+  status: 500,
+  statusText: 'Unknown error',
+  url: '/xxx',
+});
+const error = normalizeHttpError(httpErrorResponse);
 const orderApprovalCode = 'testCode';
 const userId = 'testUser';
 const orderApproval: OrderApproval = {
@@ -106,7 +115,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
       orderApprovalConnector.get = createSpy().and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
@@ -154,7 +163,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
       orderApprovalConnector.getList = createSpy().and.returnValue(
-        throwError(error)
+        throwError(httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
@@ -204,7 +213,7 @@ describe('OrderApproval Effects', () => {
     it('should return MakeDecisionFail action if decision not created', () => {
       orderApprovalConnector.makeDecision = createSpy(
         'makeDecision'
-      ).and.returnValue(throwError(error));
+      ).and.returnValue(throwError(httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

@@ -13,7 +13,7 @@ export class UserGroupUserListComponent {
   /**
    * The code of the current user group
    */
-  code$ = this.currentUserGroupService.code$;
+  code$ = this.currentUserGroupService.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.userGroupUserListService.getTable(code))

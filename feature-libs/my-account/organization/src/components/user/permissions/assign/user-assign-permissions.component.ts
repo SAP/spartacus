@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserAssignPermissionsListService } from './user-assign-permissions.service';
-import { PaginationModel } from '@spartacus/core';
 import { CurrentUserService } from '../../current-user.service';
+import { UserAssignPermissionsListService } from './user-assign-permissions.service';
 
 @Component({
   selector: 'cx-user-assign-permissions',
   templateUrl: './user-assign-permissions.component.html',
 })
 export class UserAssignPermissionsComponent {
-  code$: Observable<string> = this.currentUserService.code$;
+  code$: Observable<string> = this.currentUserService.key$;
   name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(

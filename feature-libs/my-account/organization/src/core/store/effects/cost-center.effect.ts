@@ -7,6 +7,7 @@ import { CostCenterActions, BudgetActions } from '../actions/index';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import { Budget } from '../../model/budget.model';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class CostCenterEffects {
@@ -22,7 +23,7 @@ export class CostCenterEffects {
         map((costCenter: CostCenter) => {
           return new CostCenterActions.LoadCostCenterSuccess([costCenter]);
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new CostCenterActions.LoadCostCenterFail({
               costCenterCode,
@@ -54,7 +55,7 @@ export class CostCenterEffects {
             }),
           ];
         }),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new CostCenterActions.LoadCostCentersFail({
               params: payload.params,
@@ -76,7 +77,7 @@ export class CostCenterEffects {
     switchMap((payload) =>
       this.costCenterConnector.create(payload.userId, payload.costCenter).pipe(
         map((data) => new CostCenterActions.CreateCostCenterSuccess(data)),
-        catchError((error) =>
+        catchError((error: HttpErrorResponse) =>
           of(
             new CostCenterActions.CreateCostCenterFail({
               costCenterCode: payload.costCenter.code,
@@ -100,7 +101,7 @@ export class CostCenterEffects {
         .update(payload.userId, payload.costCenterCode, payload.costCenter)
         .pipe(
           map((data) => new CostCenterActions.UpdateCostCenterSuccess(data)),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new CostCenterActions.UpdateCostCenterFail({
                 costCenterCode: payload.costCenter.code,
@@ -140,7 +141,7 @@ export class CostCenterEffects {
                   }),
                 ];
               }),
-              catchError((error) =>
+              catchError((error: HttpErrorResponse) =>
                 of(
                   new CostCenterActions.LoadAssignedBudgetsFail({
                     costCenterCode,
@@ -172,7 +173,7 @@ export class CostCenterEffects {
                 selected: true,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new CostCenterActions.AssignBudgetFail({
                 budgetCode,
@@ -202,7 +203,7 @@ export class CostCenterEffects {
                 selected: false,
               })
           ),
-          catchError((error) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               new CostCenterActions.UnassignBudgetFail({
                 budgetCode,

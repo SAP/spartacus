@@ -1,14 +1,25 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
 import { PermissionListComponent } from './list/permission-list.component';
+
+const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
+const paramsMapping: ParamsMapping = {
+  permissionCode: 'code',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const permissionRoutingConfig: RoutingConfig = {
@@ -21,10 +32,12 @@ export const permissionRoutingConfig: RoutingConfig = {
         paths: ['organization/purchase-limits/create'],
       },
       permissionDetails: {
-        paths: ['organization/purchase-limits/:code'],
+        paths: [listPath],
+        paramsMapping,
       },
       permissionEdit: {
-        paths: ['organization/purchase-limits/edit/:code'],
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
     },
   },
@@ -41,12 +54,12 @@ export const permissionCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: 'edit/:code',
+          path: `:${ROUTE_PARAMS.permissionCode}/edit`,
           component: PermissionEditComponent,
         },
       ],
