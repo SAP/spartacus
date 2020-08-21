@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { UnitAddressFormService } from '../form/unit-address-form.service';
-import { CurrentUnitService } from '../../current-unit.service';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { CurrentUnitService } from '../../current-unit.service';
+import { UnitAddressFormService } from '../form/unit-address-form.service';
 
 @Component({
   selector: 'cx-unit-address-create',
   templateUrl: './unit-address-create.component.html',
 })
 export class UnitAddressCreateComponent {
-  code$ = this.currentUnitService.code$;
+  code$ = this.currentUnitService.key$;
   form = this.unitAddressFormService.getForm();
 
   constructor(

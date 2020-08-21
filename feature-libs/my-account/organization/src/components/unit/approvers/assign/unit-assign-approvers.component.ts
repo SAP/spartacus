@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { UnitAssignApproversService } from './unit-assign-approvers.service';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
+import { UnitAssignApproversService } from './unit-assign-approvers.service';
 
 @Component({
   selector: 'cx-unit-assign-approvers',
   templateUrl: './unit-assign-approvers.component.html',
 })
 export class UnitAssignApproversComponent {
-  code$ = this.currentUnitService.code$;
+  code$ = this.currentUnitService.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>

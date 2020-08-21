@@ -1,9 +1,15 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
 import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
@@ -23,6 +29,11 @@ import { UnitUserListComponent } from './users/list/unit-user-list.component';
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
+const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
+const paramsMapping: ParamsMapping = {
+  unitCode: 'uid',
+};
+
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
@@ -33,52 +44,52 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/create'],
       },
       orgUnitDetails: {
-        paths: ['organization/units/:code'],
-        paramsMapping: { code: 'uid' },
+        paths: [listPath],
+        paramsMapping,
       },
       orgUnitEdit: {
-        paths: ['organization/units/:code/edit'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
       orgUnitChildren: {
-        paths: ['organization/units/:code/children'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/children`],
+        paramsMapping,
       },
       orgUnitUsers: {
-        paths: ['organization/units/:code/users'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users`],
+        paramsMapping,
       },
       orgUnitAssignRoles: {
-        paths: ['organization/units/:code/users/roles/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users/roles/assign`],
+        paramsMapping,
       },
       orgUnitApprovers: {
-        paths: ['organization/units/:code/approvers'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/approvers`],
+        paramsMapping,
       },
       orgUnitAssignApprovers: {
-        paths: ['organization/units/:code/approvers/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/approvers/assign`],
+        paramsMapping,
       },
       orgUnitManageAddresses: {
-        paths: ['organization/units/:code/addresses'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/addresses`],
+        paramsMapping,
       },
       orgUnitAddressDetails: {
-        paths: ['organization/units/:code/addresses/:id'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/addresses/:id`],
+        paramsMapping,
       },
       orgUnitAddressCreate: {
-        paths: ['organization/units/:code/addresses/create'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/addresses/create`],
+        paramsMapping,
       },
       orgUnitAddressEdit: {
-        paths: ['organization/units/:code/addresses/:id/edit'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/addresses/:id/edit`],
+        paramsMapping,
       },
       orgUnitCostCenters: {
-        paths: ['organization/units/:code/cost-centers'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/cost-centers`],
+        paramsMapping,
       },
     },
   },
@@ -95,7 +106,7 @@ export const unitsCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -160,7 +171,7 @@ export const unitsCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: ':code/edit',
+          path: `:${ROUTE_PARAMS.unitCode}/edit`,
           component: UnitEditComponent,
         },
       ],
