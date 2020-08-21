@@ -1,10 +1,10 @@
-import { NotificationPreference } from '../../model';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { Title, User } from '../../model/misc.model';
+import { NotificationPreference } from '../../model/notification-preference.model';
 import {
   Order,
   OrderHistoryList,
@@ -13,7 +13,7 @@ import {
 } from '../../model/order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
-import { StateUtils } from '../../state';
+import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';

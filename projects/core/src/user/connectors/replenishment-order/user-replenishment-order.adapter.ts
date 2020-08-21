@@ -1,5 +1,5 @@
-import { ReplenishmentOrder } from 'projects/core/src/model';
 import { Observable } from 'rxjs';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 
 export abstract class UserReplenishmentOrderAdapter {
   /**
