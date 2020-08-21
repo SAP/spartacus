@@ -1,30 +1,65 @@
-<cx-td-link
-  outlet="table.budget.data.amount"
-  cxRoute="budgetDetails"
-  [template]="amount"
->
-</cx-td-link>
-
-<cx-td-link
-  outlet="table.budget.data.dateRange"
-  cxRoute="budgetDetails"
-  [template]="dataRange"
->
-</cx-td-link>
-
-<ng-template #amount let-model="model">
-  {{ model.budget + ' ' + model.currency }}
+<ng-template cxOutletRef="table.budget.data.dateRange" let-model>
+  <a
+    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
+    [tabindex]="1"
+  >
+    <span class="label">
+      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+    </span>
+  </a>
 </ng-template>
 
-<ng-template #dataRange let-model="model">
-  {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+<ng-template cxOutletRef="table.budget.data.amount" let-model>
+  <a
+    [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl"
+    [tabindex]="1"
+  >
+    <span class="label">
+      {{ model?.budget + ' ' + model?.currency }}
+    </span>
+  </a>
+</ng-template>
+
+<ng-template [cxOutletRef]="'table.' + 'budget.data.name'" let-model>
+  <a [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl">
+    <span class="label">
+      {{ model.name }}
+    </span>
+  </a>
+</ng-template>
+
+<ng-template [cxOutletRef]="'table.budget.data.suffix'" let-model>
+  <a [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl">
+    <span class="label">
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </span>
+  </a>
+</ng-template>
+
+<ng-template [cxOutletRef]="'table.budget.data.active'" let-model>
+  <a [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl">
+    <span class="label">
+      {{
+        (model.active ? 'organization.enabled' : 'organization.disabled')
+          | cxTranslate
+      }}
+    </span>
+  </a>
+</ng-template>
+
+<ng-template [cxOutletRef]="'table.budget.data.unit'" let-model>
+  <a [routerLink]="{ cxRoute: 'budgetDetails', params: model } | cxUrl">
+    <span class="label">
+      {{ model.unit?.name }}
+    </span>
+  </a>
 </ng-template>
 
 <cx-organization-list
   [dataTable]="dataTable$ | async"
   type="budget"
-  [activeRow]="{ value: code$ | async, key: 'code' }"
+  [activeRow]="{ value: activeBudgetCode$ | async, key: 'code' }"
   (sortEvent)="sort($event)"
-  (paginateEvent)="viewPage($event)"
+  (paginateEvent)="view($event)"
 >
 </cx-organization-list>

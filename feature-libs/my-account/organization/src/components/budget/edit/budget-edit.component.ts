@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { Budget, BudgetService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -10,6 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetFormService } from '../form/budget-form.service';
 
 @Component({
@@ -18,8 +19,7 @@ import { BudgetFormService } from '../form/budget-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetEditComponent {
-  protected budget$: Observable<Budget> = this.routingService.getParams().pipe(
-    map((params) => params['budgetKey']),
+  protected budget$: Observable<Budget> = this.currentBudgetService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
@@ -31,18 +31,15 @@ export class BudgetEditComponent {
 
   // We have to keep all observable values consistent for a view,
   // that's why we are wrapping them into one observable
-  viewModel$ = this.form$.pipe(
-    withLatestFrom(
-      this.budget$,
-      this.routingService.getParams().pipe(map((params) => params['budgetKey']))
-    ),
+  readonly viewModel$ = this.form$.pipe(
+    withLatestFrom(this.budget$, this.currentBudgetService.key$),
     map(([form, budget, code]) => ({ form, code, budget }))
   );
 
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected routingService: RoutingService
+    protected currentBudgetService: CurrentBudgetService
   ) {}
 
   save(budgetCode: string, form: FormGroup): void {
@@ -52,11 +49,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.currentBudgetService.launch(form.value);
     }
   }
 }

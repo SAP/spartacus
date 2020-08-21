@@ -1,3 +1,11 @@
+<ng-template [cxOutletRef]="'table.costCenter.data.currency'" let-model>
+  <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
+    <span class="label">
+      {{ model.currency }}
+    </span>
+  </a>
+</ng-template>
+
 <cx-organization-list
   [dataTable]="dataTable$ | async"
   type="costCenter"

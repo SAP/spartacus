@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { UserAssignApproversService } from './user-assign-approvers.service';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { CurrentUserService } from '../../current-user.service';
+import { UserAssignApproversService } from './user-assign-approvers.service';
 
 @Component({
   selector: 'cx-user-assign-approvers',
@@ -40,7 +39,7 @@ export class UserAssignApproversComponent {
     this.userAssignApproversService.viewPage(pagination, currentPage);
   }
 
-  sort(pagination: PaginationModel, sort: string) {
-    this.userAssignApproversService.sort(pagination, sort);
+  sort(pagination: PaginationModel) {
+    this.userAssignApproversService.sort(pagination);
   }
 }

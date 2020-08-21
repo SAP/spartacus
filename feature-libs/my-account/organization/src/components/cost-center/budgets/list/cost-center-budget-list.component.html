@@ -1,47 +1,64 @@
-<cx-view #view *ngIf="code$ | async as costCenterCode">
-  <h3>
-    <a
-      class="link"
-      [routerLink]="
-        { cxRoute: 'costCenterDetails', params: { code: costCenterCode } }
-          | cxUrl
-      "
-      (click)="view.toggle()"
-    >
-      <cx-icon type="CARET_LEFT"></cx-icon>
-      {{ 'organization.back' | cxTranslate }}
-    </a>
-    <span>{{
-      'costCenter.budget.header' | cxTranslate: { code: costCenterCode }
-    }}</span>
-  </h3>
+<cx-view #view *ngIf="code$ | async as code">
+  <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+    <h3>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
+        "
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.back' | cxTranslate }}
+      </a>
+      <span>{{
+        'costCenter.budget.header'
+          | cxTranslate: { count: dataTable.pagination?.totalResults }
+      }}</span>
+    </h3>
 
-  <div class="actions">
-    <a
-      class="link"
-      [routerLink]="
-        {
-          cxRoute: 'costCenterAssignBudgets',
-          params: { code: costCenterCode }
-        } | cxUrl
-      "
+    <div class="actions">
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'costCenterAssignBudgets',
+            params: { code: code }
+          } | cxUrl
+        "
+      >
+        {{ 'costCenter.budget.assign' | cxTranslate }}
+      </a>
+    </div>
+
+    <cx-td-link
+      outlet="table.costCenterBudgets.data.name"
+      cxRoute="costCenterDetails"
+      prop="name"
     >
-      {{ 'costCenter.budget.assign' | cxTranslate }}
-    </a>
-  </div>
-  <section>
-    <cx-table
-      *ngIf="dataTable$ | async as dataTable; else emptyList"
-      [dataset]="dataTable"
+    </cx-td-link>
+
+    <ng-template
+      [cxOutletRef]="'table.costCenterBudgets.data.active'"
+      let-model
     >
+      <a [routerLink]="{ cxRoute: 'costCenterBudgets', params: model } | cxUrl">
+        <span class="label">
+          {{
+            (model.active ? 'organization.enabled' : 'organization.disabled')
+              | cxTranslate
+          }}
+        </span>
+      </a>
+    </ng-template>
+
+    <cx-table *ngIf="dataTable; else emptyList" [dataset]="dataTable">
     </cx-table>
-  </section>
 
-  <ng-template #emptyList>
-    <p class="instruction is-empty">
-      {{ 'organization.messages.emptyList' | cxTranslate }}
-    </p>
-  </ng-template>
+    <!--  -->
+    <!-- 
+
+
 
   <ng-template cxOutletRef="table.costCenterBudgets.data.summary" let-model>
     <h3>{{ model.name }}</h3>
@@ -69,7 +86,14 @@
     >
       <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
     </a>
-  </ng-template>
+  </ng-template> -->
+  </ng-container>
 </cx-view>
 
 <router-outlet></router-outlet>
+
+<ng-template #emptyList>
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>

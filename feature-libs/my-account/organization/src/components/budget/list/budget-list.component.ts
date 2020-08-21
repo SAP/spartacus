@@ -1,58 +1,52 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnInit,
-} from '@angular/core';
-import { Budget, PaginationModel, RoutingService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { BudgetListService } from './budget-list.service';
+import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetListService, BudgetModel } from './budget-list.service';
 
 const BASE_CLASS = 'organization';
 
-@Component({
-  selector: 'cx-budget-list',
-  templateUrl: './budget-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class BudgetListComponent implements OnInit {
+export abstract class OrganizationListComponent<T, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
-  type = 'budget';
-  dataTable$: Observable<Table> = this.budgetService.getTable();
 
-  code$ = this.routingService
-    .getParams()
-    .pipe(map((params) => params['budgetKey']));
+  abstract type: string;
 
   constructor(
-    protected routingService: RoutingService,
-    protected budgetService: BudgetListService
+    protected service: BaseOrganizationListService<T, P>,
+    protected currentService: CurrentBudgetService
   ) {}
 
-  ngOnInit() {
-    // this.dataTable$ = this.budgetService.getTable();
-  }
+  readonly dataTable$: Observable<Table> = this.service.getTable();
 
   /**
-   * Paginates the budget list. Pagination is not using query parameters, as we like
-   * pagination to be driven by infinite scrolling going forward.
+   * The budget code for the selected budget. This is used to highlight the
+   * active item in the list.
    */
-  viewPage(event: { pagination: PaginationModel; page: number }): void {
-    this.budgetService.viewPage(event.pagination, event.page);
-  }
+  readonly currentKey$ = this.currentService.key$;
 
-  /**
-   * Sort the list. The pagination is reset to the first page.
-   *
-   * TODO: consider query parameter for sorting.
-   */
-  sort(event: { pagination: PaginationModel; sort: string }) {
-    this.budgetService.sort(event.pagination, event.sort);
-  }
+  // paginates the table
+  readonly view = (p: P) => this.service.view(p);
 
-  isActive(model: Budget, code: string) {
-    return model.code === code ? -1 : 0;
+  // sorts the table
+  readonly sort = (p: P) => this.service.sort(p);
+}
+
+@Component({
+  selector: 'cx-budget-list',
+  templateUrl: '../../shared/templates/organization-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class BudgetListComponent extends OrganizationListComponent<
+  BudgetModel
+> {
+  type: 'budget';
+
+  constructor(
+    protected currentBudgetService: CurrentBudgetService,
+    protected budgetService: BudgetListService
+  ) {
+    super(budgetService, currentBudgetService);
   }
 }

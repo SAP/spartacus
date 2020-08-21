@@ -1,6 +1,7 @@
 export const budget = {
   header: 'All Budgets ({{count}})',
   disabled: '(disabled)',
+
   code: 'Code',
   name: 'Name',
   active: 'Status',
@@ -44,8 +45,10 @@ export const budget = {
       placeholder: 'Amount',
     },
   },
+
   costCenters: {
     link: 'Cost Centers',
     header: 'Cost Centers in {{code}}',
+    name: 'test',
   },
 };

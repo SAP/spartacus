@@ -1,5 +1,31 @@
+<!-- <cx-td-link
+outlet="table.budgetCostCenters.data.name"
+cxRoute="costCenterDetails"
+prop="name"
+>
+</cx-td-link> -->
+
+<ng-template [cxOutletRef]="'table.budgetCostCenters.data.name'" let-model>
+  <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
+    <span class="label">
+      {{ model.name }}
+    </span>
+  </a>
+</ng-template>
+
+<ng-template [cxOutletRef]="'table.budgetCostCenters.data.active'" let-model>
+  <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
+    <span class="label">
+      {{
+        (model.active ? 'organization.enabled' : 'organization.disabled')
+          | cxTranslate
+      }}
+    </span>
+  </a>
+</ng-template>
+
 <cx-view #view>
-  <ng-container *ngIf="code$ | async as budgetCode">
+  <ng-container *ngIf="budgetCode$ | async as budgetCode">
     <h3>
       <a
         class="link"
@@ -16,13 +42,11 @@
       }}</span>
     </h3>
 
-    <section>
-      <cx-table
-        *ngIf="dataTable$ | async as dataTable; else emptyList"
-        [dataset]="dataTable"
-      >
-      </cx-table>
-    </section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
   </ng-container>
 </cx-view>
 
@@ -31,24 +55,3 @@
     {{ 'organization.messages.emptyList' | cxTranslate }}
   </p>
 </ng-template>
-
-<ng-template cxOutletRef="table.budgetCostCenters.data.summary" let-model>
-  <h3>{{ model.name }}</h3>
-  <small>{{ model.code }} </small>
-</ng-template>
-
-<ng-template cxOutletRef="table.budgetCostCenters.data.link" let-model>
-  <a
-    class="link"
-    [routerLink]="
-      {
-        cxRoute: 'costCenterDetails',
-        params: { code: model.code }
-      } | cxUrl
-    "
-  >
-    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-  </a>
-</ng-template>
-
-<router-outlet></router-outlet>

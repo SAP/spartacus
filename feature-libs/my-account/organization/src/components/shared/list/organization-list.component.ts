@@ -23,17 +23,11 @@ export class OrganizationListComponent {
   @Output() sortEvent = new EventEmitter();
   @Output() paginateEvent = new EventEmitter();
 
-  viewPage(pagination: PaginationModel, page: number) {
-    this.paginateEvent.emit({
-      pagination,
-      page,
-    });
+  view(pagination: PaginationModel, page: number) {
+    this.paginateEvent.emit({ ...pagination, currentPage: page });
   }
 
-  sort(pagination: PaginationModel, sort: string) {
-    this.sortEvent.emit({
-      pagination,
-      sort,
-    });
+  sort() {
+    this.sortEvent.emit(this.dataTable.pagination);
   }
 }

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { Budget, BudgetService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { CurrentBudgetService } from '../current-budget.service';
 
 @Component({
   selector: 'cx-budget-details',
@@ -9,16 +10,15 @@ import { map, switchMap, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsComponent {
-  budget$ = this.routingService.getParams().pipe(
-    map((params) => params['budgetKey']),
+  readonly budget$ = this.currentBudgetService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code))
   );
 
   constructor(
-    protected routingService: RoutingService,
-    protected modalService: ModalService,
-    protected budgetService: BudgetService
+    protected currentBudgetService: CurrentBudgetService,
+    protected budgetService: BudgetService,
+    protected modalService: ModalService
   ) {}
 
   update(budget: Budget) {

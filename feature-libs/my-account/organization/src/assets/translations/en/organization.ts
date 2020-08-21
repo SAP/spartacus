@@ -71,6 +71,7 @@ export const organization = {
   userGroupAssignUsers,
   userGroupAssignPermissions,
   budget,
+  budgetCostCenters: costCenter,
   user,
   userAssignApprovers,
   userAssignPermissions,

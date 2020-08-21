@@ -1,5 +1,5 @@
 export const costCenter = {
-  header: 'Cost centers',
+  header: 'All cost centers ({{count}})',
   code: 'Code',
   active: 'Status',
   name: 'Name',
@@ -21,7 +21,7 @@ export const costCenter = {
 
   budget: {
     link: 'Budgets',
-    header: 'Budgets in {{code}}',
+    header: 'Budgets {{count}} ',
     assign: 'Assign budgets',
     assignHeader: 'Assign budgets in {{code}}',
     back: 'Back',

@@ -16,9 +16,6 @@ import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
 
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
-
 const paramsMapping: ParamsMapping = {
   budgetKey: 'code',
 };
@@ -113,11 +110,11 @@ export const budgetTableConfig: TableConfig = {
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
+        headers: [{ key: 'name' }, { key: 'active' }],
+        // hideHeader: true,
+        // pagination: {
+        //   pageSize: MAX_OCC_INTEGER_VALUE,
+        // },
       },
     ],
   },

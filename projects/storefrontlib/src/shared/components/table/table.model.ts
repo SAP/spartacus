@@ -66,6 +66,8 @@ export interface TableStructure extends TableStructureConfiguration {
    * - add a unique class on the table, so we can apply custom css to it
    */
   type: string;
+
+  styleClass?: string;
 }
 
 /**

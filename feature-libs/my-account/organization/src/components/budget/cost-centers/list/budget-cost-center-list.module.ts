@@ -8,6 +8,8 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
+import { OrganizationListModule } from '../../../shared/list/organization-list.module';
+import { TableDataLinkModule } from '../../../shared/table-data/td-link.module';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 
 @NgModule({
@@ -20,6 +22,10 @@ import { BudgetCostCenterListComponent } from './budget-cost-center-list.compone
     OutletRefModule,
     IconModule,
     TableModule,
+
+    TableDataLinkModule,
+
+    OrganizationListModule,
   ],
   declarations: [BudgetCostCenterListComponent],
   exports: [BudgetCostCenterListComponent],

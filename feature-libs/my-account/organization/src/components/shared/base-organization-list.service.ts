@@ -51,7 +51,7 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
               ({
                 structure,
                 data: values,
-                pagination,
+                pagination: { ...pagination },
                 sorts,
               } as Table<T>)
           )
@@ -65,22 +65,28 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
    * Updates the pagination with the new page number.
    */
   viewPage(pagination: P, page: number): void {
-    console.log('view page');
     this.pagination$.next({ ...pagination, currentPage: page });
+  }
+
+  /**
+   * Views the page.
+   */
+  view(pagination: P): void {
+    this.pagination$.next(pagination);
   }
 
   /**
    * Updates the sort code for the PaginationModel, and resets the `currentPage`.
    */
-  sort(pagination: P, sortCode: string): void {
-    console.log('sort');
-    this.pagination$.next({
+  sort(pagination: P, _obsoleteSort?: string): void {
+    this.view({
       ...pagination,
       currentPage: 0,
-      sort: sortCode,
     });
   }
 
+  /**
+   * 
   /**
    * Loads the `TableStructure` for the `tableType` property. The pagination$ state is combined
    * so that new structure is generated whenever the table structure or pagination changes.

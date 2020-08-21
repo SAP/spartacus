@@ -5,9 +5,10 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   OutletRefModule,
-  TableModule,
   SplitViewModule,
+  TableModule,
 } from '@spartacus/storefront';
+import { TableDataLinkModule } from '../../../shared/table-data/td-link.module';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 
 @NgModule({
@@ -20,6 +21,8 @@ import { CostCenterBudgetListComponent } from './cost-center-budget-list.compone
     OutletRefModule,
     IconModule,
     TableModule,
+
+    TableDataLinkModule,
   ],
   declarations: [CostCenterBudgetListComponent],
   exports: [CostCenterBudgetListComponent],

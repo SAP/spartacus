@@ -18,7 +18,7 @@ import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
+// const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const paramsMapping: ParamsMapping = {
   costCenterKey: 'code',
@@ -123,11 +123,7 @@ export const costCenterTableConfig: TableConfig = {
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
+        headers: [{ key: 'name' }, { key: 'status' }],
       },
     ],
 

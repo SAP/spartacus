@@ -2,6 +2,30 @@
   outline-width: 0;
 }
 
+cx-organization-list {
+  display: contents;
+}
+
+// .ghost {
+//   cx-table table {
+//     td {
+//       position: relative;
+//       &:before {
+//         content: '';
+//         position: absolute;
+//         width: calc(100% - (var(--cx-ghost-margin) * 2));
+//         height: calc(100% - (var(--cx-ghost-margin) * 2));
+//         background: var(--cx-color-ghost);
+//         border-radius: 15px;
+//         margin: var(--cx-ghost-margin);
+//       }
+//       .label {
+//         visibility: hidden;
+//       }
+//     }
+//   }
+// }
+
 .organization {
   .actions {
     display: flex;
@@ -61,6 +85,7 @@
           // display: flex;
           align-items: center;
           min-height: 74px;
+          // text-decoration: underline;
         }
       }
 

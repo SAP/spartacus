@@ -1,5 +1,5 @@
 <cx-split-view [hideMode]="false">
-  <ng-container *ngIf="dataTable">
+  <ng-container *ngIf="dataTable$ | async as dataTable">
     <cx-view>
       <h3>
         {{
@@ -37,7 +37,7 @@
         [dataset]="dataTable"
         (sortEvent)="sort(dataTable.pagination, $event)"
         [suffix]="true"
-        [activeRow]="activeRow"
+        [activeRow]="{ value: currentKey$ | async, key: 'code' }"
       >
       </cx-table>
 
