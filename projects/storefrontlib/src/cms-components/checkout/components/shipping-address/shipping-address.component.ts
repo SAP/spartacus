@@ -107,15 +107,7 @@ export class ShippingAddressComponent implements OnInit {
         .getCostCenter()
         .pipe(take(1))
         .subscribe((selected) => (costCenterId = selected));
-      return this.userCostCenterService
-        .getCostCenterAddresses(costCenterId)
-        .pipe(
-          tap((addresses) => {
-            if (addresses.length === 1) {
-              this.selectAddress(addresses[0]);
-            }
-          })
-        );
+      return this.userCostCenterService.getCostCenterAddresses(costCenterId);
     } else {
       return this.userAddressService.getAddresses();
     }
@@ -123,6 +115,7 @@ export class ShippingAddressComponent implements OnInit {
 
   selectDefaultAddress(addresses: Address[], selected: Address) {
     if (
+      !this.isAccountPayment &&
       !this.doneAutoSelect &&
       addresses &&
       addresses.length &&
@@ -133,6 +126,12 @@ export class ShippingAddressComponent implements OnInit {
         this.selectAddress(selected);
       }
       this.doneAutoSelect = true;
+    } else if (
+      this.isAccountPayment &&
+      (!selected || Object.keys(selected).length === 0) &&
+      addresses.length === 1
+    ) {
+      this.selectAddress(addresses[0]);
     }
   }
 

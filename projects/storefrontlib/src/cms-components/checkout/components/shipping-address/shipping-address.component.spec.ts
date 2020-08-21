@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
   Address,
-  B2BAddress,
   CheckoutCostCenterService,
   CheckoutDeliveryService,
   I18nTestingModule,
@@ -297,41 +296,28 @@ describe('ShippingAddressComponent', () => {
     ]);
   });
 
-  describe('should automatically select default shipping address when there is no current selection', () => {
-    it('if payment type is credit card', () => {
-      component.doneAutoSelect = false;
-      component.selectDefaultAddress(mockAddresses, undefined);
-      expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-    });
-  });
-
-  describe('getSupportedAddresses', () => {
-    describe('ACCOUNT payment', () => {
-      it('should automatically select shipping address when there is one', () => {
-        spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
-          of([mockAddress1 as B2BAddress])
-        );
+  describe('selectDefaultAddress', () => {
+    describe('Account Payment', () => {
+      it('should automatically select default shipping address when there is ONLY ONE', () => {
         isAccount.next(true);
         component.ngOnInit();
-        component.getSupportedAddresses().subscribe().unsubscribe();
+        component.selectDefaultAddress([mockAddress1], undefined);
         expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
       });
+    });
 
-      it('should not select shipping address when there is more than one', () => {
-        spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
-          of([mockAddress1 as B2BAddress, mockAddress2 as B2BAddress])
-        );
-        isAccount.next(true);
-        component.ngOnInit();
-        component.getSupportedAddresses().subscribe().unsubscribe();
-        expect(component.selectAddress).not.toHaveBeenCalled();
+    describe('Credit Card Payment', () => {
+      it('should automatically select default shipping address when there is no current selection', () => {
+        component.doneAutoSelect = false;
+        component.selectDefaultAddress(mockAddresses, undefined);
+        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
       });
     });
   });
 
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', () => {
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.callThrough();
+      spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
       isAccount.next(true);
       component.ngOnInit();
       component.getSupportedAddresses();
