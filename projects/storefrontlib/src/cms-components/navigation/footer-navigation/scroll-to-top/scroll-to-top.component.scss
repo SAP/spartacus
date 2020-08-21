@@ -1,0 +1,34 @@
+.cx-main {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+.cx-show-scrollTop {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+.cx-button-scroll-to-top {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.cx-img-scroll-to-top {
+  display: block;
+  content: url('../../../../assets/scroll-to-top.png');
+}
+.cx-img-scroll-to-top-mobile {
+  display: none;
+  content: url('../../../../assets/scroll-to-top-mobile.png');
+}
+@media (max-width: 600px) {
+  .cx-img-scroll-to-top-mobile {
+    display: block;
+    content: url('../../../../assets/scroll-to-top-mobile.png');
+  }
+  .cx-img-scroll-to-top {
+    display: none;
+    content: url('../../../../assets/scroll-to-top.png');
+  }
+}

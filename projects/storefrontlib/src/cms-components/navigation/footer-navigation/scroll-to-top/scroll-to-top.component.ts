@@ -7,7 +7,7 @@ const SCROLL_TO_TOP_TRANSITION_SPEED = 8;
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
-  styleUrls: ['./scroll-to-top.component.css'],
+  styleUrls: ['./scroll-to-top.component.scss'],
 })
 export class ScrollToTopComponent implements OnInit {
   windowScrolled: boolean;
