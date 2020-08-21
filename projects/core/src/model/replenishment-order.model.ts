@@ -58,8 +58,8 @@ export interface ReplenishmentOrder {
 }
 
 export interface ReplenishmentOrderList {
-  pagination?: PaginationModel;
   replenishmentOrders?: ReplenishmentOrder[];
+  pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 

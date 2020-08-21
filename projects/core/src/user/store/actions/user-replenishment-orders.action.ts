@@ -1,4 +1,4 @@
-import { OrderHistoryList } from '../../../model/order.model';
+import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_REPLENISHMENT_ORDERS } from '../user-state';
 
@@ -30,7 +30,7 @@ export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction
 
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
-  constructor(public payload: OrderHistoryList) {
+  constructor(public payload: ReplenishmentOrderList) {
     super(USER_REPLENISHMENT_ORDERS);
   }
 }

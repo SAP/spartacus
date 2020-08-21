@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { map, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
-import { OrderHistoryList } from '../../model/order.model';
+import { ReplenishmentOrderList } from '../../model/replenishment-order.model';
 import { AuthService } from '../../auth/facade/auth.service';
 import { StateWithUser } from '../store/user-state';
 import { UserActions } from '../store/actions/index';
@@ -21,7 +21,7 @@ export class UserReplenishmentOrderService {
   /**
    * Returns replenishment order history list
    */
-    getReplenishmentOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
+  getReplenishmentOrderHistoryList(pageSize: number): Observable<ReplenishmentOrderList> {
       return this.store.pipe(
         select(UsersSelectors.getReplenishmentOrdersState),
         tap((replenishmentOrderListState) => {
