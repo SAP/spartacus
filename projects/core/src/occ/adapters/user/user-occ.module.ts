@@ -13,6 +13,7 @@ import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user
 import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
 import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
+import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order/user-replenishment-order.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
 import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
@@ -27,6 +28,7 @@ import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccCostCenterAdapter } from '../organization/occ-cost-center.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
+import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
 
@@ -46,6 +48,7 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    { provide: UserReplenishmentOrderAdapter, useClass: OccUserReplenishmentOrderAdapter },
     { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
     {
       provide: UserNotificationPreferenceAdapter,

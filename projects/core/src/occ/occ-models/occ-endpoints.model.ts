@@ -601,4 +601,10 @@ export interface OccEndpoints {
    * * @member {string}
    */
   scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
 }
