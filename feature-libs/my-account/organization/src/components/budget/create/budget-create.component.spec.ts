@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
@@ -37,17 +37,19 @@ class MockBudgetFormService implements Partial<BudgetFormService> {
     });
   }
 }
-class MockCurrentBudgetService {
-  code$ = of(budgetCode);
-  launch = createSpy('launch').and.stub();
-  parentUnit$ = of({});
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  key$ = of(budgetCode);
+  b2bUnit$ = of({});
+}
+class MockRoutingService {
+  go = createSpy('go');
 }
 
 describe('BudgetCreateComponent', () => {
   let component: BudgetCreateComponent;
   let fixture: ComponentFixture<BudgetCreateComponent>;
   let budgetService: BudgetService;
-  let currentBudgetService: CurrentBudgetService;
+  let routingService: RoutingService;
   let saveButton;
   let budgetFormComponent;
 
@@ -66,11 +68,12 @@ describe('BudgetCreateComponent', () => {
         { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
-    currentBudgetService = TestBed.inject(CurrentBudgetService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -104,10 +107,9 @@ describe('BudgetCreateComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(currentBudgetService.launch).toHaveBeenCalledWith(
-        'budgetDetails',
-        { code: budgetCode }
-      );
+      expect(routingService.go).toHaveBeenCalledWith('budgetDetails', {
+        code: budgetCode,
+      });
     });
   });
 
@@ -128,7 +130,7 @@ describe('BudgetCreateComponent', () => {
 
     it('should not navigate away', () => {
       saveButton.click();
-      expect(currentBudgetService.launch).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
     });
   });
 });

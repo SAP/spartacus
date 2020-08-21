@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -20,7 +21,7 @@ import { BudgetFormService } from '../form/budget-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetEditComponent {
-  protected code$ = this.currentBudgetService.code$;
+  protected code$ = this.currentBudgetService.key$;
 
   protected budget$: Observable<Budget> = this.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
@@ -42,7 +43,8 @@ export class BudgetEditComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected currentBudgetService: CurrentBudgetService
+    protected currentBudgetService: CurrentBudgetService,
+    protected routingService: RoutingService
   ) {}
 
   save(budgetCode: string, form: FormGroup): void {
@@ -52,8 +54,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-
-      this.currentBudgetService.launch('budgetDetails', form.value);
+      this.routingService.go('budgetDetails', form.value);
     }
   }
 }

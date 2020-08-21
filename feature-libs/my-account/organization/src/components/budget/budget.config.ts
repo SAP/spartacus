@@ -22,7 +22,7 @@ const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
-  [ROUTE_PARAMS.budgetCode]: 'code',
+  budgetCode: 'code',
 };
 
 // TODO: this doesn't work with lazy loaded feature

@@ -5,31 +5,37 @@ import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 import { QUERY_PARAMS } from '../constants';
 
 /**
- * Abstract Base class for all organization features.
+ * Abstract Base class for all organization entities. This class simplifies
+ * the various entity implementation, that only differ by dependencies and
+ * data model.
  */
 @Injectable()
 export abstract class CurrentItemService<T> {
   /**
-   * Observes the code parameter from the (child)route. The code parameter
-   * must be implemented by the concrete implementation, as we like to use
-   * semantic, configurable route parameters, rather than a static "code"
-   * route parameter.
+   * Observes the key for the active organization item. The active key is observed
+   * from the list of route parameters. The full route parameter list is evaluated,
+   * including child routes.
+   *
+   * To allow for specific ("semantic") route parameters, the route parameter _key_ is
+   * retrieved from the `getParamKey`.
    */
-  readonly code$: Observable<string> = this.routingService
+  readonly key$: Observable<string> = this.routingService
     .getParams()
-    .pipe(pluck(this.getParam()), distinctUntilChanged());
+    .pipe(pluck(this.getParamKey()), distinctUntilChanged());
 
   /**
-   * Observes the data for the current code$.
+   * Observes the active item.
+   *
+   * The active item is loaded by the active `key$`.
    */
-  readonly model$: Observable<T> = this.code$.pipe(
-    switchMap((code: string) => (code ? this.getModel(code) : of(null)))
+  readonly item$: Observable<T> = this.key$.pipe(
+    switchMap((code: string) => (code ? this.getItem(code) : of(null)))
   );
 
   /**
    * Observes the b2bUnit based on the query parameters.
    */
-  readonly parentUnit$ = this.routingService.getRouterState().pipe(
+  readonly b2bUnit$ = this.routingService.getRouterState().pipe(
     map(
       (routingData) => routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
     ),
@@ -39,19 +45,13 @@ export abstract class CurrentItemService<T> {
   constructor(protected routingService: RoutingService) {}
 
   /**
-   * Returns the route parameter key, that is used to bind to the router parameter.
+   * Returns the route parameter key for the item. The route parameter key differs
+   * per item, so that route parameters are distinguished in the route configuration.
    */
-  protected abstract getParam(...params: any[]): string;
+  protected abstract getParamKey(): string;
 
   /**
    * Emits the current model or null, if there is no model available
    */
-  protected abstract getModel(...params: any[]): Observable<T>;
-
-  /**
-   * Navigation to the given cxRoute.
-   */
-  launch(cxRoute: string, params: any) {
-    this.routingService.go({ cxRoute, params });
-  }
+  protected abstract getItem(...params: any[]): Observable<T>;
 }

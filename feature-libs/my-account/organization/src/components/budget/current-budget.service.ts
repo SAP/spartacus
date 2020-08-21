@@ -16,11 +16,11 @@ export class CurrentBudgetService extends CurrentItemService<Budget> {
     super(routingService);
   }
 
-  protected getParam() {
+  protected getParamKey() {
     return ROUTE_PARAMS.budgetCode;
   }
 
-  protected getModel(code: string): Observable<Budget> {
+  protected getItem(code: string): Observable<Budget> {
     return this.budgetService.get(code);
   }
 }
