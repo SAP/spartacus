@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { UserUserGroupListService } from './user-user-group-list.service';
 import { CurrentUserService } from '../../current-user.service';
+import { UserUserGroupListService } from './user-user-group-list.service';
 
 @Component({
   selector: 'cx-user-user-group-list',
   templateUrl: './user-user-group-list.component.html',
 })
 export class UserUserGroupListComponent {
-  code$: Observable<string> = this.currentUserService.code$;
+  code$: Observable<string> = this.currentUserService.key$;
   name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(

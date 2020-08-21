@@ -32,7 +32,7 @@ export const permissionRoutingConfig: RoutingConfig = {
         paths: ['organization/purchase-limits/create'],
       },
       permissionDetails: {
-        paths: [`${listPath}`],
+        paths: [listPath],
         paramsMapping,
       },
       permissionEdit: {

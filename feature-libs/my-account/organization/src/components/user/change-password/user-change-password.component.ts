@@ -21,7 +21,7 @@ import { CurrentUserService } from '../current-user.service';
   providers: [CurrentUserService],
 })
 export class UserChangePasswordComponent {
-  protected code$: Observable<string> = this.currentUserService.code$;
+  protected code$: Observable<string> = this.currentUserService.key$;
 
   protected user$: Observable<B2BUser> = this.code$.pipe(
     tap((code) => this.userService.load(code)),
