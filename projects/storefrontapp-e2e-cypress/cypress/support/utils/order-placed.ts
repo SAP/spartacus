@@ -90,3 +90,59 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
       }
     });
 }
+
+export const waitForOrderToBeDisplayedInOrderHistoryPage = (
+  orderNumber: string,
+  elapsedTime: number = 0
+): void => {
+  cy.get('.cx-order-history-code > .cx-order-history-value')
+    .first()
+    .then(
+      (el: JQuery<HTMLElement>) =>
+        new Promise<Cypress.Chainable<JQuery<HTMLElement>>>((resolve) =>
+          setTimeout(() => resolve(cy.wrap(el)), delay)
+        )
+    )
+    .then((wrappedEl: Cypress.Chainable<JQuery<HTMLElement>>) => {
+      elapsedTime += delay;
+      return wrappedEl;
+    })
+    .then((el: JQuery<HTMLElement>): void => {
+      const orderCode: string = el.text().match(/\d+/).shift();
+
+      if (elapsedTime > consignmentTimerTimeout || orderCode === orderNumber) {
+        return;
+      } else {
+        cy.reload();
+        waitForOrderToBeDisplayedInOrderHistoryPage(orderNumber, elapsedTime);
+      }
+    });
+};
+
+export const waitForStatusToBeDisplayed = (
+  status: string,
+  elapsedTime: number = 0
+) => {
+  cy.get('.cx-order-history-status > .cx-order-history-value')
+    .first()
+    .then(
+      (el: JQuery<HTMLElement>) =>
+        new Promise<Cypress.Chainable<JQuery<HTMLElement>>>((resolve) =>
+          setTimeout(() => resolve(cy.wrap(el)), delay)
+        )
+    )
+    .then((wrappedEl: Cypress.Chainable<JQuery<HTMLElement>>) => {
+      elapsedTime += delay;
+      return wrappedEl;
+    })
+    .then((el: JQuery<HTMLElement>): void => {
+      const orderStatus: string = el.text().match(/\w+/).shift();
+
+      if (elapsedTime > consignmentTimerTimeout || orderStatus === status) {
+        return;
+      } else {
+        cy.reload();
+        waitForStatusToBeDisplayed(status, elapsedTime);
+      }
+    });
+};

@@ -1,11 +1,14 @@
 import { register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
 
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
   cy.getByText(/Sign in \/ Register/i).click();
+  const registerPage = waitForPage('/login/register', 'registerPage');
   cy.get('cx-page-layout').getByText('Register').click({ force: true });
+  cy.wait(`@${registerPage}`);
   register(user);
 }
 
