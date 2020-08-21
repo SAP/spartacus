@@ -262,7 +262,8 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `@import '~@spartacus/styles/index';\n`;
+    const insertion =
+      '\n' + `$styleVersion: 2.1;\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
