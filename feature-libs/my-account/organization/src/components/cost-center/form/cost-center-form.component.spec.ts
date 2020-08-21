@@ -35,7 +35,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
-  parentUnit$ = NEVER;
+  b2bUnit$ = NEVER;
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
