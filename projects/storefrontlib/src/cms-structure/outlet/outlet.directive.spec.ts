@@ -441,7 +441,7 @@ describe('OutletDirective', () => {
       const outletData: OutletContextData =
         testComponent.componentInstance.outlet;
 
-      expect(outletData.name).toEqual(keptOutlet);
+      expect(outletData.reference).toEqual(keptOutlet);
       expect(outletData.context).toEqual('fakeContext');
       expect(outletData.position).toEqual(OutletPosition.REPLACE);
     });

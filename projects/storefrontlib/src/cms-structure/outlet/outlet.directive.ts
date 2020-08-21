@@ -158,7 +158,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
    */
   private getComponentInjector(position: OutletPosition): Injector {
     const contextData: OutletContextData = {
-      name: this.cxOutlet,
+      reference: this.cxOutlet,
       position,
       context: this.cxOutletContext,
     };
