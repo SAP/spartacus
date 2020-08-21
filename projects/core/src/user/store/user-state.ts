@@ -1,7 +1,9 @@
+import { NotificationPreference } from '../../model';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { Title, User } from '../../model/misc.model';
 import {
   Order,
@@ -10,10 +12,8 @@ import {
   ReturnRequestList,
 } from '../../model/order.model';
 import { CostCenter } from '../../model/org-unit.model';
-import { StateUtils } from '../../state';
-import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
-import { NotificationPreference } from '../../model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
+import { StateUtils } from '../../state';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -38,6 +38,9 @@ export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
 export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
 export const USER_ORDER_DETAILS = '[User] User Order Details';
 export const USER_COST_CENTERS = '[User] User Cost Centers';
+export const USER_REPLENISHMENT_ORDERS = '[User] User Replenishment Orders';
+export const USER_REPLENISHMENT_ORDER_DETAILS =
+  '[User] User Replenishment Order Details';
 export const REGIONS = '[User] Regions';
 
 export const CUSTOMER_COUPONS = '[User] Customer Coupons';
