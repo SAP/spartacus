@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { B2BUserService } from '../../core/services/b2b-user.service';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentItemService } from '../shared/current-item.service';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUserService extends CurrentItemService<CostCenter> {
+export class CurrentUserService extends CurrentOrganizationItemService<
+  CostCenter
+> {
   readonly name$: Observable<string> = this.item$.pipe(
     map((user: B2BUser) => user.name)
   );

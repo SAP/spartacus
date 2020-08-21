@@ -3,12 +3,14 @@ import { CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CostCenterService } from '../../core/services/cost-center.service';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentItemService } from '../shared/current-item.service';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentCostCenterService extends CurrentItemService<CostCenter> {
+export class CurrentCostCenterService extends CurrentOrganizationItemService<
+  CostCenter
+> {
   constructor(
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService

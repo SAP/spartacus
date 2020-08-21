@@ -10,7 +10,7 @@ import { QUERY_PARAMS } from '../constants';
  * data model.
  */
 @Injectable()
-export abstract class CurrentItemService<T> {
+export abstract class CurrentOrganizationItemService<T> {
   /**
    * Observes the key for the active organization item. The active key is observed
    * from the list of route parameters. The full route parameter list is evaluated,

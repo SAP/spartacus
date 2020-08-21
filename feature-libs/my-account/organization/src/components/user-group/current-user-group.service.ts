@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { UserGroup } from '../../core';
 import { UserGroupService } from '../../core/services/user-group.service';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentItemService } from '../shared/current-item.service';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUserGroupService extends CurrentItemService<UserGroup> {
+export class CurrentUserGroupService extends CurrentOrganizationItemService<
+  UserGroup
+> {
   constructor(
     protected routingService: RoutingService,
     protected userGroupService: UserGroupService
