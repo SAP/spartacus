@@ -30,7 +30,7 @@ export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  headers: TableHeader[];
+  fields: string[];
 
   /**
    * Table headers can be  are added by default
@@ -50,24 +50,4 @@ export interface TableStructure extends TableStructureConfiguration {
    * - add a unique class on the table, so we can apply custom css to it
    */
   type: string;
-}
-
-/**
- * Provides the core table structure, typically being used to render table columns.
- */
-export interface TableHeader {
-  /**
-   * The header key is used to:
-   * - generate a unique class on each table row
-   * - generate a template for each table header cell and data cell
-   * - translate the key using the translate module
-   *   (fallback in case there is no label available)
-   */
-  key?: string;
-
-  /**
-   * Optional label to add non-localized headers. If the label is not present, the
-   * key is used to translate to an i18n property.
-   */
-  label?: string;
 }

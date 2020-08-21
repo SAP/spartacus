@@ -3,33 +3,28 @@
     <tr>
       <th
         scope="col"
-        *ngFor="let header of structure.headers; let i = index"
-        [class]="header.key"
+        *ngFor="let header of structure.fields; let i = index"
+        [class]="header"
       >
         <!-- render an outlet for each column header -->
         <ng-template
-          [cxOutlet]="
-            'table.' + structure.type + '.header.' + (header.key || i)
-          "
+          [cxOutlet]="'table.' + structure.type + '.header.' + (header || i)"
           [cxOutletContext]="header"
         >
-          <!-- Render the label by default, fallback to localize the label by it's key -->
-          {{
-            header.label || (structure.type + '.' + header.key | cxTranslate)
-          }}
+          {{ structure.type + '.' + header | cxTranslate }}
         </ng-template>
       </th>
     </tr>
   </thead>
 
   <tr *ngFor="let row of dataset.data$ | async">
-    <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
+    <td *ngFor="let col of structure.fields; let i = index" [class]="col">
       <!-- render an outlet for each cell -->
       <ng-template
-        [cxOutlet]="'table.' + structure.type + '.data.' + (col.key || i)"
+        [cxOutlet]="'table.' + structure.type + '.data.' + (col || i)"
         [cxOutletContext]="row"
       >
-        {{ getDataValue(row, col.key, i) }}
+        {{ getDataValue(row, col, i) }}
       </ng-template>
     </td>
   </tr>

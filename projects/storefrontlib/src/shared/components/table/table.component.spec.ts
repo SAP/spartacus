@@ -7,13 +7,9 @@ import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { LayoutConfig } from 'projects/storefrontlib/src/layout';
 import { of } from 'rxjs';
 import { TableComponent } from './table.component';
-import { Table, TableHeader } from './table.model';
+import { Table } from './table.model';
 
-const headers: TableHeader[] = [
-  { key: 'key1' },
-  { key: 'key2' },
-  { key: 'key3', label: 'label3' },
-];
+const fields: string[] = ['key1', 'key2', 'key3'];
 
 const data = [
   { key1: 'val1', key2: 'val2', key3: 'val3' },
@@ -24,7 +20,7 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    headers,
+    fields: fields,
   },
   data$: of(data),
 };
@@ -129,17 +125,6 @@ describe('TableComponent', () => {
       ).nativeElement;
 
       expect(th1.innerText).toEqual('test-1.key1');
-    });
-
-    it('should add the header.label in the th if available ', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const th3: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(3)')
-      ).nativeElement;
-
-      expect(th3.innerText).toEqual('label3');
     });
 
     it('should add the col key as a css class to each <th>', () => {

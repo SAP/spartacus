@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { TableConfig } from './config/table.config';
 import { TableStructure, TableStructureConfiguration } from './table.model';
 
@@ -75,13 +75,10 @@ export class TableService {
     );
     return data$.pipe(
       map((data: any[]) => {
-        const headers = Object.keys(data?.[0]).map((key) => ({
-          key,
-          label: key,
-        }));
+        const fields = Object.keys(data?.[0]).map((key) => key);
         return {
-          type: type,
-          headers,
+          type,
+          fields,
         } as TableStructure;
       })
     );
@@ -98,13 +95,7 @@ export class TableService {
 
     return of({
       type,
-      headers: [
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-      ],
+      fields: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
       hideHeader: true,
     });
   }

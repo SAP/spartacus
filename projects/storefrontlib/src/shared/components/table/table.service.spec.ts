@@ -25,11 +25,11 @@ class MockBreakpointService {
 
 const MockTableConfig: TableConfig = {
   table: {
-    table1: [{ headers: [{ key: 'name-col' }] }],
+    table1: [{ fields: ['name-col'] }],
     table2: [
-      { headers: [{ key: 'name' }] },
-      { breakpoint: BREAKPOINT.xs, headers: [{ key: 'xs-col' }] },
-      { breakpoint: BREAKPOINT.md, headers: [{ key: 'md-col' }] },
+      { fields: ['name'] },
+      { breakpoint: BREAKPOINT.xs, fields: ['xs-col'] },
+      { breakpoint: BREAKPOINT.md, fields: ['md-col'] },
     ],
   },
 };
@@ -70,7 +70,7 @@ describe('TableService', () => {
               .buildStructure('table2')
               .subscribe((structure) => (result = structure));
 
-            expect(result.headers[0].key).toEqual('md-col');
+            expect(result.fields[0]).toEqual('md-col');
           });
         });
       });
@@ -98,7 +98,7 @@ describe('TableService', () => {
               .buildStructure('table1')
               .subscribe((structure) => (result = structure));
 
-            expect(result.headers[0].key).toEqual('name-col');
+            expect(result.fields[0]).toEqual('name-col');
           });
         });
 
@@ -109,7 +109,7 @@ describe('TableService', () => {
               .buildStructure('table2')
               .subscribe((structure) => (result = structure));
 
-            expect(result.headers[0].key).toEqual('xs-col');
+            expect(result.fields[0]).toEqual('xs-col');
           });
         });
 
@@ -123,8 +123,8 @@ describe('TableService', () => {
               )
               .subscribe((structure) => (result = structure));
 
-            expect(result.headers[0].label).toEqual('firstUnknown');
-            expect(result.headers[1].label).toEqual('lastUnknown');
+            expect(result.fields[0]).toEqual('firstUnknown');
+            expect(result.fields[1]).toEqual('lastUnknown');
           });
         });
 
@@ -134,7 +134,7 @@ describe('TableService', () => {
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));
 
-          expect(result.headers.length).toEqual(5);
+          expect(result.fields.length).toEqual(5);
           expect(result.hideHeader).toEqual(true);
         });
       });
