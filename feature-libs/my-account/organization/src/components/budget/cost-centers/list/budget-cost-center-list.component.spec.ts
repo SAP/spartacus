@@ -15,7 +15,7 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 const costCenterCode = 'costCenterCode';
 
 class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
-  code$ = of(costCenterCode);
+  key$ = of(costCenterCode);
 }
 
 const mockBudgetList: Table<Budget> = {

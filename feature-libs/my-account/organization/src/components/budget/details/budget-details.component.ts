@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { switchMap, tap, shareReplay } from 'rxjs/operators';
-import { BudgetService } from '../../../core/services/budget.service';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Budget } from '../../../core/model/budget.model';
+import { BudgetService } from '../../../core/services/budget.service';
 import { CurrentBudgetService } from '../current-budget.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class BudgetDetailsComponent {
    *
    * It reloads the model when the code of the current budget center changes.
    */
-  budget$: Observable<Budget> = this.currentBudgetService.code$.pipe(
+  budget$: Observable<Budget> = this.currentBudgetService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once

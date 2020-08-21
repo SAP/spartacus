@@ -10,7 +10,7 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
   templateUrl: './budget-cost-center-list.component.html',
 })
 export class BudgetCostCenterListComponent {
-  code$ = this.currentBudgetService.code$;
+  code$ = this.currentBudgetService.key$;
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.budgetCostCenterListService.getTable(code))
   );

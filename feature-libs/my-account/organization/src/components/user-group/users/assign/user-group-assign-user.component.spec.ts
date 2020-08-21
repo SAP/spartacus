@@ -15,7 +15,7 @@ import { UserGroupAssignUserService } from './user-group-assign-user.service';
 const userGroupCode = 'userGroupCode';
 
 class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
-  code$ = of(userGroupCode);
+  key$ = of(userGroupCode);
 }
 
 const mockUserList: Table<B2BUser> = {

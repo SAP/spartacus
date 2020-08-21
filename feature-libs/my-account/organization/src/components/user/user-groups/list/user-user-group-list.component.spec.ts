@@ -46,8 +46,8 @@ const mockUser: B2BUser = {
 };
 
 class MockCurrentUserService implements Partial<CurrentUserService> {
-  code$ = of(customerId);
-  user$ = of(mockUser);
+  key$ = of(customerId);
+  item$ = of(mockUser);
 }
 
 describe('UserUserGroupListComponent', () => {

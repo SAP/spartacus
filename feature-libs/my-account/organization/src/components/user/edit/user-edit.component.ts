@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { B2BUser, RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -8,11 +10,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-
-import { FormUtils } from '@spartacus/storefront';
-import { B2BUser, RoutingService } from '@spartacus/core';
-import { CurrentUserService } from '../current-user.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { CurrentUserService } from '../current-user.service';
 import { UserFormService } from '../form/user-form.service';
 
 @Component({
@@ -22,7 +21,7 @@ import { UserFormService } from '../form/user-form.service';
   providers: [CurrentUserService],
 })
 export class UserEditComponent {
-  protected code$: Observable<string> = this.currentUserService.code$;
+  protected code$: Observable<string> = this.currentUserService.key$;
 
   protected user$: Observable<B2BUser> = this.code$.pipe(
     tap((code) => this.userService.load(code)),

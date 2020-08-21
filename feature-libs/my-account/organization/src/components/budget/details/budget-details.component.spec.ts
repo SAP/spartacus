@@ -25,7 +25,7 @@ const mockBudget: Budget = {
 };
 
 class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
-  code$ = of(budgetCode);
+  key$ = of(budgetCode);
 }
 
 class MockBudgetService implements Partial<BudgetService> {

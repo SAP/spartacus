@@ -1,9 +1,15 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
@@ -17,6 +23,11 @@ import { UserGroupUserListComponent } from './users/list/user-group-user-list.co
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
 
+const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
+const paramsMapping: ParamsMapping = {
+  userGroupCode: 'uid',
+};
+
 // TODO: this doesn't work with lazy loaded feature
 export const userGroupRoutingConfig: RoutingConfig = {
   routing: {
@@ -28,28 +39,28 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paths: ['organization/user-groups/create'],
       },
       userGroupDetails: {
-        paths: ['organization/user-groups/:code'],
-        paramsMapping: { code: 'uid' },
+        paths: [listPath],
+        paramsMapping,
       },
       userGroupEdit: {
-        paths: ['organization/user-groups/edit/:code'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
       userGroupUsers: {
-        paths: ['organization/user-groups/:code/users'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users`],
+        paramsMapping,
       },
       userGroupAssignUsers: {
-        paths: ['organization/user-groups/:code/users/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users/assign`],
+        paramsMapping,
       },
       userGroupPermissions: {
-        paths: ['organization/user-groups/:code/purchase-limits'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/purchase-limits`],
+        paramsMapping,
       },
       userGroupAssignPermissions: {
-        paths: ['organization/user-groups/:code/purchase-limits/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/purchase-limits/assign`],
+        paramsMapping,
       },
     },
   },
@@ -66,7 +77,7 @@ export const userGroupCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
@@ -97,7 +108,7 @@ export const userGroupCmsConfig: CmsConfig = {
           ],
         },
         {
-          path: 'edit/:code',
+          path: `:${ROUTE_PARAMS.userGroupCode}/edit`,
           component: UserGroupEditComponent,
         },
       ],

@@ -17,7 +17,7 @@ const costCenterCode = 'costCenterCode';
 
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
-  code$ = of(costCenterCode);
+  key$ = of(costCenterCode);
 }
 
 const mockBudgetList: Table<Budget> = {

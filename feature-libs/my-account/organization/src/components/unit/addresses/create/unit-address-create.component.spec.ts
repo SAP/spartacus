@@ -2,17 +2,17 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { I18nTestingModule, Occ, RoutingService } from '@spartacus/core';
 import { TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { UnitAddressCreateComponent } from './unit-address-create.component';
+
 import createSpy = jasmine.createSpy;
 import B2BAddress = Occ.B2BAddress;
 
@@ -42,7 +42,7 @@ class MockUnitAddressFormService implements Partial<UnitAddressFormService> {
 }
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {
-  code$ = of(orgUnitId);
+  key$ = of(orgUnitId);
 }
 
 @Component({

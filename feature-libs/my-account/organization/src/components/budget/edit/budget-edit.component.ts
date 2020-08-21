@@ -19,10 +19,9 @@ import { BudgetFormService } from '../form/budget-form.service';
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentBudgetService],
 })
 export class BudgetEditComponent {
-  protected code$ = this.currentBudgetService.code$;
+  protected code$ = this.currentBudgetService.key$;
 
   protected budget$: Observable<Budget> = this.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
@@ -45,9 +44,6 @@ export class BudgetEditComponent {
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
     protected currentBudgetService: CurrentBudgetService,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
     protected routingService: RoutingService
   ) {}
 
@@ -58,11 +54,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.routingService.go('budgetDetails', form.value);
     }
   }
 }

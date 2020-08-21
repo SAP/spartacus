@@ -5,14 +5,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule, RoutingService } from '@spartacus/core';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CostCenterEditComponent } from './cost-center-edit.component';
-import { CostCenterService } from '../../../core/services/cost-center.service';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -37,7 +37,7 @@ const mockCostCenter: CostCenter = {
 
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
-  code$ = of(costCenterCode);
+  key$ = of(costCenterCode);
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {

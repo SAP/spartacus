@@ -37,8 +37,8 @@ const mockBudget: Budget = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockCurrentBudgetService {
-  code$ = of(budgetCode);
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  key$ = of(budgetCode);
 }
 
 class MockBudgetFormService implements Partial<BudgetFormService> {
@@ -54,20 +54,8 @@ class MockBudgetService implements Partial<BudgetService> {
   loadBudget = createSpy('loadBudget');
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
-
-const mockRouterState = {
-  state: {
-    params: {
-      code: budgetCode,
-    },
-  },
-};
-
 class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+  go = createSpy('go');
 }
 
 describe('BudgetEditComponent', () => {
@@ -91,22 +79,12 @@ describe('BudgetEditComponent', () => {
       ],
       declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
-    })
-      .overrideComponent(BudgetEditComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentBudgetService,
-              useClass: MockCurrentBudgetService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
     routingService = TestBed.inject(RoutingService);
@@ -143,10 +121,10 @@ describe('BudgetEditComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: budgetFormComponent.form.value,
-      });
+      expect(routingService.go).toHaveBeenCalledWith(
+        'budgetDetails',
+        budgetFormComponent.form.value
+      );
     });
 
     it('should reload budget on each code change', () => {

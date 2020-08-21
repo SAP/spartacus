@@ -3,8 +3,8 @@ import { CostCenter } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
-import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterService } from '../../../core/services/cost-center.service';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',
@@ -18,9 +18,7 @@ export class CostCenterDetailsComponent {
    *
    * It reloads the model when the code of the current cost center changes.
    */
-  costCenter$: Observable<
-    CostCenter
-  > = this.currentCostCenterService.code$.pipe(
+  costCenter$: Observable<CostCenter> = this.currentCostCenterService.key$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once

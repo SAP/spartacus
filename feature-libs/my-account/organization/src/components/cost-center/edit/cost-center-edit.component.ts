@@ -24,7 +24,7 @@ export class CostCenterEditComponent {
   /**
    * The code of the current cost center
    */
-  protected code$ = this.currentCostCenterService.code$;
+  protected code$ = this.currentCostCenterService.key$;
 
   /**
    * The model of the current cost center.

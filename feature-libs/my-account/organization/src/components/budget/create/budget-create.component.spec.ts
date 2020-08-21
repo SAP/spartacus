@@ -9,6 +9,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetCreateComponent } from './budget-create.component';
 import createSpy = jasmine.createSpy;
@@ -36,20 +37,12 @@ class MockBudgetFormService implements Partial<BudgetFormService> {
     });
   }
 }
-
-const mockRouterState = {
-  state: {
-    params: {
-      code: budgetCode,
-    },
-  },
-};
-
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  key$ = of(budgetCode);
+  b2bUnit$ = of({});
+}
 class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+  go = createSpy('go');
 }
 
 describe('BudgetCreateComponent', () => {
@@ -72,9 +65,10 @@ describe('BudgetCreateComponent', () => {
       ],
       declarations: [BudgetCreateComponent, MockBudgetFormComponent],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
@@ -113,9 +107,8 @@ describe('BudgetCreateComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: { code: budgetCode },
+      expect(routingService.go).toHaveBeenCalledWith('budgetDetails', {
+        code: budgetCode,
       });
     });
   });

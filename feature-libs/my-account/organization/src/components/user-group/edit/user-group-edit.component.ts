@@ -25,7 +25,7 @@ export class UserGroupEditComponent {
   /**
    * The code of the current user group
    */
-  code$ = this.currentUserGroupService.code$;
+  code$ = this.currentUserGroupService.key$;
 
   protected userGroup$: Observable<UserGroup> = this.code$.pipe(
     tap((code) => this.userGroupService.load(code)),

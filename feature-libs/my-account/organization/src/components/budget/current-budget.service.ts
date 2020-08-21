@@ -1,32 +1,28 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
-import { BudgetService } from '../../core/services/budget.service';
-import { Budget } from '../../core/model/budget.model';
+import { RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { Budget, BudgetService } from '../../core/index';
+import { ROUTE_PARAMS } from '../constants';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 
-/**
- * Provides appropriate model based on the routing params.
- *
- * It's NOT meant to be provided in the root injector, BUT on the level
- * of the component activated by the route with routing params.
- */
-@Injectable()
-export class CurrentBudgetService {
+@Injectable({
+  providedIn: 'root',
+})
+export class CurrentBudgetService extends CurrentOrganizationItemService<
+  Budget
+> {
   constructor(
-    protected service: BudgetService,
-    protected route: ActivatedRoute
-  ) {}
+    protected routingService: RoutingService,
+    protected budgetService: BudgetService
+  ) {
+    super(routingService);
+  }
 
-  readonly code$ = this.route.params.pipe(
-    pluck('code'),
-    distinctUntilChanged()
-  );
+  protected getParamKey() {
+    return ROUTE_PARAMS.budgetCode;
+  }
 
-  /**
-   * Emits the current model or null, if there is no model available
-   */
-  readonly Budget$: Observable<Budget> = this.code$.pipe(
-    switchMap((code: string) => (code ? this.service.get(code) : of(null)))
-  );
+  protected getItem(code: string): Observable<Budget> {
+    return this.budgetService.get(code);
+  }
 }

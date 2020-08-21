@@ -33,7 +33,7 @@ const mockUserGroup: UserGroup = {
 };
 
 class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
-  code$ = of(userGroupCode);
+  key$ = of(userGroupCode);
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
