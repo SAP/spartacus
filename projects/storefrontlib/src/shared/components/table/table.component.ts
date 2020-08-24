@@ -109,7 +109,7 @@ export class TableComponent {
    * Returns the header (th) outlet context for the given field.
    */
   getHeaderOutletContext(field: string): TableHeaderOutletContext {
-    return { _field: field, _options: this.options?.[field] };
+    return { _field: field, _options: this.options };
   }
 
   /**
@@ -123,7 +123,7 @@ export class TableComponent {
    * Returns the data (td) outlet context for the given field.
    */
   getDataOutletContext(field: string, data: any): TableDataOutletContext {
-    return { _field: field, _options: this.options?.[field], ...data };
+    return { _field: field, _options: this.options, ...data };
   }
 
   /**
