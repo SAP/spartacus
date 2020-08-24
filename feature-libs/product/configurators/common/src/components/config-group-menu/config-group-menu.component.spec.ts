@@ -11,12 +11,12 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
-import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 let mockGroupVisited = false;
@@ -90,7 +90,6 @@ let productConfigurationObservable = null;
 function initialize() {
   routerStateObservable = of(mockRouterState);
   groupVisitedObservable = of(mockGroupVisited);
-  productConfigurationObservable = of(mockProductConfiguration);
   fixture = TestBed.createComponent(ConfigGroupMenuComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -153,11 +152,13 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should create component', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     expect(component).toBeDefined();
   });
 
   it('should get product code as part of product configuration', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(ConfigurationTestData.PRODUCT_CODE);
@@ -165,11 +166,50 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
+  });
+
+  it('should render no groups if configuration is not consistent', () => {
+    const incompleteConfig: Configurator.Configuration = {
+      ...mockProductConfiguration,
+      consistent: false,
+      complete: true,
+    };
+    productConfigurationObservable = of(incompleteConfig);
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+  });
+
+  it('should render no groups if configuration is not consistent', () => {
+    const incompleteConfig: Configurator.Configuration = {
+      ...mockProductConfiguration,
+      consistent: true,
+      complete: false,
+    };
+    productConfigurationObservable = of(incompleteConfig);
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+  });
+
+  it('should render groups if configuration is not consistent but issues have been checked', () => {
+    const incompleteConfig: Configurator.Configuration = {
+      ...mockProductConfiguration,
+      consistent: true,
+      complete: false,
+      interactionState: {
+        ...mockProductConfiguration.interactionState,
+        issueCheckDone: true,
+      },
+    };
+    productConfigurationObservable = of(incompleteConfig);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
       expect(groups.length).toBe(5);
@@ -177,6 +217,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should set current group in case of clicking on a group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     component.click(mockProductConfiguration.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
@@ -184,6 +225,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should condense groups', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     expect(
       component.condenseGroups(mockProductConfiguration.groups)[2].id
@@ -191,6 +233,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should get correct parent group for condensed groups', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     //Condensed case
     component
@@ -210,6 +253,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should call correct methods for groups with and without subgroups', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     //Set group
     component.click(mockProductConfiguration.groups[2].subGroups[0]);
@@ -222,6 +266,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should not call status method if group has not been visited', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     mockGroupVisited = false;
     initialize();
     component
@@ -237,6 +282,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should return number of conflicts only for conflict header group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     const groupWithConflicts = {
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
@@ -257,6 +303,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should return true if groupType is a conflict group type otherwise false', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     expect(
       component.isConflictGroupType(
@@ -272,6 +319,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should call status method if group has been visited', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
     mockGroupVisited = true;
     initialize();
     component
