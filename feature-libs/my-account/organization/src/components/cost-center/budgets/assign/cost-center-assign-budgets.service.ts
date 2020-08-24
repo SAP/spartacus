@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
-import { OrganizationTableType } from '../../../shared/organization.model';
-import { Budget } from '../../../../core/model/budget.model';
-import { CostCenterService } from '../../../../core/services/cost-center.service';
+import { Injectable } from "@angular/core";
+import { EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { Budget } from "../../../../core/model/budget.model";
+import { CostCenterService } from "../../../../core/services/cost-center.service";
+import { BaseOrganizationListService } from "../../../shared/base-organization-list.service";
+import { OrganizationTableType } from "../../../shared/organization.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CostCenterAssignBudgetListService extends BaseOrganizationListService<
   Budget
@@ -26,7 +26,10 @@ export class CostCenterAssignBudgetListService extends BaseOrganizationListServi
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<Budget>> {
-    return this.costCenterService.getBudgets(code, structure.pagination);
+    return this.costCenterService.getBudgets(
+      code,
+      structure.options?.pagination
+    );
   }
 
   toggleAssign(costCenterCode: string, budgetCode: string, assign = true) {

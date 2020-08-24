@@ -85,7 +85,9 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
     ]).pipe(
       map(([structure, pagination]: [TableStructure, P]) => ({
         ...structure,
-        pagination: { ...structure.pagination, ...pagination },
+        options: {
+          pagination: { ...structure.options?.pagination, ...pagination },
+        },
       }))
     );
   }

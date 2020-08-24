@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
@@ -187,94 +183,87 @@ export function unitsTableConfigFactory(): TableConfig {
 
 export const unitsTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.UNIT_USERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+    [OrganizationTableType.UNIT_USERS]: {
+      fields: ['summary', 'link'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.UNIT_CHILDREN]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+    },
+    [OrganizationTableType.UNIT_CHILDREN]: {
+      fields: ['summary', 'link'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.UNIT_APPROVERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+    },
+    [OrganizationTableType.UNIT_APPROVERS]: {
+      fields: ['summary', 'link', 'unassign'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: [
-      {
+    },
+    [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: {
+      fields: ['selected', 'summary', 'link'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
+      lg: {
+        fields: ['name', 'email', 'roles', 'orgUnit'],
+        options: {
+          hideHeader: false,
+        },
+      },
+    },
+    [OrganizationTableType.UNIT_ASSIGN_ROLES]: {
+      fields: ['summary', 'link'],
+      options: {
         hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'email', sortCode: 'byEmail' },
-          { key: 'roles' },
-          { key: 'orgUnit' },
-        ],
-      },
-    ],
-    [OrganizationTableType.UNIT_ASSIGN_ROLES]: [
-      {
         pagination: {
           sort: 'byName',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'email', sortCode: 'byEmail' },
-          { key: 'roleCustomer' },
-          { key: 'roleApprover' },
-          { key: 'roleManager' },
-          { key: 'roleAdministrator' },
+      lg: {
+        fields: [
+          'name',
+          'email',
+          'roleCustomer',
+          'roleApprover',
+          'roleManager',
+          'roleAdministrator',
         ],
+        options: {
+          hideHeader: false,
+        },
       },
-    ],
-    [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: [
-      {
-        headers: [{ key: 'summary' }],
+    },
+    [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: {
+      fields: ['summary'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.UNIT_COST_CENTERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+    },
+    [OrganizationTableType.UNIT_COST_CENTERS]: {
+      fields: ['summary', 'link'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
+    },
   },
 };

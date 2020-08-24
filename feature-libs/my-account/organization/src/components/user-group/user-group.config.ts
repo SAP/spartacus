@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
@@ -123,85 +119,63 @@ export function userGroupTableConfigFactory(): TableConfig {
 
 export const userGroupTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.USER_GROUP]: [
-      {
-        headers: [{ key: 'name' }],
+    [OrganizationTableType.USER_GROUP]: {
+      fields: ['name'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
+      lg: {
+        fields: ['name', 'uid', 'orgUnit'],
+        options: {
+          hideHeader: false,
+        },
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'uid', sortCode: 'byGroupID' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
-
-    [OrganizationTableType.USER_GROUP_USERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+    },
+    [OrganizationTableType.USER_GROUP_USERS]: {
+      fields: ['summary', 'link', 'unassign'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: [
-      {
+    },
+    [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: {
+      fields: ['selected', 'summary', 'link'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+      lg: {
+        fields: ['name', 'uid', 'roles', 'orgUnit'],
+        options: {},
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'uid' },
-          { key: 'roles' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
-    [OrganizationTableType.USER_GROUP_PERMISSIONS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+    },
+    [OrganizationTableType.USER_GROUP_PERMISSIONS]: {
+      fields: ['summary', 'link', 'unassign'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: [
-      {
+    },
+    [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: {
+      fields: ['selected', 'summary', 'link'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+      lg: {
+        fields: ['name', 'limit', 'orgUnit'],
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byCode' },
-          { key: 'limit' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
+    },
   },
 };

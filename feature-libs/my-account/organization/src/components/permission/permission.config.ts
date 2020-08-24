@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionCreateComponent } from './create/permission-create.component';
@@ -72,27 +68,20 @@ export function permissionTableConfigFactory(): TableConfig {
   return permissionTableConfig;
 }
 
-export const permissionTableConfig: TableConfig = {
+export const permissionTableConfig: TableConfig | any = {
   table: {
-    [OrganizationTableType.PERMISSION]: [
-      {
+    [OrganizationTableType.PERMISSION]: {
+      options: {
         pagination: {
           sort: 'byCode',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'name' }],
-        hideHeader: true,
+      xs: {
+        fields: ['name'],
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byCode' },
-          { key: 'limit' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
+      lg: {
+        fields: ['name', 'limit', 'orgUnit'],
       },
-    ],
+    },
   },
 };

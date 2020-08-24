@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { B2BUser, EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { B2BUserService } from "../../../../core/services/b2b-user.service";
 import {
   BaseOrganizationListService,
   OrganizationTableType,
-} from '../../../shared';
-
-import { B2BUserService } from '../../../../core/services/b2b-user.service';
+} from "../../../shared";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserAssignApproversService extends BaseOrganizationListService<
   B2BUser
@@ -28,7 +27,7 @@ export class UserAssignApproversService extends BaseOrganizationListService<
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.userService.getApprovers(code, structure.pagination);
+    return this.userService.getApprovers(code, structure.options?.pagination);
   }
 
   toggleAssign(userId: string, orgCustomerId: string, assign = true) {

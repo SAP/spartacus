@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
@@ -101,57 +97,43 @@ export function costCenterTableConfigFactory(): TableConfig {
 
 export const costCenterTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.COST_CENTER]: [
-      {
-        headers: [{ key: 'name' }],
+    [OrganizationTableType.COST_CENTER]: {
+      fields: ['name'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
+      lg: {
+        fields: ['name', 'code', 'currency', 'unit'],
+        options: {
+          hideHeader: false,
+        },
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'currency' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-    ],
-
-    [OrganizationTableType.COST_CENTER_BUDGETS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+    },
+    [OrganizationTableType.COST_CENTER_BUDGETS]: {
+      fields: ['summary', 'link', 'unassign'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: [
-      {
-        pagination: {
-          sort: 'byName',
+    },
+    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
+      xs: {
+        fields: ['selected', 'summary', 'link'],
+        options: {
+          hideHeader: true,
+          pagination: {
+            sort: 'byName',
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+      lg: {
+        fields: ['name', 'code', 'amount', 'dateRange'],
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
-          { key: 'dateRange' },
-        ],
-      },
-    ],
+    },
   },
 };

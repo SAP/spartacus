@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
@@ -89,39 +85,31 @@ export function budgetTableConfigFactory(): TableConfig {
 
 export const budgetTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.BUDGET]: [
-      // TODO: consider cascading from smallest size
-      {
-        headers: [{ key: 'name' }],
+    [OrganizationTableType.BUDGET]: {
+      fields: ['name'],
+      options: {
+        hideHeader: true,
         pagination: {
           sort: 'byName',
-          // pageSize: 2,
+          // pageSize: 5,
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
+      lg: {
+        options: {
+          hideHeader: false,
+        },
+        fields: ['name', 'code', 'amount', 'dateRange', 'unit'],
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
-          { key: 'dateRange' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-    ],
+    },
 
-    [OrganizationTableType.BUDGET_COST_CENTERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+    [OrganizationTableType.BUDGET_COST_CENTERS]: {
+      fields: ['summary', 'link'],
+      options: {
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
+    },
   },
 };

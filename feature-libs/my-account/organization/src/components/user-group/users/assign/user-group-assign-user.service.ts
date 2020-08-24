@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
-import { OrganizationTableType } from '../../../shared/organization.model';
-import { UserGroupService } from '../../../../core/services/user-group.service';
+import { Injectable } from "@angular/core";
+import { B2BUser, EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { UserGroupService } from "../../../../core/services/user-group.service";
+import { BaseOrganizationListService } from "../../../shared/base-organization-list.service";
+import { OrganizationTableType } from "../../../shared/organization.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserGroupAssignUserService extends BaseOrganizationListService<
   B2BUser
@@ -27,7 +27,7 @@ export class UserGroupAssignUserService extends BaseOrganizationListService<
   ): Observable<EntitiesModel<B2BUser>> {
     return this.userGroupService.getAvailableOrgCustomers(
       code,
-      structure.pagination
+      structure.options?.pagination
     );
   }
 

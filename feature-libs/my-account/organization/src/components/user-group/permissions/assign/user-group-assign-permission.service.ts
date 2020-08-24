@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Permission, EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
-import { OrganizationTableType } from '../../../shared/organization.model';
-import { UserGroupService } from '../../../../core/services/user-group.service';
+import { Injectable } from "@angular/core";
+import { EntitiesModel, Permission } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { UserGroupService } from "../../../../core/services/user-group.service";
+import { BaseOrganizationListService } from "../../../shared/base-organization-list.service";
+import { OrganizationTableType } from "../../../shared/organization.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserGroupAssignPermissionService extends BaseOrganizationListService<
   Permission
@@ -27,7 +27,7 @@ export class UserGroupAssignPermissionService extends BaseOrganizationListServic
   ): Observable<EntitiesModel<Permission>> {
     return this.userGroupService.getAvailableOrderApprovalPermissions(
       code,
-      structure.pagination
+      structure.options?.pagination
     );
   }
 

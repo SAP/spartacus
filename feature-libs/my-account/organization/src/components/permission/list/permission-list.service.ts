@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
-import { OrganizationTableType } from '../../shared/organization.model';
-import { UserGroup } from '../../../core/model/user-group.model';
-import { PermissionService } from '../../../core/services/permission.service';
+import { Injectable } from "@angular/core";
+import { EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { UserGroup } from "../../../core/model/user-group.model";
+import { PermissionService } from "../../../core/services/permission.service";
+import { BaseOrganizationListService } from "../../shared/base-organization-list.service";
+import { OrganizationTableType } from "../../shared/organization.model";
 
 /**
  * The UI model for the permission, which is a slightly flattened version
@@ -25,7 +25,7 @@ export interface PermissionModel {
  * data is driven by the table configuration, using the `OrganizationTables.PERMISSION`.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PermissionListService extends BaseOrganizationListService<
   PermissionModel
@@ -43,7 +43,7 @@ export class PermissionListService extends BaseOrganizationListService<
     structure: TableStructure,
     _params?
   ): Observable<EntitiesModel<PermissionModel>> {
-    const paginationConfig = structure.pagination;
+    const paginationConfig = structure.options?.pagination;
     return this.permissionsService
       .getList(paginationConfig)
       .pipe(map((raw) => this.convertPermissions(raw)));

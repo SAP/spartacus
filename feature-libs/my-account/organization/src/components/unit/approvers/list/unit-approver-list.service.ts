@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { B2BUser, EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { OrgUnitService } from "../../../../core/services/org-unit.service";
 import {
   BaseOrganizationListService,
   OrganizationTableType,
   UnitRoleType,
-} from '../../../shared/index';
-import { EntitiesModel, B2BUser } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
+} from "../../../shared/index";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UnitApproverListService extends BaseOrganizationListService<
   B2BUser
@@ -30,7 +30,7 @@ export class UnitApproverListService extends BaseOrganizationListService<
     code: string,
     roleId: string
   ): Observable<EntitiesModel<B2BUser>> {
-    const config = structure.pagination;
+    const config = structure.options?.pagination;
     return this.orgUnitService
       .getUsers(code, roleId, config)
       .pipe(map((users) => this.filterSelected(users)));

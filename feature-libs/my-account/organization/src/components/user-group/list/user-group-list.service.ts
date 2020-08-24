@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
-import { OrganizationTableType } from '../../shared/organization.model';
-import { UserGroup } from '../../../core/model/user-group.model';
-import { UserGroupService } from '../../../core/services/user-group.service';
+import { Injectable } from "@angular/core";
+import { EntitiesModel } from "@spartacus/core";
+import { TableService, TableStructure } from "@spartacus/storefront";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { UserGroup } from "../../../core/model/user-group.model";
+import { UserGroupService } from "../../../core/services/user-group.service";
+import { BaseOrganizationListService } from "../../shared/base-organization-list.service";
+import { OrganizationTableType } from "../../shared/organization.model";
 /**
  * The UI model for the cost center, which is a slightly flattened version
  * of the core cost center model.
@@ -22,7 +22,7 @@ export interface UserGroupModel {
  * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER`.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserGroupListService extends BaseOrganizationListService<
   UserGroupModel
@@ -40,7 +40,7 @@ export class UserGroupListService extends BaseOrganizationListService<
     structure: TableStructure,
     _params?
   ): Observable<EntitiesModel<UserGroupModel>> {
-    const paginationConfig = structure.pagination;
+    const paginationConfig = structure.options?.pagination;
     return this.userGroupService
       .getList(paginationConfig)
       .pipe(map((raw) => this.convertUserGroups(raw)));
