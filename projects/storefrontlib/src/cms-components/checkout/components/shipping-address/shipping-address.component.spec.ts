@@ -320,7 +320,7 @@ describe('ShippingAddressComponent', () => {
       spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
       isAccount.next(true);
       component.ngOnInit();
-      component.getSupportedAddresses();
+      component.getSupportedAddresses().subscribe().unsubscribe();
       expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
         'test-cost-center'
       );
