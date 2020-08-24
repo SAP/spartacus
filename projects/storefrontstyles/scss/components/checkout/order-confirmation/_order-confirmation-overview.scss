@@ -29,6 +29,12 @@
       .summary-card {
         flex: 1;
 
+        &:not(:last-of-type) {
+          @include media-breakpoint-up(lg) {
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+          }
+        }
+
         @include media-breakpoint-down(md) {
           flex: 0 0 33%;
         }
@@ -40,6 +46,14 @@
           border-style: solid;
           border-color: var(--cx-color-light);
           margin: 0.625rem 0;
+        }
+
+        cx-card {
+          &:not(:first-child) {
+            .card-body {
+              padding-top: 0 !important;
+            }
+          }
         }
       }
     }

@@ -3,6 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+import { ReplenishmentOrder } from 'projects/core/src/model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
@@ -94,7 +95,7 @@ export const getPaymentDetails: MemoizedSelector<
 
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,
-  Order
+  Order | ReplenishmentOrder
 > = createSelector(getCheckoutSteps, getOrderDetailsSelector);
 
 export const getCheckoutDetailsLoaded: MemoizedSelector<

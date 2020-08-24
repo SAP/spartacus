@@ -24,6 +24,15 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
+    replenishmentNumber: 'Replenishment #',
+    placedOn: 'Placed on',
+    status: 'Status',
+    active: 'Active',
+    cancelled: 'Cancelled',
+    frequency: 'Frequency',
+    nextOrderDate: 'Next order date',
+    orderNumber: 'Order Number',
+    purchaseOrderNumber: 'Purchase Order #',
   },
   checkoutReview: {
     review: 'Review',

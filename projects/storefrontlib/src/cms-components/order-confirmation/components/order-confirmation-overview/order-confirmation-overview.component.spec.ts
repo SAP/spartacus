@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   Order,
   PaymentDetails,
+  ReplenishmentOrder,
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -18,51 +19,6 @@ import createSpy = jasmine.createSpy;
 class MockCardComponent {
   @Input()
   content: Card;
-}
-
-const mockOrder: Order = {
-  code: 'test-code-412',
-  deliveryAddress: {
-    country: {},
-  },
-  deliveryMode: {},
-  paymentInfo: {
-    billingAddress: {
-      country: {},
-    },
-  },
-};
-
-const mockB2BOrder: Order = {
-  ...mockOrder,
-  costCenter: {
-    name: 'Rustic Global',
-    unit: {
-      name: 'Rustic',
-    },
-  },
-  orgCustomer: {
-    active: true,
-    name: 'Rivers',
-    orgUnit: {
-      name: 'Rustic',
-    },
-  },
-  purchaseOrderNumber: '123',
-};
-
-class MockCheckoutService {
-  clearCheckoutData = createSpy();
-
-  getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
-  }
-}
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of();
-  }
 }
 
 const mockDeliveryAddress: Address = {
@@ -81,6 +37,9 @@ const mockDeliveryAddress: Address = {
 const mockDeliveryMode: DeliveryMode = {
   name: 'Standard order-detail-shipping',
   description: '3-5 days',
+  deliveryCost: {
+    formattedValue: 'test-formatted-cosg',
+  },
 };
 
 const mockBillingAddress: Address = {
@@ -92,6 +51,7 @@ const mockBillingAddress: Address = {
   postalCode: 'MA8902',
   town: 'London',
   country: {
+    name: 'test-country-name',
     isocode: 'UK',
   },
 };
@@ -104,7 +64,57 @@ const mockPayment: PaymentDetails = {
   cardType: {
     name: 'Visa',
   },
+  billingAddress: mockBillingAddress,
 };
+
+const mockOrder: Order = {
+  code: 'test-code-412',
+  deliveryAddress: mockDeliveryAddress,
+  deliveryMode: mockDeliveryMode,
+  paymentInfo: {
+    billingAddress: {
+      country: {},
+    },
+  },
+  statusDisplay: 'test-status-display',
+};
+
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  firstDate: '1994-01-11T00:00Z',
+  trigger: {
+    activationTime: '1994-01-11T00:00Z',
+    displayTimeTable: 'every-test-date',
+  },
+  paymentType: {
+    code: 'test-type',
+    displayName: 'test-type-name',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+  paymentInfo: mockPayment,
+};
+
+class MockCheckoutService {
+  clearCheckoutData = createSpy();
+
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of();
+  }
+}
 
 describe('OrderConfirmationOverviewComponent', () => {
   let component: OrderConfirmationOverviewComponent;
@@ -135,70 +145,387 @@ describe('OrderConfirmationOverviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getAddressCardContent(deliveryAddress: Address)', () => {
-    spyOn(component, 'getAddressCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getAddressCardContent(mockDeliveryAddress).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
+  describe('when replenishment order code is defined', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
-    expect(component.getAddressCardContent).toHaveBeenCalledWith(
-      mockDeliveryAddress
-    );
+
+    it('should call getReplenishmentCodeCardContent(orderCode: string)', () => {
+      spyOn(component, 'getReplenishmentCodeCardContent').and.callThrough();
+
+      component
+        .getReplenishmentCodeCardContent(
+          mockReplenishmentOrder.replenishmentOrderCode
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.replenishmentOrderCode,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentCodeCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.replenishmentOrderCode
+      );
+    });
+
+    it('should call getOrderCurrentDateCardContent()', () => {
+      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+
+      const date = component['getDate'](new Date());
+
+      component
+        .getOrderCurrentDateCardContent()
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+    });
+
+    it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
+      spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
+
+      component
+        .getReplenishmentActiveCardContent(mockReplenishmentOrder.active)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentActiveCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.active
+      );
+    });
+
+    it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
+      spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
+
+      const date = component['getDate'](
+        new Date(mockReplenishmentOrder.firstDate)
+      );
+
+      component
+        .getReplenishmentStartOnCardContent(mockReplenishmentOrder.firstDate)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentStartOnCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.firstDate
+      );
+    });
+
+    it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
+      spyOn(
+        component,
+        'getReplenishmentFrequencyCardContent'
+      ).and.callThrough();
+
+      component
+        .getReplenishmentFrequencyCardContent(
+          mockReplenishmentOrder.trigger.displayTimeTable
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.trigger.displayTimeTable,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(
+        component.getReplenishmentFrequencyCardContent
+      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.displayTimeTable);
+    });
+
+    it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
+      spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
+
+      const date = component['getDate'](
+        new Date(mockReplenishmentOrder.trigger.activationTime)
+      );
+
+      component
+        .getReplenishmentNextDateCardContent(
+          mockReplenishmentOrder.trigger.activationTime
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(
+        component.getReplenishmentNextDateCardContent
+      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.activationTime);
+    });
   });
 
-  it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
-    spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
+  describe('when replenishment is NOT defined, so not the same order type', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
-    component.getDeliveryModeCardContent(mockDeliveryMode);
-    expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
-      mockDeliveryMode
-    );
+
+    it('should call getOrderCodeCardContent(orderCode: string)', () => {
+      spyOn(component, 'getOrderCodeCardContent').and.callThrough();
+
+      component
+        .getOrderCodeCardContent(mockOrder.code)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([mockOrder.code]);
+        })
+        .unsubscribe();
+
+      expect(component.getOrderCodeCardContent).toHaveBeenCalledWith(
+        mockOrder.code
+      );
+    });
+
+    it('should call getOrderCurrentDateCardContent()', () => {
+      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+
+      const date = component['getDate'](new Date());
+
+      component
+        .getOrderCurrentDateCardContent()
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+    });
+
+    it('should call getOrderStatusCardContent(status: string)', () => {
+      spyOn(component, 'getOrderStatusCardContent').and.callThrough();
+
+      component
+        .getOrderStatusCardContent(mockOrder.statusDisplay)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getOrderStatusCardContent).toHaveBeenCalledWith(
+        mockOrder.statusDisplay
+      );
+    });
   });
 
-  it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
-    spyOn(component, 'getBillingAddressCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component
-      .getBillingAddressCardContent(mockBillingAddress)
-      .subscribe((data) => {
-        expect(data).toBeTruthy();
-        expect(data.title).toEqual('test');
-      });
-    component.getBillingAddressCardContent(mockBillingAddress);
-    expect(component.getBillingAddressCardContent).toHaveBeenCalledWith(
-      mockBillingAddress
-    );
+  describe('when purchase order number is defined', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
+    });
+
+    it('should call getPurchaseOrderNumber(poNumber: string)', () => {
+      spyOn(component, 'getPurchaseOrderNumber').and.callThrough();
+
+      component
+        .getPurchaseOrderNumber(mockReplenishmentOrder.purchaseOrderNumber)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getPurchaseOrderNumber).toHaveBeenCalledWith(
+        mockReplenishmentOrder.purchaseOrderNumber
+      );
+    });
+
+    it('should call getMethodOfPaymentCardContent(paymentType?: B2BPaymentType)', () => {
+      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
+
+      component
+        .getMethodOfPaymentCardContent(mockReplenishmentOrder.paymentType)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.paymentType
+      );
+    });
+
+    it('should call getMethodOfPaymentCardContent()', () => {
+      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
+
+      component
+        .getMethodOfPaymentCardContent()
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith();
+    });
+
+    it('should call getCostCenterCardContent(costCenter: CostCenter)', () => {
+      spyOn(component, 'getCostCenterCardContent').and.callThrough();
+
+      component
+        .getCostCenterCardContent(mockReplenishmentOrder.costCenter)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.textBold).toEqual(mockReplenishmentOrder.costCenter.name);
+          expect(data.text).toEqual([
+            `(${mockReplenishmentOrder.costCenter.unit.name})`,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getCostCenterCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.costCenter
+      );
+    });
   });
 
-  it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
-    spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getPaymentInfoCardContent(mockPayment).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
+  describe('when paymentInfo and costCenter is defined', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
-    component.getPaymentInfoCardContent(mockPayment);
-    expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
-      mockPayment
-    );
+
+    it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
+      spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
+
+      component
+        .getPaymentInfoCardContent(mockReplenishmentOrder.paymentInfo)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.textBold).toEqual(
+            mockReplenishmentOrder.paymentInfo.accountHolderName
+          );
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.paymentInfo.cardNumber,
+            'test',
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.paymentInfo
+      );
+    });
+
+    it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
+      spyOn(component, 'getBillingAddressCardContent').and.callThrough();
+
+      const billingAddress = mockReplenishmentOrder.paymentInfo.billingAddress;
+
+      component
+        .getBillingAddressCardContent(billingAddress)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.textBold).toEqual(
+            `${billingAddress.firstName} ${billingAddress.lastName}`
+          );
+          expect(data.text).toEqual([
+            `${billingAddress.line1}, ${billingAddress.town}, ${billingAddress.country.isocode}`,
+            `${billingAddress.line2}, ${billingAddress.town}, ${billingAddress.country.isocode}`,
+            `${billingAddress.country.name}, ${billingAddress.postalCode}`,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getBillingAddressCardContent).toHaveBeenCalledWith(
+        billingAddress
+      );
+    });
   });
 
-  it('should call getAccountPaymentCardContent(order: Order)', () => {
-    spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockB2BOrder));
-    spyOn(component, 'getAccountPaymentCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getAccountPaymentCardContent(mockB2BOrder).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
+  describe('common column in all types of order', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
-    component.getAccountPaymentCardContent(mockB2BOrder);
-    expect(component.getAccountPaymentCardContent).toHaveBeenCalledWith(
-      mockB2BOrder
-    );
+
+    it('should call getAddressCardContent(deliveryAddress: Address)', () => {
+      spyOn(component, 'getAddressCardContent').and.callThrough();
+
+      const deliveryAddress = mockReplenishmentOrder.deliveryAddress;
+
+      component
+        .getAddressCardContent(deliveryAddress)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.textBold).toEqual(
+            `${deliveryAddress.firstName} ${deliveryAddress.lastName}`
+          );
+          expect(data.text).toEqual([
+            `${deliveryAddress.line1}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`,
+            `${deliveryAddress.line2}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`,
+            `${deliveryAddress.country.name}, ${deliveryAddress.postalCode}`,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getAddressCardContent).toHaveBeenCalledWith(
+        deliveryAddress
+      );
+    });
+
+    it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
+      spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
+
+      component
+        .getDeliveryModeCardContent(mockReplenishmentOrder.deliveryMode)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.textBold).toEqual(
+            mockReplenishmentOrder.deliveryMode.name
+          );
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.deliveryMode.description,
+            mockReplenishmentOrder.deliveryMode.deliveryCost.formattedValue,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.deliveryMode
+      );
+    });
   });
 });
