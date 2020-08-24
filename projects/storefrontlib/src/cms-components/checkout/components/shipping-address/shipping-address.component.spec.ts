@@ -317,10 +317,12 @@ describe('ShippingAddressComponent', () => {
 
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', () => {
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
+      spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
+        of([])
+      );
       isAccount.next(true);
       component.ngOnInit();
-      component.getSupportedAddresses().subscribe().unsubscribe();
+      component.getSupportedAddresses().subscribe();
       expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
         'test-cost-center'
       );
