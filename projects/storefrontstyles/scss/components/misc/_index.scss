@@ -2,7 +2,5 @@
 @import './pagination/index';
 @import './spinner/index';
 @import './icons';
-@import './table/table';
 
-$misc-components-whitelist: cx-table, cx-icon, cx-spinner, cx-card,
-  cx-pagination !default;
+$misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination !default;
