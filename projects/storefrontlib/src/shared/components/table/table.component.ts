@@ -5,7 +5,13 @@ import {
   Input,
   isDevMode,
 } from '@angular/core';
-import { Table, TableFieldOptions, TableHeader } from './table.model';
+import {
+  Table,
+  TableDataOutletContext,
+  TableFieldOptions,
+  TableHeader,
+  TableHeaderOutletContext,
+} from './table.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -116,22 +122,22 @@ export class TableComponent {
   /**
    * Returns the header (th) outlet context for the given field.
    */
-  getHeaderOutletContext(field): any {
-    return { field, options: this.options?.[field] };
+  getHeaderOutletContext(field: string): TableHeaderOutletContext {
+    return { _field: field, _options: this.options?.[field] };
   }
 
   /**
    * Returns the data (td) outlet reference for the given field.
    */
-  getDataOutletRef(field: string) {
+  getDataOutletRef(field: string): string {
     return `table.${this.type}.data.${field}`;
   }
 
   /**
    * Returns the data (td) outlet context for the given field.
    */
-  getDataOutletContext(_field, data): any {
-    return { _field, _options: this.options?.[_field], ...data };
+  getDataOutletContext(field: string, data: any): TableDataOutletContext {
+    return { _field: field, _options: this.options?.[field], ...data };
   }
 
   protected get type() {
