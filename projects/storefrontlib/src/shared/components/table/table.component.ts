@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostBinding,
   Input,
   isDevMode,
+  Output,
 } from '@angular/core';
-import { Table } from './table.model';
+import { Table, TableHeader } from './table.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -58,12 +60,27 @@ export class TableComponent {
   }
 
   /**
+   * The paginateEvent is triggered when a new page is required. This includes sorting.
+   */
+  @Output() sortEvent: EventEmitter<string> = new EventEmitter();
+
+  /**
    * Returns the configured data value by the label key.
    * If there's no headerKey available, or no corresponding value, the
    * first value in the data row is returned.
    */
   getDataValue(dataRow: any, headerKey: string, index: number): string {
     return dataRow[headerKey] || Object.values(dataRow)[index];
+  }
+
+  /**
+   * Sorts the table by emitting the pagination to the container/host component.
+   */
+  sort(header: TableHeader) {
+    console.log('sort');
+    if (header.sortCode) {
+      this.sortEvent.emit(header.sortCode);
+    }
   }
 
   /**

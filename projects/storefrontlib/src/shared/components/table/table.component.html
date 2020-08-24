@@ -4,6 +4,8 @@
       <th
         scope="col"
         *ngFor="let header of structure.headers; let i = index"
+        (click)="sort(header)"
+        [class.sortable]="!!header.sortCode"
         [class]="header.key"
       >
         <!-- render an outlet for each column header -->
@@ -17,15 +19,15 @@
           {{
             header.label || (structure.type + '.' + header.key | cxTranslate)
           }}
-          <cx-icon
-            *ngIf="!!header.sortCode"
-            [type]="
-              header.sortCode === structure.pagination?.sort
-                ? 'SORT_DOWN'
-                : 'SORT'
-            "
-          ></cx-icon>
         </ng-template>
+        <cx-icon
+          *ngIf="!!header.sortCode"
+          [type]="
+            header.sortCode === structure.pagination?.sort
+              ? 'SORT_DOWN'
+              : 'SORT'
+          "
+        ></cx-icon>
       </th>
     </tr>
   </thead>

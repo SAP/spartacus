@@ -79,4 +79,7 @@ export interface TableHeader {
    * key is used to translate to an i18n property.
    */
   label?: string;
+
+  // deprecated
+  sortCode?: string;
 }
