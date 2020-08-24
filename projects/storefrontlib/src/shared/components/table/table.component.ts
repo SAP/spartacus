@@ -71,7 +71,7 @@ export class TableComponent {
    * can easily get the notion of the table type.
    */
   protected addTableDebugInfo() {
-    if (isDevMode) {
+    if (isDevMode && this.type) {
       this.tableType = this.type;
     }
   }
@@ -135,10 +135,10 @@ export class TableComponent {
   }
 
   protected get type() {
-    return this.dataset.structure.type;
+    return this.dataset?.structure?.type;
   }
 
   protected get options() {
-    return this.dataset.structure.options;
+    return this.dataset?.structure?.options;
   }
 }

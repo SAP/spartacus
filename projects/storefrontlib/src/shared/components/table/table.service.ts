@@ -124,15 +124,12 @@ export class TableService {
       this.config.table[type][closestBreakpoint]?.fields ||
       this.config.table[type].fields;
 
-    // TODO: get field config from closest breakpoint config
-    // const fields = this.config.table[type].fields;
-
     // add all default table configurations
-    let options = this.config.table[type].options || {};
+    let options = { ...this.config.table[type].options };
 
     // merge relevant breakpoint configurations
     relevant.forEach((br) => {
-      options = Object.assign(options, this.config.table[type]?.[br]?.options);
+      options = { ...options, ...this.config.table[type]?.[br]?.options }; //, this.config.table[type]?.[br]?.options);
     });
 
     return { fields, options };
