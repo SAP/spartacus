@@ -181,32 +181,34 @@ cx-place-order {
 
 cx-schedule-replenishment-order {
   .scaled-input {
-    transform: scale(0.7);
+    transform: scale(0.875);
   }
 
   .cx-label-container {
-    display: inline-flex;
+    display: flex;
+    margin-bottom: 5px;
 
-    span {
-      font-size: $small-font-size;
-      color: $secondary;
-
-      margin-left: 8px;
-      margin-top: 3px;
+    cx-icon {
+      font-size: $font-size-base * 1.3;
     }
+  }
+
+  .cx-order-replenishment-header {
+    margin-inline-end: 14px;
+    margin-bottom: 0;
   }
 
   .cx-order-type-card {
     font-size: $small-font-size;
-    background-color: #ecf2f7;
-
+    background-color: var(--cx-color-background);
     border: 1px solid $light;
     border-radius: var(--cx-buttons-border-radius);
-
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px 21px;
 
     .cx-order-type-container {
+      margin-bottom: 7px;
+
       &:first-child {
         margin-top: 10px;
       }
@@ -219,6 +221,7 @@ cx-schedule-replenishment-order {
     .cx-replenishment-form-data-container {
       display: flex;
       flex-direction: row;
+      margin-top: 20px;
 
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -235,8 +238,7 @@ cx-schedule-replenishment-order {
       }
 
       .cx-days {
-        width: 5rem;
-        margin-right: 1rem;
+        margin-inline-end: 1rem;
       }
 
       .cx-day-of-month {
@@ -244,8 +246,6 @@ cx-schedule-replenishment-order {
       }
 
       .cx-month {
-        flex-grow: 1;
-
         @include media-breakpoint-down(sm) {
           flex-grow: unset;
           width: 50%;
