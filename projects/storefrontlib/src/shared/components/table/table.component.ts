@@ -7,6 +7,7 @@ import {
   isDevMode,
   Output,
 } from '@angular/core';
+import { TableRendererService } from './table-renderer.service';
 import {
   Table,
   TableDataOutletContext,
@@ -58,12 +59,15 @@ export class TableComponent {
   @Input()
   set dataset(dataset: Table) {
     this._dataset = dataset;
+    this.tableRendererService.add(dataset);
     this.addTableDebugInfo();
   }
 
   get dataset(): Table {
     return this._dataset;
   }
+
+  constructor(protected tableRendererService: TableRendererService) {}
 
   /**
    * The paginateEvent is triggered when a new page is required. This includes sorting.
@@ -125,21 +129,21 @@ export class TableComponent {
    * Returns the header (th) outlet context for the given field.
    */
   getHeaderOutletContext(field: string): TableHeaderOutletContext {
-    return { _field: field, _options: this.options };
+    return { _field: field, _type: this.type, _options: this.options };
   }
 
   /**
    * Returns the data (td) outlet reference for the given field.
    */
   getDataOutletRef(field: string): string {
-    return `table.${this.type}.data.${field}`;
+    return this.tableRendererService.getDataOutletRef(this.type, field);
   }
 
   /**
    * Returns the data (td) outlet context for the given field.
    */
   getDataOutletContext(field: string, data: any): TableDataOutletContext {
-    return { _field: field, _options: this.options, ...data };
+    return { _field: field, _type: this.type, _options: this.options, data };
   }
 
   /**

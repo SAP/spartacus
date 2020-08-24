@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { Budget } from "../../../core/model";
-import { BudgetService } from "../../../core/services/budget.service";
-import { BaseOrganizationListService } from "../../shared/base-organization-list.service";
-import { OrganizationTableType } from "../../shared/organization.model";
+import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Budget } from '../../../core/model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
  * UI model for the budget.
@@ -17,6 +17,9 @@ export interface BudgetModel {
   unit?: any;
   currency?: string;
   active?: boolean;
+  budget?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 /**
@@ -24,7 +27,7 @@ export interface BudgetModel {
  * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
  */
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BudgetListService extends BaseOrganizationListService<
   BudgetModel
@@ -63,6 +66,7 @@ export class BudgetListService extends BaseOrganizationListService<
       values: values.map((value: any) => ({
         ...value,
         currency: value.currency?.isocode,
+        unit: value.orgUnit,
       })),
     };
     return budgetModels;

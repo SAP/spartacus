@@ -1,4 +1,5 @@
 export * from './config/table.config';
+export * from './table-renderer.service';
 export * from './table.component';
 export * from './table.model';
 export * from './table.module';

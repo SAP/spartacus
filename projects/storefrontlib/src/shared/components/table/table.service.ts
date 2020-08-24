@@ -129,7 +129,7 @@ export class TableService {
 
     // merge relevant breakpoint configurations
     relevant.forEach((br) => {
-      options = { ...options, ...this.config.table[type]?.[br]?.options }; //, this.config.table[type]?.[br]?.options);
+      options = { ...options, ...this.config.table[type]?.[br]?.options };
     });
 
     return { fields, options };

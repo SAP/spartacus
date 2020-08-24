@@ -51,6 +51,10 @@ export interface TableFieldOptions {
    * field key is mapped to a i18n property.
    */
   label?: string | TableHeader;
+
+  headerRenderer?: any;
+
+  dataRenderer?: any;
 }
 
 /**
@@ -85,10 +89,12 @@ export interface TableHeader {
 }
 
 export interface TableHeaderOutletContext {
+  _type: string;
   _field: string;
   _options: TableOptions;
 }
 
-export interface TableDataOutletContext extends TableHeaderOutletContext {
-  [prop: string]: any;
+export interface TableDataOutletContext<T = any>
+  extends TableHeaderOutletContext {
+  data: T;
 }
