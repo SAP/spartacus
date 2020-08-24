@@ -6,7 +6,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { LayoutConfig } from 'projects/storefrontlib/src/layout';
 import { TableComponent } from './table.component';
-import { Table } from './table.model';
+import { Table, TableHeader } from './table.model';
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -22,6 +22,11 @@ const mockDataset: Table = {
     fields: headers,
     options: {
       fields: {
+        key2: {
+          label: {
+            i18nKey: 'prop.key2',
+          },
+        },
         key3: {
           label: 'key 3 label',
         },
@@ -98,116 +103,151 @@ describe('TableComponent', () => {
   });
 
   describe('table header', () => {
-    it('should not add the thead when hideHeader = true', () => {
-      tableComponent.dataset = {
-        ...mockDataset,
-        structure: { ...mockDataset.structure, options: { hideHeader: true } },
-      };
-      fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table > thead'));
-      expect(table).toBeNull();
+    beforeEach(() => {
+      tableComponent.dataset = mockDataset;
     });
 
-    it('should add a th for each tableHeader ', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table > thead'));
-      expect(table.nativeElement).toBeTruthy();
-      const th = fixture.debugElement.queryAll(
-        By.css('table > thead > tr > th')
+    it('should resolve a static header', () => {
+      expect(tableComponent.getHeader('key3')).toEqual('key 3 label');
+    });
+
+    it('should generate a header with a generated i18n key', () => {
+      expect(tableComponent.getLocalizedHeader('key1')).toEqual('test-1.key1');
+    });
+
+    it('should generate table header outlet reference', () => {
+      expect(tableComponent.getHeaderOutletRef('key1')).toEqual(
+        'table.test-1.header.key1'
       );
-      expect(th.length).toBe(3);
-      expect(th[0].nativeElement).toBeTruthy();
-      expect(th[1].nativeElement).toBeTruthy();
-      expect(th[2].nativeElement).toBeTruthy();
     });
 
-    it('should leverage the translate pipe for the header key when there is no header label', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const th1: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(1)')
-      ).nativeElement;
-
-      expect(th1.innerText).toEqual('test-1.key1');
+    it('should generate a table header outlet context', () => {
+      const context = tableComponent.getHeaderOutletContext('key2');
+      expect(context._field).toEqual('key2');
+      expect(
+        (context._options.fields['key2'].label as TableHeader).i18nKey
+      ).toEqual('prop.key2');
     });
 
-    it('should add the header.label in the th if available ', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+    describe('UI', () => {
+      it('should resolve the i18n property for the field', () => {
+        expect(tableComponent.getLocalizedHeader('key2')).toEqual('prop.key2');
+      });
 
-      const th3: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(3)')
-      ).nativeElement;
+      it('should leverage the translate pipe for the header key when there is no header label', () => {
+        fixture.detectChanges();
 
-      expect(th3.innerText).toEqual('key 3 label');
-    });
+        const th1: HTMLElement = fixture.debugElement.query(
+          By.css('table th:nth-child(1)')
+        ).nativeElement;
 
-    it('should add the col key as a css class to each <th>', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+        expect(th1.innerText).toEqual('test-1.key1');
+      });
 
-      const th1: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(1)')
-      ).nativeElement;
+      it('should add the header.label in the th if available ', () => {
+        fixture.detectChanges();
 
-      expect(th1.classList).toContain('key1');
+        const th3: HTMLElement = fixture.debugElement.query(
+          By.css('table th:nth-child(3)')
+        ).nativeElement;
+
+        expect(th3.innerText).toEqual('key 3 label');
+      });
+
+      it('should not add the thead when hideHeader = true', () => {
+        tableComponent.dataset = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: { hideHeader: true },
+          },
+        };
+        fixture.detectChanges();
+        const table = fixture.debugElement.query(By.css('table > thead'));
+        expect(table).toBeNull();
+      });
+
+      it('should add a th for each tableHeader ', () => {
+        fixture.detectChanges();
+        const table = fixture.debugElement.query(By.css('table > thead'));
+        expect(table.nativeElement).toBeTruthy();
+        const th = fixture.debugElement.queryAll(
+          By.css('table > thead > tr > th')
+        );
+        expect(th.length).toBe(3);
+        expect(th[0].nativeElement).toBeTruthy();
+        expect(th[1].nativeElement).toBeTruthy();
+        expect(th[2].nativeElement).toBeTruthy();
+      });
+
+      it('should add the col key as a css class to each <th>', () => {
+        fixture.detectChanges();
+
+        const th1: HTMLElement = fixture.debugElement.query(
+          By.css('table th:nth-child(1)')
+        ).nativeElement;
+
+        expect(th1.classList).toContain('key1');
+      });
     });
   });
 
   describe('table data', () => {
-    it('should generate a tr for each data row', () => {
+    beforeEach(() => {
       tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(3);
     });
 
-    it('should generate a td for each data row', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(9);
+    it('should generate table data outlet reference', () => {
+      expect(tableComponent.getDataOutletRef('key1')).toEqual(
+        'table.test-1.data.key1'
+      );
     });
 
-    it('should add the col key as a css class to each <td>', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+    it('should generate a table header outlet context', () => {
+      const context = tableComponent.getDataOutletContext('key2', {
+        foo: 'bar',
+      });
+      expect(context._field).toEqual('key2');
+      expect(
+        (context._options.fields['key2'].label as TableHeader).i18nKey
+      ).toEqual('prop.key2');
 
-      const td1: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(1)')
-      ).nativeElement;
-      expect(td1.classList).toContain('key1');
-
-      const td2: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(2)')
-      ).nativeElement;
-      expect(td2.classList).toContain('key2');
-
-      const td3: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(3)')
-      ).nativeElement;
-      expect(td3.classList).toContain('key3');
+      expect(context.foo).toEqual('bar');
     });
 
-    xdescribe('sort data', () => {
-      // it('should emit event if header has sortCode', () => {
-      //   spyOn(tableComponent.sortEvent, 'emit');
-      //   tableComponent.dataset = mockDataset;
-      //   tableComponent.sort(headers[0]);
-      //   expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
-      //     headers[0].sortCode
-      //   );
-      // });
-      // it('should not emit event if header has no sortCode', () => {
-      //   spyOn(tableComponent.sortEvent, 'emit');
-      //   tableComponent.dataset = mockDataset;
-      //   tableComponent.sort(headers[2]);
-      //   expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
-      // });
+    describe('UI', () => {
+      it('should generate a tr for each data row', () => {
+        fixture.detectChanges();
+
+        const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+        expect(tr.length).toBe(3);
+      });
+
+      it('should generate a td for each data row', () => {
+        fixture.detectChanges();
+
+        const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
+        expect(td.length).toBe(9);
+      });
+
+      it('should add the col key as a css class to each <td>', () => {
+        fixture.detectChanges();
+
+        const td1: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(1)')
+        ).nativeElement;
+        expect(td1.classList).toContain('key1');
+
+        const td2: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(2)')
+        ).nativeElement;
+        expect(td2.classList).toContain('key2');
+
+        const td3: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(3)')
+        ).nativeElement;
+        expect(td3.classList).toContain('key3');
+      });
     });
   });
 });

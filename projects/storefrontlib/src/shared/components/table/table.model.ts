@@ -80,3 +80,12 @@ export interface TableHeader {
    */
   i18nKey?: string;
 }
+
+export interface TableHeaderOutletContext {
+  _field: string;
+  _options: TableOptions;
+}
+
+export interface TableDataOutletContext extends TableHeaderOutletContext {
+  [prop: string]: any;
+}

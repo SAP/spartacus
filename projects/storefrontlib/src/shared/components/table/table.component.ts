@@ -5,7 +5,13 @@ import {
   Input,
   isDevMode,
 } from '@angular/core';
-import { Table, TableFieldOptions, TableHeader } from './table.model';
+import {
+  Table,
+  TableDataOutletContext,
+  TableFieldOptions,
+  TableHeader,
+  TableHeaderOutletContext,
+} from './table.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -67,20 +73,6 @@ export class TableComponent {
   }
 
   /**
-   * Generates the table type into the UI in devMode, so that developers
-   * can easily get the notion of the table type.
-   */
-  protected addTableDebugInfo() {
-    if (isDevMode && this.type) {
-      this.tableType = this.type;
-    }
-  }
-
-  protected getFieldOptions(field: string): TableFieldOptions {
-    return this.options?.fields?.[field];
-  }
-
-  /**
    * Returns the static label for the given field, if available.
    */
   getHeader(field): string {
@@ -116,22 +108,36 @@ export class TableComponent {
   /**
    * Returns the header (th) outlet context for the given field.
    */
-  getHeaderOutletContext(field): any {
-    return { field, options: this.options?.[field] };
+  getHeaderOutletContext(field: string): TableHeaderOutletContext {
+    return { _field: field, _options: this.options };
   }
 
   /**
    * Returns the data (td) outlet reference for the given field.
    */
-  getDataOutletRef(field: string) {
+  getDataOutletRef(field: string): string {
     return `table.${this.type}.data.${field}`;
   }
 
   /**
    * Returns the data (td) outlet context for the given field.
    */
-  getDataOutletContext(_field, data): any {
-    return { _field, _options: this.options?.[_field], ...data };
+  getDataOutletContext(field: string, data: any): TableDataOutletContext {
+    return { _field: field, _options: this.options, ...data };
+  }
+
+  /**
+   * Generates the table type into the UI in devMode, so that developers
+   * can easily get the notion of the table type.
+   */
+  protected addTableDebugInfo() {
+    if (isDevMode && this.type) {
+      this.tableType = this.type;
+    }
+  }
+
+  protected getFieldOptions(field: string): TableFieldOptions {
+    return this.options?.fields?.[field];
   }
 
   protected get type() {
