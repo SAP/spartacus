@@ -26,7 +26,7 @@ export abstract class TableConfig {
  */
 interface ResponsiveTableConfiguration extends TableStructureConfiguration {
   /** The table configurations for all screens */
-  [BREAKPOINT.xs]?: TableStructureConfiguration;
+  [BREAKPOINT.xl]?: TableStructureConfiguration;
   /** The table configurations for large screens and smaller */
   [BREAKPOINT.lg]?: TableStructureConfiguration;
   /** The table configurations for medium screens and smaller */
