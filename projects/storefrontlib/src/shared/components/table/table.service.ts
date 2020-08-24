@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { TableConfig } from './config/table.config';
 import { TableStructure, TableStructureConfiguration } from './table.model';
 
@@ -40,12 +40,12 @@ export class TableService {
     data$?: Observable<any>
   ): Observable<TableStructure> {
     if (this.hasTableConfig(tableType)) {
-      return <Observable<TableStructure>>this.getConfig(tableType);
+      return this.buildStructureFromConfig(tableType);
     } else {
       if (data$) {
         return this.buildStructureFromData(tableType, data$);
       } else {
-        return this.buildFallbackStructure(tableType);
+        return this.buildRandomStructure(tableType);
       }
     }
   }
@@ -57,7 +57,7 @@ export class TableService {
    *
    * The breakpoint is resolved by teh `BreakpointService`.
    */
-  getConfig(type: string): Observable<TableStructureConfiguration> {
+  protected buildStructureFromConfig(type: string): Observable<TableStructure> {
     return this.breakpointService.breakpoint$.pipe(
       map((breakpoint) => ({ ...this.getTableConfig(type, breakpoint), type }))
     );
@@ -75,76 +75,89 @@ export class TableService {
     );
     return data$.pipe(
       map((data: any[]) => {
-        const headers = Object.keys(data?.[0]).map((key) => ({
-          key,
-          label: key,
-        }));
-        return {
-          type: type,
-          headers,
-        } as TableStructure;
+        const fields = Object.keys(data?.[0]).map((key) => key);
+        return { type, fields } as TableStructure;
       })
     );
   }
 
   /**
-   * As a last resort, the table structure fallback is created. We add 5 unknown headers
+   * As a last resort, the table structure is randomly created. We add 5 unknown headers
    * and use the `hideHeader` to avoid the unknown headers to be rendered.
    */
-  protected buildFallbackStructure(type: string): Observable<TableStructure> {
+  protected buildRandomStructure(type: string): Observable<TableStructure> {
     this.warn(
       `No data available for "${type}", a random structure is generated (with hidden table headers).`
     );
 
     return of({
       type,
-      headers: [
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-      ],
-      hideHeader: true,
+      fields: ['unknown'],
+      options: {
+        hideHeader: true,
+      },
     });
   }
 
   /**
-   * Finds the best applicable table configuration for the given type
-   * and breakpoint. If there is no configuration available for the breakpoint,
-   * the best match will be returned, using mobile first approach.
+   * Finds all applicable table configuration for the given type and breakpoint.
+   * The default table configuration is merged with all relevant breakpoint
+   * configurations.
    *
-   * If there is no match for any breakpoint, the fallback is a configuration
-   * without the notion of a breakpoint. Otherwise we fallback to the first
-   * available config.
+   * This allows to have some default configurations that apply to all screens, and
+   * add configuration options for some screens.
    */
   protected getTableConfig(
     type: string,
     breakpoint: BREAKPOINT
   ): TableStructureConfiguration {
-    const tableConfig = this.config.table[type];
+    if (!this.config.table?.[type]) {
+      return null;
+    }
 
-    // find all relevant breakpoints
-    const current = this.breakpointService.breakpoints.indexOf(breakpoint);
-    const relevant = this.breakpointService.breakpoints
-      .slice(0, current + 1)
-      .reverse();
+    const relevant = this.findRelevantBreakpoints(breakpoint);
 
+<<<<<<< Updated upstream
     const bestMatch: BREAKPOINT = relevant.find(
-      (br) => !!tableConfig?.find((structure) => structure.breakpoint === br)
+      (br) => !!tableConfig.find((structure) => structure.breakpoint === br)
     );
 
-    const fallbackConfig = tableConfig?.find(
-      (structure) => !structure.breakpoint
-    );
+    return bestMatch
+      ? tableConfig.find((config) => config.breakpoint === bestMatch)
+      : tableConfig.find((structure) => !structure.breakpoint) ||
+          tableConfig[0];
+=======
+    const closestBreakpoint = [...relevant]
+      .reverse()
+      .find((br) => !!this.config.table[type][br]?.fields);
+    const fields =
+      this.config.table[type][closestBreakpoint]?.fields ||
+      this.config.table[type].fields;
 
-    // merge the breakpoint specific config with the default configuration (if any)
-    return {
-      ...fallbackConfig,
-      ...(bestMatch
-        ? tableConfig.find((config) => config.breakpoint === bestMatch)
-        : {}),
-    };
+    // TODO: get field config from closest breakpoint config
+    // const fields = this.config.table[type].fields;
+
+    // add all default table configurations
+    let options = this.config.table[type].options || {};
+
+    // merge relevant breakpoint configurations
+    relevant.forEach((br) => {
+      options = Object.assign(options, this.config.table[type]?.[br]?.options);
+    });
+
+    return { fields, options };
+  }
+
+  /**
+   * Finds all the breakpoints can contribute to the table configuration, from small
+   * to current.
+   *
+   * In case the current breakpoint would be `MD`, this returns `[XS,SM,MD]`.
+   */
+  protected findRelevantBreakpoints(breakpoint: BREAKPOINT): BREAKPOINT[] {
+    const current = this.breakpointService.breakpoints.indexOf(breakpoint);
+    return this.breakpointService.breakpoints.slice(0, current + 1);
+>>>>>>> Stashed changes
   }
 
   protected hasTableConfig(tableType: string): boolean {

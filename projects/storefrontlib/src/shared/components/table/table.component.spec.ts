@@ -3,16 +3,21 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
-import { LayoutConfig } from '../../../layout/config/layout-config';
+import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
+import { LayoutConfig } from 'projects/storefrontlib/src/layout';
+import { of } from 'rxjs';
 import { TableComponent } from './table.component';
-import { Table, TableHeader } from './table.model';
+import { Table } from './table.model';
 
+<<<<<<< Updated upstream
 const headers: TableHeader[] = [
-  { key: 'key1', sortCode: 'sort1' },
-  { key: 'key2', sortCode: 'sort2' },
+  { key: 'key1' },
+  { key: 'key2' },
   { key: 'key3', label: 'label3' },
 ];
+=======
+const headers: string[] = ['key1', 'key2', 'key3'];
+>>>>>>> Stashed changes
 
 const data = [
   { key1: 'val1', key2: 'val2', key3: 'val3' },
@@ -23,9 +28,9 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    headers,
+    fields: headers,
   },
-  data,
+  data$: of(data),
 };
 
 describe('TableComponent', () => {
@@ -73,24 +78,24 @@ describe('TableComponent', () => {
     expect(table.nativeElement).toBeTruthy();
   });
 
-  it('should add the table type to cx-table-type attribute in devMode', () => {
+  it('should add the table type to __cx-table-type attribute in devMode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
     const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
     expect(attr).toEqual('test-1');
   });
 
-  it('should not add the table type to cx-table-type attribute in production mode', () => {
+  it('should not add the table type to __cx-table-type attribute in production mode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
 
     const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
     expect(attr).toBeFalsy();
   });
 
@@ -189,23 +194,25 @@ describe('TableComponent', () => {
       ).nativeElement;
       expect(td3.classList).toContain('key3');
     });
+<<<<<<< Updated upstream
+=======
 
-    describe('sort data', () => {
-      it('should emit event if header has sortCode', () => {
-        spyOn(tableComponent.sortEvent, 'emit');
-        tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[0]);
-        expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
-          headers[0].sortCode
-        );
-      });
-
-      it('should not emit event if header has no sortCode', () => {
-        spyOn(tableComponent.sortEvent, 'emit');
-        tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[2]);
-        expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
-      });
+    xdescribe('sort data', () => {
+      // it('should emit event if header has sortCode', () => {
+      //   spyOn(tableComponent.sortEvent, 'emit');
+      //   tableComponent.dataset = mockDataset;
+      //   tableComponent.sort(headers[0]);
+      //   expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
+      //     headers[0].sortCode
+      //   );
+      // });
+      // it('should not emit event if header has no sortCode', () => {
+      //   spyOn(tableComponent.sortEvent, 'emit');
+      //   tableComponent.dataset = mockDataset;
+      //   tableComponent.sort(headers[2]);
+      //   expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
+      // });
     });
+>>>>>>> Stashed changes
   });
 });

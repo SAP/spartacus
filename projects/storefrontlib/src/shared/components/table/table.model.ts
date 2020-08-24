@@ -1,4 +1,5 @@
 import { PaginationModel } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 /**
  * Contains the table data and structure for the `TableComponent`.
@@ -17,7 +18,7 @@ export interface Table<T = any> {
    * to be unaware of any specifics. The type can be handed in when the `Table` is
    * created however.
    */
-  data: T[];
+  data$: Observable<T[]>;
 
   /**
    * The pagination component is used to paginate through the data.
@@ -25,26 +26,44 @@ export interface Table<T = any> {
   pagination?: PaginationModel;
 }
 
-/**
- * Configuration to provide the default structure of a table. The configuration allows
- * a default configuration as well as specific configurations per breakpoint (i.e. mobile
- * vs desktop).
- */
 export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  headers?: TableHeader[];
+<<<<<<< Updated upstream
+  headers: TableHeader[];
 
   /**
    * Table headers can be  are added by default
    */
   hideHeader?: boolean;
+=======
+  fields?: string[];
 
+  options?: {
+    /**
+     * Table headers can be  are added by default
+     */
+    hideHeader?: boolean;
+
+    fields?: {
+      [fieldKey: string]: TableOptions;
+    };
+
+    /**
+     * Default pagination for the table that is used for the initial load of the table data.
+     */
+    pagination?: PaginationModel;
+  };
+}
+
+export interface TableOptions {
   /**
-   * Default pagination for the table that is used for the initial load of the table data.
+   * Optional label to add static or localized headers. If the label is not present, the
+   * field key is mapped to a i18n property.
    */
-  pagination?: PaginationModel;
+  label?: string | TableHeader;
+>>>>>>> Stashed changes
 }
 
 /**
@@ -72,6 +91,7 @@ export interface TableHeader {
    * - translate the key using the translate module
    *   (fallback in case there is no label available)
    */
+<<<<<<< Updated upstream
   key?: string;
 
   /**
@@ -79,9 +99,7 @@ export interface TableHeader {
    * key is used to translate to an i18n property.
    */
   label?: string;
-
-  /**
-   * Provides an optional sort code to sort the table data per header.
-   */
-  sortCode?: string;
+=======
+  i18nKey?: string;
+>>>>>>> Stashed changes
 }

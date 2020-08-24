@@ -1,45 +1,46 @@
 <table *ngIf="dataset?.structure as structure">
-  <thead *ngIf="!structure.hideHeader">
+  <thead *ngIf="!structure.options?.hideHeader">
     <tr>
+<<<<<<< Updated upstream
       <th
         scope="col"
         *ngFor="let header of structure.headers; let i = index"
-        (click)="sort(header)"
-        [class.sortable]="!!header.sortCode"
         [class]="header.key"
       >
+=======
+      <th scope="col" *ngFor="let field of structure.fields" [class]="field">
+>>>>>>> Stashed changes
         <!-- render an outlet for each column header -->
         <ng-template
-          [cxOutlet]="
-            'table.' + structure.type + '.header.' + (header.key || i)
-          "
-          [cxOutletContext]="header"
+          [cxOutlet]="getHeaderOutletRef(field)"
+          [cxOutletContext]="getHeaderOutletContext(field)"
         >
+<<<<<<< Updated upstream
           <!-- Render the label by default, fallback to localize the label by it's key -->
           {{
             header.label || (structure.type + '.' + header.key | cxTranslate)
           }}
-          <cx-icon
-            *ngIf="!!header.sortCode"
-            [type]="
-              header.sortCode === structure.pagination?.sort
-                ? 'SORT_DOWN'
-                : 'SORT'
-            "
-          ></cx-icon>
+=======
+          {{ getHeader(field) || (getLocalizedHeader(field) | cxTranslate) }}
+>>>>>>> Stashed changes
         </ng-template>
       </th>
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data">
+<<<<<<< Updated upstream
+  <tr *ngFor="let row of dataset.data$ | async">
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
+=======
+  <tr *ngFor="let row of dataset.data">
+    <td *ngFor="let field of structure.fields; let i = index" [class]="field">
+>>>>>>> Stashed changes
       <!-- render an outlet for each cell -->
       <ng-template
-        [cxOutlet]="'table.' + structure.type + '.data.' + (col.key || i)"
-        [cxOutletContext]="row"
+        [cxOutlet]="getDataOutletRef(field)"
+        [cxOutletContext]="getDataOutletContext(field, row)"
       >
-        {{ getDataValue(row, col.key, i) }}
+        {{ getDataValue(row, field, i) }}
       </ng-template>
     </td>
   </tr>
