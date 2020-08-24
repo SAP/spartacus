@@ -79,6 +79,9 @@ export interface TableHeader {
    *   (fallback in case there is no label available)
    */
   i18nKey?: string;
+
+  // deprecated
+  sortCode?: string;
 }
 
 export interface TableHeaderOutletContext {

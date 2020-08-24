@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostBinding,
   Input,
   isDevMode,
+  Output,
 } from '@angular/core';
 import {
   Table,
@@ -64,12 +66,26 @@ export class TableComponent {
   }
 
   /**
+   * The paginateEvent is triggered when a new page is required. This includes sorting.
+   */
+  @Output() sortEvent: EventEmitter<string> = new EventEmitter();
+
+  /**
    * Returns the configured data value by the label key.
    * If there's no headerKey available, or no corresponding value, the
    * first value in the data row is returned.
    */
   getDataValue(dataRow: any, headerKey: string, index: number): string {
     return dataRow[headerKey] || Object.values(dataRow)[index];
+  }
+
+  /**
+   * Returns the static label for the given field, if available.
+   */
+  sort(header: TableHeader) {
+    if (header.sortCode) {
+      this.sortEvent.emit(header.sortCode);
+    }
   }
 
   /**
