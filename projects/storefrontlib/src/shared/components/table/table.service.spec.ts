@@ -20,13 +20,40 @@ class MockBreakpointService {
   }
 }
 
-const MockTableConfig: TableConfig | any = {
+const MockTableConfig: TableConfig = {
   table: {
     table1: { fields: ['name-col'] },
     table2: {
       fields: ['name'],
       [BREAKPOINT.xs]: { fields: ['xs-col'] },
       [BREAKPOINT.md]: { fields: ['md-col'] },
+    },
+    table3: {
+      fields: ['xs'],
+      sm: {
+        fields: ['sm'],
+      },
+      md: {
+        fields: ['md'],
+      },
+      lg: {
+        fields: ['lg'],
+      },
+      xl: {
+        fields: ['xl'],
+      },
+    },
+    table4: {
+      fields: ['xs'],
+      options: {
+        hideHeader: true,
+      },
+      xl: {
+        fields: ['xl'],
+        options: {
+          hideHeader: false,
+        },
+      },
     },
   },
 };
@@ -53,6 +80,98 @@ describe('TableService', () => {
     });
 
     describe('buildStructure', () => {
+      describe('merge fields', () => {
+        it('should return fields for xs screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.xs)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table3')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['xs']);
+        });
+
+        it('should return fields for sm screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.sm)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table3')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['sm']);
+        });
+
+        it('should return fields for md screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.md)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table3')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['md']);
+        });
+
+        it('should return fields for lg screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.lg)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table3')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['lg']);
+        });
+
+        it('should return fields for xl screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.xl)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table3')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['xl']);
+        });
+
+        it('should return default fields for md screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.md)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table4')
+            .subscribe((table) => (result = table));
+          expect(result.fields).toEqual(['xs']);
+        });
+      });
+
+      describe('merge options', () => {
+        it('should return default options for md screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.md)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table4')
+            .subscribe((table) => (result = table));
+          expect(result.options.hideHeader).toEqual(true);
+        });
+
+        it('should merge options for xl screen', () => {
+          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+            of(BREAKPOINT.xl)
+          );
+          let result: TableStructure;
+          tableService
+            .buildStructure('table4')
+            .subscribe((table) => (result = table));
+          expect(result.options.hideHeader).toEqual(false);
+        });
+      });
+
       describe('lg breakpoint', () => {
         beforeEach(() => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
@@ -60,14 +179,14 @@ describe('TableService', () => {
           );
         });
 
-        xdescribe('table2', () => {
+        describe('table2', () => {
           it('should return the tablet (md) structure for large screens', () => {
             let result: TableStructure;
             tableService
               .buildStructure('table2')
               .subscribe((structure) => (result = structure));
 
-            expect(result.fields).toEqual('md-col');
+            expect(result.fields).toEqual(['md-col']);
           });
         });
       });
