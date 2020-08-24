@@ -76,10 +76,7 @@ export class TableService {
     return data$.pipe(
       map((data: any[]) => {
         const fields = Object.keys(data?.[0]).map((key) => key);
-        return {
-          type,
-          fields,
-        } as TableStructure;
+        return { type, fields } as TableStructure;
       })
     );
   }
@@ -96,39 +93,57 @@ export class TableService {
     return of({
       type,
       fields: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
-      hideHeader: true,
+      options: {
+        hideHeader: true,
+      },
     });
   }
 
   /**
-   * Finds the best applicable table configuration for the given type
-   * and breakpoint. If there is no configuration available for the breakpoint,
-   * the best match will be returned, using mobile first approach.
+   * Finds all applicable table configuration for the given type and breakpoint.
+   * The default table configuration is merged with all relevant breakpoint
+   * configurations.
    *
-   * If there is no match for any breakpoint, the fallback is a configuration
-   * without the notion of a breakpoint. Otherwise we fallback to the first
-   * available config.
+   * This allows to have some default configurations that apply to all screens, and
+   * add configuration options for some screens.
    */
   protected getTableConfig(
     type: string,
     breakpoint: BREAKPOINT
   ): TableStructureConfiguration {
-    const tableConfig = this.config.table[type];
+    if (!this.config.table?.[type]) {
+      return null;
+    }
 
-    // find all relevant breakpoints
+    const relevant = this.findRelevantBreakpoints(breakpoint);
+
+    const closestBreakpoint = [...relevant]
+      .reverse()
+      .find((br) => !!this.config.table[type][br]?.fields);
+    const fields =
+      this.config.table[type][closestBreakpoint]?.fields ||
+      this.config.table[type].fields;
+
+    // add all default table configurations
+    let options = { ...this.config.table[type].options };
+
+    // merge relevant breakpoint configurations
+    relevant.forEach((br) => {
+      options = { ...options, ...this.config.table[type]?.[br]?.options }; //, this.config.table[type]?.[br]?.options);
+    });
+
+    return { fields, options };
+  }
+
+  /**
+   * Finds all the breakpoints can contribute to the table configuration, from small
+   * to current.
+   *
+   * In case the current breakpoint would be `MD`, this returns `[XS,SM,MD]`.
+   */
+  protected findRelevantBreakpoints(breakpoint: BREAKPOINT): BREAKPOINT[] {
     const current = this.breakpointService.breakpoints.indexOf(breakpoint);
-    const relevant = this.breakpointService.breakpoints
-      .slice(0, current + 1)
-      .reverse();
-
-    const bestMatch: BREAKPOINT = relevant.find(
-      (br) => !!tableConfig.find((structure) => structure.breakpoint === br)
-    );
-
-    return bestMatch
-      ? tableConfig.find((config) => config.breakpoint === bestMatch)
-      : tableConfig.find((structure) => !structure.breakpoint) ||
-          tableConfig[0];
+    return this.breakpointService.breakpoints.slice(0, current + 1);
   }
 
   protected hasTableConfig(tableType: string): boolean {

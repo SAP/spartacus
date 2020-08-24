@@ -1,30 +1,26 @@
 <table *ngIf="dataset?.structure as structure">
-  <thead *ngIf="!structure.hideHeader">
+  <thead *ngIf="!structure.options?.hideHeader">
     <tr>
-      <th
-        scope="col"
-        *ngFor="let header of structure.fields; let i = index"
-        [class]="header"
-      >
+      <th scope="col" *ngFor="let field of structure.fields" [class]="field">
         <!-- render an outlet for each column header -->
         <ng-template
-          [cxOutlet]="'table.' + structure.type + '.header.' + (header || i)"
-          [cxOutletContext]="header"
+          [cxOutlet]="getHeaderOutletRef(field)"
+          [cxOutletContext]="getHeaderOutletContext(field)"
         >
-          {{ structure.type + '.' + header | cxTranslate }}
+          {{ getHeader(field) || (getLocalizedHeader(field) | cxTranslate) }}
         </ng-template>
       </th>
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data$ | async">
-    <td *ngFor="let col of structure.fields; let i = index" [class]="col">
+  <tr *ngFor="let row of dataset.data">
+    <td *ngFor="let field of structure.fields; let i = index" [class]="field">
       <!-- render an outlet for each cell -->
       <ng-template
-        [cxOutlet]="'table.' + structure.type + '.data.' + (col || i)"
-        [cxOutletContext]="row"
+        [cxOutlet]="getDataOutletRef(field)"
+        [cxOutletContext]="getDataOutletContext(field, row)"
       >
-        {{ getDataValue(row, col, i) }}
+        {{ getDataValue(row, field, i) }}
       </ng-template>
     </td>
   </tr>

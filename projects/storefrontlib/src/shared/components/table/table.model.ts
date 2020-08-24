@@ -1,5 +1,4 @@
 import { PaginationModel } from '@spartacus/core';
-import { Observable } from 'rxjs';
 
 /**
  * Contains the table data and structure for the `TableComponent`.
@@ -11,14 +10,9 @@ export interface Table<T = any> {
   structure: TableStructure;
 
   /**
-   * The table data is provided in an observable, so that we can observe changes
-   * and benefit from change detection.
-   *
-   * The data type of the given table is not forced, as we want the table component
-   * to be unaware of any specifics. The type can be handed in when the `Table` is
-   * created however.
+   * The data that is listed in the table component.
    */
-  data$: Observable<T[]>;
+  data: T[];
 
   /**
    * The pagination component is used to paginate through the data.
@@ -30,12 +24,33 @@ export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  fields: string[];
+  fields?: string[];
 
+  options?: TableOptions;
+}
+
+export interface TableOptions {
   /**
    * Table headers can be  are added by default
    */
   hideHeader?: boolean;
+  /**
+   * Default pagination for the table that is used for the initial load of the table data.
+   */
+  pagination?: PaginationModel;
+
+  // field specific options
+  fields?: {
+    [fieldKey: string]: TableFieldOptions;
+  };
+}
+
+export interface TableFieldOptions {
+  /**
+   * Optional label to add static or localized headers. If the label is not present, the
+   * field key is mapped to a i18n property.
+   */
+  label?: string | TableHeader;
 }
 
 /**
@@ -50,4 +65,18 @@ export interface TableStructure extends TableStructureConfiguration {
    * - add a unique class on the table, so we can apply custom css to it
    */
   type: string;
+}
+
+/**
+ * Provides the core table structure, typically being used to render table columns.
+ */
+export interface TableHeader {
+  /**
+   * The header key is used to:
+   * - generate a unique class on each table row
+   * - generate a template for each table header cell and data cell
+   * - translate the key using the translate module
+   *   (fallback in case there is no label available)
+   */
+  i18nKey?: string;
 }

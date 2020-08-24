@@ -5,11 +5,10 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { LayoutConfig } from 'projects/storefrontlib/src/layout';
-import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { Table } from './table.model';
 
-const fields: string[] = ['key1', 'key2', 'key3'];
+const headers: string[] = ['key1', 'key2', 'key3'];
 
 const data = [
   { key1: 'val1', key2: 'val2', key3: 'val3' },
@@ -20,9 +19,16 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    fields: fields,
+    fields: headers,
+    options: {
+      fields: {
+        key3: {
+          label: 'key 3 label',
+        },
+      },
+    },
   },
-  data$: of(data),
+  data,
 };
 
 describe('TableComponent', () => {
@@ -95,7 +101,7 @@ describe('TableComponent', () => {
     it('should not add the thead when hideHeader = true', () => {
       tableComponent.dataset = {
         ...mockDataset,
-        structure: { ...mockDataset.structure, hideHeader: true },
+        structure: { ...mockDataset.structure, options: { hideHeader: true } },
       };
       fixture.detectChanges();
       const table = fixture.debugElement.query(By.css('table > thead'));
@@ -125,6 +131,17 @@ describe('TableComponent', () => {
       ).nativeElement;
 
       expect(th1.innerText).toEqual('test-1.key1');
+    });
+
+    it('should add the header.label in the th if available ', () => {
+      tableComponent.dataset = mockDataset;
+      fixture.detectChanges();
+
+      const th3: HTMLElement = fixture.debugElement.query(
+        By.css('table th:nth-child(3)')
+      ).nativeElement;
+
+      expect(th3.innerText).toEqual('key 3 label');
     });
 
     it('should add the col key as a css class to each <th>', () => {
@@ -174,6 +191,23 @@ describe('TableComponent', () => {
         By.css('table td:nth-child(3)')
       ).nativeElement;
       expect(td3.classList).toContain('key3');
+    });
+
+    xdescribe('sort data', () => {
+      // it('should emit event if header has sortCode', () => {
+      //   spyOn(tableComponent.sortEvent, 'emit');
+      //   tableComponent.dataset = mockDataset;
+      //   tableComponent.sort(headers[0]);
+      //   expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
+      //     headers[0].sortCode
+      //   );
+      // });
+      // it('should not emit event if header has no sortCode', () => {
+      //   spyOn(tableComponent.sortEvent, 'emit');
+      //   tableComponent.dataset = mockDataset;
+      //   tableComponent.sort(headers[2]);
+      //   expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
+      // });
     });
   });
 });
