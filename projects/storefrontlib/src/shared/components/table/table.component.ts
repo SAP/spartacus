@@ -73,20 +73,6 @@ export class TableComponent {
   }
 
   /**
-   * Generates the table type into the UI in devMode, so that developers
-   * can easily get the notion of the table type.
-   */
-  protected addTableDebugInfo() {
-    if (isDevMode && this.type) {
-      this.tableType = this.type;
-    }
-  }
-
-  protected getFieldOptions(field: string): TableFieldOptions {
-    return this.options?.fields?.[field];
-  }
-
-  /**
    * Returns the static label for the given field, if available.
    */
   getHeader(field): string {
@@ -138,6 +124,20 @@ export class TableComponent {
    */
   getDataOutletContext(field: string, data: any): TableDataOutletContext {
     return { _field: field, _options: this.options?.[field], ...data };
+  }
+
+  /**
+   * Generates the table type into the UI in devMode, so that developers
+   * can easily get the notion of the table type.
+   */
+  protected addTableDebugInfo() {
+    if (isDevMode && this.type) {
+      this.tableType = this.type;
+    }
+  }
+
+  protected getFieldOptions(field: string): TableFieldOptions {
+    return this.options?.fields?.[field];
   }
 
   protected get type() {
