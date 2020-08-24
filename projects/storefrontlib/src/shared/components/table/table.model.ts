@@ -79,9 +79,4 @@ export interface TableHeader {
    * key is used to translate to an i18n property.
    */
   label?: string;
-
-  /**
-   * Provides an optional sort code to sort the table data per header.
-   */
-  sortCode?: string;
 }

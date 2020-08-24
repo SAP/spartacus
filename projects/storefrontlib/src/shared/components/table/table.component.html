@@ -4,8 +4,6 @@
       <th
         scope="col"
         *ngFor="let header of structure.headers; let i = index"
-        (click)="sort(header)"
-        [class.sortable]="!!header.sortCode"
         [class]="header.key"
       >
         <!-- render an outlet for each column header -->
