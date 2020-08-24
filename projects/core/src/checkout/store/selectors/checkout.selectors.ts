@@ -3,10 +3,10 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { ReplenishmentOrder } from 'projects/core/src/model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {

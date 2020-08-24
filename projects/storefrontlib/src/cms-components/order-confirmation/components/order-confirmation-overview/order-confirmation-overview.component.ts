@@ -148,9 +148,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getPurchaseOrderNumber(poNumber: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate(
-        'checkoutOrderConfirmation.purchaseOrderNumber'
-      ),
+      this.translation.translate('checkoutReview.poNumber'),
       this.translation.translate('checkoutPO.noPoNumber'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => ({
