@@ -13,6 +13,7 @@ import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import createSpy = jasmine.createSpy;
+import { LoaderState } from 'projects/core/src/state/utils/loader';
 
 @Component({
   selector: 'cx-spinner',
@@ -27,6 +28,9 @@ class MockCheckoutDeliveryService {
     return of();
   }
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return of();
+  }
+  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of();
   }
 }
@@ -191,6 +195,19 @@ describe('DeliveryModeComponent', () => {
     const invalid = component.deliveryModeInvalid;
 
     expect(invalid).toBe(true);
+  });
+
+  it('should reload delivery modes on error', () => {
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getLoadSupportedDeliveryModeProcess'
+    ).and.returnValue(of({ loading: false, success: false, error: true }));
+
+    component.ngOnInit();
+
+    expect(
+      mockCheckoutDeliveryService.loadSupportedDeliveryModes
+    ).toHaveBeenCalledTimes(1);
   });
 
   describe('UI continue button', () => {
