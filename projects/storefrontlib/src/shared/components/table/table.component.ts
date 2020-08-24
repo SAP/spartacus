@@ -5,7 +5,7 @@ import {
   Input,
   isDevMode,
 } from '@angular/core';
-import { Table, TableHeader, TableOptions } from './table.model';
+import { Table, TableFieldOptions, TableHeader } from './table.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -67,26 +67,17 @@ export class TableComponent {
   }
 
   /**
-   * Sorts the table by emitting the pagination to the container/host component.
-   */
-  sort(_header: TableHeader) {
-    // if (header.sortCode) {
-    //   this.sortEvent.emit(header.sortCode);
-    // }
-  }
-
-  /**
    * Generates the table type into the UI in devMode, so that developers
    * can easily get the notion of the table type.
    */
   protected addTableDebugInfo() {
     if (isDevMode) {
-      this.tableType = this.dataset?.structure?.type;
+      this.tableType = this.type;
     }
   }
 
-  protected getFieldOptions(field: string): TableOptions {
-    return this.dataset.structure.options.fields[field];
+  protected getFieldOptions(field: string): TableFieldOptions {
+    return this.options?.fields?.[field];
   }
 
   /**

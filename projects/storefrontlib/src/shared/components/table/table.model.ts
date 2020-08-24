@@ -26,24 +26,26 @@ export interface TableStructureConfiguration {
    */
   fields?: string[];
 
-  options?: {
-    /**
-     * Table headers can be  are added by default
-     */
-    hideHeader?: boolean;
-
-    fields?: {
-      [fieldKey: string]: TableOptions;
-    };
-
-    /**
-     * Default pagination for the table that is used for the initial load of the table data.
-     */
-    pagination?: PaginationModel;
-  };
+  options?: TableOptions;
 }
 
 export interface TableOptions {
+  /**
+   * Table headers can be  are added by default
+   */
+  hideHeader?: boolean;
+  /**
+   * Default pagination for the table that is used for the initial load of the table data.
+   */
+  pagination?: PaginationModel;
+
+  // field specific options
+  fields?: {
+    [fieldKey: string]: TableFieldOptions;
+  };
+}
+
+export interface TableFieldOptions {
   /**
    * Optional label to add static or localized headers. If the label is not present, the
    * field key is mapped to a i18n property.
