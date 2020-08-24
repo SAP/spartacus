@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { TableConfig } from './config/table.config';
 import { TableStructure, TableStructureConfiguration } from './table.model';
 
@@ -92,7 +92,7 @@ export class TableService {
 
     return of({
       type,
-      fields: ['unknown'],
+      fields: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
       options: {
         hideHeader: true,
       },
@@ -117,16 +117,6 @@ export class TableService {
 
     const relevant = this.findRelevantBreakpoints(breakpoint);
 
-<<<<<<< Updated upstream
-    const bestMatch: BREAKPOINT = relevant.find(
-      (br) => !!tableConfig.find((structure) => structure.breakpoint === br)
-    );
-
-    return bestMatch
-      ? tableConfig.find((config) => config.breakpoint === bestMatch)
-      : tableConfig.find((structure) => !structure.breakpoint) ||
-          tableConfig[0];
-=======
     const closestBreakpoint = [...relevant]
       .reverse()
       .find((br) => !!this.config.table[type][br]?.fields);
@@ -157,7 +147,6 @@ export class TableService {
   protected findRelevantBreakpoints(breakpoint: BREAKPOINT): BREAKPOINT[] {
     const current = this.breakpointService.breakpoints.indexOf(breakpoint);
     return this.breakpointService.breakpoints.slice(0, current + 1);
->>>>>>> Stashed changes
   }
 
   protected hasTableConfig(tableType: string): boolean {

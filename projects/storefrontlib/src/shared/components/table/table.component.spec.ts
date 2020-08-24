@@ -5,19 +5,10 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { LayoutConfig } from 'projects/storefrontlib/src/layout';
-import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { Table } from './table.model';
 
-<<<<<<< Updated upstream
-const headers: TableHeader[] = [
-  { key: 'key1' },
-  { key: 'key2' },
-  { key: 'key3', label: 'label3' },
-];
-=======
 const headers: string[] = ['key1', 'key2', 'key3'];
->>>>>>> Stashed changes
 
 const data = [
   { key1: 'val1', key2: 'val2', key3: 'val3' },
@@ -29,8 +20,15 @@ const mockDataset: Table = {
   structure: {
     type: 'test-1',
     fields: headers,
+    options: {
+      fields: {
+        key3: {
+          label: 'key 3 label',
+        },
+      },
+    },
   },
-  data$: of(data),
+  data,
 };
 
 describe('TableComponent', () => {
@@ -103,7 +101,7 @@ describe('TableComponent', () => {
     it('should not add the thead when hideHeader = true', () => {
       tableComponent.dataset = {
         ...mockDataset,
-        structure: { ...mockDataset.structure, hideHeader: true },
+        structure: { ...mockDataset.structure, options: { hideHeader: true } },
       };
       fixture.detectChanges();
       const table = fixture.debugElement.query(By.css('table > thead'));
@@ -143,7 +141,7 @@ describe('TableComponent', () => {
         By.css('table th:nth-child(3)')
       ).nativeElement;
 
-      expect(th3.innerText).toEqual('label3');
+      expect(th3.innerText).toEqual('key 3 label');
     });
 
     it('should add the col key as a css class to each <th>', () => {
@@ -194,8 +192,6 @@ describe('TableComponent', () => {
       ).nativeElement;
       expect(td3.classList).toContain('key3');
     });
-<<<<<<< Updated upstream
-=======
 
     xdescribe('sort data', () => {
       // it('should emit event if header has sortCode', () => {
@@ -213,6 +209,5 @@ describe('TableComponent', () => {
       //   expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
       // });
     });
->>>>>>> Stashed changes
   });
 });

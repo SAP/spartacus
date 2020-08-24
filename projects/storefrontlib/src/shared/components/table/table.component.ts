@@ -5,12 +5,7 @@ import {
   Input,
   isDevMode,
 } from '@angular/core';
-<<<<<<< Updated upstream
-import { Table } from './table.model';
-=======
-import { PaginationModel } from '@spartacus/core';
 import { Table, TableHeader, TableOptions } from './table.model';
->>>>>>> Stashed changes
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -72,8 +67,6 @@ export class TableComponent {
   }
 
   /**
-<<<<<<< Updated upstream
-=======
    * Sorts the table by emitting the pagination to the container/host component.
    */
   sort(_header: TableHeader) {
@@ -83,7 +76,6 @@ export class TableComponent {
   }
 
   /**
->>>>>>> Stashed changes
    * Generates the table type into the UI in devMode, so that developers
    * can easily get the notion of the table type.
    */
@@ -101,8 +93,8 @@ export class TableComponent {
    * Returns the static label for the given field, if available.
    */
   getHeader(field): string {
-    if (typeof this.options?.[field]?.label === 'string') {
-      return <string>this.options?.[field]?.label;
+    if (typeof this.options?.fields?.[field]?.label === 'string') {
+      return <string>this.options?.fields?.[field]?.label;
     }
   }
 
@@ -117,7 +109,10 @@ export class TableComponent {
    * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
    */
   getLocalizedHeader(field: string): string {
-    return this.options?.[field]?.label?.i18nKey || `${this.type}.${field}`;
+    return (
+      (this.options?.fields?.[field]?.label as TableHeader)?.i18nKey ||
+      `${this.type}.${field}`
+    );
   }
 
   /**

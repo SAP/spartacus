@@ -1,40 +1,20 @@
 <table *ngIf="dataset?.structure as structure">
   <thead *ngIf="!structure.options?.hideHeader">
     <tr>
-<<<<<<< Updated upstream
-      <th
-        scope="col"
-        *ngFor="let header of structure.headers; let i = index"
-        [class]="header.key"
-      >
-=======
       <th scope="col" *ngFor="let field of structure.fields" [class]="field">
->>>>>>> Stashed changes
         <!-- render an outlet for each column header -->
         <ng-template
           [cxOutlet]="getHeaderOutletRef(field)"
           [cxOutletContext]="getHeaderOutletContext(field)"
         >
-<<<<<<< Updated upstream
-          <!-- Render the label by default, fallback to localize the label by it's key -->
-          {{
-            header.label || (structure.type + '.' + header.key | cxTranslate)
-          }}
-=======
           {{ getHeader(field) || (getLocalizedHeader(field) | cxTranslate) }}
->>>>>>> Stashed changes
         </ng-template>
       </th>
     </tr>
   </thead>
 
-<<<<<<< Updated upstream
-  <tr *ngFor="let row of dataset.data$ | async">
-    <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
-=======
   <tr *ngFor="let row of dataset.data">
     <td *ngFor="let field of structure.fields; let i = index" [class]="field">
->>>>>>> Stashed changes
       <!-- render an outlet for each cell -->
       <ng-template
         [cxOutlet]="getDataOutletRef(field)"

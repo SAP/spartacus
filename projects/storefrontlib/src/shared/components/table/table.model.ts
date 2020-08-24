@@ -1,5 +1,4 @@
 import { PaginationModel } from '@spartacus/core';
-import { Observable } from 'rxjs';
 
 /**
  * Contains the table data and structure for the `TableComponent`.
@@ -11,14 +10,9 @@ export interface Table<T = any> {
   structure: TableStructure;
 
   /**
-   * The table data is provided in an observable, so that we can observe changes
-   * and benefit from change detection.
-   *
-   * The data type of the given table is not forced, as we want the table component
-   * to be unaware of any specifics. The type can be handed in when the `Table` is
-   * created however.
+   * The data that is listed in the table component.
    */
-  data$: Observable<T[]>;
+  data: T[];
 
   /**
    * The pagination component is used to paginate through the data.
@@ -30,14 +24,6 @@ export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-<<<<<<< Updated upstream
-  headers: TableHeader[];
-
-  /**
-   * Table headers can be  are added by default
-   */
-  hideHeader?: boolean;
-=======
   fields?: string[];
 
   options?: {
@@ -63,7 +49,6 @@ export interface TableOptions {
    * field key is mapped to a i18n property.
    */
   label?: string | TableHeader;
->>>>>>> Stashed changes
 }
 
 /**
@@ -91,15 +76,5 @@ export interface TableHeader {
    * - translate the key using the translate module
    *   (fallback in case there is no label available)
    */
-<<<<<<< Updated upstream
-  key?: string;
-
-  /**
-   * Optional label to add non-localized headers. If the label is not present, the
-   * key is used to translate to an i18n property.
-   */
-  label?: string;
-=======
   i18nKey?: string;
->>>>>>> Stashed changes
 }

@@ -1,12 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-<<<<<<< Updated upstream
-import {
-  BREAKPOINT,
-  BreakpointService,
-} from 'projects/storefrontlib/src/layout';
-=======
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
->>>>>>> Stashed changes
 import { Observable, of } from 'rxjs';
 import { TableConfig } from './config/table.config';
 import { TableStructure } from './table.model';
@@ -38,7 +31,7 @@ const MockTableConfig: TableConfig | any = {
   },
 };
 
-fdescribe('TableService', () => {
+describe('TableService', () => {
   let tableService: TableService;
   let breakpointService: BreakpointService;
 
@@ -96,7 +89,7 @@ fdescribe('TableService', () => {
             expect(result.type).toEqual('table1');
           });
 
-          xit('should return a header with name key', () => {
+          it('should return a header with name key', () => {
             let result: TableStructure;
             tableService
               .buildStructure('table1')
@@ -118,7 +111,7 @@ fdescribe('TableService', () => {
         });
 
         describe('"unknown" table type', () => {
-          xit('should generate table structure based on first data item', () => {
+          it('should generate table structure based on first data item', () => {
             let result: TableStructure;
             tableService
               .buildStructure(
@@ -139,7 +132,7 @@ fdescribe('TableService', () => {
             .subscribe((structure) => (result = structure));
 
           expect(result.fields.length).toEqual(5);
-          expect(result.hideHeader).toEqual(true);
+          expect(result.options.hideHeader).toEqual(true);
         });
       });
     });
