@@ -9,14 +9,6 @@
         >
           {{ getHeader(field) || (getLocalizedHeader(field) | cxTranslate) }}
         </ng-template>
-        <cx-icon
-          *ngIf="!!header.sortCode"
-          [type]="
-            header.sortCode === structure.pagination?.sort
-              ? 'SORT_DOWN'
-              : 'SORT'
-          "
-        ></cx-icon>
       </th>
     </tr>
   </thead>
