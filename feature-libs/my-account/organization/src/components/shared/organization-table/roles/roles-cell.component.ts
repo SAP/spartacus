@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserModel } from '../../../user/list/user-list.service';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
@@ -14,4 +13,4 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RolesCellComponent extends OrganizationCellComponent<UserModel> {}
+export class RolesCellComponent extends OrganizationCellComponent {}

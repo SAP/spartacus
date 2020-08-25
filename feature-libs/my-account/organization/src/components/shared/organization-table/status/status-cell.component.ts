@@ -12,7 +12,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusCellComponent extends OrganizationCellComponent<any> {
+export class StatusCellComponent extends OrganizationCellComponent {
   get property() {
     return this.isActive ? 'organization.enabled' : 'organization.disabled';
   }

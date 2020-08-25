@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BudgetModel } from '../../../budget/list/budget-list.service';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
@@ -12,6 +11,4 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateRangeCellComponent extends OrganizationCellComponent<
-  BudgetModel
-> {}
+export class DateRangeCellComponent extends OrganizationCellComponent {}
