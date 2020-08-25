@@ -4,13 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  ConfiguratorCommonsService,
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { MessageConfig } from './../config/message-config';
 import { ConfigMessageComponent } from './config-message.component';

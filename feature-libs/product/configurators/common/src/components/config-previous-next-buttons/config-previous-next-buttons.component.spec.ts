@@ -3,8 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigUtilsService,
   I18nTestingModule,
   RouterState,
@@ -15,6 +13,8 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 

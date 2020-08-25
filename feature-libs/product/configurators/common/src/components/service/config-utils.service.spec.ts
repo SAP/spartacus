@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import {
-  Configurator,
-  ConfiguratorGroupsService,
-  GenericConfigurator,
-} from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import { ConfigUtilsService } from './config-utils.service';
 
 let isGroupVisited: Observable<Boolean> = of(false);

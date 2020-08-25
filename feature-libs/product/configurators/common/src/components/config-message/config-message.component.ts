@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ConfiguratorCommonsService } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { interval, Observable } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import { MessageConfig } from './../config/message-config';
 
 @Component({

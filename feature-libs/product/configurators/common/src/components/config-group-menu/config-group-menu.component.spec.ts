@@ -5,8 +5,6 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
@@ -15,6 +13,8 @@ import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 

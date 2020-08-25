@@ -2,9 +2,6 @@ import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
-  ConfiguratorCartService,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
@@ -13,6 +10,9 @@ import {
 } from '@spartacus/core';
 import { ConfigurationRouter } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorCartService } from './../../core/facade/configurator-cart.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 

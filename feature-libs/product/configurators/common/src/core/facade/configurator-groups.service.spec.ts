@@ -1,11 +1,12 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfiguratorGroupUtilsService } from '@spartacus/core';
+import {
+  ActiveCartService,
+  ConfiguratorActions,
+  StateWithConfiguration,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
@@ -16,6 +17,7 @@ import {
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
+import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 
 class MockActiveCartService {}

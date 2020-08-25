@@ -2,21 +2,21 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorActions } from '../store/actions/index';
 import {
+  ActiveCartService,
   ConfigurationState,
   CONFIGURATION_FEATURE,
+  Configurator,
+  ConfiguratorActions,
+  ConfiguratorSelectors,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  getConfiguratorReducers,
+  StateUtils,
   StateWithConfiguration,
-} from '../store/configuration-state';
-import * as fromReducers from '../store/reducers/index';
-import { ConfiguratorSelectors } from '../store/selectors';
-import { Configurator } from './../../../model/configurator.model';
+} from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from './configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -157,10 +157,10 @@ function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
   owner: GenericConfigurator.Owner
 ) {
-  const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+  const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
     value: productConfiguration,
   };
-  const productConfigurationLoaderStateChanged: LoaderState<Configurator.Configuration> = {
+  const productConfigurationLoaderStateChanged: StateUtils.LoaderState<Configurator.Configuration> = {
     value: productConfigurationChanged,
   };
   const obs = cold('x-y', {
@@ -185,10 +185,7 @@ describe('ConfiguratorCommonsService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers
-        ),
+        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCommonsService,
@@ -534,7 +531,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: false,
       };
 
@@ -555,7 +552,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: true,
       };
 
@@ -574,7 +571,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if existing yet but erroneous', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: false,
         error: true,
       };

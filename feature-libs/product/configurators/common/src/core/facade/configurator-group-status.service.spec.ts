@@ -1,9 +1,8 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ConfiguratorActions, StateWithConfiguration } from '@spartacus/core';
 import { of } from 'rxjs';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
 import {
   GROUP_ID_1,
   GROUP_ID_3,

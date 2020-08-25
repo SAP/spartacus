@@ -2,25 +2,22 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import * as fromReducers from '@spartacus/core';
 import {
+  ActiveCartService,
+  Cart,
+  CONFIGURATION_FEATURE,
+  Configurator,
+  ConfiguratorActions,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-} from '../../../occ/utils/occ-constants';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorActions } from '../store/actions/index';
-import {
-  CONFIGURATION_FEATURE,
+  StateUtils,
   StateWithConfiguration,
-} from '../store/configuration-state';
-import * as fromReducers from '../store/reducers/index';
+} from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
@@ -44,13 +41,13 @@ const productConfiguration: Configurator.Configuration = {
   owner: OWNER_CART_ENTRY,
 };
 
-const cartState: ProcessesLoaderState<Cart> = {
+const cartState: StateUtils.ProcessesLoaderState<Cart> = {
   value: cart,
 };
 let cartStateObs = null;
 let isStableObs = null;
 class MockActiveCartService {
-  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
+  requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return cartStateObs;
   }
   isStable(): Observable<boolean> {
@@ -112,7 +109,7 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForCartEntry', () => {
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: productConfiguration,
       };
 
@@ -136,7 +133,7 @@ describe('ConfiguratorCartService', () => {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
       };
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: { configId: '' },
       };
 
@@ -160,7 +157,7 @@ describe('ConfiguratorCartService', () => {
         y: true,
       });
 
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: { configId: '' },
       };
 
@@ -176,7 +173,7 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForOrderEntry', () => {
     it('should not dispatch ReadOrderEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: productConfiguration,
       };
 
@@ -200,7 +197,7 @@ describe('ConfiguratorCartService', () => {
         orderId: ORDER_ID,
         userId: OCC_USER_ID_CURRENT,
       };
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: { configId: '' },
       };
 

@@ -5,14 +5,14 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { ConfigGroupTitleComponent } from './config-group-title.component';
 
