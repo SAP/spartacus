@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { BudgetListService } from './budget-list.service';
-import { BudgetService } from '../../../core/services/budget.service';
 import { Budget } from '../../../core/model/budget.model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { BudgetListService } from './budget-list.service';
 
 const mockBudgetEntities: EntitiesModel<Budget> = {
   values: [
@@ -58,7 +58,6 @@ describe('BudgetListService', () => {
     it('should populate currency object to currency string literal', () => {
       let result;
       service.getTable().subscribe((table) => (result = table));
-
       expect(result.data[0].currency).toEqual('USD');
     });
   });

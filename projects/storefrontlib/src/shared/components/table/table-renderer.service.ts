@@ -19,11 +19,14 @@ export class TableRendererService {
     protected componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
+  /**
+   * Adds the configured table component for the header and data.
+   */
   add(dataset: Table): void {
-    dataset.structure.fields.forEach((field) => {
+    dataset.structure?.fields?.forEach((field) => {
       const thRenderer = this.getHeaderRenderer(dataset, field);
       if (thRenderer) {
-        const ref = this.getDataOutletRef(dataset.structure.type, field);
+        const ref = this.getHeaderOutletRef(dataset.structure.type, field);
         this.render(ref, thRenderer);
       }
       const tdRenderer = this.getDataRenderer(dataset, field);
@@ -50,8 +53,8 @@ export class TableRendererService {
    */
   protected getHeaderRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options.fields?.[field]?.headerRenderer ||
-      dataset.structure.options.headerRenderer
+      dataset.structure.options?.fields?.[field]?.headerRenderer ||
+      dataset.structure.options?.headerRenderer
     );
   }
 
@@ -60,8 +63,8 @@ export class TableRendererService {
    */
   protected getDataRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options.fields?.[field]?.dataRenderer ||
-      dataset.structure.options.dataRenderer
+      dataset.structure.options?.fields?.[field]?.dataRenderer ||
+      dataset.structure.options?.dataRenderer
     );
   }
 
