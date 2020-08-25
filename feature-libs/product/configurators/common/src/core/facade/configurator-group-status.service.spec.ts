@@ -15,7 +15,7 @@ import {
   productConfigurationWithConflicts,
 } from './configuration-test-data';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
 
 describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
@@ -25,7 +25,7 @@ describe('ConfiguratorGroupStatusService', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        ConfiguratorGroupUtilsService,
+        ConfiguratorFacadeUtilsService,
         ConfiguratorGroupStatusService,
       ],
     }).compileComponents();

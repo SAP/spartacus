@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
 
 /**
  * Service for handling configuration groups
@@ -18,10 +18,10 @@ import { ConfiguratorGroupUtilsService } from './configurator-group-utils.servic
 @Injectable()
 export class ConfiguratorGroupsService {
   constructor(
-    private store: Store<StateWithConfiguration>,
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupUtilsService: ConfiguratorGroupUtilsService,
-    private configuratorGroupStatusService: ConfiguratorGroupStatusService
+    protected store: Store<StateWithConfiguration>,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorFacadeUtilsService: ConfiguratorFacadeUtilsService,
+    protected configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
   /**
@@ -112,7 +112,7 @@ export class ConfiguratorGroupsService {
       .getConfiguration(owner)
       .pipe(
         map((configuration) =>
-          this.configuratorGroupUtilsService.getGroupById(
+          this.configuratorFacadeUtilsService.getGroupById(
             configuration.groups,
             configuration.interactionState.menuParentGroup
           )
@@ -126,7 +126,10 @@ export class ConfiguratorGroupsService {
    * @param owner - Configuration owner
    * @param groupId - Group ID
    */
-  public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+  public setMenuParentGroup(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
@@ -152,7 +155,7 @@ export class ConfiguratorGroupsService {
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configuratorGroupUtilsService.getGroupById(
+              this.configuratorFacadeUtilsService.getGroupById(
                 configuration.groups,
                 currentGroupId
               )
@@ -172,7 +175,7 @@ export class ConfiguratorGroupsService {
   public setGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string,
-    setGroupVisited: Boolean
+    setGroupVisited: boolean
   ): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
@@ -196,7 +199,7 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    * @param setStatus - Group status will be set for previous group, default true
    */
-  public navigateToGroup(
+  navigateToGroup(
     configuration: Configurator.Configuration,
     groupId: string,
     setStatus = true
@@ -214,9 +217,9 @@ export class ConfiguratorGroupsService {
         });
     }
 
-    const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
+    const parentGroup = this.configuratorFacadeUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorGroupUtilsService.getGroupById(
+      this.configuratorFacadeUtilsService.getGroupById(
         configuration.groups,
         groupId
       ),
@@ -320,7 +323,7 @@ export class ConfiguratorGroupsService {
     group: Configurator.Group,
     parentGroup: Configurator.Group
   ): Configurator.Group {
-    return this.configuratorGroupUtilsService.getParentGroup(
+    return this.configuratorFacadeUtilsService.getParentGroup(
       groups,
       group,
       parentGroup
@@ -333,6 +336,6 @@ export class ConfiguratorGroupsService {
    * @param group - Given group
    */
   public hasSubGroups(group: Configurator.Group): boolean {
-    return this.configuratorGroupUtilsService.hasSubGroups(group);
+    return this.configuratorFacadeUtilsService.hasSubGroups(group);
   }
 }

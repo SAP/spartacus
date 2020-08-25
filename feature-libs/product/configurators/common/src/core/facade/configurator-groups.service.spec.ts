@@ -17,8 +17,8 @@ import {
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
+import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
 
 class MockActiveCartService {}
 class MockConfiguratorCartService {
@@ -32,7 +32,7 @@ describe('ConfiguratorGroupsService', () => {
   let store: Store<StateWithConfiguration>;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configGroupStatusService: ConfiguratorGroupStatusService;
-  let configGroupUtilsService: ConfiguratorGroupUtilsService;
+  let configFacadeUtilsService: ConfiguratorFacadeUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +41,7 @@ describe('ConfiguratorGroupsService', () => {
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
         ConfiguratorGroupStatusService,
-        ConfiguratorGroupUtilsService,
+        ConfiguratorFacadeUtilsService,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -64,8 +64,8 @@ describe('ConfiguratorGroupsService', () => {
     configGroupStatusService = TestBed.inject(
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
-    configGroupUtilsService = TestBed.inject(
-      ConfiguratorGroupUtilsService as Type<ConfiguratorGroupUtilsService>
+    configFacadeUtilsService = TestBed.inject(
+      ConfiguratorFacadeUtilsService as Type<ConfiguratorFacadeUtilsService>
     );
 
     spyOn(store, 'dispatch').and.stub();
@@ -74,9 +74,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
-    spyOn(configGroupUtilsService, 'getParentGroup').and.callThrough();
-    spyOn(configGroupUtilsService, 'hasSubGroups').and.callThrough();
-    spyOn(configGroupUtilsService, 'getGroupById').and.callThrough();
+    spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
+    spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
+    spyOn(configFacadeUtilsService, 'getGroupById').and.callThrough();
   });
 
   it('should create service', () => {
@@ -242,20 +242,20 @@ describe('ConfiguratorGroupsService', () => {
       productConfiguration.groups[2].subGroups[0],
       null
     );
-    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalledWith(
+    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
       productConfiguration.groups,
       productConfiguration.groups[2].subGroups[0],
       null
     );
-    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalled();
+    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalled();
   });
 
   it('should check whether hasSubGroups has been called by the configuration group utils service', () => {
     classUnderTest.hasSubGroups(productConfiguration.groups[2]);
-    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalledWith(
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalledWith(
       productConfiguration.groups[2]
     );
-    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalled();
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalled();
   });
 
   it('should get first conflict group from configuration, no conflicts', () => {

@@ -141,6 +141,8 @@ export class ConfiguratorCartService {
 
   /**
    * Updates a cart entry, specified by the configuration.
+   * The cart entry number for the entry that owns the configuration can be told
+   * from the configuration's owner ID
    *
    * @param configuration - Configuration
    */
@@ -177,8 +179,8 @@ export class ConfiguratorCartService {
   ): boolean {
     return (
       !this.isConfigurationCreated(configurationState.value) &&
-      configurationState.loading !== true &&
-      configurationState.error !== true
+      !configurationState.loading &&
+      !configurationState.error
     );
   }
 }
