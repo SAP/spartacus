@@ -11,10 +11,10 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
-import { Observable, of } from 'rxjs';
-import { ConfigGroupTitleComponent } from './config-group-title.component';
 import { IconLoaderService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
+import { ConfigGroupTitleComponent } from './config-group-title.component';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;

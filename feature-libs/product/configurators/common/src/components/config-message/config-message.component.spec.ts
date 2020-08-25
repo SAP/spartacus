@@ -10,9 +10,9 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { MessageConfig } from '@spartacus/storefront';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
+import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
+import { MessageConfig } from './../config/message-config';
 import { ConfigMessageComponent } from './config-message.component';
 
 let routerStateObservable = null;

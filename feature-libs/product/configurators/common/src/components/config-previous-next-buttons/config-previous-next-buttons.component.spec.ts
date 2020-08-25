@@ -11,12 +11,12 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
-import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
+import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
 let routerStateObservable = null;
 

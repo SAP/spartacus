@@ -11,12 +11,12 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
-import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 let mockGroupVisited = false;
