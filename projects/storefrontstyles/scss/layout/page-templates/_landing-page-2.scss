@@ -5,6 +5,15 @@
   margin: auto;
 
   cx-page-slot {
+    cx-banner {
+      cx-media {
+        img {
+          display: flex;
+          height: auto;
+        }
+      }
+    }
+
     &.Section1 {
       max-width: 1140px;
       margin: auto;
