@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { OrganizationLinkComponent } from './organization-link.component';
+import { OrganizationCellComponent } from './organization-cell.component';
 
 const mockContext = {
   _field: 'name',
@@ -13,12 +13,12 @@ const mockContext = {
 };
 
 describe('OrganizationLinkComponent', () => {
-  let component: OrganizationLinkComponent;
-  let fixture: ComponentFixture<OrganizationLinkComponent>;
+  let component: OrganizationCellComponent;
+  let fixture: ComponentFixture<OrganizationCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OrganizationLinkComponent],
+      declarations: [OrganizationCellComponent],
       imports: [RouterTestingModule, UrlModule, I18nTestingModule],
       providers: [
         {
@@ -32,7 +32,7 @@ describe('OrganizationLinkComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationLinkComponent);
+    fixture = TestBed.createComponent(OrganizationCellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

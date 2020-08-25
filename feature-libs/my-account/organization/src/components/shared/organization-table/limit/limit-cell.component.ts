@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PermissionModel } from '../../../permission/list/permission-list.service';
-import { OrganizationLinkComponent } from '../organization-link.component';
+import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
   template: `
@@ -16,6 +16,6 @@ import { OrganizationLinkComponent } from '../organization-link.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LimitComponent extends OrganizationLinkComponent<
+export class LimitCellComponent extends OrganizationCellComponent<
   PermissionModel
 > {}

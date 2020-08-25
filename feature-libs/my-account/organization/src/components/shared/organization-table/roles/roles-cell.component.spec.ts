@@ -3,23 +3,22 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { DateRangeComponent } from '..';
+import { RolesCellComponent } from '..';
 
-describe('DateRangeComponent', () => {
-  let component: DateRangeComponent;
-  let fixture: ComponentFixture<DateRangeComponent>;
+describe('RolesCellComponent', () => {
+  let component: RolesCellComponent;
+  let fixture: ComponentFixture<RolesCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DateRangeComponent],
+      declarations: [RolesCellComponent],
       imports: [RouterTestingModule, UrlModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,
           useValue: {
             context: {
-              startDate: '2020-07-15T02:00:00+0000',
-              endDate: '2020-07-15T02:59:00+0000',
+              roles: ['approver', 'worker'],
             },
           },
         },
@@ -28,7 +27,7 @@ describe('DateRangeComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DateRangeComponent);
+    fixture = TestBed.createComponent(RolesCellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -37,9 +36,15 @@ describe('DateRangeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render date', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('span.text'))
-      .nativeNode;
-    expect(el.innerText).toEqual('Jul 15, 2020 - Jul 15, 2020');
+  it('should render roles', () => {
+    const el = fixture.debugElement.queryAll(By.css('span.text span'));
+    expect(el.length).toEqual(2);
+
+    expect((el[0].nativeElement as HTMLElement).innerText).toEqual(
+      'organization.userRoles.approver'
+    );
+    expect((el[1].nativeElement as HTMLElement).innerText).toEqual(
+      'organization.userRoles.worker'
+    );
   });
 });

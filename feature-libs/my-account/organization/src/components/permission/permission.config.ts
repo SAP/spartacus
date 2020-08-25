@@ -6,11 +6,11 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { LimitCellComponent } from '../shared/organization-table/limit/limit-cell.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { LimitComponent } from '../shared/property-renderers/limit/limit.component';
-import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
@@ -80,16 +80,16 @@ export const permissionTableConfig: TableConfig = {
         pagination: {
           sort: 'byCode',
         },
-        dataRenderer: OrganizationLinkComponent,
+        dataRenderer: OrganizationCellComponent,
         fields: {
           active: {
-            dataRenderer: StatusComponent,
+            dataRenderer: StatusCellComponent,
           },
           unit: {
-            dataRenderer: UnitComponent,
+            dataRenderer: UnitCellComponent,
           },
           limit: {
-            dataRenderer: LimitComponent,
+            dataRenderer: LimitCellComponent,
           },
         },
       },

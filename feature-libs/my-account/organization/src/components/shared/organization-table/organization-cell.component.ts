@@ -5,10 +5,10 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
-  templateUrl: './organization-link.component.html',
+  templateUrl: './organization-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationLinkComponent<T = any> {
+export class OrganizationCellComponent<T = any> {
   @HostBinding('class') cls = 'content-wrapper';
 
   constructor(protected outlet: OutletContextData<TableDataOutletContext<T>>) {}

@@ -6,10 +6,10 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
@@ -107,13 +107,13 @@ export const costCenterTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationLinkComponent,
+        dataRenderer: OrganizationCellComponent,
         fields: {
           active: {
-            dataRenderer: StatusComponent,
+            dataRenderer: StatusCellComponent,
           },
           unit: {
-            dataRenderer: UnitComponent,
+            dataRenderer: UnitCellComponent,
           },
         },
       },

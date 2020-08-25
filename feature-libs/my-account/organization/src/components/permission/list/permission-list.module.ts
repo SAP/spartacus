@@ -9,7 +9,6 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
-import { LimitComponent } from '../../shared/property-renderers/limit/limit.component';
 import { PermissionListComponent } from './permission-list.component';
 
 @NgModule({
@@ -24,6 +23,6 @@ import { PermissionListComponent } from './permission-list.component';
     OutletRefModule,
     PaginationModule,
   ],
-  declarations: [PermissionListComponent, LimitComponent],
+  declarations: [PermissionListComponent],
 })
 export class PermissionListModule {}

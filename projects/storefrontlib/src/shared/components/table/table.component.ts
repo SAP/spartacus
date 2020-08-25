@@ -59,6 +59,8 @@ export class TableComponent {
   @Input()
   set dataset(dataset: Table) {
     this._dataset = dataset;
+    // consider decoupling type or structure to avoid recreation of table cell components
+    // test breakpoint specific cell components
     this.rendererService.add(dataset);
     this.addTableDebugInfo();
   }

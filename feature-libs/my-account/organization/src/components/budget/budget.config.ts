@@ -6,12 +6,12 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
+import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { AmountComponent } from '../shared/property-renderers/amount/amount-value.component';
-import { DateRangeComponent } from '../shared/property-renderers/date-range/date-range.component';
-import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
@@ -97,19 +97,19 @@ export const budgetTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationLinkComponent,
+        dataRenderer: OrganizationCellComponent,
         fields: {
           amount: {
-            dataRenderer: AmountComponent,
+            dataRenderer: AmountCellComponent,
           },
           active: {
-            dataRenderer: StatusComponent,
+            dataRenderer: StatusCellComponent,
           },
           dateRange: {
-            dataRenderer: DateRangeComponent,
+            dataRenderer: DateRangeCellComponent,
           },
           unit: {
-            dataRenderer: UnitComponent,
+            dataRenderer: UnitCellComponent,
           },
         },
       },

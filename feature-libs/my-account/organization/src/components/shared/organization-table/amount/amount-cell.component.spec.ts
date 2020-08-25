@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { AmountComponent } from '..';
+import { AmountCellComponent } from '..';
 
-describe('AmountComponent', () => {
-  let component: AmountComponent;
-  let fixture: ComponentFixture<AmountComponent>;
+describe('AmountCellComponent', () => {
+  let component: AmountCellComponent;
+  let fixture: ComponentFixture<AmountCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AmountComponent],
+      declarations: [AmountCellComponent],
       imports: [RouterTestingModule, UrlModule],
       providers: [
         {
@@ -22,7 +22,7 @@ describe('AmountComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AmountComponent);
+    fixture = TestBed.createComponent(AmountCellComponent);
     component = fixture.componentInstance;
   });
 

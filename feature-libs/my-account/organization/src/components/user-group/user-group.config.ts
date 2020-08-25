@@ -6,9 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
@@ -128,10 +128,10 @@ export const userGroupTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationLinkComponent,
+        dataRenderer: OrganizationCellComponent,
         fields: {
           unit: {
-            dataRenderer: UnitComponent,
+            dataRenderer: UnitCellComponent,
           },
         },
       },

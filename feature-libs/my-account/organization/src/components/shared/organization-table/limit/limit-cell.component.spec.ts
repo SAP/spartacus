@@ -1,25 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UnitComponent } from '..';
+import { LimitCellComponent } from '..';
 
-describe('UnitComponent', () => {
-  let component: UnitComponent;
-  let fixture: ComponentFixture<UnitComponent>;
+describe('LimitCellComponent', () => {
+  let component: LimitCellComponent;
+  let fixture: ComponentFixture<LimitCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UnitComponent],
+      declarations: [LimitCellComponent],
       imports: [RouterTestingModule, UrlModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,
           useValue: {
             context: {
-              unit: {
-                name: 'unit name',
-              },
+              orderApprovalPermissionType: { name: 'approverName' },
+              currency: { symbol: '$' },
+              periodRange: 'QUARTER',
+              threshold: 10000.0,
             },
           },
         },
@@ -28,7 +30,7 @@ describe('UnitComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitComponent);
+    fixture = TestBed.createComponent(LimitCellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -37,7 +39,9 @@ describe('UnitComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should resolve property', () => {
-    expect(component.property).toEqual('unit name');
+  it('should render threshold', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('span.text'))
+      .nativeNode;
+    expect(el.innerText).toEqual('10000 $ permission.per.QUARTER');
   });
 });

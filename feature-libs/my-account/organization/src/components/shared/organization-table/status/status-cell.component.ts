@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationLinkComponent } from '../organization-link.component';
+import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
   template: `
@@ -12,7 +12,7 @@ import { OrganizationLinkComponent } from '../organization-link.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusComponent extends OrganizationLinkComponent<any> {
+export class StatusCellComponent extends OrganizationCellComponent<any> {
   get property() {
     return this.isActive ? 'organization.enabled' : 'organization.disabled';
   }

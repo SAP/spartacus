@@ -1,23 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { StatusComponent } from '..';
+import { DateRangeCellComponent } from '..';
 
-describe('StatusComponent', () => {
-  let component: StatusComponent;
-  let fixture: ComponentFixture<StatusComponent>;
+describe('DateRangeCellComponent', () => {
+  let component: DateRangeCellComponent;
+  let fixture: ComponentFixture<DateRangeCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StatusComponent],
+      declarations: [DateRangeCellComponent],
       imports: [RouterTestingModule, UrlModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,
           useValue: {
             context: {
-              active: true,
+              startDate: '2020-07-15T02:00:00+0000',
+              endDate: '2020-07-15T02:59:00+0000',
             },
           },
         },
@@ -26,7 +28,7 @@ describe('StatusComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatusComponent);
+    fixture = TestBed.createComponent(DateRangeCellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -35,7 +37,9 @@ describe('StatusComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return active', () => {
-    expect(component.isActive).toBeTruthy();
+  it('should render date', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('span.text'))
+      .nativeNode;
+    expect(el.innerText).toEqual('Jul 15, 2020 - Jul 15, 2020');
   });
 });

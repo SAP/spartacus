@@ -1,24 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { RolesComponent } from '..';
+import { StatusCellComponent } from '..';
 
-describe('RolesComponent', () => {
-  let component: RolesComponent;
-  let fixture: ComponentFixture<RolesComponent>;
+describe('StatusCellComponent', () => {
+  let component: StatusCellComponent;
+  let fixture: ComponentFixture<StatusCellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RolesComponent],
+      declarations: [StatusCellComponent],
       imports: [RouterTestingModule, UrlModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,
           useValue: {
             context: {
-              roles: ['approver', 'worker'],
+              active: true,
             },
           },
         },
@@ -27,7 +26,7 @@ describe('RolesComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RolesComponent);
+    fixture = TestBed.createComponent(StatusCellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -36,15 +35,7 @@ describe('RolesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render roles', () => {
-    const el = fixture.debugElement.queryAll(By.css('span.text span'));
-    expect(el.length).toEqual(2);
-
-    expect((el[0].nativeElement as HTMLElement).innerText).toEqual(
-      'organization.userRoles.approver'
-    );
-    expect((el[1].nativeElement as HTMLElement).innerText).toEqual(
-      'organization.userRoles.worker'
-    );
+  it('should return active', () => {
+    expect(component.isActive).toBeTruthy();
   });
 });
