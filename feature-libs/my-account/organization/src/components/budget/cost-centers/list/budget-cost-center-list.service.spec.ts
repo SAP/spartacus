@@ -89,7 +89,7 @@ describe('BudgetCostCenterListService', () => {
     expect(result.data[2].code).toEqual('third');
   });
 
-  it('should filter selected cost-centers', () => {
+  xit('should filter selected cost-centers', () => {
     spyOn(budgetService, 'getCostCenters').and.returnValue(
       of(mockCostCenterEntities2)
     );

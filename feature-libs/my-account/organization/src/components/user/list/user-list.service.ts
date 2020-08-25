@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { B2BUser, EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { B2BUserService } from "../../../core/services/b2b-user.service";
-import { BaseOrganizationListService } from "../../shared/base-organization-list.service";
-import { OrganizationTableType } from "../../shared/organization.model";
+import { Injectable } from '@angular/core';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
  * The UI model for the cost center, which is a slightly flattened version
@@ -15,6 +15,7 @@ export interface UserModel {
   uid?: string;
   name?: string;
   orgUnit?: any;
+  roles?: string[];
 }
 
 /**
@@ -22,7 +23,7 @@ export interface UserModel {
  * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER`.
  */
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserListService extends BaseOrganizationListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
@@ -58,6 +59,7 @@ export class UserListService extends BaseOrganizationListService<UserModel> {
       sorts,
       values: values.map((value: any) => ({
         ...value,
+        unit: value.orgUnit,
       })),
     };
     return userModels;

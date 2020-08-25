@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BudgetModel } from '../../budget/list/budget-list.service';
-import { OrganizationLinkComponent } from './organization-link.component';
+import { BudgetModel } from '../../../budget/list/budget-list.service';
+import { OrganizationLinkComponent } from '../organization-link.component';
 
 @Component({
   template: `
-    <a [routerLink]="{ cxRoute: cxRoute, params: model } | cxUrl">
+    <a [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl">
       <span class="text">
         {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
       </span>

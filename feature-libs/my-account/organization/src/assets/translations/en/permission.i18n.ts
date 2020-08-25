@@ -3,6 +3,7 @@ export const permission = {
   disabled: '(disabled)',
   name: 'Name',
   code: 'Code',
+  active: 'Status',
   limit: 'Limit',
   orderApprovalPermissionType: 'Type',
   threshold: 'Threshold',

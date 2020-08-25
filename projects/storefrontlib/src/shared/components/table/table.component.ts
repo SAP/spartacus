@@ -59,7 +59,7 @@ export class TableComponent {
   @Input()
   set dataset(dataset: Table) {
     this._dataset = dataset;
-    this.tableRendererService.add(dataset);
+    this.rendererService.add(dataset);
     this.addTableDebugInfo();
   }
 
@@ -67,7 +67,7 @@ export class TableComponent {
     return this._dataset;
   }
 
-  constructor(protected tableRendererService: TableRendererService) {}
+  constructor(protected rendererService: TableRendererService) {}
 
   /**
    * The paginateEvent is triggered when a new page is required. This includes sorting.
@@ -122,28 +122,37 @@ export class TableComponent {
    * Returns the header (th) outlet reference for the given field.
    */
   getHeaderOutletRef(field: string): string {
-    return `table.${this.type}.header.${field}`;
+    return this.rendererService.getHeaderOutletRef(this.type, field);
   }
 
   /**
    * Returns the header (th) outlet context for the given field.
    */
   getHeaderOutletContext(field: string): TableHeaderOutletContext {
-    return { _field: field, _type: this.type, _options: this.options };
+    return this.rendererService.getHeaderOutletContext(
+      this.type,
+      this.options,
+      field
+    );
   }
 
   /**
    * Returns the data (td) outlet reference for the given field.
    */
   getDataOutletRef(field: string): string {
-    return this.tableRendererService.getDataOutletRef(this.type, field);
+    return this.rendererService.getDataOutletRef(this.type, field);
   }
 
   /**
    * Returns the data (td) outlet context for the given field.
    */
   getDataOutletContext(field: string, data: any): TableDataOutletContext {
-    return { _field: field, _type: this.type, _options: this.options, data };
+    return this.rendererService.getDataOutletContext(
+      this.type,
+      this.options,
+      field,
+      data
+    );
   }
 
   /**

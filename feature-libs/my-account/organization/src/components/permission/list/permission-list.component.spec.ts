@@ -20,12 +20,12 @@ const mockPermissionList: Table<PermissionModel> = {
   data: [
     {
       code: 'c1',
-      orderApprovalPermissionType: PermissionType.EXCEEDED,
+      orderApprovalPermissionType: { name: PermissionType.EXCEEDED },
       orgUnit: 'u1',
     },
     {
       code: 'c2',
-      orderApprovalPermissionType: PermissionType.ORDER,
+      orderApprovalPermissionType: { name: PermissionType.ORDER },
       threshold: 10000,
       orgUnit: 'u2',
     },

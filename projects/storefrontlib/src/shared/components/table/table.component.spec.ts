@@ -4,9 +4,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
-import { LayoutConfig } from 'projects/storefrontlib/src/layout';
+import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
-import { Table, TableHeader } from './table.model';
+import { Table } from './table.model';
+import createSpy = jasmine.createSpy;
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -36,15 +37,27 @@ const mockDataset: Table = {
   data,
 };
 
+class MockTableRendererService {
+  getHeaderOutletRef = createSpy('getHeaderOutletRef');
+  getHeaderOutletContext = createSpy('getHeaderOutletRef');
+  getDataOutletRef = createSpy('getDataOutletRef');
+  getDataOutletContext = createSpy('getDataOutletRef');
+  add() {}
+}
+
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
+  let tableRendererService: TableRendererService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OutletModule],
       declarations: [TableComponent],
-      providers: [{ provide: LayoutConfig, useValue: {} }],
+      providers: [
+        // { provide: LayoutConfig, useValue: {} },
+        { provide: TableRendererService, useClass: MockTableRendererService },
+      ],
     })
       .overrideComponent(TableComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -53,6 +66,7 @@ describe('TableComponent', () => {
 
     fixture = TestBed.createComponent(TableComponent);
     tableComponent = fixture.componentInstance;
+    tableRendererService = TestBed.inject(TableRendererService);
     fixture.detectChanges();
   });
 
@@ -115,18 +129,22 @@ describe('TableComponent', () => {
       expect(tableComponent.getLocalizedHeader('key1')).toEqual('test-1.key1');
     });
 
-    it('should generate table header outlet reference', () => {
-      expect(tableComponent.getHeaderOutletRef('key1')).toEqual(
-        'table.test-1.header.key1'
+    it('should delegate creation of table header outlet reference', () => {
+      tableComponent.getHeaderOutletRef('key1');
+      expect(tableRendererService.getHeaderOutletRef).toHaveBeenCalledWith(
+        'test-1',
+        'key1'
       );
     });
 
-    it('should generate a table header outlet context', () => {
-      const context = tableComponent.getHeaderOutletContext('key2');
-      expect(context._field).toEqual('key2');
-      expect(
-        (context._options.fields['key2'].label as TableHeader).i18nKey
-      ).toEqual('prop.key2');
+    it('should delegate creation of table header outlet context', () => {
+      tableComponent.getHeaderOutletContext('key1');
+
+      expect(tableRendererService.getHeaderOutletContext).toHaveBeenCalledWith(
+        'test-1',
+        mockDataset.structure.options,
+        'key1'
+      );
     });
 
     describe('UI', () => {
@@ -197,22 +215,27 @@ describe('TableComponent', () => {
       tableComponent.dataset = mockDataset;
     });
 
-    it('should generate table data outlet reference', () => {
-      expect(tableComponent.getDataOutletRef('key1')).toEqual(
-        'table.test-1.data.key1'
+    it('should delegate creation of table data outlet reference', () => {
+      tableComponent.getDataOutletRef('key1');
+      expect(tableRendererService.getDataOutletRef).toHaveBeenCalledWith(
+        'test-1',
+        'key1'
       );
     });
 
-    it('should generate a table header outlet context', () => {
-      const context = tableComponent.getDataOutletContext('key2', {
+    it('should delegate creation of table data outlet context', () => {
+      tableComponent.getDataOutletContext('key1', {
         foo: 'bar',
       });
-      expect(context._field).toEqual('key2');
-      expect(
-        (context._options.fields['key2'].label as TableHeader).i18nKey
-      ).toEqual('prop.key2');
 
-      expect(context.foo).toEqual('bar');
+      expect(tableRendererService.getDataOutletContext).toHaveBeenCalledWith(
+        'test-1',
+        mockDataset.structure.options,
+        'key1',
+        {
+          foo: 'bar',
+        }
+      );
     });
 
     describe('UI', () => {

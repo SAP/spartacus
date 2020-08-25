@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { UserGroup } from "../../../core/model/user-group.model";
-import { PermissionService } from "../../../core/services/permission.service";
-import { BaseOrganizationListService } from "../../shared/base-organization-list.service";
-import { OrganizationTableType } from "../../shared/organization.model";
+import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { PermissionService } from '../../../core/services/permission.service';
+import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
  * The UI model for the permission, which is a slightly flattened version
@@ -14,10 +14,11 @@ import { OrganizationTableType } from "../../shared/organization.model";
  */
 export interface PermissionModel {
   code?: string;
-  orderApprovalPermissionType?: string;
+  orderApprovalPermissionType?: { name: string };
   threshold?: any;
   periodRange?: any;
   orgUnit?: any;
+  currency?: { symbol: string };
 }
 
 /**
@@ -25,7 +26,7 @@ export interface PermissionModel {
  * data is driven by the table configuration, using the `OrganizationTables.PERMISSION`.
  */
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class PermissionListService extends BaseOrganizationListService<
   PermissionModel
@@ -63,6 +64,7 @@ export class PermissionListService extends BaseOrganizationListService<
       sorts,
       values: values.map((value: any) => ({
         ...value,
+        unit: value.orgUnit,
       })),
     };
     return permissionGroupModels;

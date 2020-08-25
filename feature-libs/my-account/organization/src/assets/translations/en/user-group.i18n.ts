@@ -3,7 +3,7 @@ export const userGroup = {
   disabled: '(disabled)',
   uid: 'Code',
   name: 'Name',
-  orgUnit: 'Parent Unit',
+  unit: 'Parent Unit',
 
   messages: {
     enabled:

@@ -8,7 +8,8 @@ import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { UnitComponent } from '../shared/property-renderers/unit-value.component';
+import { StatusComponent } from '../shared/property-renderers/status/status.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
@@ -106,23 +107,18 @@ export const costCenterTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
+        dataRenderer: OrganizationLinkComponent,
         fields: {
-          name: {
-            dataRenderer: OrganizationLinkComponent,
+          active: {
+            dataRenderer: StatusComponent,
           },
           unit: {
             dataRenderer: UnitComponent,
           },
-          currency: {
-            dataRenderer: OrganizationLinkComponent,
-          },
-          code: {
-            dataRenderer: OrganizationLinkComponent,
-          },
         },
       },
       lg: {
-        fields: ['name', 'code', 'currency', 'unit'],
+        fields: ['name', 'active', 'currency', 'unit'],
         options: {
           hideHeader: false,
         },

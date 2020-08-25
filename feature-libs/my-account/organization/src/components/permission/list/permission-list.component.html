@@ -36,34 +36,3 @@
 
   <router-outlet></router-outlet>
 </cx-split-view>
-
-<ng-template cxOutletRef="table.permission.data.limit" let-model>
-  <span *ngIf="model.threshold; else type"
-    >{{ model.threshold }} {{ model.currency?.symbol }}
-    {{ 'permission.per.' + model.periodRange | cxTranslate }}
-  </span>
-  <ng-template #type>
-    <span>{{ model.orderApprovalPermissionType.name }}</span>
-  </ng-template>
-</ng-template>
-
-<ng-template cxOutletRef="table.permission.data.name" let-model>
-  <div routerLinkActive="active">
-    <a [routerLink]="{ cxRoute: 'permissionDetails', params: model } | cxUrl">
-      <span class="text">{{ model.code }}</span>
-      <cx-icon type="CARET_RIGHT"></cx-icon>
-    </a>
-    <i class="disabled" *ngIf="!model.active">
-      {{ 'permission.disabled' | cxTranslate }}
-    </i>
-  </div>
-</ng-template>
-
-<ng-template cxOutletRef="table.permission.data.orgUnit" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl"
-  >
-    {{ model.orgUnit?.name }}
-    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-  </a>
-</ng-template>

@@ -36,21 +36,3 @@
 
   <router-outlet></router-outlet>
 </cx-split-view>
-
-<ng-template cxOutletRef="table.userGroup.data.name" let-model>
-  <div routerLinkActive="active">
-    <a [routerLink]="{ cxRoute: 'userGroupDetails', params: model } | cxUrl">
-      <span class="text">{{ model.name }}</span>
-      <cx-icon type="CARET_RIGHT"></cx-icon>
-    </a>
-  </div>
-</ng-template>
-
-<ng-template cxOutletRef="table.userGroup.data.orgUnit" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl"
-  >
-    {{ model.orgUnit?.name }}
-    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-  </a>
-</ng-template>

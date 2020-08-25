@@ -7,6 +7,10 @@ import {
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
+import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
+import { RolesComponent } from '../shared/property-renderers/roles/roles.component';
+import { StatusComponent } from '../shared/property-renderers/status/status.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
 import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
 import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
 import { UserChangePasswordComponent } from './change-password/user-change-password.component';
@@ -157,9 +161,21 @@ export const userTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
+        dataRenderer: OrganizationLinkComponent,
+        fields: {
+          active: {
+            dataRenderer: StatusComponent,
+          },
+          roles: {
+            dataRenderer: RolesComponent,
+          },
+          unit: {
+            dataRenderer: UnitComponent,
+          },
+        },
       },
       lg: {
-        fields: ['name', 'uid', 'roles', 'orgUnit'],
+        fields: ['name', 'active', 'uid', 'roles', 'unit'],
         options: {
           hideHeader: false,
         },

@@ -9,6 +9,7 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
+import { RolesComponent } from '../../shared/property-renderers/roles/roles.component';
 import { UserListComponent } from './user-list.component';
 
 @NgModule({
@@ -23,6 +24,6 @@ import { UserListComponent } from './user-list.component';
     OutletRefModule,
     PaginationModule,
   ],
-  declarations: [UserListComponent],
+  declarations: [UserListComponent, RolesComponent],
 })
 export class UserListModule {}

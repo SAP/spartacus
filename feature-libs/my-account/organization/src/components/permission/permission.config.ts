@@ -7,6 +7,10 @@ import {
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
+import { LimitComponent } from '../shared/property-renderers/limit/limit.component';
+import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
+import { StatusComponent } from '../shared/property-renderers/status/status.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
@@ -68,19 +72,29 @@ export function permissionTableConfigFactory(): TableConfig {
   return permissionTableConfig;
 }
 
-export const permissionTableConfig: TableConfig | any = {
+export const permissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
+      fields: ['name'],
       options: {
         pagination: {
           sort: 'byCode',
         },
-      },
-      xs: {
-        fields: ['name'],
+        dataRenderer: OrganizationLinkComponent,
+        fields: {
+          active: {
+            dataRenderer: StatusComponent,
+          },
+          unit: {
+            dataRenderer: UnitComponent,
+          },
+          limit: {
+            dataRenderer: LimitComponent,
+          },
+        },
       },
       lg: {
-        fields: ['name', 'limit', 'orgUnit'],
+        fields: ['code', 'active', 'limit', 'unit'],
       },
     },
   },

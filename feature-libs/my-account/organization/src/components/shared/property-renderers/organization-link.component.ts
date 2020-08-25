@@ -9,12 +9,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationLinkComponent<T = any> {
-  @HostBinding('class') cls: string;
+  @HostBinding('class') cls = 'content-wrapper';
 
   constructor(protected outlet: OutletContextData<TableDataOutletContext<T>>) {}
 
-  get model(): T {
-    return this.outlet.context.data;
+  get model(): any {
+    return this.outlet.context;
   }
 
   get property(): string {
@@ -25,7 +25,7 @@ export class OrganizationLinkComponent<T = any> {
     return this.outlet.context._type + 'Details';
   }
 
-  get routeModel(): T {
-    return this.outlet.context.data;
+  get routeModel(): any {
+    return this.outlet.context;
   }
 }

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 
 /**
@@ -39,6 +40,18 @@ export interface TableOptions {
    */
   pagination?: PaginationModel;
 
+  /**
+   * Global render component used for table headers (th) unless a more specific
+   * renderer is configured
+   */
+  headerRenderer?: Type<any>;
+
+  /**
+   * Global render component used for table data (td) unless a more specific
+   * renderer is configured
+   */
+  dataRenderer?: Type<any>;
+
   // field specific options
   fields?: {
     [fieldKey: string]: TableFieldOptions;
@@ -52,9 +65,15 @@ export interface TableFieldOptions {
    */
   label?: string | TableHeader;
 
-  headerRenderer?: any;
+  /**
+   * Render component for the table header (th) of specific field.
+   */
+  headerRenderer?: Type<any>;
 
-  dataRenderer?: any;
+  /**
+   * Render component for the table data (td) of specific field.
+   */
+  dataRenderer?: Type<any>;
 }
 
 /**

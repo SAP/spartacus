@@ -3,6 +3,7 @@ export const budget = {
   disabled: '(disabled)',
   code: 'Code',
   name: 'Name',
+  active: 'Status',
   currency: 'Currency',
   unit: 'Parent Unit',
   amount: 'Amount',

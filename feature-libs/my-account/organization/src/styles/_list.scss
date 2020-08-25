@@ -1,9 +1,9 @@
+.content-wrapper {
+  display: contents;
+}
+
 .organization {
   // overflow-x: hidden;
-  .active {
-    background: var(--cx-color-light);
-    color: var(--cx-color-text);
-  }
 
   h3 {
     display: flex;
@@ -67,11 +67,30 @@
   cx-table {
     td {
       padding: 0;
+
+      // the first cell is supposed to be highlighted as a link
+      &:first-child a,
+      &:first-child a:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
+
+      &.active a.is-active {
+        color: var(--cx-color-success);
+      }
+
+      &.active a:not(.is-active) {
+        color: red;
+      }
+
       a {
         @include alt-visible-focus();
+        display: flex;
 
         justify-content: flex-start;
         padding: var(--cx-spatial-md);
+
+        color: inherit;
 
         .text {
           white-space: nowrap;
@@ -101,12 +120,6 @@
 
         &:hover {
           text-decoration: none;
-
-          &:not(.active) {
-            .text {
-              text-decoration: underline;
-            }
-          }
         }
       }
 
@@ -180,4 +193,7 @@
       }
     }
   }
+}
+.li:not(:last-child):after {
+  content: ', ';
 }

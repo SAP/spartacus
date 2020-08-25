@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BudgetModel } from '../../budget/list/budget-list.service';
-import { OrganizationLinkComponent } from './organization-link.component';
+import { BudgetModel } from '../../../budget/list/budget-list.service';
+import { OrganizationLinkComponent } from '../organization-link.component';
 
 @Component({
-  templateUrl: './organization-link.component.html',
+  templateUrl: '../organization-link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountComponent extends OrganizationLinkComponent<BudgetModel> {

@@ -7,10 +7,11 @@ import {
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
-import { AmountComponent } from '../shared/property-renderers/amount-value.component';
-import { DateRangeComponent } from '../shared/property-renderers/date-range.component';
+import { AmountComponent } from '../shared/property-renderers/amount/amount-value.component';
+import { DateRangeComponent } from '../shared/property-renderers/date-range/date-range.component';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { UnitComponent } from '../shared/property-renderers/unit-value.component';
+import { StatusComponent } from '../shared/property-renderers/status/status.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
@@ -95,17 +96,14 @@ export const budgetTableConfig: TableConfig = {
         hideHeader: true,
         pagination: {
           sort: 'byName',
-          // pageSize: 5,
         },
+        dataRenderer: OrganizationLinkComponent,
         fields: {
-          name: {
-            dataRenderer: OrganizationLinkComponent,
-          },
-          code: {
-            dataRenderer: OrganizationLinkComponent,
-          },
           amount: {
             dataRenderer: AmountComponent,
+          },
+          active: {
+            dataRenderer: StatusComponent,
           },
           dateRange: {
             dataRenderer: DateRangeComponent,
@@ -119,7 +117,7 @@ export const budgetTableConfig: TableConfig = {
         options: {
           hideHeader: false,
         },
-        fields: ['name', 'code', 'amount', 'dateRange', 'unit'],
+        fields: ['name', 'active', 'amount', 'dateRange', 'unit'],
       },
     },
 
