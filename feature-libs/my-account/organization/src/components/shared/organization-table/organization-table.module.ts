@@ -24,4 +24,4 @@ import { UnitCellComponent } from './unit/unit-cell.component';
     UnitCellComponent,
   ],
 })
-export class OrganizationCellModule {}
+export class OrganizationTableModule {}
