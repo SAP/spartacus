@@ -44,11 +44,6 @@
       "version": "2.1.0-rc.0",
       "factory": "./2_0/config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
-    },
-    "migration-v2-styles-version-10": {
-      "version": "2.1.0-rc.0",
-      "factory": "./2_0/styles-version#migrate",
-      "description": "Provide missing stylesVersion variable in styles"
     }
   }
 }
