@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import {
   Address,
-  B2BPaymentType,
   CheckoutService,
   CostCenter,
   DeliveryMode,
@@ -153,13 +152,13 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(([textTitle, noneTextTitle]) => ({
         title: textTitle,
-        text: [poNumber ? textTitle : noneTextTitle],
+        text: [poNumber ? poNumber : noneTextTitle],
       }))
     );
   }
 
   getMethodOfPaymentCardContent(
-    paymentType?: B2BPaymentType
+    hasPaymentInfo: PaymentDetails
   ): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutProgress.methodOfPayment'),
@@ -168,7 +167,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [paymentType ? textAccount : textCard],
+        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
       }))
     );
   }

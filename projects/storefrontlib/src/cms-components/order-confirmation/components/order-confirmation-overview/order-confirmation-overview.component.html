@@ -62,19 +62,9 @@
           [content]="getPurchaseOrderNumber(order?.purchaseOrderNumber) | async"
         ></cx-card>
 
-        <ng-container *ngIf="order.paymentType; else creditCard">
-          <cx-card
-            [content]="
-              getMethodOfPaymentCardContent(order?.paymentType) | async
-            "
-          ></cx-card>
-        </ng-container>
-
-        <ng-template #creditCard>
-          <cx-card
-            [content]="getMethodOfPaymentCardContent() | async"
-          ></cx-card>
-        </ng-template>
+        <cx-card
+          [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"
+        ></cx-card>
 
         <ng-container *ngIf="order.costCenter">
           <cx-card
@@ -98,7 +88,7 @@
       </ng-container>
     </div>
 
-    <ng-container *ngIf="order.paymentInfo && order.costCenter">
+    <ng-container *ngIf="order.paymentInfo">
       <div class="summary-card">
         <cx-card
           [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"

@@ -71,11 +71,7 @@ const mockOrder: Order = {
   code: 'test-code-412',
   deliveryAddress: mockDeliveryAddress,
   deliveryMode: mockDeliveryMode,
-  paymentInfo: {
-    billingAddress: {
-      country: {},
-    },
-  },
+  paymentInfo: mockBillingAddress,
   statusDisplay: 'test-status-display',
 };
 
@@ -277,7 +273,7 @@ describe('OrderConfirmationOverviewComponent', () => {
     });
   });
 
-  describe('when replenishment is NOT defined, so not the same order type', () => {
+  describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
       spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
       spyOn(translationService, 'translate').and.returnValue(of('test'));
@@ -351,7 +347,9 @@ describe('OrderConfirmationOverviewComponent', () => {
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.text).toEqual(['test']);
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.purchaseOrderNumber,
+          ]);
         })
         .unsubscribe();
 
@@ -360,11 +358,11 @@ describe('OrderConfirmationOverviewComponent', () => {
       );
     });
 
-    it('should call getMethodOfPaymentCardContent(paymentType?: B2BPaymentType)', () => {
+    it('should call getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails)', () => {
       spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
 
       component
-        .getMethodOfPaymentCardContent(mockReplenishmentOrder.paymentType)
+        .getMethodOfPaymentCardContent(mockReplenishmentOrder.paymentInfo)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -373,23 +371,8 @@ describe('OrderConfirmationOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.paymentType
+        mockReplenishmentOrder.paymentInfo
       );
-    });
-
-    it('should call getMethodOfPaymentCardContent()', () => {
-      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
-
-      component
-        .getMethodOfPaymentCardContent()
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual(['test']);
-        })
-        .unsubscribe();
-
-      expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith();
     });
 
     it('should call getCostCenterCardContent(costCenter: CostCenter)', () => {
@@ -413,11 +396,9 @@ describe('OrderConfirmationOverviewComponent', () => {
     });
   });
 
-  describe('when paymentInfo and costCenter is defined', () => {
+  describe('when paymentInfo is defined', () => {
     beforeEach(() => {
-      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
-        of(mockReplenishmentOrder)
-      );
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -425,29 +406,26 @@ describe('OrderConfirmationOverviewComponent', () => {
       spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
 
       component
-        .getPaymentInfoCardContent(mockReplenishmentOrder.paymentInfo)
+        .getPaymentInfoCardContent(mockOrder.paymentInfo)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            mockReplenishmentOrder.paymentInfo.accountHolderName
+            mockOrder.paymentInfo.accountHolderName
           );
-          expect(data.text).toEqual([
-            mockReplenishmentOrder.paymentInfo.cardNumber,
-            'test',
-          ]);
+          expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
         })
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.paymentInfo
+        mockOrder.paymentInfo
       );
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
       spyOn(component, 'getBillingAddressCardContent').and.callThrough();
 
-      const billingAddress = mockReplenishmentOrder.paymentInfo.billingAddress;
+      const billingAddress = mockOrder.paymentInfo.billingAddress;
 
       component
         .getBillingAddressCardContent(billingAddress)
