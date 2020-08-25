@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import createSpy = jasmine.createSpy;
-import { LoaderState } from 'projects/core/src/state/utils/loader';
+import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 
 @Component({
   selector: 'cx-spinner',
