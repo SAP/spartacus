@@ -27,7 +27,7 @@ describe('Configurator selectors', () => {
       groupsStatus: {},
       groupsVisited: {},
       menuParentGroup: null,
-      issueCheckDone: true,
+      issueNavigationDone: true,
     },
   };
   const GROUP_ID = 'currentGroupId';

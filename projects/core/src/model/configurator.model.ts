@@ -71,7 +71,7 @@ export namespace Configurator {
     groupsStatus?: {
       [id: string]: Configurator.GroupStatus;
     };
-    issueCheckDone?: boolean;
+    issueNavigationDone?: boolean;
   }
 
   export interface Overview {

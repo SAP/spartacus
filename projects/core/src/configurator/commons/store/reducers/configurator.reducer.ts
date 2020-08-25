@@ -47,7 +47,7 @@ export function reducer(
         priceSummary: content.priceSummary,
         interactionState: {
           ...state.interactionState,
-          issueCheckDone: false,
+          issueNavigationDone: false,
         },
       };
 
@@ -191,7 +191,7 @@ function takeOverChanges(
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
-      issueCheckDone: true,
+      issueNavigationDone: true,
     },
   };
   return result;

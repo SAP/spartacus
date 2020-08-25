@@ -38,7 +38,7 @@ export class ConfigGroupMenuComponent {
     filter(
       (configuration) =>
         (configuration.complete && configuration.consistent) ||
-        configuration.interactionState.issueCheckDone
+        configuration.interactionState.issueNavigationDone
     )
   );
 

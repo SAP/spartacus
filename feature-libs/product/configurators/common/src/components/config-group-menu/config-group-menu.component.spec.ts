@@ -200,7 +200,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       complete: false,
       interactionState: {
         ...mockProductConfiguration.interactionState,
-        issueCheckDone: true,
+        issueNavigationDone: true,
       },
     };
     productConfigurationObservable = of(incompleteConfig);
