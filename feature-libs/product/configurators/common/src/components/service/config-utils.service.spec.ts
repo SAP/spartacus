@@ -5,10 +5,10 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import { ConfigUtilsService } from './config-utils.service';
 
-let isGroupVisited: Observable<Boolean> = of(false);
+let isGroupVisited: Observable<boolean> = of(false);
 
 class MockConfiguratorGroupsService {
-  isGroupVisited(): Observable<Boolean> {
+  isGroupVisited(): Observable<boolean> {
     return isGroupVisited;
   }
 }
@@ -41,7 +41,7 @@ describe('ConfigUtilsService', () => {
     let result: boolean;
     classUnderTest
       .isCartEntryOrGroupVisited(owner, 'group_01')
-      .subscribe((data) => (result = Boolean(data)))
+      .subscribe((data) => (result = data))
       .unsubscribe();
     return result;
   }

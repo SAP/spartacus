@@ -203,7 +203,7 @@ export class ConfiguratorGroupsService {
     configuration: Configurator.Configuration,
     groupId: string,
     setStatus = true
-  ) {
+  ): void {
     if (setStatus) {
       //Set Group status for current group
       this.getCurrentGroup(configuration.owner)
@@ -240,7 +240,7 @@ export class ConfiguratorGroupsService {
    *
    * @param owner - Configuration owner
    */
-  public getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, 1);
   }
 
@@ -249,13 +249,65 @@ export class ConfiguratorGroupsService {
    *
    * @param owner - Configuration owner
    */
-  public getPreviousGroupId(
-    owner: GenericConfigurator.Owner
-  ): Observable<string> {
+  getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, -1);
   }
 
-  private getNeighboringGroupId(
+  /**
+   * Verifies whether the group has been visited
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
+  isGroupVisited(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<boolean> {
+    return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
+  }
+
+  /**
+   * Returns a group status for the given group ID.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
+  getGroupStatus(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Configurator.GroupStatus> {
+    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
+  }
+
+  /**
+   * Returns a parent group for the given group.
+   *
+   * @param groups - List of groups
+   * @param group - Given group
+   * @param parentGroup - Parent group
+   */
+  getParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ): Configurator.Group {
+    return this.configuratorFacadeUtilsService.getParentGroup(
+      groups,
+      group,
+      parentGroup
+    );
+  }
+
+  /**
+   * Verifies whether the given group has a parent.
+   *
+   * @param group - Given group
+   */
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorFacadeUtilsService.hasSubGroups(group);
+  }
+
+  protected getNeighboringGroupId(
     owner: GenericConfigurator.Owner,
     neighboringIndex: number
   ): Observable<string> {
@@ -283,59 +335,5 @@ export class ConfiguratorGroupsService {
         );
       })
     );
-  }
-
-  /**
-   * Verifies whether the group has been visited
-   *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
-   */
-  public isGroupVisited(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Boolean> {
-    return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
-  }
-
-  /**
-   * Returns a group status for the given group ID.
-   *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
-   */
-  public getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
-  }
-
-  /**
-   * Returns a parent group for the given group.
-   *
-   * @param groups - List of groups
-   * @param group - Given group
-   * @param parentGroup - Parent group
-   */
-  public getParentGroup(
-    groups: Configurator.Group[],
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ): Configurator.Group {
-    return this.configuratorFacadeUtilsService.getParentGroup(
-      groups,
-      group,
-      parentGroup
-    );
-  }
-
-  /**
-   * Verifies whether the given group has a parent.
-   *
-   * @param group - Given group
-   */
-  public hasSubGroups(group: Configurator.Group): boolean {
-    return this.configuratorFacadeUtilsService.hasSubGroups(group);
   }
 }

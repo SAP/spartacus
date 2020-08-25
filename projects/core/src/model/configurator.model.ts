@@ -66,7 +66,7 @@ export namespace Configurator {
     currentGroup?: string;
     menuParentGroup?: string;
     groupsVisited?: {
-      [id: string]: Boolean;
+      [id: string]: boolean;
     };
     groupsStatus?: {
       [id: string]: Configurator.GroupStatus;

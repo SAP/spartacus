@@ -96,7 +96,7 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
   updateConfiguration(): void {}
 
-  isConfigurationLoading(): Observable<Boolean> {
+  isConfigurationLoading(): Observable<boolean> {
     return isConfigurationLoadingObservable;
   }
   hasConflicts(): Observable<boolean> {
@@ -376,8 +376,8 @@ describe('ConfigurationFormComponent', () => {
   it('check update configuration', () => {
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
     isConfigurationLoadingObservable = cold('xy', {
-      x: Boolean(true),
-      y: Boolean(false),
+      x: true,
+      y: false,
     });
     routerStateObservable = of(mockRouterState);
     const fixture = TestBed.createComponent(ConfigFormComponent);

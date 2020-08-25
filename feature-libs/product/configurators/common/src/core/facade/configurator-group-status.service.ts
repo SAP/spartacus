@@ -26,12 +26,12 @@ export class ConfiguratorGroupStatusService {
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
-   * @returns {Observable<Boolean>} Has group been visited?
+   * @returns {Observable<boolean>} Has group been visited?
    */
   isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.select(
       ConfiguratorSelectors.isGroupVisited(owner.key, groupId)
     );
@@ -147,7 +147,7 @@ export class ConfiguratorGroupStatusService {
   protected areGroupsVisited(
     owner: GenericConfigurator.Owner,
     groupIds: string[]
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.select(
       ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
     );
@@ -203,7 +203,7 @@ export class ConfiguratorGroupStatusService {
 
     const subGroups = [];
     parentGroup.subGroups.forEach((subGroup) => {
-      //The current group is not set to visited yet, therefor we have to exclude it in the check
+      //The current group is not set to visited yet, therefore we have to exclude it in the check
       if (subGroup.id === groupId) {
         return;
       }
