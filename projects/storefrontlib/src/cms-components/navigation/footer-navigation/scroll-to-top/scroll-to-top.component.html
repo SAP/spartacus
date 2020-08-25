@@ -1,10 +1,8 @@
-<!--Scroll to top-->
 <div
-  class="cx-main"
-  [ngClass]="{ 'cx-show-scrollTop': windowScrolled }"
+  class="cx-scroll-to-top-container"
+  [ngClass]="{ 'cx-scroll-to-top-show': windowScrolled }"
 >
-  <button (click)="scrollToTop()" class="cx-button-scroll-to-top">
-    <div class="cx-img-scroll-to-top"></div>
-    <div class="cx-img-scroll-to-top-mobile"></div>
+  <button (click)="scrollToTop()" class="cx-scroll-to-top-button">
+    <div class="cx-scroll-to-top-img"></div>
   </button>
 </div>

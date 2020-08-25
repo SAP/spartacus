@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 const SCROLL_TO_TOP_TRUE = 100;
 const SCROLL_TO_TOP_FALSE = 10;
@@ -9,10 +9,8 @@ const SCROLL_TO_TOP_TRANSITION_SPEED = 8;
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.scss'],
 })
-export class ScrollToTopComponent implements OnInit {
+export class ScrollToTopComponent {
   windowScrolled: boolean;
-
-  constructor() {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -44,6 +42,4 @@ export class ScrollToTopComponent implements OnInit {
       }
     })();
   }
-
-  ngOnInit() {}
 }

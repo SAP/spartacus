@@ -1,34 +1,32 @@
-.cx-main {
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins/_breakpoints';
+
+.cx-scroll-to-top-container {
+  display: none;
   position: fixed;
   bottom: 15px;
   right: 15px;
-  opacity: 0;
-  transition: all 0.2s ease-in-out;
 }
-.cx-show-scrollTop {
-  opacity: 1;
-  transition: all 0.2s ease-in-out;
+.cx-scroll-to-top-show {
+  display: block;
 }
-.cx-button-scroll-to-top {
+.cx-scroll-to-top-button {
   border: none;
   background: none;
   padding: 0;
 }
-.cx-img-scroll-to-top {
-  display: block;
-  content: url('../../../../assets/scroll-to-top.png');
-}
-.cx-img-scroll-to-top-mobile {
+
+.cx-scroll-to-top-img {
   display: none;
-  content: url('../../../../assets/scroll-to-top-mobile.png');
-}
-@media (max-width: 600px) {
-  .cx-img-scroll-to-top-mobile {
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+    content: url('../../../../assets/scroll-to-top.png');
+  }
+
+  @include media-breakpoint-down(lg) {
     display: block;
     content: url('../../../../assets/scroll-to-top-mobile.png');
-  }
-  .cx-img-scroll-to-top {
-    display: none;
-    content: url('../../../../assets/scroll-to-top.png');
   }
 }
