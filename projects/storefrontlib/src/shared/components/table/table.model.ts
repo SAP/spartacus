@@ -41,16 +41,21 @@ export interface TableOptions {
   pagination?: PaginationModel;
 
   /**
-   * Global render component used for table headers (th) unless a more specific
-   * renderer is configured
+   * Global component to render table header _content_ (`<th>...</th>`). A specific component per
+   * field can be configured alternatively.
+   *
+   * If no component is available, the table component will render a static label or use the
+   * configured i18n label.
    */
-  headerRenderer?: Type<any>;
+  headerComponent?: Type<any>;
 
   /**
-   * Global render component used for table data (td) unless a more specific
-   * renderer is configured
+   * Global component to render table cell _content_ (`<td>...</td>`). A specific component per
+   * field can be configured alternatively.
+   *
+   * If no component is available, the table content will render as-is.
    */
-  dataRenderer?: Type<any>;
+  dataComponent?: Type<any>;
 
   // field specific options
   fields?: {
@@ -66,14 +71,20 @@ export interface TableFieldOptions {
   label?: string | TableHeader;
 
   /**
-   * Render component for the table header (th) of specific field.
+   * Component to render table header _content_ (`<th>...</th>`) for the table field.
+   *
+   * If no component is configured, the global table component for the header will be used
+   * instead.
    */
-  headerRenderer?: Type<any>;
+  headerComponent?: Type<any>;
 
   /**
-   * Render component for the table data (td) of specific field.
+   * Component to render table data _content_ (`<td>...</td>`) for the table field.
+   *
+   * If no component is configured, the global table component for the cell data will be used
+   * instead.
    */
-  dataRenderer?: Type<any>;
+  dataComponent?: Type<any>;
 }
 
 /**

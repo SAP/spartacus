@@ -80,16 +80,16 @@ export const permissionTableConfig: TableConfig = {
         pagination: {
           sort: 'byCode',
         },
-        dataRenderer: OrganizationCellComponent,
+        dataComponent: OrganizationCellComponent,
         fields: {
           active: {
-            dataRenderer: StatusCellComponent,
+            dataComponent: StatusCellComponent,
           },
           unit: {
-            dataRenderer: UnitCellComponent,
+            dataComponent: UnitCellComponent,
           },
           limit: {
-            dataRenderer: LimitCellComponent,
+            dataComponent: LimitCellComponent,
           },
         },
       },

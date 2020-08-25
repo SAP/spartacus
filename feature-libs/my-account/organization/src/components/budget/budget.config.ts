@@ -97,19 +97,19 @@ export const budgetTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationCellComponent,
+        dataComponent: OrganizationCellComponent,
         fields: {
           amount: {
-            dataRenderer: AmountCellComponent,
+            dataComponent: AmountCellComponent,
           },
           active: {
-            dataRenderer: StatusCellComponent,
+            dataComponent: StatusCellComponent,
           },
           dateRange: {
-            dataRenderer: DateRangeCellComponent,
+            dataComponent: DateRangeCellComponent,
           },
           unit: {
-            dataRenderer: UnitCellComponent,
+            dataComponent: UnitCellComponent,
           },
         },
       },

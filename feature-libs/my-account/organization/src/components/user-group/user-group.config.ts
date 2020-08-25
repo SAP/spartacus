@@ -128,10 +128,10 @@ export const userGroupTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationCellComponent,
+        dataComponent: OrganizationCellComponent,
         fields: {
           unit: {
-            dataRenderer: UnitCellComponent,
+            dataComponent: UnitCellComponent,
           },
         },
       },

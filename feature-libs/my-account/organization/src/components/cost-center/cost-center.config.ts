@@ -107,13 +107,13 @@ export const costCenterTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationCellComponent,
+        dataComponent: OrganizationCellComponent,
         fields: {
           active: {
-            dataRenderer: StatusCellComponent,
+            dataComponent: StatusCellComponent,
           },
           unit: {
-            dataRenderer: UnitCellComponent,
+            dataComponent: UnitCellComponent,
           },
         },
       },

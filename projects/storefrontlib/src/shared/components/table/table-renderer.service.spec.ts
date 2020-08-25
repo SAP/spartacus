@@ -26,7 +26,7 @@ const mockTableWithHeaderComponent: Table = {
   structure: {
     type: 'mock',
     fields: ['name'],
-    options: { headerRenderer: MockHeaderComponent },
+    options: { headerComponent: MockHeaderComponent },
   } as TableStructure,
   data: [],
 };
@@ -35,11 +35,11 @@ const mockTableWithHeaderAndDataComponent: Table = {
     type: 'mock',
     fields: ['name', 'code', 'unit'],
     options: {
-      headerRenderer: MockHeaderComponent,
-      dataRenderer: MockDataComponent,
+      headerComponent: MockHeaderComponent,
+      dataComponent: MockDataComponent,
       fields: {
         code: {
-          dataRenderer: MockCodeRendererComponent,
+          dataComponent: MockCodeRendererComponent,
         },
       },
     },

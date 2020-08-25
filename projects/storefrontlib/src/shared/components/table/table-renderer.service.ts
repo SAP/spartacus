@@ -7,6 +7,15 @@ import {
   TableOptions,
 } from './table.model';
 
+/**
+ * The table renderer service adds a component for each table cells (th and td)
+ * based on a fine grained configuration. Each table type can configure both global
+ * components for headers and cells as well as individual components for field
+ * specific cells.
+ *
+ * The components are added to the outlet slots for the corresponding cells. The table
+ * structure and data is added to the outlet context.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -53,8 +62,8 @@ export class TableRendererService {
    */
   protected getHeaderRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options?.fields?.[field]?.headerRenderer ||
-      dataset.structure.options?.headerRenderer
+      dataset.structure.options?.fields?.[field]?.headerComponent ||
+      dataset.structure.options?.headerComponent
     );
   }
 
@@ -63,8 +72,8 @@ export class TableRendererService {
    */
   protected getDataRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options?.fields?.[field]?.dataRenderer ||
-      dataset.structure.options?.dataRenderer
+      dataset.structure.options?.fields?.[field]?.dataComponent ||
+      dataset.structure.options?.dataComponent
     );
   }
 

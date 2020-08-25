@@ -161,16 +161,16 @@ export const userTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataRenderer: OrganizationCellComponent,
+        dataComponent: OrganizationCellComponent,
         fields: {
           active: {
-            dataRenderer: StatusCellComponent,
+            dataComponent: StatusCellComponent,
           },
           roles: {
-            dataRenderer: RolesCellComponent,
+            dataComponent: RolesCellComponent,
           },
           unit: {
-            dataRenderer: UnitCellComponent,
+            dataComponent: UnitCellComponent,
           },
         },
       },
