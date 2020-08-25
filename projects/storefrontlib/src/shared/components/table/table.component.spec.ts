@@ -2,7 +2,6 @@ import * as AngularCore from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
@@ -21,18 +20,6 @@ const mockDataset: Table = {
   structure: {
     type: 'test-1',
     fields: headers,
-    options: {
-      fields: {
-        key2: {
-          label: {
-            i18nKey: 'prop.key2',
-          },
-        },
-        key3: {
-          label: 'key 3 label',
-        },
-      },
-    },
   },
   data,
 };
@@ -52,7 +39,7 @@ describe('TableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule],
+      imports: [OutletModule],
       declarations: [TableComponent],
       providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
@@ -120,14 +107,6 @@ describe('TableComponent', () => {
       tableComponent.dataset = mockDataset;
     });
 
-    it('should resolve a static header', () => {
-      expect(tableComponent.getHeader('key3')).toEqual('key 3 label');
-    });
-
-    it('should generate a header with a generated i18n key', () => {
-      expect(tableComponent.getLocalizedHeader('key1')).toEqual('test-1.key1');
-    });
-
     it('should delegate creation of table header outlet reference', () => {
       tableComponent.getHeaderOutletRef('key1');
       expect(tableRendererService.getHeaderOutletRef).toHaveBeenCalledWith(
@@ -147,30 +126,6 @@ describe('TableComponent', () => {
     });
 
     describe('UI', () => {
-      it('should resolve the i18n property for the field', () => {
-        expect(tableComponent.getLocalizedHeader('key2')).toEqual('prop.key2');
-      });
-
-      it('should leverage the translate pipe for the header key when there is no header label', () => {
-        fixture.detectChanges();
-
-        const th1: HTMLElement = fixture.debugElement.query(
-          By.css('table th:nth-child(1)')
-        ).nativeElement;
-
-        expect(th1.innerText).toEqual('test-1.key1');
-      });
-
-      it('should add the header.label in the th if available ', () => {
-        fixture.detectChanges();
-
-        const th3: HTMLElement = fixture.debugElement.query(
-          By.css('table th:nth-child(3)')
-        ).nativeElement;
-
-        expect(th3.innerText).toEqual('key 3 label');
-      });
-
       it('should not add the thead when hideHeader = true', () => {
         tableComponent.dataset = {
           ...mockDataset,

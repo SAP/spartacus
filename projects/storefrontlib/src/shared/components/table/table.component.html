@@ -2,25 +2,20 @@
   <thead *ngIf="!structure.options?.hideHeader">
     <tr>
       <th scope="col" *ngFor="let field of structure.fields" [class]="field">
-        <!-- render an outlet for each column header -->
         <ng-template
           [cxOutlet]="getHeaderOutletRef(field)"
           [cxOutletContext]="getHeaderOutletContext(field)"
-        >
-          {{ getHeader(field) || (getLocalizedHeader(field) | cxTranslate) }}
-        </ng-template>
+        ></ng-template>
       </th>
     </tr>
   </thead>
 
   <tr *ngFor="let row of dataset.data">
     <td *ngFor="let field of structure.fields; let i = index" [class]="field">
-      <!-- render an outlet for each cell -->
       <ng-template
         [cxOutlet]="getDataOutletRef(field)"
         [cxOutletContext]="getDataOutletContext(field, row)"
       >
-        {{ getDataValue(row, field, i) }}
       </ng-template>
     </td>
   </tr>

@@ -1,4 +1,7 @@
+export * from './config/default-table.config';
 export * from './config/table.config';
+export * from './table-header-cell/table-header-cell.component';
+export * from './table-header-cell/table-header-cell.module';
 export * from './table-renderer.service';
 export * from './table.component';
 export * from './table.model';

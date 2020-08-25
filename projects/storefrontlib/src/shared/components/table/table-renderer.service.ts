@@ -1,5 +1,6 @@
 import { ComponentFactoryResolver, Injectable, Type } from '@angular/core';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
+import { TableConfig } from './config/table.config';
 import {
   Table,
   TableDataOutletContext,
@@ -25,7 +26,8 @@ export class TableRendererService {
 
   constructor(
     protected outletService: OutletService,
-    protected componentFactoryResolver: ComponentFactoryResolver
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected config: TableConfig
   ) {}
 
   /**
@@ -63,7 +65,8 @@ export class TableRendererService {
   protected getHeaderRenderer(dataset: Table, field: string): Type<any> {
     return (
       dataset.structure.options?.fields?.[field]?.headerComponent ||
-      dataset.structure.options?.headerComponent
+      dataset.structure.options?.headerComponent ||
+      this.config.tableOptions?.headerComponent
     );
   }
 
@@ -73,7 +76,8 @@ export class TableRendererService {
   protected getDataRenderer(dataset: Table, field: string): Type<any> {
     return (
       dataset.structure.options?.fields?.[field]?.dataComponent ||
-      dataset.structure.options?.dataComponent
+      dataset.structure.options?.dataComponent ||
+      this.config.tableOptions?.dataComponent
     );
   }
 

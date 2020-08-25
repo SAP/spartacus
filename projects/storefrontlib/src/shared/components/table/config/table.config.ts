@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { BREAKPOINT } from '../../../../layout/config/layout-config';
 import { TableStructureConfiguration } from '../table.model';
@@ -16,8 +16,23 @@ import { TableStructureConfiguration } from '../table.model';
   useExisting: Config,
 })
 export abstract class TableConfig {
-  table: {
+  table?: {
     [tableType: string]: ResponsiveTableConfiguration;
+  };
+  tableOptions?: {
+    /**
+     * Global component to render table header _content_ (`<th>...</th>`). A specific component
+     * can be configured alternatively per table or table field.
+     */
+    headerComponent?: Type<any>;
+
+    /**
+     * Global component to render table cell _content_ (`<td>...</td>`). A specific component per
+     * field can be configured alternatively.
+     *
+     * If no component is available, the table content will render as-is.
+     */
+    dataComponent?: Type<any>;
   };
 }
 

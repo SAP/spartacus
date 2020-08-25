@@ -11,7 +11,6 @@ import { TableRendererService } from './table-renderer.service';
 import {
   Table,
   TableDataOutletContext,
-  TableFieldOptions,
   TableHeader,
   TableHeaderOutletContext,
 } from './table.model';
@@ -37,14 +36,13 @@ import {
  * ```
  * <th>
  *   <template cxOutlet="tbl.cost-center.header.name">
- *     [localized label is generated here]
  *   </template>
  * </th>
  * ```
  *
  * Similarly, the `<td>` is generated with the outlet template reference `tbl.cost-center.data.name`.
  *
- * This allows smart components to further customize the table rendering. More over, customers can
+ * This allows components to further customize the table rendering. More over, customers can
  * customize the header and data by using the generated outlets.
  */
 @Component({
@@ -75,47 +73,12 @@ export class TableComponent {
   @Output() sortEvent: EventEmitter<string> = new EventEmitter();
 
   /**
-   * Returns the configured data value by the label key.
-   * If there's no headerKey available, or no corresponding value, the
-   * first value in the data row is returned.
-   */
-  getDataValue(dataRow: any, headerKey: string, index: number): string {
-    return dataRow[headerKey] || Object.values(dataRow)[index];
-  }
-
-  /**
    * Returns the static label for the given field, if available.
    */
   sort(header: TableHeader) {
     if (header.sortCode) {
       this.sortEvent.emit(header.sortCode);
     }
-  }
-
-  /**
-   * Returns the static label for the given field, if available.
-   */
-  getHeader(field): string {
-    if (typeof this.options?.fields?.[field]?.label === 'string') {
-      return <string>this.options?.fields?.[field]?.label;
-    }
-  }
-
-  /**
-   * Returns the localized label for the given field.
-   *
-   * The localized label is either driven by the configured `label.i18nKey`
-   * or concatenated by the table `type` and field `key`:
-   *
-   * `[tableType].[fieldKey]`
-   *
-   * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
-   */
-  getLocalizedHeader(field: string): string {
-    return (
-      (this.options?.fields?.[field]?.label as TableHeader)?.i18nKey ||
-      `${this.type}.${field}`
-    );
   }
 
   /**
@@ -163,10 +126,6 @@ export class TableComponent {
     if (isDevMode && this.type) {
       this.tableType = this.type;
     }
-  }
-
-  protected getFieldOptions(field: string): TableFieldOptions {
-    return this.options?.fields?.[field];
   }
 
   protected get type() {

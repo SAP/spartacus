@@ -18,7 +18,7 @@ export abstract class OutletContextData<T = any> {
   /**
    * Provides position of the outlet
    */
-  position: OutletPosition;
+  position?: OutletPosition;
   /**
    * Provides outlet context
    */

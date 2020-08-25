@@ -124,7 +124,7 @@ export interface TableHeaderOutletContext {
   _options: TableOptions;
 }
 
-export interface TableDataOutletContext<T = any>
-  extends TableHeaderOutletContext {
-  data: T;
+// tslint:disable-next-line: no-empty-interface
+export interface TableDataOutletContext extends TableHeaderOutletContext {
+  [property: string]: any;
 }
