@@ -18,7 +18,7 @@ export class OrganizationLinkComponent<T = any> {
   }
 
   get property(): string {
-    return this.model[this.outlet.context._field];
+    return this.model[this.outlet?.context?._field];
   }
 
   get route(): string {

@@ -11,7 +11,7 @@ import { AmountComponent } from '../shared/property-renderers/amount/amount-valu
 import { DateRangeComponent } from '../shared/property-renderers/date-range/date-range.component';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
 import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';

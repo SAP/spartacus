@@ -9,7 +9,7 @@ import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
 import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';

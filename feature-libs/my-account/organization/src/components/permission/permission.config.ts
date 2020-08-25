@@ -10,7 +10,7 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { LimitComponent } from '../shared/property-renderers/limit/limit.component';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
 import { StatusComponent } from '../shared/property-renderers/status/status.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';

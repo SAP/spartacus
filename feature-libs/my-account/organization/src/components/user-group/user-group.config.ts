@@ -8,7 +8,7 @@ import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { OrganizationLinkComponent } from '../shared/property-renderers/organization-link.component';
-import { UnitComponent } from '../shared/property-renderers/unit/unit-value.component';
+import { UnitComponent } from '../shared/property-renderers/unit/unit.component';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';

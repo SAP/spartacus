@@ -55,7 +55,6 @@ describe('TableComponent', () => {
       imports: [I18nTestingModule, OutletModule],
       declarations: [TableComponent],
       providers: [
-        // { provide: LayoutConfig, useValue: {} },
         { provide: TableRendererService, useClass: MockTableRendererService },
       ],
     })

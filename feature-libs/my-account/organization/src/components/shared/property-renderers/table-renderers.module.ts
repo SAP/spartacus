@@ -7,7 +7,7 @@ import { AmountComponent } from './amount/amount-value.component';
 import { DateRangeComponent } from './date-range/date-range.component';
 import { OrganizationLinkComponent } from './organization-link.component';
 import { StatusComponent } from './status/status.component';
-import { UnitComponent } from './unit/unit-value.component';
+import { UnitComponent } from './unit/unit.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
