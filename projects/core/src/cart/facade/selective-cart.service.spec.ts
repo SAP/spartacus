@@ -289,6 +289,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should call multiCartService remove entry method with selective cart', () => {
+    const EXPECTED_QUANTITY = 3;
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
     spyOn(multiCartService, 'removeEntry').and.callThrough();
@@ -299,7 +300,7 @@ describe('Selective Cart Service', () => {
     expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
       'userId',
       'cartId',
-      ENTRY_QUANTITY
+      EXPECTED_QUANTITY
     );
   });
 

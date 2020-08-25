@@ -102,8 +102,9 @@ describe('LoadingScopesService', () => {
 
   describe('getMaxAge', () => {
     it('should return maxAge in milliseconds', () => {
+      const MAXIMUM_AGE = 60000;
       const result = service.getMaxAge('product', 'order');
-      expect(result).toEqual(MAX_AGE);
+      expect(result).toEqual(MAXIMUM_AGE);
     });
     it('should return 0 for not configured maxAge', () => {
       const result = service.getMaxAge('product', 'detail');

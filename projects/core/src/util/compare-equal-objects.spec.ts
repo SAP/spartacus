@@ -124,7 +124,7 @@ describe('compare equal objects utilities', () => {
     });
 
     it('should return count of equal primitives', () => {
-      const EXPECTED_COUNT = 2;
+      const EXPECTED_COUNT = 3;
       const EXPECTED_DEEP_OBJ_COUNT = 5;
       const COUNT_DEEP_OBJ_FOUR = 4;
       const COUNT_DEEP_OBJ_THREE = 3;
