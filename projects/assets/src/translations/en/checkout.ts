@@ -32,7 +32,6 @@ export const checkout = {
     frequency: 'Frequency',
     nextOrderDate: 'Next order date',
     orderNumber: 'Order Number',
-    purchaseOrderNumber: 'Purchase Order #',
   },
   checkoutReview: {
     review: 'Review',
