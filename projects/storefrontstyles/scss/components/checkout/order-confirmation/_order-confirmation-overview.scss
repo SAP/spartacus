@@ -49,14 +49,6 @@
           margin: 0.625rem 0;
         }
 
-        cx-card {
-          &:not(:last-of-type) {
-            .cx-card {
-              border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-            }
-          }
-        }
-
         .cx-card-title {
           @include type('4');
           font-weight: bold;
