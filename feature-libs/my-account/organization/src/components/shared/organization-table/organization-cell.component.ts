@@ -8,10 +8,10 @@ import {
   templateUrl: './organization-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationCellComponent<T = any> {
+export class OrganizationCellComponent {
   @HostBinding('class') cls = 'content-wrapper';
 
-  constructor(protected outlet: OutletContextData<TableDataOutletContext<T>>) {}
+  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   get model(): any {
     return this.outlet.context;
