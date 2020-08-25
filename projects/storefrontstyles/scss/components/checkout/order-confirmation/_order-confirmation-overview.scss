@@ -14,7 +14,7 @@
     .container {
       display: flex;
       flex-wrap: wrap;
-      padding: 0;
+      padding: 15px 0;
 
       @include media-breakpoint-down(md) {
         max-width: 100%;
@@ -28,10 +28,11 @@
 
       .summary-card {
         flex: 1;
+        padding: 0 15px;
 
         &:not(:last-of-type) {
           @include media-breakpoint-up(lg) {
-            border-right: 1px solid rgba(0, 0, 0, 0.5);
+            border-inline-end: 1px solid var(--cx-color-text);
           }
         }
 
@@ -49,9 +50,9 @@
         }
 
         cx-card {
-          &:not(:first-child) {
-            .card-body {
-              padding-top: 0 !important;
+          &:not(:last-of-type) {
+            .cx-card {
+              border-bottom: 1px solid rgba(0, 0, 0, 0.5);
             }
           }
         }
