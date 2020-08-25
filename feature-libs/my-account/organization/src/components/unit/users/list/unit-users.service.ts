@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { B2BUser, EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { OrgUnitService } from "../../../../core/services/org-unit.service";
+import { Injectable } from '@angular/core';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import {
   BaseOrganizationListService,
   OrganizationTableType,
-} from "../../../shared/index";
+} from '../../../shared/index';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UnitUsersService extends BaseOrganizationListService<B2BUser> {
   protected tableType = OrganizationTableType.UNIT_USERS;

@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { UserGroup } from "../../../../core/model/user-group.model";
-import { B2BUserService } from "../../../../core/services/b2b-user.service";
-import { BaseOrganizationListService } from "../../../shared/base-organization-list.service";
-import { OrganizationTableType } from "../../../shared/organization.model";
+import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { UserGroup } from '../../../../core/model/user-group.model';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { OrganizationTableType } from '../../../shared/organization.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserAssignUserGroupListService extends BaseOrganizationListService<
   UserGroup

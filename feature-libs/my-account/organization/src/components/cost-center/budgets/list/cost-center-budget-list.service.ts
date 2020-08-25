@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { EntitiesModel } from "@spartacus/core";
-import { TableService, TableStructure } from "@spartacus/storefront";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { Budget } from "../../../../core/model/budget.model";
-import { CostCenterService } from "../../../../core/services/cost-center.service";
-import { BaseOrganizationListService } from "../../../shared/base-organization-list.service";
-import { OrganizationTableType } from "../../../shared/organization.model";
+import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Budget } from '../../../../core/model/budget.model';
+import { CostCenterService } from '../../../../core/services/cost-center.service';
+import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
  * Service to populate Cost Center Budget data to `Table` data. The cost center
  * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER_BUDGETS`.
  */
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CostCenterBudgetListService extends BaseOrganizationListService<
   Budget
