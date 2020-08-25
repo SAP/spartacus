@@ -224,7 +224,10 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
+function installStyles(
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
+): Rule {
   return (host: Tree) => {
     const styleFilePath = getProjectStyleFile(project);
 
@@ -263,7 +266,10 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
 
     const htmlContent = buffer.toString();
     const insertion =
-      '\n' + `$styleVersion: 2.1;\n@import '~@spartacus/styles/index';\n`;
+      '\n' +
+      `$styleVersion: ${
+        options.featureLevel || getSpartacusCurrentFeatureLevel()
+      };\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -339,7 +345,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(),
       updateAppModule(options),
-      installStyles(project),
+      installStyles(project, options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
