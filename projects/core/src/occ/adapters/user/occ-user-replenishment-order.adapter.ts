@@ -20,9 +20,9 @@ export class OccUserReplenishmentOrderAdapter implements UserReplenishmentOrderA
 
   public loadHistory(
       userId: string,
-      pageSize ?: number,
-      currentPage ?: number,
-      sort ?: string
+      pageSize?: number,
+      currentPage?: number,
+      sort?: string
     ): Observable<ReplenishmentOrderList> {
       const params = {};
       if(pageSize) {
@@ -38,7 +38,7 @@ export class OccUserReplenishmentOrderAdapter implements UserReplenishmentOrderA
     const url = this.occEndpoints.getUrl('replenishmentOrderHistory', { userId }, params);
 
       return this.http
-          .get<Occ.ReplenishmentOrderList>(url)
+        .get<Occ.ReplenishmentOrderList>(url)
         .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_HISTORY_NORMALIZER));
   }
 
