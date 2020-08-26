@@ -49,16 +49,6 @@ describe('ConfigureIssuesNotificationComponent', () => {
     expect(result).toEqual('');
   });
 
-  it('should return a singular issue message key for one issue', () => {
-    const result = component.getIssueMessageKey(1);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssue');
-  });
-
-  it('should return a plural issue message key for more than one issue', () => {
-    const result = component.getIssueMessageKey(3);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssues');
-  });
-
   it('should return number of issues of ERROR status', () => {
     component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
     expect(component.getNumberOfIssues()).toBe(2);

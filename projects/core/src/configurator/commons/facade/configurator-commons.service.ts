@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -15,7 +16,8 @@ export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
     protected genericConfigUtilsService: GenericConfigUtilsService,
-    protected configuratorCartService: ConfiguratorCartService
+    protected configuratorCartService: ConfiguratorCartService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -132,11 +134,16 @@ export class ConfiguratorCommonsService {
     changedAttribute: Configurator.Attribute
   ): void {
     // in case cart updates pending: Do nothing
-    this.configuratorCartService
-      .checkForActiveCartUpdates()
+    this.activeCartService
+      .isStable()
       .pipe(
         take(1),
-        filter((pendingChanges) => !pendingChanges),
+        tap((stable) => {
+          if (isDevMode() && !stable) {
+            console.warn('Cart is busy, no configuration updates possible');
+          }
+        }),
+        filter((stable) => stable),
         switchMapTo(
           this.store.pipe(
             select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),

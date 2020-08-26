@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { delayWhen, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { MultiCartSelectors } from '../../../cart/store/index';
 import { StateWithMultiCart } from '../../../cart/store/multi-cart-state';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
@@ -22,24 +21,6 @@ export class ConfiguratorCartService {
     protected activeCartService: ActiveCartService,
     protected genericConfigUtilsService: GenericConfigUtilsService
   ) {}
-  /**
-   * Checks if there are no updates for the active cart pending
-   * @returns Observable emitting that no changes are pending
-   */
-  checkForActiveCartUpdates(): Observable<boolean> {
-    return this.activeCartService.requireLoadedCart().pipe(
-      take(1),
-      switchMap((cartState) =>
-        this.cartStore.pipe(
-          select(
-            MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
-              this.genericConfigUtilsService.getCartId(cartState.value)
-            )
-          )
-        )
-      )
-    );
-  }
 
   /**
    * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
@@ -55,10 +36,10 @@ export class ConfiguratorCartService {
           owner.key
         )
       ),
+      //needed as we cannot read the cart in general and for the OV
+      //in parallel, this can lead to cache issues with promotions
       delayWhen(() =>
-        this.checkForActiveCartUpdates().pipe(
-          filter((hasPendingChanges) => !hasPendingChanges)
-        )
+        this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
