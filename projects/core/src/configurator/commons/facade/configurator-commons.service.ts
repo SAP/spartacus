@@ -178,13 +178,36 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Removes a configuration.
+   * Removes a configuration without its interaction state
    *
    * @param owner - Configuration owner
    */
-  removeConfiguration(owner: GenericConfigurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner): void {
+    this.getConfiguration(owner)
+      .pipe(take(1))
+      .subscribe((oldConfig) => {
+        this.store.dispatch(
+          new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+        );
+        this.setInteractionState(owner, oldConfig.interactionState);
+      });
+  }
+
+  /**
+   * Sets the interaction state
+   *
+   * @param owner - Configuration owner
+   * @param interactionState - Interaction state
+   */
+  setInteractionState(
+    owner: GenericConfigurator.Owner,
+    interactionState: Configurator.InteractionState
+  ): void {
     this.store.dispatch(
-      new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+      new ConfiguratorActions.SetInteractionState({
+        entityKey: owner.key,
+        interactionState,
+      })
     );
   }
 

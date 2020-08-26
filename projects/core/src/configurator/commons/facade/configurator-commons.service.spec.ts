@@ -252,10 +252,23 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should call matching action on removeConfiguration', () => {
     spyOn(store, 'dispatch').and.callThrough();
+
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+
     serviceUnderTest.removeConfiguration(productConfiguration.owner);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
+
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.RemoveConfiguration({
         ownerKey: productConfiguration.owner.key,
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.SetInteractionState({
+        entityKey: productConfiguration.owner.key,
+        interactionState: productConfiguration.interactionState,
       })
     );
   });
