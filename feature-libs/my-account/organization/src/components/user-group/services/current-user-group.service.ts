@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { UserGroup } from '../../core';
-import { UserGroupService } from '../../core/services/user-group.service';
-import { ROUTE_PARAMS } from '../constants';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { UserGroup } from '../../../core';
+import { UserGroupService } from '../../../core/services/user-group.service';
+import { ROUTE_PARAMS } from '../../constants';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 
 @Injectable({
   providedIn: 'root',

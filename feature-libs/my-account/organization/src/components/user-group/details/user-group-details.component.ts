@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
-import { CurrentUserGroupService } from '../current-user-group.service';
+import { CurrentUserGroupService } from '../services/current-user-group.service';
 
 @Component({
   selector: 'cx-user-group-details',

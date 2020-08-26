@@ -6,15 +6,18 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { BaseOrganizationListService } from '../shared/base-organization-list.service';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
-import { UserGroupListComponent } from './list/user-group-list.component';
 import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
+import { CurrentUserGroupService, UserGroupListService } from './services';
 import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 
@@ -67,7 +70,17 @@ export const userGroupRoutingConfig: RoutingConfig = {
 export const userGroupCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUserGroupsListComponent: {
-      component: UserGroupListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: BaseOrganizationListService,
+          useExisting: UserGroupListService,
+        },
+        {
+          provide: CurrentOrganizationItemService,
+          useExisting: CurrentUserGroupService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',

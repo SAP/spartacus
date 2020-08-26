@@ -9,7 +9,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
-import { CurrentUserGroupService } from '../current-user-group.service';
+import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 
 import createSpy = jasmine.createSpy;
