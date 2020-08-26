@@ -5,7 +5,9 @@
         <ng-template
           [cxOutlet]="getHeaderOutletRef(field)"
           [cxOutletContext]="getHeaderOutletContext(field)"
-        ></ng-template>
+        >
+          {{ field }}
+        </ng-template>
       </th>
       <th *ngIf="suffix" class="suffix">
         <ng-template cxOutlet="table.header.suffix"> </ng-template>
@@ -22,6 +24,7 @@
         [cxOutlet]="getDataOutletRef(field)"
         [cxOutletContext]="getDataOutletContext(field, item)"
       >
+        {{ item[field] }}
       </ng-template>
     </td>
 
