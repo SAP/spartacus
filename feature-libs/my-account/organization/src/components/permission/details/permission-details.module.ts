@@ -7,7 +7,6 @@ import {
   IconModule,
   SplitViewModule,
 } from '@spartacus/storefront';
-import { PermissionListModule } from '../list/permission-list.module';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { PermissionDetailsComponent } from './permission-details.component';
     I18nModule,
     SplitViewModule,
     IconModule,
-    PermissionListModule,
     ConfirmModalModule,
   ],
   declarations: [PermissionDetailsComponent],

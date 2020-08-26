@@ -19,6 +19,11 @@ export interface Table<T = any> {
    * The pagination component is used to paginate through the data.
    */
   pagination?: PaginationModel;
+
+  /**
+   * The sort options for the table.
+   */
+  sorts?: any[];
 }
 
 export interface TableStructureConfiguration {

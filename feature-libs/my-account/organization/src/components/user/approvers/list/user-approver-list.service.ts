@@ -5,16 +5,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { B2BUserService } from '../../../../core/services/b2b-user.service';
 import {
-  BaseOrganizationListService,
+  OrganizationListService,
   OrganizationTableType,
 } from '../../../shared';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserApproverListService extends BaseOrganizationListService<
-  B2BUser
-> {
+export class UserApproverListService extends OrganizationListService<B2BUser> {
   protected tableType = OrganizationTableType.USER_APPROVERS;
 
   constructor(

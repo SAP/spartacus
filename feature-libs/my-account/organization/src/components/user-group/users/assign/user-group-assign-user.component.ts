@@ -3,7 +3,7 @@ import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CurrentUserGroupService } from '../../current-user-group.service';
+import { CurrentUserGroupService } from '../../services/current-user-group.service';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
 @Component({

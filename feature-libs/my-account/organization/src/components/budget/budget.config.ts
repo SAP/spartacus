@@ -6,6 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table';
 import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
 import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
@@ -16,7 +19,8 @@ import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-c
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
-import { BudgetListComponent } from './list/budget-list.component';
+import { BudgetListService } from './services';
+import { CurrentBudgetService } from './services/current-budget.service';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -55,7 +59,17 @@ export const budgetRoutingConfig: RoutingConfig = {
 export const budgetCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageBudgetsListComponent: {
-      component: BudgetListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: BudgetListService,
+        },
+        {
+          provide: CurrentOrganizationItemService,
+          useExisting: CurrentBudgetService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',

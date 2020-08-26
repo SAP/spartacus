@@ -10,7 +10,7 @@ import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { CurrentCostCenterService } from '../current-cost-center.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-form',

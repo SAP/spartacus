@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CostCenterService } from '../../../core/services/cost-center.service';
-import { CurrentCostCenterService } from '../current-cost-center.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 

@@ -1,32 +1,12 @@
-cx-budget-list,
-cx-cost-center-list,
-cx-user-group-list,
-cx-user-list,
-cx-permission-list {
-  > cx-split-view > cx-view > section > cx-table > table {
+.organization {
+  cx-split-view:not([active-view='1']) > cx-view > cx-table > table {
     th,
     td {
-      width: 100%;
-    }
-    td {
-      &.name,
-      &.code,
-      &.unit {
-        .disabled {
-          display: flex;
-          font-size: 0.75rem;
-          align-items: center;
-          margin-left: -0.6rem;
-        }
+      &.amount,
+      &.dateRange {
+        opacity: 0;
+        width: 0.1%;
       }
-    }
-  }
-
-  > cx-split-view[active-view='2'] > cx-view > section > cx-table > table {
-    th:nth-child(n + 2),
-    td:nth-child(n + 2) {
-      opacity: 0;
-      width: 0.1%;
     }
   }
 }

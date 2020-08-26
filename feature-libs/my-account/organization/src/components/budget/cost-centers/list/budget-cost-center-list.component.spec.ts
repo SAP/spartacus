@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { Budget } from '../../../../core/model/budget.model';
-import { CurrentBudgetService } from '../../current-budget.service';
+import { CurrentBudgetService } from '../../services/current-budget.service';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 

@@ -4,10 +4,10 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { OrganizationListModule } from '../shared/organization-list/organization-list.module';
 import { PermissionCreateModule } from './create/permission-create.module';
 import { PermissionDetailsModule } from './details/permission-details.module';
 import { PermissionEditModule } from './edit/permission-edit.module';
-import { PermissionListModule } from './list/permission-list.module';
 import {
   permissionCmsConfig,
   permissionRoutingConfig,
@@ -17,10 +17,11 @@ import {
 @NgModule({
   imports: [
     RouterModule,
-    PermissionListModule,
     PermissionCreateModule,
     PermissionEditModule,
     PermissionDetailsModule,
+
+    OrganizationListModule,
   ],
   providers: [
     provideDefaultConfig(permissionRoutingConfig),

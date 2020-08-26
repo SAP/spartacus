@@ -15,11 +15,11 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { PermissionService } from '../../../core/services/permission.service';
-import { CurrentPermissionService } from '../current-permission.service';
 import {
   PermissionFormService,
   PermissionType,
 } from '../form/permission-form.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 import { PermissionEditComponent } from './permission-edit.component';
 
 import createSpy = jasmine.createSpy;

@@ -6,6 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
@@ -17,9 +20,10 @@ import { UserChangePasswordComponent } from './change-password/user-change-passw
 import { UserCreateComponent } from './create/user-create.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
-import { UserListComponent } from './list/user-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
+import { CurrentUserService } from './services/current-user.service';
+import { UserListService } from './services/user-list.service';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
 
@@ -84,7 +88,17 @@ export const userRoutingConfig: RoutingConfig = {
 export const userCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUsersListComponent: {
-      component: UserListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UserListService,
+        },
+        {
+          provide: CurrentOrganizationItemService,
+          useExisting: CurrentUserService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',

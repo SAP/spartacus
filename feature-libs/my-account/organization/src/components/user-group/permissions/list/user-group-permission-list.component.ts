@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { CurrentUserGroupService } from '../../current-user-group.service';
+import { CurrentUserGroupService } from '../../services/current-user-group.service';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
 
 @Component({

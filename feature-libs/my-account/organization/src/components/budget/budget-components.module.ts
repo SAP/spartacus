@@ -4,16 +4,16 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { BudgetCostCenterListModule } from './cost-centers/list/budget-cost-center-list.module';
+import { OrganizationListModule } from '../shared/organization-list/organization-list.module';
 import {
   budgetCmsConfig,
   budgetRoutingConfig,
   budgetTableConfigFactory,
 } from './budget.config';
+import { BudgetCostCenterListModule } from './cost-centers/list/budget-cost-center-list.module';
 import { BudgetCreateModule } from './create/budget-create.module';
 import { BudgetEditModule } from './edit/budget-edit.module';
 import { BudgetFormModule } from './form/budget-form.module';
-import { BudgetListModule } from './list/budget-list.module';
 
 @NgModule({
   imports: [
@@ -22,7 +22,9 @@ import { BudgetListModule } from './list/budget-list.module';
     BudgetCreateModule,
     BudgetEditModule,
     BudgetFormModule,
-    BudgetListModule,
+    // BudgetListModule,
+
+    OrganizationListModule,
   ],
   providers: [
     provideDefaultConfig(budgetRoutingConfig),

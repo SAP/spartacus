@@ -11,7 +11,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
-import { CurrentUserService } from '../current-user.service';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserChangePasswordComponent } from './user-change-password.component';
 import createSpy = jasmine.createSpy;
 

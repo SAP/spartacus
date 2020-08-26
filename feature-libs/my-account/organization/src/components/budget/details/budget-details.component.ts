@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
-import { CurrentBudgetService } from '../current-budget.service';
+import { CurrentBudgetService } from '../services/current-budget.service';
 
 @Component({
   selector: 'cx-budget-details',

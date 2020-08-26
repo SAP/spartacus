@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CurrentUserGroupService } from '../../current-user-group.service';
+import { CurrentUserGroupService } from '../../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
 

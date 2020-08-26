@@ -6,6 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
@@ -15,7 +18,8 @@ import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
-import { CostCenterListComponent } from './list/cost-center-list.component';
+import { CostCenterListService } from './services/cost-center-list.service';
+import { CurrentCostCenterService } from './services/current-cost-center.service';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -58,7 +62,17 @@ export const costCenterRoutingConfig: RoutingConfig = {
 export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
-      component: CostCenterListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: CostCenterListService,
+        },
+        {
+          provide: CurrentOrganizationItemService,
+          useExisting: CurrentCostCenterService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',

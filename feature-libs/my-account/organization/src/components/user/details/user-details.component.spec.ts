@@ -9,7 +9,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
-import { CurrentUserService } from '../current-user.service';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserDetailsComponent } from './user-details.component';
 
 import createSpy = jasmine.createSpy;

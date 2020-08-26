@@ -12,7 +12,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { Budget } from '../../../../core/model/budget.model';
-import { CurrentCostCenterService } from '../../current-cost-center.service';
+import { CurrentCostCenterService } from '../../services/current-cost-center.service';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 

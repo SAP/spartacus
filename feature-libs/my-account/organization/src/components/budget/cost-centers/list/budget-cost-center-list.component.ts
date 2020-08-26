@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CurrentBudgetService } from '../../current-budget.service';
+import { CurrentBudgetService } from '../../services/current-budget.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({

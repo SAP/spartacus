@@ -1,11 +1,15 @@
 export const costCenter = {
-  header: 'Cost centers',
+  header: 'All cost centers ({{count}})',
   disabled: '(disabled)',
   code: 'Code',
   active: 'Status',
   name: 'Name',
   currency: 'Currency',
   unit: 'Parent Unit',
+
+  byName: 'Sort by name',
+  byCode: 'Sort by code',
+  byUnitName: 'Sort by unit',
 
   messages: {
     enabled:

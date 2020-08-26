@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CurrentUserService } from '../../current-user.service';
+import { CurrentUserService } from '../../services/current-user.service';
 import { UserAssignPermissionsComponent } from './user-assign-permissions.component';
 import { UserAssignPermissionsListService } from './user-assign-permissions.service';
 

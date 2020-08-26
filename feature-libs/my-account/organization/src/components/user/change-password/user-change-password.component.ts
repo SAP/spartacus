@@ -12,7 +12,7 @@ import {
 } from 'rxjs/operators';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
-import { CurrentUserService } from '../current-user.service';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Component({
   selector: 'cx-user-change-password',

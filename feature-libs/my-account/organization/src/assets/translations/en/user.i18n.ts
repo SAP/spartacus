@@ -1,5 +1,5 @@
 export const user = {
-  header: 'Users',
+  header: 'All users ({{count}})',
   disabled: '(disabled)',
   uid: 'Email',
   active: 'Status',
@@ -11,6 +11,10 @@ export const user = {
   roles: 'Roles',
   title: 'Title',
   assignAprover: 'Add to the approvers list',
+
+  byName: 'Sort by name',
+  byUnit: 'Sort by unit',
+
   changePassword: {
     link: 'Change password',
     header: 'Change password of {{code}}',

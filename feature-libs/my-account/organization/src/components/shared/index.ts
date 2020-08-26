@@ -1,2 +1,3 @@
-export * from './base-organization-list.service';
+export * from './organization-list/index';
+export * from './organization-table/index';
 export * from './organization.model';

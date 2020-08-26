@@ -1,9 +1,13 @@
 export const userGroup = {
-  header: 'User groups',
+  header: 'All user groups ({{count}})',
   disabled: '(disabled)',
   uid: 'Code',
   name: 'Name',
   unit: 'Parent Unit',
+
+  byName: 'Sort by name',
+  byUnitName: 'Sort by unit',
+  byGroupID: 'Sort by group',
 
   messages: {
     enabled:

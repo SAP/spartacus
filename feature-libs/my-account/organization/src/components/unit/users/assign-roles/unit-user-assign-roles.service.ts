@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { B2BUserService } from '../../../../core/services/b2b-user.service';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import {
-  BaseOrganizationListService,
+  OrganizationListService,
   OrganizationTableType,
 } from '../../../shared/index';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitUserAssignRolesService extends BaseOrganizationListService<
+export class UnitUserAssignRolesService extends OrganizationListService<
   B2BUser
 > {
   protected tableType = OrganizationTableType.UNIT_ASSIGN_ROLES;

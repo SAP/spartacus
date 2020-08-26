@@ -3,7 +3,7 @@ import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CurrentCostCenterService } from '../../current-cost-center.service';
+import { CurrentCostCenterService } from '../../services/current-cost-center.service';
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 
 @Component({
