@@ -12,7 +12,6 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   selector: 'cx-cost-center-create',
   templateUrl: './cost-center-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService],
 })
 export class CostCenterCreateComponent {
   // It would be nice to replace this query param approach with a session service that

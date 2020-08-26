@@ -12,7 +12,6 @@ import { UnitFormService } from '../form/unit-form.service';
   selector: 'cx-unit-edit',
   templateUrl: './unit-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUnitService],
 })
 export class UnitEditComponent {
   protected form$: Observable<FormGroup> = this.currentUnitService.item$.pipe(

@@ -18,7 +18,6 @@ import { CurrentUserService } from '../services/current-user.service';
   selector: 'cx-user-change-password',
   templateUrl: './user-change-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserService],
 })
 export class UserChangePasswordComponent {
   protected code$: Observable<string> = this.currentUserService.key$;

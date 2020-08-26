@@ -10,7 +10,6 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
   selector: 'cx-unit-address-details',
   templateUrl: './unit-address-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUnitAddressService],
 })
 export class UnitAddressDetailsComponent {
   addressId: string;

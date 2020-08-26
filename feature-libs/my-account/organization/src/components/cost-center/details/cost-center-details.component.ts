@@ -10,7 +10,6 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService],
 })
 export class CostCenterDetailsComponent {
   /**

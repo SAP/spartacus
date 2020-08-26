@@ -10,7 +10,6 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   selector: 'cx-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentBudgetService],
 })
 export class BudgetDetailsComponent {
   /**

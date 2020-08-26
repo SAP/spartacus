@@ -9,7 +9,6 @@ import { CurrentUserGroupService } from '../services/current-user-group.service'
   selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserGroupService],
 })
 export class UserGroupDetailsComponent {
   userGroup$: Observable<UserGroup> = this.currentUserGroupService.key$.pipe(

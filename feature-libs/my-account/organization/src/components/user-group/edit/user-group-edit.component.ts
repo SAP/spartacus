@@ -19,7 +19,6 @@ import { CurrentUserGroupService } from '../services/current-user-group.service'
   selector: 'cx-user-group-edit',
   templateUrl: './user-group-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserGroupService],
 })
 export class UserGroupEditComponent {
   /**

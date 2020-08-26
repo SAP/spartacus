@@ -8,7 +8,6 @@ import { CurrentUnitService } from '../current-unit.service';
   selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUnitService],
 })
 export class UnitDetailsComponent {
   orgUnit$ = this.currentUnitService.item$;

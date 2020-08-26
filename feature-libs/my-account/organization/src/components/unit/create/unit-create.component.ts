@@ -12,7 +12,6 @@ import { UnitFormService } from '../form/unit-form.service';
   selector: 'cx-unit-create',
   templateUrl: './unit-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUnitService],
 })
 export class UnitCreateComponent {
   parentUnit$ = this.currentUnitService.b2bUnit$;

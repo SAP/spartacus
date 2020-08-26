@@ -18,7 +18,6 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   selector: 'cx-cost-center-edit',
   templateUrl: './cost-center-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentCostCenterService],
 })
 export class CostCenterEditComponent {
   /**
