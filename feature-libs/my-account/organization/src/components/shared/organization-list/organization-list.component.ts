@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { BaseOrganizationListService } from '../base-organization-list.service';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
+import { OrganizationListService } from './organization-list.service';
 
 const BASE_CLASS = 'organization';
 
@@ -16,7 +16,7 @@ export class OrganizationListComponent<T, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   constructor(
-    protected service: BaseOrganizationListService<T, P>,
+    protected service: OrganizationListService<T, P>,
     protected currentService: CurrentOrganizationItemService<T>
   ) {}
 

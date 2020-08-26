@@ -3,13 +3,13 @@ import { TestBed } from '@angular/core/testing';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { BaseOrganizationListService } from './base-organization-list.service';
-import { OrganizationTableType } from './organization.model';
+import { OrganizationTableType } from '../organization.model';
+import { OrganizationListService } from './organization-list.service';
 
 const mockValues = [{ foo: 'bar' }];
 
 @Injectable()
-class SampleListService extends BaseOrganizationListService<any> {
+class SampleListService extends OrganizationListService<any> {
   tableType = 'mockTableType' as OrganizationTableType;
   load(structure: TableStructure): Observable<EntitiesModel<any>> {
     return of({
@@ -27,7 +27,7 @@ export class MockTableService {
   }
 }
 
-describe('BaseOrganizationListService', () => {
+describe('OrganizationListService', () => {
   let service: SampleListService;
   let tableService: TableService;
 

@@ -6,9 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { BaseOrganizationListService } from '../shared/base-organization-list.service';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
@@ -73,7 +73,7 @@ export const userGroupCmsConfig: CmsConfig = {
       component: OrganizationListComponent,
       providers: [
         {
-          provide: BaseOrganizationListService,
+          provide: OrganizationListService,
           useExisting: UserGroupListService,
         },
         {

@@ -4,14 +4,14 @@ import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import {
-  BaseOrganizationListService,
+  OrganizationListService,
   OrganizationTableType,
 } from '../../../shared/index';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitUsersService extends BaseOrganizationListService<B2BUser> {
+export class UnitUsersService extends OrganizationListService<B2BUser> {
   protected tableType = OrganizationTableType.UNIT_USERS;
 
   constructor(

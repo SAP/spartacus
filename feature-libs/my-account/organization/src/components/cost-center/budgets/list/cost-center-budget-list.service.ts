@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Budget } from '../../../../core/model/budget.model';
 import { CostCenterService } from '../../../../core/services/cost-center.service';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
@@ -15,7 +15,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterBudgetListService extends BaseOrganizationListService<
+export class CostCenterBudgetListService extends OrganizationListService<
   Budget
 > {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;

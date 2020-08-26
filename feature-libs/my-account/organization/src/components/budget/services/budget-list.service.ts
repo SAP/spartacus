@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Budget } from '../../../core/model';
 import { BudgetService } from '../../../core/services/budget.service';
-import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -29,9 +29,7 @@ export interface BudgetModel {
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetListService extends BaseOrganizationListService<
-  BudgetModel
-> {
+export class BudgetListService extends OrganizationListService<BudgetModel> {
   protected tableType = OrganizationTableType.BUDGET;
 
   constructor(

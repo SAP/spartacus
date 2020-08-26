@@ -12,9 +12,9 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { BaseOrganizationListService } from '../base-organization-list.service';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
 import { OrganizationListComponent } from './organization-list.component';
+import { OrganizationListService } from './organization-list.service';
 import createSpy = jasmine.createSpy;
 
 interface Mock {
@@ -64,7 +64,7 @@ class MockTableComponent {
 })
 class MockListComponent extends OrganizationListComponent<Mock> {
   constructor(
-    protected baseOrganizationListService: BaseOrganizationListService<Mock>,
+    protected baseOrganizationListService: OrganizationListService<Mock>,
     protected currentOrganizationItemService: CurrentOrganizationItemService<
       Mock
     >
@@ -76,7 +76,7 @@ class MockListComponent extends OrganizationListComponent<Mock> {
 describe('OrganizationListComponent', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
-  let service: BaseOrganizationListService<Mock>;
+  let service: OrganizationListService<Mock>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -94,7 +94,7 @@ describe('OrganizationListComponent', () => {
       declarations: [MockListComponent, MockTableComponent],
       providers: [
         {
-          provide: BaseOrganizationListService,
+          provide: OrganizationListService,
           useClass: MockBaseOrganizationListService,
         },
         {
@@ -104,7 +104,7 @@ describe('OrganizationListComponent', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(BaseOrganizationListService);
+    service = TestBed.inject(OrganizationListService);
   }));
 
   describe('with table data?', () => {

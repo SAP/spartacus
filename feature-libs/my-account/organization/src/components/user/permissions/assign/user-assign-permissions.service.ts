@@ -3,13 +3,13 @@ import { EntitiesModel, Permission } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { B2BUserService } from '../../../../core/services/b2b-user.service';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserAssignPermissionsListService extends BaseOrganizationListService<
+export class UserAssignPermissionsListService extends OrganizationListService<
   Permission
 > {
   protected tableType = OrganizationTableType.USER_ASSIGN_PERMISSIONS;

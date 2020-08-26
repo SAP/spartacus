@@ -3,7 +3,7 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrganizationTableType } from './organization.model';
+import { OrganizationTableType } from '../organization.model';
 
 /**
  * The `BaseOrganizationListService` deals with the table structure, table data and
@@ -15,7 +15,7 @@ import { OrganizationTableType } from './organization.model';
  */
 
 @Injectable()
-export abstract class BaseOrganizationListService<T, P = PaginationModel> {
+export abstract class OrganizationListService<T, P = PaginationModel> {
   /**
    * Used to load the table structure configuration and generate table outlets.
    */

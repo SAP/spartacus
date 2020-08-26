@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { PermissionService } from '../../../core/services/permission.service';
-import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -28,7 +28,7 @@ export interface PermissionModel {
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionListService extends BaseOrganizationListService<
+export class PermissionListService extends OrganizationListService<
   PermissionModel
 > {
   protected tableType = OrganizationTableType.PERMISSION;

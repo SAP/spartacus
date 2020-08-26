@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { UserGroupService } from '../../../core/services/user-group.service';
-import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 /**
  * The UI model for the cost center, which is a slightly flattened version
@@ -24,7 +24,7 @@ export interface UserGroupModel {
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupListService extends BaseOrganizationListService<
+export class UserGroupListService extends OrganizationListService<
   UserGroupModel
 > {
   protected tableType = OrganizationTableType.USER_GROUP;

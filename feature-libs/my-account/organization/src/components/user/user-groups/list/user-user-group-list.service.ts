@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserGroup } from '../../../../core/model/user-group.model';
 import { B2BUserService } from '../../../../core/services/b2b-user.service';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
@@ -15,7 +15,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserUserGroupListService extends BaseOrganizationListService<
+export class UserUserGroupListService extends OrganizationListService<
   UserGroup
 > {
   protected tableType = OrganizationTableType.USER_USER_GROUPS;

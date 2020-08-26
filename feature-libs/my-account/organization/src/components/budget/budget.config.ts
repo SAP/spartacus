@@ -6,9 +6,9 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { BaseOrganizationListService } from '../shared/base-organization-list.service';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table';
 import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
 import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
@@ -62,7 +62,7 @@ export const budgetCmsConfig: CmsConfig = {
       component: OrganizationListComponent,
       providers: [
         {
-          provide: BaseOrganizationListService,
+          provide: OrganizationListService,
           useExisting: BudgetListService,
         },
         {

@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
-import {
-  BaseOrganizationListService,
-  OrganizationTableType,
-} from '../../shared';
-import { EntitiesModel, B2BUnitNode } from '@spartacus/core';
+import { B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrganizationListService, OrganizationTableType } from '../../shared';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitChildrenService extends BaseOrganizationListService<
-  B2BUnitNode
-> {
+export class UnitChildrenService extends OrganizationListService<B2BUnitNode> {
   protected tableType = OrganizationTableType.UNIT_CHILDREN;
 
   constructor(
