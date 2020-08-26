@@ -16,5 +16,9 @@
 
   @include media-breakpoint-down(md) {
     --cx-max-width: 100%;
+
+    button[type='button'] {
+      margin-bottom: 1em;
+    }
   }
 }
