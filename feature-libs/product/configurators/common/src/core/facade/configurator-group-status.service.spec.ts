@@ -13,7 +13,7 @@ import {
   GROUP_ID_8,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './configuration-test-data';
+} from './../../shared/testing/configuration-test-data';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
 
@@ -114,7 +114,7 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBe(productConfigurationWithConflicts.flatGroups[3]);
     });
 
-    it('should return status completed if required fields are filled', () => {
+    it('should return status completed if required fields are filled for different groups', () => {
       // required checkbox not filled
       expect(
         classUnderTest.checkIsGroupComplete(productConfiguration.groups[0])

@@ -13,7 +13,7 @@ import {
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './configuration-test-data';
+} from './../../shared/testing/configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';

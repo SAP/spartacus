@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { productConfigurationWithConflicts } from './configuration-test-data';
+import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorFacadeUtilsService } from './utils';

@@ -2,10 +2,11 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import {
+  ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
   GROUP_ID_2,
   productConfiguration,
-} from './../configuration-test-data';
+} from './../../../shared/testing/configuration-test-data';
 import { ConfiguratorFacadeUtilsService } from './configurator-facade-utils.service';
 
 const CONFIG_ID = '1234-56-7890';
@@ -18,7 +19,7 @@ const GROUP_NAME_2 = 'Hardware';
 const GROUP_NAME_LEVEL1_CHILD = 'Child group 1';
 const GROUP_NAME_LEVEL1_CHILD_2 = 'Child group 2';
 const GROUP_ROOT = 'Root level group';
-const ATTRIBUTE_NAME_1 = 'Attribute_1';
+
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
@@ -30,7 +31,7 @@ const group1: Configurator.Group = {
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
     {
-      name: ATTRIBUTE_NAME_1,
+      name: ATTRIBUTE_1_CHECKBOX,
       uiType: Configurator.UiType.STRING,
       userInput: 'input',
     },
@@ -217,7 +218,7 @@ describe('ConfiguratorGroupUtilsService', () => {
   describe('createConfigurationExtract', () => {
     it('should create a new configuration object for changes received, containing one group', () => {
       const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
+        name: ATTRIBUTE_1_CHECKBOX,
         groupId: GROUP_ID_1,
       };
 
@@ -236,7 +237,7 @@ describe('ConfiguratorGroupUtilsService', () => {
 
     it('should be able to handle multilevel configurations as well, returning a projection of the original configuration with only the path to the changes', () => {
       const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
+        name: ATTRIBUTE_1_CHECKBOX,
         groupId: GROUP_ID_1,
       };
 
@@ -260,7 +261,7 @@ describe('ConfiguratorGroupUtilsService', () => {
 
     it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
       const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
+        name: ATTRIBUTE_1_CHECKBOX,
         groupId: GROUP_ID_1,
       };
 
@@ -279,7 +280,7 @@ describe('ConfiguratorGroupUtilsService', () => {
 
     it('should throw an error if group for change is not part of the configuration', () => {
       const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
+        name: ATTRIBUTE_1_CHECKBOX,
         groupId: 'unknown',
       };
 

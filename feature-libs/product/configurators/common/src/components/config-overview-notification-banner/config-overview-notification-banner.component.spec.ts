@@ -54,16 +54,17 @@ const routerData: ConfigurationRouter.Data = {
   isOwnerCartEntry: true,
   owner: productConfiguration.owner,
 };
-
+let entry$;
 class MockActiveCartService {
   getEntries() {
-    return of(cartEntries);
+    return entry$;
   }
 }
 
+let router$;
 class MockConfigRouterExtractorService {
   extractRouterData() {
-    return of(routerData);
+    return router$;
   }
 }
 
@@ -89,6 +90,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   }));
 
   beforeEach(() => {
+    entry$ = of(cartEntries);
+    router$ = of(routerData);
     fixture = TestBed.createComponent(
       ConfigOverviewNotificationBannerComponent
     );
