@@ -1,0 +1,67 @@
+<cx-split-view [hideMode]="false">
+  <ng-container *ngIf="dataTable$ | async as dataTable">
+    <cx-view>
+      <h3>
+        {{
+          dataTable.structure.type + '.header'
+            | cxTranslate: { count: dataTable.pagination?.totalResults }
+        }}
+      </h3>
+
+      <div class="actions">
+        <div>
+          <ng-select
+            *ngIf="dataTable.pagination?.sort"
+            [searchable]="false"
+            [clearable]="false"
+            (change)="sort(dataTable.pagination)"
+            [tabIndex]="0"
+            [(ngModel)]="dataTable.pagination.sort"
+          >
+            <ng-option *ngFor="let sort of dataTable.sorts" [value]="sort.code">
+              {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
+            </ng-option>
+          </ng-select>
+        </div>
+        <button
+          class="button primary"
+          [routerLink]="
+            { cxRoute: dataTable.structure.type + 'Create' } | cxUrl
+          "
+          routerLinkActive="disabled"
+        >
+          {{ 'organization.add' | cxTranslate }}
+        </button>
+      </div>
+
+      <cx-table
+        *ngIf="dataTable.data?.length > 0; else emptyList"
+        [dataset]="dataTable"
+        [suffix]="true"
+        [currentItem]="{ property: 'code', value: currentKey$ | async }"
+      >
+      </cx-table>
+
+      <div class="footer">
+        <cx-pagination
+          *ngIf="dataTable.pagination"
+          [pagination]="dataTable.pagination"
+          (viewPageEvent)="browse(dataTable.pagination, $event)"
+        ></cx-pagination>
+      </div>
+    </cx-view>
+
+    <ng-template cxOutletRef="table.data.suffix">
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </ng-template>
+  </ng-container>
+
+  <!-- nested split views are rendered inside child routes -->
+  <router-outlet></router-outlet>
+</cx-split-view>
+
+<ng-template #emptyList>
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>
