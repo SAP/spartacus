@@ -9,8 +9,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { BudgetService } from '../../../core/services/budget.service';
-import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetFormService } from '../form/budget-form.service';
+import { CurrentBudgetService } from '../services/current-budget.service';
 import { BudgetCreateComponent } from './budget-create.component';
 import createSpy = jasmine.createSpy;
 

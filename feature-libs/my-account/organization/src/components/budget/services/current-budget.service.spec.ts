@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import { BudgetService } from '../../core';
-import { ROUTE_PARAMS } from '../constants';
+import { BudgetService } from '../../../core';
+import { ROUTE_PARAMS } from '../../constants';
 import { CurrentBudgetService } from './current-budget.service';
 
 const mockParams = new Subject();

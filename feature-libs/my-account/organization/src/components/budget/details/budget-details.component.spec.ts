@@ -9,7 +9,7 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { of } from 'rxjs';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
-import { CurrentBudgetService } from '../current-budget.service';
+import { CurrentBudgetService } from '../services/current-budget.service';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 

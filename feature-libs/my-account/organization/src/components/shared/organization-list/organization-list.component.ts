@@ -1,4 +1,4 @@
-import { HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -7,7 +7,12 @@ import { CurrentOrganizationItemService } from '../current-organization-item.ser
 
 const BASE_CLASS = 'organization';
 
-export abstract class OrganizationListComponent<T, P = PaginationModel> {
+@Component({
+  selector: 'cx-organization-list',
+  templateUrl: './organization-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class OrganizationListComponent<T, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   constructor(

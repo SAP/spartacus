@@ -11,22 +11,22 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
-const sharedModules = [
-  CommonModule,
-  RouterModule,
-  SplitViewModule,
-  TableModule,
-  IconModule,
-  UrlModule,
-  I18nModule,
-  PaginationModule,
-  NgSelectModule,
-  FormsModule,
-  OutletRefModule,
-];
+import { OrganizationListComponent } from './organization-list.component';
 
 @NgModule({
-  imports: sharedModules,
-  exports: sharedModules,
+  imports: [
+    CommonModule,
+    RouterModule,
+    SplitViewModule,
+    TableModule,
+    IconModule,
+    UrlModule,
+    I18nModule,
+    PaginationModule,
+    NgSelectModule,
+    FormsModule,
+    OutletRefModule,
+  ],
+  declarations: [OrganizationListComponent],
 })
 export class OrganizationListModule {}
