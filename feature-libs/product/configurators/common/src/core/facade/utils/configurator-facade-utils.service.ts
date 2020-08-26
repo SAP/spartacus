@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 import { Configurator } from '@spartacus/core';
 
 /**
- * Utilities
+ * Utility service for the facade layer. Supposed to be accessed by facade services
  */
 @Injectable()
 export class ConfiguratorFacadeUtilsService {
-  constructor() {}
-
+  /**
+   * Determines the direct parent group for an attribute group
+   * @param groups List of groups where we search for parent
+   * @param group If already part of groups, no further search is needed, and we return the provided parent group
+   * @param parentGroup Optional.
+   * @returns Parent group. Might be null
+   */
   getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
-    parentGroup: Configurator.Group
+    parentGroup: Configurator.Group = null
   ): Configurator.Group {
     if (groups.includes(group)) {
       return parentGroup;

@@ -30,6 +30,7 @@ export class ConfiguratorGroupsService {
    * Return null when configuration contains no groups.
    *
    * @param owner configuration owner
+   * @returns {Observable<string>} Group ID
    */
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
@@ -46,9 +47,11 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Return the first conflict group of a configuration.
+   * Return the first conflict group of a configuration or undefined
+   * if not present
    *
    * @param configuration - Configuration
+   * @returns {Configurator.Group} Conflict group
    */
   getFirstConflictGroup(
     configuration: Configurator.Configuration
@@ -104,8 +107,9 @@ export class ConfiguratorGroupsService {
    * Returns the parent group of the subgroup that is displayed in the group menu.
    *
    * @param owner - Configuration owner
+   * @returns {Observable<Configurator.Group>} Group
    */
-  public getMenuParentGroup(
+  getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService
@@ -121,15 +125,12 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Set the parent group, specified by the group ID, that is displayed in the group menu.
+   * Set the parent group, specified by the group ID, which is displayed in the group menu.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
    */
-  public setMenuParentGroup(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): void {
+  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
@@ -142,8 +143,9 @@ export class ConfiguratorGroupsService {
    * Returns the group that is currently visited.
    *
    * @param owner - Configuration owner
+   * @return {Observable<Configurator.Group>} Current group
    */
-  public getCurrentGroup(
+  getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
@@ -172,7 +174,7 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    * @param setGroupVisited - Determines whether the group has to be set as visited or not
    */
-  public setGroupStatus(
+  setGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string,
     setGroupVisited: boolean
@@ -222,8 +224,7 @@ export class ConfiguratorGroupsService {
       this.configuratorFacadeUtilsService.getGroupById(
         configuration.groups,
         groupId
-      ),
-      null
+      )
     );
 
     this.store.dispatch(
@@ -239,6 +240,7 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
    * @param owner - Configuration owner
+   * @return {Observable<string>} ID of next group
    */
   getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, 1);
@@ -248,6 +250,7 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
    * @param owner - Configuration owner
+   * @return {Observable<string>} ID of previous group
    */
   getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, -1);
@@ -258,6 +261,7 @@ export class ConfiguratorGroupsService {
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
+   * @return {Observable<boolean>} Has been visited?
    */
   isGroupVisited(
     owner: GenericConfigurator.Owner,

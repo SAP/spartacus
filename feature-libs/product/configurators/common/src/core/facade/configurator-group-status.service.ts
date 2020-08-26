@@ -111,8 +111,7 @@ export class ConfiguratorGroupStatusService {
       this.configuratorFacadeUtilsService.getGroupById(
         configuration.groups,
         groupId
-      ),
-      null
+      )
     );
 
     this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
@@ -183,8 +182,7 @@ export class ConfiguratorGroupStatusService {
         this.configuratorFacadeUtilsService.getGroupById(
           configuration.groups,
           parentGroup.id
-        ),
-        null
+        )
       ),
       completedGroupIds,
       incompleteGroupdIds
@@ -224,8 +222,7 @@ export class ConfiguratorGroupStatusService {
               this.configuratorFacadeUtilsService.getGroupById(
                 configuration.groups,
                 parentGroup.id
-              ),
-              null
+              )
             ),
             visitedGroupIds
           );
