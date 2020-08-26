@@ -271,44 +271,17 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns a group status for the given group ID.
+   * Returns the group status for the given group ID.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
+   * @return {Observable<Configurator.GroupStatus>} Group status
    */
   getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Configurator.GroupStatus> {
     return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
-  }
-
-  /**
-   * Returns a parent group for the given group.
-   *
-   * @param groups - List of groups
-   * @param group - Given group
-   * @param parentGroup - Parent group
-   */
-  getParentGroup(
-    groups: Configurator.Group[],
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ): Configurator.Group {
-    return this.configuratorFacadeUtilsService.getParentGroup(
-      groups,
-      group,
-      parentGroup
-    );
-  }
-
-  /**
-   * Verifies whether the given group has a parent.
-   *
-   * @param group - Given group
-   */
-  hasSubGroups(group: Configurator.Group): boolean {
-    return this.configuratorFacadeUtilsService.hasSubGroups(group);
   }
 
   protected getNeighboringGroupId(

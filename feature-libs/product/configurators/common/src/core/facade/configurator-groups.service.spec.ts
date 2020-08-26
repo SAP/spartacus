@@ -236,28 +236,6 @@ describe('ConfiguratorGroupsService', () => {
     expect(configGroupStatusService.getGroupStatus).toHaveBeenCalled();
   });
 
-  it('should check whether getParentGroup has been called by the configuration group utils service', () => {
-    classUnderTest.getParentGroup(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
-    );
-    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
-    );
-    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalled();
-  });
-
-  it('should check whether hasSubGroups has been called by the configuration group utils service', () => {
-    classUnderTest.hasSubGroups(productConfiguration.groups[2]);
-    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalledWith(
-      productConfiguration.groups[2]
-    );
-    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalled();
-  });
-
   it('should get first conflict group from configuration, no conflicts', () => {
     expect(classUnderTest.getFirstConflictGroup(productConfiguration)).toBe(
       undefined
