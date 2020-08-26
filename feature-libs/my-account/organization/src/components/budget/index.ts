@@ -4,5 +4,4 @@ export * from './create/index';
 export * from './details/index';
 export * from './edit/index';
 export * from './form/index';
-export * from './services/current-budget.service';
 export * from './services/index';
