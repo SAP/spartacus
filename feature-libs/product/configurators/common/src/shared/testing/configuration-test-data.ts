@@ -34,6 +34,26 @@ export const mockRouterState: any = {
   },
 };
 
+const groupsWithoutIssues: Configurator.Group = {
+  id: GROUP_ID_1,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [
+    {
+      name: ATTRIBUTE_1_CHECKBOX,
+      uiType: Configurator.UiType.CHECKBOXLIST,
+      required: true,
+      incomplete: false,
+    },
+  ],
+  subGroups: [],
+};
+export const productConfigurationWithoutIssues: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  productCode: PRODUCT_CODE,
+  groups: [groupsWithoutIssues],
+  flatGroups: [groupsWithoutIssues],
+};
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
