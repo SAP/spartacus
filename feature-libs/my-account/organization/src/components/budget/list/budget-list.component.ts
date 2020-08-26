@@ -4,6 +4,7 @@ import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetListService, BudgetModel } from './budget-list.service';
 
 @Component({
+  selector: 'cx-budget-list',
   templateUrl:
     '../../shared/organization-list/organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
