@@ -57,7 +57,7 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(
+  getConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
