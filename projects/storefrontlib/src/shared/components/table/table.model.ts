@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
+import { Sort } from 'projects/core/src/model/unused.model';
 
 /**
  * Contains the table data and structure for the `TableComponent`.
@@ -19,6 +20,11 @@ export interface Table<T = any> {
    * The pagination component is used to paginate through the data.
    */
   pagination?: PaginationModel;
+
+  /**
+   * The sort options for the table.
+   */
+  sorts?: Sort[];
 }
 
 export interface TableStructureConfiguration {

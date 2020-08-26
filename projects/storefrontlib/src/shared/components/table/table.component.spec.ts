@@ -227,4 +227,52 @@ describe('TableComponent', () => {
       });
     });
   });
+
+  describe('table suffix', () => {
+    beforeEach(() => {
+      tableComponent.dataset = mockDataset;
+    });
+
+    it('should render a suffix th to the header', () => {
+      tableComponent.suffix = true;
+      fixture.detectChanges();
+      const td = fixture.debugElement.query(By.css('table > tr > th.suffix'));
+      expect(td).toBeDefined();
+    });
+
+    it('should add a suffix td to each row', () => {
+      tableComponent.suffix = true;
+      fixture.detectChanges();
+      const td = fixture.debugElement.queryAll(
+        By.css('table > tr > td.suffix')
+      );
+      expect(td.length).toBe(3);
+    });
+  });
+
+  describe('current item', () => {
+    beforeEach(() => {
+      tableComponent.dataset = mockDataset;
+    });
+
+    it('should have a current item', () => {
+      tableComponent.currentItem = { property: 'key1', value: 'val7' };
+      expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
+    });
+
+    it('should add is-current class to tr holding the current item', () => {
+      tableComponent.currentItem = { property: 'key1', value: 'val4' };
+      fixture.detectChanges();
+      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+      expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
+        'is-current'
+      );
+      expect((tr[1].nativeElement as HTMLElement).classList).toContain(
+        'is-current'
+      );
+      expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
+        'is-current'
+      );
+    });
+  });
 });

@@ -7,16 +7,26 @@
           [cxOutletContext]="getHeaderOutletContext(field)"
         ></ng-template>
       </th>
+      <th *ngIf="suffix" class="suffix">
+        <ng-template cxOutlet="table.header.suffix"> </ng-template>
+      </th>
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data">
+  <tr
+    *ngFor="let item of dataset.data"
+    [class.is-current]="isCurrentItem(item)"
+  >
     <td *ngFor="let field of structure.fields; let i = index" [class]="field">
       <ng-template
         [cxOutlet]="getDataOutletRef(field)"
-        [cxOutletContext]="getDataOutletContext(field, row)"
+        [cxOutletContext]="getDataOutletContext(field, item)"
       >
       </ng-template>
+    </td>
+
+    <td *ngIf="suffix" class="suffix">
+      <ng-template cxOutlet="table.data.suffix"> </ng-template>
     </td>
   </tr>
 </table>

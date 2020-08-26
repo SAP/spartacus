@@ -65,6 +65,22 @@ export class TableComponent {
     return this._dataset;
   }
 
+  /**
+   * If the suffix is true, the table gets a suffix column.
+   *
+   * The suffix columns can be used to store actions, which are not
+   * pure data properties.
+   */
+  @Input() suffix: boolean;
+
+  /**
+   * Provides a mechanism to compare a matching value for each item.
+   *
+   * The `property` refers to the dataset.value property, and the value tot the
+   * matching property value.
+   */
+  @Input() currentItem: { value: any; property: string };
+
   constructor(protected rendererService: TableRendererService) {}
 
   /**
@@ -79,6 +95,19 @@ export class TableComponent {
     if (header.sortCode) {
       this.sortEvent.emit(header.sortCode);
     }
+  }
+
+  /**
+   * Indicates whether the given item is the current item.
+   *
+   * The current item is driven by the `currentItem`, that holds a
+   * property and value to compare.
+   */
+  isCurrentItem(item: any): boolean {
+    if (!this.currentItem || !this.currentItem.value) {
+      return;
+    }
+    return this.currentItem?.value === item?.[this.currentItem?.property];
   }
 
   /**
