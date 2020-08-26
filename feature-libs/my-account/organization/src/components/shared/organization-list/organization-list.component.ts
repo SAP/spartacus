@@ -12,7 +12,7 @@ const BASE_CLASS = 'organization';
   templateUrl: './organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationListComponent<T, P = PaginationModel> {
+export class OrganizationListComponent<T = any, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   constructor(
