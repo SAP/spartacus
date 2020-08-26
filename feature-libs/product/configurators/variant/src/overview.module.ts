@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
-  CommonConfiguratorComponentsModule,
+  CommonConfiguratorModule,
   ConfigAddToCartButtonComponent,
 } from '@spartacus/product/configurators/common';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
@@ -15,7 +15,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
  */
 @NgModule({
   imports: [
-    CommonConfiguratorComponentsModule,
+    CommonConfiguratorModule,
     RouterModule.forChild([
       {
         path:
