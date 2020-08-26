@@ -1,18 +1,29 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
+import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
-import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
+
+const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
+const paramsMapping: ParamsMapping = {
+  budgetCode: 'code',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
@@ -25,13 +36,16 @@ export const budgetRoutingConfig: RoutingConfig = {
         paths: ['organization/budgets/create'],
       },
       budgetDetails: {
-        paths: ['organization/budgets/:code'],
-      },
-      budgetEdit: {
-        paths: ['organization/budgets/:code/edit'],
+        paths: [`${listPath}`],
+        paramsMapping,
       },
       budgetCostCenters: {
-        paths: ['organization/budgets/:code/cost-centers'],
+        paths: [`${listPath}/cost-centers`],
+        paramsMapping,
+      },
+      budgetEdit: {
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
     },
   },
@@ -48,21 +62,20 @@ export const budgetCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: BudgetEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'cost-centers',
               component: BudgetCostCenterListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
+        },
+        {
+          path: `:${ROUTE_PARAMS.budgetCode}/edit`,
+          component: BudgetEditComponent,
         },
       ],
       guards: [AuthGuard],

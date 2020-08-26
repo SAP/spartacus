@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { UserGroup, RoutingService, PermissionService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -10,18 +10,19 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { PermissionService } from '../../../core/services/permission.service';
+import { CurrentPermissionService } from '../current-permission.service';
 import { PermissionFormService } from '../form/permission-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-permission-edit',
   templateUrl: './permission-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentPermissionService],
 })
 export class PermissionEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  protected code$ = this.currentPermissionService.key$;
 
   protected permission$: Observable<UserGroup> = this.code$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),
@@ -43,7 +44,7 @@ export class PermissionEditComponent {
   constructor(
     protected permissionService: PermissionService,
     protected permissionFormSerivce: PermissionFormService,
-    protected activatedRoute: ActivatedRoute,
+    protected currentPermissionService: CurrentPermissionService,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.

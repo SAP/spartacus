@@ -6,14 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  B2BUnitNode,
-  Currency,
-  CurrencyService,
-  OrgUnitService,
-} from '@spartacus/core';
+import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
@@ -31,7 +27,7 @@ export class CostCenterFormComponent implements OnInit, OnDestroy {
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   subscription = new Subscription();
-  parentUnit$ = this.currentCostCenterService.parentUnit$.pipe(filter(Boolean));
+  parentUnit$ = this.currentCostCenterService.b2bUnit$.pipe(filter(Boolean));
 
   constructor(
     protected currencyService: CurrencyService,

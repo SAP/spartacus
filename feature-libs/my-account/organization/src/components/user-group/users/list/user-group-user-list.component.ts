@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
 
 @Component({
@@ -10,16 +10,17 @@ import { UserGroupUserListService } from './user-group-user-list.service';
   templateUrl: './user-group-user-list.component.html',
 })
 export class UserGroupUserListComponent {
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  /**
+   * The code of the current user group
+   */
+  code$ = this.currentUserGroupService.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.userGroupUserListService.getTable(code))
   );
 
   constructor(
-    protected route: ActivatedRoute,
+    protected currentUserGroupService: CurrentUserGroupService,
     protected userGroupUserListService: UserGroupUserListService
   ) {}
 

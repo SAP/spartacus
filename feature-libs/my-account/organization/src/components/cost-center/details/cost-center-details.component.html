@@ -96,6 +96,7 @@
             {{ 'organization.disabled' | cxTranslate }}
             <button
               class="button icon"
+              [disabled]="!costCenter.unit?.active"
               (click)="update({ code: costCenter.code, activeFlag: true })"
             >
               {{ 'organization.enable' | cxTranslate }}
@@ -103,6 +104,9 @@
             </button>
           </ng-template>
         </span>
+        <p class="instruction" *ngIf="!costCenter.unit?.active">
+          {{ 'costCenter.messages.disabledUnit' | cxTranslate }}
+        </p>
         <p class="instruction">
           <ng-container *ngIf="costCenter.active; else inactiveInstruction">
             {{ 'costCenter.messages.enabled' | cxTranslate }}

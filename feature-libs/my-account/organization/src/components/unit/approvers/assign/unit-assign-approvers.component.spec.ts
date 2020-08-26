@@ -2,9 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, EntitiesModel, B2BUser } from '@spartacus/core';
 import { of } from 'rxjs';
-
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
-import createSpy = jasmine.createSpy;
 import { TableModule } from '@spartacus/storefront';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -14,6 +12,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
 import { UnitRoleType } from '@spartacus/my-account/organization';
+
+import createSpy = jasmine.createSpy;
 
 const code = 'unitCode';
 const roleId = UnitRoleType.APPROVER;

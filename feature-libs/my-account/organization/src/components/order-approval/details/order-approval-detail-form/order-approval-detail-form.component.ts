@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  OrderApproval,
-  OrderApprovalDecisionValue,
-  OrderApprovalService,
-} from '@spartacus/core';
+import { OrderApproval, OrderApprovalDecisionValue } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
+import { OrderApprovalService } from '../../../../core/services/order-approval.service';
 
 @Component({
   selector: 'cx-order-approval-detail-form',

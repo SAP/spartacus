@@ -1,22 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
-  RoutingService,
-  Permission,
   Period,
-  PermissionService,
+  Permission,
+  RoutingService,
 } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { PermissionType } from '../form/permission-form.service';
+import { PermissionService } from '../../../core/services/permission.service';
+import { CurrentPermissionService } from '../current-permission.service';
+import {
+  PermissionFormService,
+  PermissionType,
+} from '../form/permission-form.service';
 import { PermissionEditComponent } from './permission-edit.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -29,6 +34,11 @@ class MockPermissionFormComponent {
 }
 
 const permissionCode = 'b1';
+
+class MockCurrentPermissionService
+  implements Partial<CurrentPermissionService> {
+  key$ = of(permissionCode);
+}
 
 const mockPermission: Permission = {
   code: permissionCode,
@@ -49,6 +59,7 @@ class MockPermissionService implements Partial<PermissionService> {
   update = createSpy('update');
   load = createSpy('load');
   get = createSpy('get').and.returnValue(of(mockPermission));
+  loadPermission = createSpy('loadPermission');
 }
 
 const mockRouterState = {
@@ -64,6 +75,14 @@ class MockRoutingService {
   getRouterState = createSpy('getRouterState').and.returnValue(
     of(mockRouterState)
   );
+}
+
+class MockPermissionFormService implements Partial<PermissionFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      code: new FormControl(permissionCode),
+    });
+  }
 }
 
 describe('PermissionEditComponent', () => {
@@ -89,8 +108,24 @@ describe('PermissionEditComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },
+
+        {
+          provide: PermissionFormService,
+          useClass: MockPermissionFormService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PermissionEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentPermissionService,
+              useClass: MockCurrentPermissionService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     permissionService = TestBed.inject(PermissionService);
 
@@ -101,15 +136,11 @@ describe('PermissionEditComponent', () => {
     fixture = TestBed.createComponent(PermissionEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'))
+      .nativeElement;
     permissionFormComponent = fixture.debugElement.query(
       By.css('cx-permission-form')
     ).componentInstance;
-  });
-
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
@@ -118,21 +149,27 @@ describe('PermissionEditComponent', () => {
 
   describe('save valid form', () => {
     it('should disable form on save ', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(permissionFormComponent.form.disabled).toBeTruthy();
     });
 
     it('should create permission', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(permissionService.update).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
-      saveButton.nativeElement.click();
+      saveButton.click();
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'permission',
+        cxRoute: 'permissionDetails',
         params: permissionFormComponent.form.value,
       });
+    });
+
+    it('should trigger reload of permission model on each code change', () => {
+      expect(permissionService.loadPermission).toHaveBeenCalledWith(
+        mockPermission.code
+      );
     });
   });
 });

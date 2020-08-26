@@ -1,4 +1,5 @@
 .organization {
+  // overflow-x: hidden;
   .active {
     background: var(--cx-color-light);
     color: var(--cx-color-text);
@@ -41,18 +42,6 @@
     }
   }
 
-  &.edit,
-  &.create,
-  &.assign {
-    cx-split-view {
-      --cx-max-views: 1;
-
-      cx-view:not(:last-child) {
-        visibility: hidden;
-      }
-    }
-  }
-
   cx-pagination {
     display: inline-flex;
     box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
@@ -78,8 +67,6 @@
   cx-table {
     td {
       padding: 0;
-      overflow: visible;
-
       a {
         @include alt-visible-focus();
 

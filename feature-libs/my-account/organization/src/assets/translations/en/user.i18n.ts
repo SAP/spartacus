@@ -10,11 +10,18 @@ export const user = {
   roles: 'Roles',
   title: 'Title',
   assignAprover: 'Add to the approvers list',
+  changePassword: {
+    link: 'Change password',
+    header: 'Change password of {{code}}',
+    password: 'New password',
+    confirmPassword: 'Retype new password',
+  },
 
   messages: {
     enabled:
       'When you disable the user, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled User.',
+    disabledUnit: 'You cannot enable user if unit is disabled.',
     deactivate: 'Are you sure you want to disable this user?',
     deactivateHeader: 'Disable User',
   },

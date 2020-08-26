@@ -1,22 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Budget, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { Budget } from '../../../../core/model/budget.model';
+import { CurrentBudgetService } from '../../current-budget.service';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 const costCenterCode = 'costCenterCode';
 
-class MockActivatedRoute {
-  get params() {
-    return of({ code: costCenterCode });
-  }
-  snapshot = {};
+class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+  key$ = of(costCenterCode);
 }
 
 const mockBudgetList: Table<Budget> = {
@@ -71,10 +70,11 @@ describe('BudgetCostCenterListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewTestingModule,
       ],
       declarations: [BudgetCostCenterListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         {
           provide: BudgetCostCenterListService,
           useClass: MockBudgetCostCenterListService,
@@ -89,7 +89,6 @@ describe('BudgetCostCenterListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
@@ -136,6 +135,13 @@ describe('BudgetCostCenterListComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r));
+      expect(result).toBe(costCenterCode);
     });
   });
 });

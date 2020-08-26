@@ -1,15 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserListService } from './user-list.service';
-import { map } from 'rxjs/operators';
 
 const BASE_CLASS = 'organization';
 
@@ -18,37 +11,12 @@ const BASE_CLASS = 'organization';
   templateUrl: './user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserListComponent {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   dataTable$: Observable<Table> = this.usersService.getTable();
 
-  subscription = new Subscription();
-
-  //TODO: it's workaround for allowing styling views, since we can't get any real selector to setup --cx-max-views: 1;
-  lastPath$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map((state: RouterState) =>
-        state.state?.url.split('/').reverse()[0].split('?').shift()
-      )
-    );
-
-  constructor(
-    protected usersService: UserListService,
-    protected routingService: RoutingService
-  ) {}
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.lastPath$.subscribe(
-        (path) => (this.hostClass = `${BASE_CLASS} ${path}`)
-      )
-    );
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  constructor(protected usersService: UserListService) {}
 
   /**
    * Paginates the cost center list. Pagination is not using query parameters, as we like

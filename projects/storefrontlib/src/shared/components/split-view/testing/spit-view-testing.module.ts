@@ -5,7 +5,9 @@ import { Component, Input, NgModule, Output } from '@angular/core';
   template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
 })
-export class MockSplitViewComponent {}
+export class MockSplitViewComponent {
+  @Input() hideMode;
+}
 
 @Component({
   template: '<ng-content></ng-content>',

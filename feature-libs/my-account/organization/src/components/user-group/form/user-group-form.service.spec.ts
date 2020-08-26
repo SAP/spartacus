@@ -15,14 +15,14 @@ describe('UserGroupFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm({});
-    expect(form.get('uid')).toBeDefined();
-    expect(form.get('name')).toBeDefined();
-    expect(form.get('orgUnit').get('uid')).toBeDefined();
+    expect(form.get('uid')).not.toBeNull();
+    expect(form.get('name')).not.toBeNull();
+    expect(form.get('orgUnit').get('uid')).not.toBeNull();
   });
 
   it('should apply the model', () => {
     const form = service.getForm({ uid: 'test' });
-    expect(form.get('uid')).toBeDefined();
+    expect(form.get('uid')).not.toBeNull();
     expect(form.get('uid').value).toEqual('test');
   });
 });

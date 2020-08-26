@@ -1,9 +1,15 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
@@ -14,6 +20,11 @@ import { CostCenterListComponent } from './list/cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
+
+const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
+const paramsMapping: ParamsMapping = {
+  costCenterCode: 'code',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
@@ -26,16 +37,20 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers/create'],
       },
       costCenterDetails: {
-        paths: ['organization/cost-centers/:code'],
-      },
-      costCenterEdit: {
-        paths: ['organization/cost-centers/:code/edit'],
+        paths: [`${listPath}`],
+        paramsMapping,
       },
       costCenterBudgets: {
-        paths: ['organization/cost-centers/:code/budgets'],
+        paths: [`${listPath}/budgets`],
+        paramsMapping,
       },
       costCenterAssignBudgets: {
-        paths: ['organization/cost-centers/:code/budgets/assign'],
+        paths: [`${listPath}/budgets/assign`],
+        paramsMapping,
+      },
+      costCenterEdit: {
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
     },
   },
@@ -52,15 +67,10 @@ export const costCenterCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: CostCenterEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'budgets',
               component: CostCenterBudgetListComponent,
@@ -74,6 +84,10 @@ export const costCenterCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: `:${ROUTE_PARAMS.costCenterCode}/edit`,
+          component: CostCenterEditComponent,
         },
       ],
       guards: [AuthGuard],

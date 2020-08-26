@@ -1,12 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  Order,
-  OrderApproval,
-  OrderApprovalService,
-  RoutingService,
-} from '@spartacus/core';
+import { Order, OrderApproval, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
+import { OrderApprovalService } from '../../../core/services/order-approval.service';
 
 const mockOrder: Order = {
   code: '1',

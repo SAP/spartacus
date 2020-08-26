@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, EntitiesModel, B2BUser } from '@spartacus/core';
 import { of } from 'rxjs';
-
 import { UnitApproverListComponent } from './unit-approver-list.component';
 import createSpy = jasmine.createSpy;
 import { UnitApproverListService } from './unit-approver-list.service';

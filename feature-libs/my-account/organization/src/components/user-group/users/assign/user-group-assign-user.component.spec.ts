@@ -1,17 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, B2BUser } from '@spartacus/core';
+import { B2BUser, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroupAssignUserComponent } from './user-group-assign-user.component';
+import { CurrentUserGroupService } from '../../current-user-group.service';
+import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
 
 const userGroupCode = 'userGroupCode';
+
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  key$ = of(userGroupCode);
+}
 
 const mockUserList: Table<B2BUser> = {
   data: [
@@ -32,15 +37,6 @@ const mockUserList: Table<B2BUser> = {
   structure: { type: '' },
 };
 
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userGroupCode }),
-    },
-  };
-  snapshot = {};
-}
-
 class MockUserGroupUserListService {
   getTable(_code) {
     return of(mockUserList);
@@ -49,8 +45,8 @@ class MockUserGroupUserListService {
 }
 
 describe('UserGroupAssignUserComponent', () => {
-  let component: UserGroupAssignUserComponent;
-  let fixture: ComponentFixture<UserGroupAssignUserComponent>;
+  let component: UserGroupAssignUsersComponent;
+  let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
   let service: UserGroupAssignUserService;
 
   beforeEach(async(() => {
@@ -62,13 +58,17 @@ describe('UserGroupAssignUserComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
-      declarations: [UserGroupAssignUserComponent],
+      declarations: [UserGroupAssignUsersComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupAssignUserService,
           useClass: MockUserGroupUserListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -76,7 +76,7 @@ describe('UserGroupAssignUserComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignUserComponent);
+    fixture = TestBed.createComponent(UserGroupAssignUsersComponent);
     component = fixture.componentInstance;
   });
 
@@ -147,6 +147,13 @@ describe('UserGroupAssignUserComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });

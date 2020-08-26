@@ -1,21 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  B2BUser,
-  B2BUserService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { B2BUser, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { CurrentUserService } from '../current-user.service';
+import { UserFormService } from '../form/user-form.service';
 import { UserEditComponent } from './user-edit.component';
-import { By } from '@angular/platform-browser';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -26,26 +24,30 @@ class MockUserFormComponent {
   @Input() form;
 }
 
-const userCode = 'b1';
+const customerId = 'b1';
 
 const mockUser: B2BUser = {
-  uid: userCode,
+  customerId,
+  uid: 'userCode',
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  key$ = of(customerId);
+  item$ = of(mockUser);
+}
+
 class MockB2BUserService implements Partial<B2BUserService> {
-  get(_userCode: string): Observable<B2BUser> {
-    return of(mockUser);
-  }
-  update(_userCode: string, _user: B2BUser) {}
-  load(_userCode: string) {}
+  update = createSpy('update');
+  load = createSpy('load');
+  get = createSpy('get').and.returnValue(of(mockUser));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code: userCode,
+      code: customerId,
     },
   },
 };
@@ -57,18 +59,18 @@ class MockRoutingService {
   );
 }
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userCode }),
-  };
-  snapshot = {};
-  go() {}
+class MockUserFormService implements Partial<UserFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      customerId: new FormControl(customerId),
+    });
+  }
 }
 
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let fixture: ComponentFixture<UserEditComponent>;
-  let userService: MockB2BUserService;
+  let userService: B2BUserService;
   let routingService: RoutingService;
   let saveButton;
   let userFormComponent;
@@ -86,11 +88,22 @@ describe('UserEditComponent', () => {
       ],
       declarations: [UserEditComponent, MockUserFormComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: B2BUserService, useClass: MockB2BUserService },
+        { provide: UserFormService, useClass: MockUserFormService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserService,
+              useClass: MockCurrentUserService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     userService = TestBed.inject(B2BUserService);
 
@@ -106,11 +119,6 @@ describe('UserEditComponent', () => {
       .componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -121,17 +129,18 @@ describe('UserEditComponent', () => {
       expect(userFormComponent.form.disabled).toBeTruthy();
     });
 
-    it('should create cost center', () => {
-      spyOn(userService, 'update');
+    it('should update user', () => {
       saveButton.nativeElement.click();
-      expect(userService.update).toHaveBeenCalled();
+      expect(userService.update).toHaveBeenCalledWith(customerId, {
+        customerId,
+      });
     });
 
     it('should navigate to the detail page', () => {
       saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'userDetails',
-        params: userFormComponent.form.value,
+        params: { customerId },
       });
     });
   });

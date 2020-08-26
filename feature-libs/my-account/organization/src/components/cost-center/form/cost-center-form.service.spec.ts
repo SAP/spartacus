@@ -15,15 +15,15 @@ describe('CostCenterFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm({});
-    expect(form.get('code')).toBeDefined();
-    expect(form.get('name')).toBeDefined();
-    expect(form.get('currency').get('isocode')).toBeDefined();
-    expect(form.get('unit').get('uid')).toBeDefined();
+    expect(form.get('code')).not.toBeNull();
+    expect(form.get('name')).not.toBeNull();
+    expect(form.get('currency').get('isocode')).not.toBeNull();
+    expect(form.get('unit').get('uid')).not.toBeNull();
   });
 
   it('should apply the model', () => {
     const form = service.getForm({ code: 'test' });
-    expect(form.get('code')).toBeDefined();
+    expect(form.get('code')).not.toBeNull();
     expect(form.get('code').value).toEqual('test');
   });
 });

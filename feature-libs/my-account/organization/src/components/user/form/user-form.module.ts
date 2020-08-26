@@ -3,14 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CurrencyService,
-  I18nModule,
-  OrgUnitService,
-  UrlModule,
-} from '@spartacus/core';
+import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserFormComponent } from './user-form.component';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @NgModule({
   imports: [

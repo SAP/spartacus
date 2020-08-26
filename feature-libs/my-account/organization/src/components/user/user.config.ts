@@ -1,23 +1,35 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
+import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
+import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
+import { UserChangePasswordComponent } from './change-password/user-change-password.component';
 import { UserCreateComponent } from './create/user-create.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
 import { UserListComponent } from './list/user-list.component';
-import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
-import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
-import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
-import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
+import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
+import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
+
+const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
+const paramsMapping: ParamsMapping = {
+  userCode: 'customerId',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const userRoutingConfig: RoutingConfig = {
@@ -30,36 +42,40 @@ export const userRoutingConfig: RoutingConfig = {
         paths: ['organization/users/create'],
       },
       userDetails: {
-        paths: ['organization/users/:code'],
-        paramsMapping: { code: 'customerId' },
+        paths: [listPath],
+        paramsMapping,
       },
       userEdit: {
-        paths: ['organization/users/:code/edit'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/edit`],
+        paramsMapping,
+      },
+      userChangePassword: {
+        paths: [`${listPath}/change-password`],
+        paramsMapping,
       },
       userApprovers: {
-        paths: ['organization/users/:code/approvers'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/approvers`],
+        paramsMapping,
       },
       userAssignApprovers: {
-        paths: ['organization/users/:code/approvers/assign'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/approvers/assign`],
+        paramsMapping,
       },
       userPermissions: {
-        paths: ['organization/users/:code/purchase-limits'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/purchase-limits`],
+        paramsMapping,
       },
       userAssignPermissions: {
-        paths: ['organization/users/:code/purchase-limits/assign'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/purchase-limits/assign`],
+        paramsMapping,
       },
       userUserGroups: {
-        paths: ['organization/users/:code/user-groups'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/user-groups`],
+        paramsMapping,
       },
       userAssignUserGroups: {
-        paths: ['organization/users/:code/user-groups/assign'],
-        paramsMapping: { code: 'customerId' },
+        paths: [`${listPath}/user-groups/assign`],
+        paramsMapping,
       },
     },
   },
@@ -76,15 +92,10 @@ export const userCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.userCode}`,
           component: UserDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: UserEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'approvers',
               component: UserApproverListComponent,
@@ -122,6 +133,14 @@ export const userCmsConfig: CmsConfig = {
               ],
             },
           ],
+        },
+        {
+          path: `:${ROUTE_PARAMS.userCode}/edit`,
+          component: UserEditComponent,
+        },
+        {
+          path: `:${ROUTE_PARAMS.userCode}/change-password`,
+          component: UserChangePasswordComponent,
         },
       ],
       guards: [AuthGuard],

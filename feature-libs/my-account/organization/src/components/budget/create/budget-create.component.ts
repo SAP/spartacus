@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BudgetService, RoutingService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import { BudgetFormService } from '../form/budget-form.service';
-import { Observable } from 'rxjs';
+import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetFormService } from '../form/budget-form.service';
 
 @Component({
   selector: 'cx-budget-create',
@@ -12,16 +14,7 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCreateComponent {
-  // It would be nice to replace this query param approach with a session service that
-  // provides a generic approach for session-interests, so that we can autofill forms, without
-  // changing the URL. This can keep the current language, currency, parent unit, cost center, cost-center, etc.
-  protected parentUnit$: Observable<
-    string
-  > = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
-
-  form$: Observable<FormGroup> = this.parentUnit$.pipe(
+  form$: Observable<FormGroup> = this.currentBudgetService.b2bUnit$.pipe(
     map((parentUnit: string) =>
       this.budgetFormService.getForm({ orgUnit: { uid: parentUnit } })
     )
@@ -30,6 +23,7 @@ export class BudgetCreateComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
+    protected currentBudgetService: CurrentBudgetService,
     protected routingService: RoutingService
   ) {}
 
@@ -40,11 +34,7 @@ export class BudgetCreateComponent {
     } else {
       form.disable();
       this.budgetService.create(form.value);
-
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.routingService.go('budgetDetails', form.value);
     }
   }
 }

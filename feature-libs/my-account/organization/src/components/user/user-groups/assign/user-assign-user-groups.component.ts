@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
-import { PaginationModel } from '@spartacus/core';
 import { CurrentUserService } from '../../current-user.service';
+import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
 
 @Component({
   selector: 'cx-user-assign-user-groups',
   templateUrl: './user-assign-user-groups.component.html',
 })
 export class UserAssignUserGroupsComponent {
-  code$: Observable<string> = this.currentUserService.code$;
+  code$: Observable<string> = this.currentUserService.key$;
   name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(

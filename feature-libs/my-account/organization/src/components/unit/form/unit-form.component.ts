@@ -6,16 +6,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-
 import {
+  B2BApprovalProcess,
   B2BUnitNode,
   CurrencyService,
-  OrgUnitService,
-  B2BApprovalProcess,
 } from '@spartacus/core';
-import { AbstractFormComponent } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
@@ -31,7 +30,7 @@ export class UnitFormComponent extends AbstractFormComponent
   approvalProcesses$: Observable<B2BApprovalProcess[]>;
 
   subscription = new Subscription();
-  parentUnit$ = this.currentUnitService.parentUnit$.pipe(filter(Boolean));
+  parentUnit$ = this.currentUnitService.b2bUnit$.pipe(filter(Boolean));
 
   constructor(
     protected currencyService: CurrencyService,

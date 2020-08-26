@@ -5,5 +5,4 @@ export * from './cms/index';
 export * from './product/index';
 export * from './site-context/index';
 export * from './store-finder/index';
-export * from './organization/index';
 export * from './user/index';

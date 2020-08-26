@@ -1,33 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserGroup, UserGroupService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
+import { CurrentUserGroupService } from '../current-user-group.service';
 
 @Component({
   selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUserGroupService],
 })
 export class UserGroupDetailsComponent {
-  protected code$: Observable<string> = this.route.params.pipe(
-    map((params) => params['code']),
-    filter((code) => Boolean(code))
-  );
-
-  userGroup$: Observable<UserGroup> = this.code$.pipe(
+  userGroup$: Observable<UserGroup> = this.currentUserGroupService.key$.pipe(
     // TODO: we should do this in the facade
-    tap((code) => this.userGroupsService.load(code)),
-    switchMap((code) => this.userGroupsService.get(code)),
-    filter((userGroups) => Boolean(userGroups))
+    tap((code) => this.userGroupService.load(code)),
+    switchMap((code) => this.userGroupService.get(code)),
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(
-    protected route: ActivatedRoute,
-    protected userGroupsService: UserGroupService
+    protected userGroupService: UserGroupService,
+    protected currentUserGroupService: CurrentUserGroupService
   ) {}
 
   update(userGroup: UserGroup) {
-    this.userGroupsService.update(userGroup.uid, userGroup);
+    this.userGroupService.update(userGroup.uid, userGroup);
   }
 }

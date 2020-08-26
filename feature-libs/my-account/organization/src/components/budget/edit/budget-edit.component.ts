@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -10,8 +10,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { Budget } from '../../../core/model/budget.model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetFormService } from '../form/budget-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -19,9 +21,7 @@ import { FormUtils } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  protected code$ = this.currentBudgetService.key$;
 
   protected budget$: Observable<Budget> = this.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
@@ -43,10 +43,7 @@ export class BudgetEditComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected activatedRoute: ActivatedRoute,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
+    protected currentBudgetService: CurrentBudgetService,
     protected routingService: RoutingService
   ) {}
 
@@ -57,11 +54,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-
-      this.routingService.go({
-        cxRoute: 'budgetDetails',
-        params: form.value,
-      });
+      this.routingService.go('budgetDetails', form.value);
     }
   }
 }

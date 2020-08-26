@@ -1,22 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, Permission } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserGroupService } from '../../current-user-group.service';
 import { UserGroupPermissionListComponent } from './user-group-permission-list.component';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
 
 const userGroupCode = 'userGroupCode';
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: userGroupCode }),
-  };
-  snapshot = {};
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  key$ = of(userGroupCode);
 }
 
 const mockUserList: Table<Permission> = {
@@ -57,13 +55,17 @@ describe('UserGroupPermissionListComponent', () => {
         UrlTestingModule,
         TableModule,
         IconTestingModule,
+        SplitViewTestingModule,
       ],
       declarations: [UserGroupPermissionListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: UserGroupPermissionListService,
           useClass: MockUserGroupUserListService,
+        },
+        {
+          provide: CurrentUserGroupService,
+          useClass: MockCurrentUserGroupService,
         },
       ],
     }).compileComponents();
@@ -122,6 +124,13 @@ describe('UserGroupPermissionListComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(userGroupCode);
     });
   });
 });

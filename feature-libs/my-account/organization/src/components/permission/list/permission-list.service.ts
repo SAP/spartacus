@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UserGroup, EntitiesModel, PermissionService } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { PermissionService } from '../../../core/services/permission.service';
 
 /**
  * The UI model for the permission, which is a slightly flattened version

@@ -68,30 +68,6 @@
     </label>
   </div>
 
-  <ng-container
-    *ngIf="form.get('orgUnit') && units$ | async as units"
-    [formGroup]="form.get('orgUnit')"
-  >
-    <div class="form-group">
-      <label aria-required="true">
-        <span class="label-content required">{{
-          'user.orgUnit' | cxTranslate
-        }}</span>
-        <ng-select
-          formControlName="uid"
-          [searchable]="false"
-          [clearable]="false"
-          [items]="units"
-          bindLabel="name"
-          bindValue="id"
-          [readonly]="form.get('orgUnit.uid').disabled"
-        >
-        </ng-select>
-        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
-      </label>
-    </div>
-  </ng-container>
-
   <div class="form-group">
     <label aria-required="true">
       <span class="label-content required">
@@ -138,4 +114,29 @@
       </label>
     </div>
   </div>
+
+  <ng-container
+    *ngIf="form.get('orgUnit') && units$ | async as units"
+    [formGroup]="form.get('orgUnit')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'user.orgUnit' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="units"
+          bindLabel="name"
+          bindValue="id"
+          [readonly]="form.get('orgUnit.uid').disabled"
+          appendTo=".organization"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
 </ng-container>

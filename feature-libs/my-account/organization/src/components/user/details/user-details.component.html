@@ -15,6 +15,13 @@
       <a
         class="link"
         [class.disabled]="!user.active"
+        [routerLink]="{ cxRoute: 'userChangePassword', params: user } | cxUrl"
+      >
+        {{ 'user.changePassword.link' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [class.disabled]="!user.active"
         [routerLink]="{ cxRoute: 'userEdit', params: user } | cxUrl"
       >
         {{ 'organization.edit' | cxTranslate }}
@@ -117,6 +124,7 @@
             {{ 'organization.disabled' | cxTranslate }}
             <button
               class="button icon"
+              [disabled]="user.orgUnit && !user.orgUnit.active"
               (click)="update({ customerId: user.customerId, active: true })"
             >
               {{ 'organization.enable' | cxTranslate }}
@@ -124,6 +132,9 @@
             </button>
           </ng-template>
         </span>
+        <p class="instruction" *ngIf="user.orgUnit && !user.orgUnit.active">
+          {{ 'user.messages.disabledUnit' | cxTranslate }}
+        </p>
         <p class="instruction">
           <ng-container *ngIf="user.active; else inactiveInstruction">
             {{ 'user.messages.enabled' | cxTranslate }}

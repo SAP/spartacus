@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
-import { Country, Region, Title, UserAddressService } from '@spartacus/core';
 import { switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { Country, Region, Title, UserAddressService } from '@spartacus/core';
 import { UnitAddressFormService } from './unit-address-form.service';
 
 @Component({

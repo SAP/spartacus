@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  UserGroup,
-  UserGroupService,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
+import { CurrentUserGroupService } from '../current-user-group.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
+
 import createSpy = jasmine.createSpy;
 
 const userGroupCode = 'b1';
@@ -23,16 +22,14 @@ const mockUserGroup: UserGroup = {
   orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
-class MockUserGroupService implements Partial<UserGroupService> {
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockUserGroup));
-  update = createSpy('update');
+class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
+  key$ = of(userGroupCode);
 }
 
-class MockActivatedRoute {
-  params = of({ code: userGroupCode });
-
-  snapshot = {};
+class MockUserGroupService implements Partial<UserGroupService> {
+  load = createSpy('load');
+  update = createSpy('update');
+  get = createSpy('get').and.returnValue(of(mockUserGroup));
 }
 
 class MockModalService {
@@ -62,11 +59,21 @@ describe('UserGroupDetailsComponent', () => {
       ],
       declarations: [UserGroupDetailsComponent, MockUserGroupUserListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: UserGroupService, useClass: MockUserGroupService },
         { provide: ModalService, useClass: MockModalService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUserGroupService,
+              useClass: MockCurrentUserGroupService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     userGroupsService = TestBed.inject(UserGroupService);
   }));
@@ -87,5 +94,16 @@ describe('UserGroupDetailsComponent', () => {
       mockUserGroup.uid,
       mockUserGroup
     );
+  });
+  it('should trigger reload of cost center model on each code change', () => {
+    expect(userGroupsService.load).toHaveBeenCalledWith(mockUserGroup.uid);
+  });
+
+  describe('costCenter$', () => {
+    it('should emit current cost center model', () => {
+      let result;
+      component.userGroup$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(mockUserGroup);
+    });
   });
 });

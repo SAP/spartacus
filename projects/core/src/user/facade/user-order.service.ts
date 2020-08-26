@@ -9,6 +9,7 @@ import {
   Order,
   OrderHistoryList,
 } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
@@ -91,14 +92,16 @@ export class UserOrderService {
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.authService.invokeWithUserId((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadUserOrders({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(
+          new UserActions.LoadUserOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      }
     });
   }
 

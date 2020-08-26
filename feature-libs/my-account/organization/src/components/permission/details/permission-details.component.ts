@@ -1,31 +1,27 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PermissionService, Permission } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap, shareReplay } from 'rxjs/operators';
+import { Permission } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { PermissionService } from '../../../core/services/permission.service';
+import { CurrentPermissionService } from '../current-permission.service';
 
 @Component({
   selector: 'cx-permission-details',
   templateUrl: './permission-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentPermissionService],
 })
 export class PermissionDetailsComponent {
-  protected code$: Observable<string> = this.route.params.pipe(
-    map((params) => params['code']),
-    filter((code) => Boolean(code))
-  );
-
-  permission$: Observable<Permission> = this.code$.pipe(
-    // TODO: we should do this in the facade
+  permission$: Observable<Permission> = this.currentPermissionService.key$.pipe(
     tap((code) => this.permissionService.loadPermission(code)),
     switchMap((code) => this.permissionService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(
-    protected route: ActivatedRoute,
     protected permissionService: PermissionService,
+    protected currentPermissionService: CurrentPermissionService,
     protected modalService: ModalService
   ) {}
 

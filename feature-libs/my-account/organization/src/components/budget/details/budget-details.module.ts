@@ -14,11 +14,9 @@ import { BudgetDetailsComponent } from './budget-details.component';
     CommonModule,
     RouterModule,
     UrlModule,
-
     I18nModule,
     SplitViewModule,
     IconModule,
-
     ConfirmModalModule,
   ],
   declarations: [BudgetDetailsComponent],

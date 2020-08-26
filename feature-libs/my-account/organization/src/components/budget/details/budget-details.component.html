@@ -102,6 +102,7 @@
             {{ 'organization.disabled' | cxTranslate }}
             <button
               class="button icon"
+              [disabled]="!budget.orgUnit?.active"
               (click)="update({ code: budget.code, active: true })"
             >
               {{ 'organization.enable' | cxTranslate }}
@@ -109,6 +110,9 @@
             </button>
           </ng-template>
         </span>
+        <p class="instruction" *ngIf="!budget.orgUnit?.active">
+          {{ 'budget.messages.disabledUnit' | cxTranslate }}
+        </p>
         <p class="instruction">
           <ng-container *ngIf="budget.active; else inactiveInstruction">
             {{ 'budget.messages.enabled' | cxTranslate }}

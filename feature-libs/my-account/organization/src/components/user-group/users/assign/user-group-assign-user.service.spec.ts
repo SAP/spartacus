@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, UserGroupService, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
+import { UserGroupService } from '../../../../core/services/user-group.service';
 
 const mockUserEntities: EntitiesModel<B2BUser> = {
   values: [
@@ -75,9 +76,9 @@ describe('UserGroupAssignUserService', () => {
     let result: Table<B2BUser>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
-    expect(result.data[0].customerId).toEqual('first');
-    expect(result.data[1].customerId).toEqual('second');
-    expect(result.data[2].customerId).toEqual('third');
+    expect(result.data[0].customerId).toEqual('user-1');
+    expect(result.data[1].customerId).toEqual('user-2');
+    expect(result.data[2].customerId).toEqual('user-3');
   });
 
   it('should assign user', () => {

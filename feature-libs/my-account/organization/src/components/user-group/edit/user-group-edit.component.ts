@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { UserGroup, UserGroupService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -10,18 +10,22 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
+import { CurrentUserGroupService } from '../current-user-group.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
-import { FormUtils } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-group-edit',
   templateUrl: './user-group-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUserGroupService],
 })
 export class UserGroupEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  /**
+   * The code of the current user group
+   */
+  code$ = this.currentUserGroupService.key$;
 
   protected userGroup$: Observable<UserGroup> = this.code$.pipe(
     tap((code) => this.userGroupService.load(code)),
@@ -42,11 +46,8 @@ export class UserGroupEditComponent {
 
   constructor(
     protected userGroupService: UserGroupService,
+    protected currentUserGroupService: CurrentUserGroupService,
     protected userGroupFormService: UserGroupFormService,
-    protected activatedRoute: ActivatedRoute,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
     protected routingService: RoutingService
   ) {}
 

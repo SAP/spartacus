@@ -1,21 +1,32 @@
-import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ParamsMapping,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
 import { UserGroupListComponent } from './list/user-group-list.component';
-import { UserGroupAssignPermissionComponent } from './permissions/assign/user-group-assign-permission.component';
+import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
-import { UserGroupAssignUserComponent } from './users/assign/user-group-assign-user.component';
+import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
+
+const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
+const paramsMapping: ParamsMapping = {
+  userGroupCode: 'uid',
+};
 
 // TODO: this doesn't work with lazy loaded feature
 export const userGroupRoutingConfig: RoutingConfig = {
@@ -28,28 +39,28 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paths: ['organization/user-groups/create'],
       },
       userGroupDetails: {
-        paths: ['organization/user-groups/:code'],
-        paramsMapping: { code: 'uid' },
+        paths: [listPath],
+        paramsMapping,
       },
       userGroupEdit: {
-        paths: ['organization/user-groups/:code/edit'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/edit`],
+        paramsMapping,
       },
       userGroupUsers: {
-        paths: ['organization/user-groups/:code/users'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users`],
+        paramsMapping,
       },
       userGroupAssignUsers: {
-        paths: ['organization/user-groups/:code/users/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/users/assign`],
+        paramsMapping,
       },
       userGroupPermissions: {
-        paths: ['organization/user-groups/:code/purchase-limits'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/purchase-limits`],
+        paramsMapping,
       },
       userGroupAssignPermissions: {
-        paths: ['organization/user-groups/:code/purchase-limits/assign'],
-        paramsMapping: { code: 'uid' },
+        paths: [`${listPath}/purchase-limits/assign`],
+        paramsMapping,
       },
     },
   },
@@ -66,15 +77,10 @@ export const userGroupCmsConfig: CmsConfig = {
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
-          path: ':code',
+          path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
-            {
-              path: 'edit',
-              component: UserGroupEditComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
             {
               path: 'users',
               component: UserGroupUserListComponent,
@@ -82,7 +88,7 @@ export const userGroupCmsConfig: CmsConfig = {
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignUserComponent,
+                  component: UserGroupAssignUsersComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -94,12 +100,16 @@ export const userGroupCmsConfig: CmsConfig = {
               children: [
                 {
                   path: 'assign',
-                  component: UserGroupAssignPermissionComponent,
+                  component: UserGroupAssignPermissionsComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
           ],
+        },
+        {
+          path: `:${ROUTE_PARAMS.userGroupCode}/edit`,
+          component: UserGroupEditComponent,
         },
       ],
       guards: [AuthGuard],

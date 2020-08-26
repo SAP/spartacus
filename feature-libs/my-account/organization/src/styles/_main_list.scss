@@ -22,11 +22,7 @@ cx-permission-list {
     }
   }
 
-  > cx-split-view[last-visible-view='2']
-    > cx-view
-    > section
-    > cx-table
-    > table {
+  > cx-split-view[active-view='2'] > cx-view > section > cx-table > table {
     th:nth-child(n + 2),
     td:nth-child(n + 2) {
       opacity: 0;

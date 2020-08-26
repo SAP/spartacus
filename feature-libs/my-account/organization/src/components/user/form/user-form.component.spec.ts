@@ -1,15 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
+import { By, Title } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  B2BUnitNode,
-  I18nTestingModule,
-  OrgUnitService,
-} from '@spartacus/core';
+import { B2BUnitNode, I18nTestingModule, UserService } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { UserFormComponent } from './user-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -30,13 +27,20 @@ const mockOrgUnits: B2BUnitNode[] = [
   },
 ];
 
+class MockUserService {
+  getTitles(): Observable<Title[]> {
+    return of();
+  }
+
+  loadTitles(): void {}
+}
+
 class MockOrgUnitService implements Partial<OrgUnitService> {
   load = createSpy('load');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
   loadList = jasmine.createSpy('loadList');
-  getList = jasmine.createSpy('getList');
 }
 
 describe('UserFormComponent', () => {
@@ -53,7 +57,10 @@ describe('UserFormComponent', () => {
         NgSelectModule,
       ],
       declarations: [UserFormComponent, FormErrorsComponent],
-      providers: [{ provide: OrgUnitService, useClass: MockOrgUnitService }],
+      providers: [
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: UserService, useClass: MockUserService },
+      ],
     }).compileComponents();
 
     orgUnitService = TestBed.inject(OrgUnitService);
@@ -85,6 +92,6 @@ describe('UserFormComponent', () => {
   it('should load units', () => {
     component.form = new FormGroup({});
     fixture.detectChanges();
-    expect(orgUnitService.getList).toHaveBeenCalled();
+    expect(orgUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 });

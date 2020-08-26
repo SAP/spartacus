@@ -12,6 +12,7 @@ export const budget = {
     enabled:
       'When you disable the budget, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled Budget.',
+    disabledUnit: 'You cannot enable budget if unit is disabled.',
     deactivate: 'Are you sure you want to disable this budget?',
     deactivateHeader: 'Disable Budget',
   },
