@@ -1,5 +1,5 @@
 export const budget = {
-  header: 'Budgets',
+  header: 'All budgets ({{count}})',
   disabled: '(disabled)',
   code: 'Code',
   name: 'Name',
@@ -8,6 +8,11 @@ export const budget = {
   unit: 'Parent Unit',
   amount: 'Amount',
   dateRange: 'Start - End',
+
+  byName: 'Sort by name',
+  byUnitName: 'Sort by unit',
+  byCode: 'Sort by code',
+  byValue: 'Sort by value',
 
   messages: {
     enabled:

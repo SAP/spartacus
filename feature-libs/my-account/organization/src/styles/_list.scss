@@ -1,9 +1,109 @@
-.content-wrapper {
+td {
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    min-height: 74px;
+    a {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.mouse-focus .organization cx-table tr:focus-within {
+  outline-width: 0;
+}
+
+cx-organization-list {
   display: contents;
 }
 
 .organization {
-  // overflow-x: hidden;
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-transform: uppercase;
+
+    padding: 25px 0;
+
+    ng-select {
+      min-width: 293px;
+      max-height: 48px;
+    }
+  }
+
+  cx-split-view {
+    padding-top: 40px;
+    cx-view[position='0'] {
+      border-inline-end: solid 0 var(--cx-color-light);
+      border-inline-end-width: calc(min(var(--cx-active-view) - 1, 1) * 1px);
+    }
+  }
+
+  cx-table {
+    table {
+      border-top: solid 1px var(--cx-color-light);
+    }
+    thead tr {
+      &:hover:not(.is-current) {
+        background-color: transparent;
+      }
+      th {
+        height: 60px;
+      }
+    }
+
+    tr {
+      border-bottom: solid 1px var(--cx-color-light);
+
+      &:hover:not(.is-current) {
+        background-color: var(--cx-color-background);
+      }
+      &.is-current {
+        border: solid 3px var(--cx-color-primary);
+        background: var(--cx-color-background-focus);
+      }
+
+      &:focus-within {
+        @include visible-focus();
+      }
+
+      transition: background var(--cx-transition-duration, 0.3s);
+
+      td {
+        a {
+          // display: flex;
+          // align-items: center;
+          // min-height: 74px;
+          // text-decoration: underline;
+        }
+      }
+
+      th.suffix,
+      td.suffix {
+        width: 60px;
+        font-size: 20px;
+      }
+    }
+
+    td.active {
+      color: var(--cx-color-success);
+      .is-inactive {
+        color: var(--cx-color-alert, var(--cx-color-danger));
+      }
+    }
+
+    td:not(.name) {
+      a {
+        color: inherit;
+      }
+    }
+  }
 
   h3 {
     display: flex;
@@ -12,10 +112,12 @@
 
     // ensure that all headers are aligned, as otherwise the UI is mixed up
     // in case we have a split view with the headers next to each other.
-    min-height: 5rem;
+    // min-height: 5rem;
 
     margin: 0;
     padding: 0;
+
+    text-transform: uppercase;
 
     @include media-breakpoint-down(md) {
       padding: var(--cx-spatial-md);
@@ -41,17 +143,17 @@
       flex: 1;
     }
   }
-
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 25px 0;
+  }
   cx-pagination {
-    display: inline-flex;
-    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
-
     @include media-breakpoint-down(md) {
       margin: 0 var(--cx-spatial-md);
     }
 
     a {
-      border: none;
       border-radius: 0;
 
       &:not(.current) {
@@ -67,48 +169,29 @@
   cx-table {
     td {
       padding: 0;
+      overflow: visible;
 
-      // the first cell is supposed to be highlighted as a link
       &:first-child a,
       &:first-child a:hover {
-        color: var(--cx-color-primary);
         text-decoration: underline;
       }
 
-      &.active a.is-active {
-        color: var(--cx-color-success);
-      }
-
-      &.active a:not(.is-active) {
-        color: red;
-      }
-
       a {
-        @include alt-visible-focus();
-        display: flex;
-
         justify-content: flex-start;
         padding: var(--cx-spatial-md);
 
-        color: inherit;
+        text-decoration: none;
+        // avoid a11y outline as we add this to the full row instead
+        outline-width: 0;
 
-        .text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+        // .label {
+        //   white-space: nowrap;
+        //   overflow: hidden;
+        //   text-overflow: ellipsis;
+        // }
 
         cx-icon {
           margin: -0.1rem 0 0 0.5rem;
-
-          &.active-state {
-            margin-inline-end: var(--cx-spatial-md);
-            color: var(--cx-color-success);
-          }
-
-          &.inactive {
-            opacity: 0.25;
-          }
 
           &.open {
             // hide open arrow on > mobile
@@ -119,7 +202,13 @@
         }
 
         &:hover {
-          text-decoration: none;
+          text-decoration: inherit;
+
+          &:not(.active) {
+            .text {
+              // text-decoration: underline;
+            }
+          }
         }
       }
 
@@ -193,7 +282,4 @@
       }
     }
   }
-}
-.li:not(:last-child):after {
-  content: ', ';
 }
