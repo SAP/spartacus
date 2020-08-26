@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { Budget, BudgetService } from '../../core/index';
+import { BudgetService } from '../../core/index';
 import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { BudgetModel } from './list/budget-list.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentBudgetService extends CurrentOrganizationItemService<
-  Budget
+  BudgetModel
 > {
   constructor(
     protected routingService: RoutingService,
@@ -22,7 +23,7 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     return ROUTE_PARAMS.budgetCode;
   }
 
-  protected getItem(code: string): Observable<Budget> {
-    return this.budgetService.get(code);
+  protected getItem(code: string): Observable<BudgetModel> {
+    return <any>(<BudgetModel>this.budgetService.get(code));
   }
 }

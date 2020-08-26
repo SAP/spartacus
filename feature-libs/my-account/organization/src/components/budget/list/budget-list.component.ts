@@ -1,37 +1,20 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { BudgetListService } from './budget-list.service';
-
-const BASE_CLASS = 'organization';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrganizationListComponent } from '../../shared/organization-list/organization-list.component';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetListService, BudgetModel } from './budget-list.service';
 
 @Component({
-  selector: 'cx-budget-list',
-  templateUrl: './budget-list.component.html',
+  templateUrl:
+    '../../shared/organization-list/organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetListComponent {
-  @HostBinding('class') hostClass = BASE_CLASS;
-
-  dataTable$: Observable<Table> = this.budgetService.getTable();
-
-  constructor(protected budgetService: BudgetListService) {}
-
-  /**
-   * Paginates the budget list. Pagination is not using query parameters, as we like
-   * pagination to be driven by infinite scrolling going forward.
-   */
-  viewPage(pagination: PaginationModel, currentPage: number): void {
-    this.budgetService.viewPage(pagination, currentPage);
-  }
-
-  /**
-   * Sort the list. The pagination is reset to the first page.
-   *
-   * TODO: consider query parameter for sorting.
-   */
-  sort(pagination: PaginationModel, sort: string) {
-    this.budgetService.sort(pagination, sort);
+export class BudgetListComponent extends OrganizationListComponent<
+  BudgetModel
+> {
+  constructor(
+    protected currentBudgetService: CurrentBudgetService,
+    protected budgetService: BudgetListService
+  ) {
+    super(budgetService, currentBudgetService);
   }
 }

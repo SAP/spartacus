@@ -43,35 +43,57 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
       switchMap((structure) =>
         this.load(structure, ...args).pipe(
           map(
-            ({ values, pagination }) =>
+            ({ values, pagination, sorts }) =>
               ({
                 structure,
                 data: values,
-                pagination,
+                pagination: { ...pagination },
+                sorts,
               } as Table<T>)
           )
         )
-      ),
-      map((tableData) => (!tableData.data.length ? null : tableData))
+      )
+      // map((tableData) => (!tableData.data.length ? null : tableData))
     );
   }
 
+  // /**
+  //  * Updates the pagination with the new page number.
+  //  */
+  // viewPage(pagination: P, page: number): void {
+  //   this.pagination$.next({ ...pagination, currentPage: page });
+  // }
+
+  // /**
+  //  * Updates the sort code for the PaginationModel, and resets the `currentPage`.
+  //  */
+  // sort(pagination: P, sortCode: string): void {
+  //   this.pagination$.next({
+  //     ...pagination,
+  //     currentPage: 0,
+  //     sort: sortCode,
+  //   });
+  // }
+
   /**
-   * Updates the pagination with the new page number.
+   * Views the page.
    */
-  viewPage(pagination: P, page: number): void {
-    this.pagination$.next({ ...pagination, currentPage: page });
+  view(pagination: P, nextPage?: number): void {
+    this.pagination$.next({ ...pagination, currentPage: nextPage });
+  }
+
+  // tmp keep this method till all is migrated to view()
+  viewPage(pagination: P, nextPage?: number) {
+    this.view(pagination, nextPage);
   }
 
   /**
-   * Updates the sort code for the PaginationModel, and resets the `currentPage`.
+   * Updates the sort code for the PaginationModel.
+   *
+   *  and resets the `currentPage`.
    */
-  sort(pagination: P, sortCode: string): void {
-    this.pagination$.next({
-      ...pagination,
-      currentPage: 0,
-      sort: sortCode,
-    });
+  sort(pagination: P, _obsoleteSort?: string): void {
+    this.view(pagination, 0);
   }
 
   /**
