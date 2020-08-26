@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ActiveCartService,
+  Configurator,
   GenericConfigurator,
   OrderEntry,
 } from '@spartacus/core';
@@ -10,7 +11,7 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
-import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import { CONFIG_ID } from '../../shared/testing/configuration-test-data';
 import { ConfigOverviewNotificationBannerComponent } from './config-overview-notification-banner.component';
 
 const cartEntries: OrderEntry[] = [
@@ -43,16 +44,21 @@ const cartEntries: OrderEntry[] = [
   },
 ];
 
-const productConfiguration = ConfigurationTestData.productConfiguration;
-productConfiguration.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-productConfiguration.owner.id = '3';
+const productConfig: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  owner: {
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    id: '3',
+  },
+};
+
 const configuratorType = 'cpqconfigurator';
 
 const routerData: ConfigurationRouter.Data = {
   configuratorType: configuratorType,
   pageType: ConfigurationRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: productConfiguration.owner,
+  owner: productConfig.owner,
 };
 let entry$;
 class MockActiveCartService {

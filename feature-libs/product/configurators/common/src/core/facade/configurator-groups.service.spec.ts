@@ -279,4 +279,23 @@ describe('ConfiguratorGroupsService', () => {
       })
     );
   });
+
+  it('should delegate calls for parent group to the facade utils service', () => {
+    classUnderTest.getParentGroup(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
+    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
+  });
+
+  it('should delegate calls for sub groups to the facade utils service', () => {
+    classUnderTest.hasSubGroups(productConfiguration.groups[2]);
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalledWith(
+      productConfiguration.groups[2]
+    );
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalled();
+  });
 });

@@ -160,8 +160,7 @@ export class ConfigGroupMenuComponent {
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
           configuration.groups,
-          group,
-          null
+          group
         )
       )
     );

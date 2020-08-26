@@ -284,6 +284,30 @@ export class ConfiguratorGroupsService {
     return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
   }
 
+  /**
+   * Returns a parent group for the given group.
+   *
+   * @param groups - List of groups where we search for the parent group
+   * @param group - Given group
+   * @return {Configurator.Group} Parent group or null if group is a top-level group
+   */
+  getParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group
+  ): Configurator.Group {
+    return this.configuratorFacadeUtilsService.getParentGroup(groups, group);
+  }
+
+  /**
+   * Verifies whether the given group has sub groups.
+   *
+   * @param group - Given group
+   * @return {boolean} Sub groups available?
+   */
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorFacadeUtilsService.hasSubGroups(group);
+  }
+
   protected getNeighboringGroupId(
     owner: GenericConfigurator.Owner,
     neighboringIndex: number
