@@ -28,6 +28,10 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    */
   readonly currentKey$ = this.currentService.key$;
 
+  get key(): string {
+    return this.service.key();
+  }
+
   /**
    * Browses to the given page number
    */

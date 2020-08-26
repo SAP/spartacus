@@ -43,6 +43,9 @@ class MockBaseOrganizationListService {
   view = createSpy('view');
   sort = createSpy('sort');
   getTable() {}
+  key() {
+    return 'code';
+  }
 }
 
 class MockCurrentOrganizationItemService {

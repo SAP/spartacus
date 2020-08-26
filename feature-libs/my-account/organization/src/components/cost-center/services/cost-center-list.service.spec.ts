@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CostCenterListService } from './cost-center-list.service';
 import { CostCenterService } from '../../../core/services/cost-center.service';
+import { CostCenterListService } from './cost-center-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [
@@ -52,6 +52,10 @@ describe('CostCenterListService', () => {
 
     it('should inject service', () => {
       expect(service).toBeTruthy();
+    });
+
+    it('should return "code" key', () => {
+      expect(service.key()).toEqual('code');
     });
 
     it('should populate currency object to currency string literal', () => {

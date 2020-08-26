@@ -35,6 +35,10 @@ export class UserListService extends OrganizationListService<UserModel> {
     super(tableService);
   }
 
+  key(): string {
+    return 'customerId';
+  }
+
   protected load(
     structure: TableStructure,
     _params?

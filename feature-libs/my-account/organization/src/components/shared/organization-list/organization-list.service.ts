@@ -28,6 +28,10 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
 
   constructor(protected tableService: TableService) {}
 
+  key(): string {
+    return 'code';
+  }
+
   /**
    * Converts the list entities into the `Table` model, including the (responsive/ configurable)
    * table structure. The actual data loading of the listing is delegated to the abstract `load`
@@ -53,27 +57,8 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
           )
         )
       )
-      // map((tableData) => (!tableData.data.length ? null : tableData))
     );
   }
-
-  // /**
-  //  * Updates the pagination with the new page number.
-  //  */
-  // viewPage(pagination: P, page: number): void {
-  //   this.pagination$.next({ ...pagination, currentPage: page });
-  // }
-
-  // /**
-  //  * Updates the sort code for the PaginationModel, and resets the `currentPage`.
-  //  */
-  // sort(pagination: P, sortCode: string): void {
-  //   this.pagination$.next({
-  //     ...pagination,
-  //     currentPage: 0,
-  //     sort: sortCode,
-  //   });
-  // }
 
   /**
    * Views the page.

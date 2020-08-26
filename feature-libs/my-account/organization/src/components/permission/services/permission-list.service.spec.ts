@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { EntitiesModel, Permission } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PermissionListService } from './permission-list.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import { PermissionListService } from './permission-list.service';
 
 const code = 'permission';
 const mockPermissionEntities: EntitiesModel<Permission> = {
@@ -51,6 +51,10 @@ describe('PermissionListService', () => {
 
     it('should inject service', () => {
       expect(service).toBeTruthy();
+    });
+
+    it('should return "code" key', () => {
+      expect(service.key()).toEqual('code');
     });
 
     it('should populate object to string literal', () => {

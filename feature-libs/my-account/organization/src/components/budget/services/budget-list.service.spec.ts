@@ -55,6 +55,10 @@ describe('BudgetListService', () => {
       expect(service).toBeTruthy();
     });
 
+    it('should return "code" key', () => {
+      expect(service.key()).toEqual('code');
+    });
+
     it('should populate currency object to currency string literal', () => {
       let result;
       service.getTable().subscribe((table) => (result = table));

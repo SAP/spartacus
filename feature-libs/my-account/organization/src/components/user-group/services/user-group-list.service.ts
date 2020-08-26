@@ -36,6 +36,10 @@ export class UserGroupListService extends OrganizationListService<
     super(tableService);
   }
 
+  key(): string {
+    return 'uid';
+  }
+
   protected load(
     structure: TableStructure,
     _params?

@@ -4,6 +4,7 @@ export const userGroup = {
   uid: 'Code',
   name: 'Name',
   unit: 'Parent Unit',
+  orgUnit: 'Parent Unit',
 
   byName: 'Sort by name',
   byUnitName: 'Sort by unit',

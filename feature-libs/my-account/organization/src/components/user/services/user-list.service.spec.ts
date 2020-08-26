@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserListService } from './user-list.service';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { UserListService } from './user-list.service';
 
 const uid = 'user';
 const mockUserEntities: EntitiesModel<B2BUser> = {
@@ -51,6 +51,10 @@ describe('UserListService', () => {
 
     it('should inject service', () => {
       expect(service).toBeTruthy();
+    });
+
+    it('should return "customerId" key', () => {
+      expect(service.key()).toEqual('customerId');
     });
 
     it('should populate object to string literal', () => {

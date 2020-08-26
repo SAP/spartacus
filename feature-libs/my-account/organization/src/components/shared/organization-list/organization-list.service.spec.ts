@@ -50,6 +50,10 @@ describe('OrganizationListService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should return "code" key', () => {
+    expect(service.key()).toEqual('code');
+  });
+
   describe('getTable', () => {
     it('should call load method', () => {
       spyOn(service, 'load').and.callThrough();
