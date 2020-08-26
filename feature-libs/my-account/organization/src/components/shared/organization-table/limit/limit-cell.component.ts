@@ -3,7 +3,10 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
   template: `
-    <a [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl">
+    <a
+      [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+      [tabindex]="tabIndex"
+    >
       <span class="text" *ngIf="model.threshold; else type"
         >{{ model.threshold }} {{ model.currency?.symbol }}
         {{ 'permission.per.' + model.periodRange | cxTranslate }}

@@ -62,7 +62,7 @@ describe('OrganizationLinkComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('should return  -1 for tabIndex', () => {
+  it('should return -1 for tabIndex', () => {
     expect(component.tabIndex).toEqual(-1);
   });
 

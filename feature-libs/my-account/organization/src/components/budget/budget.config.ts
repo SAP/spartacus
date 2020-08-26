@@ -9,7 +9,10 @@ import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { OrganizationCellComponent } from '../shared/organization-table';
+import {
+  ActiveLinkCellComponent,
+  OrganizationCellComponent,
+} from '../shared/organization-table';
 import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
 import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
@@ -113,6 +116,9 @@ export const budgetTableConfig: TableConfig = {
         },
         dataComponent: OrganizationCellComponent,
         fields: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
           amount: {
             dataComponent: AmountCellComponent,
           },

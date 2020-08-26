@@ -6,6 +6,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
     <a
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [class.is-active]="isActive"
+      [tabindex]="tabIndex"
     >
       <span class="text"> {{ property | cxTranslate }}</span>
     </a>

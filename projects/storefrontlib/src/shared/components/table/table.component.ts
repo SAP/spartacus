@@ -147,6 +147,10 @@ export class TableComponent {
     );
   }
 
+  trackData(_i, item): any {
+    return JSON.stringify(item);
+  }
+
   /**
    * Generates the table type into the UI in devMode, so that developers
    * can easily get the notion of the table type.

@@ -171,8 +171,8 @@ cx-organization-list {
       padding: 0;
       overflow: visible;
 
-      &:first-child a,
-      &:first-child a:hover {
+      a[tabindex='0'],
+      a[tabindex='0']:hover {
         text-decoration: underline;
         color: var(--cx-color-primary);
       }

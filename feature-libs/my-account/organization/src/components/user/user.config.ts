@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { ActiveLinkCellComponent } from '../shared';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -177,6 +178,9 @@ export const userTableConfig: TableConfig = {
         },
         dataComponent: OrganizationCellComponent,
         fields: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
           active: {
             dataComponent: StatusCellComponent,
           },
