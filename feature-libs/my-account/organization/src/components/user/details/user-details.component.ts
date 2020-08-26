@@ -4,13 +4,12 @@ import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { B2BUserService } from '../../../core/services/b2b-user.service';
-import { CurrentUserService } from '../current-user.service';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Component({
   selector: 'cx-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentUserService],
 })
 export class UserDetailsComponent {
   user$: Observable<B2BUser> = this.currentUserService.key$.pipe(

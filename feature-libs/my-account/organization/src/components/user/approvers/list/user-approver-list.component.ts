@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { CurrentUserService } from '../../current-user.service';
+import { CurrentUserService } from '../../services/current-user.service';
 import { UserApproverListService } from './user-approver-list.service';
 
 @Component({

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { B2BUser, CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { B2BUserService } from '../../core/services/b2b-user.service';
-import { ROUTE_PARAMS } from '../constants';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { ROUTE_PARAMS } from '../../constants';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 
 @Injectable({
   providedIn: 'root',
