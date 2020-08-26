@@ -7,8 +7,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { PermissionService } from '../../../core/services/permission.service';
-import { CurrentPermissionService } from '../current-permission.service';
 import { PermissionType } from '../form/permission-form.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;

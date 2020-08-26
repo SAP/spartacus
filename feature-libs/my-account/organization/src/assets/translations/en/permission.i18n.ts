@@ -1,5 +1,5 @@
 export const permission = {
-  header: 'Purchase limits',
+  header: 'All purchase limits ({{count}})',
   disabled: '(disabled)',
   name: 'Name',
   code: 'Code',
@@ -10,6 +10,10 @@ export const permission = {
   periodRange: 'Period',
   currency: 'Currency',
   orgUnit: 'Parent Unit',
+  unit: 'Parent Unit',
+
+  byName: 'Sort by name',
+  byUnitName: 'Sort by unit',
 
   messages: {
     enabled:

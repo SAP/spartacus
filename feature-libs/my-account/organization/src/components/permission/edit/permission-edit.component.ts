@@ -12,14 +12,13 @@ import {
 } from 'rxjs/operators';
 import { UserGroup } from '../../../core/model/user-group.model';
 import { PermissionService } from '../../../core/services/permission.service';
-import { CurrentPermissionService } from '../current-permission.service';
 import { PermissionFormService } from '../form/permission-form.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 
 @Component({
   selector: 'cx-permission-edit',
   templateUrl: './permission-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentPermissionService],
 })
 export class PermissionEditComponent {
   protected code$ = this.currentPermissionService.key$;

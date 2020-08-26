@@ -4,13 +4,12 @@ import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { PermissionService } from '../../../core/services/permission.service';
-import { CurrentPermissionService } from '../current-permission.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 
 @Component({
   selector: 'cx-permission-details',
   templateUrl: './permission-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrentPermissionService],
 })
 export class PermissionDetailsComponent {
   permission$: Observable<Permission> = this.currentPermissionService.key$.pipe(
