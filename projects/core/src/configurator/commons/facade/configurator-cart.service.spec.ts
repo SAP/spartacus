@@ -48,9 +48,13 @@ const cartState: ProcessesLoaderState<Cart> = {
   value: cart,
 };
 let cartStateObs = null;
+let isStableObs = null;
 class MockActiveCartService {
   requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
     return cartStateObs;
+  }
+  isStable(): Observable<boolean> {
+    return isStableObs;
   }
 }
 
@@ -61,6 +65,7 @@ describe('ConfiguratorCartService', () => {
 
   beforeEach(async(() => {
     cartStateObs = of(cartState);
+    isStableObs = of(true);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -105,16 +110,6 @@ describe('ConfiguratorCartService', () => {
     expect(serviceUnderTest).toBeDefined();
   });
 
-  it('should tell if there are no cart updates pending', () => {
-    const obs = cold('xyz', {
-      x: true,
-      y: true,
-      z: false,
-    });
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-    const obsCartUpdateDone = serviceUnderTest.checkForActiveCartUpdates();
-    expect(obsCartUpdateDone).toBeObservable(obs);
-  });
   describe('readConfigurationForCartEntry', () => {
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
       const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
@@ -158,6 +153,24 @@ describe('ConfiguratorCartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.ReadCartEntryConfiguration(params)
       );
+    });
+    it('should only proceed when cart is ready', () => {
+      isStableObs = cold('x-xx-y', {
+        x: false,
+        y: true,
+      });
+
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        value: { configId: '' },
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
+
+      expect(
+        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+      ).toBeObservable(cold('-----|', {}));
     });
   });
 
