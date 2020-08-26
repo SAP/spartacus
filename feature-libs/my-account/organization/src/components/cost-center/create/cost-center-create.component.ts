@@ -5,8 +5,8 @@ import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CostCenterService } from '../../../core/services/cost-center.service';
-import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-create',

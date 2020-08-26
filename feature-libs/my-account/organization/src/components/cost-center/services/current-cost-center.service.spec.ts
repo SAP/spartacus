@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CostCenterService } from '../../core';
+import { CostCenterService } from '../../../core';
 import { CurrentCostCenterService } from './current-cost-center.service';
 
 class MockRoutingService {

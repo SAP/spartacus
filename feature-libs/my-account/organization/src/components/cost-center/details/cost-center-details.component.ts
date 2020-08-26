@@ -4,7 +4,7 @@ import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CostCenterService } from '../../../core/services/cost-center.service';
-import { CurrentCostCenterService } from '../current-cost-center.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',

@@ -9,7 +9,7 @@ import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/compo
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { Budget } from '../../../../core/model/budget.model';
-import { CurrentCostCenterService } from '../../current-cost-center.service';
+import { CurrentCostCenterService } from '../../services/current-cost-center.service';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 

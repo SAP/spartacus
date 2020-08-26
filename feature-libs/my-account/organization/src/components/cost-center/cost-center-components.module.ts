@@ -12,10 +12,9 @@ import {
   costCenterTableConfigFactory,
 } from './cost-center.config';
 import { CostCenterCreateModule } from './create/cost-center-create.module';
+import { CostCenterDetailsModule } from './details/cost-center-details.module';
 import { CostCenterEditModule } from './edit/cost-center-edit.module';
 import { CostCenterFormModule } from './form/cost-center-form.module';
-import { CostCenterListModule } from './list/cost-center-list.module';
-import { CostCenterDetailsModule } from './details/cost-center-details.module';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { CostCenterDetailsModule } from './details/cost-center-details.module';
     CostCenterCreateModule,
     CostCenterEditModule,
     CostCenterFormModule,
-    CostCenterListModule,
     CostCenterDetailsModule,
   ],
   providers: [
