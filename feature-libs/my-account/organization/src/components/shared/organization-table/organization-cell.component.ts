@@ -13,6 +13,10 @@ export class OrganizationCellComponent {
 
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
+  get tabIndex(): number {
+    return -1;
+  }
+
   get model(): any {
     return this.outlet.context;
   }

@@ -62,6 +62,15 @@ describe('OrganizationLinkComponent', () => {
     expect(el).toBeTruthy();
   });
 
+  it('should return  -1 for tabIndex', () => {
+    expect(component.tabIndex).toEqual(-1);
+  });
+
+  it('should render tabindex = -1 by default', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('a')).nativeNode;
+    expect(el.tabIndex).toEqual(-1);
+  });
+
   it('should render text', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('span.text'))
       .nativeNode;
