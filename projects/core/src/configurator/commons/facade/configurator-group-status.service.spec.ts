@@ -139,7 +139,7 @@ describe('ConfiguratorGroupStatusService', () => {
       //has a conflict
       expect(
         classUnderTest.checkIsGroupComplete(
-          productConfiguration.groups[5].subGroups[0]
+          productConfigurationWithConflicts.groups[5].subGroups[0]
         )
       ).toBe(true);
     });
