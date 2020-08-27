@@ -133,9 +133,14 @@ export class ConfiguratorCommonsService {
     ownerKey: string,
     changedAttribute: Configurator.Attribute
   ): void {
+    // in case cart updates pending: Do nothing, because an addToCart might
+    // be in progress. Can happen if on slow networks addToCart was hit and
+    // afterwards an attribute was changed before the OV navigation has
+    // taken place
     this.activeCartService
       .getActive()
       .pipe(
+        take(1),
         switchMap((cart) =>
           this.activeCartService.isStable().pipe(
             take(1),

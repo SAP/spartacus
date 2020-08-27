@@ -16,11 +16,11 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
+import { Cart } from './../../../model/cart.model';
 import { Configurator } from './../../../model/configurator.model';
 import { productConfigurationWithConflicts } from './configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
-
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT: GenericConfigurator.Owner = {};
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
@@ -120,10 +120,14 @@ const configurationState: ConfigurationState = {
 let configCartObservable;
 let configOrderObservable;
 let isStableObservable;
+let cartObs;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
     return isStableObservable;
+  }
+  getActive(): Observable<Cart> {
+    return cartObs;
   }
 }
 
@@ -180,6 +184,8 @@ describe('ConfiguratorCommonsService', () => {
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
+  const cart: Cart = {};
+  cartObs = of(cart);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -308,6 +314,8 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should update a configuration, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
     );
@@ -325,6 +333,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should do nothing on update in case cart updates are pending', () => {
     isStableObservable = of(false);
+    cartObs = of(cart);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
@@ -333,6 +342,25 @@ describe('ConfiguratorCommonsService', () => {
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalledTimes(
       0
     );
+  });
+
+  it('should update a configuration in case no session cart is present yet, even when cart is busy', () => {
+    cart.code = undefined;
+    cartObs = of(cart);
+    isStableObservable = of(false);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    store.dispatch(
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+
+    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
 
   describe('getConfigurationWithOverview', () => {
