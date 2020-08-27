@@ -141,7 +141,7 @@ describe('ConfiguratorGroupStatusService', () => {
         classUnderTest.checkIsGroupComplete(
           productConfigurationWithConflicts.groups[5].subGroups[0]
         )
-      ).toBe(true);
+      ).toBe(false);
     });
   });
 });
