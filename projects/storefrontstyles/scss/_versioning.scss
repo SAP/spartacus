@@ -31,19 +31,6 @@
 $version: 2.1;
 
 /**
- * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
- * the given style version. It must contain a floating number, such as `2.1`.
- */
-$styleVersion: 2 !default;
-
-/**
- * For Spartacus development or demo's, the usage of latest styles is recommended.
- * To avoid frequent changes of the $minorVersion in the application, we offer a
- * flag that can be used to keep up with the latest version at any time.
- */
-$useLatestStyles: false !default;
-
-/**
  * The `$stableVersion` indicates the major version of the style library. Any
  * version related styles that are left over from previous stable releases will
  * always end up in the generated stylesheet.
@@ -53,6 +40,19 @@ $useLatestStyles: false !default;
  */
 @use 'sass:math';
 $stableStyleVersion: math.floor($version);
+
+/**
+ * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
+ * the given style version. It must contain a floating number, such as `2.1`.
+ */
+$styleVersion: $stableStyleVersion !default;
+
+/**
+ * For Spartacus development or demo's, the usage of latest styles is recommended.
+ * To avoid frequent changes of the $minorVersion in the application, we offer a
+ * flag that can be used to keep up with the latest version at any time.
+ */
+$useLatestStyles: false !default;
 
 /**
  * The `forVersion` mixin is used during development of the style layer. Breaking style
