@@ -91,6 +91,9 @@
                             <a href="#DIALOG_TYPE" title="projects/storefrontlib/src/layout/launch-dialog/config/launch-config.ts"><b>DIALOG_TYPE</b>&nbsp;&nbsp;&nbsp;(projects/.../launch-config.ts)</a>
                         </li>
                         <li>
+                            <a href="#DirectionMode" title="projects/storefrontlib/src/layout/direction/config/direction.model.ts"><b>DirectionMode</b>&nbsp;&nbsp;&nbsp;(projects/.../direction.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#FacetGroupCollapsedState" title="projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/facet.model.ts"><b>FacetGroupCollapsedState</b>&nbsp;&nbsp;&nbsp;(projects/.../facet.model.ts)</a>
                         </li>
                         <li>
@@ -301,6 +304,9 @@
                             <a href="#InsertDirection" title="projects/schematics/src/shared/utils/file-utils.ts"><b>InsertDirection</b>&nbsp;&nbsp;&nbsp;(projects/.../file-utils.ts)</a>
                         </li>
                         <li>
+                            <a href="#InternalProfileTagEventNames" title="projects/cds/src/profiletag/model/profile-tag.model.ts"><b>InternalProfileTagEventNames</b>&nbsp;&nbsp;&nbsp;(projects/.../profile-tag.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#ItemList" title="projects/storefrontapp-e2e-cypress/cypress/helpers/save-for-later.ts"><b>ItemList</b>&nbsp;&nbsp;&nbsp;(projects/.../save-for-later.ts)</a>
                         </li>
                         <li>
@@ -349,13 +355,7 @@
                             <a href="#ProductScope" title="projects/core/src/product/model/product-scope.ts"><b>ProductScope</b>&nbsp;&nbsp;&nbsp;(projects/.../product-scope.ts)</a>
                         </li>
                         <li>
-                            <a href="#ProfileTagEventNames" title="projects/cds/src/profiletag/model/profile-tag.model.ts"><b>ProfileTagEventNames</b>&nbsp;&nbsp;&nbsp;(projects/.../profile-tag.model.ts)</a>
-                        </li>
-                        <li>
                             <a href="#PromotionLocation" title="projects/core/src/model/cart.model.ts"><b>PromotionLocation</b>&nbsp;&nbsp;&nbsp;(projects/.../cart.model.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#PushEventNames" title="projects/cds/src/profiletag/model/profile-tag.model.ts"><b>PushEventNames</b>&nbsp;&nbsp;&nbsp;(projects/.../profile-tag.model.ts)</a>
                         </li>
                         <li>
                             <a href="#RouteLoadStrategy" title="projects/core/src/routing/configurable-routes/config/routing-config.ts"><b>RouteLoadStrategy</b>&nbsp;&nbsp;&nbsp;(projects/.../routing-config.ts)</a>
@@ -4559,6 +4559,48 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
             </tbody>
         </table>
 </section>
+    <h3>projects/storefrontlib/src/layout/direction/config/direction.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="DirectionMode"></a>
+                        <span class="name"><b>DirectionMode</b><a href="#DirectionMode"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>The ltr and rtl directions can be used to configure the storefront for a certain direction, both statically
+or dynamically.</p>
+<p>The HTML5 &quot;auto&quot; value is not supported in Spartacus, as it&#39;s considered to be too fragile for the global
+direction.</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LTR
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>ltr</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;RTL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>rtl</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
     <h3>projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/facet.model.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -5016,7 +5058,7 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                     <tr>
                         <td class="col-md-4">
                             <div class="io-description"><p>Each ICON type can have an companied resource type, such as SVG, LINK (font) or just TEXT.
-The resources will be automitacally loaded in case they&#39;re required for the <code>ICON_TYPE</code>.</p>
+The resources will be automatically loaded in case they&#39;re required for the <code>ICON_TYPE</code>.</p>
 </div>
                         </td>
                     </tr>
@@ -5104,6 +5146,39 @@ The resources will be automitacally loaded in case they&#39;re required for the 
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;RIGHT
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/cds/src/profiletag/model/profile-tag.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="InternalProfileTagEventNames"></a>
+                        <span class="name"><b>InternalProfileTagEventNames</b><a href="#InternalProfileTagEventNames"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CONSENT_REFERENCE_LOADED
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>profiletag_consentReferenceLoaded</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DEBUG_FLAG_CHANGED
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>profiletag_debugFlagChanged</code>
                             </td>
                         </tr>
             </tbody>
@@ -5716,79 +5791,6 @@ PaginationItem, so that the UI understands the usage.</p>
             </tbody>
         </table>
 </section>
-    <h3>projects/cds/src/profiletag/model/profile-tag.model.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="ProfileTagEventNames"></a>
-                        <span class="name"><b>ProfileTagEventNames</b><a href="#ProfileTagEventNames"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;CONSENT_REFERENCE_LOADED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>profiletag_consentReferenceLoaded</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;DEBUG_FLAG_CHANGED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>profiletag_debugFlagChanged</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PushEventNames"></a>
-                        <span class="name"><b>PushEventNames</b><a href="#PushEventNames"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;NAVIGATED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>Navigated</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;CONSENT_CHANGED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>ConsentChanged</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;CART_CHANGED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>CartSnapshot</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
     <h3>projects/core/src/model/cart.model.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -6116,6 +6118,16 @@ PaginationItem, so that the UI understands the usage.</p>
                         </tr>
                         <tr>
                             <td class="col-md-4">
+                                &nbsp;GENERIC_ELEMENT_WITH_VALUE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>genericElementWithValue</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
                                 &nbsp;RADIO
                             </td>
                         </tr>
@@ -6261,6 +6273,7 @@ PaginationItem, so that the UI understands the usage.</p>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-enumerations';
             var COMPODOC_CURRENT_PAGE_URL = 'enumerations.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

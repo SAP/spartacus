@@ -448,7 +448,7 @@ export function setOtherPaymentToDefault() {
     .click({ force: true });
 
   const firstCard &#x3D; cy.get(&#x27;.cx-payment-card&#x27;).first();
-  firstCard.should(&#x27;contain&#x27;, &#x27;Default Payment Method&#x27;);
+  firstCard.should(&#x27;contain&#x27;, &#x27;✓ DEFAULT&#x27;);
   firstCard.should(&#x27;contain&#x27;, &#x27;1234&#x27;);
   firstCard.should(&#x27;contain&#x27;, &#x60;Expires: 03/2126&#x60;);
 }
@@ -478,7 +478,7 @@ export function deletePayment() {
 
   // verify remaining address is now the default one
   const defaultCard &#x3D; cy.get(&#x27;.cx-payment-card&#x27;);
-  defaultCard.should(&#x27;contain&#x27;, &#x27;Default Payment Method&#x27;);
+  defaultCard.should(&#x27;contain&#x27;, &#x27;✓ DEFAULT&#x27;);
   defaultCard.should(&#x27;contain&#x27;, &#x27;test user&#x27;);
 }
 
@@ -593,6 +593,7 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'PaymentDetail.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -75,14 +75,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#canPrompt">canPrompt</a>
                             </li>
                             <li>
                                 <a href="#canPrompt$">canPrompt$</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#deferredEvent">deferredEvent</a>
                             </li>
                         </ul>
@@ -368,7 +368,7 @@
                         <a name="canPrompt"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             canPrompt</b>
                             <a href="#canPrompt"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -427,7 +427,7 @@
                         <a name="deferredEvent"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             deferredEvent</b>
                             <a href="#deferredEvent"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -467,16 +467,16 @@ import { PWAModuleConfig } from &#x27;../pwa.module-config&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class AddToHomeScreenService {
-  private deferredEvent: any;
+  protected deferredEvent: any;
 
-  private canPrompt &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
+  protected canPrompt &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
 
   canPrompt$: Observable&lt;boolean&gt; &#x3D; this.canPrompt.asObservable();
 
   constructor(
-    private config: PWAModuleConfig,
-    private globalMessageService: GlobalMessageService,
-    private winRef: WindowRef
+    protected config: PWAModuleConfig,
+    protected globalMessageService: GlobalMessageService,
+    protected winRef: WindowRef
   ) {
     if (this.config.pwa.addToHomeScreen) {
       this.init();
@@ -554,6 +554,7 @@ export class AddToHomeScreenService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AddToHomeScreenService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

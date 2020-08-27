@@ -170,13 +170,18 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { defaultIconConfig } from &#x27;./default-icon.config&#x27;;
 import { fontawesomeIconConfig } from &#x27;./fontawesome-icon.config&#x27;;
 import { IconComponent } from &#x27;./icon.component&#x27;;
 
 @NgModule({
   declarations: [IconComponent],
   imports: [CommonModule],
-  providers: [provideDefaultConfig(fontawesomeIconConfig)],
+  providers: [
+    provideDefaultConfig(defaultIconConfig),
+    // TODO: move the opinionated fontawesome config to a recipe
+    provideDefaultConfig(fontawesomeIconConfig),
+  ],
   exports: [IconComponent],
 })
 export class IconModule {}
@@ -216,6 +221,7 @@ export class IconModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'IconModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -127,8 +127,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>When set to true, the mouse-focus class is added to the host element,
-indicating that the element focus was not caused by the keyboard.</p>
+                                    <div class="io-description"><p>When set to true, the <code>mouse-focus</code> class is added to the host element,
+indicating that the element focus should not be made visible.</p>
 </div>
                                 </td>
                             </tr>
@@ -153,8 +153,8 @@ export interface BaseFocusConfig {}
 
 export interface VisibleFocusConfig {
   /**
-   * When set to true, the mouse-focus class is added to the host element,
-   * indicating that the element focus was not caused by the keyboard.
+   * When set to true, the &#x60;mouse-focus&#x60; class is added to the host element,
+   * indicating that the element focus should not be made visible.
    */
   disableMouseFocus?: boolean;
 }
@@ -252,6 +252,7 @@ export interface FocusConfig extends LockFocusConfig {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'VisibleFocusConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

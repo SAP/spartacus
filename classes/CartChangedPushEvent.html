@@ -69,7 +69,7 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="../interfaces/ProfiletagPushEvent.html" target="_self" >ProfiletagPushEvent</a></code>
+                            <code><a href="../interfaces/ProfileTagEvent.html" target="_self" >ProfileTagEvent</a></code>
             </p>
 
 
@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:71</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -199,18 +199,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#PushEvent" target="_self" >PushEventNames</a></code>
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>PushEventNames.CART_CHANGED</code>
+                            <i>Default value : </i><code>&#x27;CartSnapshot&#x27;</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:59</a></div>
                             </td>
                         </tr>
 
@@ -234,7 +234,7 @@
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
+    eventLayer?: ProfileTagEvent[];
   };
 }
 
@@ -260,7 +260,7 @@ export interface DebugEvent extends CustomEvent {
   };
 }
 
-export enum ProfileTagEventNames {
+export enum InternalProfileTagEventNames {
   CONSENT_REFERENCE_LOADED &#x3D; &#x27;profiletag_consentReferenceLoaded&#x27;,
   DEBUG_FLAG_CHANGED &#x3D; &#x27;profiletag_debugFlagChanged&#x27;,
 }
@@ -269,36 +269,25 @@ interface ProfileTagCart {
   cart: Cart;
 }
 
-export enum PushEventNames {
-  NAVIGATED &#x3D; &#x27;Navigated&#x27;,
-  CONSENT_CHANGED &#x3D; &#x27;ConsentChanged&#x27;,
-  CART_CHANGED &#x3D; &#x27;CartSnapshot&#x27;,
-}
-
-interface ProfiletagPushEvent {
-  name: PushEventNames;
+export interface ProfileTagEvent {
+  name: string;
   data?: any;
 }
 
-export type PushEvent &#x3D;
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export class NavigatedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.NAVIGATED;
+export class NavigatedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;Navigated&#x27;;
 }
 
-export class ConsentChangedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.CONSENT_CHANGED;
+export class ConsentChangedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;ConsentChanged&#x27;;
   data: { granted: boolean } &#x3D; { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted &#x3D; granted;
   }
 }
 
-export class CartChangedPushEvent implements ProfiletagPushEvent {
-  name: PushEventNames &#x3D; PushEventNames.CART_CHANGED;
+export class CartChangedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CartSnapshot&#x27;;
   data: ProfileTagCart;
   constructor(data: ProfileTagCart) {
     this.data &#x3D; data;
@@ -333,6 +322,7 @@ export class CartChangedPushEvent implements ProfiletagPushEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'CartChangedPushEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -98,29 +98,29 @@
                                 <a href="#fetchTranslation">fetchTranslation</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getExactSuggestion">getExactSuggestion</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getProductResults">getProductResults</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getProductSuggestions">getProductSuggestions</a>
                             </li>
                             <li>
                                 <a href="#getResults">getResults</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getSearchMessage">getSearchMessage</a>
                             </li>
                             <li>
                                 <a href="#hasBodyClass">hasBodyClass</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#hasResults">hasResults</a>
                             </li>
                             <li>
@@ -301,8 +301,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:194</a></div>
                 </td>
             </tr>
 
@@ -368,7 +368,7 @@ no longer emited upon next search.</p>
                     <a name="getExactSuggestion"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getExactSuggestion
                         </b>
                         <a href="#getExactSuggestion"><span class="icon ion-ios-link"></span></a>
@@ -385,8 +385,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -443,7 +443,7 @@ a suggestion to provide easy access to the search result page</p>
                     <a name="getProductResults"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getProductResults
                         </b>
                         <a href="#getProductResults"><span class="icon ion-ios-link"></span></a>
@@ -515,7 +515,7 @@ a suggestion to provide easy access to the search result page</p>
                     <a name="getProductSuggestions"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getProductSuggestions
                         </b>
                         <a href="#getProductSuggestions"><span class="icon ion-ios-link"></span></a>
@@ -664,7 +664,7 @@ rules can be applied.</p>
                     <a name="getSearchMessage"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getSearchMessage
                         </b>
                         <a href="#getSearchMessage"><span class="icon ion-ios-link"></span></a>
@@ -681,8 +681,8 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:163</a></div>
                 </td>
             </tr>
 
@@ -806,7 +806,7 @@ rules can be applied.</p>
                     <a name="hasResults"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             hasResults
                         </b>
                         <a href="#hasResults"><span class="icon ion-ios-link"></span></a>
@@ -895,8 +895,8 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -1256,7 +1256,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  private hasResults(results: SearchResults): boolean {
+  protected hasResults(results: SearchResults): boolean {
     return (
       (!!results.products &amp;&amp; results.products.length &gt; 0) ||
       (!!results.suggestions &amp;&amp; results.suggestions.length &gt; 0) ||
@@ -1264,7 +1264,7 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getProductResults(
+  protected getProductResults(
     config: SearchBoxConfig
   ): Observable&lt;ProductSearchPage&gt; {
     if (config.displayProducts) {
@@ -1278,7 +1278,9 @@ export class SearchBoxComponentService {
    * Loads suggestions from the backend. In case there&#x27;s no suggestion
    * available, we try to get an exact match suggestion.
    */
-  private getProductSuggestions(config: SearchBoxConfig): Observable&lt;string[]&gt; {
+  protected getProductSuggestions(
+    config: SearchBoxConfig
+  ): Observable&lt;string[]&gt; {
     if (!config.displaySuggestions) {
       return of([]);
     } else {
@@ -1301,7 +1303,7 @@ export class SearchBoxComponentService {
    * whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  private getExactSuggestion(config: SearchBoxConfig): Observable&lt;string&gt; {
+  protected getExactSuggestion(config: SearchBoxConfig): Observable&lt;string&gt; {
     return this.getProductResults(config).pipe(
       switchMap((productResult) &#x3D;&gt; {
         return productResult.products &amp;&amp; productResult.products.length &gt; 0
@@ -1313,7 +1315,7 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getSearchMessage(config: SearchBoxConfig): Observable&lt;string&gt; {
+  protected getSearchMessage(config: SearchBoxConfig): Observable&lt;string&gt; {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
@@ -1385,6 +1387,7 @@ export class SearchBoxComponentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SearchBoxComponentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -59,6 +59,17 @@
             <code>projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>The <code>ProductListComponentService</code> is used to search products. The service is used
+on the Product Listing Page, for listing products and the facet navigation.</p>
+<p>The service exposes the product search results based on the category and search
+route parameters. The route parameters are used to query products by the help of
+the <code>ProductSearchService</code>.</p>
+
+            </p>
 
 
 
@@ -88,11 +99,11 @@
                                 <a href="#RELEVANCE_ALLCATEGORIES">RELEVANCE_ALLCATEGORIES</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#searchByRouting$">searchByRouting$</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#searchResults$">searchResults$</a>
                             </li>
                             <li>
@@ -112,30 +123,26 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getCriteriaFromRoute">getCriteriaFromRoute</a>
                             </li>
                             <li>
                                 <a href="#getPageItems">getPageItems</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getQueryFromRouteParams">getQueryFromRouteParams</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getSearchConfig">getSearchConfig</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#route">route</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#search">search</a>
                             </li>
                             <li>
                                 <a href="#setQuery">setQuery</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#setQueryParams">setQueryParams</a>
                             </li>
                             <li>
                                 <a href="#sort">sort</a>
@@ -151,6 +158,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#siteContext">siteContext</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -166,7 +187,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -276,7 +297,7 @@
                     <a name="getCriteriaFromRoute"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getCriteriaFromRoute
                         </b>
                         <a href="#getCriteriaFromRoute"><span class="icon ion-ios-link"></span></a>
@@ -293,14 +314,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:113</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Expose the <code>SearchCriteria</code>. The search criteria are driven by the route parameters.</p>
+<p>This search route configuration is not yet configurable
+(see <a href="https://github.com/SAP/spartacus/issues/7191">https://github.com/SAP/spartacus/issues/7191</a>).</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -375,8 +400,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:172</a></div>
                 </td>
             </tr>
 
@@ -432,7 +457,7 @@
                     <a name="getQueryFromRouteParams"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getQueryFromRouteParams
                         </b>
                         <a href="#getQueryFromRouteParams"><span class="icon ion-ios-link"></span></a>
@@ -449,14 +474,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:128</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the search query from the given <code>ProductListRouteParams</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -486,7 +513,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                     <div class="io-description">
@@ -500,34 +527,38 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getSearchConfig"></a>
+                    <a name="route"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            getSearchConfig
+                            <span class="modifier">Protected</span>
+                            route
                         </b>
-                        <a href="#getSearchConfig"><span class="icon ion-ios-link"></span></a>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getSearchConfig(criteria: <a href="../interfaces/SearchCriteria.html">SearchCriteria</a>)</code>
+                    <code>route(queryParams: <a href="../interfaces/SearchCriteria.html">SearchCriteria</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:202</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Routes to the next product listing page, using the given <code>queryParams</code>. The
+<code>queryParams</code> support sorting, pagination and querying.</p>
+<p>The <code>queryParams</code> are delegated to the Angular router <code>NavigationExtras</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -541,7 +572,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>criteria</td>
+                                    <td>queryParams</td>
                                     <td>
                                                 <code><a href="../interfaces/SearchCriteria.html" target="_self" >SearchCriteria</a></code>
                                     </td>
@@ -558,7 +589,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -575,7 +606,7 @@
                     <a name="search"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             search
                         </b>
                         <a href="#search"><span class="icon ion-ios-link"></span></a>
@@ -592,14 +623,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:152</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Performs a search based on the given search criteria.</p>
+<p>The search is delegated to the <code>ProductSearchService</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -662,8 +696,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:228</a></div>
                 </td>
             </tr>
 
@@ -714,78 +748,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setQueryParams"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            setQueryParams
-                        </b>
-                        <a href="#setQueryParams"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setQueryParams(queryParams: <a href="../interfaces/SearchCriteria.html">SearchCriteria</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:176</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>queryParams</td>
-                                    <td>
-                                                <code><a href="../interfaces/SearchCriteria.html" target="_self" >SearchCriteria</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="sort"></a>
                     <span class="name">
                         <b>
@@ -804,14 +766,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:192</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sort the search results by the given sort code.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -874,8 +838,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:235</a></div>
                 </td>
             </tr>
 
@@ -954,7 +918,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -990,13 +954,13 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:91</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:102</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>This stream should be used only on the Product Listing Page.</p>
+                        <div class="io-description"><p>This stream is used for the Product Listing and Product Facets.</p>
 <p>It not only emits search results, but also performs a search on every change
 of the route (i.e. route params or query params).</p>
 <p>When a user leaves the PLP route, the PLP component unsubscribes from this stream
@@ -1034,7 +998,7 @@ so no longer the search is performed on route change.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -1048,7 +1012,7 @@ so no longer the search is performed on route change.</p>
                         <a name="searchByRouting$"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             searchByRouting$</b>
                             <a href="#searchByRouting$"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -1070,11 +1034,9 @@ so no longer the search is performed on route change.</p>
         return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
       })
     ),
-    // also trigger search on site context changes
-    this.languageService.getActive(),
-    this.currencyService.getActive(),
+    ...this.siteContext,
   ]).pipe(
-    pluck(0, &#x27;state&#x27;),
+    map(([routerState, ..._context]) &#x3D;&gt; (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) &#x3D;&gt; {
       const criteria &#x3D; this.getCriteriaFromRoute(
         state.params,
@@ -1087,10 +1049,18 @@ so no longer the search is performed on route change.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:71</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Observes the route and performs a search on each route change.</p>
+<p>Context changes, such as language and currencies are also taken
+into account, so that the search is performed again.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -1101,7 +1071,7 @@ so no longer the search is performed on route change.</p>
                         <a name="searchResults$"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             searchResults$</b>
                             <a href="#searchResults$"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -1122,10 +1092,18 @@ so no longer the search is performed on route change.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:59</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emits the search results for the current search query.</p>
+<p>The <code>searchResults$</code> is <em>not</em> concerned with querying, it only observes the
+<code>productSearchService.getResults()</code></p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -1150,7 +1128,7 @@ so no longer the search is performed on route change.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -1159,6 +1137,47 @@ so no longer the search is performed on route change.</p>
         </table>
 </section>
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="siteContext"></a>
+                        <span class="name"><b>siteContext</b><a href="#siteContext"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>siteContext()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="217" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:217</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The site context is used to update the search query in case of a
+changing context. The context will typically influence the search data.</p>
+<p>We keep this private for now, as we&#39;re likely refactoring this in the next
+major version.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Observable[]</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
     </div>
 
 
@@ -1171,37 +1190,38 @@ import {
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
+  RouterState,
   RoutingService,
-  SearchConfig,
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
 import {
   distinctUntilChanged,
   filter,
+  map,
   pluck,
   shareReplay,
   tap,
 } from &#x27;rxjs/operators&#x27;;
+import { ProductListRouteParams, SearchCriteria } from &#x27;./product-list.model&#x27;;
 
-interface ProductListRouteParams {
-  brandCode?: string;
-  categoryCode?: string;
-  query?: string;
-}
-
-interface SearchCriteria {
-  currentPage?: number;
-  pageSize?: number;
-  sortCode?: string;
-  query?: string;
-}
-
+/**
+ * The &#x60;ProductListComponentService&#x60; is used to search products. The service is used
+ * on the Product Listing Page, for listing products and the facet navigation.
+ *
+ * The service exposes the product search results based on the category and search
+ * route parameters. The route parameters are used to query products by the help of
+ * the &#x60;ProductSearchService&#x60;.
+ */
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class ProductListComponentService {
+  /**
+   * @deprecated will be removed in version 3.0 as this is the
+   *   subscription is longer used
+   */
+  protected sub: Subscription;
+
   // TODO: make it configurable
   protected defaultPageSize &#x3D; 10;
-
-  protected sub: Subscription;
 
   protected readonly RELEVANCE_ALLCATEGORIES &#x3D; &#x27;:relevance:allCategories:&#x27;;
 
@@ -1214,13 +1234,25 @@ export class ProductListComponentService {
     protected router: Router
   ) {}
 
-  private searchResults$: Observable&lt;
+  /**
+   * Emits the search results for the current search query.
+   *
+   * The &#x60;searchResults$&#x60; is _not_ concerned with querying, it only observes the
+   * &#x60;productSearchService.getResults()&#x60;
+   */
+  protected searchResults$: Observable&lt;
     ProductSearchPage
   &gt; &#x3D; this.productSearchService
     .getResults()
     .pipe(filter((searchResult) &#x3D;&gt; Object.keys(searchResult).length &gt; 0));
 
-  private searchByRouting$: Observable&lt;
+  /**
+   * Observes the route and performs a search on each route change.
+   *
+   * Context changes, such as language and currencies are also taken
+   * into account, so that the search is performed again.
+   */
+  protected searchByRouting$: Observable&lt;
     ActivatedRouterStateSnapshot
   &gt; &#x3D; combineLatest([
     this.routing.getRouterState().pipe(
@@ -1230,11 +1262,9 @@ export class ProductListComponentService {
         return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
       })
     ),
-    // also trigger search on site context changes
-    this.languageService.getActive(),
-    this.currencyService.getActive(),
+    ...this.siteContext,
   ]).pipe(
-    pluck(0, &#x27;state&#x27;),
+    map(([routerState, ..._context]) &#x3D;&gt; (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) &#x3D;&gt; {
       const criteria &#x3D; this.getCriteriaFromRoute(
         state.params,
@@ -1245,7 +1275,7 @@ export class ProductListComponentService {
   );
 
   /**
-   * This stream should be used only on the Product Listing Page.
+   * This stream is used for the Product Listing and Product Facets.
    *
    * It not only emits search results, but also performs a search on every change
    * of the route (i.e. route params or query params).
@@ -1258,7 +1288,13 @@ export class ProductListComponentService {
     this.searchByRouting$,
   ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
 
-  private getCriteriaFromRoute(
+  /**
+   * Expose the &#x60;SearchCriteria&#x60;. The search criteria are driven by the route parameters.
+   *
+   * This search route configuration is not yet configurable
+   * (see https://github.com/SAP/spartacus/issues/7191).
+   */
+  protected getCriteriaFromRoute(
     routeParams: ProductListRouteParams,
     queryParams: SearchCriteria
   ): SearchCriteria {
@@ -1270,10 +1306,13 @@ export class ProductListComponentService {
     };
   }
 
-  private getQueryFromRouteParams({
-    brandCode,
-    categoryCode,
+  /**
+   * Resolves the search query from the given &#x60;ProductListRouteParams&#x60;.
+   */
+  protected getQueryFromRouteParams({
     query,
+    categoryCode,
+    brandCode,
   }: ProductListRouteParams) {
     if (query) {
       return query;
@@ -1281,37 +1320,34 @@ export class ProductListComponentService {
     if (categoryCode) {
       return this.RELEVANCE_ALLCATEGORIES + categoryCode;
     }
+
+    // TODO: drop support for brands as they should be treated
+    // similarly as any category.
     if (brandCode) {
       return this.RELEVANCE_ALLCATEGORIES + brandCode;
     }
   }
 
-  private search(criteria: SearchCriteria): void {
-    const query &#x3D; criteria.query;
-    const searchConfig &#x3D; this.getSearchConfig(criteria);
+  /**
+   * Performs a search based on the given search criteria.
+   *
+   * The search is delegated to the &#x60;ProductSearchService&#x60;.
+   */
+  protected search(criteria: SearchCriteria): void {
+    const currentPage &#x3D; criteria.currentPage;
+    const pageSize &#x3D; criteria.pageSize;
+    const sortCode &#x3D; criteria.sortCode;
 
-    this.productSearchService.search(query, searchConfig);
-  }
-
-  private getSearchConfig(criteria: SearchCriteria): SearchConfig {
-    const result: SearchConfig &#x3D; {
-      currentPage: criteria.currentPage,
-      pageSize: criteria.pageSize,
-      sortCode: criteria.sortCode,
-    };
-
-    // drop empty keys
-    Object.keys(result).forEach((key) &#x3D;&gt; !result[key] &amp;&amp; delete result[key]);
-
-    return result;
-  }
-
-  setQuery(query: string): void {
-    this.setQueryParams({ query, currentPage: undefined });
-  }
-
-  viewPage(pageNumber: number): void {
-    this.setQueryParams({ currentPage: pageNumber });
+    this.productSearchService.search(
+      criteria.query,
+      // TODO: consider dropping this complex passing of cleaned object
+      Object.assign(
+        {},
+        currentPage &amp;&amp; { currentPage },
+        pageSize &amp;&amp; { pageSize },
+        sortCode &amp;&amp; { sortCode }
+      )
+    );
   }
 
   /**
@@ -1334,16 +1370,54 @@ export class ProductListComponentService {
       .unsubscribe();
   }
 
+  /**
+   * Sort the search results by the given sort code.
+   */
   sort(sortCode: string): void {
-    this.setQueryParams({ sortCode });
+    this.route({ sortCode });
   }
 
-  private setQueryParams(queryParams: SearchCriteria): void {
+  /**
+   * Routes to the next product listing page, using the given &#x60;queryParams&#x60;. The
+   * &#x60;queryParams&#x60; support sorting, pagination and querying.
+   *
+   * The &#x60;queryParams&#x60; are delegated to the Angular router &#x60;NavigationExtras&#x60;.
+   */
+  protected route(queryParams: SearchCriteria): void {
     this.router.navigate([], {
       queryParams,
       queryParamsHandling: &#x27;merge&#x27;,
       relativeTo: this.activatedRoute,
     });
+  }
+
+  /**
+   * The site context is used to update the search query in case of a
+   * changing context. The context will typically influence the search data.
+   *
+   * We keep this private for now, as we&#x27;re likely refactoring this in the next
+   * major version.
+   */
+  private get siteContext(): Observable&lt;string&gt;[] {
+    // TODO: we should refactor this so that custom context will be taken
+    // into account automatically. Ideally, we drop the specific context
+    // from the constructor, and query a ContextService for all contexts.
+
+    return [this.languageService.getActive(), this.currencyService.getActive()];
+  }
+
+  /**
+   * @deprecated will be dropped in version 3.0 as it&#x27;s no longer in use
+   */
+  setQuery(query: string): void {
+    this.route({ query, currentPage: undefined });
+  }
+
+  /**
+   * @deprecated will be dropped in version 3.0 as it&#x27;s no longer in use
+   */
+  viewPage(pageNumber: number): void {
+    this.route({ currentPage: pageNumber });
   }
 }
 </code></pre>
@@ -1380,6 +1454,7 @@ export class ProductListComponentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductListComponentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

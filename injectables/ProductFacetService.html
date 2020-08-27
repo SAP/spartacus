@@ -789,7 +789,8 @@ export class ProductFacetService {
   private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
     return (
       breadcrumb.facetCode &#x3D;&#x3D;&#x3D; &#x27;allCategories&#x27; &amp;&amp;
-      breadcrumb.facetValueCode &#x3D;&#x3D;&#x3D; params.categoryCode
+      (breadcrumb.facetValueCode &#x3D;&#x3D;&#x3D; params.categoryCode ||
+        breadcrumb.facetValueCode &#x3D;&#x3D;&#x3D; params.brandCode)
     );
   }
 }
@@ -827,6 +828,7 @@ export class ProductFacetService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductFacetService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

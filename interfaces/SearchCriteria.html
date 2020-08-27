@@ -61,9 +61,16 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts</code>
+            <code>projects/storefrontlib/src/cms-components/product/product-list/container/product-list.model.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Contains search related data for querying the backend API.</p>
+
+            </p>
 
 
         <section>
@@ -137,6 +144,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The current page of the search result.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -171,6 +184,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The number of items in the search results.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -205,6 +224,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Contains the search text that is used to query the backend API.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -239,6 +264,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The sort code that is used to sort the items in the search result.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -246,188 +277,47 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
-import {
-  ActivatedRouterStateSnapshot,
-  CurrencyService,
-  LanguageService,
-  ProductSearchPage,
-  ProductSearchService,
-  RoutingService,
-  SearchConfig,
-} from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
-import {
-  distinctUntilChanged,
-  filter,
-  pluck,
-  shareReplay,
-  tap,
-} from &#x27;rxjs/operators&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ProductListRouteParams {
+  /**
+   * The query parameter which used to query the backend API.
+   */
+  query?: string;
 
-interface ProductListRouteParams {
-  brandCode?: string;
+  /**
+   * The category code which is used to query the backend API.
+   */
   categoryCode?: string;
-  query?: string;
+
+  /**
+   * The brand code is actually a category code,  which is used to
+   * query the backend API.
+   */
+  brandCode?: string;
 }
 
-interface SearchCriteria {
+/**
+ * Contains search related data for querying the backend API.
+ */
+export interface SearchCriteria {
+  /**
+   * Contains the search text that is used to query the backend API.
+   */
+  query?: string;
+
+  /**
+   * The current page of the search result.
+   */
   currentPage?: number;
+
+  /**
+   * The number of items in the search results.
+   */
   pageSize?: number;
+
+  /**
+   * The sort code that is used to sort the items in the search result.
+   */
   sortCode?: string;
-  query?: string;
-}
-
-@Injectable({ providedIn: &#x27;root&#x27; })
-export class ProductListComponentService {
-  // TODO: make it configurable
-  protected defaultPageSize &#x3D; 10;
-
-  protected sub: Subscription;
-
-  protected readonly RELEVANCE_ALLCATEGORIES &#x3D; &#x27;:relevance:allCategories:&#x27;;
-
-  constructor(
-    protected productSearchService: ProductSearchService,
-    protected routing: RoutingService,
-    protected activatedRoute: ActivatedRoute,
-    protected currencyService: CurrencyService,
-    protected languageService: LanguageService,
-    protected router: Router
-  ) {}
-
-  private searchResults$: Observable&lt;
-    ProductSearchPage
-  &gt; &#x3D; this.productSearchService
-    .getResults()
-    .pipe(filter((searchResult) &#x3D;&gt; Object.keys(searchResult).length &gt; 0));
-
-  private searchByRouting$: Observable&lt;
-    ActivatedRouterStateSnapshot
-  &gt; &#x3D; combineLatest([
-    this.routing.getRouterState().pipe(
-      distinctUntilChanged((x, y) &#x3D;&gt; {
-        // router emits new value also when the anticipated &#x60;nextState&#x60; changes
-        // but we want to perform search only when current url changes
-        return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
-      })
-    ),
-    // also trigger search on site context changes
-    this.languageService.getActive(),
-    this.currencyService.getActive(),
-  ]).pipe(
-    pluck(0, &#x27;state&#x27;),
-    tap((state: ActivatedRouterStateSnapshot) &#x3D;&gt; {
-      const criteria &#x3D; this.getCriteriaFromRoute(
-        state.params,
-        state.queryParams
-      );
-      this.search(criteria);
-    })
-  );
-
-  /**
-   * This stream should be used only on the Product Listing Page.
-   *
-   * It not only emits search results, but also performs a search on every change
-   * of the route (i.e. route params or query params).
-   *
-   * When a user leaves the PLP route, the PLP component unsubscribes from this stream
-   * so no longer the search is performed on route change.
-   */
-  readonly model$: Observable&lt;ProductSearchPage&gt; &#x3D; combineLatest([
-    this.searchResults$,
-    this.searchByRouting$,
-  ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
-
-  private getCriteriaFromRoute(
-    routeParams: ProductListRouteParams,
-    queryParams: SearchCriteria
-  ): SearchCriteria {
-    return {
-      query: queryParams.query || this.getQueryFromRouteParams(routeParams),
-      pageSize: queryParams.pageSize || this.defaultPageSize,
-      currentPage: queryParams.currentPage,
-      sortCode: queryParams.sortCode,
-    };
-  }
-
-  private getQueryFromRouteParams({
-    brandCode,
-    categoryCode,
-    query,
-  }: ProductListRouteParams) {
-    if (query) {
-      return query;
-    }
-    if (categoryCode) {
-      return this.RELEVANCE_ALLCATEGORIES + categoryCode;
-    }
-    if (brandCode) {
-      return this.RELEVANCE_ALLCATEGORIES + brandCode;
-    }
-  }
-
-  private search(criteria: SearchCriteria): void {
-    const query &#x3D; criteria.query;
-    const searchConfig &#x3D; this.getSearchConfig(criteria);
-
-    this.productSearchService.search(query, searchConfig);
-  }
-
-  private getSearchConfig(criteria: SearchCriteria): SearchConfig {
-    const result: SearchConfig &#x3D; {
-      currentPage: criteria.currentPage,
-      pageSize: criteria.pageSize,
-      sortCode: criteria.sortCode,
-    };
-
-    // drop empty keys
-    Object.keys(result).forEach((key) &#x3D;&gt; !result[key] &amp;&amp; delete result[key]);
-
-    return result;
-  }
-
-  setQuery(query: string): void {
-    this.setQueryParams({ query, currentPage: undefined });
-  }
-
-  viewPage(pageNumber: number): void {
-    this.setQueryParams({ currentPage: pageNumber });
-  }
-
-  /**
-   * Get items from a given page without using navigation
-   */
-  getPageItems(pageNumber: number): void {
-    this.routing
-      .getRouterState()
-      .subscribe((route) &#x3D;&gt; {
-        const routeCriteria &#x3D; this.getCriteriaFromRoute(
-          route.state.params,
-          route.state.queryParams
-        );
-        const criteria &#x3D; {
-          ...routeCriteria,
-          currentPage: pageNumber,
-        };
-        this.search(criteria);
-      })
-      .unsubscribe();
-  }
-
-  sort(sortCode: string): void {
-    this.setQueryParams({ sortCode });
-  }
-
-  private setQueryParams(queryParams: SearchCriteria): void {
-    this.router.navigate([], {
-      queryParams,
-      queryParamsHandling: &#x27;merge&#x27;,
-      relativeTo: this.activatedRoute,
-    });
-  }
 }
 </code></pre>
     </div>
@@ -457,6 +347,7 @@ export class ProductListComponentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'SearchCriteria.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

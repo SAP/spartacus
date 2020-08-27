@@ -355,10 +355,15 @@ export interface ErrorModel {
 
 export interface HttpErrorModel {
   message?: string;
-  error?: any | null;
   status?: number;
   statusText?: string;
   url?: string | null;
+  details?: ErrorModel[];
+
+  /**
+   * @deprecated since 2.1
+   */
+  error?: any | null;
 }
 
 export interface BaseStore {
@@ -418,6 +423,7 @@ export interface UserSignUp {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'UserSignUp.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -470,10 +470,10 @@ import {
   tap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
+import { CmsComponentsService } from &#x27;../services/cms-components.service&#x27;;
 import { CmsGuardsService } from &#x27;../services/cms-guards.service&#x27;;
 import { CmsI18nService } from &#x27;../services/cms-i18n.service&#x27;;
 import { CmsRoutesService } from &#x27;../services/cms-routes.service&#x27;;
-import { CmsComponentsService } from &#x27;../services&#x27;;
 
 /**
  * Helper service for &#x60;CmsPageGuard&#x60;
@@ -616,6 +616,7 @@ export class CmsPageGuardService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsPageGuardService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

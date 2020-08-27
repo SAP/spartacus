@@ -137,7 +137,7 @@
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
+    eventLayer?: ProfileTagEvent[];
   };
 }
 
@@ -163,7 +163,7 @@ export interface DebugEvent extends CustomEvent {
   };
 }
 
-export enum ProfileTagEventNames {
+export enum InternalProfileTagEventNames {
   CONSENT_REFERENCE_LOADED &#x3D; &#x27;profiletag_consentReferenceLoaded&#x27;,
   DEBUG_FLAG_CHANGED &#x3D; &#x27;profiletag_debugFlagChanged&#x27;,
 }
@@ -172,36 +172,25 @@ interface ProfileTagCart {
   cart: Cart;
 }
 
-export enum PushEventNames {
-  NAVIGATED &#x3D; &#x27;Navigated&#x27;,
-  CONSENT_CHANGED &#x3D; &#x27;ConsentChanged&#x27;,
-  CART_CHANGED &#x3D; &#x27;CartSnapshot&#x27;,
-}
-
-interface ProfiletagPushEvent {
-  name: PushEventNames;
+export interface ProfileTagEvent {
+  name: string;
   data?: any;
 }
 
-export type PushEvent &#x3D;
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export class NavigatedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.NAVIGATED;
+export class NavigatedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;Navigated&#x27;;
 }
 
-export class ConsentChangedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.CONSENT_CHANGED;
+export class ConsentChangedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;ConsentChanged&#x27;;
   data: { granted: boolean } &#x3D; { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted &#x3D; granted;
   }
 }
 
-export class CartChangedPushEvent implements ProfiletagPushEvent {
-  name: PushEventNames &#x3D; PushEventNames.CART_CHANGED;
+export class CartChangedPushEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CartSnapshot&#x27;;
   data: ProfileTagCart;
   constructor(data: ProfileTagCart) {
     this.data &#x3D; data;
@@ -235,6 +224,7 @@ export class CartChangedPushEvent implements ProfiletagPushEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'ConsentReferenceEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

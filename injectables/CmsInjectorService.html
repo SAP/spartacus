@@ -115,7 +115,7 @@ for specified component&#39;s uid</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -194,8 +194,8 @@ for specified component&#39;s uid</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:22</a></div>
                 </td>
             </tr>
 
@@ -286,8 +286,8 @@ for specified component&#39;s uid</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -368,6 +368,7 @@ for specified component&#39;s uid</p>
 import { CmsComponentData } from &#x27;../../model&#x27;;
 import { CmsComponent, CmsService } from &#x27;@spartacus/core&#x27;;
 import { CmsComponentsService } from &#x27;../../../services/cms-components.service&#x27;;
+import { CombinedInjector } from &#x27;../../../../shared/utils/combined-injector&#x27;;
 
 /**
  * Used to prepare injector for CMS components.
@@ -403,6 +404,16 @@ export class CmsInjectorService {
   ): Injector {
     const configProviders &#x3D;
       this.cmsComponentsService.getMapping(type)?.providers ?? [];
+
+    const complementaryInjectors &#x3D; this.cmsComponentsService.getInjectors(type);
+
+    if (complementaryInjectors?.length) {
+      parentInjector &#x3D; new CombinedInjector(
+        parentInjector ?? this.injector,
+        complementaryInjectors
+      );
+    }
+
     return Injector.create({
       providers: [
         {
@@ -449,6 +460,7 @@ export class CmsInjectorService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsInjectorService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

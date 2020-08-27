@@ -76,6 +76,14 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#mappingResolvers">mappingResolvers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mappings">mappings</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#missingComponents">missingComponents</a>
                             </li>
                         </ul>
@@ -100,10 +108,17 @@
                                 <a href="#getDeferLoadingStrategy">getDeferLoadingStrategy</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getFeatureMappingResolver">getFeatureMappingResolver</a>
+                            </li>
+                            <li>
                                 <a href="#getGuards">getGuards</a>
                             </li>
                             <li>
                                 <a href="#getI18nKeys">getI18nKeys</a>
+                            </li>
+                            <li>
+                                <a href="#getInjectors">getInjectors</a>
                             </li>
                             <li>
                                 <a href="#getMapping">getMapping</a>
@@ -129,12 +144,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/CmsConfig.html">CmsConfig</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>constructor(config: <a href="../injectables/CmsConfig.html">CmsConfig</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, featureModules?: <a href="../injectables/FeatureModulesService.html">FeatureModulesService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -175,6 +190,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>featureModules</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureModulesService.html" target="_self" >FeatureModulesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -211,8 +238,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -287,8 +314,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:157</a></div>
                 </td>
             </tr>
 
@@ -359,8 +386,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:150</a></div>
                 </td>
             </tr>
 
@@ -413,6 +440,90 @@ of potential errors that could be thrown otherwise.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFeatureMappingResolver"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getFeatureMappingResolver
+                        </b>
+                        <a href="#getFeatureMappingResolver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFeatureMappingResolver(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, staticConfig?: <a href="../interfaces/CmsComponentMapping.html">CmsComponentMapping</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>componentType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>staticConfig</td>
+                                    <td>
+                                                <code><a href="../interfaces/CmsComponentMapping.html" target="_self" >CmsComponentMapping</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;CmsComponentMapping&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getGuards"></a>
                     <span class="name">
                         <b>
@@ -431,8 +542,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:170</a></div>
                 </td>
             </tr>
 
@@ -503,8 +614,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:183</a></div>
                 </td>
             </tr>
 
@@ -557,6 +668,76 @@ of potential errors that could be thrown otherwise.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getInjectors"></a>
+                    <span class="name">
+                        <b>
+                            getInjectors
+                        </b>
+                        <a href="#getInjectors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getInjectors(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>componentType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Injector[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getMapping"></a>
                     <span class="name">
                         <b>
@@ -575,8 +756,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:120</a></div>
                 </td>
             </tr>
 
@@ -652,8 +833,8 @@ should be called and completed first.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -713,6 +894,72 @@ could be disabled for server side renderings</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="mappingResolvers"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            mappingResolvers</b>
+                            <a href="#mappingResolvers"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Map&lt;string | Observable&lt;CmsComponentMapping&gt;&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Map()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:22</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mappings"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            mappings</b>
+                            <a href="#mappings"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:19</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="missingComponents"></a>
                         <span class="name">
                             <b>
@@ -735,7 +982,7 @@ could be disabled for server side renderings</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -748,25 +995,40 @@ could be disabled for server side renderings</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Injector, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import {
   CmsComponentMapping,
   CmsConfig,
+  deepMerge,
   DeferLoadingStrategy,
 } from &#x27;@spartacus/core&#x27;;
 import { Route } from &#x27;@angular/router&#x27;;
 import { isPlatformServer } from &#x27;@angular/common&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
+import { defer, forkJoin, Observable, of } from &#x27;rxjs&#x27;;
+import { mapTo, share, tap } from &#x27;rxjs/operators&#x27;;
+import { FeatureModulesService } from &#x27;./feature-modules.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CmsComponentsService {
   private missingComponents: string[] &#x3D; [];
+  private mappings: { [componentType: string]: CmsComponentMapping } &#x3D; {};
 
+  // contains
+  private mappingResolvers: Map&lt;
+    string,
+    Observable&lt;CmsComponentMapping&gt;
+  &gt; &#x3D; new Map();
+
+  /**
+   * @deprecated since 2.1
+   * constructor(config: CmsConfig, platformId: Object);
+   */
   constructor(
     protected config: CmsConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    protected featureModules?: FeatureModulesService
   ) {}
 
   /**
@@ -778,7 +1040,68 @@ export class CmsComponentsService {
    * of potential errors that could be thrown otherwise.
    */
   determineMappings(componentTypes: string[]): Observable&lt;string[]&gt; {
-    return of(componentTypes);
+    return defer(() &#x3D;&gt; {
+      // we use defer, to be sure the logic below used to compose final observable
+      // will be executed at subscription time (with up to date state at the time,
+      // when it will be needed)
+      const featureResolvers &#x3D; [];
+
+      for (const componentType of componentTypes) {
+        if (!this.mappings[componentType]) {
+          const staticConfig &#x3D; this.config.cmsComponents[componentType];
+
+          // check if this component type is managed by feature module
+          if (this.featureModules.hasFeatureFor(componentType)) {
+            featureResolvers.push(
+              // we delegate populating this.mappings to feature resolver
+              this.getFeatureMappingResolver(componentType, staticConfig)
+            );
+          } else {
+            // simply use only static config
+            this.mappings[componentType] &#x3D; staticConfig;
+          }
+        }
+      }
+
+      if (featureResolvers.length) {
+        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
+      } else {
+        return of(componentTypes);
+      }
+    });
+  }
+
+  private getFeatureMappingResolver(
+    componentType: string,
+    staticConfig?: CmsComponentMapping
+  ): Observable&lt;CmsComponentMapping&gt; {
+    if (!this.mappingResolvers.has(componentType)) {
+      const mappingResolver$ &#x3D; this.featureModules
+        .getCmsMapping(componentType)
+        .pipe(
+          tap((featureComponentMapping) &#x3D;&gt; {
+            // We treat cms mapping configuration from a feature as a default,
+            // that can be overridden by app/static configuration
+            this.mappings[componentType] &#x3D; deepMerge(
+              {},
+              featureComponentMapping,
+              staticConfig
+            );
+            this.mappingResolvers.delete(componentType);
+          }),
+          share()
+        );
+      this.mappingResolvers.set(componentType, mappingResolver$);
+    }
+    return this.mappingResolvers.get(componentType);
+  }
+
+  getInjectors(componentType: string): Injector[] {
+    return (
+      (this.featureModules.hasFeatureFor(componentType) &amp;&amp;
+        this.featureModules.getInjectors(componentType)) ??
+      []
+    );
   }
 
   /**
@@ -792,7 +1115,9 @@ export class CmsComponentsService {
    * should be called and completed first.
    */
   getMapping(componentType: string): CmsComponentMapping {
-    const componentConfig &#x3D; this.config.cmsComponents?.[componentType];
+    const componentConfig &#x3D;
+      this.mappings[componentType] ??
+      this.config.cmsComponents?.[componentType];
 
     if (!componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
@@ -898,6 +1223,7 @@ export class CmsComponentsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsComponentsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

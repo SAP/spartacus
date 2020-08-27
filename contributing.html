@@ -43,7 +43,7 @@
 </ul>
 <hr>
 <h2 id="reporting-issues">Reporting Issues</h2>
-<p>Bug reports welcome! We are using <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/issues">GitHub issue tracking</a> for tracking user stories and bugs.</p>
+<p>Bug reports welcome! We are using <a href="https://github.com/SAP/spartacus/issues">GitHub issue tracking</a> for tracking user stories and bugs.</p>
 <h3 id="determining-if-an-issue-should-be-created">Determining if an Issue Should be Created</h3>
 <p>Analyzing reports is a bit of work, so please ask yourself these questions before creating an issue:</p>
 <ul>
@@ -129,7 +129,7 @@
 <li>The <code>triage</code> label is applied to issues that still require further information or analysis before they can be worked on (for example, <code>triage/analysis wanted</code>).</li>
 <li>The <code>type</code> prefix is used to identify issues other than tasks and user stories, such as bugs, enhancement requests, and issues that only affect the documentation (for example, <code>type/bug</code>).</li>
 </ul>
-<p>You can view all of the labels we use, including the label descriptions, on our GitHub <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/labels">labels page</a>. </p>
+<p>You can view all of the labels we use, including the label descriptions, on our GitHub <a href="https://github.com/SAP/spartacus/labels">labels page</a>. </p>
 <p>Note: labels can only be changed by maintainers.</p>
 <h3 id="issue-reporting-disclaimer">Issue Reporting Disclaimer</h3>
 <p>Feedback, especially bug reports, are always welcome. However, our capacity as a team is limited -- we cannot answer specific project or consultation requests, nor can we invest time in fleshing out what might be a bug. Because of this, we reserve the right to close or not process issue reports that do not contain enough information. We also do not guarantee that every well-documented issue will be fixed.</p>
@@ -137,7 +137,7 @@
 <hr>
 <h2 id="analyzing-issues">Analyzing Issues</h2>
 <p>You don&#39;t have to be a programmer to help us determine the specifics of a bug. Any help here is welcome!</p>
-<p>To view a list of open issues that require analysis, see the <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/issues?q=is%3Aopen">list of open issues</a> and especially the <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/labels/triage/analysis%20wanted">list of issues where analysis is requested</a>.</p>
+<p>To view a list of open issues that require analysis, see the <a href="https://github.com/SAP/spartacus/issues?q=is%3Aopen">list of open issues</a> and especially the <a href="https://github.com/SAP/spartacus/labels/triage/analysis%20wanted">list of issues where analysis is requested</a>.</p>
 <hr>
 <h2 id="contributing-code">Contributing Code</h2>
 <p>We welcome contributions to the Spartacus codebase. Before you start your first contribution, here are some things you should know:</p>
@@ -181,7 +181,7 @@ Dietmar-Hopp-Allee 16
 <li>The contribution truly improves the storefront</li>
 <li>The contribution follows the applicable guidelines and standards.</li>
 </ul>
-<p>The &quot;guidelines and standards&quot; requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the <a href="https://sap.github.io/cloud-commerce-spartacus-storefront-docs/contributors-guide/">Contributor&#39;s Guide</a>.</p>
+<p>The &quot;guidelines and standards&quot; requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the <a href="https://sap.github.io/spartacus-docs/contributors-guide/">Contributor&#39;s Guide</a>.</p>
 <h3 id="contribution-process">Contribution Process</h3>
 <ol>
 <li><p>Make sure the change would be welcome, as described above.</p>
@@ -189,23 +189,23 @@ Dietmar-Hopp-Allee 16
 <li><p>Create a fork of the Spartacus library sources. </p>
 </li>
 <li><p>Build and run the storefront from the library development workspace. </p>
-<p> For more information, see <a href="https://sap.github.io/cloud-commerce-spartacus-storefront-docs/contributor-setup/">Contributor Setup</a>.</p>
+<p> For more information, see <a href="https://sap.github.io/spartacus-docs/contributor-setup/">Contributor Setup</a>.</p>
 </li>
 <li><p>Work on the change in your fork (either on the <code>develop</code> branch or on a feature branch).</p>
 </li>
 <li><p>Commit and push your changes using the <a href="https://help.github.com/articles/about-pull-request-merges/">squash and merge</a> feature in GitHub.</p>
 <p> You should also use the squash and merge feature when additional changes are required after code review.</p>
 </li>
-<li><p>In the commit message, please follow the conventions described in <a href="https://sap.github.io/cloud-commerce-spartacus-storefront-docs/commit-guidelines/">Committing Code to Spartacus</a>.</p>
+<li><p>In the commit message, please follow the conventions described in <a href="https://sap.github.io/spartacus-docs/commit-guidelines/">Committing Code to Spartacus</a>.</p>
 <p> By following the guidelines, your work will be accurately captured in the release changelog.</p>
 </li>
 <li><p>If your change fixes an issue reported in GitHub, add the following line to the commit message:</p>
-<p>  <code>Fixes https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/(issueNumber)</code></p>
+<p>  <code>Fixes https://github.com/SAP/spartacus/issues/(issueNumber)</code></p>
 <ul>
 <li><p>Do not add a colon after &quot;Fixes&quot;, as this prevents automatic closing.</p>
 </li>
 <li><p>When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:</p>
-<p>  <code>Closes https://github.com/SAP/cloud-commerce-spartacus-storefront/pull/(pullRequestNumber)</code></p>
+<p>  <code>Closes https://github.com/SAP/spartacus/pull/(pullRequestNumber)</code></p>
 </li>
 </ul>
 </li>
@@ -261,6 +261,7 @@ Dietmar-Hopp-Allee 16
             var COMPODOC_CURRENT_PAGE_DEPTH = 0;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
             var COMPODOC_CURRENT_PAGE_URL = 'contributing.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="./js/libs/custom-elements.min.js"></script>

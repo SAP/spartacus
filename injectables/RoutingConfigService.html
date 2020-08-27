@@ -66,6 +66,21 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#routeNamesByPath">routeNamesByPath</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -80,6 +95,13 @@
                             </li>
                             <li>
                                 <a href="#getRouteConfig">getRouteConfig</a>
+                            </li>
+                            <li>
+                                <a href="#getRouteName">getRouteName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#initRouteNamesByPath">initRouteNamesByPath</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -108,7 +130,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -173,14 +195,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:36</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the configured route loading strategy.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#RouteLoadStrategy" target="_self" >RouteLoadStrategy</a></code>
@@ -212,14 +236,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:17</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the route config for the given route name.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -264,6 +290,135 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getRouteName"></a>
+                    <span class="name">
+                        <b>
+                            getRouteName
+                        </b>
+                        <a href="#getRouteName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRouteName(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the route name of the configured path.</p>
+<p>For example, when the config is:</p>
+<p>```</p>
+<ul>
+<li>routing: {</li>
+<li>routes: {</li>
+<li>addressBook: { paths: [&#39;my-account/address-book&#39;] }</li>
+<li>}</li>
+<li>}</li>
+<li><div><pre class="line-numbers"><code class="language-none"></code></pre></div></li>
+</ul>
+<p>the <code>getRouteName(&#39;my-account/address-book&#39;)</code> returns <code>&#39;addressBook&#39;</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>path</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initRouteNamesByPath"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            initRouteNamesByPath
+                        </b>
+                        <a href="#initRouteNamesByPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initRouteNamesByPath()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initializes the property <code>routeNamesByPath</code>.</p>
+<p>The original config allows for reading configured path by the route name.
+But this method builds up a structure with a &#39;reversed config&#39;
+to read quickly the route name by the path.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="warn"></a>
                     <span class="name">
                         <b>
@@ -284,8 +439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -333,19 +488,67 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="routeNamesByPath"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            routeNamesByPath</b>
+                            <a href="#routeNamesByPath"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:10</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Reversed routing config for quick lookup of the route name by the configured path.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
-import { RouteConfig } from &#x27;./routes-config&#x27;;
 import { RouteLoadStrategy, RoutingConfig } from &#x27;./config/routing-config&#x27;;
+import { RouteConfig } from &#x27;./routes-config&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class RoutingConfigService {
+  /**
+   * Reversed routing config for quick lookup of the route name by the configured path.
+   */
+  protected routeNamesByPath: { [path: string]: string };
+
   constructor(protected config: RoutingConfig) {}
 
+  /**
+   * Returns the route config for the given route name.
+   */
   getRouteConfig(routeName: string): RouteConfig {
     const routeConfig &#x3D; this.config?.routing?.routes;
 
@@ -362,8 +565,56 @@ export class RoutingConfigService {
     }
   }
 
+  /**
+   * Returns the configured route loading strategy.
+   */
   getLoadStrategy(): RouteLoadStrategy {
     return this.config?.routing?.loadStrategy ?? RouteLoadStrategy.ALWAYS;
+  }
+
+  /**
+   * Returns the route name of the configured path.
+   *
+   * For example, when the config is:
+   * &#x60;&#x60;&#x60;
+   * routing: {
+   *   routes: {
+   *      addressBook: { paths: [&#x27;my-account/address-book&#x27;] }
+   *   }
+   * }
+   * &#x60;&#x60;&#x60;
+   *
+   * the &#x60;getRouteName(&#x27;my-account/address-book&#x27;)&#x60; returns &#x60;&#x27;addressBook&#x27;&#x60;.
+   */
+  getRouteName(path: string) {
+    if (!this.routeNamesByPath) {
+      this.initRouteNamesByPath();
+    }
+    return this.routeNamesByPath[path];
+  }
+
+  /**
+   * Initializes the property &#x60;routeNamesByPath&#x60;.
+   *
+   * The original config allows for reading configured path by the route name.
+   * But this method builds up a structure with a &#x27;reversed config&#x27;
+   * to read quickly the route name by the path.
+   */
+  protected initRouteNamesByPath() {
+    this.routeNamesByPath &#x3D; {};
+
+    for (const [routeName, routeConfig] of Object.entries(
+      this.config?.routing?.routes
+    )) {
+      routeConfig?.paths?.forEach((path) &#x3D;&gt; {
+        if (isDevMode() &amp;&amp; this.routeNamesByPath[path]) {
+          console.error(
+            &#x60;The same path &#x27;${path}&#x27; is configured for two different route names: &#x27;${this.routeNamesByPath[path]}&#x27; and &#x27;${routeName}&#x60;
+          );
+        }
+        this.routeNamesByPath[path] &#x3D; routeName;
+      });
+    }
   }
 }
 </code></pre>
@@ -400,6 +651,7 @@ export class RoutingConfigService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'RoutingConfigService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

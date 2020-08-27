@@ -178,7 +178,11 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import {
+  CmsConfig,
+  DeferLoadingStrategy,
+  provideDefaultConfig,
+} from &#x27;@spartacus/core&#x27;;
 import { ProfileTagComponent } from &#x27;./profile-tag.component&#x27;;
 
 @NgModule({
@@ -188,6 +192,7 @@ import { ProfileTagComponent } from &#x27;./profile-tag.component&#x27;;
       cmsComponents: {
         ProfileTagComponent: {
           component: ProfileTagComponent,
+          deferLoading: DeferLoadingStrategy.INSTANT,
         },
       },
     }),
@@ -233,6 +238,7 @@ export class ProfileTagCmsModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'ProfileTagCmsModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

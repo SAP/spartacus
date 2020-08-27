@@ -106,8 +106,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:68</a></div>
                 </td>
             </tr>
 
@@ -176,8 +176,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:73</a></div>
                 </td>
             </tr>
 
@@ -215,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:25</a></div>
                 </td>
             </tr>
 
@@ -305,8 +305,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:51</a></div>
                 </td>
             </tr>
 
@@ -392,7 +392,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -420,7 +420,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -448,7 +448,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -476,7 +476,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/i18n/translate.pipe.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -491,14 +491,15 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectorRef,
+  isDevMode,
   OnDestroy,
   Pipe,
   PipeTransform,
 } from &#x27;@angular/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
-import { TranslationService } from &#x27;./translation.service&#x27;;
 import { shallowEqualObjects } from &#x27;../util/compare-equal-objects&#x27;;
 import { Translatable, TranslatableParams } from &#x27;./translatable&#x27;;
+import { TranslationService } from &#x27;./translation.service&#x27;;
 
 @Pipe({ name: &#x27;cxTranslate&#x27;, pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
@@ -516,6 +517,15 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     input: Translatable | string,
     options: TranslatableParams &#x3D; {}
   ): string {
+    if (!input) {
+      if (isDevMode()) {
+        console.error(
+          &#x60;The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated&#x60;
+        );
+      }
+      return;
+    }
+
     if ((input as Translatable).raw) {
       return (input as Translatable).raw;
     }
@@ -588,6 +598,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'pipe';
             var COMPODOC_CURRENT_PAGE_URL = 'TranslatePipe.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -456,7 +456,7 @@ import { EventService } from &#x27;../../event/event.service&#x27;;
 import { ActionToEventMapping } from &#x27;../../state/event/action-to-event-mapping&#x27;;
 import { createFrom } from &#x27;../../util/create-from&#x27;;
 import { ActiveCartService } from &#x27;../facade/active-cart.service&#x27;;
-import { CartActions } from &#x27;../store&#x27;;
+import { CartActions } from &#x27;../store/index&#x27;;
 import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -564,6 +564,7 @@ export class CartEventBuilder {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartEventBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

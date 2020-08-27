@@ -184,6 +184,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HTTP_INTERCEPTORS } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
+import { CdsBackendNotificationAdapter } from &#x27;./adapters/cds-backend-notification-adapter&#x27;;
+import { OccBackendNotification } from &#x27;./adapters/occ-backend-notification-adapter&#x27;;
 import { ProfileTagCmsModule } from &#x27;./cms-components/profile-tag-cms.module&#x27;;
 import { ConsentReferenceInterceptor } from &#x27;./http-interceptors/consent-reference-interceptor&#x27;;
 import { DebugInterceptor } from &#x27;./http-interceptors/debug-interceptor&#x27;;
@@ -197,6 +199,10 @@ import { DebugInterceptor } from &#x27;./http-interceptors/debug-interceptor&#x2
       multi: true,
     },
     { provide: HTTP_INTERCEPTORS, useExisting: DebugInterceptor, multi: true },
+    {
+      provide: CdsBackendNotificationAdapter,
+      useClass: OccBackendNotification,
+    },
   ],
 })
 export class ProfileTagModule {}
@@ -236,6 +242,7 @@ export class ProfileTagModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'ProfileTagModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

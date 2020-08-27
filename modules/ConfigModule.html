@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:173</a></div>
                 </td>
             </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:143</a></div>
                 </td>
             </tr>
 
@@ -252,8 +252,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:158</a></div>
                 </td>
             </tr>
 
@@ -331,6 +331,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import {
+  inject,
+  InjectFlags,
   InjectionToken,
   ModuleWithProviders,
   NgModule,
@@ -339,16 +341,27 @@ import {
 } from &#x27;@angular/core&#x27;;
 import { deepMerge } from &#x27;./utils/deep-merge&#x27;;
 
+// separate function needed for production build:
+export function configurationFactoryProvidedInRoot() {
+  return configurationFactory(
+    inject(ConfigChunk, InjectFlags.Optional),
+    inject(DefaultConfigChunk, InjectFlags.Optional)
+  );
+}
+
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
  */
-export const Config &#x3D; new InjectionToken(&#x27;Configuration&#x27;);
+export const Config &#x3D; new InjectionToken(&#x27;Configuration&#x27;, {
+  providedIn: &#x27;root&#x27;,
+  factory: configurationFactoryProvidedInRoot,
+});
 
 /**
  * Config chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
  * Should not be used directly, use &#x60;provideConfig&#x60; or import &#x60;ConfigModule.withConfig&#x60; instead.
  */
-export const ConfigChunk &#x3D; new InjectionToken(&#x27;ConfigurationChunk&#x27;);
+export const ConfigChunk &#x3D; new InjectionToken&lt;object[]&gt;(&#x27;ConfigurationChunk&#x27;);
 
 /**
  * Config chunk token, can be used to provide configuration chunk and contribute to the default configuration.
@@ -356,7 +369,7 @@ export const ConfigChunk &#x3D; new InjectionToken(&#x27;ConfigurationChunk&#x27
  *
  * General rule is, that all config provided in libraries should be provided as default config.
  */
-export const DefaultConfigChunk &#x3D; new InjectionToken(
+export const DefaultConfigChunk &#x3D; new InjectionToken&lt;object[]&gt;(
   &#x27;DefaultConfigurationChunk&#x27;
 );
 
@@ -541,6 +554,7 @@ export class ConfigModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'ConfigModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

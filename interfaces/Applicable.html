@@ -318,11 +318,11 @@ export interface Applicable {
  * @param priorityParams - array of parameters passed for getPriority calls
  */
 export function resolveApplicable&lt;T extends Applicable&gt;(
-  applicables: T[] &#x3D; [],
+  applicables: T[],
   matchParams: any[] &#x3D; [],
   priorityParams: any[] &#x3D; []
 ): T | undefined {
-  const matchedApplicables &#x3D; applicables.filter(
+  const matchedApplicables &#x3D; (applicables ?? []).filter(
     (applicable) &#x3D;&gt; !applicable.hasMatch || applicable.hasMatch(...matchParams)
   );
 
@@ -370,6 +370,7 @@ export function resolveApplicable&lt;T extends Applicable&gt;(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Applicable.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -64,6 +64,7 @@
             </p>
             <p class="comment">
                             <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                            <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
             </p>
 
 
@@ -94,6 +95,9 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
@@ -132,12 +136,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(tpl: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService</a>)</code>
+<code>constructor(tpl: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService</a>, features?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -178,6 +182,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>features</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -205,7 +221,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:19</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -226,7 +242,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:17</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -240,6 +256,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:41</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -262,8 +317,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:37</a></div>
                 </td>
             </tr>
 
@@ -286,27 +341,50 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, TemplateRef, Input, OnInit } from &#x27;@angular/core&#x27;;
-
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Directive,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+} from &#x27;@angular/core&#x27;;
+import { FeatureConfigService } from &#x27;@spartacus/core&#x27;;
 import { OutletPosition } from &#x27;../outlet.model&#x27;;
 import { OutletService } from &#x27;../outlet.service&#x27;;
 
 @Directive({
   selector: &#x27;[cxOutletRef]&#x27;,
 })
-export class OutletRefDirective implements OnInit {
+export class OutletRefDirective implements OnInit, OnDestroy {
   @Input()
   cxOutletRef: string;
   @Input()
   cxOutletPos: OutletPosition;
 
+  /**
+   * @deprecated since 2.1, see #8201
+   */
+  constructor(tpl: TemplateRef&lt;any&gt;, outletService: OutletService);
+  constructor(
+    tpl: TemplateRef&lt;any&gt;,
+    outletService: OutletService,
+    // tslint:disable-next-line: unified-signatures
+    features: FeatureConfigService
+  );
   constructor(
     private tpl: TemplateRef&lt;any&gt;,
-    private outletService: OutletService
+    private outletService: OutletService,
+    private features?: FeatureConfigService
   ) {}
 
   ngOnInit() {
     this.outletService.add(this.cxOutletRef, this.tpl, this.cxOutletPos);
+  }
+
+  ngOnDestroy() {
+    if (this.features?.isLevel(&#x27;2.1&#x27;)) {
+      this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
+    }
   }
 }
 </code></pre>
@@ -344,6 +422,7 @@ export class OutletRefDirective implements OnInit {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
             var COMPODOC_CURRENT_PAGE_URL = 'OutletRefDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

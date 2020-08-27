@@ -88,6 +88,9 @@
                             <a href="#CartVoucherAction" title="projects/core/src/cart/store/actions/cart-voucher.action.ts"><b>CartVoucherAction</b>&nbsp;&nbsp;&nbsp;(projects/.../cart-voucher.action.ts)</a>
                         </li>
                         <li>
+                            <a href="#CdcUserTokenAction" title="integration-libs/cdc/src/auth/store/actions/cdc-user-token.action.ts"><b>CdcUserTokenAction</b>&nbsp;&nbsp;&nbsp;(integration-libs/.../cdc-user-token.action.ts)</a>
+                        </li>
+                        <li>
                             <a href="#CheckoutAction" title="projects/core/src/checkout/store/actions/checkout.action.ts"><b>CheckoutAction</b>&nbsp;&nbsp;&nbsp;(projects/.../checkout.action.ts)</a>
                         </li>
                         <li>
@@ -206,9 +209,6 @@
                         </li>
                         <li>
                             <a href="#ProductSearchAction" title="projects/core/src/product/store/actions/product-search.action.ts"><b>ProductSearchAction</b>&nbsp;&nbsp;&nbsp;(projects/.../product-search.action.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#PushEvent" title="projects/cds/src/profiletag/model/profile-tag.model.ts"><b>PushEvent</b>&nbsp;&nbsp;&nbsp;(projects/.../profile-tag.model.ts)</a>
                         </li>
                         <li>
                             <a href="#RegionsAction" title="projects/core/src/user/store/actions/regions.action.ts"><b>RegionsAction</b>&nbsp;&nbsp;&nbsp;(projects/.../regions.action.ts)</a>
@@ -452,6 +452,24 @@
             <tr>
                 <td class="col-md-4">
                     <code>    <code>CartAddVoucher | CartAddVoucherFail | CartAddVoucherSuccess | CartResetAddVoucher | CartRemoveVoucher | CartRemoveVoucherFail | CartRemoveVoucherSuccess</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>integration-libs/cdc/src/auth/store/actions/cdc-user-token.action.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CdcUserTokenAction"></a>
+                    <span class="name"><b>CdcUserTokenAction</b><a href="#CdcUserTokenAction"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>LoadCdcUserToken | LoadCdcUserTokenFail</code>
 </code>
                 </td>
             </tr>
@@ -1210,24 +1228,6 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/cds/src/profiletag/model/profile-tag.model.ts</h3>
-    <section>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="PushEvent"></a>
-                    <span class="name"><b>PushEvent</b><a href="#PushEvent"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>        <code><a href="../miscellaneous/typealiases.html#PushEvent" target="_self" >NavigatedPushEvent | ConsentChangedPushEvent | CartChangedPushEvent</a></code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>    <h3>projects/core/src/user/store/actions/regions.action.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
@@ -1294,7 +1294,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>        <code><a href="../classes/SkipLink.html" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | MediaConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig | PaginationConfig | StoreFinderConfig | CartConfig</a></code>
+                    <code>        <code><a href="../classes/SkipLink.html" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | DirectionConfig | MediaConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig | PaginationConfig | StoreFinderConfig | CartConfig</a></code>
 </code>
                 </td>
             </tr>
@@ -1571,6 +1571,7 @@
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
             var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -93,6 +93,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#getCarouselEventFromCarouselModel">getCarouselEventFromCarouselModel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#getCarouselItemMetadata">getCarouselItemMetadata</a>
                             </li>
                             <li>
@@ -100,11 +104,20 @@
                                 <a href="#getCarouselMetadata">getCarouselMetadata</a>
                             </li>
                             <li>
+                                <a href="#getMerchandisingCaourselViewportThreshold">getMerchandisingCaourselViewportThreshold</a>
+                            </li>
+                            <li>
                                 <a href="#getMerchandisingCarouselModel">getMerchandisingCarouselModel</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#mapStrategyProductsToCarouselItems">mapStrategyProductsToCarouselItems</a>
+                            </li>
+                            <li>
+                                <a href="#sendCarouselItemClickedEvent">sendCarouselItemClickedEvent</a>
+                            </li>
+                            <li>
+                                <a href="#sendCarouselViewEvent">sendCarouselViewEvent</a>
                             </li>
                         </ul>
                     </td>
@@ -124,12 +137,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cdsMerchandisingProductService: <a href="../injectables/CdsMerchandisingProductService.html">CdsMerchandisingProductService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>)</code>
+<code>constructor(cdsMerchandisingProductService: <a href="../injectables/CdsMerchandisingProductService.html">CdsMerchandisingProductService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, profileTagEventService: <a href="../injectables/ProfileTagEventService.html">ProfileTagEventService</a>, cdsConfig: <a href="../injectables/CdsConfig.html">CdsConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -170,6 +183,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>profileTagEventService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProfileTagEventService.html" target="_self" >ProfileTagEventService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdsConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CdsConfig.html" target="_self" >CdsConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -184,6 +221,78 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCarouselEventFromCarouselModel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getCarouselEventFromCarouselModel
+                        </b>
+                        <a href="#getCarouselEventFromCarouselModel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCarouselEventFromCarouselModel(carouselModel: <a href="../interfaces/MerchandisingCarouselModel.html">MerchandisingCarouselModel</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>carouselModel</td>
+                                    <td>
+                                                <code><a href="../interfaces/MerchandisingCarouselModel.html" target="_self" >MerchandisingCarouselModel</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CarouselEvent.html" target="_self" >CarouselEvent</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -208,8 +317,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -258,7 +367,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Map&lt;string, string&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/MerchandisingMetadata.html" target="_self" >MerchandisingMetadata</a></code>
 
                     </div>
                     <div class="io-description">
@@ -292,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -342,7 +451,77 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Map&lt;string, string&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/MerchandisingMetadata.html" target="_self" >MerchandisingMetadata</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMerchandisingCaourselViewportThreshold"></a>
+                    <span class="name">
+                        <b>
+                            getMerchandisingCaourselViewportThreshold
+                        </b>
+                        <a href="#getMerchandisingCaourselViewportThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMerchandisingCaourselViewportThreshold(cmsComponent: <a href="../interfaces/CmsMerchandisingCarouselComponent.html">CmsMerchandisingCarouselComponent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:37</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cmsComponent</td>
+                                    <td>
+                                                <code><a href="../interfaces/CmsMerchandisingCarouselComponent.html" target="_self" >CmsMerchandisingCarouselComponent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                     </div>
                     <div class="io-description">
@@ -374,8 +553,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -446,8 +625,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -494,6 +673,158 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendCarouselItemClickedEvent"></a>
+                    <span class="name">
+                        <b>
+                            sendCarouselItemClickedEvent
+                        </b>
+                        <a href="#sendCarouselItemClickedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendCarouselItemClickedEvent(merchandisingCarouselModel: <a href="../interfaces/MerchandisingCarouselModel.html">MerchandisingCarouselModel</a>, clickedProduct: <a href="../interfaces/MerchandisingProduct.html">MerchandisingProduct</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:104</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>merchandisingCarouselModel</td>
+                                    <td>
+                                                <code><a href="../interfaces/MerchandisingCarouselModel.html" target="_self" >MerchandisingCarouselModel</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>clickedProduct</td>
+                                    <td>
+                                                <code><a href="../interfaces/MerchandisingProduct.html" target="_self" >MerchandisingProduct</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendCarouselViewEvent"></a>
+                    <span class="name">
+                        <b>
+                            sendCarouselViewEvent
+                        </b>
+                        <a href="#sendCarouselViewEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendCarouselViewEvent(merchandisingCarouselModel$: <a href="../interfaces/MerchandisingCarouselModel.html">Observable<MerchandisingCarouselModel></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>merchandisingCarouselModel$</td>
+                                    <td>
+                                                <code><a href="../interfaces/MerchandisingCarouselModel.html" target="_self" >Observable&lt;MerchandisingCarouselModel&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -527,7 +858,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -543,15 +874,25 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { ProductService } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, EMPTY, Observable, of } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+import { map, switchMap, switchMapTo, tap } from &#x27;rxjs/operators&#x27;;
 import { CmsMerchandisingCarouselComponent } from &#x27;../../../cds-models/cms.model&#x27;;
+import { CdsConfig } from &#x27;../../../config/index&#x27;;
+import { ProfileTagEventService } from &#x27;../../../profiletag/index&#x27;;
 import { CdsMerchandisingProductService } from &#x27;../../facade/cds-merchandising-product.service&#x27;;
-import { MerchandisingProduct } from &#x27;../../model/merchandising-products.model&#x27;;
 import {
+  MerchandisingMetadata,
+  MerchandisingProduct,
   StrategyProduct,
   StrategyProducts,
-} from &#x27;../../model/strategy-products.model&#x27;;
-import { MerchandisingCarouselModel } from &#x27;./model/merchandising-carousel.model&#x27;;
+} from &#x27;../../model/index&#x27;;
+import {
+  CarouselEvent,
+  MerchandisingCarouselClickedEvent,
+  MerchandisingCarouselModel,
+  MerchandisingCarouselViewedEvent,
+} from &#x27;./model/index&#x27;;
+
+const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD &#x3D; 80;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -561,8 +902,21 @@ export class MerchandisingCarouselComponentService {
 
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected profileTagEventService: ProfileTagEventService,
+    protected cdsConfig: CdsConfig
   ) {}
+
+  getMerchandisingCaourselViewportThreshold(
+    cmsComponent: CmsMerchandisingCarouselComponent
+  ): number {
+    const viewportPercentage &#x3D;
+      cmsComponent.viewportPercentage ??
+      this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
+      DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD;
+
+    return viewportPercentage / 100;
+  }
 
   getMerchandisingCarouselModel(
     cmsComponent: CmsMerchandisingCarouselComponent
@@ -593,21 +947,69 @@ export class MerchandisingCarouselComponentService {
     );
   }
 
+  sendCarouselViewEvent(
+    merchandisingCarouselModel$: Observable&lt;MerchandisingCarouselModel&gt;
+  ): Observable&lt;void&gt; {
+    return merchandisingCarouselModel$.pipe(
+      switchMap((model) &#x3D;&gt;
+        combineLatest(model.items$).pipe(
+          map((items) &#x3D;&gt; ({
+            ...model,
+            items: items.map((item) &#x3D;&gt; item.code),
+          })),
+          tap((merchandisingCarouselModel) &#x3D;&gt; {
+            const carouselEvent: CarouselEvent &#x3D; this.getCarouselEventFromCarouselModel(
+              merchandisingCarouselModel
+            );
+            this.profileTagEventService.notifyProfileTagOfEventOccurence(
+              new MerchandisingCarouselViewedEvent(
+                carouselEvent,
+                merchandisingCarouselModel.items
+              )
+            );
+          }),
+          switchMapTo(of())
+        )
+      )
+    );
+  }
+
+  sendCarouselItemClickedEvent(
+    merchandisingCarouselModel: MerchandisingCarouselModel,
+    clickedProduct: MerchandisingProduct
+  ): void {
+    const carouselEvent: CarouselEvent &#x3D; this.getCarouselEventFromCarouselModel(
+      merchandisingCarouselModel
+    );
+
+    carouselEvent.metadata &#x3D; {
+      ...carouselEvent.metadata,
+      ...clickedProduct.metadata,
+    };
+
+    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+      new MerchandisingCarouselClickedEvent(
+        carouselEvent,
+        clickedProduct.metadata.slot,
+        clickedProduct.code,
+        clickedProduct.images?.PRIMARY[&#x27;product&#x27;]?.url
+      )
+    );
+  }
+
   private getCarouselMetadata(
     strategyProducts: StrategyProducts,
     componentData: CmsMerchandisingCarouselComponent
-  ): Map&lt;string, string&gt; {
-    const metadata &#x3D; strategyProducts.metadata
-      ? new Map&lt;string, string&gt;(Object.entries(strategyProducts.metadata))
-      : new Map&lt;string, string&gt;();
+  ): MerchandisingMetadata {
+    const metadata: MerchandisingMetadata &#x3D; strategyProducts.metadata ?? {};
     if (strategyProducts.products &amp;&amp; strategyProducts.products.length) {
-      metadata.set(&#x27;slots&#x27;, strategyProducts.products.length.toString());
+      metadata.slots &#x3D; strategyProducts.products.length;
     }
 
-    metadata.set(&#x27;title&#x27;, componentData.title);
-    metadata.set(&#x27;name&#x27;, componentData.name);
-    metadata.set(&#x27;strategyid&#x27;, componentData.strategy);
-    metadata.set(&#x27;id&#x27;, componentData.uid);
+    metadata.title &#x3D; componentData.title;
+    metadata.name &#x3D; componentData.name;
+    metadata.strategyid &#x3D; componentData.strategy;
+    metadata.id &#x3D; componentData.uid;
 
     return metadata;
   }
@@ -633,15 +1035,24 @@ export class MerchandisingCarouselComponentService {
   private getCarouselItemMetadata(
     strategyProduct: StrategyProduct,
     index: number
-  ): Map&lt;string, string&gt; {
-    const metadata &#x3D; strategyProduct.metadata
-      ? new Map&lt;string, string&gt;(Object.entries(strategyProduct.metadata))
-      : new Map&lt;string, string&gt;();
+  ): MerchandisingMetadata {
+    const metadata: MerchandisingMetadata &#x3D; strategyProduct.metadata ?? {};
 
-    metadata.set(&#x27;slot&#x27;, index.toString());
-    metadata.set(&#x27;id&#x27;, strategyProduct.id);
+    metadata.slot &#x3D; index;
+    metadata.id &#x3D; strategyProduct.id;
 
     return metadata;
+  }
+
+  private getCarouselEventFromCarouselModel(
+    carouselModel: MerchandisingCarouselModel
+  ): CarouselEvent {
+    return {
+      carouselId: carouselModel.metadata.id,
+      carouselName: carouselModel.metadata.name,
+      strategyId: carouselModel.metadata.strategyid,
+      metadata: carouselModel.metadata,
+    };
   }
 }
 </code></pre>
@@ -678,6 +1089,7 @@ export class MerchandisingCarouselComponentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'MerchandisingCarouselComponentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

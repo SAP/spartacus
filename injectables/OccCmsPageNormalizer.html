@@ -224,8 +224,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:81</a></div>
                 </td>
             </tr>
 
@@ -308,8 +308,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:52</a></div>
                 </td>
             </tr>
 
@@ -582,6 +582,9 @@ export class OccCmsPageNormalizer
   }
 
   private normalizePageSlotData(source: any, target: CmsStructureModel): void {
+    if (!Array.isArray(source.contentSlots.contentSlot)) {
+      source.contentSlots.contentSlot &#x3D; [source.contentSlots.contentSlot];
+    }
     for (const slot of source.contentSlots.contentSlot) {
       target.page.slots[slot.position] &#x3D; {
         components: [],
@@ -672,6 +675,7 @@ export class OccCmsPageNormalizer
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCmsPageNormalizer.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -357,10 +357,10 @@ navigation as well as SEO and social share platforms.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ContentSlotComponentData } from &#x27;../model/content-slot-component-data.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;../../config/config.module&#x27;;
+import { ContentSlotComponentData } from &#x27;../model/content-slot-component-data.model&#x27;;
 import { CmsConfig } from &#x27;./cms-config&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config&#x27;;
 
 /**
  * The &#x60;CmsPageConfig&#x60; is used to build pages by configuration.
@@ -464,6 +464,7 @@ export abstract class CmsStructureConfig extends CmsConfig {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsPageConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

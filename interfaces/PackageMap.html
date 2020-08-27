@@ -146,6 +146,10 @@ const packageJsonPaths &#x3D; [
   path.join(__dirname, &#x27;..&#x27;, &#x27;projects&#x27;, &#x27;storefrontstyles&#x27;, &#x27;package.json&#x27;),
   path.join(__dirname, &#x27;..&#x27;, &#x27;projects&#x27;, &#x27;assets&#x27;, &#x27;package.json&#x27;),
   path.join(__dirname, &#x27;..&#x27;, &#x27;projects&#x27;, &#x27;schematics&#x27;, &#x27;package.json&#x27;),
+  path.join(__dirname, &#x27;..&#x27;, &#x27;projects&#x27;, &#x27;cds&#x27;, &#x27;package.json&#x27;),
+  path.join(__dirname, &#x27;..&#x27;, &#x27;feature-libs&#x27;, &#x27;my-account&#x27;, &#x27;package.json&#x27;),
+  path.join(__dirname, &#x27;..&#x27;, &#x27;feature-libs&#x27;, &#x27;product&#x27;, &#x27;package.json&#x27;),
+  path.join(__dirname, &#x27;..&#x27;, &#x27;integration-libs&#x27;, &#x27;cdc&#x27;, &#x27;package.json&#x27;),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of
@@ -199,6 +203,7 @@ export const packages: PackageMap &#x3D; packageJsonPaths.reduce(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'PackageMap.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

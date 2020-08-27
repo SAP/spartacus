@@ -391,6 +391,21 @@ export interface CMSComponentConfig
   [componentType: string]: CmsComponentMapping;
 }
 
+export interface FeatureModuleConfig {
+  /**
+   * Lazy resolved feature module
+   */
+  module?: () &#x3D;&gt; Promise&lt;any&gt;;
+  /**
+   * Lazy resolved dependency modules
+   */
+  dependencies?: (() &#x3D;&gt; Promise&lt;any&gt;)[];
+  /**
+   * Cms components covered by this feature
+   */
+  cmsComponents?: string[];
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
@@ -403,7 +418,7 @@ export abstract class CmsConfig extends OccConfig
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };
-
+  featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }
 </code></pre>
@@ -434,6 +449,7 @@ export abstract class CmsConfig extends OccConfig
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'JspIncludeCmsComponentConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

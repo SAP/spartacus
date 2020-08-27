@@ -208,15 +208,38 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { NgModule } from &#x27;@angular/core&#x27;;
+import { APP_BOOTSTRAP_LISTENER, ComponentRef, NgModule } from &#x27;@angular/core&#x27;;
+import { FeatureConfigService } from &#x27;@spartacus/core&#x27;;
 import { PageSlotModule } from &#x27;../../../cms-structure/page/slot/page-slot.module&#x27;;
 import { OutletModule } from &#x27;../../outlet/outlet.module&#x27;;
 import { PageLayoutComponent } from &#x27;./page-layout.component&#x27;;
+import { PageTemplateStyleService } from &#x27;./page-template-style.service&#x27;;
+
+export function initPageTemplateStyle(
+  service: PageTemplateStyleService,
+  featureConfigService: FeatureConfigService
+) {
+  const result &#x3D; (componentRef: ComponentRef&lt;any&gt;) &#x3D;&gt; {
+    if (featureConfigService.isLevel(&#x27;2.1&#x27;)) {
+      service.initialize(componentRef);
+    }
+  };
+  return result;
+}
 
 @NgModule({
   imports: [CommonModule, OutletModule, PageSlotModule],
   declarations: [PageLayoutComponent],
   exports: [PageLayoutComponent],
+
+  providers: [
+    {
+      provide: APP_BOOTSTRAP_LISTENER,
+      multi: true,
+      useFactory: initPageTemplateStyle,
+      deps: [PageTemplateStyleService, FeatureConfigService],
+    },
+  ],
 })
 export class PageLayoutModule {}
 </code></pre>
@@ -255,6 +278,7 @@ export class PageLayoutModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'PageLayoutModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

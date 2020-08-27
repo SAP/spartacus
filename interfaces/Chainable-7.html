@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-logged-in.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-payment-done.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireLoggedIn">requireLoggedIn</a>
+                                        <a href="#requirePaymentDone">requirePaymentDone</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireLoggedIn"></a>
-                                        <span class="name"><b>requireLoggedIn</b><a href="#requireLoggedIn"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requirePaymentDone"></a>
+                                        <span class="name"><b>requirePaymentDone</b><a href="#requirePaymentDone"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireLoggedIn:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requirePaymentDone:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Make sure you are logged in. Returns generated email.</p>
+                                    <div class="io-description"><p>Make sure you have payment done. Returns payment object.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,125 +132,109 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { generateMail, randomString } from &#x27;../helpers/user&#x27;;
-import { config, login, setSessionData } from &#x27;./utils/login&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you are logged in. Returns generated email.
+       * Make sure you have payment done. Returns payment object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireLoggedIn(user)
+        cy.requirePaymentDone(auth);
         &#x60;&#x60;&#x60;
        */
-      requireLoggedIn: (
-        user?: AccountData,
-        options?: RequireLoggedInDebugOptions
-      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string }&gt;;
+      requirePaymentDone: (auth: {}) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
     }
   }
 }
-
-export interface AccountData {
-  user: string;
-  registrationData: RegistrationData;
-}
-
-export interface RegistrationData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  titleCode: string;
-  email?: string;
-}
-
-export interface RequireLoggedInDebugOptions {
-  freshUserOnTestRefresh?: boolean;
-}
-
-Cypress.Commands.add(
-  &#x27;requireLoggedIn&#x27;,
-  (accountData?: AccountData, options: RequireLoggedInDebugOptions &#x3D; {}) &#x3D;&gt; {
-    function loginAsGuest() {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: &#x27;client_credentials&#x27;,
-        },
-        form: true,
-      });
-    }
-
-    function registerUser(
-      uid: string,
-      registrationData: RegistrationData,
-      access_token: string
-    ) {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.newUserUrl,
-        body: {
-          firstName: registrationData.firstName,
-          lastName: registrationData.lastName,
-          password: registrationData.password,
-          titleCode: registrationData.titleCode,
-          uid,
-        },
-        headers: {
-          Authorization: &#x60;bearer ${access_token}&#x60;,
-        },
-      });
-    }
-
-    const defaultAccount: AccountData &#x3D; {
-      user: randomString(),
-      registrationData: {
-        firstName: &#x27;Winston&#x27;,
-        lastName: &#x27;Rumfoord&#x27;,
-        password: &#x27;Password123.&#x27;,
-        titleCode: &#x27;mr&#x27;,
+Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (auth) &#x3D;&gt; {
+  function getResponseUrl() {
+    return cy.request({
+      method: &#x27;GET&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(
+        &#x27;BASE_SITE&#x27;
+      )}/users/current/carts/current/payment/sop/request?responseUrl&#x3D;sampleUrl&#x60;,
+      form: false,
+      headers: {
+        Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
       },
-    };
-    const account &#x3D; accountData || defaultAccount;
-    const username &#x3D;
-      account.registrationData.email ||
-      generateMail(account.user, options.freshUserOnTestRefresh);
-
-    cy.server();
-    login(username, account.registrationData.password, false).then((res) &#x3D;&gt; {
-      if (res.status &#x3D;&#x3D;&#x3D; 200) {
-        // User is already registered - only set session in sessionStorage
-        setSessionData(res.body);
-      } else {
-        /* User needs to be registered
-           1. Login as guest for access token
-           2. Create new user
-           3. Login as a new user
-        */
-        loginAsGuest()
-          .then((response) &#x3D;&gt;
-            registerUser(
-              username,
-              account.registrationData,
-              response.body.access_token
-            )
-          )
-          .then(() &#x3D;&gt; login(username, account.registrationData.password))
-          .then((response) &#x3D;&gt; {
-            setSessionData(response.body);
-          });
-      }
     });
-    return cy.wrap({ username });
   }
-);
+
+  function doVerification(data) {
+    data &#x3D; prepareCardData(data);
+    return cy.request({
+      method: &#x27;POST&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/acceleratorservices/sop-mock/process&#x60;,
+      body: data,
+      form: true,
+      headers: {
+        Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
+      },
+    });
+  }
+
+  function doPayment(data, subId, subIdSign) {
+    // prepare request body
+    data &#x3D; prepareCardData(data);
+    data.decision &#x3D; &#x27;ACCEPT&#x27;;
+    data.paySubscriptionCreateReply_subscriptionID &#x3D; subId;
+    data.paySubscriptionCreateReply_subscriptionIDPublicSignature &#x3D; subIdSign;
+    data.defaultPayment &#x3D; false;
+    data.savePaymentInfo &#x3D; true;
+    data.reasonCode &#x3D; &#x27;100&#x27;;
+
+    return cy.request({
+      method: &#x27;POST&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(
+        &#x27;BASE_SITE&#x27;
+      )}/users/current/carts/current/payment/sop/response&#x60;,
+      body: data,
+      form: true,
+      headers: {
+        Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
+      },
+    });
+  }
+
+  function convertToMap(paramList: { key; value }[]) {
+    return paramList.reduce(function (result, item) {
+      const key &#x3D; item.key;
+      result[key] &#x3D; item.value;
+      return result;
+    }, {});
+  }
+
+  function prepareCardData(data) {
+    data.card_cardType &#x3D; user.payment.card;
+    data.card_accountNumber &#x3D; user.payment.number;
+    data.card_expirationMonth &#x3D; user.payment.expires.month;
+    data.card_expirationYear &#x3D; user.payment.expires.year;
+    data.card_nameOnCard &#x3D; &#x60;${user.firstName} ${user.lastName}&#x60;;
+    data.card_cvNumber &#x3D; user.payment.cvv;
+    return data;
+  }
+
+  cy.server();
+
+  getResponseUrl().then((resp) &#x3D;&gt; {
+    doVerification(convertToMap(resp.body.parameters.entry)).then((respV) &#x3D;&gt; {
+      const sidRe &#x3D; /name&#x3D;&quot;paySubscriptionCreateReply_subscriptionID&quot; value&#x3D;&quot;(.+)&quot;/gm;
+      const sid &#x3D; sidRe.exec(respV.body)[1];
+      const sidSigRe &#x3D; /name&#x3D;&quot;paySubscriptionCreateReply_subscriptionIDPublicSignature&quot; value&#x3D;&quot;(.+)&quot;/gm;
+      const sidSig &#x3D; sidSigRe.exec(respV.body)[1];
+      doPayment(convertToMap(resp.body.parameters.entry), sid, sidSig);
+    });
+  });
+});
 </code></pre>
     </div>
 </div>
@@ -279,6 +263,7 @@ Cypress.Commands.add(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Chainable-7.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

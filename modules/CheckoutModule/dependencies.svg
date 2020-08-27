@@ -22,29 +22,41 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CheckoutModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="161,-70 161,-195 335,-195 335,-70 161,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="79,-70 79,-195 417,-195 417,-70 79,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_CheckoutModule_imports</title>
-<polygon fill="none" stroke="#000000" points="169,-78 169,-130 327,-130 327,-78 169,-78"/>
+<polygon fill="none" stroke="#000000" points="87,-78 87,-130 409,-130 409,-78 87,-78"/>
 </g>
-<!-- CheckoutStoreModule -->
+<!-- CheckoutEventModule -->
 <g id="node1" class="node">
-<title>CheckoutStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="319.2548,-122 316.2548,-126 295.2548,-126 292.2548,-122 176.7452,-122 176.7452,-86 319.2548,-86 319.2548,-122"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutStoreModule</text>
+<title>CheckoutEventModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="400.8641,-122 397.8641,-126 376.8641,-126 373.8641,-122 255.1359,-122 255.1359,-86 400.8641,-86 400.8641,-122"/>
+<text text-anchor="middle" x="328" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutEventModule</text>
 </g>
 <!-- CheckoutModule -->
-<g id="node2" class="node">
+<g id="node3" class="node">
 <title>CheckoutModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="304.7064,-187 301.7064,-191 280.7064,-191 277.7064,-187 191.2936,-187 191.2936,-151 304.7064,-151 304.7064,-187"/>
-<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="303.7064,-187 300.7064,-191 279.7064,-191 276.7064,-187 190.2936,-187 190.2936,-151 303.7064,-151 303.7064,-187"/>
+<text text-anchor="middle" x="247" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutModule</text>
+</g>
+<!-- CheckoutEventModule&#45;&gt;CheckoutModule -->
+<g id="edge1" class="edge">
+<title>CheckoutEventModule&#45;&gt;CheckoutModule</title>
+<path fill="none" stroke="#000000" d="M279.3356,-122.1061C279.3356,-122.1061 279.3356,-140.991 279.3356,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="275.8356,-140.9909 279.3356,-150.991 282.8356,-140.991 275.8356,-140.9909"/>
+</g>
+<!-- CheckoutStoreModule -->
+<g id="node2" class="node">
+<title>CheckoutStoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="237.2548,-122 234.2548,-126 213.2548,-126 210.2548,-122 94.7452,-122 94.7452,-86 237.2548,-86 237.2548,-122"/>
+<text text-anchor="middle" x="166" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutStoreModule</text>
 </g>
 <!-- CheckoutStoreModule&#45;&gt;CheckoutModule -->
-<g id="edge1" class="edge">
+<g id="edge2" class="edge">
 <title>CheckoutStoreModule&#45;&gt;CheckoutModule</title>
-<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
+<path fill="none" stroke="#000000" d="M213.8871,-122.1061C213.8871,-122.1061 213.8871,-140.991 213.8871,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="210.3872,-140.9909 213.8871,-150.991 217.3872,-140.991 210.3872,-140.9909"/>
 </g>
 </g>
 </svg>

@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-shipping-address-added.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-product-added-to-cart.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireShippingAddressAdded">requireShippingAddressAdded</a>
+                                        <a href="#requireProductAddedToCart">requireProductAddedToCart</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireShippingAddressAdded"></a>
-                                        <span class="name"><b>requireShippingAddressAdded</b><a href="#requireShippingAddressAdded"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requireProductAddedToCart"></a>
+                                        <span class="name"><b>requireProductAddedToCart</b><a href="#requireProductAddedToCart"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireShippingAddressAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requireProductAddedToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Make sure you have shipping address added. Returns address object.</p>
+                                    <div class="io-description"><p>Make sure you have product added to cart. Returns cart object.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,55 +132,54 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { product } from &#x27;../sample-data/checkout-flow&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have shipping address added. Returns address object.
+       * Make sure you have product added to cart. Returns cart object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireShippingAddressAdded(auth, address);
+        cy.requireProductAddedToCart(auth);
         &#x60;&#x60;&#x60;
        */
-      requireShippingAddressAdded: (
-        address: {},
-        auth: {}
-      ) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requireProductAddedToCart: (auth: {}) &#x3D;&gt; Cypress.Chainable&lt;any&gt;;
     }
   }
 }
 
-Cypress.Commands.add(&#x27;requireShippingAddressAdded&#x27;, (address, auth) &#x3D;&gt; {
-  // format the request body
-  const _address &#x3D; {
-    ...address,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    town: address.city,
-    postalCode: address.postal,
-    titleCode: &#x27;mr&#x27;,
-    country: {
-      isocode: &#x27;US&#x27;,
-      name: user.address.country,
-    },
-    defaultAddress: false,
-  };
-
-  function addAddress() {
+Cypress.Commands.add(&#x27;requireProductAddedToCart&#x27;, (auth) &#x3D;&gt; {
+  function createCart() {
     return cy.request({
       method: &#x27;POST&#x27;,
       url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
         &#x27;OCC_PREFIX&#x27;
-      )}/${Cypress.env(
-        &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/current/addresses/delivery&#x60;,
-      body: _address,
-      form: false,
+      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/users/current/carts&#x60;,
+      body: {
+        fields: &#x27;DEFAULT&#x27;,
+      },
+      form: true,
+      headers: {
+        Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
+      },
+    });
+  }
+
+  function addToCart(cartCode: any, productData: any) {
+    return cy.request({
+      method: &#x27;POST&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/users/current/carts/${cartCode}/entries&#x60;,
+      body: {
+        code: productData.code,
+        qty: 1,
+      },
+      form: true,
       headers: {
         Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
       },
@@ -188,7 +187,13 @@ Cypress.Commands.add(&#x27;requireShippingAddressAdded&#x27;, (address, auth) &#
   }
 
   cy.server();
-  addAddress().then((resp) &#x3D;&gt; cy.wrap(resp));
+
+  createCart().then((cart) &#x3D;&gt; {
+    addToCart(cart.body.code, product).then((resp) &#x3D;&gt; {
+      resp.body.cartId &#x3D; cart.body.code; // need this in the response for later use
+      cy.wrap(resp.body);
+    });
+  });
 });
 </code></pre>
     </div>
@@ -218,6 +223,7 @@ Cypress.Commands.add(&#x27;requireShippingAddressAdded&#x27;, (address, auth) &#
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Chainable-9.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

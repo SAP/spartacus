@@ -258,7 +258,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
-import { debounceTime, map, mergeMap, startWith } from &#x27;rxjs/operators&#x27;;
+import { debounceTime, map, mergeMap } from &#x27;rxjs/operators&#x27;;
 import { MerchandisingUserContext } from &#x27;../model/merchandising-user-context.model&#x27;;
 import { StrategyProducts } from &#x27;../model/strategy-products.model&#x27;;
 import { MerchandisingStrategyConnector } from &#x27;./../connectors/strategy/merchandising-strategy.connector&#x27;;
@@ -282,7 +282,7 @@ export class CdsMerchandisingProductService {
   ): Observable&lt;StrategyProducts&gt; {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
-      this.merchandisingUserContextService.getUserContext().pipe(startWith({})),
+      this.merchandisingUserContextService.getUserContext(),
     ]).pipe(
       debounceTime(0),
       map(
@@ -344,6 +344,7 @@ export class CdsMerchandisingProductService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CdsMerchandisingProductService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

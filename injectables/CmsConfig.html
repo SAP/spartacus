@@ -90,6 +90,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Optional</span>
+                                <a href="#featureModules">featureModules</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#backend">backend</a>
                             </li>
                             <li>
@@ -137,7 +141,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -165,7 +169,35 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:83</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:98</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="featureModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            featureModules</b>
+                            <a href="#featureModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:97</a></div>
                             </td>
                         </tr>
 
@@ -317,6 +349,21 @@ export interface CMSComponentConfig
   [componentType: string]: CmsComponentMapping;
 }
 
+export interface FeatureModuleConfig {
+  /**
+   * Lazy resolved feature module
+   */
+  module?: () &#x3D;&gt; Promise&lt;any&gt;;
+  /**
+   * Lazy resolved dependency modules
+   */
+  dependencies?: (() &#x3D;&gt; Promise&lt;any&gt;)[];
+  /**
+   * Cms components covered by this feature
+   */
+  cmsComponents?: string[];
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
@@ -329,7 +376,7 @@ export abstract class CmsConfig extends OccConfig
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };
-
+  featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }
 </code></pre>
@@ -366,6 +413,7 @@ export abstract class CmsConfig extends OccConfig
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -65,7 +65,7 @@
             <p class="comment">
                 <p>The LayoutConfig supports the configuration of page slots by page templates
 or page sections, such as headers and footers. The configuration also supports
-adaptive design per breadpoint (not per device type), so that the DOM is (re)rendered
+adaptive design per breakpoint (not per device type), so that the DOM is (re)rendered
 por a given breakpoint.</p>
 
             </p>
@@ -141,14 +141,14 @@ por a given breakpoint.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:61</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>The breakpoint configuration is used when the DOM is (re)rendered in specific view.
-This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints. </p>
+This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints.</p>
 </div>
                     </td>
                 </tr>
@@ -176,13 +176,13 @@ This allows for adaptive rendering, so that the DOM is rendered for specific bre
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:74</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Deferrred loading is a technique to hold of with the loading / creation
+                        <div class="io-description"><p>Deferred loading is a technique to hold of with the loading / creation
 of DOM elements which are not not in the initial view port.
 This technique wil increase performance.</p>
 </div>
@@ -212,7 +212,7 @@ This technique wil increase performance.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:87</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:89</a></div>
                             </td>
                         </tr>
 
@@ -240,7 +240,7 @@ This technique wil increase performance.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/storefrontlib/src/layout/config/layout-config.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -277,8 +277,8 @@ export type SlotConfig &#x3D; {
 
   /**
    * The page fold identifies the last expected page slot above-the-fold.
-   * It&#x27;s perfectly fine to specify this by idication, however a more
-   * precise indication will have an positive impact on performance.
+   * It&#x27;s perfectly fine to specify this by indication, but keep in mind that
+   * a more precise indication will gain a more positive impact on performance.
    */
   pageFold?: string;
 };
@@ -301,7 +301,7 @@ export type LayoutSlotConfig &#x3D; {
 /**
  * The LayoutConfig supports the configuration of page slots by page templates
  * or page sections, such as headers and footers. The configuration also supports
- * adaptive design per breadpoint (not per device type), so that the DOM is (re)rendered
+ * adaptive design per breakpoint (not per device type), so that the DOM is (re)rendered
  * por a given breakpoint.
  */
 @Injectable({
@@ -309,8 +309,10 @@ export type LayoutSlotConfig &#x3D; {
   useExisting: Config,
 })
 export abstract class LayoutConfig {
-  /** The breakpoint configuration is used when the DOM is (re)rendered in specific view.
-   * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints. */
+  /**
+   * The breakpoint configuration is used when the DOM is (re)rendered in specific view.
+   * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints.
+   */
   breakpoints?: {
     [BREAKPOINT.xs]?: number;
     [BREAKPOINT.sm]?: number;
@@ -320,14 +322,14 @@ export abstract class LayoutConfig {
   layoutSlots?: LayoutSlotConfig;
 
   /**
-   * Deferrred loading is a technique to hold of with the loading / creation
+   * Deferred loading is a technique to hold of with the loading / creation
    * of DOM elements which are not not in the initial view port.
    * This technique wil increase performance.
    */
   deferredLoading?: {
     /**
      * The global strategy will be used as a fallback strategy for all DOM creation,
-     * but can be overriden by local configuration, i.e. for cms components.
+     * but can be overridden by local configuration, i.e. for cms components.
      */
     strategy?: DeferLoadingStrategy;
     /**
@@ -375,6 +377,7 @@ export abstract class LayoutConfig {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'LayoutConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

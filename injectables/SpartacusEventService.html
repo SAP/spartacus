@@ -82,6 +82,9 @@
                                 <a href="#consentGranted">consentGranted</a>
                             </li>
                             <li>
+                                <a href="#loginSuccessful">loginSuccessful</a>
+                            </li>
+                            <li>
                                 <a href="#navigated">navigated</a>
                             </li>
                         </ul>
@@ -102,12 +105,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(consentService: <a href="../injectables/ConsentService.html">ConsentService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, config: <a href="../injectables/CdsConfig.html">CdsConfig</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(consentService: <a href="../injectables/ConsentService.html">ConsentService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, config: <a href="../injectables/CdsConfig.html">CdsConfig</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, actionsSubject: ActionsSubject)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -172,6 +175,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>actionsSubject</td>
+                                                  
+                                                        <td>
+                                                                    <code>ActionsSubject</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -208,8 +223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -249,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -259,6 +274,45 @@
                 <td class="col-md-4">
                     <div class="io-description"><p>We are only interested in the first time the ProfileConsent is granted</p>
 </div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginSuccessful"></a>
+                    <span class="name">
+                        <b>
+                            loginSuccessful
+                        </b>
+                        <a href="#loginSuccessful"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loginSuccessful()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:61</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
@@ -290,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/cds/src/profiletag/services/spartacus-event.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -315,7 +369,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { NavigationEnd, Router } from &#x27;@angular/router&#x27;;
-import { ActiveCartService, Cart, ConsentService } from &#x27;@spartacus/core&#x27;;
+import { ActionsSubject } from &#x27;@ngrx/store&#x27;;
+import {
+  ActiveCartService,
+  AuthActions,
+  Cart,
+  ConsentService,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map, mapTo, skipWhile, take } from &#x27;rxjs/operators&#x27;;
 import { CdsConfig } from &#x27;../../config/cds-config&#x27;;
@@ -328,7 +388,8 @@ export class SpartacusEventService {
     protected consentService: ConsentService,
     protected router: Router,
     protected config: CdsConfig,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    private actionsSubject: ActionsSubject
   ) {}
 
   navigated(): Observable&lt;boolean&gt; {
@@ -363,6 +424,13 @@ export class SpartacusEventService {
       map((cart) &#x3D;&gt; ({
         cart,
       }))
+    );
+  }
+
+  loginSuccessful(): Observable&lt;boolean&gt; {
+    return this.actionsSubject.pipe(
+      filter((action) &#x3D;&gt; action.type &#x3D;&#x3D;&#x3D; AuthActions.LOGIN),
+      mapTo(true)
     );
   }
 }
@@ -400,6 +468,7 @@ export class SpartacusEventService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SpartacusEventService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

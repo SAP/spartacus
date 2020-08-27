@@ -641,7 +641,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>notifyProfileTagOfEventOccurence(event: <a href="../undefineds/PushEvent.html">PushEvent</a>)</code>
+<code>notifyProfileTagOfEventOccurence(event: <a href="../interfaces/ProfileTagEvent.html">ProfileTagEvent</a>)</code>
                 </td>
             </tr>
 
@@ -671,7 +671,7 @@
                                 <tr>
                                     <td>event</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#PushEvent" target="_self" >PushEvent</a></code>
+                                                <code><a href="../interfaces/ProfileTagEvent.html" target="_self" >ProfileTagEvent</a></code>
                                     </td>
 
                                     <td>
@@ -908,10 +908,10 @@ import { CdsConfig } from &#x27;../../config/index&#x27;;
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
+  ProfileTagEvent,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-  PushEvent,
 } from &#x27;../model/profile-tag.model&#x27;;
 
 @Injectable({
@@ -940,7 +940,7 @@ export class ProfileTagEventService {
     if (!this.consentReference$) {
       this.consentReference$ &#x3D; fromEvent(
         this.winRef.nativeWindow,
-        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
       ).pipe(
         map((event) &#x3D;&gt; &lt;ConsentReferenceEvent&gt;event),
         map((event) &#x3D;&gt; event.detail.consentReference),
@@ -972,7 +972,7 @@ export class ProfileTagEventService {
   private debugModeChanged(): Observable&lt;DebugEvent&gt; {
     return fromEvent(
       this.winRef.nativeWindow,
-      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+      InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
     ).pipe(
       map((event) &#x3D;&gt; &lt;DebugEvent&gt;event),
       tap((event) &#x3D;&gt; (this.profileTagDebug &#x3D; event.detail.debug))
@@ -1014,7 +1014,7 @@ export class ProfileTagEventService {
     this.profileTagWindow.Y_TRACKING.q &#x3D; q;
   }
 
-  notifyProfileTagOfEventOccurence(event: PushEvent): void {
+  notifyProfileTagOfEventOccurence(event: ProfileTagEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
@@ -1056,6 +1056,7 @@ export class ProfileTagEventService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProfileTagEventService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -204,6 +204,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
+import { DirectionMode } from &#x27;../../../layout/direction/config/direction.model&#x27;;
 
 export enum ICON_TYPE {
   STAR &#x3D; &#x27;STAR&#x27;,
@@ -264,6 +265,13 @@ export interface IconOptions {
    * is used for the SVG xlink reference.
    */
   resources?: IconConfigResource[];
+
+  /**
+   * Lists icons that should be flipped for a specific direction.
+   */
+  flipDirection?: {
+    [ICON_TYPE: string]: DirectionMode;
+  };
 }
 
 export interface IconConfigResource {
@@ -274,7 +282,7 @@ export interface IconConfigResource {
 
 /**
  * Each ICON type can have an companied resource type, such as SVG, LINK (font) or just TEXT.
- * The resources will be automitacally loaded in case they&#x27;re required for the &#x60;ICON_TYPE&#x60;.
+ * The resources will be automatically loaded in case they&#x27;re required for the &#x60;ICON_TYPE&#x60;.
  */
 export enum IconResourceType {
   /**
@@ -321,6 +329,7 @@ export enum IconResourceType {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'IconConfigResource.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
