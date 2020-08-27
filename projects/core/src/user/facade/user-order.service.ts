@@ -88,8 +88,14 @@ export class UserOrderService {
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
+   * @param replenishmentOrderCode a replenishment order code
    */
-  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
+  loadOrderList(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string,
+    replenishmentOrderCode?: string
+  ): void {
     this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadUserOrders({
@@ -97,6 +103,7 @@ export class UserOrderService {
           pageSize,
           currentPage,
           sort,
+          replenishmentOrderCode,
         })
       );
     });

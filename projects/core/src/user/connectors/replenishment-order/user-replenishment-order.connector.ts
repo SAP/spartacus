@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
+import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 
 @Injectable({
@@ -9,10 +9,36 @@ import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapte
 export class UserReplenishmentOrderConnector {
   constructor(protected adapter: UserReplenishmentOrderAdapter) {}
 
-  public get(
+  public load(
     userId: string,
-    orderCode: string
+    replenishmentOrderCode: string
   ): Observable<ReplenishmentOrder> {
-    return this.adapter.get(userId, orderCode);
+    return this.adapter.load(userId, replenishmentOrderCode);
+  }
+
+  public loadReplenishmentDetailsHistory(
+    userId: string,
+    replenishmentOrderCode: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    return this.adapter.loadReplenishmentDetailsHistory(
+      userId,
+      replenishmentOrderCode,
+      pageSize,
+      currentPage,
+      sort
+    );
+  }
+
+  public cancelReplenishmentOrder(
+    userId: string,
+    replenishmentOrderCode: string
+  ): Observable<ReplenishmentOrder> {
+    return this.adapter.cancelReplenishmentOrder(
+      userId,
+      replenishmentOrderCode
+    );
   }
 }
