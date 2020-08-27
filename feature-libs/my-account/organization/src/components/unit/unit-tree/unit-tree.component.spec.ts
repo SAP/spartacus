@@ -1,9 +1,4 @@
-import {
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  DebugElement,
-  Input,
-} from '@angular/core';
+import { ChangeDetectorRef, DebugElement, ElementRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -15,16 +10,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { UnitTreeComponent } from './unit-tree.component';
-
-@Component({
-  template: '',
-  selector: 'cx-unit-tree',
-})
-class MockNavigationComponent {
-  @Input() node: NavigationNode;
-  selectedNode: NavigationNode;
-  @Input() defaultExpandLevel: number;
-}
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import createSpy = jasmine.createSpy;
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
@@ -97,7 +86,12 @@ const mockNode: NavigationNode = {
   ],
 };
 
-xdescribe('UnitTreeNavigationUIComponent', () => {
+class MockChangeDetectorRef {
+  markForCheck = createSpy('markForCheck');
+  detectChanges = createSpy('detectChanges');
+}
+
+describe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
   let element: DebugElement;
@@ -105,17 +99,26 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UnitTreeComponent, MockNavigationComponent],
-      imports: [I18nTestingModule],
+      imports: [
+        UrlTestingModule,
+        I18nTestingModule,
+        IconTestingModule,
+        RouterTestingModule,
+      ],
+      declarations: [UnitTreeComponent],
       providers: [
-        UnitTreeComponent,
+        ElementRef,
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
+        {
+          provide: ChangeDetectorRef,
+          useValue: MockChangeDetectorRef,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
+
     breakpointService = TestBed.inject(BreakpointService);
   }));
 
@@ -131,7 +134,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('executing constructor and calling breakpoint service', async () => {
+  describe('executing constructor and calling breakpoint service', async () => {
     beforeEach(() => {
       spyOnProperty(breakpointService, 'isDown').and.returnValue(
         of(BREAKPOINT.md)
@@ -145,7 +148,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
     expect(component.mapUlElementToExpand).toHaveBeenCalled();
   });
 
-  xdescribe('DOM UI tests', () => {
+  describe('DOM UI tests', () => {
     beforeEach(() => {
       component.selectedNode = mockNode;
       fixture.detectChanges();
@@ -182,7 +185,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       expect(childElement.innerText).toContain(`(${mockNode.children.length})`);
     });
 
-    xdescribe('testing selected node tree', () => {
+    describe('testing selected node tree', () => {
       const nodeRootElement = mockNode.children[0],
         nodeFirstChildElement = mockNode.children[0].children[0],
         nodeSecondChildElement = mockNode.children[0].children[1],

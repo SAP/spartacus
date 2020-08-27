@@ -1,10 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UnitCreateComponent } from './unit-create.component';
 import createSpy = jasmine.createSpy;
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,9 +14,9 @@ import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../current-unit.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { TableModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { Component, Input } from '@angular/core';
+import { OrgUnitService } from '@spartacus/my-account/organization';
 
 const orgUnitId = 'orgUnitId1';
 
@@ -59,7 +55,7 @@ class MockUnitFormService implements Partial<UnitFormService> {
 }
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {
-  parentUnit$ = of(orgUnitId);
+  b2bUnit$ = of(orgUnitId);
 }
 
 @Component({
@@ -83,7 +79,6 @@ describe('UnitCreateComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         SplitViewTestingModule,
-        TableModule,
         IconTestingModule,
         ReactiveFormsModule,
       ],

@@ -16,7 +16,6 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { RouterState, RoutingService } from '@spartacus/core';
 
-// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-unit-tree',
   templateUrl: './unit-tree.component.html',

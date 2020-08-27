@@ -25,20 +25,21 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   deleteAddress = createSpy('deleteAddress');
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy('go').and.stub();
 }
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   open = createSpy('open').and.stub();
 }
 
-class MockCurrentUnitService {
-  unit$ = of(unit);
-  code$ = of(code);
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  item$ = of(unit);
+  key$ = of(code);
 }
 
-class MockCurrentUnitAddressService {
+class MockCurrentUnitAddressService
+  implements Partial<CurrentUnitAddressService> {
   unitAddress$ = of(mockAddress);
 }
 

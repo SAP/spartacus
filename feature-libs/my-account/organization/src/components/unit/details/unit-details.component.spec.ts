@@ -2,7 +2,7 @@ import { TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { I18nTestingModule, OrgUnitService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { UnitDetailsComponent } from './unit-details.component';
 import createSpy = jasmine.createSpy;
 import { ModalService } from '@spartacus/storefront';
@@ -10,6 +10,7 @@ import { CurrentUnitService } from '../current-unit.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { OrgUnitService } from '@spartacus/my-account/organization';
 
 const mockUnit = {
   uid: 'uid1',
@@ -31,7 +32,7 @@ class MockModalService implements Partial<ModalService> {
 }
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {
-  unit$ = of(mockUnit);
+  item$ = of(mockUnit);
 }
 
 describe('UnitDetailsComponent', () => {

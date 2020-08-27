@@ -8,7 +8,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { UnitAddressFormService } from './unit-address-form.service';
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   getTitles(): Observable<Title[]> {
     return of();
   }
@@ -16,7 +16,7 @@ class MockUserService {
   loadTitles(): void {}
 }
 
-class MockUserAddressService {
+class MockUserAddressService implements Partial<UserAddressService> {
   getDeliveryCountries(): Observable<Country[]> {
     return of();
   }
