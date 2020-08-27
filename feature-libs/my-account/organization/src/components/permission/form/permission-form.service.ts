@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Permission, OrderApprovalPermissionType } from '@spartacus/core';
+import { OrderApprovalPermissionType, Permission } from '@spartacus/core';
+import { CustomFormValidators } from '@spartacus/storefront';
 
 export enum PermissionType {
   ORDER = 'B2BOrderThresholdPermission',
@@ -53,7 +54,13 @@ export class PermissionFormService {
         isocode: new FormControl(undefined, Validators.required),
       })
     );
-    form.setControl('threshold', new FormControl('', Validators.required));
+    form.setControl(
+      'threshold',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.mustBePositive,
+      ])
+    );
   }
 
   /**
