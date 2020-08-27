@@ -250,51 +250,7 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(AUDIO_SYSTEM);
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
     });
-
-    it('should keep group status information when adding product to the cart', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
-      configuration.isGroupMenuDisplayed();
-
-      //is that no status is displayed initially
-      configuration.isStatusIconNotDisplayed(BASICS);
-      configuration.isStatusIconNotDisplayed(SPECIFICATION);
-      configuration.isStatusIconNotDisplayed(DISPLAY);
-      configuration.isStatusIconNotDisplayed(LENS);
-      configuration.isStatusIconNotDisplayed(OPTIONS);
-
-      // navigate to Specification, is that Basics status changes to Error
-      configuration.clickOnNextBtn(SPECIFICATION);
-      configuration.isStatusIconDisplayed(BASICS, ERROR);
-      configuration.isStatusIconNotDisplayed(SPECIFICATION);
-      configuration.isStatusIconNotDisplayed(DISPLAY);
-      configuration.isStatusIconNotDisplayed(LENS);
-      configuration.isStatusIconNotDisplayed(OPTIONS);
-
-      // navigate to Display, is that Specification status changes to Error
-      configuration.clickOnNextBtn(DISPLAY);
-      configuration.isStatusIconDisplayed(BASICS, ERROR);
-      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
-      configuration.isStatusIconNotDisplayed(DISPLAY);
-      configuration.isStatusIconNotDisplayed(LENS);
-      configuration.isStatusIconNotDisplayed(OPTIONS);
-
-      configuration.clickAddToCartBtn();
-      configurationOverview.clickContinueToCartBtnOnOP();
-
-      //We assume only one product is in the cart
-      configuration.clickOnEditConfigurationLink(0);
-
-      configuration.isGroupMenuDisplayed();
-
-      //The group status information should be still available for the cart configuration
-      configuration.isStatusIconDisplayed(BASICS, ERROR);
-      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
-      configuration.isStatusIconDisplayed(DISPLAY, ERROR);
-      configuration.isStatusIconNotDisplayed(LENS);
-      configuration.isStatusIconNotDisplayed(OPTIONS);
-    });
-  });
-
+    
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
