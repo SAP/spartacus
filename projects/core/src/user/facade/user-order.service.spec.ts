@@ -123,13 +123,14 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order list data', () => {
-    userOrderService.loadOrderList(10, 1, 'byDate');
+    userOrderService.loadOrderList(10, 1, 'byDate', 'test-repl-code');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
+        replenishmentOrderCode: 'test-repl-code',
       })
     );
   });
