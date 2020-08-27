@@ -250,7 +250,8 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(AUDIO_SYSTEM);
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
     });
-    
+  });
+
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
       configuration.goToConfigurationPage(configurator, testProduct);
