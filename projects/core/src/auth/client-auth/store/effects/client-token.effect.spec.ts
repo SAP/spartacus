@@ -4,7 +4,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '..';
 import { ClientToken } from '../../models/client-token.model';
-import { ClientAuthenticationTokenService } from '../../services/client-authentication/client-authentication-token.service';
+import { ClientAuthenticationTokenService } from '../../services/client-authentication-token.service';
 import { ClientAuthActions } from '../actions/index';
 
 const testToken: ClientToken = {

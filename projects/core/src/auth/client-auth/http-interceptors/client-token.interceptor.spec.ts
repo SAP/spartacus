@@ -17,7 +17,7 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
 import { ClientToken } from '../models/client-token.model';
-import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 import { ClientTokenInterceptor } from './client-token.interceptor';
 

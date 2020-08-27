@@ -2,9 +2,9 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { ClientToken } from '../../models/client-token.model';
-import { ClientTokenService } from '../client-token.service';
+import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from './client-error-handling.service';
+import { ClientTokenService } from './client-token.service';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {

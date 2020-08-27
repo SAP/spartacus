@@ -4,9 +4,9 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig } from '../../../user-auth/config/auth-config';
-import { AuthConfigService } from '../../../user-auth/services/auth-config.service';
-import { ClientToken } from '../../models/client-token.model';
+import { AuthConfig } from '../../user-auth/config/auth-config';
+import { AuthConfigService } from '../../user-auth/services/auth-config.service';
+import { ClientToken } from '../models/client-token.model';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: ClientToken = {
