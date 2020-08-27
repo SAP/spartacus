@@ -356,8 +356,9 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
               uiType: Configurator.UiType.DROPDOWN,
-              required: true,
+              required: false,
               incomplete: false,
+              hasConflicts: true,
             },
           ],
           subGroups: [],
@@ -462,8 +463,9 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
         {
           name: 'ATTRIBUTE_10_DROPDOWN',
           uiType: Configurator.UiType.DROPDOWN,
-          required: true,
+          required: false,
           incomplete: false,
+          hasConflicts: true,
         },
       ],
     },
