@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
+  AuthToken,
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   OCC_USER_ID_CURRENT,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class CdcUserTokenEffects {
           payload.baseSite
         )
         .pipe(
-          map((token: UserToken) => {
+          map((token: AuthToken) => {
             const date = new Date();
             date.setSeconds(date.getSeconds() + token.expires_in);
             token.expiration_time = date.toJSON();

@@ -4,8 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { UserToken } from '../models/user-token.model';
-import { AuthActions } from '../store/actions';
+import { AuthToken } from '../models/auth-token.model';
+import { AuthActions } from '../store/actions/index';
 import { AuthStorageService } from './auth-storage.service';
 import { CxOAuthService } from './cx-oauth-service';
 import { UserIdService } from './user-id.service';
@@ -17,17 +17,38 @@ export class AuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
-    protected oAuthService: CxOAuthService,
+    protected cxOAuthService: CxOAuthService,
     protected authStorageService: AuthStorageService
-  ) {}
+  ) {
+    this.initImplicit();
+  }
+
+  initImplicit() {
+    setTimeout(() => {
+      this.cxOAuthService.tryLogin().then((result) => {
+        console.log(result);
+        if (result) {
+          this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+          this.store.dispatch(new AuthActions.Login());
+        } else {
+          // this.cxOAuthService.silentRefresh();
+        }
+      });
+    });
+  }
+
+  loginWithImplicitFlow() {
+    this.cxOAuthService.loginWithImplicitFlow();
+  }
 
   /**
    * Loads a new user token
    * @param userId
    * @param password
    */
-  authorize(userId: string, password: string): void {
-    this.oAuthService.authorizeWithPasswordFlow(userId, password).then(() => {
+  public authorize(userId: string, password: string): void {
+    this.cxOAuthService.authorizeWithPasswordFlow(userId, password).then(() => {
       // OCC specific user id handling. Customize when implementing different backend
       this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
@@ -45,7 +66,7 @@ export class AuthService {
    * The user id of a regular customer session is 'current'.  In the case of an
    * asm customer emulation session, the userId will be the customerId.
    */
-  getOccUserId(): Observable<string> {
+  public getOccUserId(): Observable<string> {
     return this.userIdService.getUserId();
   }
 
@@ -54,7 +75,7 @@ export class AuthService {
    *
    * @param cb callback function to invoke
    */
-  invokeWithUserId(cb: (userId: string) => any): Subscription {
+  public invokeWithUserId(cb: (userId: string) => any): Subscription {
     return this.getOccUserId()
       .pipe(take(1))
       .subscribe((id) => cb(id));
@@ -63,18 +84,19 @@ export class AuthService {
   /**
    * Returns the user's token
    */
-  getUserToken(): Observable<UserToken> {
-    return this.authStorageService.getUserToken();
+  public getToken(): Observable<AuthToken> {
+    return this.authStorageService.getToken();
   }
 
   /**
    * Logout a storefront customer
    */
-  logout(): Promise<any> {
+  public logout(): Promise<any> {
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
-      this.oAuthService.revokeAndLogout().finally(() => {
+      this.cxOAuthService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
+        // TODO: we should redirect to `logout` page
         resolve();
       });
     });
@@ -83,9 +105,9 @@ export class AuthService {
   /**
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
-  isUserLoggedIn(): Observable<boolean> {
-    return this.getUserToken().pipe(
-      map((userToken) => Boolean(userToken) && Boolean(userToken.access_token))
+  public isUserLoggedIn(): Observable<boolean> {
+    return this.getToken().pipe(
+      map((userToken) => Boolean(userToken?.access_token))
     );
   }
 }

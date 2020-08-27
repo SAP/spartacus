@@ -2,21 +2,25 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserToken } from '../../auth/user-auth/models/user-token.model';
+import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
 import * as fromAsmReducers from '../store/reducers/index';
-import { AsmAuthStorageService } from './asm-auth-storage.service';
+import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
 
 class MockAsmAuthStorageService {
-  setCSAgentToken() {}
-  getCSAgentToken() {
+  setToken() {}
+  getToken() {
     return of({});
   }
-  switchToEmulated() {}
-  isEmulated() {
-    return of(false);
+  setEmulatedUserToken() {}
+  getEmulatedUserToken() {
+    return of({});
+  }
+  setTokenTarget() {}
+  getTokenTarget() {
+    return of(TokenTarget.CSAgent);
   }
 }
 
@@ -52,13 +56,13 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('state should be updated after read from storage', () => {
-    spyOn(asmAuthStorageService, 'setCSAgentToken').and.callThrough();
-    spyOn(asmAuthStorageService, 'switchToEmulated').and.callThrough();
+    spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
+    spyOn(asmAuthStorageService, 'setTokenTarget').and.callThrough();
 
     service['onRead']({
       ui: { collapsed: true },
-      token: { access_token: 'token' },
-      isEmulated: true,
+      emulatedUserToken: { access_token: 'token' },
+      tokenTarget: TokenTarget.CSAgent,
     });
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
@@ -66,11 +70,13 @@ describe('AsmStatePersistenceService', () => {
       new AsmActions.AsmUiUpdate({ collapsed: true })
     );
     expect(
-      asmAuthStorageService.setCSAgentToken({
+      asmAuthStorageService.setEmulatedUserToken({
         access_token: 'token',
-      } as UserToken)
+      } as AuthToken)
     );
-    expect(asmAuthStorageService.switchToEmulated).toHaveBeenCalled();
+    expect(asmAuthStorageService.setTokenTarget).toHaveBeenCalledWith(
+      TokenTarget.CSAgent
+    );
   });
 
   it('should call persistenceService with correct attributes', () => {
@@ -89,21 +95,24 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('should return state from asm store', () => {
-    spyOn(asmAuthStorageService, 'getCSAgentToken').and.returnValue(
-      of({
-        access_token: 'token',
-        refresh_token: 'refresh_token',
-      } as UserToken)
+    spyOn(asmAuthStorageService, 'getEmulatedUserToken').and.returnValue({
+      access_token: 'token',
+      refresh_token: 'refresh_token',
+    } as AuthToken);
+    spyOn(asmAuthStorageService, 'getTokenTarget').and.returnValue(
+      of(TokenTarget.User)
     );
-    spyOn(asmAuthStorageService, 'isEmulated').and.returnValue(of(false));
 
     service['getAsmState']()
       .pipe(take(1))
       .subscribe((state) => {
         expect(state).toEqual({
           ui: { collapsed: false },
-          token: { access_token: 'token', refresh_token: 'refresh_token' },
-          isEmulated: false,
+          emulatedUserToken: {
+            access_token: 'token',
+            refresh_token: 'refresh_token',
+          },
+          tokenTarget: TokenTarget.User,
         } as any);
       });
   });

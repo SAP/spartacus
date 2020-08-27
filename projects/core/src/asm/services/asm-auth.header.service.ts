@@ -1,12 +1,11 @@
-import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
-import { UserToken } from '../../auth/user-auth/models/user-token.model';
-import { AuthHeaderService } from '../../auth/user-auth/services/auth-header/auth-header.service';
-import { GlobalMessageService, GlobalMessageType } from '../../global-message';
+import { AuthHeaderService } from '../../auth/user-auth/services/auth-header.service';
+import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../global-message/models/global-message.model';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
@@ -19,23 +18,50 @@ import { CsAgentAuthService } from '../facade/csagent-auth.service';
 })
 export class AsmAuthHeaderService extends AuthHeaderService {
   constructor(
-    public authService: AuthService,
-    public asmAuthService: CsAgentAuthService,
-    public oAuthService: CxOAuthService,
-    public routingService: RoutingService,
-    public globalMessageService: GlobalMessageService
+    protected authService: AuthService,
+    protected asmAuthService: CsAgentAuthService,
+    protected cxOAuthService: CxOAuthService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected occEndpointsService: OccEndpointsService
   ) {
     super(
       authService,
       asmAuthService,
-      oAuthService,
+      cxOAuthService,
       routingService,
-      globalMessageService
+      globalMessageService,
+      occEndpointsService
     );
   }
-  // TODO: Rethink if maybe it's better to use authStorage directly for the tokens
 
-  isCSAgentTokenRequest(request: HttpRequest<any>): boolean {
+  public shouldCatchError(request: HttpRequest<any>): boolean {
+    return (
+      super.shouldCatchError(request) || this.isCSAgentTokenRequest(request)
+    );
+  }
+
+  public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
+    const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
+    const isCSAgentRequest = this.isCSAgentTokenRequest(request);
+
+    let req = super.alterRequest(request);
+
+    if (!hasAuthorizationHeader && isCSAgentRequest) {
+      req = request.clone({
+        setHeaders: {
+          ...this.createAuthorizationHeader(),
+        },
+      });
+      return InterceptorUtil.removeHeader(
+        USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+        req
+      );
+    }
+    return req;
+  }
+
+  protected isCSAgentTokenRequest(request: HttpRequest<any>): boolean {
     const isRequestWithCSAgentToken = InterceptorUtil.getInterceptorParam(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       request.headers
@@ -43,61 +69,19 @@ export class AsmAuthHeaderService extends AuthHeaderService {
     return Boolean(isRequestWithCSAgentToken);
   }
 
-  getAuthorizationHeader(request: HttpRequest<any>): string {
-    const rawValue = request.headers.get('Authorization');
-    return rawValue;
-  }
-
-  createAuthorizationHeader(csAgent: boolean = false): any {
-    let token;
-    if (csAgent) {
-      this.asmAuthService
-        .getCustomerSupportAgentToken()
-        .pipe(take(1))
-        .subscribe((tok) => (token = tok));
-    } else {
-      this.authService
-        .getUserToken()
-        .pipe(take(1))
-        .subscribe((tok) => (token = tok));
-    }
-    if (token?.access_token) {
-      return {
-        Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
-      };
-    }
-    return {};
-  }
-
-  handleExpiredAccessToken(
-    request: HttpRequest<any>,
-    next: HttpHandler,
-    isCSAgentRequest: boolean = false
-  ): Observable<HttpEvent<UserToken>> {
-    return this.handleExpiredToken(isCSAgentRequest).pipe(
-      switchMap((token: UserToken) => {
-        return next.handle(this.createNewRequestWithNewToken(request, token));
-      })
-    );
-  }
-
-  // TODO: Handle race conditions here, if we would not be in user mode (auth storage)
-  public handleExpiredRefreshToken(isCSAgentRequest: boolean = false): void {
+  public handleExpiredRefreshToken(): void {
     let isEmulated;
-    combineLatest([
-      this.authService.getUserToken(),
-      this.asmAuthService.getCustomerSupportAgentToken(),
-    ])
-      .pipe(take(1))
-      .subscribe(([token, csAgentToken]) => {
-        if (token.access_token === csAgentToken.access_token) {
-          isEmulated = true;
-        } else {
-          isEmulated = false;
-        }
-      });
+    let csAgentLoggedIn;
+    this.asmAuthService
+      .isCustomerEmulated()
+      .subscribe((emulated) => (isEmulated = emulated))
+      .unsubscribe();
+    this.asmAuthService
+      .isCustomerSupportAgentLoggedIn()
+      .subscribe((loggedIn) => (csAgentLoggedIn = loggedIn))
+      .unsubscribe();
     // Logout user
-    if (isEmulated || isCSAgentRequest) {
+    if (isEmulated || csAgentLoggedIn) {
       this.asmAuthService.logoutCustomerSupportAgent();
       this.globalMessageService.add(
         {
@@ -105,67 +89,9 @@ export class AsmAuthHeaderService extends AuthHeaderService {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+      this.routingService.go({ cxRoute: 'login' });
     } else {
-      this.authService.logout();
+      super.handleExpiredRefreshToken();
     }
-  }
-
-  protected handleExpiredToken(
-    isCSAgentRequest: boolean = false
-  ): Observable<UserToken> {
-    let isEmulated;
-    combineLatest([
-      this.authService.getUserToken(),
-      this.asmAuthService.getCustomerSupportAgentToken(),
-    ])
-      .pipe(take(1))
-      .subscribe(([token, csAgentToken]) => {
-        if (token.access_token === csAgentToken.access_token) {
-          isEmulated = true;
-        } else {
-          isEmulated = false;
-        }
-      });
-    const stream = isCSAgentRequest
-      ? this.asmAuthService.getCustomerSupportAgentToken()
-      : this.authService.getUserToken();
-    let oldToken: UserToken;
-    return stream.pipe(
-      tap((token: UserToken) => {
-        if (token.access_token && token.refresh_token && !oldToken) {
-          this.oAuthService.refreshToken();
-        } else if (!token.refresh_token) {
-          if (isEmulated || isCSAgentRequest) {
-            this.asmAuthService.logoutCustomerSupportAgent();
-            this.globalMessageService.add(
-              {
-                key: 'asm.csagentTokenExpired',
-              },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          } else {
-            this.authService.logout();
-          }
-          this.routingService.go({ cxRoute: 'login' });
-        }
-        oldToken = oldToken || token;
-      }),
-      filter(
-        (token: UserToken) => oldToken.access_token !== token.access_token
-      ),
-      take(1)
-    );
-  }
-
-  protected createNewRequestWithNewToken(
-    request: HttpRequest<any>,
-    token: UserToken
-  ): HttpRequest<any> {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
-      },
-    });
-    return request;
   }
 }

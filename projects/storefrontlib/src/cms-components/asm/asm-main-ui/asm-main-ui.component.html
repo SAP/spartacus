@@ -16,14 +16,14 @@
     <cx-asm-toggle-ui></cx-asm-toggle-ui>
 
     <cx-asm-session-timer
-      *ngIf="(csAgentToken$ | async)?.access_token"
+      *ngIf="customerSupportAgentLoggedIn$ | async"
     ></cx-asm-session-timer>
 
     <button
       class="close"
       title="{{ 'asm.hideUi' | cxTranslate }}"
       *ngIf="
-        !(csAgentToken$ | async)?.access_token &&
+        !(customerSupportAgentLoggedIn$ | async) &&
         !(csAgentTokenLoading$ | async)
       "
       (click)="hideUi()"
@@ -32,7 +32,7 @@
     <button
       class="logout"
       title="{{ 'asm.logout' | cxTranslate }}"
-      *ngIf="(csAgentToken$ | async)?.access_token"
+      *ngIf="customerSupportAgentLoggedIn$ | async"
       (click)="logout()"
     ></button>
   </div>
@@ -40,7 +40,7 @@
 
 <ng-container *ngIf="!(isCollapsed$ | async) as notCollapsed">
   <ng-container
-    *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
+    *ngIf="customerSupportAgentLoggedIn$ | async; else showLoginForm"
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>

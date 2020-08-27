@@ -3,9 +3,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   AuthState,
+  AuthToken,
   AUTH_FEATURE,
   OCC_USER_ID_CURRENT,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -16,7 +16,7 @@ const mockToken = {
   userId: 'user@sap.com',
   refresh_token: 'foo',
   access_token: 'testToken-access-token',
-} as UserToken;
+} as AuthToken;
 
 const gigya = {
   accounts: {

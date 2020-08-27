@@ -13,7 +13,6 @@ import {
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -26,7 +25,7 @@ import { AsmComponentService } from '../services/asm-component.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmMainUiComponent implements OnInit {
-  csAgentToken$: Observable<UserToken>;
+  customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   isCollapsed$: Observable<boolean>;
@@ -46,7 +45,7 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.csAgentToken$ = this.csAgentAuthService.getCustomerSupportAgentToken();
+    this.customerSupportAgentLoggedIn$ = this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
     this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {

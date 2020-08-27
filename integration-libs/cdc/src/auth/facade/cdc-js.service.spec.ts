@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   AuthRedirectService,
+  AuthToken,
   BaseSiteService,
   ExternalJsFileLoader,
   GlobalMessageService,
@@ -9,7 +10,6 @@ import {
   OCC_USER_ID_CURRENT,
   User,
   UserService,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -32,7 +32,7 @@ const mockToken = {
   userId: 'user@sap.com',
   refresh_token: 'foo',
   access_token: 'testToken-access-token',
-} as UserToken;
+} as AuthToken;
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
@@ -62,7 +62,7 @@ class ExternalJsFileLoaderMock {
 class MockCdcAuthService {
   authorizeWithCustomCdcFlow(): void {}
 
-  getUserToken(): Observable<UserToken> {
+  getUserToken(): Observable<AuthToken> {
     return of();
   }
 }

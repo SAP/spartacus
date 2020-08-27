@@ -9,8 +9,8 @@ import { OccConfig } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { defaultOccConfig } from '../../../occ/config/default-occ-config';
 import { AuthService } from '../facade/auth.service';
-import { UserToken } from '../models/user-token.model';
-import { UserTokenInterceptor } from './user-token.interceptor';
+import { AuthToken } from '../models/auth-token.model';
+import { AuthInterceptor } from './auth.interceptor';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}test-site`;
 
@@ -23,10 +23,10 @@ const userToken = {
   granted_scopes: [],
   scope: ['xxx'],
   userId: 'xxx',
-} as UserToken;
+} as AuthToken;
 
 class MockAuthService {
-  getUserToken(): Observable<UserToken> {
+  getUserToken(): Observable<AuthToken> {
     return of();
   }
 }
@@ -44,7 +44,7 @@ const MockAuthConfig: OccConfig = {
 };
 
 // TODO: Fix unit tests
-describe('UserTokenInterceptor', () => {
+describe('AuthInterceptor', () => {
   let httpMock: HttpTestingController;
   let authService: AuthService;
 
@@ -56,7 +56,7 @@ describe('UserTokenInterceptor', () => {
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: UserTokenInterceptor,
+          useClass: AuthInterceptor,
           multi: true,
         },
       ],
@@ -69,7 +69,7 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+      spyOn(authService, 'getToken').and.returnValue(of(userToken));
 
       const sub: Subscription = http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
@@ -91,7 +91,7 @@ describe('UserTokenInterceptor', () => {
   it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+      spyOn(authService, 'getToken').and.returnValue(of(userToken));
       const sub: Subscription = http.get(OccUrl).subscribe((result) => {
         expect(result).toBeTruthy();
       });
@@ -114,7 +114,7 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' token to header if there is already one`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+      spyOn(authService, 'getToken').and.returnValue(of(userToken));
 
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http

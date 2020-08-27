@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  AsmAuthService,
   AuthService,
   CsAgentAuthService,
   RoutingService,
@@ -53,6 +54,7 @@ describe('AsmComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
+        { provide: AsmAuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockAsmAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: WindowRef, useValue: MockWindowRef },
@@ -60,7 +62,7 @@ describe('AsmComponentService', () => {
     });
 
     asmComponentService = TestBed.inject(AsmComponentService);
-    authService = TestBed.inject(AuthService);
+    authService = TestBed.inject(AsmAuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     routingService = TestBed.inject(RoutingService);
     windowRef = TestBed.inject(WindowRef);

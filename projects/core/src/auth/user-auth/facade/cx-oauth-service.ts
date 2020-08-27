@@ -26,9 +26,16 @@ export class CxOAuthService {
       customTokenParameters: ['token_type', ''], // Add id_token to store id_token in case of password flow
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
+      disablePKCE: true,
+      responseType: 'token',
+      oidc: false,
+      clearHashAfterLogin: true,
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
+      redirectUri: window.location.origin,
+      issuer: this.config.authentication.baseUrl + '/authorizationserver',
     });
     this.oAuthService.events.subscribe((event) => {
+      console.log(event);
       setTimeout(() => {
         console.group('events');
         console.warn(event);
@@ -80,5 +87,17 @@ export class CxOAuthService {
 
   getIdToken(): string {
     return this.oAuthService.getIdToken();
+  }
+
+  loginWithImplicitFlow() {
+    return this.oAuthService.initLoginFlow();
+  }
+
+  tryLogin() {
+    return this.oAuthService.loadDiscoveryDocumentAndTryLogin({});
+  }
+
+  silentRefresh() {
+    return this.oAuthService.silentRefresh();
   }
 }

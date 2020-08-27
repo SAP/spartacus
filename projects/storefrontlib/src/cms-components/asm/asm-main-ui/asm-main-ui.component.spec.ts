@@ -11,22 +11,17 @@ import {
   AsmService,
   AsmUi,
   AuthService,
+  AuthToken,
   CsAgentAuthService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
-
-const mockToken = {
-  access_token: 'asdfasf',
-  refresh_token: 'foo',
-} as UserToken;
 
 class MockAuthService {
   logout(): void {}
@@ -38,14 +33,14 @@ class MockAuthService {
 class MockAsmAuthService {
   authorizeCustomerSupportAgent(): void {}
   logoutCustomerSupportAgent(): void {}
-  getCustomerSupportAgentToken(): Observable<UserToken> {
-    return of({} as UserToken);
+  isCustomerSupportAgentLoggedIn(): Observable<boolean> {
+    return of(false);
   }
   getCustomerSupportAgentTokenLoading(): Observable<boolean> {
     return of(false);
   }
   startCustomerEmulationSession(
-    _customerSupportAgentToken: UserToken,
+    _customerSupportAgentToken: AuthToken,
     _customerId: string
   ) {}
   isCustomerEmulated(): Observable<boolean> {
@@ -190,8 +185,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
     spyOn(asmAuthService, 'startCustomerEmulationSession').and.stub();
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     const testCustomerId = 'customerid1234567890';
     component.startCustomerEmulationSession({ customerId: testCustomerId });
@@ -201,8 +196,8 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should display the login form by default and when the collapse state is false', () => {
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of({} as UserToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(false)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
@@ -215,8 +210,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should not display the login form by default and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of({} as UserToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(false)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
@@ -228,8 +223,8 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should display the customer selection state when an agent is signed in and when the collapse state is false', () => {
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userService, 'get').and.returnValue(of({}));
@@ -244,8 +239,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userService, 'get').and.returnValue(of({}));
@@ -260,8 +255,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should display customer emulation state when a customer is signed in and when the collapse state is false', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userService, 'get').and.returnValue(of(testUser));
@@ -278,8 +273,8 @@ describe('AsmMainUiComponent', () => {
   it('should not display customer emulation state when a customer is signed in and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userService, 'get').and.returnValue(of(testUser));
@@ -295,8 +290,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should redirect to home when starting a customer emulation session.', () => {
     component['startingCustomerSession'] = true;
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
@@ -312,8 +307,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should not redirect to home when not starting a customer emulation session.', () => {
     component['startingCustomerSession'] = false;
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
@@ -329,8 +324,8 @@ describe('AsmMainUiComponent', () => {
 
   it('should not redirect to home when not handling a customer emulation session token.', () => {
     component['startingCustomerSession'] = true;
-    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
+    spyOn(asmAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
