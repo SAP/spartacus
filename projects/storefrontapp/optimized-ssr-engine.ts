@@ -7,7 +7,7 @@ export interface OptimizedSsrOptions {
   timeout?: number;
 
   /**
-   * Enable in-memory cache for pre-rendered urls
+   * Enable in-memory cache for pre-rendered urls.
    */
   cache?: boolean;
 }
