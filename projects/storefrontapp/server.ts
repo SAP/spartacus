@@ -30,7 +30,7 @@ export function app() {
       }),
       {
         cache: false,
-        timeout: 0,
+        timeout: 2000,
       }
     )
   );
