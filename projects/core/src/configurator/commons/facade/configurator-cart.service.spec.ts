@@ -3,12 +3,12 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
-import { OrderEntryStatus } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { OrderEntryStatus } from '../../../model/order.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
