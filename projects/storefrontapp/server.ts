@@ -29,7 +29,7 @@ export function app() {
         bootstrap: AppServerModule,
       }),
       {
-        cache: true,
+        cache: false,
         timeout: 2000,
       }
     )
