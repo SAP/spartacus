@@ -19,7 +19,7 @@ export class MockCurrentUnitService {
   parentUnit$ = of('parentUnit1');
 }
 
-xdescribe('CurrentUnitAddressService', () => {
+describe('CurrentUnitAddressService', () => {
   let service: CurrentUnitAddressService;
   let orgUnitService: OrgUnitService;
   let mockParams: Subject<object>;
@@ -44,7 +44,7 @@ xdescribe('CurrentUnitAddressService', () => {
     mockParams.complete();
   });
 
-  xdescribe('id$', () => {
+  describe('id$', () => {
     it('should return undefined when route param `id` is undefined', async () => {
       const results = [];
       service.id$.pipe(take(2)).subscribe((value) => results.push(value));
@@ -70,7 +70,7 @@ xdescribe('CurrentUnitAddressService', () => {
     });
   });
 
-  xdescribe('unitAddress$', () => {
+  describe('unitAddress$', () => {
     it('should expose model for the current routing param `id`', () => {
       spyOn(orgUnitService, 'getAddress').and.returnValue(of(mockUnit));
 

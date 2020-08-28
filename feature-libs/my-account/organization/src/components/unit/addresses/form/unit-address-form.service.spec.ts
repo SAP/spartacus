@@ -24,7 +24,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   loadDeliveryCountries(): void {}
 }
 
-xdescribe('UnitAddressFormService', () => {
+describe('UnitAddressFormService', () => {
   let service: UnitAddressFormService;
 
   beforeEach(() => {
@@ -55,6 +55,24 @@ xdescribe('UnitAddressFormService', () => {
     expect(form.get('line1')).not.toBeNull();
     expect(form.get('town')).not.toBeNull();
     expect(form.get('region').get('isocode')).not.toBeNull();
+    expect(form.get('country').get('isocode')).not.toBeNull();
+  });
+
+  it('should update built form with provided model data', () => {
+    const form = service.getForm({
+      id: 'id1',
+      firstName: 'name1',
+      region: { isocode: 'test1' },
+    });
+    expect(form.get('id')).not.toBeNull();
+    expect(form.get('id').value).toEqual('id1');
+    expect(form.get('firstName')).not.toBeNull();
+    expect(form.get('firstName').value).toEqual('name1');
+    expect(form.get('lastName')).not.toBeNull();
+    expect(form.get('line1')).not.toBeNull();
+    expect(form.get('town')).not.toBeNull();
+    expect(form.get('region').get('isocode')).not.toBeNull();
+    expect(form.get('region').value).toEqual({ isocode: 'test1' });
     expect(form.get('country').get('isocode')).not.toBeNull();
   });
 
