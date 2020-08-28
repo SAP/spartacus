@@ -34,7 +34,7 @@ export function optimizedSsrEngine(
 
     /**
      * When SSR page can not be returned in time, we're returnig index.html of
-     * the CDR application.
+     * the CSR application.
      * The CSR application will have "Cache-Control: no-store" header to avoid caching of the fallback.
      */
     function fallbackToCsr() {
