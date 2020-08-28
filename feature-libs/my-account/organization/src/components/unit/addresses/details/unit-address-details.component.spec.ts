@@ -43,7 +43,7 @@ class MockCurrentUnitAddressService
   unitAddress$ = of(mockAddress);
 }
 
-xdescribe('UnitAddressDetailsComponent', () => {
+describe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
   let routingService: RoutingService;
@@ -90,14 +90,15 @@ xdescribe('UnitAddressDetailsComponent', () => {
     component.addressId = mockAddress.id;
     component.deleteAddress();
     expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(code, addressId);
-  });
-
-  it('should open modal for confirmation', () => {
-    component.openModal(mockAddress, {} as TemplateRef<any>);
-    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgUnitManageAddresses',
       params: { uid: code },
     });
+  });
+
+  it('should open modal for confirmation', () => {
+    component.openModal(mockAddress, {} as TemplateRef<any>);
+    expect(component.addressId).toEqual(mockAddress.id);
+    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
   });
 });

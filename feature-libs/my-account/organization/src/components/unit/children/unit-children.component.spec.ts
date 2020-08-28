@@ -38,7 +38,7 @@ class MockUnitChildrenService {
 }
 
 class MockCurrentUnitService {
-  code$ = of(code);
+  key$ = of(code);
 }
 
 describe('UnitChildrenComponent', () => {

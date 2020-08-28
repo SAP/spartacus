@@ -89,7 +89,18 @@ describe('UnitCreateComponent', () => {
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitCreateComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUnitService,
+              useClass: MockCurrentUnitService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     orgUnitsService = TestBed.inject(OrgUnitService);
     routingService = TestBed.inject(RoutingService);

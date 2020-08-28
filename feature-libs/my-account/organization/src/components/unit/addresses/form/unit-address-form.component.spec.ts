@@ -81,7 +81,7 @@ class MockUnitAddressFormService implements Partial<UnitAddressFormService> {
   }
 }
 
-xdescribe('UnitAddressFormComponent', () => {
+describe('UnitAddressFormComponent', () => {
   let component: UnitAddressFormComponent;
   let fixture: ComponentFixture<UnitAddressFormComponent>;
   let userAddressService: UserAddressService;

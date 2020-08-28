@@ -42,7 +42,7 @@ class MockUnitCostCentersService {
 }
 
 class MockCurrentUnitService {
-  code$ = of(code);
+  key$ = of(code);
 }
 
 describe('UnitCostCentersComponent', () => {

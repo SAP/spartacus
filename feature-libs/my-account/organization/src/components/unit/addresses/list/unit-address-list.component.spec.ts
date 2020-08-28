@@ -19,7 +19,7 @@ class MockUnitAddressListService {
 }
 
 class MockCurrentUnitService {
-  code$ = of(code);
+  key$ = of(code);
 }
 
 describe('UnitAddressListComponent', () => {

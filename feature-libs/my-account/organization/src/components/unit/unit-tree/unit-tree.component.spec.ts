@@ -95,7 +95,7 @@ class MockRoutingService {
   getRouterState = createSpy('getRouterState').and.returnValue(of({}));
 }
 
-describe('UnitTreeNavigationUIComponent', () => {
+xdescribe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
   let element: DebugElement;

@@ -29,6 +29,7 @@ class MockUnitFormService implements Partial<UnitFormService> {
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {
   b2bUnit$ = of(code);
+  item$ = of();
 }
 
 @Component({
@@ -62,7 +63,18 @@ describe('UnitEditComponent', () => {
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUnitService,
+              useClass: MockCurrentUnitService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);

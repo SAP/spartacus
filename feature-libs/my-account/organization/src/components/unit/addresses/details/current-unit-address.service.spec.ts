@@ -15,7 +15,7 @@ export class MockOrgUnitService implements Partial<OrgUnitService> {
   }
 }
 export class MockCurrentUnitService {
-  code$ = of('code1');
+  key$ = of('code1');
   parentUnit$ = of('parentUnit1');
 }
 

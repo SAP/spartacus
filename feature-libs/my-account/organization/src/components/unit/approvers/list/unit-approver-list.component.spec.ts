@@ -47,7 +47,7 @@ class MockUnitApproverListService {
 }
 
 class MockCurrentUnitService {
-  code$ = of(code);
+  key$ = of(code);
 }
 
 describe('UnitApproverListComponent', () => {
