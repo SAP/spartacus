@@ -16,6 +16,8 @@ export function optimizedSsrEngine(
   originalEngine,
   ssrOptions?: OptimizedSsrOptions
 ) {
+  // The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the 
+  // response is evicted as soon as the first successful response is successfully returned. 
   const renderedUrls: {
     [filePath: string]: {
       html?: any;
