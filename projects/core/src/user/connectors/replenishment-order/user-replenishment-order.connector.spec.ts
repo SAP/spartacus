@@ -1,15 +1,24 @@
 import { async, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
+import { ReplenishmentOrder, ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 import { UserReplenishmentOrderConnector } from './user-replenishment-order.connector';
 
 class MockUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
-  get(
+  load(
     _userId: string,
     _replenishmentOrderCode: string
   ): Observable<ReplenishmentOrder> {
+    return of({});
+  }
+
+  loadHistory(
+    _userId: string,
+    _pageSize: number,
+    _currentPage: number,
+    _sort: string,
+  ): Observable<ReplenishmentOrderList> {
     return of({});
   }
 }

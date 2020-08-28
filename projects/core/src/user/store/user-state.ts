@@ -11,6 +11,7 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../model/order.model';
+import { ReplenishmentOrderList } from '../../model/replenishment-order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 import { StateUtils } from '../../state/utils/index';
@@ -64,6 +65,7 @@ export interface UserState {
   payments: StateUtils.LoaderState<PaymentDetails[]>;
   orders: StateUtils.LoaderState<OrderHistoryList>;
   order: StateUtils.LoaderState<Order>;
+  replenishmetOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   titles: TitlesState;

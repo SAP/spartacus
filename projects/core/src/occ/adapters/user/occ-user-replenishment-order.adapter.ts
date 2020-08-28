@@ -6,7 +6,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order/user-replenishment-order.adapter';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from 'projects/core/src/user/connectors/replenishment-order/converters';
+import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 
 @Injectable()
 export class OccUserReplenishmentOrderAdapter implements UserReplenishmentOrderAdapter { 
