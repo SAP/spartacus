@@ -14,7 +14,7 @@ export interface OptimizedSSROptions {
 
 export function optimizedSSREngine(
   orgEngine,
-  smartOptions?: OptimizedSSROptions
+  ssrOptions?: OptimizedSSROptions
 ) {
   const renderedUrls: {
     [filePath: string]: {
@@ -33,7 +33,7 @@ export function optimizedSSREngine(
     if (renderedUrls[filePath]?.html) {
       callback(renderedUrls[filePath].err, renderedUrls[filePath].html);
 
-      if (!smartOptions.cache) {
+      if (!ssrOptions.cache) {
         delete renderedUrls[filePath];
       }
     } else {
@@ -45,11 +45,11 @@ export function optimizedSSREngine(
       };
 
       if (!renderedUrls[filePath]) {
-        if (smartOptions.timeout) {
+        if (ssrOptions.timeout) {
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
             fallback();
-          }, smartOptions.timeout);
+          }, ssrOptions.timeout);
         } else {
           fallback();
         }
@@ -60,7 +60,7 @@ export function optimizedSSREngine(
             clearTimeout(waitingForRender);
             callback(err, html);
 
-            if (smartOptions.cache) {
+            if (ssrOptions.cache) {
               renderedUrls[filePath] = { err, html };
             } else {
               delete renderedUrls[filePath];
