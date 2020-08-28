@@ -14,6 +14,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import createSpy = jasmine.createSpy;
+import { CommonModule } from '@angular/common';
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
@@ -86,16 +87,25 @@ const mockNode: NavigationNode = {
   ],
 };
 
-class MockChangeDetectorRef {
+class MockChangeDetectorRef implements Partial<ChangeDetectorRef> {
   markForCheck = createSpy('markForCheck');
   detectChanges = createSpy('detectChanges');
 }
 
-class MockRoutingService {
-  getRouterState = createSpy('getRouterState').and.returnValue(of({}));
+const mockRouterState = {
+  state: {
+    url: 'test/test1',
+  },
+};
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = createSpy('go').and.stub();
+  getRouterState = createSpy('getRouterState').and.returnValue(
+    of(mockRouterState)
+  );
 }
 
-xdescribe('UnitTreeNavigationUIComponent', () => {
+describe('UnitTreeComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
   let element: DebugElement;
@@ -104,6 +114,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         UrlTestingModule,
         I18nTestingModule,
         IconTestingModule,
@@ -117,11 +128,11 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: MockChangeDetectorRef,
+          useClass: MockChangeDetectorRef,
         },
         {
           provide: RoutingService,
-          useValue: MockRoutingService,
+          useClass: MockRoutingService,
         },
       ],
     }).compileComponents();
@@ -204,7 +215,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[0].getAttribute('title')).toBe(
           nodeRootElement.title
         );
@@ -212,7 +223,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root children number 1 title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[1].getAttribute('title')).toBe(
           nodeFirstChildElement.title
         );
@@ -220,7 +231,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return sub children', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[2].getAttribute('title')).toBe(
           nodeFirstChildSubChildElement.title
         );
@@ -232,7 +243,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
         it(`should return ${childNodeElement}`, () => {
           const domTree: HTMLElement = element.query(By.css('ul > li'))
             .nativeElement;
-          const domElements: any = domTree.querySelectorAll('cx-generic-link');
+          const domElements: any = domTree.querySelectorAll('a');
           expect(domElements[index].getAttribute('title')).toBe(
             childNodeElement
           );
@@ -242,7 +253,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root children number 2 title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         const secondChildSubIndex = nodeFirstChildSubChildSubElement.length + 3;
         expect(domElements[secondChildSubIndex].getAttribute('title')).toBe(
           nodeSecondChildElement.title
