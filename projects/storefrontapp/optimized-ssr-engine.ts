@@ -35,7 +35,7 @@ export function optimizedSsrEngine(
     /**
      * When SSR page can not be returned in time, we're returnig index.html of
      * the CSR application.
-     * The CSR application will have "Cache-Control: no-store" header to avoid caching of the fallback.
+     * The CSR application is returned with the "Cache-Control: no-store" response-header. This notifies external cache systems to not use the CSR application for the subsequent request. 
      */
     function fallbackToCsr() {
       res.set('Cache-Control', 'no-store');
