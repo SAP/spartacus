@@ -3,6 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
+import { OrderEntryStatus } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
@@ -37,6 +38,21 @@ const cart: Cart = {
   code: CART_CODE,
   guid: CART_GUID,
   user: { uid: OCC_USER_ID_ANONYMOUS },
+  entries: [
+    {
+      statusSummaryList: [
+        { status: OrderEntryStatus.Success, numberOfIssues: 1 },
+      ],
+    },
+    {
+      statusSummaryList: [
+        { status: OrderEntryStatus.Error, numberOfIssues: 0 },
+      ],
+    },
+    {
+      statusSummaryList: [{ status: OrderEntryStatus.Info, numberOfIssues: 3 }],
+    },
+  ],
 };
 
 const productConfiguration: Configurator.Configuration = {
@@ -254,6 +270,56 @@ describe('ConfiguratorCartService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.UpdateCartEntry(params)
+      );
+    });
+  });
+
+  describe('activeCartHasIssues', () => {
+    it('should tell that cart has no issues in case status summary contain no errors for all cart entries', () => {
+      cartStateObs = cold('xx', {
+        x: cartState,
+      });
+      expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
+        cold('aa', { a: false })
+      );
+    });
+
+    it('should tell that cart has issues in case status summary contain at least one entry with an error', () => {
+      const cartIssues: Cart = {
+        ...cart,
+        entries: [
+          {
+            statusSummaryList: [
+              { status: OrderEntryStatus.Error, numberOfIssues: 1 },
+            ],
+          },
+        ],
+      };
+      const cartStateIssues: ProcessesLoaderState<Cart> = {
+        value: cartIssues,
+      };
+      cartStateObs = cold('xy', {
+        x: cartState,
+        y: cartStateIssues,
+      });
+      expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
+        cold('ab', { a: false, b: true })
+      );
+    });
+    it('should handle cart with no entries', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: undefined,
+      };
+      const cartStateEmpty: ProcessesLoaderState<Cart> = {
+        value: cartEmpty,
+      };
+      cartStateObs = cold('xy', {
+        x: cartState,
+        y: cartStateEmpty,
+      });
+      expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
+        cold('aa', { a: false })
       );
     });
   });
