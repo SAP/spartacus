@@ -227,10 +227,15 @@ cx-schedule-replenishment-order {
         margin-bottom: 10px;
       }
 
+      .form-control {
+        height: 32px;
+        font-size: $small-font-size;
+        padding: 0 18px;
+      }
+
       .form-data-label {
         align-self: center;
         padding-inline-end: 10px;
-        margin-bottom: 7px;
       }
 
       .form-data-input {
@@ -258,6 +263,7 @@ cx-schedule-replenishment-order {
 
         .cx-repeat-days {
           flex: 0 100%;
+          margin-bottom: 14px;
         }
 
         .form-check {
@@ -266,6 +272,13 @@ cx-schedule-replenishment-order {
           align-items: center;
         }
       }
+    }
+  }
+
+  .cx-replenishment-date {
+    input {
+      padding-inline-start: 18px;
+      padding-inline-end: 15px;
     }
   }
 }
