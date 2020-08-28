@@ -5,6 +5,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import 'zone.js/dist/zone-node';
 import { AppServerModule } from './src/main.server';
+import { optimizedSSREngine } from './optimized-ssr-engine';
 
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
@@ -23,9 +24,15 @@ export function app() {
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',
-    ngExpressEngine({
-      bootstrap: AppServerModule,
-    })
+    optimizedSSREngine(
+      ngExpressEngine({
+        bootstrap: AppServerModule,
+      }),
+      {
+        cache: false,
+        timeout: 0,
+      }
+    )
   );
 
   server.set('view engine', 'html');
