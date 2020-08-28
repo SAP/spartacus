@@ -77,6 +77,5 @@ describe('UnitListComponent', () => {
     expect(node.title).toEqual(mockOrgUnitTree.name);
     expect(node.children).toEqual(mockOrgUnitTree.children);
     expect(node.url).toEqual([`orgUnitDetails/${mockOrgUnitTree.id}`]);
-    console.log(node);
   });
 });

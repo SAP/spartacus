@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, DebugElement, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -91,6 +91,10 @@ class MockChangeDetectorRef {
   detectChanges = createSpy('detectChanges');
 }
 
+class MockRoutingService {
+  getRouterState = createSpy('getRouterState').and.returnValue(of({}));
+}
+
 describe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
@@ -107,7 +111,6 @@ describe('UnitTreeNavigationUIComponent', () => {
       ],
       declarations: [UnitTreeComponent],
       providers: [
-        ElementRef,
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
@@ -115,6 +118,10 @@ describe('UnitTreeNavigationUIComponent', () => {
         {
           provide: ChangeDetectorRef,
           useValue: MockChangeDetectorRef,
+        },
+        {
+          provide: RoutingService,
+          useValue: MockRoutingService,
         },
       ],
     }).compileComponents();
