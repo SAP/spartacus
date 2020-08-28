@@ -1,20 +1,20 @@
 import * as fs from 'fs';
 
-export interface OptimizedSSROptions {
+export interface OptimizedSsrOptions {
   /**
    * Time in milliseconds to wait for SSR rendering to happen.
    */
-  timeout: number;
+  timeout?: number;
 
   /**
-   * Enable in-memory cache for prerendered urls
+   * Enable in-memory cache for pre-rendered urls
    */
-  cache: boolean;
+  cache?: boolean;
 }
 
-export function optimizedSSREngine(
+export function optimizedSsrEngine(
   orgEngine,
-  ssrOptions?: OptimizedSSROptions
+  ssrOptions?: OptimizedSsrOptions
 ) {
   const renderedUrls: {
     [filePath: string]: {
@@ -30,47 +30,63 @@ export function optimizedSSREngine(
   ) {
     const res = options.res || options.req.res;
 
-    if (renderedUrls[filePath]?.html) {
+    /**
+     * When SSR page can not be returned in time, we're returnig index.html of
+     * the CDR application.
+     * The CSR application will have "Cache-Control: no-store" header to avoid caching of the fallback.
+     */
+    function fallbackToCsr() {
+      res.set('Cache-Control', 'no-store');
+      callback(undefined, getDocument(filePath));
+    }
+
+    const isRenderingReady =
+      renderedUrls[filePath]?.html || renderedUrls[filePath]?.err;
+    if (isRenderingReady) {
       callback(renderedUrls[filePath].err, renderedUrls[filePath].html);
 
-      if (!ssrOptions.cache) {
+      if (!ssrOptions?.cache) {
+        // we drop cached rendering if caching is disabled
         delete renderedUrls[filePath];
       }
     } else {
       let waitingForRender;
 
-      const fallback = () => {
-        res.set('Cache-Control', 'no-store');
-        callback(undefined, getDocument(filePath));
-      };
-
       if (!renderedUrls[filePath]) {
-        if (ssrOptions.timeout) {
+        // if there is no rendering already in progress
+
+        if (ssrOptions?.timeout) {
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
-            fallback();
+            fallbackToCsr();
+            console.log(
+              `SSR rendering exceeded timeout, fallbacking to CSR for ${options.req?.url}`
+            );
           }, ssrOptions.timeout);
         } else {
-          fallback();
+          fallbackToCsr();
         }
 
         renderedUrls[filePath] = {};
         orgEngine(filePath, options, (err, html) => {
           if (waitingForRender) {
+            // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
             callback(err, html);
 
-            if (ssrOptions.cache) {
+            if (ssrOptions?.cache) {
               renderedUrls[filePath] = { err, html };
             } else {
               delete renderedUrls[filePath];
             }
           } else {
+            // store the rendering for future use
             renderedUrls[filePath] = { err, html };
           }
         });
       } else {
-        fallback();
+        // if there is already rendering in progress, return the fallback
+        fallbackToCsr();
       }
     }
   };
