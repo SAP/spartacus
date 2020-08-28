@@ -13,11 +13,11 @@ export interface OptimizedSsrOptions {
 }
 
 export function optimizedSsrEngine(
-  originalEngine,
+  expressEngine,
   ssrOptions?: OptimizedSsrOptions
 ) {
-  // The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the 
-  // response is evicted as soon as the first successful response is successfully returned. 
+  // The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
+  // response is evicted as soon as the first successful response is successfully returned.
   const renderedUrls: {
     [filePath: string]: {
       html?: any;
@@ -35,7 +35,7 @@ export function optimizedSsrEngine(
     /**
      * When SSR page can not be returned in time, we're returnig index.html of
      * the CSR application.
-     * The CSR application is returned with the "Cache-Control: no-store" response-header. This notifies external cache systems to not use the CSR application for the subsequent request. 
+     * The CSR application is returned with the "Cache-Control: no-store" response-header. This notifies external cache systems to not use the CSR application for the subsequent request.
      */
     function fallbackToCsr() {
       res.set('Cache-Control', 'no-store');
@@ -70,7 +70,7 @@ export function optimizedSsrEngine(
         }
 
         renderedUrls[filePath] = {};
-        originalEngine(filePath, options, (err, html) => {
+        expressEngine(filePath, options, (err, html) => {
           if (waitingForRender) {
             // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
