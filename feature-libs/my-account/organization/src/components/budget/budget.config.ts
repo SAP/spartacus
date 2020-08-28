@@ -5,12 +5,13 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActiveBudgetGuard } from './active-budget.guard';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
+import { ExistBudgetGuard } from './exist-budget.guard';
 import { BudgetListComponent } from './list/budget-list.component';
-import { ActiveBudgetGuard } from './active-budget.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -51,7 +52,7 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: BudgetDetailsComponent,
-          canActivate: [ActiveBudgetGuard],
+          canActivate: [ExistBudgetGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -64,6 +65,7 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: ':code/edit',
           component: BudgetEditComponent,
+          canActivate: [ActiveBudgetGuard],
         },
       ],
       guards: [AuthGuard],
