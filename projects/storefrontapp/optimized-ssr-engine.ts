@@ -13,7 +13,7 @@ export interface OptimizedSsrOptions {
 }
 
 export function optimizedSsrEngine(
-  orgEngine,
+  originalEngine,
   ssrOptions?: OptimizedSsrOptions
 ) {
   const renderedUrls: {
@@ -68,7 +68,7 @@ export function optimizedSsrEngine(
         }
 
         renderedUrls[filePath] = {};
-        orgEngine(filePath, options, (err, html) => {
+        originalEngine(filePath, options, (err, html) => {
           if (waitingForRender) {
             // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
