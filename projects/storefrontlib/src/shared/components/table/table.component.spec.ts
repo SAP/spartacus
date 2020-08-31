@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
-import { Table } from './table.model';
+import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
 
 const headers: string[] = ['key1', 'key2', 'key3'];
@@ -19,6 +19,9 @@ const mockDataset: Table = {
   structure: {
     type: 'test-1',
     fields: headers,
+    options: {
+      layout: TableLayout.VERTICAL,
+    },
   },
   data,
 };
@@ -193,29 +196,118 @@ describe('TableComponent', () => {
     });
   });
 
-  describe('current item', () => {
-    beforeEach(() => {
-      tableComponent.dataset = mockDataset;
+  describe('table layout', () => {
+    describe('vertical', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical class', () => {
+        expect(tableComponent.verticalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical');
+      });
+
+      it('should send out an event for the selected item', () => {
+        spyOn(tableComponent.launch, 'emit');
+        tableComponent.launchItem({ foo: 'bar' });
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
+      });
+
+      it('should launch on TR click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tr'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should have a current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val7' };
+        expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
+      });
+
+      it('should add is-current class to tr holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+
+        fixture.detectChanges();
+        const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+        expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tr[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
     });
 
-    it('should have a current item', () => {
-      tableComponent.currentItem = { property: 'key1', value: 'val7' };
-      expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
+    describe('vertical stacked', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL_STACKED;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical-stacked class', () => {
+        expect(tableComponent.verticalStackedLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical-stacked');
+      });
+
+      it('should have a tbody for each data item', () => {
+        const tbody = fixture.debugElement.queryAll(By.css('tbody'));
+        expect(tbody.length).toEqual(data.length);
+      });
+
+      it('should have a tr in tbody for each data item', () => {
+        const tr = fixture.debugElement.queryAll(
+          By.css('tbody:first-child tr')
+        );
+        expect(tr.length).toEqual(Object.keys(data[0]).length);
+      });
+
+      it('should launch on tbody click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should add is-current class to tbody holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+        fixture.detectChanges();
+        const tbody = fixture.debugElement.queryAll(By.css('table > tbody'));
+        expect((tbody[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tbody[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tbody[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
     });
 
-    it('should add is-current class to tr holding the current item', () => {
-      tableComponent.currentItem = { property: 'key1', value: 'val4' };
-      fixture.detectChanges();
-      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
-        'is-current'
-      );
-      expect((tr[1].nativeElement as HTMLElement).classList).toContain(
-        'is-current'
-      );
-      expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
-        'is-current'
-      );
+    describe('horizontal', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.HORIZONTAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have horizontal class', () => {
+        expect(tableComponent.horizontalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('horizontal');
+      });
     });
   });
 });

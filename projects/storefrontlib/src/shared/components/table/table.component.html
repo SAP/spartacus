@@ -3,6 +3,7 @@
     <tbody
       *ngFor="let item of dataset.data; trackBy: trackData"
       (click)="launchItem(item, $event)"
+      [class.is-current]="isCurrentItem(item)"
     >
       <tr *ngFor="let cell of structure.fields" [class]="cell">
         <th>
@@ -69,6 +70,7 @@
       <td
         *ngFor="let item of dataset.data; trackBy: trackData"
         [class.is-current]="isCurrentItem(item)"
+        (click)="launchItem(item, $event)"
       >
         <ng-template
           [cxOutlet]="getDataOutletRef(cell)"
