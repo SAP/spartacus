@@ -54,9 +54,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   purchaseOrderNumber: 'test-po',
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
-  firstDate: '1994-01-11T00:00Z',
+  firstDate: '1994-01-11T13:02Z',
   trigger: {
-    activationTime: '1994-02-24T00:00Z',
+    activationTime: '1994-02-24T13:02Z',
     displayTimeTable: 'every-test-date',
   },
   paymentType: {
@@ -196,7 +196,7 @@ describe('OrderDetailHeadlineComponent', () => {
             '.cx-header:nth-of-type(1) div:nth-child(2) > div.cx-detail-value'
           )
         );
-        expect(element.nativeElement.textContent).toEqual('Jan 10, 1994');
+        expect(element.nativeElement.textContent).toEqual('Jan 11, 1994');
       });
 
       it('should display next order date when active is true (replenishment is not cancelled)', () => {
@@ -210,7 +210,7 @@ describe('OrderDetailHeadlineComponent', () => {
             '.cx-header:nth-of-type(1) .cx-detail:last-of-type .cx-detail-value'
           )
         );
-        expect(element.nativeElement.textContent).toContain('Feb 23, 1994');
+        expect(element.nativeElement.textContent).toContain('Feb 24, 1994');
       });
 
       it('should display cancelled in order date when active is false (replenishment is cancelled)', () => {
@@ -241,7 +241,7 @@ describe('OrderDetailHeadlineComponent', () => {
             '.cx-header:nth-of-type(2) .cx-detail:first-of-type .cx-detail-value'
           )
         );
-        expect(element.nativeElement.textContent.trim()).toEqual(
+        expect(element.nativeElement.textContent).toContain(
           mockReplenishmentOrder.purchaseOrderNumber
         );
       });
@@ -257,7 +257,7 @@ describe('OrderDetailHeadlineComponent', () => {
             '.cx-header:nth-of-type(2) .cx-detail:first-of-type .cx-detail-value'
           )
         );
-        expect(element.nativeElement.textContent.trim()).toEqual(
+        expect(element.nativeElement.textContent).toContain(
           'orderDetails.emptyPurchaseOrderId'
         );
       });
@@ -273,7 +273,7 @@ describe('OrderDetailHeadlineComponent', () => {
             '.cx-header:nth-of-type(2) .cx-detail:last-of-type .cx-detail-value'
           )
         );
-        expect(element.nativeElement.textContent.trim()).toEqual(
+        expect(element.nativeElement.textContent).toContain(
           mockReplenishmentOrder.trigger.displayTimeTable
         );
       });
