@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UnitFormService } from './unit-form.service';
 
-xdescribe('CostCenterFormService', () => {
+describe('UnitFormService', () => {
   let service: UnitFormService;
 
   beforeEach(() => {
@@ -17,6 +17,16 @@ xdescribe('CostCenterFormService', () => {
     const form = service.getForm({});
     expect(form.get('uid')).not.toBeNull();
     expect(form.get('name')).not.toBeNull();
+    expect(form.get('parentOrgUnit').get('uid')).not.toBeNull();
+    expect(form.get('approvalProcess').get('code')).not.toBeNull();
+  });
+
+  it('should update built form with provided data model', () => {
+    const form = service.getForm({ uid: 'uid1', name: 'name1' });
+    expect(form.get('uid')).not.toBeNull();
+    expect(form.get('uid').value).toEqual('uid1');
+    expect(form.get('name')).not.toBeNull();
+    expect(form.get('name').value).toEqual('name1');
     expect(form.get('parentOrgUnit').get('uid')).not.toBeNull();
     expect(form.get('approvalProcess').get('code')).not.toBeNull();
   });

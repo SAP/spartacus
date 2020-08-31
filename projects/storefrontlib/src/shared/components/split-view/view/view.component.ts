@@ -10,7 +10,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { delayWhen } from 'rxjs/operators';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -73,18 +74,15 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.splitService.add(this.viewPosition, hidden);
 
     this.subscription = this.splitService
-      .getViewState(Number(this.position))
+      .getViewState(this.viewPosition)
+      // delay the disappeared state, so that the (CSS driven) animation has time to finish
+      .pipe(delayWhen((view) => timer(view.hidden ? this.duration * 1.25 : 0)))
       .subscribe((view) => {
         this.hiddenChange.emit(view.hidden);
         this._hidden = view.hidden;
-        if (view.hidden) {
-          setTimeout(() => {
-            this.disappeared = true;
-            this.cd.markForCheck();
-          }, this.duration * 1.25);
-        } else {
-          this.disappeared = false;
-        }
+
+        this.disappeared = view.hidden;
+        this.cd.markForCheck();
       });
   }
 

@@ -15,12 +15,12 @@ export class UnitApproverListComponent {
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitApproversService.getTable(code, UnitRoleType.APPROVER)
+      this.unitApproverListService.getTable(code, UnitRoleType.APPROVER)
     )
   );
 
   constructor(
-    protected unitApproversService: UnitApproverListService,
+    protected unitApproverListService: UnitApproverListService,
     protected currentUnitService: CurrentUnitService
   ) {}
 
@@ -28,7 +28,7 @@ export class UnitApproverListComponent {
     this.code$
       .pipe(take(1))
       .subscribe((code) =>
-        this.unitApproversService.unassign(code, model.customerId)
+        this.unitApproverListService.unassign(code, model.customerId)
       );
   }
 }

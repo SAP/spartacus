@@ -8,8 +8,8 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 @Injectable()
 export class CurrentUnitAddressService {

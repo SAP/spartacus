@@ -1,12 +1,7 @@
-import {
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  DebugElement,
-  Input,
-} from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -15,16 +10,11 @@ import {
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { UnitTreeComponent } from './unit-tree.component';
-
-@Component({
-  template: '',
-  selector: 'cx-unit-tree',
-})
-class MockNavigationComponent {
-  @Input() node: NavigationNode;
-  selectedNode: NavigationNode;
-  @Input() defaultExpandLevel: number;
-}
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import createSpy = jasmine.createSpy;
+import { CommonModule } from '@angular/common';
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
@@ -97,7 +87,25 @@ const mockNode: NavigationNode = {
   ],
 };
 
-xdescribe('UnitTreeNavigationUIComponent', () => {
+class MockChangeDetectorRef implements Partial<ChangeDetectorRef> {
+  markForCheck = createSpy('markForCheck');
+  detectChanges = createSpy('detectChanges');
+}
+
+const mockRouterState = {
+  state: {
+    url: 'test/test1',
+  },
+};
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = createSpy('go').and.stub();
+  getRouterState = createSpy('getRouterState').and.returnValue(
+    of(mockRouterState)
+  );
+}
+
+describe('UnitTreeComponent', () => {
   let component: UnitTreeComponent;
   let fixture: ComponentFixture<UnitTreeComponent>;
   let element: DebugElement;
@@ -105,17 +113,30 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UnitTreeComponent, MockNavigationComponent],
-      imports: [I18nTestingModule],
+      imports: [
+        CommonModule,
+        UrlTestingModule,
+        I18nTestingModule,
+        IconTestingModule,
+        RouterTestingModule,
+      ],
+      declarations: [UnitTreeComponent],
       providers: [
-        UnitTreeComponent,
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
+        {
+          provide: ChangeDetectorRef,
+          useClass: MockChangeDetectorRef,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
+
     breakpointService = TestBed.inject(BreakpointService);
   }));
 
@@ -131,7 +152,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('executing constructor and calling breakpoint service', async () => {
+  describe('executing constructor and calling breakpoint service', async () => {
     beforeEach(() => {
       spyOnProperty(breakpointService, 'isDown').and.returnValue(
         of(BREAKPOINT.md)
@@ -145,7 +166,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
     expect(component.mapUlElementToExpand).toHaveBeenCalled();
   });
 
-  xdescribe('DOM UI tests', () => {
+  describe('DOM UI tests', () => {
     beforeEach(() => {
       component.selectedNode = mockNode;
       fixture.detectChanges();
@@ -182,7 +203,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       expect(childElement.innerText).toContain(`(${mockNode.children.length})`);
     });
 
-    xdescribe('testing selected node tree', () => {
+    describe('testing selected node tree', () => {
       const nodeRootElement = mockNode.children[0],
         nodeFirstChildElement = mockNode.children[0].children[0],
         nodeSecondChildElement = mockNode.children[0].children[1],
@@ -194,7 +215,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[0].getAttribute('title')).toBe(
           nodeRootElement.title
         );
@@ -202,7 +223,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root children number 1 title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[1].getAttribute('title')).toBe(
           nodeFirstChildElement.title
         );
@@ -210,7 +231,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return sub children', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         expect(domElements[2].getAttribute('title')).toBe(
           nodeFirstChildSubChildElement.title
         );
@@ -222,7 +243,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
         it(`should return ${childNodeElement}`, () => {
           const domTree: HTMLElement = element.query(By.css('ul > li'))
             .nativeElement;
-          const domElements: any = domTree.querySelectorAll('cx-generic-link');
+          const domElements: any = domTree.querySelectorAll('a');
           expect(domElements[index].getAttribute('title')).toBe(
             childNodeElement
           );
@@ -232,7 +253,7 @@ xdescribe('UnitTreeNavigationUIComponent', () => {
       it('should return root children number 2 title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
           .nativeElement;
-        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        const domElements: any = domTree.querySelectorAll('a');
         const secondChildSubIndex = nodeFirstChildSubChildSubElement.length + 3;
         expect(domElements[secondChildSubIndex].getAttribute('title')).toBe(
           nodeSecondChildElement.title

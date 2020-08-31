@@ -1,18 +1,19 @@
-import { BehaviorSubject } from 'rxjs';
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BUnitNode,
   I18nTestingModule,
-  RoutesConfig,
-  RoutingConfig,
+  SemanticPathService,
 } from '@spartacus/core';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import { UnitListComponent } from './unit-list.component';
-
 import createSpy = jasmine.createSpy;
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { of } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { NavigationNode } from '@spartacus/storefront';
 
 const mockOrgUnitTree: B2BUnitNode = {
   active: true,
@@ -22,49 +23,48 @@ const mockOrgUnitTree: B2BUnitNode = {
   parent: 'parent',
 };
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-const orgUnitTree = new BehaviorSubject(mockOrgUnitTree);
-
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadTree = createSpy('loadTree');
-  getTree = createSpy('getTree').and.returnValue(orgUnitTree);
+  getTree = createSpy('getTree').and.returnValue(of(mockOrgUnitTree));
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  transform = (obj) => {
+    return [obj.cxRoute + '/' + obj.params.uid];
+  };
+}
+@Component({
+  selector: 'cx-unit-tree',
+  template: '',
+})
+class MockUnitTreeComponent {
+  @Input() node: NavigationNode;
+  @Input() defaultExpandLevel: number;
 }
 
-xdescribe('UnitListComponent', () => {
+describe('UnitListComponent', () => {
   let component: UnitListComponent;
   let fixture: ComponentFixture<UnitListComponent>;
-  let orgUnitsService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [UnitListComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+      ],
+      declarations: [UnitListComponent, MockUnitTreeComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     }).compileComponents();
-
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitListComponent);
     component = fixture.componentInstance;
-    orgUnitTree.next(mockOrgUnitTree);
     fixture.detectChanges();
   });
 
@@ -72,17 +72,10 @@ xdescribe('UnitListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('ngOnInit', () => {
-    it('should read orgUnit list', () => {
-      let orgUnitsList: any;
-      component.data$
-        .subscribe((value) => {
-          orgUnitsList = value;
-        })
-        .unsubscribe();
-      expect(orgUnitsService.loadTree).toHaveBeenCalledWith();
-      expect(orgUnitsService.getTree).toHaveBeenCalledWith();
-      expect(orgUnitsList).toEqual(mockOrgUnitTree);
-    });
+  it('should translate B2BNode into NavigationNode', () => {
+    const node = component.toNavigation(mockOrgUnitTree);
+    expect(node.title).toEqual(mockOrgUnitTree.name);
+    expect(node.children).toEqual(mockOrgUnitTree.children);
+    expect(node.url).toEqual([`orgUnitDetails/${mockOrgUnitTree.id}`]);
   });
 });
