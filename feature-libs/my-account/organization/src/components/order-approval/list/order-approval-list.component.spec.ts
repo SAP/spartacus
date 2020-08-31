@@ -4,8 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Pipe,
-  PipeTransform,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,7 +18,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../../core/model/search-config';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
-
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
@@ -73,15 +72,6 @@ const mockOrderApprovals: EntitiesModel<OrderApproval> = {
 
 @Component({
   template: '',
-  selector: 'cx-pagination',
-})
-class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
-}
-
-@Component({
-  template: '',
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
@@ -90,13 +80,6 @@ class MockSortingComponent {
   @Input() selectedOption;
   @Input() placeholder;
   @Output() sortListEvent = new EventEmitter<string>();
-}
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
 }
 
 class MockOrderApprovalService {
@@ -123,13 +106,13 @@ describe('OrderApprovalListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        OrderApprovalListComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PaginationTestingModule,
       ],
+      declarations: [OrderApprovalListComponent, MockSortingComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
