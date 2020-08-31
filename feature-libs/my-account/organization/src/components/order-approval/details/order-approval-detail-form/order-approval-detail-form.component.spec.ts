@@ -8,6 +8,7 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   OrderApproval,
@@ -52,8 +53,7 @@ class MockOrderApprovalDetailService {
   template: '',
 })
 class MockFormErrorsComponent {
-  @Input()
-  controll: FormControl;
+  @Input() control: FormControl;
 }
 
 @Component({
@@ -91,13 +91,13 @@ xdescribe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
       declarations: [
         OrderApprovalDetailFormComponent,
         MockFormErrorsComponent,
         MockSpinnerComponent,
         MockUrlPipe,
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         {
           provide: OrderApprovalDetailService,
@@ -117,6 +117,10 @@ xdescribe('OrderApprovalDetailFormComponent', () => {
     fixture.detectChanges();
     orderApprovalService = TestBed.inject(OrderApprovalService);
     el = fixture.debugElement;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
