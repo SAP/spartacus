@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
 import { B2BUnitNode, SemanticPathService } from '@spartacus/core';
 import { NavigationNode } from '@spartacus/storefront';
 import { OrgUnitService } from '../../../core/services/org-unit.service';

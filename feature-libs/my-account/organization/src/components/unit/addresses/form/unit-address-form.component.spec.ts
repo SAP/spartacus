@@ -17,6 +17,24 @@ import { UnitAddressFormService } from './unit-address-form.service';
 
 import createSpy = jasmine.createSpy;
 
+const mockForm: FormGroup = new FormGroup({
+  id: new FormControl(''),
+  titleCode: new FormControl(''),
+  firstName: new FormControl(''),
+  lastName: new FormControl(''),
+  line1: new FormControl(''),
+  line2: new FormControl(''),
+  town: new FormControl(''),
+  postalCode: new FormControl(''),
+  phone: new FormControl(''),
+  country: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+  region: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+});
+
 const mockTitles: Title[] = [
   {
     code: 'mr',
@@ -49,21 +67,6 @@ const mockRegions: Region[] = [
   },
 ];
 
-// const addressId = 'a1';
-
-// const mockAddress: Partial<B2BAddress> = {
-//   id: addressId,
-//   firstName: 'John',
-//   lastName: 'Doe',
-//   titleCode: 'mr',
-//   line1: 'Toyosaki 2 create on cart',
-//   line2: 'line2',
-//   town: 'town',
-//   region: { isocode: 'JP-27' },
-//   postalCode: 'zip',
-//   country: { isocode: 'JP' },
-// };
-
 class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy('getRegions').and.returnValue(of(mockRegions));
 }
@@ -78,7 +81,7 @@ class MockUnitAddressFormService implements Partial<UnitAddressFormService> {
   }
 }
 
-xdescribe('UnitAddressFormComponent', () => {
+describe('UnitAddressFormComponent', () => {
   let component: UnitAddressFormComponent;
   let fixture: ComponentFixture<UnitAddressFormComponent>;
   let userAddressService: UserAddressService;
@@ -108,6 +111,7 @@ xdescribe('UnitAddressFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAddressFormComponent);
     component = fixture.componentInstance;
+    component.form = mockForm;
     fixture.detectChanges();
   });
 
@@ -115,18 +119,11 @@ xdescribe('UnitAddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should select country and call getRegions', () => {
-    component.form = new FormGroup({
-      country: new FormGroup({
-        isocode: new FormControl(null),
-      }),
-    });
-    fixture.detectChanges();
+  it('should select country and call getRegions', () => {
     component.countrySelected(mockCountries[0]);
-
-    expect(component.form['controls'].country['controls'].isocode).toEqual(
-      mockCountries[0].isocode
-    );
+    expect(
+      component.form['controls'].country['controls'].isocode.value
+    ).toEqual(mockCountries[0].isocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountries[0].isocode
     );
