@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { UrlModule, I18nModule } from '@spartacus/core';
 import { VariantStyleIconsComponent } from './variant-style-icons.component';
 import { RouterModule } from '@angular/router';
 
