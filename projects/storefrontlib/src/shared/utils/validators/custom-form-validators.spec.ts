@@ -4,7 +4,7 @@ import {
   CustomFormValidators,
 } from './custom-form-validators';
 
-fdescribe('FormValidationService', () => {
+describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
