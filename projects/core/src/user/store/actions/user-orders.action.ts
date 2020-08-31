@@ -32,6 +32,7 @@ export class LoadUserOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_ORDERS_SUCCESS;
   constructor(public payload: OrderHistoryList) {
     super(USER_ORDERS);
+    console.log('from user-order.action', payload);
   }
 }
 

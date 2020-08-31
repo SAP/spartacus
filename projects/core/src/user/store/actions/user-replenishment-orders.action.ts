@@ -31,7 +31,9 @@ export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
   constructor(public payload: ReplenishmentOrderList) {
+
     super(USER_REPLENISHMENT_ORDERS);
+    console.log('from actions', payload)
   }
 }
 

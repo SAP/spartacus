@@ -41,6 +41,7 @@ export class UserReplenishmentOrderService {
    * Returns a loaded flag for replenishment order history list
    */
   getReplenishmentOrderHistoryListLoaded(): Observable<boolean> {
+    console.log('from service ', this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded)))
     return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded));
   }
 

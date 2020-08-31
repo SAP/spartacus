@@ -16,7 +16,7 @@ class MockAuthService {
     }
 }
 
-fdescribe('UserReplenishmentOrderService', () => {
+describe('UserReplenishmentOrderService', () => {
   let service: UserReplenishmentOrderService;
   let store: Store<StateWithUser>;
 
@@ -44,7 +44,6 @@ fdescribe('UserReplenishmentOrderService', () => {
   it('should UserOrderService is injected', inject(
     [UserReplenishmentOrderService],
     (userReplenishmentOrderService: UserReplenishmentOrderService) => {
-      console.log(userReplenishmentOrderService)
       expect(userReplenishmentOrderService).toBeTruthy();
     }
   ));
@@ -62,7 +61,6 @@ fdescribe('UserReplenishmentOrderService', () => {
       service
           .getReplenishmentOrderHistoryList(1)
           .subscribe((data) => {
-            console.log(data);
               orderList = data;
           })
           .unsubscribe();
@@ -73,36 +71,37 @@ fdescribe('UserReplenishmentOrderService', () => {
       });
   });
 
-  // it('should be able to get replenishment order list loaded flag', () => {
-  //     store.dispatch(new UserActions.LoadUserOrdersSuccess({}));
+  it('should be able to get replenishment order list loaded flag', () => {
+    store.dispatch(new UserActions.LoadUserReplenishmentOrdersSuccess({}));
 
-  //     let orderListLoaded: boolean;
-  //     service
-  //       .getReplenishmentOrderHistoryListLoaded()
-  //         .subscribe((data) => {
-  //             orderListLoaded = data;
-  //         })
-  //         .unsubscribe();
-  //     expect(orderListLoaded).toEqual(true);
-  // });
+      let orderListLoaded: boolean;
+      service
+        .getReplenishmentOrderHistoryListLoaded()
+        .subscribe((data) => {
+            console.log('from loaded flag service', data);
+            orderListLoaded = data;
+        })
+        .unsubscribe();
+      expect(orderListLoaded).toEqual(true);
+  });
 
-  // it('should be able to load order list data', () => {
-  //   service.loadReplenishmentOrderList(10, 1, 'byDate');
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new UserActions.LoadUserOrders({
-  //       userId: OCC_USER_ID_CURRENT,
-  //       pageSize: 10,
-  //       currentPage: 1,
-  //       sort: 'byDate',
-  //     })
-  //   );
-  // });
+    it('should be able to load replenishment order list data', () => {
+    service.loadReplenishmentOrderList(10, 1, 'byDate');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadUserReplenishmentOrders({
+        userId: OCC_USER_ID_CURRENT,
+        pageSize: 10,
+        currentPage: 1,
+        sort: 'byDate',
+      })
+    );
+  });
 
-  // it('should be able to clear order list', () => {
-  //   service.clearReplenishmentOrderList();
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new UserActions.ClearUserOrders()
-  //   );
-  // });
+  it('should be able to clear replenishment order list', () => {
+    service.clearReplenishmentOrderList();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearUserReplenishmentOrders()
+    );
+  });
 
 });
