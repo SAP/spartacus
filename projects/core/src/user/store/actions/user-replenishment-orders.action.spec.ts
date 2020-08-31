@@ -23,7 +23,7 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
     sorts: [{ selected: true }, { selected: false }],
 };
 
-fdescribe('User Replenishment Orders Actions', () => {
+describe('User Replenishment Orders Actions', () => {
     describe('LoadUserReplenishmentOrders Actions', () => {
         it('should create the action', () => {
             const action = new UserActions.LoadUserReplenishmentOrders(mockUserReplenishmentOrder);

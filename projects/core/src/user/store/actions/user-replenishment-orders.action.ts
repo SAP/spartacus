@@ -33,7 +33,6 @@ export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccess
   constructor(public payload: ReplenishmentOrderList) {
 
     super(USER_REPLENISHMENT_ORDERS);
-    console.log('from actions', payload)
   }
 }
 
