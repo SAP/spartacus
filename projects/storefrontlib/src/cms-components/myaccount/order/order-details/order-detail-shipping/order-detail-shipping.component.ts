@@ -3,7 +3,6 @@ import {
   Address,
   CostCenter,
   DeliveryMode,
-  Order,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
@@ -22,10 +21,77 @@ export class OrderDetailShippingComponent implements OnInit {
     private translation: TranslationService
   ) {}
 
-  order$: Observable<Order>;
+  order$: Observable<any>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
+  }
+
+  getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.replenishmentNumber')
+      .pipe(
+        filter(() => Boolean(orderCode)),
+        map((textTitle) => ({
+          title: textTitle,
+          text: [orderCode],
+        }))
+      );
+  }
+
+  getReplenishmentActiveCardContent(active: boolean): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutOrderConfirmation.status'),
+      this.translation.translate('checkoutOrderConfirmation.active'),
+      this.translation.translate('checkoutOrderConfirmation.cancelled'),
+    ]).pipe(
+      map(([textTitle, textActive, textCancelled]) => ({
+        title: textTitle,
+        text: [active ? textActive : textCancelled],
+      }))
+    );
+  }
+
+  getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
+    return this.translation.translate('checkoutReview.startOn').pipe(
+      filter(() => Boolean(isoDate)),
+      map((textTitle) => {
+        const date = this.getDate(new Date(isoDate));
+
+        return {
+          title: textTitle,
+          text: [date],
+        };
+      })
+    );
+  }
+
+  getReplenishmentFrequencyCardContent(frequency: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.frequency')
+      .pipe(
+        filter(() => Boolean(frequency)),
+        map((textTitle) => ({
+          title: textTitle,
+          text: [frequency],
+        }))
+      );
+  }
+
+  getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.nextOrderDate')
+      .pipe(
+        filter(() => Boolean(isoDate)),
+        map((textTitle) => {
+          const date = this.getDate(new Date(isoDate));
+
+          return {
+            title: textTitle,
+            text: [date],
+          };
+        })
+      );
   }
 
   getOrderCodeCardContent(orderCode: string): Observable<Card> {
