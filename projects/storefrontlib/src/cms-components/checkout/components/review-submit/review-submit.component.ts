@@ -9,10 +9,10 @@ import {
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
-  PromotionLocation,
-  PromotionResult,
   TranslationService,
   UserAddressService,
+  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
