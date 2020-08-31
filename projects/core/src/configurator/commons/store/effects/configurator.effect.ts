@@ -18,7 +18,7 @@ import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
-import { ConfiguratorGroupUtilsService } from '../../facade';
+import { ConfiguratorGroupUtilsService } from '../../facade/configurator-group-utils.service';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
