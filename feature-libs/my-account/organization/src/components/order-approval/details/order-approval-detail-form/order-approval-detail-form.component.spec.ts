@@ -23,8 +23,7 @@ import { OrderApprovalService } from '../../../../core/services/order-approval.s
 // - uncomment failing test
 // - add router testing module
 
-const REJECT = OrderApprovalDecisionValue.REJECT;
-const APPROVE = OrderApprovalDecisionValue.APPROVE;
+const { REJECT, APPROVE } = OrderApprovalDecisionValue;
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -83,7 +82,7 @@ class MockOrderApprovalService {
   resetMakeDecisionProcessState(): void {}
 }
 
-xdescribe('OrderApprovalDetailFormComponent', () => {
+describe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalService: OrderApprovalService;
@@ -109,6 +108,7 @@ xdescribe('OrderApprovalDetailFormComponent', () => {
 
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);
+    getOrderApproval$.next(mockOrderApproval);
   }));
 
   beforeEach(() => {
