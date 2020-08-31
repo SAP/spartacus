@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { CurrentUnitService } from '../current-unit.service';
 import { UnitCostCentersService } from './unit-cost-centers.service';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-cost-centers',
@@ -19,7 +18,6 @@ export class UnitCostCentersComponent {
   );
 
   constructor(
-    protected orgUnitsService: OrgUnitService,
     protected unitCostCentersService: UnitCostCentersService,
     protected currentUnitService: CurrentUnitService
   ) {}

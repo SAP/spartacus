@@ -57,7 +57,7 @@ class MockUnitAddressFormComponent {
   @Input() form: FormGroup;
 }
 
-xdescribe('UnitAddressEditComponent', () => {
+describe('UnitAddressEditComponent', () => {
   let component: UnitAddressEditComponent;
   let fixture: ComponentFixture<UnitAddressEditComponent>;
   let orgUnitsService: OrgUnitService;
@@ -103,20 +103,18 @@ xdescribe('UnitAddressEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('save', () => {
-    it('should update units address', () => {
-      const evt = new Event('submit');
+  it('should update units address', () => {
+    const evt = new Event('submit');
 
-      component.save(evt, addressForm);
-      expect(orgUnitsService.updateAddress).toHaveBeenCalledWith(
-        code,
-        mockAddress.id,
-        mockAddress
-      );
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'orgUnitAddressDetails',
-        params: { id: addressId, uid: code },
-      });
+    component.save(evt, addressForm);
+    expect(orgUnitsService.updateAddress).toHaveBeenCalledWith(
+      code,
+      mockAddress.id,
+      mockAddress
+    );
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orgUnitAddressDetails',
+      params: { id: addressId, uid: code },
     });
   });
 });

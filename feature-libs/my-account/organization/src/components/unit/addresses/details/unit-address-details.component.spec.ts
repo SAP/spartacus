@@ -25,24 +25,25 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   deleteAddress = createSpy('deleteAddress');
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy('go').and.stub();
 }
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   open = createSpy('open').and.stub();
 }
 
-class MockCurrentUnitService {
-  unit$ = of(unit);
-  code$ = of(code);
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  item$ = of(unit);
+  key$ = of(code);
 }
 
-class MockCurrentUnitAddressService {
+class MockCurrentUnitAddressService
+  implements Partial<CurrentUnitAddressService> {
   unitAddress$ = of(mockAddress);
 }
 
-xdescribe('UnitAddressDetailsComponent', () => {
+describe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
   let routingService: RoutingService;
@@ -89,14 +90,15 @@ xdescribe('UnitAddressDetailsComponent', () => {
     component.addressId = mockAddress.id;
     component.deleteAddress();
     expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(code, addressId);
-  });
-
-  it('openModal', () => {
-    component.openModal(mockAddress, {} as TemplateRef<any>);
-    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgUnitManageAddresses',
       params: { uid: code },
     });
+  });
+
+  it('should open modal for confirmation', () => {
+    component.openModal(mockAddress, {} as TemplateRef<any>);
+    expect(component.addressId).toEqual(mockAddress.id);
+    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
   });
 });

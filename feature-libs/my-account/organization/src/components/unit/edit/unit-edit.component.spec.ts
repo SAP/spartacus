@@ -1,71 +1,46 @@
-import { Observable, of } from 'rxjs';
-import { Type } from '@angular/core';
+import { of } from 'rxjs';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormControl, FormGroup } from '@angular/forms';
-
-import {
-  B2BUnit,
-  B2BUnitNode,
-  I18nTestingModule,
-  RoutingService,
-  LanguageService,
-  RoutesConfig,
-  RoutingConfig,
-} from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { UnitFormModule } from '../form/unit-form.module';
 import { UnitEditComponent } from './unit-edit.component';
-
 import createSpy = jasmine.createSpy;
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UnitFormService } from '../form/unit-form.service';
+import { CurrentUnitService } from '@spartacus/my-account/organization';
 
 const code = 'b1';
 
-const mockOrgUnit: B2BUnit = {
-  uid: code,
-  name: 'orgUnit1',
-};
-
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-];
-
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadList = createSpy('loadList').and.returnValue(of(mockOrgUnits));
-  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
-    of(mockOrgUnits)
-  );
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
-  getApprovalProcesses = createSpy('getApprovalProcesses');
   update = createSpy('update');
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy('go').and.stub();
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockUnitFormService implements Partial<UnitFormService> {
+  getForm = createSpy('getForm').and.returnValue(new FormGroup({}));
 }
 
-class LanguageServiceStub {
-  getActive(): Observable<string> {
-    return of();
-  }
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  b2bUnit$ = of(code);
+  item$ = of();
 }
 
-xdescribe('UnitEditComponent', () => {
+@Component({
+  selector: 'cx-unit-form',
+  template: '',
+})
+class MockUnitFormComponent {
+  @Input() form: FormGroup;
+}
+
+describe('UnitEditComponent', () => {
   let component: UnitEditComponent;
   let fixture: ComponentFixture<UnitEditComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -73,19 +48,33 @@ xdescribe('UnitEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
-      declarations: [UnitEditComponent],
-      providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageServiceStub,
-        },
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+      imports: [
+        RouterTestingModule,
+        UrlTestingModule,
+        I18nTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        ReactiveFormsModule,
       ],
-    }).compileComponents();
+      declarations: [UnitEditComponent, MockUnitFormComponent],
+      providers: [
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UnitFormService, useClass: MockUnitFormService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
+      ],
+    })
+      .overrideComponent(UnitEditComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUnitService,
+              useClass: MockCurrentUnitService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
@@ -101,7 +90,7 @@ xdescribe('UnitEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('update', () => {
+  describe('update', () => {
     it('should update orgUnit', () => {
       const updateOrgUnit = {
         code,

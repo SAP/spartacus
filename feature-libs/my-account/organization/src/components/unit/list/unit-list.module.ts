@@ -14,7 +14,6 @@ import { UnitTreeModule } from '../unit-tree/unit-tree.module';
     I18nModule,
     UnitTreeModule,
     SplitViewModule,
-    RouterModule,
     IconModule,
   ],
   declarations: [UnitListComponent],
