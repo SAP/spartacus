@@ -25,6 +25,7 @@ import {
   OrderHistoryModule,
   OrderReturnModule,
   PaymentMethodsModule,
+  ReplenishmentOrderDetailsModule,
   ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
@@ -111,6 +112,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     MyInterestsModule,
     StockNotificationModule,
     ReplenishmentOrderConfirmationModule,
+    ReplenishmentOrderDetailsModule,
   ],
 })
 export class CmsLibModule {}

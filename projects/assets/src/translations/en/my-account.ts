@@ -1,6 +1,7 @@
 export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
+    replenishmentId: 'Replenishment #',
     purchaseOrderId: 'Purchase Order #',
     emptyPurchaseOrderId: 'None',
     placed: 'Placed',
@@ -12,6 +13,10 @@ export const myAccount = {
     payByAccount: 'Pay by Account',
     status: 'Status',
     shippedOn: 'Shipped on',
+    startOn: 'Start On',
+    nextOrderDate: 'Next Order Date',
+    frequency: 'Frequency',
+    cancelled: ' Cancelled',
     deliveryStatus_IN_TRANSIT: 'In Transit',
     deliveryStatus_READY_FOR_PICKUP: 'Ready for Pickup',
     deliveryStatus_READY_FOR_SHIPPING: 'Ready for Shipping',

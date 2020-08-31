@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { Order } from '@spartacus/core';
-
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -12,7 +9,7 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailHeadlineComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<Order>;
+  order$: Observable<any>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();

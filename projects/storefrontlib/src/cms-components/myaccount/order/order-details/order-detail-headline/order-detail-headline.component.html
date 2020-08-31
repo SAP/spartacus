@@ -1,27 +1,80 @@
 <ng-container *ngIf="order$ | async as order">
-  <div class="cx-header row">
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.orderId' | cxTranslate }}
+  <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
+    <div class="cx-header row">
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.replenishmentId' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">{{ order?.replenishmentOrderCode }}</div>
       </div>
-      <div class="cx-detail-value">{{ order?.code }}</div>
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.startOn' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">{{ order?.firstDate | cxDate }}</div>
+      </div>
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.nextOrderDate' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">
+          {{
+            order?.active
+              ? (order?.trigger?.activationTime | cxDate)
+              : ('orderDetails.cancelled' | cxTranslate)
+          }}
+        </div>
+      </div>
     </div>
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.placed' | cxTranslate }}
+    <div class="cx-header row">
+      <div class="cx-detail col-sm-12 col-md-6">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.purchaseOrderId' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">
+          {{
+            order?.purchaseOrderNumber
+              ? order?.purchaseOrderNumber
+              : ('orderDetails.emptyPurchaseOrderId' | cxTranslate)
+          }}
+        </div>
       </div>
-      <div class="cx-detail-value">{{ order?.created | cxDate }}</div>
+      <div class="cx-detail col-sm-12 col-md-6">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.frequency' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">
+          {{ order?.trigger?.displayTimeTable }}
+        </div>
+      </div>
     </div>
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.status' | cxTranslate }}
+  </ng-container>
+
+  <ng-template #otherOrder>
+    <div class="cx-header row">
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.orderId' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">{{ order?.code }}</div>
       </div>
-      <div class="cx-detail-value" *ngIf="order?.statusDisplay">
-        {{
-          'orderDetails.statusDisplay'
-            | cxTranslate: { context: order?.statusDisplay }
-        }}
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.placed' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value">{{ order?.created | cxDate }}</div>
+      </div>
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">
+          {{ 'orderDetails.status' | cxTranslate }}
+        </div>
+        <div class="cx-detail-value" *ngIf="order?.statusDisplay">
+          {{
+            'orderDetails.statusDisplay'
+              | cxTranslate: { context: order?.statusDisplay }
+          }}
+        </div>
       </div>
     </div>
-  </div>
+  </ng-template>
 </ng-container>
