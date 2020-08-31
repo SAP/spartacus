@@ -6,6 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: e2e tests
-        run: ../../ci-scripts/e2e-cypress.sh
+        run: ci-scripts/e2e-cypress.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
