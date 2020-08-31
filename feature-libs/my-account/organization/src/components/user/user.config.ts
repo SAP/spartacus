@@ -170,13 +170,13 @@ export function userTableConfigFactory(): TableConfig {
 export const userTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
-      fields: ['name', 'active', 'uid', 'roles', 'unit'],
+      cells: ['name', 'active', 'uid', 'roles', 'unit'],
       options: {
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -193,7 +193,7 @@ export const userTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_APPROVERS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -201,19 +201,19 @@ export const userTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_ASSIGN_APPROVERS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
-        fields: ['name', 'email', 'roles', 'orgUnit'],
+        cells: ['name', 'email', 'roles', 'orgUnit'],
         options: {},
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -221,18 +221,18 @@ export const userTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_ASSIGN_PERMISSIONS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {
           sort: 'byCode',
         },
       },
       lg: {
-        fields: ['name', 'limit', 'orgUnit'],
+        cells: ['name', 'limit', 'orgUnit'],
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -240,14 +240,14 @@ export const userTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_ASSIGN_USER_GROUPS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {
           sort: 'byCode',
         },
       },
       lg: {
-        fields: ['name', 'uid', 'orgUnit'],
+        cells: ['name', 'uid', 'orgUnit'],
       },
     },
   },

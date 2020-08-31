@@ -136,13 +136,13 @@ export function userGroupTableConfigFactory(): TableConfig {
 export const userGroupTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER_GROUP]: {
-      fields: ['name', 'unit'],
+      cells: ['name', 'unit'],
       options: {
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -153,7 +153,7 @@ export const userGroupTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_GROUP_USERS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -161,19 +161,19 @@ export const userGroupTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
-        fields: ['name', 'uid', 'roles', 'orgUnit'],
+        cells: ['name', 'uid', 'roles', 'orgUnit'],
         options: {},
       },
     },
     [OrganizationTableType.USER_GROUP_PERMISSIONS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -181,14 +181,14 @@ export const userGroupTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {
           sort: 'byCode',
         },
       },
       lg: {
-        fields: ['name', 'limit', 'orgUnit'],
+        cells: ['name', 'limit', 'orgUnit'],
       },
     },
   },

@@ -18,7 +18,7 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    fields: headers,
+    cells: headers,
     options: {
       layout: TableLayout.VERTICAL,
     },

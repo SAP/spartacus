@@ -116,13 +116,13 @@ export function costCenterTableConfigFactory(): TableConfig {
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
-      fields: ['name', 'active', 'currency', 'unit'],
+      cells: ['name', 'active', 'currency', 'unit'],
       options: {
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -136,7 +136,7 @@ export const costCenterTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -145,7 +145,7 @@ export const costCenterTableConfig: TableConfig = {
     },
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
       xs: {
-        fields: ['selected', 'summary', 'link'],
+        cells: ['selected', 'summary', 'link'],
         options: {
           pagination: {
             sort: 'byName',
@@ -153,7 +153,7 @@ export const costCenterTableConfig: TableConfig = {
         },
       },
       lg: {
-        fields: ['name', 'code', 'amount', 'dateRange'],
+        cells: ['name', 'code', 'amount', 'dateRange'],
       },
     },
   },

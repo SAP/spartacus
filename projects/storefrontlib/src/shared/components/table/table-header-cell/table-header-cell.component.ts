@@ -41,7 +41,7 @@ export class TableHeaderCellComponent {
   }
 
   protected get fieldOptions(): TableFieldOptions {
-    return this.outlet?.context._options?.fields?.[this.field];
+    return this.outlet?.context._options?.cells?.[this.field];
   }
 
   protected get field(): string {

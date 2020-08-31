@@ -5,7 +5,7 @@ import { TableHeaderOutletContext, TableOptions } from '../table.model';
 import { TableHeaderCellComponent } from './table-header-cell.component';
 
 const mockOptions: TableOptions = {
-  fields: {
+  cells: {
     name1: {
       label: 'static name',
     },

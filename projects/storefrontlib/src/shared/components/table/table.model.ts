@@ -30,7 +30,7 @@ export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  fields?: string[];
+  cells?: string[];
 
   /**
    * Global table structure options.
@@ -68,7 +68,7 @@ export interface TableOptions {
   dataComponent?: Type<any>;
 
   // field specific options
-  fields?: {
+  cells?: {
     [fieldKey: string]: TableFieldOptions;
   };
 }

@@ -93,11 +93,11 @@ export class TableService {
 
     const closestBreakpoint = [...relevant]
       .reverse()
-      .find((br) => !!this.config.table[type][br]?.fields);
-    const fields =
-      this.config.table[type][closestBreakpoint]?.fields ||
-      this.config.table[type].fields ||
-      defaultStructure?.fields;
+      .find((br) => !!this.config.table[type][br]?.cells);
+    const cells =
+      this.config.table[type][closestBreakpoint]?.cells ||
+      this.config.table[type].cells ||
+      defaultStructure?.cells;
 
     // add all default table configurations
     let options = {
@@ -115,7 +115,7 @@ export class TableService {
       };
     });
 
-    return { fields, options };
+    return { cells, options };
   }
 
   /**
@@ -130,8 +130,8 @@ export class TableService {
     );
     return data$.pipe(
       map((data: any[]) => {
-        const fields = Object.keys(data?.[0]).map((key) => key);
-        return { type, fields } as TableStructure;
+        const cells = Object.keys(data?.[0]).map((key) => key);
+        return { type, cells } as TableStructure;
       })
     );
   }
@@ -146,7 +146,7 @@ export class TableService {
     );
     return of({
       type,
-      fields: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
+      cells: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
     });
   }
 

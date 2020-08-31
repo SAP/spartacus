@@ -90,13 +90,13 @@ export function permissionTableConfigFactory(): TableConfig {
 export const permissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
-      fields: ['code', 'active', 'limit', 'unit'],
+      cells: ['code', 'active', 'limit', 'unit'],
       options: {
         pagination: {
           sort: 'byCode',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           code: {
             dataComponent: ActiveLinkCellComponent,
           },

@@ -34,7 +34,7 @@ export class TableRendererService {
    * Adds the configured table component for the header and data.
    */
   add(dataset: Table): void {
-    dataset.structure?.fields?.forEach((field) => {
+    dataset.structure?.cells?.forEach((field) => {
       const thRenderer = this.getHeaderRenderer(dataset, field);
       if (thRenderer) {
         const ref = this.getHeaderOutletRef(dataset.structure.type, field);
@@ -64,7 +64,7 @@ export class TableRendererService {
    */
   protected getHeaderRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options?.fields?.[field]?.headerComponent ||
+      dataset.structure.options?.cells?.[field]?.headerComponent ||
       dataset.structure.options?.headerComponent ||
       this.config.tableOptions?.headerComponent
     );
@@ -75,7 +75,7 @@ export class TableRendererService {
    */
   protected getDataRenderer(dataset: Table, field: string): Type<any> {
     return (
-      dataset.structure.options?.fields?.[field]?.dataComponent ||
+      dataset.structure.options?.cells?.[field]?.dataComponent ||
       dataset.structure.options?.dataComponent ||
       this.config.tableOptions?.dataComponent
     );

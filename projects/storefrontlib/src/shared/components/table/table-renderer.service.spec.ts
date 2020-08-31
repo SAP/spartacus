@@ -4,7 +4,7 @@ import { OutletService } from 'projects/storefrontlib/src/cms-structure';
 import { Table, TableHeader, TableService } from '.';
 import { TableConfig } from './config/table.config';
 import { TableRendererService } from './table-renderer.service';
-import { TableStructure } from './table.model';
+import { TableOptions, TableStructure } from './table.model';
 import createSpy = jasmine.createSpy;
 
 class MockOutletService {
@@ -22,7 +22,9 @@ class MockHeaderComponent {}
 @Component({ template: '' })
 class MockCodeRendererComponent {}
 
-const mockOptions = { fields: { key2: { label: { i18nKey: 'prop.key2' } } } };
+const mockOptions: TableOptions = {
+  cells: { key2: { label: { i18nKey: 'prop.key2' } } },
+};
 const emptyTableStructure: Table = {
   structure: { type: 'mock' },
   data: [],
@@ -30,7 +32,7 @@ const emptyTableStructure: Table = {
 const mockTableWithHeaderComponent: Table = {
   structure: {
     type: 'mock',
-    fields: ['name'],
+    cells: ['name'],
     options: { headerComponent: MockHeaderComponent },
   } as TableStructure,
   data: [],
@@ -38,11 +40,11 @@ const mockTableWithHeaderComponent: Table = {
 const mockTableWithHeaderAndDataComponent: Table = {
   structure: {
     type: 'mock',
-    fields: ['name', 'code', 'unit'],
+    cells: ['name', 'code', 'unit'],
     options: {
       headerComponent: MockHeaderComponent,
       dataComponent: MockDataComponent,
-      fields: {
+      cells: {
         code: {
           dataComponent: MockCodeRendererComponent,
         },
@@ -55,7 +57,7 @@ const mockTableWithHeaderAndDataComponent: Table = {
 const mockTableWithoutHeaderAndDataComponent: Table = {
   structure: {
     type: 'mock',
-    fields: ['name', 'code', 'unit'],
+    cells: ['name', 'code', 'unit'],
   } as TableStructure,
   data: [{ name: 'my name', code: '123' }],
 };
@@ -199,7 +201,7 @@ describe('TableRendererService', () => {
         );
         expect(context._field).toEqual('key2');
         expect(
-          (context._options.fields['key2'].label as TableHeader).i18nKey
+          (context._options.cells['key2'].label as TableHeader).i18nKey
         ).toEqual('prop.key2');
       });
 

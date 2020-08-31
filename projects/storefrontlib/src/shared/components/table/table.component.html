@@ -5,7 +5,7 @@
       (click)="launchItem(item, $event)"
       [class.is-current]="isCurrentItem(item)"
     >
-      <tr *ngFor="let cell of structure.fields" [class]="cell">
+      <tr *ngFor="let cell of structure.cells" [class]="cell">
         <th>
           <ng-template
             [cxOutlet]="getHeaderOutletRef(cell)"
@@ -30,7 +30,7 @@
   <ng-container *ngIf="verticalLayout">
     <thead>
       <tr>
-        <th scope="col" *ngFor="let cell of structure.fields" [class]="cell">
+        <th scope="col" *ngFor="let cell of structure.cells" [class]="cell">
           <ng-template
             [cxOutlet]="getHeaderOutletRef(cell)"
             [cxOutletContext]="getHeaderOutletContext(cell)"
@@ -46,7 +46,7 @@
       [class.is-current]="isCurrentItem(item)"
       (click)="launchItem(item, $event)"
     >
-      <td *ngFor="let cell of structure.fields; let i = index" [class]="cell">
+      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
         <ng-template
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
@@ -58,7 +58,7 @@
   </ng-container>
 
   <ng-container *ngIf="horizontalLayout">
-    <tr *ngFor="let cell of structure.fields" [class]="cell">
+    <tr *ngFor="let cell of structure.cells" [class]="cell">
       <th scope="col">
         <ng-template
           [cxOutlet]="getHeaderOutletRef(cell)"
