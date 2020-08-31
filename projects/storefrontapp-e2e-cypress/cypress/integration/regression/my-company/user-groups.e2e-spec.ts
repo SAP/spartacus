@@ -65,57 +65,60 @@ const config: MyCompanyConfig = {
       ],
     },
   },
-  details: {
-    tabs: [
-      {
-        label: 'Purchase limits',
-        link: `/purchase-limits`,
-        manageLink: '/assign-purchase-limits/limitedPermissions',
-        manageSelector: 'cx-user-group-assign-permissions',
-        availableEndpoint: '**/availableOrderApprovalPermissions**',
-        availableParam: 'orderApprovalPermissions',
-        selector: 'cx-user-group-permissions',
-        objectType: 'orderApprovalPermissions',
-        rows: [
-          {
-            header: 'Code',
-            text: 'code',
-            // link: '/organization/purchase-limit/',
-          },
-          { header: 'Limit', text: 'orderApprovalPermissionType.name' },
-          {
-            header: 'Unit',
-            text: 'orgUnit.name',
-            link: `/organization/unit/`,
-          },
-        ],
-      },
-      {
-        label: 'Users',
-        link: `/users`,
-        manageLink: '/assign-users/limitedPermissions',
-        manageSelector: 'cx-user-group-assign-users',
-        availableEndpoint: '**/availableOrgCustomers**',
-        availableParam: 'members',
-        selector: 'cx-user-group-users',
-        objectType: 'users',
-        unassignAll: true,
-        rows: [
-          {
-            text: 'uid',
-            link: '/organization/user/',
-          },
-          {
-            text: 'name',
-          },
-          {
-            text: 'orgUnit.name',
-            link: `/organization/unit/`,
-          },
-        ],
-      },
-    ],
-  },
+  tabs: [
+    {
+      label: 'Purchase limits',
+      link: `/purchase-limits`,
+      manageSelector: 'cx-user-group-assign-permission',
+      listSelector: 'cx-user-group-permission-list',
+      availableEndpoint: '**/availableOrderApprovalPermissions**',
+      availableParam: 'orderApprovalPermissions',
+      selector: 'cx-user-group-permission',
+      objectType: 'orderApprovalPermissions',
+      rows: [
+        {
+          header: 'Code',
+          text: 'code',
+          // link: '/organization/purchase-limit/',
+        },
+        { header: 'Limit', text: 'orderApprovalPermissionType.name' },
+        {
+          header: 'Unit',
+          text: 'orgUnit.name',
+          link: `/organization/unit/`,
+        },
+      ],
+    },
+    {
+      label: 'Users',
+      link: `/users`,
+      manageSelector: 'cx-user-group-assign-user',
+      listSelector: 'cx-user-group-user-list',
+      availableEndpoint: '**/availableOrgCustomers**',
+      availableParam: 'members',
+      selector: 'cx-user-group-user',
+      objectType: 'members',
+      unassignAll: true,
+      rows: [
+        {
+          header: 'Code',
+          text: 'code',
+          // link: '/organization/purchase-limit/',
+        },
+        {
+          text: 'name',
+          header: 'name',
+          link: '/organization/user/',
+        },
+
+        {
+          header: 'Parent Unit',
+          text: 'orgUnit.name',
+          link: `/organization/unit/`,
+        },
+      ],
+    },
+  ],
 };
 
 testMyCompanyFeatureFromConfig(config);
