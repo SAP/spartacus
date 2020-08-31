@@ -5,12 +5,13 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
+import { ConfiguratorGroupUtilsService } from '../../facade';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
@@ -34,7 +35,8 @@ let productConfiguration: Configurator.Configuration = {
   configId: 'a',
 };
 
-let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {};
+let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters;
+
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
@@ -116,6 +118,10 @@ describe('ConfiguratorEffect', () => {
           provide: ConfiguratorCommonsConnector,
           useClass: MockConnector,
         },
+        {
+          provide: ConfiguratorGroupUtilsService,
+          useClass: ConfiguratorGroupUtilsService,
+        },
       ],
     });
 
@@ -160,6 +166,7 @@ describe('ConfiguratorEffect', () => {
       userId: userId,
       cartId: cartId,
       configuration: productConfiguration,
+      cartEntryNumber: entryNumber.toString(),
     };
     configuratorUtils.setOwnerKey(owner);
   });
@@ -200,7 +207,7 @@ describe('ConfiguratorEffect', () => {
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
       ownerKey: productConfiguration.owner.key,
-      error: makeErrorSerializable(errorResponse),
+      error: normalizeHttpError(errorResponse),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -342,7 +349,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -391,7 +398,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -415,9 +422,10 @@ describe('ConfiguratorEffect', () => {
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
         productConfiguration
       );
-      const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup({
-        entityKey: productConfiguration.owner.key,
-        currentGroup: groupId,
+      const setCurrentGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: groupId,
+        parentGroupId: null,
       });
 
       actions$ = hot('-a', { a: action });
@@ -524,7 +532,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
 
@@ -584,9 +592,13 @@ describe('ConfiguratorEffect', () => {
         ownerKey: owner.key,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntryFail = new CartActions.CartAddEntryFail(
-        makeErrorSerializable(errorResponse)
-      );
+      const cartAddEntryFail = new CartActions.CartAddEntryFail({
+        userId,
+        cartId,
+        productCode,
+        quantity,
+        error: normalizeHttpError(errorResponse),
+      });
 
       actions$ = hot('-a', { a: action });
 
@@ -623,9 +635,13 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
       );
-      const cartAddEntryFail = new CartActions.CartUpdateEntryFail(
-        makeErrorSerializable(errorResponse)
-      );
+      const cartAddEntryFail = new CartActions.CartUpdateEntryFail({
+        userId,
+        cartId,
+        entryNumber: entryNumber.toString(),
+        quantity: 1,
+        error: normalizeHttpError(errorResponse),
+      });
 
       actions$ = hot('-a', { a: action });
 
