@@ -11,8 +11,8 @@ import { TableRendererService } from './table-renderer.service';
 import {
   Table,
   TableDataOutletContext,
-  TableHeader,
   TableHeaderOutletContext,
+  TableLayout,
 } from './table.model';
 
 /**
@@ -52,26 +52,18 @@ import {
 })
 export class TableComponent {
   @HostBinding('attr.__cx-table-type') tableType: string;
+  @HostBinding('class.horizontal') horizontalLayout: boolean;
+  @HostBinding('class.vertical') verticalLayout: boolean;
+  @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
 
-  protected _dataset: Table;
-  @Input()
-  set dataset(dataset: Table) {
-    this._dataset = dataset;
-    this.rendererService.add(dataset);
-    this.addTableDebugInfo();
+  private _dataset: Table;
+  @Input() set dataset(value) {
+    this.init(value);
+    this._dataset = value;
   }
-
   get dataset(): Table {
     return this._dataset;
   }
-
-  /**
-   * If the suffix is true, the table gets a suffix column.
-   *
-   * The suffix columns can be used to store actions, which are not
-   * pure data properties.
-   */
-  @Input() suffix: boolean;
 
   /**
    * Provides a mechanism to compare a matching value for each item.
@@ -81,20 +73,22 @@ export class TableComponent {
    */
   @Input() currentItem: { value: any; property: string };
 
+  @Output() launch = new EventEmitter();
+
   constructor(protected rendererService: TableRendererService) {}
 
-  /**
-   * The paginateEvent is triggered when a new page is required. This includes sorting.
-   */
-  @Output() sortEvent: EventEmitter<string> = new EventEmitter();
+  init(dataset: Table) {
+    this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;
+    this.verticalStackedLayout = this.layout === TableLayout.VERTICAL_STACKED;
+    this.horizontalLayout = this.layout === TableLayout.HORIZONTAL;
 
-  /**
-   * Returns the static label for the given field, if available.
-   */
-  sort(header: TableHeader) {
-    if (header.sortCode) {
-      this.sortEvent.emit(header.sortCode);
-    }
+    this.rendererService.add(dataset);
+
+    this.addTableDebugInfo();
+  }
+
+  launchItem(item: any): void {
+    this.launch.emit(item);
   }
 
   /**
@@ -147,7 +141,7 @@ export class TableComponent {
     );
   }
 
-  trackData(_i, item): any {
+  trackData(_i: number, item: any): any {
     return JSON.stringify(item);
   }
 
@@ -161,11 +155,21 @@ export class TableComponent {
     }
   }
 
-  protected get type() {
+  /**
+   * Helper method to return the deeply nested orientation configuration.
+   */
+  private get layout() {
+    return this.dataset?.structure?.options?.layout;
+  }
+
+  /**
+   * Helper method to return the deeply nested type.
+   */
+  private get type() {
     return this.dataset?.structure?.type;
   }
 
-  protected get options() {
+  private get options() {
     return this.dataset?.structure?.options;
   }
 }

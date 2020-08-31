@@ -121,6 +121,6 @@ export class TableRendererService {
     field: string,
     data: any
   ): TableDataOutletContext {
-    return { _type: type, _options: options, _field: field, ...data };
+    return { ...data, _type: type, _options: options, _field: field };
   }
 }

@@ -1,4 +1,3 @@
-import * as AngularCore from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -81,27 +80,6 @@ describe('TableComponent', () => {
     expect(table.nativeElement).toBeTruthy();
   });
 
-  it('should add the table type to __cx-table-type attribute in devMode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
-
-    tableComponent.dataset = mockDataset;
-    fixture.detectChanges();
-    const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
-    expect(attr).toEqual('test-1');
-  });
-
-  it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
-
-    tableComponent.dataset = mockDataset;
-    fixture.detectChanges();
-
-    const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
-    expect(attr).toBeFalsy();
-  });
-
   describe('table header', () => {
     beforeEach(() => {
       tableComponent.dataset = mockDataset;
@@ -126,19 +104,6 @@ describe('TableComponent', () => {
     });
 
     describe('UI', () => {
-      it('should not add the thead when hideHeader = true', () => {
-        tableComponent.dataset = {
-          ...mockDataset,
-          structure: {
-            ...mockDataset.structure,
-            options: { hideHeader: true },
-          },
-        };
-        fixture.detectChanges();
-        const table = fixture.debugElement.query(By.css('table > thead'));
-        expect(table).toBeNull();
-      });
-
       it('should add a th for each tableHeader ', () => {
         fixture.detectChanges();
         const table = fixture.debugElement.query(By.css('table > thead'));
@@ -225,28 +190,6 @@ describe('TableComponent', () => {
         ).nativeElement;
         expect(td3.classList).toContain('key3');
       });
-    });
-  });
-
-  describe('table suffix', () => {
-    beforeEach(() => {
-      tableComponent.dataset = mockDataset;
-    });
-
-    it('should render a suffix th to the header', () => {
-      tableComponent.suffix = true;
-      fixture.detectChanges();
-      const td = fixture.debugElement.query(By.css('table > tr > th.suffix'));
-      expect(td).toBeDefined();
-    });
-
-    it('should add a suffix td to each row', () => {
-      tableComponent.suffix = true;
-      fixture.detectChanges();
-      const td = fixture.debugElement.queryAll(
-        By.css('table > tr > td.suffix')
-      );
-      expect(td.length).toBe(3);
     });
   });
 

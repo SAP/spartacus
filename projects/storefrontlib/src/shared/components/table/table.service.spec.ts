@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { TableConfig } from './config/table.config';
-import { TableStructure } from './table.model';
+import { TableLayout, TableStructure } from './table.model';
 import { TableService } from './table.service';
 
 class MockBreakpointService {
@@ -46,12 +46,12 @@ const MockTableConfig: TableConfig = {
     table4: {
       fields: ['xs'],
       options: {
-        hideHeader: true,
+        layout: TableLayout.VERTICAL,
       },
       xl: {
         fields: ['xl'],
         options: {
-          hideHeader: false,
+          layout: TableLayout.HORIZONTAL,
         },
       },
     },
@@ -157,7 +157,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table4')
             .subscribe((table) => (result = table));
-          expect(result.options.hideHeader).toEqual(true);
+          expect(result.options.layout).toEqual(TableLayout.VERTICAL);
         });
 
         it('should merge options for xl screen', () => {
@@ -168,7 +168,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table4')
             .subscribe((table) => (result = table));
-          expect(result.options.hideHeader).toEqual(false);
+          expect(result.options.layout).toEqual(TableLayout.HORIZONTAL);
         });
       });
 
@@ -235,6 +235,7 @@ describe('TableService', () => {
             tableService
               .buildStructure(
                 'unknown',
+                {},
                 of([{ firstUnknown: 'foo', lastUnknown: 'bar' }])
               )
               .subscribe((structure) => (result = structure));
@@ -251,7 +252,6 @@ describe('TableService', () => {
             .subscribe((structure) => (result = structure));
 
           expect(result.fields.length).toEqual(5);
-          expect(result.options.hideHeader).toEqual(true);
         });
       });
     });

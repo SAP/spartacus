@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import { TableHeaderOutletContext } from '../table.model';
 
@@ -7,6 +7,7 @@ import { TableHeaderOutletContext } from '../table.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableDataCellComponent {
+  @HostBinding('class') cls = 'content-wrapper';
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
 
   get value(): string {

@@ -1,35 +1,82 @@
 <table *ngIf="dataset?.structure as structure">
-  <thead *ngIf="!structure.options?.hideHeader">
-    <tr>
-      <th scope="col" *ngFor="let field of structure.fields" [class]="field">
+  <ng-container *ngIf="verticalStackedLayout">
+    <tbody
+      *ngFor="let item of dataset.data; trackBy: trackData"
+      (click)="launchItem(item, $event)"
+    >
+      <tr *ngFor="let cell of structure.fields" [class]="cell">
+        <th>
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+        <td>
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ item[cell] }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+
+  <!-- vertical tables render the item  -->
+  <ng-container *ngIf="verticalLayout">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let cell of structure.fields" [class]="cell">
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+
+    <tr
+      *ngFor="let item of dataset.data; trackBy: trackData"
+      [class.is-current]="isCurrentItem(item)"
+      (click)="launchItem(item, $event)"
+    >
+      <td *ngFor="let cell of structure.fields; let i = index" [class]="cell">
         <ng-template
-          [cxOutlet]="getHeaderOutletRef(field)"
-          [cxOutletContext]="getHeaderOutletContext(field)"
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
         >
-          {{ field }}
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
+
+  <ng-container *ngIf="horizontalLayout">
+    <tr *ngFor="let cell of structure.fields" [class]="cell">
+      <th scope="col">
+        <ng-template
+          [cxOutlet]="getHeaderOutletRef(cell)"
+          [cxOutletContext]="getHeaderOutletContext(cell)"
+        >
+          {{ cell }}
         </ng-template>
       </th>
-      <th *ngIf="suffix" class="suffix">
-        <ng-template cxOutlet="table.header.suffix"> </ng-template>
-      </th>
-    </tr>
-  </thead>
-
-  <tr
-    *ngFor="let item of dataset.data; trackBy: trackData"
-    [class.is-current]="isCurrentItem(item)"
-  >
-    <td *ngFor="let field of structure.fields; let i = index" [class]="field">
-      <ng-template
-        [cxOutlet]="getDataOutletRef(field)"
-        [cxOutletContext]="getDataOutletContext(field, item)"
+      <td
+        *ngFor="let item of dataset.data; trackBy: trackData"
+        [class.is-current]="isCurrentItem(item)"
       >
-        {{ item[field] }}
-      </ng-template>
-    </td>
-
-    <td *ngIf="suffix" class="suffix">
-      <ng-template cxOutlet="table.data.suffix"> </ng-template>
-    </td>
-  </tr>
+        <ng-template
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
+        >
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
 </table>
