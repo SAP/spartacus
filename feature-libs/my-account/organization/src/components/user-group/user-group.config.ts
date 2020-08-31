@@ -138,7 +138,6 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP]: {
       fields: ['name'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
@@ -154,15 +153,12 @@ export const userGroupTableConfig: TableConfig = {
       },
       lg: {
         fields: ['name', 'unit'],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.USER_GROUP_USERS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -171,7 +167,6 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
@@ -184,7 +179,6 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP_PERMISSIONS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -193,7 +187,6 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },

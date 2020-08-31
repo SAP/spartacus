@@ -118,7 +118,6 @@ export const costCenterTableConfig: TableConfig = {
     [OrganizationTableType.COST_CENTER]: {
       fields: ['name'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
@@ -137,15 +136,12 @@ export const costCenterTableConfig: TableConfig = {
       },
       lg: {
         fields: ['name', 'active', 'currency', 'unit'],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -155,7 +151,6 @@ export const costCenterTableConfig: TableConfig = {
       xs: {
         fields: ['selected', 'summary', 'link'],
         options: {
-          hideHeader: true,
           pagination: {
             sort: 'byName',
           },

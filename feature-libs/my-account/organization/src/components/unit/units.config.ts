@@ -186,7 +186,6 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_USERS]: {
       fields: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -195,7 +194,6 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_CHILDREN]: {
       fields: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -204,7 +202,6 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_APPROVERS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -213,22 +210,18 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
         fields: ['name', 'email', 'roles', 'orgUnit'],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.UNIT_ASSIGN_ROLES]: {
       fields: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
@@ -242,15 +235,12 @@ export const unitsTableConfig: TableConfig = {
           'roleManager',
           'roleAdministrator',
         ],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: {
       fields: ['summary'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -259,7 +249,6 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_COST_CENTERS]: {
       fields: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },

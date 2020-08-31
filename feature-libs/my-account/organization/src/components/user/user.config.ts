@@ -172,7 +172,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER]: {
       fields: ['name'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
@@ -194,15 +193,12 @@ export const userTableConfig: TableConfig = {
       },
       lg: {
         fields: ['name', 'active', 'uid', 'roles', 'unit'],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.USER_APPROVERS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -211,22 +207,18 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_ASSIGN_APPROVERS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
         fields: ['name', 'email', 'roles', 'orgUnit'],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -235,7 +227,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_ASSIGN_PERMISSIONS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },
@@ -247,7 +238,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_USER_GROUPS]: {
       fields: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -256,7 +246,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_ASSIGN_USER_GROUPS]: {
       fields: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },
