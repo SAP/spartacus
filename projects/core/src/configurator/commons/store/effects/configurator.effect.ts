@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -22,6 +21,7 @@ import { ConfiguratorGroupUtilsService } from '../../facade/configurator-group-u
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
+import { normalizeHttpError } from './../../../../util/normalize-http-error';
 
 @Injectable()
 export class ConfiguratorEffects {

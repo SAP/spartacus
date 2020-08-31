@@ -5,7 +5,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
@@ -16,6 +15,7 @@ import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
+import { normalizeHttpError } from './../../../../util/normalize-http-error';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
 import * as fromEffects from './configurator.effect';
 
