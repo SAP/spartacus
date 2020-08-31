@@ -1,7 +1,10 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="row">
     <div class="col-md-9 col-lg-9">
-      <div class="form-group">
+      <div
+        class="form-group"
+        *ngIf="attribute.values && attribute.values.length !== 0"
+      >
         <select
           class="form-control"
           [formControl]="attributeDropDownForm"
