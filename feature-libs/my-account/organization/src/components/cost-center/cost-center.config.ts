@@ -116,7 +116,7 @@ export function costCenterTableConfigFactory(): TableConfig {
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
-      fields: ['name'],
+      fields: ['name', 'active', 'currency', 'unit'],
       options: {
         pagination: {
           sort: 'byName',
@@ -133,10 +133,6 @@ export const costCenterTableConfig: TableConfig = {
             dataComponent: UnitCellComponent,
           },
         },
-      },
-      lg: {
-        fields: ['name', 'active', 'currency', 'unit'],
-        options: {},
       },
     },
     [OrganizationTableType.COST_CENTER_BUDGETS]: {

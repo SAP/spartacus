@@ -170,7 +170,7 @@ export function userTableConfigFactory(): TableConfig {
 export const userTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
-      fields: ['name'],
+      fields: ['name', 'active', 'uid', 'roles', 'unit'],
       options: {
         pagination: {
           sort: 'byName',
@@ -190,10 +190,6 @@ export const userTableConfig: TableConfig = {
             dataComponent: UnitCellComponent,
           },
         },
-      },
-      lg: {
-        fields: ['name', 'active', 'uid', 'roles', 'unit'],
-        options: {},
       },
     },
     [OrganizationTableType.USER_APPROVERS]: {

@@ -90,7 +90,7 @@ export function permissionTableConfigFactory(): TableConfig {
 export const permissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
-      fields: ['name'],
+      fields: ['code', 'active', 'limit', 'unit'],
       options: {
         pagination: {
           sort: 'byCode',
@@ -110,9 +110,6 @@ export const permissionTableConfig: TableConfig = {
             dataComponent: LimitCellComponent,
           },
         },
-      },
-      lg: {
-        fields: ['code', 'active', 'limit', 'unit'],
       },
     },
   },
