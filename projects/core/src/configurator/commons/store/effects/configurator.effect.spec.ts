@@ -11,7 +11,7 @@ import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import { ConfiguratorGroupUtilsService } from '../../facade';
+import { ConfiguratorGroupUtilsService } from '../../facade/configurator-group-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
