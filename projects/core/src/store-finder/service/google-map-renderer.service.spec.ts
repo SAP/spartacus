@@ -1,5 +1,5 @@
 import { GoogleMapRendererService } from './google-map-renderer.service';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { StoreDataService } from '../facade/store-data.service';
 import { StoreFinderConfig } from '../config/store-finder-config';

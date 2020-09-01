@@ -2,13 +2,13 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  BaseOption,
-  I18nTestingModule,
   Product,
   RoutingService,
   UrlCommandRoute,
   UrlCommands,
   VariantType,
+  I18nTestingModule,
+  BaseOption,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';

@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { ICON_TYPE, IconConfig, IconResourceType } from './icon.model';
+import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
 const FONT_AWESOME_RESOURCE =
   'https://use.fontawesome.com/releases/v5.8.1/css/all.css';

@@ -2,11 +2,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
-  BaseOption,
   I18nTestingModule,
+  BaseOption,
+  VariantType,
   RoutingService,
   UrlCommands,
-  VariantType,
 } from '@spartacus/core';
 import { VariantColorSelectorComponent } from './variant-color-selector.component';
 import { RouterTestingModule } from '@angular/router/testing';
