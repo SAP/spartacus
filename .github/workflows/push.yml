@@ -4,9 +4,14 @@ jobs:
   e2eTests:
     name: Cypress e2e tests
     runs-on: ubuntu-latest
+    container: cypress/browsers:node12.6.0-chrome77
     steps:
-      - uses: actions/checkout@master
-      - name: e2e tests
-        run: ci-scripts/e2e-cypress.sh
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          build: yarn build:core:lib
+          command: yarn e2e:cy:start-run-smoke-ci:2005
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
