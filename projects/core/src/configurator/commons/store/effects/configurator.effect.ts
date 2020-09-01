@@ -20,6 +20,7 @@ import { ConfiguratorCommonsConnector } from '../../connectors/configurator-comm
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
+import { normalizeHttpError } from './../../../../util/normalize-http-error';
 
 @Injectable()
 export class ConfiguratorEffects {
@@ -75,7 +76,7 @@ export class ConfiguratorEffects {
           catchError((error) => [
             new ConfiguratorActions.ReadConfigurationFail({
               ownerKey: action.payload.configuration.owner.key,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         );
@@ -102,8 +103,7 @@ export class ConfiguratorEffects {
             );
           }),
           catchError((error) => {
-            const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.configId;
+            const errorPayload = normalizeHttpError(error);
             return [
               new ConfiguratorActions.UpdateConfigurationFail({
                 configuration: payload,
@@ -133,8 +133,7 @@ export class ConfiguratorEffects {
           );
         }),
         catchError((error) => {
-          const errorPayload = makeErrorSerializable(error);
-          errorPayload.configId = payload.configId;
+          const errorPayload = normalizeHttpError(error);
           return [
             new ConfiguratorActions.UpdatePriceSummaryFail({
               ownerKey: payload.owner.key,
@@ -166,8 +165,7 @@ export class ConfiguratorEffects {
             });
           }),
           catchError((error) => {
-            const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.owner.id;
+            const errorPayload = normalizeHttpError(error);
             return [
               new ConfiguratorActions.GetConfigurationOverviewFail({
                 ownerKey: payload.owner.key,
