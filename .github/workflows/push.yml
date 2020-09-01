@@ -12,7 +12,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: yarn build:core:lib
-          start: start:ci:2005
+          start: yarn start:ci:2005
           command: yarn e2e:cy:run:smoke:ci:2005
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
