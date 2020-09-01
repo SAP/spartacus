@@ -4,6 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -118,12 +119,15 @@ const configurationState: ConfigurationState = {
 
 let configCartObservable;
 let configOrderObservable;
-let activeCartObservable;
+let isStableObservable;
+
+class MockActiveCartService {
+  isStable(): Observable<boolean> {
+    return isStableObservable;
+  }
+}
 
 class MockConfiguratorCartService {
-  checkForActiveCartUpdates(): Observable<boolean> {
-    return activeCartObservable;
-  }
   readConfigurationForCartEntry() {
     return configCartObservable;
   }
@@ -175,7 +179,7 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
-  activeCartObservable = of(false);
+  isStableObservable = of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -191,6 +195,10 @@ describe('ConfiguratorCommonsService', () => {
         {
           provide: ConfiguratorCartService,
           useClass: MockConfiguratorCartService,
+        },
+        {
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();
@@ -316,7 +324,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should do nothing on update in case cart updates are pending', () => {
-    activeCartObservable = of(true);
+    isStableObservable = of(false);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,

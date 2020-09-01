@@ -103,11 +103,11 @@ export function checkNotificationBannerOnOP(
  * Verifies whether the issues banner is displayed and the number of issues are accurate.
  *
  * @param {number} numberOfIssues - Expected number of issues
- * @return - HTML element of 'cx-configure-issues-notification' component, if it is visible.
+ * @return - HTML element of 'cx-error-container' component, if it is visible.
  * Otherwise verifies if this element is not visible.
  */
 export function verifyNotificationBannerOnOP(numberOfIssues?: number) {
-  const element = cy.get('cx-configure-issues-notification');
+  const element = cy.get('cx-error-container');
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
