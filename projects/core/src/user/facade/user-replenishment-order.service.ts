@@ -21,27 +21,32 @@ export class UserReplenishmentOrderService {
   /**
    * Returns replenishment order history list
    */
-  getReplenishmentOrderHistoryList(pageSize: number): Observable<ReplenishmentOrderList> {
-      return this.store.pipe(
-        select(UsersSelectors.getReplenishmentOrdersState),
-        tap((replenishmentOrderListState) => {
-          const attemptedLoad =
-            replenishmentOrderListState.loading ||
-            replenishmentOrderListState.success ||
-            replenishmentOrderListState.error;
-          if (!attemptedLoad) {
-            this.loadReplenishmentOrderList(pageSize);
-          }
-        }),
-        map((replenishmentOrderListState) => replenishmentOrderListState.value)
-      );
-    }
+  getReplenishmentOrderHistoryList(
+    pageSize: number
+  ): Observable<ReplenishmentOrderList> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersState),
+      tap((replenishmentOrderListState) => {
+        const attemptedLoad =
+          replenishmentOrderListState.loading ||
+          replenishmentOrderListState.success ||
+          replenishmentOrderListState.error;
+        if (!attemptedLoad) {
+          this.loadReplenishmentOrderList(pageSize);
+        }
+      }),
+      map((replenishmentOrderListState) => replenishmentOrderListState.value)
+    );
+  }
 
   /**
    * Returns a loaded flag for replenishment order history list
    */
   getReplenishmentOrderHistoryListLoaded(): Observable<boolean> {
-    console.log('from service ', this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded)))
+    console.log(
+      'from service ',
+      this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded))
+    );
     return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded));
   }
 
@@ -51,7 +56,11 @@ export class UserReplenishmentOrderService {
    * @param currentPage current page
    * @param sort sort
    */
-  loadReplenishmentOrderList(pageSize: number, currentPage ?: number, sort ?: string): void {
+  loadReplenishmentOrderList(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
     this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadUserReplenishmentOrders({
@@ -65,8 +74,8 @@ export class UserReplenishmentOrderService {
   }
 
   /**
-  * Cleaning order list
-  */
+   * Cleaning order list
+   */
   clearReplenishmentOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserReplenishmentOrders());
   }

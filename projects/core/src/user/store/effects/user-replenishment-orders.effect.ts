@@ -33,10 +33,13 @@ export class UserReplenishmentOrdersEffect {
             return new UserActions.LoadUserReplenishmentOrdersSuccess(orders);
           }),
           catchError((error) =>
-            of(new UserActions.LoadUserReplenishmentOrdersFail(makeErrorSerializable(error)))
+            of(
+              new UserActions.LoadUserReplenishmentOrdersFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
   );
-
 }

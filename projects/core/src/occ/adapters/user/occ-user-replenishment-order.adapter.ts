@@ -9,37 +9,39 @@ import { ReplenishmentOrderList } from '../../../model/replenishment-order.model
 import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 
 @Injectable()
-export class OccUserReplenishmentOrderAdapter implements UserReplenishmentOrderAdapter { 
+export class OccUserReplenishmentOrderAdapter
+  implements UserReplenishmentOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
-
   ) {}
 
-
   public loadHistory(
-      userId: string,
-      pageSize?: number,
-      currentPage?: number,
-      sort?: string
-    ): Observable<ReplenishmentOrderList> {
-      const params = {};
-      if(pageSize) {
-          params['pageSize'] = pageSize.toString();
-      }
-    if(currentPage) {
-          params['currentPage'] = currentPage.toString();
-      }
-    if(sort) {
-          params['sort'] = sort.toString();
-      }
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<ReplenishmentOrderList> {
+    const params = {};
+    if (pageSize) {
+      params['pageSize'] = pageSize.toString();
+    }
+    if (currentPage) {
+      params['currentPage'] = currentPage.toString();
+    }
+    if (sort) {
+      params['sort'] = sort.toString();
+    }
 
-    const url = this.occEndpoints.getUrl('replenishmentOrderHistory', { userId }, params);
+    const url = this.occEndpoints.getUrl(
+      'replenishmentOrderHistory',
+      { userId },
+      params
+    );
 
-      return this.http
-        .get<Occ.ReplenishmentOrderList>(url)
-        .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_HISTORY_NORMALIZER));
+    return this.http
+      .get<Occ.ReplenishmentOrderList>(url)
+      .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_HISTORY_NORMALIZER));
   }
-
 }

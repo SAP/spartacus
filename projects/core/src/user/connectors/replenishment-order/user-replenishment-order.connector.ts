@@ -9,10 +9,6 @@ import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapte
 export class UserReplenishmentOrderConnector {
   constructor(protected adapter: UserReplenishmentOrderAdapter) {}
 
-  // public get(userId: string,orderCode: string): Observable<ReplenishmentOrder> {
-  //   return this.adapter.get(userId, orderCode);
-  // }
-
   public getHistory(
     userId: string,
     pageSize?: number,
@@ -22,4 +18,3 @@ export class UserReplenishmentOrderConnector {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
   }
 }
-
