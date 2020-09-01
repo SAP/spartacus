@@ -11,7 +11,7 @@ import { OrgUnitService } from '../../../../core/services/org-unit.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitUsersService extends BaseOrganizationListService<B2BUser> {
+export class UnitUserListService extends BaseOrganizationListService<B2BUser> {
   protected tableType = OrganizationTableType.UNIT_USERS;
 
   constructor(

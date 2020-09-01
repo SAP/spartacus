@@ -5,7 +5,7 @@ import { B2BUser, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitUserListComponent } from './unit-user-list.component';
 import {
   CurrentUnitService,
-  UnitUsersService,
+  UnitUserListService,
 } from '@spartacus/my-account/organization';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -39,7 +39,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-class MockUnitUsersService implements Partial<MockUnitUsersService> {
+class MockUnitUserListService implements Partial<MockUnitUserListService> {
   toggleAssign = createSpy('toggleAssign');
   load = of(mockUserList);
   viewPage = createSpy('viewPage').and.stub();
@@ -69,7 +69,7 @@ describe('UnitUsersComponent', () => {
       ],
       declarations: [UnitUserListComponent],
       providers: [
-        { provide: UnitUsersService, useClass: MockUnitUsersService },
+        { provide: UnitUserListService, useClass: MockUnitUserListService },
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
-import { UnitUsersService } from './unit-users.service';
+import { UnitUserListService } from './unit-user-list.service';
 
 @Component({
   selector: 'cx-unit-user-list',
@@ -16,12 +16,12 @@ export class UnitUserListComponent {
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitUsersService.getTable(code, UnitRoleType.CUSTOMER)
+      this.unitUserListService.getTable(code, UnitRoleType.CUSTOMER)
     )
   );
 
   constructor(
-    protected unitUsersService: UnitUsersService,
+    protected unitUserListService: UnitUserListService,
     protected currentUnitService: CurrentUnitService
   ) {}
 }
