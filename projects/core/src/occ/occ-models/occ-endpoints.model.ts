@@ -23,7 +23,7 @@ export interface OccEndpoints {
   /**
    * Client logout (revoke authorization token)
    *
-   * @member string
+   * @member {string}
    */
   revoke?: string | OccEndpoint;
 

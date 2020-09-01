@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { PointOfService, StoreDataService } from '@spartacus/core';
+import { StoreDataService, PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { ICON_TYPE } from './../../../../misc/icon/icon.model';
 

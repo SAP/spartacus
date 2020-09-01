@@ -1,13 +1,13 @@
 import { CanActivate, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, filter, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
-  Product,
-  ProductScope,
-  ProductService,
-  RoutingService,
   VariantOption,
+  ProductService,
+  Product,
+  RoutingService,
+  ProductScope,
 } from '@spartacus/core';
 
 @Injectable({
