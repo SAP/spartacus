@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BaseOption, Product, VariantType } from '@spartacus/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Product, BaseOption, VariantType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-variants',
