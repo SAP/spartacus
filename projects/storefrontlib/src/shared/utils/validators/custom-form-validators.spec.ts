@@ -231,7 +231,7 @@ describe('FormValidationService', () => {
   });
 
   describe('Budget validator', () => {
-    const invalidValues = [null, -1, 'xyz'];
+    const invalidValues = [-100000, -1, 'xyz'];
     const validValues = [0, 1, 100000];
 
     it('should reject invalid values', () => {
