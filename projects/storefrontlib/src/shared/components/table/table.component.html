@@ -2,7 +2,7 @@
   <ng-container *ngIf="verticalStackedLayout">
     <tbody
       *ngFor="let item of dataset.data; trackBy: trackData"
-      (click)="launchItem(item, $event)"
+      (click)="launchItem(item)"
       [class.is-current]="isCurrentItem(item)"
     >
       <tr *ngFor="let cell of structure.cells" [class]="cell">
@@ -44,7 +44,7 @@
     <tr
       *ngFor="let item of dataset.data; trackBy: trackData"
       [class.is-current]="isCurrentItem(item)"
-      (click)="launchItem(item, $event)"
+      (click)="launchItem(item)"
     >
       <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
         <ng-template
@@ -70,7 +70,7 @@
       <td
         *ngFor="let item of dataset.data; trackBy: trackData"
         [class.is-current]="isCurrentItem(item)"
-        (click)="launchItem(item, $event)"
+        (click)="launchItem(item)"
       >
         <ng-template
           [cxOutlet]="getDataOutletRef(cell)"
