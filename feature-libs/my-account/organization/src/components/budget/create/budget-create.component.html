@@ -1,9 +1,5 @@
-<cx-organization-card>
-  <form
-    *ngIf="form$ | async as form"
-    [formGroup]="form"
-    (ngSubmit)="save(form)"
-  >
+<form *ngIf="form$ | async as form" [formGroup]="form" (ngSubmit)="save(form)">
+  <cx-organization-card [previous]="false">
     <button actions class="button primary">
       {{ 'organization.create' | cxTranslate }}
     </button>
@@ -11,8 +7,8 @@
       {{ 'organization.cancel' | cxTranslate }}
     </button>
 
-    <section main>
+    <section main class="details">
       <cx-budget-form [form]="form"> </cx-budget-form>
     </section>
-  </form>
-</cx-organization-card>
+  </cx-organization-card>
+</form>
