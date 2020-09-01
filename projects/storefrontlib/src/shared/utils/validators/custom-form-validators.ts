@@ -116,7 +116,7 @@ export class CustomFormValidators {
   static mustBePositive(control: AbstractControl): ValidationErrors | null {
     const amount = control.value as number;
 
-    return amount > 0 ? null : { cxNegativeAmount: true };
+    return amount >= 0 ? null : { cxNegativeAmount: true };
   }
 }
 
