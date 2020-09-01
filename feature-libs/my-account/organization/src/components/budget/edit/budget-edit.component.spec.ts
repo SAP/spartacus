@@ -1,21 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Budget,
-  BudgetService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { CurrentBudgetService } from '../current-budget.service';
-import { BudgetEditComponent } from './budget-edit.component';
-import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { Budget } from '../../../core/model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentBudgetService } from '../current-budget.service';
+import { BudgetFormService } from '../form/budget-form.service';
+import { BudgetEditComponent } from './budget-edit.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -31,7 +29,7 @@ const budgetCode = 'b1';
 
 const mockBudget: Budget = {
   code: budgetCode,
-  name: 'costCenter1',
+  name: 'budget1',
   currency: {
     symbol: '$',
     isocode: 'USD',
@@ -40,7 +38,15 @@ const mockBudget: Budget = {
 };
 
 class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
-  code$ = of(budgetCode);
+  key$ = of(budgetCode);
+}
+
+class MockBudgetFormService implements Partial<BudgetFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      code: new FormControl(budgetCode),
+    });
+  }
 }
 
 class MockBudgetService implements Partial<BudgetService> {
@@ -48,20 +54,8 @@ class MockBudgetService implements Partial<BudgetService> {
   loadBudget = createSpy('loadBudget');
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
-
-const mockRouterState = {
-  state: {
-    params: {
-      code: budgetCode,
-    },
-  },
-};
-
 class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+  go = createSpy('go');
 }
 
 describe('BudgetEditComponent', () => {
@@ -70,7 +64,7 @@ describe('BudgetEditComponent', () => {
   let budgetService: BudgetService;
   let routingService: RoutingService;
   let saveButton;
-  let costCenterFormComponent;
+  let budgetFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -85,17 +79,14 @@ describe('BudgetEditComponent', () => {
       ],
       declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
-        {
-          provide: CurrentBudgetService,
-          useClass: MockCurrentBudgetService,
-        },
+        { provide: BudgetFormService, useClass: MockBudgetFormService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
-
     routingService = TestBed.inject(RoutingService);
   }));
 
@@ -103,13 +94,12 @@ describe('BudgetEditComponent', () => {
     fixture = TestBed.createComponent(BudgetEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
-    costCenterFormComponent = fixture.debugElement.query(
-      By.css('cx-budget-form')
-    ).componentInstance;
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'))
+      .nativeElement;
+    budgetFormComponent = fixture.debugElement.query(By.css('cx-budget-form'))
+      .componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
@@ -120,23 +110,24 @@ describe('BudgetEditComponent', () => {
 
   describe('save valid form', () => {
     it('should disable form on save ', () => {
-      saveButton.nativeElement.click();
-      expect(costCenterFormComponent.form.disabled).toBeTruthy();
+      saveButton.click();
+      expect(budgetFormComponent.form.disabled).toBeTruthy();
     });
 
-    it('should create cost center', () => {
-      saveButton.nativeElement.click();
+    it('should create budget', () => {
+      saveButton.click();
       expect(budgetService.update).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
-      saveButton.nativeElement.click();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'costCenterDetails',
-        params: costCenterFormComponent.form.value,
-      });
+      saveButton.click();
+      expect(routingService.go).toHaveBeenCalledWith(
+        'budgetDetails',
+        budgetFormComponent.form.value
+      );
     });
-    it('should trigger reload of cost center model on each code change', () => {
+
+    it('should reload budget on each code change', () => {
       expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
     });
   });

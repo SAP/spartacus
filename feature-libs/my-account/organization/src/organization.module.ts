@@ -4,6 +4,10 @@ import { OrganizationComponentsModule } from './components/organization-componen
 import { OrganizationCoreModule } from './core/organization-core.module';
 
 @NgModule({
-  imports: [CommonModule, OrganizationCoreModule, OrganizationComponentsModule],
+  imports: [
+    CommonModule,
+    OrganizationCoreModule.forRoot(),
+    OrganizationComponentsModule,
+  ],
 })
 export class OrganizationModule {}

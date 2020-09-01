@@ -1,43 +1,23 @@
-import {
-  Pipe,
-  PipeTransform,
-  Type,
-  Input,
-  Output,
-  EventEmitter,
-  Component,
-} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import {
-  I18nTestingModule,
-  RoutingService,
-  EntitiesModel,
-  RoutesConfig,
-  RoutingConfig,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-
+import { I18nTestingModule, EntitiesModel, B2BUser } from '@spartacus/core';
+import { of } from 'rxjs';
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
+import { TableModule } from '@spartacus/storefront';
+import { CurrentUnitService } from '../../current-unit.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { FormsModule } from '@angular/forms';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { UnitAssignApproversService } from './unit-assign-approvers.service';
+import { UnitRoleType } from '@spartacus/my-account/organization';
+
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
 
 const code = 'unitCode';
-const roleId = 'b2bapprovergroup';
+const roleId = UnitRoleType.APPROVER;
 const customerId = 'customerId1';
-const userRow = {
-  row: {
-    customerId,
-  },
-};
 
 const mockUserList: EntitiesModel<B2BUser> = {
   values: [
@@ -53,97 +33,62 @@ const mockUserList: EntitiesModel<B2BUser> = {
       name: 'b2',
       uid: 'aaa2@bbb',
       customerId: 'customerId2',
-      selected: false,
+      selected: true,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
       roles: [],
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 2, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
-@Component({
-  template: '',
-  selector: 'cx-pagination',
-})
-class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
-}
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-const userList = new BehaviorSubject(mockUserList);
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadUsers = createSpy('loadUsers');
-  getUsers = createSpy('getUsers').and.returnValue(userList);
-  assignApprover = createSpy('assignApprover');
-  unassignApprover = createSpy('unassignApprover');
-}
-
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          code,
-          roleId,
-        },
-        queryParams: {
-          sort: 'byName',
-          currentPage: '0',
-          pageSize: '5',
-        },
-      },
-    });
+class MockUnitAssignApproversService {
+  toggleAssign = createSpy('toggleAssign').and.stub();
+  load = of(mockUserList);
+  viewPage = createSpy('viewPage').and.stub();
+  sort = createSpy('sort').and.stub();
+  getTable(_code) {
+    return of(mockUserList);
   }
 }
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+
+class MockCurrentUnitService {
+  key$ = of(code);
 }
 
 describe('UnitAssignApproversComponent', () => {
   let component: UnitAssignApproversComponent;
   let fixture: ComponentFixture<UnitAssignApproversComponent>;
-  let orgUnitService: MockOrgUnitService;
+  let unitAssignApproversService: UnitAssignApproversService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [
-        UnitAssignApproversComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        TableModule,
+        FormsModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        PaginationTestingModule,
       ],
+      declarations: [UnitAssignApproversComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
-          provide: PaginationConfig,
-          useValue: {
-            pagination: {},
-          },
+          provide: UnitAssignApproversService,
+          useClass: MockUnitAssignApproversService,
         },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    unitAssignApproversService = TestBed.inject(UnitAssignApproversService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAssignApproversComponent);
     component = fixture.componentInstance;
-    userList.next(mockUserList);
     fixture.detectChanges();
   });
 
@@ -151,38 +96,39 @@ describe('UnitAssignApproversComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No users found page if no users are found', () => {
-    const emptyBudgetList: EntitiesModel<B2BUser> = {
-      values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
-      sorts: [{ code: 'byName', selected: true }],
-    };
-
-    userList.next(emptyBudgetList);
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
+  it('should assign approver', () => {
+    component.toggleAssign(code, customerId, true);
+    expect(unitAssignApproversService.toggleAssign).toHaveBeenCalledWith(
+      code,
+      customerId,
+      roleId,
+      true
+    );
   });
 
-  describe('assign', () => {
-    it('should assign approver', () => {
-      component.toggleAssign(code, customerId, true);
-      expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
-        code,
-        userRow.row.customerId,
-        roleId
-      );
-    });
+  it('should unassign approver', () => {
+    component.toggleAssign(code, customerId, false);
+    expect(unitAssignApproversService.toggleAssign).toHaveBeenCalledWith(
+      code,
+      customerId,
+      roleId,
+      false
+    );
   });
 
-  describe('unassign', () => {
-    it('should unassign approver', () => {
-      component.toggleAssign(code, customerId, false);
-      expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
-        code,
-        userRow.row.customerId,
-        roleId
-      );
-    });
+  it('should delegate pagination to service', () => {
+    component.viewPage({ currentPage: 3 }, 7);
+    expect(unitAssignApproversService.viewPage).toHaveBeenCalledWith(
+      { currentPage: 3 },
+      7
+    );
+  });
+
+  it('should revert currentPage when sorting', () => {
+    component.sort({ currentPage: 3 }, 'byCode');
+    expect(unitAssignApproversService.sort).toHaveBeenCalledWith(
+      { currentPage: 3 },
+      'byCode'
+    );
   });
 });

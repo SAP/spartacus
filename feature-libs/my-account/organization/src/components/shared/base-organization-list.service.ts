@@ -13,9 +13,8 @@ import { OrganizationTableType } from './organization.model';
  * @property {OrganizationTableType} tableType Used to load the table structure configuration and generate table outlets.
  * @property {PaginationModel} pagination$ The pagination state of the listing.
  */
-@Injectable({
-  providedIn: 'root',
-})
+
+@Injectable()
 export abstract class BaseOrganizationListService<T, P = PaginationModel> {
   /**
    * Used to load the table structure configuration and generate table outlets.

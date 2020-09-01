@@ -1,99 +1,76 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
-  CostCenter,
-} from '@spartacus/core';
-
+import { I18nTestingModule, CostCenter, EntitiesModel } from '@spartacus/core';
 import { UnitCostCentersComponent } from './unit-cost-centers.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { Table2Module } from '@spartacus/storefront';
+import { TableModule } from '@spartacus/storefront';
+import { CurrentUnitService } from '../current-unit.service';
+import { UnitCostCentersService } from './unit-cost-centers.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 
 const code = 'b1';
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-const mockedCostCenters: CostCenter[] = [
-  {
-    code: 'c1',
-    name: 'n1',
-    currency: {
-      symbol: '$',
-      isocode: 'USD',
+const mockedCostCenters: EntitiesModel<CostCenter> = {
+  values: [
+    {
+      code: 'c1',
+      name: 'n1',
+      currency: {
+        symbol: '$',
+        isocode: 'USD',
+      },
+      unit: { name: 'orgName', uid: 'orgUid' },
     },
-    unit: { name: 'orgName', uid: 'orgUid' },
-  },
-  {
-    code: 'c2',
-    name: 'n2',
-    currency: {
-      symbol: '$',
-      isocode: 'USD',
+    {
+      code: 'c2',
+      name: 'n2',
+      currency: {
+        symbol: '$',
+        isocode: 'USD',
+      },
+      unit: { name: 'orgName2', uid: 'orgUid2' },
     },
-    unit: { name: 'orgName2', uid: 'orgUid2' },
-  },
-];
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  load = createSpy('load');
-  getCostCenters = createSpy('getCostCenters').and.returnValue(
-    of(mockedCostCenters)
-  );
-}
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-    },
-  },
+  ],
 };
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+class MockUnitCostCentersService {
+  getTable = function () {
+    return of(mockedCostCenters);
+  };
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService {
+  key$ = of(code);
 }
 
 describe('UnitCostCentersComponent', () => {
   let component: UnitCostCentersComponent;
   let fixture: ComponentFixture<UnitCostCentersComponent>;
-  // let orgUnitsService: MockOrgUnitService;
-  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
-      declarations: [UnitCostCentersComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        TableModule,
+      ],
+      declarations: [UnitCostCentersComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: UnitCostCentersService,
+          useClass: MockUnitCostCentersService,
+        },
+        {
+          provide: CurrentUnitService,
+          useClass: MockCurrentUnitService,
+        },
       ],
     }).compileComponents();
-
-    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {

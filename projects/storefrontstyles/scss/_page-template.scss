@@ -16,7 +16,7 @@ $page-template-whitelist: LandingPage2Template, ContentPage1Template,
   CompanyPageTemplate !default;
 
 @each $selector in $page-template-whitelist {
-  @include forVersion(1) {
+  @include forVersion(0) {
     #{$selector} {
       @if (index($page-template-blacklist, $selector) == null) {
         @extend %#{$selector} !optional;

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { B2BUserService, EntitiesModel, Permission } from '@spartacus/core';
+import { EntitiesModel, Permission } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
 
 /**
  * Service to populate Cost Center User data to `Table` data. The cost center

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUser, PaginationModel } from '@spartacus/core';
+import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Table } from '@spartacus/storefront';
 import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UnitUserAssignRolesService } from './unit-user-assign-roles.service';
@@ -16,7 +16,7 @@ export class UnitUserAssignRolesComponent {
   readonly rolesMap = UnitRoleType;
   protected readonly B2B_CUSTOMER_ROLE_ID = UnitRoleType.CUSTOMER;
 
-  code$ = this.currentUnitService.code$;
+  code$ = this.currentUnitService.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>

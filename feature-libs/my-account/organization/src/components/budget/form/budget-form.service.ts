@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Budget } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { Budget } from '../../../core/model/budget.model';
 
 @Injectable({
   providedIn: 'root',

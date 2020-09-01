@@ -2,15 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By, Title } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  B2BUnitNode,
-  I18nTestingModule,
-  OrgUnitService,
-  UserService,
-} from '@spartacus/core';
+import { B2BUnitNode, I18nTestingModule, UserService } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { UserFormComponent } from './user-form.component';
 import createSpy = jasmine.createSpy;
 

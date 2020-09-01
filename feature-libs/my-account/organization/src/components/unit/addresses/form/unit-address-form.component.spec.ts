@@ -1,22 +1,39 @@
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  I18nTestingModule,
   Country,
-  Title,
+  I18nTestingModule,
   Region,
+  Title,
   UserAddressService,
 } from '@spartacus/core';
-
-import { UnitAddressFormComponent } from './unit-address-form.component';
-import createSpy = jasmine.createSpy;
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { UnitAddressFormService } from './unit-address-form.service';
 import { FormErrorsComponent } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { Observable, of } from 'rxjs';
+import { UnitAddressFormComponent } from './unit-address-form.component';
+import { UnitAddressFormService } from './unit-address-form.service';
+
+import createSpy = jasmine.createSpy;
+
+const mockForm: FormGroup = new FormGroup({
+  id: new FormControl(''),
+  titleCode: new FormControl(''),
+  firstName: new FormControl(''),
+  lastName: new FormControl(''),
+  line1: new FormControl(''),
+  line2: new FormControl(''),
+  town: new FormControl(''),
+  postalCode: new FormControl(''),
+  phone: new FormControl(''),
+  country: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+  region: new FormGroup({
+    isocode: new FormControl(null),
+  }),
+});
 
 const mockTitles: Title[] = [
   {
@@ -49,21 +66,6 @@ const mockRegions: Region[] = [
     name: 'Quebec',
   },
 ];
-
-// const addressId = 'a1';
-
-// const mockAddress: Partial<B2BAddress> = {
-//   id: addressId,
-//   firstName: 'John',
-//   lastName: 'Doe',
-//   titleCode: 'mr',
-//   line1: 'Toyosaki 2 create on cart',
-//   line2: 'line2',
-//   town: 'town',
-//   region: { isocode: 'JP-27' },
-//   postalCode: 'zip',
-//   country: { isocode: 'JP' },
-// };
 
 class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy('getRegions').and.returnValue(of(mockRegions));
@@ -109,6 +111,7 @@ describe('UnitAddressFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAddressFormComponent);
     component = fixture.componentInstance;
+    component.form = mockForm;
     fixture.detectChanges();
   });
 
@@ -116,18 +119,11 @@ describe('UnitAddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should select country and call getRegions', () => {
-    component.form = new FormGroup({
-      country: new FormGroup({
-        isocode: new FormControl(null),
-      }),
-    });
-    fixture.detectChanges();
+  it('should select country and call getRegions', () => {
     component.countrySelected(mockCountries[0]);
-
-    expect(component.form['controls'].country['controls'].isocode).toEqual(
-      mockCountries[0].isocode
-    );
+    expect(
+      component.form['controls'].country['controls'].isocode.value
+    ).toEqual(mockCountries[0].isocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountries[0].isocode
     );

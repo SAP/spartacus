@@ -1,22 +1,20 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { of } from 'rxjs';
-
 import {
   I18nTestingModule,
-  OrgUnitService,
   B2BUnitNode,
   B2BApprovalProcess,
   B2BUnit,
 } from '@spartacus/core';
-
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
-import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
+import { CurrentUnitService } from '@spartacus/my-account/organization';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },
@@ -46,26 +44,29 @@ const mockOrgUnits: B2BUnitNode[] = [
     parent: 'parentUnit',
   },
 ];
+const mockForm: FormGroup = new FormGroup({
+  uid: new FormControl(''),
+  name: new FormControl(''),
+  parentOrgUnit: new FormGroup({
+    uid: new FormControl(null),
+  }),
+  approvalProcess: new FormGroup({
+    code: new FormControl(null),
+  }),
+});
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
+  getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
+    of(mockApprovalProcesses)
+  );
   loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
-  update = createSpy('update');
-  loadApprovalProcesses = createSpy('loadApprovalProcesses');
-  getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
-    of(mockApprovalProcesses)
-  );
 }
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  b2bUnit$ = of(mockOrgUnit.uid);
 }
 
 describe('UnitFormComponent', () => {
@@ -77,21 +78,25 @@ describe('UnitFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        DatePickerModule,
-        ReactiveFormsModule,
         NgSelectModule,
         RouterTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
       ],
-      declarations: [UnitFormComponent, MockUrlPipe, FormErrorsComponent],
-      providers: [{ provide: OrgUnitService, useClass: MockOrgUnitService }],
+      declarations: [UnitFormComponent, FormErrorsComponent],
+      providers: [
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
+      ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    orgUnitService = TestBed.inject(OrgUnitService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitFormComponent);
     component = fixture.componentInstance;
+    component.form = mockForm;
     fixture.detectChanges();
   });
 
@@ -124,47 +129,6 @@ describe('UnitFormComponent', () => {
       expect(orgUnitService.loadList).toHaveBeenCalledWith();
       expect(orgUnitService.getActiveUnitList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
-    });
-
-    it('should setup clean form', () => {
-      spyOn(component.form, 'patchValue');
-      component.ngOnInit();
-      expect(component.form.patchValue).not.toHaveBeenCalled();
-      expect(component.form.valid).toBeFalsy();
-    });
-
-    it('should setup form for update', () => {
-      spyOn(component.form, 'patchValue').and.callThrough();
-      component.ngOnInit();
-      expect(component.form.patchValue).toHaveBeenCalledWith(mockOrgUnit);
-      expect(component.form.valid).toBeTruthy();
-    });
-  });
-
-  describe('verifyOrgUnit', () => {
-    it('should not emit value if form is invalid', () => {
-      spyOn(component.submitForm, 'emit');
-      const form = fixture.debugElement.query(By.css('form'));
-      form.triggerEventHandler('submit', null);
-      expect(component.submitForm.emit).not.toHaveBeenCalled();
-    });
-
-    it('should emit value if form is valid', () => {
-      spyOn(component.submitForm, 'emit');
-      component.ngOnInit();
-      const form = fixture.debugElement.query(By.css('form'));
-      form.triggerEventHandler('submit', null);
-      expect(component.submitForm.emit).toHaveBeenCalledWith(
-        component.form.value
-      );
-    });
-  });
-
-  describe('back', () => {
-    it('should emit clickBack event', () => {
-      spyOn(component.clickBack, 'emit');
-      component.back();
-      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

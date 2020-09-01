@@ -17,13 +17,22 @@ describe('BudgetFormService', () => {
     const form = service.getForm({});
     expect(form.get('code')).not.toBeNull();
     expect(form.get('name')).not.toBeNull();
+    expect(form.get('startDate')).not.toBeNull();
+    expect(form.get('endDate')).not.toBeNull();
+    expect(form.get('budget')).not.toBeNull();
     expect(form.get('currency').get('isocode')).not.toBeNull();
     expect(form.get('orgUnit').get('uid')).not.toBeNull();
   });
 
   it('should apply the model', () => {
-    const form = service.getForm({ code: 'test' });
+    const form = service.getForm({
+      code: 'test',
+      currency: { isocode: 'EUR' },
+      orgUnit: { uid: '123' },
+    });
     expect(form.get('code')).not.toBeNull();
     expect(form.get('code').value).toEqual('test');
+    expect(form.get('currency').get('isocode').value).toEqual('EUR');
+    expect(form.get('orgUnit').get('uid').value).toEqual('123');
   });
 });

@@ -14,7 +14,7 @@ export class CostCenterAssignBudgetsComponent {
   /**
    * The code of the current cost center.
    */
-  code$ = this.currentCostCenterService$.code$;
+  code$ = this.currentCostCenterService$.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.assignService.getTable(code))

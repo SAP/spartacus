@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUserService, RoutingService, B2BUser } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -10,8 +10,9 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CurrentUserService } from '../current-user.service';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { ChangePasswordFormService } from '../change-password-form/change-password-form.service';
+import { CurrentUserService } from '../current-user.service';
 
 @Component({
   selector: 'cx-user-change-password',
@@ -20,7 +21,7 @@ import { ChangePasswordFormService } from '../change-password-form/change-passwo
   providers: [CurrentUserService],
 })
 export class UserChangePasswordComponent {
-  protected code$: Observable<string> = this.currentUserService.code$;
+  protected code$: Observable<string> = this.currentUserService.key$;
 
   protected user$: Observable<B2BUser> = this.code$.pipe(
     tap((code) => this.userService.load(code)),
@@ -55,7 +56,6 @@ export class UserChangePasswordComponent {
     } else {
       form.disable();
       this.userService.update(customerId, form.value);
-
       this.routingService.go({
         cxRoute: 'userDetails',
         params: { customerId },

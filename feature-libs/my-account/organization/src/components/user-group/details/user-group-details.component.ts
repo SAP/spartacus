@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserGroup, UserGroupService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroupService } from '../../../core/services/user-group.service';
 import { CurrentUserGroupService } from '../current-user-group.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { CurrentUserGroupService } from '../current-user-group.service';
   providers: [CurrentUserGroupService],
 })
 export class UserGroupDetailsComponent {
-  userGroup$: Observable<UserGroup> = this.currentUserGroupService.code$.pipe(
+  userGroup$: Observable<UserGroup> = this.currentUserGroupService.key$.pipe(
     // TODO: we should do this in the facade
     tap((code) => this.userGroupService.load(code)),
     switchMap((code) => this.userGroupService.get(code)),

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, OrganizationModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   OutletRefModule,
@@ -15,7 +15,6 @@ import { UserGroupListComponent } from './user-group-list.component';
   imports: [
     CommonModule,
     RouterModule,
-    OrganizationModule,
     TableModule,
     SplitViewModule,
     IconModule,

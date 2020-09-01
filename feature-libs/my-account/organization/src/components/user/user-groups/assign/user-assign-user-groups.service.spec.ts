@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Permission,
-  B2BUserService,
-  EntitiesModel,
-  UserGroup,
-} from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { UserGroup } from '../../../../core/model/user-group.model';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
 import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
 
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {
@@ -71,27 +68,27 @@ describe('UserAssignUserGroupListService', () => {
   });
 
   it('should not filter selected permissions', () => {
-    let result: Table<Permission>;
+    let result: Table<UserGroup>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    expect(result.data[0].uid).toEqual('first');
+    expect(result.data[1].uid).toEqual('second');
+    expect(result.data[2].uid).toEqual('third');
   });
 
   it('should assign permission', () => {
-    spyOn(userService, 'assignPermission');
+    spyOn(userService, 'assignUserGroup');
     service.toggleAssign('userCode', 'permissionCode');
-    expect(userService.assignPermission).toHaveBeenCalledWith(
+    expect(userService.assignUserGroup).toHaveBeenCalledWith(
       'userCode',
       'permissionCode'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userService, 'unassignPermission');
+    spyOn(userService, 'unassignUserGroup');
     service.toggleAssign('userCode', 'permissionCode', false);
-    expect(userService.unassignPermission).toHaveBeenCalledWith(
+    expect(userService.unassignUserGroup).toHaveBeenCalledWith(
       'userCode',
       'permissionCode'
     );

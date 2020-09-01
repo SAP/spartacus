@@ -1,75 +1,55 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import {
-  B2BUnitNode,
-  Currency,
-  CurrencyService,
-  I18nTestingModule,
-  OrgUnitService,
-} from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+  DateTimePickerModule,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { OrgUnitService } from '../../..';
 import { BudgetFormComponent } from './budget-form.component';
-import createSpy = jasmine.createSpy;
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-  {
-    active: true,
-    children: [],
-    id: 'unitNode2',
-    name: 'Org Unit 2',
-    parent: 'parentUnit',
-  },
-];
+const mockForm = new FormGroup({
+  name: new FormControl(),
+  code: new FormControl(),
+  startDate: new FormControl(),
+  endDate: new FormControl(),
+  currency: new FormGroup({
+    isocode: new FormControl(),
+  }),
+  orgUnit: new FormGroup({
+    uid: new FormControl(),
+  }),
+});
 
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadList = createSpy('loadList');
-  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
-    of(mockOrgUnits)
-  );
+class MockOrgUnitService {
+  getActiveUnitList() {
+    return of([]);
+  }
+  loadList() {}
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
-  loadList = jasmine.createSpy('loadList');
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
+class MockCurrencyService {
+  getAll() {}
 }
 
 describe('BudgetFormComponent', () => {
   let component: BudgetFormComponent;
   let fixture: ComponentFixture<BudgetFormComponent>;
-  let orgUnitService: OrgUnitService;
   let currencyService: CurrencyService;
+  let b2bUnitService: OrgUnitService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
+        DateTimePickerModule,
       ],
       declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [
@@ -78,13 +58,22 @@ describe('BudgetFormComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.inject(OrgUnitService);
     currencyService = TestBed.inject(CurrencyService);
-  }));
+    b2bUnitService = TestBed.inject(OrgUnitService);
+
+    spyOn(currencyService, 'getAll').and.callThrough();
+    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
+    spyOn(b2bUnitService, 'loadList').and.callThrough();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BudgetFormComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
@@ -92,7 +81,7 @@ describe('BudgetFormComponent', () => {
   });
 
   it('should render form groups', () => {
-    component.form = new FormGroup({ code: new FormControl() });
+    component.form = mockForm;
     fixture.detectChanges();
     const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
     expect(formGroups.length).toBeGreaterThan(0);
@@ -105,15 +94,19 @@ describe('BudgetFormComponent', () => {
     expect(formGroups.length).toBe(0);
   });
 
-  it('should load all currencies', () => {
-    component.form = new FormGroup({});
-    fixture.detectChanges();
+  it('should get currencies from service', () => {
+    component.form = mockForm;
     expect(currencyService.getAll).toHaveBeenCalled();
   });
 
-  it('should load active units', () => {
-    component.form = new FormGroup({});
+  it('should get active b2bUnits from service', () => {
+    component.form = mockForm;
+    expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
+  });
+
+  it('should load list of b2bUnits on subscription', () => {
+    component.form = mockForm;
     fixture.detectChanges();
-    expect(orgUnitService.getActiveUnitList).toHaveBeenCalled();
+    expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 });

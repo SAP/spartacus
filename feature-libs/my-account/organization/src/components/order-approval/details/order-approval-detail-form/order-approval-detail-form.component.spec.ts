@@ -8,18 +8,18 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   OrderApproval,
   OrderApprovalDecisionValue,
-  OrderApprovalService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+import { OrderApprovalService } from '../../../../core/services/order-approval.service';
 
-const REJECT = OrderApprovalDecisionValue.REJECT;
-const APPROVE = OrderApprovalDecisionValue.APPROVE;
+const { REJECT, APPROVE } = OrderApprovalDecisionValue;
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -48,8 +48,7 @@ class MockOrderApprovalDetailService {
   template: '',
 })
 class MockFormErrorsComponent {
-  @Input()
-  controll: FormControl;
+  @Input() control: FormControl;
 }
 
 @Component({
@@ -87,13 +86,13 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
       declarations: [
         OrderApprovalDetailFormComponent,
         MockFormErrorsComponent,
         MockSpinnerComponent,
         MockUrlPipe,
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         {
           provide: OrderApprovalDetailService,
@@ -105,6 +104,7 @@ describe('OrderApprovalDetailFormComponent', () => {
 
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);
+    getOrderApproval$.next(mockOrderApproval);
   }));
 
   beforeEach(() => {
@@ -113,6 +113,10 @@ describe('OrderApprovalDetailFormComponent', () => {
     fixture.detectChanges();
     orderApprovalService = TestBed.inject(OrderApprovalService);
     el = fixture.debugElement;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {

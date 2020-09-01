@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { UserPermissionListService } from './user-permission-list.service';
 import { CurrentUserService } from '../../current-user.service';
+import { UserPermissionListService } from './user-permission-list.service';
 
 @Component({
   selector: 'cx-user-permission-list',
   templateUrl: './user-permission-list.component.html',
 })
 export class UserPermissionListComponent {
-  code$: Observable<string> = this.currentUserService.code$;
+  code$: Observable<string> = this.currentUserService.key$;
   name$: Observable<string> = this.currentUserService.name$;
 
   dataTable$: Observable<Table> = this.code$.pipe(

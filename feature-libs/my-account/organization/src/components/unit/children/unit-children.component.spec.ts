@@ -1,27 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
-  B2BUnitNode,
-} from '@spartacus/core';
-
+import { B2BUnitNode, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitChildrenComponent } from './unit-children.component';
-import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { Table2Module } from '@spartacus/storefront';
+import { TableModule } from '@spartacus/storefront';
+import { CurrentUnitService } from '../current-unit.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UnitChildrenService } from './unit-children.service';
 
 const code = 'b1';
 
-const mockedTree: B2BUnitNode = {
-  active: true,
-  children: [
+const mockChildren: EntitiesModel<B2BUnitNode> = {
+  values: [
     {
       active: true,
       children: [],
@@ -37,66 +29,44 @@ const mockedTree: B2BUnitNode = {
       parent: 'Rustic',
     },
   ],
-  id: code,
-  name: 'orgUnit1',
 };
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
+class MockUnitChildrenService {
+  getTable = function () {
+    return of(mockChildren);
+  };
 }
 
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  load = createSpy('load');
-  getChildUnits = createSpy('getChildUnits').and.returnValue(
-    of(mockedTree.children)
-  );
-  loadTree = createSpy('loadTree');
-}
-
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-    },
-  },
-};
-
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
-}
-
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService {
+  key$ = of(code);
 }
 
 describe('UnitChildrenComponent', () => {
   let component: UnitChildrenComponent;
   let fixture: ComponentFixture<UnitChildrenComponent>;
-  // let orgUnitsService: MockOrgUnitService;
-  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
-      declarations: [UnitChildrenComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        TableModule,
+      ],
+      declarations: [UnitChildrenComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: UnitChildrenService,
+          useClass: MockUnitChildrenService,
+        },
+        {
+          provide: CurrentUnitService,
+          useClass: MockCurrentUnitService,
+        },
       ],
     }).compileComponents();
-
-    // orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {

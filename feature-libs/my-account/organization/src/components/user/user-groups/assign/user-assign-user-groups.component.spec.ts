@@ -1,17 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, I18nTestingModule } from '@spartacus/core';
+import { B2BUser, I18nTestingModule, Permission } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentUserService } from '../../current-user.service';
 import { UserAssignUserGroupsComponent } from './user-assign-user-groups.component';
 import { UserAssignUserGroupListService } from './user-assign-user-groups.service';
 
-const userCode = 'userCode';
+// const userCode = 'userCode';
 
 const mockPermissionList: Table<Permission> = {
   data: [
@@ -28,20 +29,27 @@ const mockPermissionList: Table<Permission> = {
   structure: { type: '' },
 };
 
-class MockActivatedRoute {
-  parent = {
-    parent: {
-      params: of({ code: userCode }),
-    },
-  };
-  snapshot = {};
-}
-
-class MockUserPermissionListService {
-  getTable(_code) {
+class MockUserAssignUserGroupListService {
+  sort() {}
+  viewPage() {}
+  toggleAssign() {}
+  getTable() {
     return of(mockPermissionList);
   }
-  toggleAssign() {}
+}
+
+const customerId = 'b1';
+
+const mockUser: B2BUser = {
+  customerId,
+  uid: 'userCode',
+  name: 'user1',
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
+};
+
+class MockCurrentUserService implements Partial<CurrentUserService> {
+  key$ = of(customerId);
+  item$ = of(mockUser);
 }
 
 describe('UserAssignUserGroupsComponent', () => {
@@ -58,13 +66,14 @@ describe('UserAssignUserGroupsComponent', () => {
         SplitViewTestingModule,
         TableModule,
         IconTestingModule,
+        PaginationTestingModule,
       ],
       declarations: [UserAssignUserGroupsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CurrentUserService, useClass: MockCurrentUserService },
         {
           provide: UserAssignUserGroupListService,
-          useClass: MockUserPermissionListService,
+          useClass: MockUserAssignUserGroupListService,
         },
       ],
     }).compileComponents();
@@ -76,7 +85,6 @@ describe('UserAssignUserGroupsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // not sure why this is needed, but we're failing otherwise
   afterEach(() => {
     fixture.destroy();
   });
@@ -92,7 +100,7 @@ describe('UserAssignUserGroupsComponent', () => {
   });
 
   it('should get users from service by code', () => {
-    spyOn(service, 'getTable');
+    spyOn(service, 'getTable').and.callThrough();
     fixture.detectChanges();
     expect(service.getTable).toHaveBeenCalled();
   });
@@ -101,10 +109,12 @@ describe('UserAssignUserGroupsComponent', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
+
     it('should have cx-table element', () => {
       const el = fixture.debugElement.query(By.css('cx-table'));
       expect(el).toBeTruthy();
     });
+
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeFalsy();
@@ -136,10 +146,12 @@ describe('UserAssignUserGroupsComponent', () => {
       spyOn(service, 'getTable').and.returnValue(of(null));
       fixture.detectChanges();
     });
+
     it('should not have cx-table element', () => {
       const el = fixture.debugElement.query(By.css('cx-table'));
       expect(el).toBeFalsy();
     });
+
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();

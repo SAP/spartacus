@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { CmsComponentData } from '../../model';
+import { CmsComponentData } from '../../model/cms-component-data';
 import { CmsComponent, CmsService } from '@spartacus/core';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CombinedInjector } from '../../../../shared/utils/combined-injector';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { B2BAddress, OrgUnitService } from '@spartacus/core';
+import { B2BAddress } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -9,6 +9,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 @Injectable()
 export class CurrentUnitAddressService {
@@ -21,7 +22,7 @@ export class CurrentUnitAddressService {
   readonly id$ = this.route.params.pipe(pluck('id'), distinctUntilChanged());
 
   readonly unitAddress$: Observable<B2BAddress> = this.id$.pipe(
-    withLatestFrom(this.currentUnitService.code$),
+    withLatestFrom(this.currentUnitService.key$),
     switchMap(([id, code]) =>
       id ? this.service.getAddress(code, id) : of(null)
     )

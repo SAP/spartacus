@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { B2BUser, B2BUserService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { switchMap, tap, shareReplay } from 'rxjs/operators';
+import { B2BUser } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { B2BUserService } from '../../../core/services/b2b-user.service';
 import { CurrentUserService } from '../current-user.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { CurrentUserService } from '../current-user.service';
   providers: [CurrentUserService],
 })
 export class UserDetailsComponent {
-  user$: Observable<B2BUser> = this.currentUserService.code$.pipe(
+  user$: Observable<B2BUser> = this.currentUserService.key$.pipe(
     // TODO: we should do this in the facade
     tap((code) => this.usersService.load(code)),
     switchMap((code) => this.usersService.get(code)),

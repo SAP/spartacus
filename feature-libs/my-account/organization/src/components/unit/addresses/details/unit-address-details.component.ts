@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { OrgUnitService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { CurrentUnitAddressService } from './current-unit-address.service';
+import { take } from 'rxjs/operators';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { CurrentUnitAddressService } from './current-unit-address.service';
 
 @Component({
   selector: 'cx-unit-address-details',
@@ -13,8 +14,8 @@ import { CurrentUnitService } from '../../current-unit.service';
 })
 export class UnitAddressDetailsComponent {
   addressId: string;
-  unit$ = this.currentUnitService.unit$;
-  code$ = this.currentUnitService.code$;
+  unit$ = this.currentUnitService.item$;
+  code$ = this.currentUnitService.key$;
   address$ = this.currentUnitAddressService.unitAddress$;
 
   constructor(

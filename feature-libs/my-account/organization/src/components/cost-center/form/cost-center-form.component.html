@@ -1,20 +1,4 @@
 <ng-container *ngIf="form" [formGroup]="form">
-  <div class="form-group" *ngIf="form.get('code')">
-    <label>
-      <span class="label-content required">{{
-        'costCenter.code' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="text"
-        required
-        placeholder="{{ 'costCenter.code' | cxTranslate }}"
-        formControlName="code"
-      />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
-    </label>
-  </div>
-
   <div class="form-group" *ngIf="form.get('name')">
     <label>
       <span class="label-content required">{{
@@ -28,6 +12,22 @@
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group" *ngIf="form.get('code')">
+    <label>
+      <span class="label-content required">{{
+        'costCenter.code' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'costCenter.code' | cxTranslate }}"
+        formControlName="code"
+      />
+      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
     </label>
   </div>
 
@@ -45,6 +45,7 @@
           bindLabel="name"
           bindValue="isocode"
           [class.invalid]="form.get('currency.isocode').invalid"
+          appendTo=".organization"
         >
         </ng-select>
         <cx-form-errors
@@ -71,6 +72,7 @@
           bindLabel="name"
           bindValue="id"
           [readonly]="form.get('unit.uid').disabled"
+          appendTo=".organization"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>

@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CostCenter,
-  CostCenterService,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { CostCenter, I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
@@ -29,7 +26,7 @@ const mockCostCenter: CostCenter = {
 
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
-  code$ = of(costCenterCode);
+  key$ = of(costCenterCode);
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {

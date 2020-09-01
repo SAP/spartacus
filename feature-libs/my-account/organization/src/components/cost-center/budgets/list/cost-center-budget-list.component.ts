@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { Budget } from '../../../../core/model';
 import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
@@ -13,7 +14,7 @@ export class CostCenterBudgetListComponent {
   /**
    * The code of the current cost center.
    */
-  code$ = this.currentCostCenterService$.code$;
+  code$ = this.currentCostCenterService$.key$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.costCenterBudgetListService.getTable(code))
@@ -24,11 +25,7 @@ export class CostCenterBudgetListComponent {
     protected costCenterBudgetListService: CostCenterBudgetListService
   ) {}
 
-  unassign(model) {
-    this.code$
-      .pipe(take(1))
-      .subscribe((code) =>
-        this.costCenterBudgetListService.unassign(code, model)
-      );
+  unassign(costCenterCode: string, model: Budget) {
+    this.costCenterBudgetListService.unassign(costCenterCode, model);
   }
 }

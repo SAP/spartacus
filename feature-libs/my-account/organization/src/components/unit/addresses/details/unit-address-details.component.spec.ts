@@ -1,20 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-  B2BAddress,
-} from '@spartacus/core';
-import { UnitAddressDetailsComponent } from './unit-address-details.component';
-import createSpy = jasmine.createSpy;
-import { ModalService, Table2Module } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { CurrentUnitService } from '../../current-unit.service';
-import { CurrentUnitAddressService } from './current-unit-address.service';
 import { of } from 'rxjs';
 import { TemplateRef } from '@angular/core';
-import { SplitViewTestingModule } from '../../../../../../../../projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, RoutingService, B2BAddress } from '@spartacus/core';
+import { CurrentUnitAddressService } from './current-unit-address.service';
+import { UnitAddressDetailsComponent } from './unit-address-details.component';
+import { CurrentUnitService } from '../../current-unit.service';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { ModalService } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import createSpy = jasmine.createSpy;
 
 const code = 'b1';
 const addressId = 'a1';
@@ -29,20 +25,21 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   deleteAddress = createSpy('deleteAddress');
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy('go').and.stub();
 }
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   open = createSpy('open').and.stub();
 }
 
-class MockCurrentUnitService {
-  unit$ = of(unit);
-  code$ = of(code);
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  item$ = of(unit);
+  key$ = of(code);
 }
 
-class MockCurrentUnitAddressService {
+class MockCurrentUnitAddressService
+  implements Partial<CurrentUnitAddressService> {
   unitAddress$ = of(mockAddress);
 }
 
@@ -57,7 +54,6 @@ describe('UnitAddressDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        Table2Module,
         I18nTestingModule,
         UrlTestingModule,
         SplitViewTestingModule,
@@ -94,14 +90,15 @@ describe('UnitAddressDetailsComponent', () => {
     component.addressId = mockAddress.id;
     component.deleteAddress();
     expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(code, addressId);
-  });
-
-  it('openModal', () => {
-    component.openModal(mockAddress, {} as TemplateRef<any>);
-    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgUnitManageAddresses',
       params: { uid: code },
     });
+  });
+
+  it('should open modal for confirmation', () => {
+    component.openModal(mockAddress, {} as TemplateRef<any>);
+    expect(component.addressId).toEqual(mockAddress.id);
+    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
   });
 });

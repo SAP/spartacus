@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, B2BUserService, EntitiesModel } from '@spartacus/core';
+import { Permission, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserPermissionListService } from './user-permission-list.service';
+import { B2BUserService } from '../../../../core/services/b2b-user.service';
 
 const mockUserPermissionEntities: EntitiesModel<Permission> = {
   values: [

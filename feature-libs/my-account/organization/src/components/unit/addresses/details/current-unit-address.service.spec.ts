@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { B2BAddress, OrgUnitService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CurrentUnitAddressService } from './current-unit-address.service';
+import { B2BAddress } from '@spartacus/core';
+import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
+import { CurrentUnitAddressService } from './current-unit-address.service';
 
 const mockUnit: B2BAddress = { firstName: 'test unitAddress' };
 
@@ -14,7 +15,7 @@ export class MockOrgUnitService implements Partial<OrgUnitService> {
   }
 }
 export class MockCurrentUnitService {
-  code$ = of('code1');
+  key$ = of('code1');
   parentUnit$ = of('parentUnit1');
 }
 

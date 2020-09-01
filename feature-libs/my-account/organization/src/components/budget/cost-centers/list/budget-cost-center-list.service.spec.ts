@@ -1,21 +1,41 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BudgetService, EntitiesModel, CostCenter } from '@spartacus/core';
+import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { BudgetService } from '../../../../core/services/budget.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [
     {
       code: 'first',
+      active: true,
+    },
+    {
+      code: 'second',
+      active: true,
+    },
+    {
+      code: 'third',
+      active: true,
+    },
+  ],
+};
+
+const mockCostCenterEntities2: EntitiesModel<CostCenter> = {
+  values: [
+    {
+      code: 'first',
+      active: true,
     },
     {
       code: 'second',
     },
     {
       code: 'third',
+      active: true,
     },
   ],
 };
@@ -35,6 +55,7 @@ export class MockTableService {
 
 describe('BudgetCostCenterListService', () => {
   let service: BudgetCostCenterListService;
+  let budgetService: BudgetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,17 +73,31 @@ describe('BudgetCostCenterListService', () => {
       ],
     });
     service = TestBed.inject(BudgetCostCenterListService);
+    budgetService = TestBed.inject(BudgetService);
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should filter selected cost-centers', () => {
+  it('should have all cost-centers', () => {
     let result: Table<CostCenter>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
     expect(result.data[0].code).toEqual('first');
+    expect(result.data[1].code).toEqual('second');
     expect(result.data[2].code).toEqual('third');
+  });
+
+  it('should filter selected cost-centers', () => {
+    spyOn(budgetService, 'getCostCenters').and.returnValue(
+      of(mockCostCenterEntities2)
+    );
+    let result: Table<CostCenter>;
+    service.getTable().subscribe((table) => (result = table));
+    expect(result.data.length).toEqual(2);
+    expect(result.data).not.toContain({
+      code: 'second',
+    });
   });
 });

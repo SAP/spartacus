@@ -1,71 +1,76 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-
-import {
-  I18nTestingModule,
-  RoutingService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
-  B2BUnit,
-} from '@spartacus/core';
-
+import { I18nTestingModule } from '@spartacus/core';
 import { UnitDetailsComponent } from './unit-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { Table2Module } from '@spartacus/storefront';
+import { ModalService } from '@spartacus/storefront';
+import { CurrentUnitService } from '../current-unit.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { OrgUnitService } from '@spartacus/my-account/organization';
 
-const code = 'b1';
-
-const mockOrgUnit: B2BUnit = {
-  uid: code,
-  name: 'orgUnit1',
+const mockUnit = {
+  uid: 'uid1',
+  name: 'name1',
+  parentOrgUnit: {
+    uid: 'uid2',
+  },
+  approvalProcess: {
+    code: 'code1',
+  },
 };
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
 }
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
+class MockModalService implements Partial<ModalService> {
+  open = createSpy('open');
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  item$ = of(mockUnit);
 }
 
 describe('UnitDetailsComponent', () => {
   let component: UnitDetailsComponent;
   let fixture: ComponentFixture<UnitDetailsComponent>;
   let orgUnitsService: OrgUnitService;
+  let modalService: ModalService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
-      declarations: [UnitDetailsComponent, MockUrlPipe],
-      providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
       ],
-    }).compileComponents();
+      declarations: [UnitDetailsComponent],
+      providers: [
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: ModalService, useClass: MockModalService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
+      ],
+    })
+      .overrideComponent(UnitDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentUnitService,
+              useClass: MockCurrentUnitService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     orgUnitsService = TestBed.inject(OrgUnitService);
-    // routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    modalService = TestBed.inject(ModalService);
   }));
 
   beforeEach(() => {
@@ -78,17 +83,13 @@ describe('UnitDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('update', () => {
-    it('should update orgUnit', () => {
-      component.update({ active: false });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: false,
-      });
+  it('should open modal for confirmation', () => {
+    component.openModal({} as TemplateRef<any>);
+    expect(modalService.open).toHaveBeenCalledWith({}, { centered: true });
+  });
 
-      component.update({ active: true });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: true,
-      });
-    });
+  it('should update orgUnit', () => {
+    component.update(mockUnit);
+    expect(orgUnitsService.update).toHaveBeenCalledWith(mockUnit.uid, mockUnit);
   });
 });

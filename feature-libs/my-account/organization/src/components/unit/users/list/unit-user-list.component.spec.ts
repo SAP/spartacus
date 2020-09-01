@@ -1,33 +1,19 @@
-import {
-  Pipe,
-  PipeTransform,
-  Input,
-  Output,
-  EventEmitter,
-  Component,
-} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import {
-  I18nTestingModule,
-  EntitiesModel,
-  RoutesConfig,
-  RoutingConfig,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
+import { B2BUser, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitUserListComponent } from './unit-user-list.component';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
+  CurrentUnitService,
+  UnitUsersService,
+} from '@spartacus/my-account/organization';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import createSpy = jasmine.createSpy;
+import { TableModule } from '@spartacus/storefront';
 
+const code = 'code1';
 const customerId = 'customerId1';
 
 const mockUserList: EntitiesModel<B2BUser> = {
@@ -53,84 +39,49 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-@Component({
-  template: '',
-  selector: 'cx-pagination',
-})
-class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
-}
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-const userList = new BehaviorSubject(mockUserList);
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadUsers = createSpy('loadUsers');
-  getUsers = createSpy('getUsers').and.returnValue(userList);
-}
-
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
+class MockUnitUsersService implements Partial<MockUnitUsersService> {
+  toggleAssign = createSpy('toggleAssign');
+  load = of(mockUserList);
+  viewPage = createSpy('viewPage').and.stub();
+  sort = createSpy('sort').and.stub();
+  getTable(_): any {
+    return of(mockUserList);
   }
+}
+
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  key$ = of(code);
 }
 
 describe('UnitUsersComponent', () => {
   let component: UnitUserListComponent;
   let fixture: ComponentFixture<UnitUserListComponent>;
-  // let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [
-        UnitUserListComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        IconTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        TableModule,
       ],
+      declarations: [UnitUserListComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
-        {
-          provide: PaginationConfig,
-          useValue: {
-            pagination: {},
-          },
-        },
+        { provide: UnitUsersService, useClass: MockUnitUsersService },
+        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();
-
-    // orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitUserListComponent);
     component = fixture.componentInstance;
-    userList.next(mockUserList);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display No users found page if no users are found', () => {
-    const emptyBudgetList: EntitiesModel<B2BUser> = {
-      values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
-      sorts: [{ code: 'byName', selected: true }],
-    };
-
-    userList.next(emptyBudgetList);
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 });

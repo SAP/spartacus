@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { CostCenter, RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -10,6 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CostCenterService } from '../../../core/services/cost-center.service';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 
@@ -23,7 +24,7 @@ export class CostCenterEditComponent {
   /**
    * The code of the current cost center
    */
-  protected code$ = this.currentCostCenterService.code$;
+  protected code$ = this.currentCostCenterService.key$;
 
   /**
    * The model of the current cost center.
