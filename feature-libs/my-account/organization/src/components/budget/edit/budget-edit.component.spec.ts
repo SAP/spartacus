@@ -121,10 +121,10 @@ describe('BudgetEditComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith(
-        'budgetDetails',
-        budgetFormComponent.form.value
-      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'budgetDetails',
+        params: budgetFormComponent.form.value,
+      });
     });
 
     it('should reload budget on each code change', () => {
