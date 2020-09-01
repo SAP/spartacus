@@ -145,7 +145,7 @@ export class TableComponent {
    * can easily get the notion of the table type.
    */
   protected addTableDebugInfo() {
-    if (isDevMode && this.type) {
+    if (isDevMode() && this.type) {
       this.tableType = this.type;
     }
   }
