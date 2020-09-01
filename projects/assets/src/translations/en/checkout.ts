@@ -49,6 +49,7 @@ export const checkout = {
     noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
+    placeholder: 'Enter P.O',
     availableLabel:
       "Shipping addresses available to you depend on the cost center's unit",
   },
