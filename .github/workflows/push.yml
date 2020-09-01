@@ -17,7 +17,10 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          record: true
           working-directory: projects/storefrontapp-e2e-cypress
-          command: yarn cy:run:smoke:ci:2005
+          config-file: cypress.ci.2005.json
+          spec: cypress/integration/smoke/checkout-flow.e2e.spec.ts\""
         env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
