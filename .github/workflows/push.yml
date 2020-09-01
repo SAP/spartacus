@@ -8,11 +8,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      - name: Install root dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Build Spartacus
+        run: yarn build:core:lib
+      - name: Start server in the background
+        run: yarn start:ci:2005
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          build: yarn build:core:lib
-          start: yarn start:ci:2005
-          command: yarn e2e:cy:run:smoke:ci:2005
+          working-directory: projects/storefrontapp-e2e-tests
+          command: yarn cy:run:smoke:ci:2005
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
