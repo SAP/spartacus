@@ -1,43 +1,17 @@
-import { CONTEXT_URL_EN_USD } from './site-context-selector';
-import { nextPage } from './product-search';
-
-export interface MyCompanyConfig {
-  navLink: string;
-  url: string;
-  apiEndpoint: string;
-  objectType: string;
-  cxSelector: string;
-  list: MyCompanyListConfig;
-  tabs: any;
-  form: any;
-}
-
-export interface MyCompanyListConfig {
-  pageTitle: string;
-  rows: MyCompanyRowConfig[]; // First object is default sort
-}
-
-export interface MyCompanyRowConfig {
-  header: string;
-  sortByUrl?: string;
-  text: string;
-  link?: string;
-}
-
-enum MyCompanySelectorSuffixes {
-  LIST = 'list',
-  DETAILS = 'details',
-  CREATE = 'create',
-  EDIT = 'edit',
-  FORM = 'form',
-}
+import { CONTEXT_URL_EN_USD } from '../site-context-selector';
+import { nextPage } from '../product-search';
+import {
+  MyCompanyRowConfig,
+  MyCompanyConfig,
+  MyCompanySelectorSuffixes,
+} from './models/index';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
-  const defaultRow = config.list.rows[0];
+  const defaultRow = config.rows[0];
   const apiEndpoint = config.apiEndpoint;
   const objectType = config.objectType;
 
-  describe(`My Company - ${config.navLink}`, () => {
+  describe(`My Company - ${config.name}`, () => {
     testListFromConfig();
     testDetailsFromConfig();
     testCreateUpdateFromConfig();
@@ -46,7 +20,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
   function testListFromConfig() {
     // TODO: We should perform our own sort function to compare data returned with expected result
-    describe(`${config.navLink} List`, () => {
+    describe(`${config.name} List`, () => {
       beforeEach(() => {
         loginAsAdmin();
         cy.server();
@@ -56,31 +30,31 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
         cy.route('GET', `**${apiEndpoint}**`).as('getData');
         waitForData((data) => {
           checkUrlHasSortParams(defaultRow);
-          cy.get(
-            `${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`
-          ).within(() => {
-            cy.get('h3').should('contain.text', config.list.pageTitle);
-            verifyList(
-              getListRowsFromBody(data, objectType, config.list.rows),
-              config.list.rows
-            );
-          });
-        }, cy.visit(`${config.url}s`));
+          cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
+            () => {
+              // cy.get('h3').should('contain.text', config.name);
+              verifyList(
+                getListRowsFromBody(data, objectType, config.rows),
+                config.rows
+              );
+            }
+          );
+        }, cy.visit(`${config.baseUrl}s`));
       });
 
       it('should sort table data', () => {
-        config.list.rows.forEach((row) => {
+        config.rows.forEach((row) => {
           cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
           waitForData((data) => {
             // TODO: Should be checked but sort param in url not currently implemented. Uncomment once it is.
             // checkUrlHasSortParams(row);
 
             cy.get(
-              `${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`
+              `${config.selector}-${MyCompanySelectorSuffixes.LIST}`
             ).within(() => {
               verifyList(
-                getListRowsFromBody(data, objectType, config.list.rows),
-                config.list.rows
+                getListRowsFromBody(data, objectType, config.rows),
+                config.rows
               );
             });
           }, clickSortButton(row));
@@ -89,11 +63,11 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
     });
 
     function checkUrlHasSortParams(row: MyCompanyRowConfig) {
-      cy.url().should('contain', `${config.url}s${row.sortByUrl ?? ''}`);
+      cy.url().should('contain', `${config.baseUrl}s${row.sortByUrl ?? ''}`);
     }
 
     function clickSortButton(row: MyCompanyRowConfig) {
-      cy.get(`${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`)
+      cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`)
         .contains(row.header)
         .within(() => {
           cy.get('cx-icon[class^="cx-icon fas fa-sort"]').click();
@@ -102,10 +76,10 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   }
 
   function testDetailsFromConfig() {
-    describe(`${config.navLink} Details`, () => {
+    describe(`${config.name} Details`, () => {
       beforeEach(() => {
         loginAsAdmin();
-        cy.visit(`${config.url}s`);
+        cy.visit(`${config.baseUrl}s`);
       });
 
       it('should show details', () => {
@@ -113,26 +87,28 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
         cy.route('GET', `**${apiEndpoint}**`).as('getData');
         waitForData((data) => {
-          const rows = getListRowsFromBody(data, objectType, config.list.rows);
+          const rows = getListRowsFromBody(data, objectType, config.rows);
           firstRow = rows[0];
 
-          cy.get(
-            `${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`
-          ).within(() => {
-            cy.get('a').contains(`${firstRow.text[0]}`).click({ force: true });
-          });
+          cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
+            () => {
+              cy.get('a')
+                .contains(`${firstRow.text[0]}`)
+                .click({ force: true });
+            }
+          );
 
           cy.url().should('contain', `${firstRow.links[0]}`);
-        }, cy.visit(`${config.url}s`));
+        }, cy.visit(`${config.baseUrl}s`));
 
         cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.DETAILS}`
+          `${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`
         ).within(() => {
           // Check details exist on menu
           cy.get('h3').should('contain.text', firstRow.text[0]);
 
           // TODO: We should check labels are correct for property values
-          config.list.rows.forEach((rowConfig) => {
+          config.rows.forEach((rowConfig) => {
             cy.get('div.property label').should(
               'contain.text',
               rowConfig.header
@@ -152,66 +128,66 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
           cy.get('cx-icon[type="CARET_LEFT"]').click();
         });
 
-        cy.url().should('contain', `${config.url}s`);
+        cy.url().should('contain', `${config.baseUrl}s`);
         cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.DETAILS}`
+          `${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`
         ).should('not.exist');
       });
     });
   }
 
   function testCreateUpdateFromConfig() {
-    describe(`${config.navLink} Create / Update`, () => {
+    describe(`${config.name} Create / Update`, () => {
       beforeEach(() => {
         loginAsAdmin();
-        cy.visit(`${config.url}s`);
+        cy.visit(`${config.baseUrl}s`);
       });
 
       it(`should create`, () => {
-        cy.get(`${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`).within(
+        cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
           () => {
             cy.get('cx-icon[type="EXPAND"]').click();
           }
         );
 
-        cy.url().should('contain', `${config.url}s/create`);
+        cy.url().should('contain', `${config.baseUrl}s/create`);
 
-        cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.CREATE}`
-        ).within(() => {
-          cy.get('h3').should('contain.text', 'Create');
+        cy.get(`${config.selector}-${MyCompanySelectorSuffixes.CREATE}`).within(
+          () => {
+            cy.get('h3').should('contain.text', 'Create');
 
-          cy.get(
-            `${config.cxSelector}-${MyCompanySelectorSuffixes.FORM}`
-          ).within(() => {
-            cy.get('label').should('have.length', config.form.inputs.length);
+            cy.get(
+              `${config.selector}-${MyCompanySelectorSuffixes.FORM}`
+            ).within(() => {
+              cy.get('label').should('have.length', config.form.inputs.length);
 
-            config.form.inputs.forEach((input) => {
-              cy.get('label')
-                .contains(input.label)
-                .parent()
-                .within(() => {
-                  switch (input.type) {
-                    case 'text':
-                      cy.get('input[type="text"]').type(input.value);
-                      break;
-                    case 'ngSelect':
-                      ngSelect(input.value);
-                      break;
-                  }
-                });
+              config.form.inputs.forEach((input) => {
+                cy.get('label')
+                  .contains(input.label)
+                  .parent()
+                  .within(() => {
+                    switch (input.type) {
+                      case 'text':
+                        cy.get('input[type="text"]').type(input.value);
+                        break;
+                      case 'ngSelect':
+                        ngSelect(input.value);
+                        break;
+                    }
+                  });
+              });
             });
-          });
-          cy.get('button').contains('Save').click();
-        });
+            cy.get('button').contains('Save').click();
+          }
+        );
 
         cy.url().should(
           'contain',
-          `${config.url}s/${config.form.inputs[0].value}`
+          `${config.baseUrl}s/${config.form.inputs[0].value}`
         );
 
         cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.DETAILS}`
+          `${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`
         ).within(() => {
           const inputs = config.form.inputs;
           // TODO: This is not the best way to get the row with the name
@@ -246,29 +222,29 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       it(`should update`, () => {
         cy.route('GET', `**${apiEndpoint}**`).as('getData');
         waitForData(() => {
-          cy.get(
-            `${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`
-          ).within(() => {
-            cy.get('a')
-              .contains(`${config.form.inputs[1].value}`)
-              .click({ force: true });
-          });
+          cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
+            () => {
+              cy.get('a')
+                .contains(`${config.form.inputs[1].value}`)
+                .click({ force: true });
+            }
+          );
 
           cy.url().should('contain', `${config.form.inputs[0].value}`);
-        }, cy.visit(`${config.url}s`));
+        }, cy.visit(`${config.baseUrl}s`));
 
         cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.DETAILS}`
+          `${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`
         ).within(() => {
           cy.get('a.link').contains('Edit details').click();
         });
 
-        cy.get(`${config.cxSelector}-${MyCompanySelectorSuffixes.EDIT}`).within(
+        cy.get(`${config.selector}-${MyCompanySelectorSuffixes.EDIT}`).within(
           () => {
             cy.get('h3').should('contain.text', 'Edit details');
 
             cy.get(
-              `${config.cxSelector}-${MyCompanySelectorSuffixes.FORM}`
+              `${config.selector}-${MyCompanySelectorSuffixes.FORM}`
             ).within(() => {
               cy.get('label').should(
                 'have.length',
@@ -298,11 +274,11 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
         cy.url().should(
           'contain',
-          `${config.url}s/${config.form.edit.inputs[0].value}`
+          `${config.baseUrl}s/${config.form.edit.inputs[0].value}`
         );
 
         cy.get(
-          `${config.cxSelector}-${MyCompanySelectorSuffixes.DETAILS}`
+          `${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`
         ).within(() => {
           const inputs = config.form.edit.inputs;
           // TODO: This is not the best way to get the row with the name
@@ -346,24 +322,20 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       let assignmentRows;
       let firstRow;
 
-      describe(`${config.navLink} Assignment - ${tab.label}`, () => {
+      describe(`${config.name} Assignment - ${tab.name}`, () => {
         before(() => {
           loginAsAdmin();
-          cy.visit(`${config.url}s`);
+          cy.visit(`${config.baseUrl}s`);
         });
 
         it('should show list', () => {
           cy.route('GET', `**${apiEndpoint}**`).as('getData');
           waitForData((data) => {
-            const rows = getListRowsFromBody(
-              data,
-              objectType,
-              config.list.rows
-            );
+            const rows = getListRowsFromBody(data, objectType, config.rows);
             firstRow = rows[0];
 
             cy.get(
-              `${config.cxSelector}-${MyCompanySelectorSuffixes.LIST}`
+              `${config.selector}-${MyCompanySelectorSuffixes.LIST}`
             ).within(() => {
               cy.get('a')
                 .contains(`${firstRow.text[0]}`)
@@ -371,13 +343,13 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
             });
 
             cy.url().should('contain', `${firstRow.links[0]}`);
-          }, cy.visit(`${config.url}s`));
+          }, cy.visit(`${config.baseUrl}s`));
 
           cy.route('GET', `${tab.availableEndpoint}`).as('getData');
           waitForData((data) => {
             cy.url().should(
               'contain',
-              `${config.url}s/${firstRow.text[1]}${tab.link}`
+              `${config.baseUrl}s/${firstRow.text[1]}${tab.link}`
             );
 
             // TODO: Verify list is correct
@@ -388,7 +360,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
             //   getListRowsFromBody(data, tab.objectType, tab.rows),
             //   tab.rows
             // );
-          }, cy.get(`${config.cxSelector}-${MyCompanySelectorSuffixes.LIST} a`).contains(tab.label).click({ force: true }));
+          }, cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST} a`).contains(tab.name).click({ force: true }));
         });
 
         // TODO: Fails because assignment details do not align
@@ -410,7 +382,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
           cy.url().should(
             'contain',
-            `${config.url}s/${firstRow.text[1]}${tab.link}/assign`
+            `${config.baseUrl}s/${firstRow.text[1]}${tab.link}/assign`
           );
           cy.get(tab.manageSelector).within(() => {
             cy.get('h3').should(
@@ -461,7 +433,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
           });
           cy.url().should(
             'contain',
-            `${config.url}s/${firstRow.text[1]}${tab.link}`
+            `${config.baseUrl}s/${firstRow.text[1]}${tab.link}`
           );
           // cy.get(tab.manageSelector).within(() => {
           //   cy.get('h3').should('contain.text', 'Manage');
@@ -487,14 +459,14 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
           });
           cy.url().should(
             'contain',
-            `${config.url}s/${firstRow.text[1]}${tab.link}`
+            `${config.baseUrl}s/${firstRow.text[1]}${tab.link}`
           );
           // cy.get(tab.manageSelector).within(() => {
           //   cy.get('h3').should('contain.text', 'Manage');
           // });
         });
 
-        if (tab.unassignAll) {
+        if (tab.canUnassignAll) {
           it(`should unassign all and validate`, () => {
             cy.server();
 
@@ -519,7 +491,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
             cy.url().should(
               'contain',
-              `${config.url}s/${firstRow.text[1]}${tab.link}`
+              `${config.baseUrl}s/${firstRow.text[1]}${tab.link}`
             );
             // cy.get(`${tab.manageSelector} h3`).should('contain.text', 'Manage');
           });
@@ -555,7 +527,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
 
             cy.url().should(
               'contain',
-              `${config.url}s/${firstRow.text[1]}${tab.link}`
+              `${config.baseUrl}s/${firstRow.text[1]}${tab.link}`
             );
             // cy.get(tab.manageSelector).within(() => {
             //   cy.get('h3').should('contain.text', 'Manage');
@@ -566,7 +538,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
         it('should go back to main menu', () => {
           cy.wait(1000);
           cy.get(`${tab.listSelector} cx-icon[type="CARET_LEFT"]`).click();
-          cy.url().should('contain', config.url);
+          cy.url().should('contain', config.baseUrl);
         });
       });
     });

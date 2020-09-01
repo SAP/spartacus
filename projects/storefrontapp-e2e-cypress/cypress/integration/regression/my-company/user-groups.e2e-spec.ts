@@ -1,79 +1,67 @@
 import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
-import {
-  testMyCompanyFeatureFromConfig,
-  MyCompanyConfig,
-} from '../../../helpers/my-company';
+import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company';
+import { MyCompanyConfig } from '../../../helpers/my-company/models/MyCompanyConfig';
 
 const config: MyCompanyConfig = {
-  navLink: 'User Groups',
-  url: `${CONTEXT_URL_EN_USD}/organization/user-group`,
+  name: 'User Group',
+  baseUrl: `${CONTEXT_URL_EN_USD}/organization/user-group`,
   apiEndpoint: '/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
-  cxSelector: 'cx-user-group',
-  list: {
-    pageTitle: 'User groups',
-    rows: [
-      {
-        header: 'Name',
-        text: 'name',
-        link: '/organization/user-groups/',
-      },
-      {
-        header: 'Code',
-        sortByUrl: '?sort=byUnitName',
-        text: 'uid',
-      },
-      {
-        header: 'Parent Unit',
-        sortByUrl: '?sort=byGroupID',
-        text: 'orgUnit.name',
-        link: `/organization/units/`,
-      },
-    ],
-  },
-  form: {
-    inputs: [
-      {
-        label: 'Code',
-        type: 'text',
-        value: 'test-entity',
-      },
-      { label: 'Name', type: 'text', value: 'Test Entity' },
-      {
-        label: 'Parent Unit',
-        type: 'ngSelect',
-        value: 'Custom Retail',
-        link: 'Custom%20Retail',
-      },
-    ],
-    edit: {
-      header: 'Edit User Group',
-      btn: 'Update User Group',
-      inputs: [
-        {
-          label: 'Code',
-          type: 'text',
-          value: 'edited-user-group',
-        },
-        { label: 'Name', type: 'text', value: 'Edited User Group' },
-        {
-          label: 'Parent Unit',
-          type: 'ngSelect',
-          value: 'Rustic',
-          link: 'Rustic',
-        },
-      ],
-    },
-  },
-  tabs: [
+  selector: 'cx-user-group',
+  rows: [
     {
-      label: 'Purchase limits',
-      link: `/purchase-limits`,
-      manageSelector: 'cx-user-group-assign-permission',
-      listSelector: 'cx-user-group-permission-list',
-      availableEndpoint: '**/availableOrderApprovalPermissions**',
-      availableParam: 'orderApprovalPermissions',
-      selector: 'cx-user-group-permission',
+      header: 'Name',
+      text: 'name',
+      link: '/organization/user-groups/',
+    },
+    {
+      header: 'Code',
+      sortByUrl: '?sort=byUnitName',
+      text: 'uid',
+    },
+    {
+      header: 'Parent Unit',
+      sortByUrl: '?sort=byGroupID',
+      text: 'orgUnit.name',
+      link: `/organization/units/`,
+    },
+  ],
+  formCreate: [
+    {
+      label: 'Code',
+      type: 'text',
+      value: 'test-entity',
+    },
+    { label: 'Name', type: 'text', value: 'Test Entity' },
+    {
+      label: 'Parent Unit',
+      type: 'ngSelect',
+      value: 'Custom Retail',
+      link: 'Custom%20Retail',
+    },
+  ],
+  formUpdate: [
+    {
+      label: 'Code',
+      type: 'text',
+      value: 'edited-user-group',
+    },
+    { label: 'Name', type: 'text', value: 'Edited User Group' },
+    {
+      label: 'Parent Unit',
+      type: 'ngSelect',
+      value: 'Rustic',
+      link: 'Rustic',
+    },
+  ],
+  subCategories: [
+    {
+      name: 'Purchase limits',
+      baseUrl: `/purchase-limits`,
+      // manageSelector: 'cx-user-group-assign-permission',
+      // listSelector: 'cx-user-group-permission-list',
+      apiEndpoint: '**/availableOrderApprovalPermissions**',
+      selector: 'permission',
       objectType: 'orderApprovalPermissions',
       rows: [
         {
@@ -90,15 +78,14 @@ const config: MyCompanyConfig = {
       ],
     },
     {
-      label: 'Users',
-      link: `/users`,
-      manageSelector: 'cx-user-group-assign-user',
-      listSelector: 'cx-user-group-user-list',
-      availableEndpoint: '**/availableOrgCustomers**',
-      availableParam: 'members',
+      name: 'Users',
+      baseUrl: `/users`,
+      // manageSelector: 'cx-user-group-assign-user',
+      // listSelector: 'cx-user-group-user-list',
+      apiEndpoint: '**/availableOrgCustomers**',
       selector: 'cx-user-group-user',
       objectType: 'members',
-      unassignAll: true,
+      canUnassignAll: true,
       rows: [
         {
           header: 'Code',
