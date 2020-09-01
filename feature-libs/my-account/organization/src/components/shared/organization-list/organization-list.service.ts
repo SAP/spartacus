@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
+  ResponsiveTableConfiguration,
   Table,
   TableLayout,
   TableService,
@@ -25,7 +26,7 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    * The default table structure is used to add the default configuration for all
    * organization list related tables. This avoids a lot of boilerplate configuration.
    */
-  protected defaultTableStructure = {
+  protected defaultTableStructure: ResponsiveTableConfiguration = {
     options: { layout: TableLayout.VERTICAL_STACKED },
     lg: { options: { layout: TableLayout.VERTICAL } },
   };

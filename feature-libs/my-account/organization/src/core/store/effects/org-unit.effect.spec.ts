@@ -176,9 +176,10 @@ describe('OrgUnit Effects', () => {
   describe('createUnit$', () => {
     it('should return CreateOrgUnitNodesSuccess action', () => {
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
-      const completion = new OrgUnitActions.CreateUnitSuccess(orgUnit);
+      const completion1 = new OrgUnitActions.CreateUnitSuccess(orgUnit);
+      const completion2 = new OrgUnitActions.LoadTree({ userId });
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createUnit$).toBeObservable(expected);
       expect(orgUnitConnector.create).toHaveBeenCalledWith(userId, orgUnit);

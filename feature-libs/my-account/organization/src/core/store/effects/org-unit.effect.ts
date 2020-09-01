@@ -77,13 +77,18 @@ export class OrgUnitEffects {
 
   @Effect()
   createUnit$: Observable<
-    OrgUnitActions.CreateUnitSuccess | OrgUnitActions.CreateUnitFail
+    | OrgUnitActions.CreateUnitSuccess
+    | OrgUnitActions.CreateUnitFail
+    | OrgUnitActions.LoadTree
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
     switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
-        map((data) => new OrgUnitActions.CreateUnitSuccess(data)),
+        switchMap((data) => [
+          new OrgUnitActions.CreateUnitSuccess(data),
+          new OrgUnitActions.LoadTree({ userId: payload.userId }),
+        ]),
         catchError((error: HttpErrorResponse) =>
           of(
             new OrgUnitActions.CreateUnitFail({
@@ -99,7 +104,9 @@ export class OrgUnitEffects {
   @Effect()
   updateUnit$: Observable<
     // | OrgUnitActions.UpdateUnitSuccess
-    OrgUnitActions.LoadOrgUnit | OrgUnitActions.UpdateUnitFail
+    | OrgUnitActions.LoadOrgUnit
+    | OrgUnitActions.UpdateUnitFail
+    | OrgUnitActions.LoadTree
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
@@ -109,13 +116,13 @@ export class OrgUnitEffects {
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map(() => new OrgUnitActions.UpdateUnitSuccess(payload.unit)),
-          map(
-            () =>
-              new OrgUnitActions.LoadOrgUnit({
-                userId: payload.userId,
-                orgUnitId: payload.unitCode,
-              })
-          ),
+          switchMap(() => [
+            new OrgUnitActions.LoadOrgUnit({
+              userId: payload.userId,
+              orgUnitId: payload.unit.uid,
+            }),
+            new OrgUnitActions.LoadTree({ userId: payload.userId }),
+          ]),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.UpdateUnitFail({
