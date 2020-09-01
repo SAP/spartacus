@@ -174,7 +174,7 @@ export class TableService {
    * The message is only logged in dev mode.
    */
   private logWarning(message) {
-    if (isDevMode) {
+    if (isDevMode()) {
       console.warn(message);
     }
   }

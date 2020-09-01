@@ -1,3 +1,4 @@
+import * as AngularCore from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -81,6 +82,27 @@ describe('TableComponent', () => {
     fixture.detectChanges();
     const table = fixture.debugElement.query(By.css('table'));
     expect(table.nativeElement).toBeTruthy();
+  });
+
+  it('should add the table type to __cx-table-type attribute in devMode', () => {
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+
+    tableComponent.dataset = mockDataset;
+    fixture.detectChanges();
+    const attr = (fixture.debugElement
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
+    expect(attr).toEqual('test-1');
+  });
+
+  it('should not add the table type to __cx-table-type attribute in production mode', () => {
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+
+    tableComponent.dataset = mockDataset;
+    fixture.detectChanges();
+
+    const attr = (fixture.debugElement
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
+    expect(attr).toBeFalsy();
   });
 
   describe('table header', () => {
