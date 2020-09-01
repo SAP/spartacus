@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  BaseOption,
   I18nTestingModule,
   OccConfig,
-  Product,
-  ProductService,
-  RoutingService,
   UrlCommandRoute,
+  BaseOption,
   VariantType,
+  ProductService,
+  Product,
+  RoutingService,
 } from '@spartacus/core';
 import { VariantStyleSelectorComponent } from './variant-style-selector.component';
 import { Pipe, PipeTransform } from '@angular/core';
