@@ -178,7 +178,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         textBold: costCenter?.name,
-        text: ['(' + costCenter?.unit.name + ')'],
+        text: ['(' + costCenter?.unit?.name + ')'],
       }))
     );
   }
