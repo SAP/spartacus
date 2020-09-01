@@ -10,7 +10,15 @@ export class ActiveBudgetGuard extends ExistBudgetGuard {
   protected isValid(budget: Budget): boolean {
     return budget.active;
   }
-  protected getRedirectUrl(_code?: string): UrlTree {
-    return this.router.parseUrl(`organization/budgets/${_code}`);
+
+  protected getRedirectUrl(_urlParams?: any): UrlTree {
+    return this.router.parseUrl(
+      this.semanticPathService
+        .transform({
+          cxRoute: 'budgetDetails',
+          params: { code: _urlParams.code },
+        })
+        .join('/')
+    );
   }
 }

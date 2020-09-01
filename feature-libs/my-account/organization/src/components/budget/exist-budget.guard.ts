@@ -5,7 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { Budget, BudgetService } from '@spartacus/core';
+import { Budget, BudgetService, SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -15,20 +15,26 @@ import { map } from 'rxjs/operators';
 export class ExistBudgetGuard implements CanActivate {
   constructor(
     protected budgetService: BudgetService,
-    protected router: Router
+    protected router: Router,
+    protected semanticPathService: SemanticPathService
   ) {}
 
   canActivate(
     activatedRoute: ActivatedRouteSnapshot
   ): Observable<boolean | UrlTree> {
-    const code = activatedRoute.params['code'];
-    return this.budgetService.get(code).pipe(
+    const urlParams = {
+      code: '',
+    };
+
+    urlParams.code = activatedRoute.params['code'];
+
+    return this.budgetService.get(urlParams.code).pipe(
       map((budget) => {
         if (budget && this.isValid(budget)) {
           return true;
         }
 
-        return this.getRedirectUrl(code);
+        return this.getRedirectUrl(urlParams);
       })
     );
   }
@@ -37,7 +43,7 @@ export class ExistBudgetGuard implements CanActivate {
     return Object.keys(budget).length !== 0;
   }
 
-  protected getRedirectUrl(_code?: string): UrlTree {
-    return this.router.parseUrl(`/organization/budgets`);
+  protected getRedirectUrl(_urlParams?: any): UrlTree {
+    return this.router.parseUrl(this.semanticPathService.get('budget'));
   }
 }
