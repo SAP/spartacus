@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  BaseOption,
   Product,
-  ProductScope,
-  ProductService,
   RoutingService,
-  VariantOptionQualifier,
+  BaseOption,
   VariantQualifier,
+  VariantOptionQualifier,
+  ProductService,
+  ProductScope,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 
