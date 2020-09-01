@@ -18,18 +18,20 @@
     </div>
 
     <div class="main" *ngIf="dataTable$ | async as dataTable">
-      <cx-table
-        *ngIf="dataTable.data?.length > 0; else emptyList"
-        [dataset]="dataTable"
-        [currentItem]="{ property: key, value: currentKey$ | async }"
-      >
-      </cx-table>
-      <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
-        <cx-pagination
-          [pagination]="dataTable.pagination"
-          (viewPageEvent)="browse(dataTable.pagination, $event)"
-        ></cx-pagination>
-      </div>
+      <section>
+        <cx-table
+          *ngIf="dataTable.data?.length > 0; else emptyList"
+          [dataset]="dataTable"
+          [currentItem]="{ property: key, value: currentKey$ | async }"
+        >
+        </cx-table>
+        <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
+          <cx-pagination
+            [pagination]="dataTable.pagination"
+            (viewPageEvent)="browse(dataTable.pagination, $event)"
+          ></cx-pagination>
+        </div>
+      </section>
     </div>
   </div>
 </cx-view>

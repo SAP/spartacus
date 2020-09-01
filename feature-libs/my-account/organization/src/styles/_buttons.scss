@@ -5,13 +5,14 @@
   button.link {
     @extend .btn, .btn-link, .btn-sm;
     @include alt-visible-focus();
+    color: var(--cx-color-primary);
 
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    font-size: 1.125rem;
+    font-size: 1rem;
 
     &:hover,
     &:focus {
@@ -29,7 +30,6 @@
     @extend .btn, .btn-sm;
 
     &.primary {
-      @extend .btn-primary;
     }
     &.secondary {
       @extend .btn-secondary;
@@ -45,6 +45,28 @@
 
     &.icon {
       padding: 0;
+    }
+  }
+
+  a.link,
+  button.link {
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+  }
+  a.button.primary,
+  a.button.disabled.primary {
+    @extend .btn-primary;
+    color: var(--cx-color-primary);
+  }
+  button.button.primary,
+  button.button.disabled.primary {
+    @extend .btn-primary;
+    background-color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
+    &:hover {
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
     }
   }
 

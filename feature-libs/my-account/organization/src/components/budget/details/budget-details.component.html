@@ -11,7 +11,7 @@
     actions
     *ngIf="model.active; else disabled"
     class="button active"
-    (click)="openModal(confirmDisable)"
+    (click)="toggleConfirm(model)"
   >
     {{ 'organization.disable' | cxTranslate }}
   </button>
@@ -19,101 +19,93 @@
     <button
       class="button"
       [disabled]="!model.orgUnit?.active"
-      (click)="update({ code: model.code, active: true })"
+      (click)="toggleActive(model)"
     >
       {{ 'organization.enable' | cxTranslate }}
     </button>
   </ng-template>
 
-  <section main>
-    <div class="details">
-      <div class="property">
-        <label>{{ 'budget.name' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.name }}
-        </span>
-      </div>
+  <div class="confirmation" confirmation *ngIf="confirm$ | async as confirm">
+    <p>{{ confirm.message | cxTranslate }}</p>
+    <button class="button" (click)="cancelConfirm()">
+      {{ 'organization.cancel' | cxTranslate }}
+    </button>
+    <button class="button primary" (click)="toggleActive(model)">
+      {{ 'organization.disable' | cxTranslate }}
+    </button>
+  </div>
 
-      <div class="property">
-        <label>{{ 'budget.code' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.code }}
-        </span>
-      </div>
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'budget.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.amount' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.budget }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.currency' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.currency?.isocode }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.unit' | cxTranslate }}</label>
-        <a
-          class="value"
-          [routerLink]="
-            {
-              cxRoute: 'orgUnitDetails',
-              params: model.orgUnit
-            } | cxUrl
-          "
-        >
-          {{ model.orgUnit?.name }}
-          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-        </a>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.amount' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.budget }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.currency' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
     </div>
   </section>
-  <section main>
-    <div class="child-link" routerLinkActive="active">
-      <h4>
-        <a
-          class="link"
-          [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
-        >
-          {{ 'budget.costCenters.link' | cxTranslate }}
-          <cx-icon type="CARET_RIGHT"></cx-icon>
-        </a>
-      </h4>
-    </div>
+
+  <section main class="link-list">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'budget.costCenters.link' | cxTranslate }}
+    </a>
   </section>
 </cx-organization-card>
-<!-- <cx-organization-view>
-  
-</cx-organization-view> -->
 
-<!-- <cx-view #view>
-  <div class="card">
-    <ng-container *ngIf="budget$ | async as budget">
-      <cx-organization-card-header viewType="budget">
-        
-      </cx-organization-card-header>
-
-      <div class="main">
-        
-       
-
-      </div>
-    </ng-container>
-  </div>
-</cx-view>
-
-<router-outlet></router-outlet>
- -->
-
-<ng-template #confirmDisable>
+<!-- <ng-template #confirmDisable>
   <cx-confirm-modal
     *ngIf="budget$ | async as budget"
     [title]="'budget.messages.deactivateHeader' | cxTranslate"
     [message]="'budget.messages.deactivate' | cxTranslate"
     (confirm)="update({ code: budget.code, active: false })"
   ></cx-confirm-modal>
-</ng-template>
+</ng-template> -->

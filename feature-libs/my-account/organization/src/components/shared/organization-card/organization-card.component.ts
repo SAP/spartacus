@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 
 @Component({
@@ -7,5 +7,7 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationCardComponent extends OrganizationListComponent {
+  @Input() previous = true;
+
   title$ = this.currentService.getTitle();
 }

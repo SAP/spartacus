@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ModalService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { first, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
@@ -12,6 +12,8 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsComponent {
+  confirm$ = new BehaviorSubject(null);
+
   /**
    * The model of the current budget.
    *
@@ -30,13 +32,30 @@ export class BudgetDetailsComponent {
     protected currentBudgetService: CurrentBudgetService
   ) {}
 
-  update(budget: Budget) {
-    this.budgetService.update(budget.code, budget);
+  toggleConfirm(item: Budget) {
+    const confirmObj = {
+      message: item.active
+        ? 'budget.messages.deactivate'
+        : 'budget.messages.activate',
+    };
+    this.confirm$.next(confirmObj);
   }
 
-  openModal(template: TemplateRef<any>): void {
-    this.modalService.open(template, {
-      centered: true,
-    });
+  cancelConfirm() {
+    this.confirm$.next(null);
+  }
+
+  toggleActive(model: Budget) {
+    const budget = { ...model };
+    budget.active = !budget.active;
+    this.cancelConfirm();
+    this.budget$
+      .pipe(first((update) => update.active === budget.active))
+      .subscribe((update) => {
+        this.confirm$.next({
+          message: update.active ? 'is activated!' : 'is deactivated!',
+        });
+      });
+    this.budgetService.update(budget.code, budget);
   }
 }

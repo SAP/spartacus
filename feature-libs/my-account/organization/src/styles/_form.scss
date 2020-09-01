@@ -1,55 +1,86 @@
-.organization {
-  form {
-    width: 100%;
-    max-width: 100vw;
-    margin: 0;
+.card .main section > * {
+  &:not(.property):not(a) {
+    display: contents;
   }
-  .form-group {
-    padding: var(--cx-spatial-base) var(--cx-spatial-md);
-    margin: 0;
-    &:first-of-type {
-      padding-top: var(--cx-spatial-md);
-    }
-  }
-  label {
-    margin: 0;
-    cursor: pointer;
-
-    .label-content {
-      line-height: 0.8rem;
-      padding: var(--cx-spatial-base) var(--cx-spatial-md)
-        var(--cx-spatial-base) 0;
-    }
-
-    cx-form-errors {
-      padding: 2px var(--cx-spatial-md);
-      &.control-invalid {
-        &.control-dirty,
-        &.control-touched {
-          display: block;
-        }
-      }
-    }
-  }
-
-  .ng-select {
-    .ng-select-container {
-      border: 1px solid var(--cx-color-light);
-      .ng-value-container {
-        padding: 0 var(--cx-spatial-md);
-      }
-    }
-  }
-  .ng-value-label {
-    font-size: 1rem;
-  }
-
-  .ng-select.ng-select-single
-    .ng-select-container
-    .ng-value-container
-    .ng-input {
-    padding: var(--cx-spatial-base) var(--cx-spatial-md);
-  }
-  // }
-  // }
 }
+
+.form-group {
+  @include media-breakpoint-up(md) {
+    flex: 50%;
+  }
+  @include media-breakpoint-down(sm) {
+    flex: 100%;
+  }
+  padding-right: 20px;
+
+  cx-form-errors {
+    position: relative;
+    p {
+      padding-inline-start: 30px;
+    }
+  }
+}
+
+ng-select {
+  font-weight: normal;
+  .ng-select-container.ng-has-value {
+    // align the height of the select with buttons
+    max-height: 48px;
+  }
+}
+
+// .organization {
+//   form {
+//     width: 100%;
+//     max-width: 100vw;
+//     margin: 0;
+//   }
+//   .form-group {
+//     padding: var(--cx-spatial-base) var(--cx-spatial-md);
+//     margin: 0;
+//     &:first-of-type {
+//       padding-top: var(--cx-spatial-md);
+//     }
+//   }
+//   label {
+//     margin: 0;
+//     cursor: pointer;
+
+//     .label-content {
+//       line-height: 0.8rem;
+//       padding: var(--cx-spatial-base) var(--cx-spatial-md)
+//         var(--cx-spatial-base) 0;
+//     }
+
+//     cx-form-errors {
+//       padding: 2px var(--cx-spatial-md);
+//       &.control-invalid {
+//         &.control-dirty,
+//         &.control-touched {
+//           display: block;
+//         }
+//       }
+//     }
+//   }
+
+//   .ng-select {
+//     .ng-select-container {
+//       border: 1px solid var(--cx-color-light);
+//       .ng-value-container {
+//         padding: 0 var(--cx-spatial-md);
+//       }
+//     }
+//   }
+//   .ng-value-label {
+//     font-size: 1rem;
+//   }
+
+//   .ng-select.ng-select-single
+//     .ng-select-container
+//     .ng-value-container
+//     .ng-input {
+//     padding: var(--cx-spatial-base) var(--cx-spatial-md);
+//   }
+//   // }
+//   // }
+// }

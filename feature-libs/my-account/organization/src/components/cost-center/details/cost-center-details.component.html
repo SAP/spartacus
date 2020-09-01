@@ -26,54 +26,55 @@
   </ng-template>
 
   <section main>
-    <div class="property">
-      <label>{{ 'costCenter.name' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.name }}
-      </span>
-    </div>
+    <div class="details">
+      <div class="property">
+        <label>{{ 'costCenter.name' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.name }}
+        </span>
+      </div>
 
-    <div class="property">
-      <label>{{ 'costCenter.code' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.code }}
-      </span>
-    </div>
+      <div class="property">
+        <label>{{ 'costCenter.code' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.code }}
+        </span>
+      </div>
 
-    <div class="property">
-      <label>{{ 'costCenter.currency' | cxTranslate }}</label>
+      <div class="property">
+        <label>{{ 'costCenter.currency' | cxTranslate }}</label>
 
-      <span class="value">
-        {{ model.currency?.isocode }}
-      </span>
-    </div>
+        <span class="value">
+          {{ model.currency?.isocode }}
+        </span>
+      </div>
 
-    <div class="property">
-      <label>{{ 'costCenter.unit' | cxTranslate }}</label>
-      <a
-        class="value"
-        [routerLink]="
-          {
-            cxRoute: 'orgUnitDetails',
-            params: model.unit
-          } | cxUrl
-        "
-      >
-        {{ model.unit?.name }}
-        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-      </a>
+      <div class="property">
+        <label>{{ 'costCenter.unit' | cxTranslate }}</label>
+        <a
+          class="value"
+          [routerLink]="
+            {
+              cxRoute: 'orgUnitDetails',
+              params: model.unit
+            } | cxUrl
+          "
+        >
+          {{ model.unit?.name }}
+        </a>
+      </div>
     </div>
   </section>
 
-  <div main>
+  <section main class="link-list">
     <a
       class="link"
       [routerLink]="{ cxRoute: 'costCenterBudgets', params: model } | cxUrl"
+      routerLinkActive="is-current"
     >
       {{ 'costCenter.budget.link' | cxTranslate }}
-      <cx-icon type="CARET_RIGHT"></cx-icon>
     </a>
-  </div>
+  </section>
 </cx-organization-card>
 
 <!-- <cx-view #view *ngIf="costCenter$ | async as costCenter">

@@ -1,0 +1,70 @@
+.card {
+  .main {
+    position: relative;
+  }
+  .confirmation {
+    position: absolute;
+    // top: 0;
+    // left: 0;
+    width: 100%;
+    padding: 20px 40px;
+
+    background-color: #cbe6fe;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    p {
+      flex: 100%;
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin-inline-start: 20px;
+    }
+
+    button.button:not(.primary) {
+      background-color: var(--cx-color-inverse);
+      color: var(--cx-color-primary);
+    }
+    button.button.primary {
+      border-color: var(--cx-color-inverse);
+    }
+  }
+
+  section {
+    display: flex;
+    margin: 40px;
+    background-color: var(--cx-color-inverse);
+    border: solid 1px var(--cx-color-light);
+
+    &.link-list {
+      display: flex;
+      flex-direction: column;
+      a {
+        padding: 25px 30px;
+        justify-content: flex-start;
+        min-height: 74px;
+
+        &:not(:last-child) {
+          border-bottom: solid 1px var(--cx-color-light);
+        }
+
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76'%3E%3Cpolyline fill='none' stroke='%23D3D6DA' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;
+        background-size: 12px;
+        background-position: calc(100% - 26px) 50%;
+
+        &:hover:not(.is-current) {
+          background-color: var(--cx-color-background);
+        }
+        // highlight current items
+        &.is-current {
+          outline: solid 3px var(--cx-color-primary);
+          outline-offset: -3px;
+          background: var(--cx-color-background-focus);
+        }
+      }
+    }
+  }
+}

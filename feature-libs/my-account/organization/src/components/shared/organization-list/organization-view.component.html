@@ -20,12 +20,14 @@
     </div>
 
     <div class="main">
-      <cx-table
-        *ngIf="dataTable.data?.length > 0; else emptyList"
-        [dataset]="dataTable"
-        [currentItem]="{ property: key, value: currentKey$ | async }"
-      >
-      </cx-table>
+      <section>
+        <cx-table
+          *ngIf="dataTable.data?.length > 0; else emptyList"
+          [dataset]="dataTable"
+          [currentItem]="{ property: key, value: currentKey$ | async }"
+        >
+        </cx-table>
+      </section>
     </div>
 
     <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">

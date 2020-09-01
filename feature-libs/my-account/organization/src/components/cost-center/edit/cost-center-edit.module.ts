@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
+import { OrganizationCardModule } from '../../shared';
 import { CostCenterFormModule } from '../form/cost-center-form.module';
 import { CostCenterEditComponent } from './cost-center-edit.component';
 
@@ -17,6 +18,8 @@ import { CostCenterEditComponent } from './cost-center-edit.component';
     IconModule,
     CostCenterFormModule,
     ReactiveFormsModule,
+
+    OrganizationCardModule,
   ],
   declarations: [CostCenterEditComponent],
   exports: [CostCenterEditComponent],

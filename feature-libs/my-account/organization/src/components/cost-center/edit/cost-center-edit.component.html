@@ -1,4 +1,23 @@
-<cx-view #view *ngIf="viewModel$ | async as viewModel">
+<form
+  *ngIf="viewModel$ | async as viewModel"
+  [formGroup]="viewModel.form"
+  (ngSubmit)="save(viewModel.code, viewModel.form)"
+>
+  <cx-organization-card [previous]="false">
+    <button actions class="button primary">
+      {{ 'organization.save' | cxTranslate }}
+    </button>
+    <button actions class="link" routerLink="../">
+      {{ 'organization.cancel' | cxTranslate }}
+    </button>
+
+    <section main class="details">
+      <cx-cost-center-form [form]="viewModel.form"> </cx-cost-center-form>
+    </section>
+  </cx-organization-card>
+</form>
+
+<!-- <cx-view #view *ngIf="viewModel$ | async as viewModel">
   <form
     [formGroup]="viewModel.form"
     (ngSubmit)="save(viewModel.code, viewModel.form)"
@@ -33,4 +52,4 @@
       </div>
     </section>
   </form>
-</cx-view>
+</cx-view> -->

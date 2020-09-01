@@ -4,7 +4,11 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import {
+  SplitViewDeactivateGuard,
+  TableConfig,
+  TableLayout,
+} from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
@@ -15,7 +19,6 @@ import { DateRangeCellComponent } from '../shared/organization-table/date-range/
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { CellActionsComponent } from './cost-centers/cell-actions/cell-actions.component';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
@@ -126,14 +129,12 @@ export const budgetTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
-      cells: ['name', 'actions'],
+      cells: ['name'],
       options: {
+        layout: TableLayout.VERTICAL,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
-          },
-          actions: {
-            dataComponent: CellActionsComponent,
           },
         },
       },
