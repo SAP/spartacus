@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -101,6 +101,22 @@ export class CustomFormValidators {
       );
 
     return validator;
+  }
+
+  /**
+   * Checks if control's value is euqal or greater than 0
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxNegativeAmount' validator error
+   * @memberof CustomFormValidators
+   */
+  static mustBePositive(control: AbstractControl): ValidationErrors | null {
+    const amount = control.value as number;
+
+    return amount >= 0 ? null : { cxNegativeAmount: true };
   }
 }
 

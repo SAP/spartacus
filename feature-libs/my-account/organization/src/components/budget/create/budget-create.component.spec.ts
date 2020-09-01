@@ -107,8 +107,9 @@ describe('BudgetCreateComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith('budgetDetails', {
-        code: budgetCode,
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'budgetDetails',
+        params: { code: budgetCode },
       });
     });
   });

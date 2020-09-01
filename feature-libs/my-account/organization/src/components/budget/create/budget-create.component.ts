@@ -34,7 +34,10 @@ export class BudgetCreateComponent {
     } else {
       form.disable();
       this.budgetService.create(form.value);
-      this.routingService.go('budgetDetails', form.value);
+      this.routingService.go({
+        cxRoute: 'budgetDetails',
+        params: form.value,
+      });
     }
   }
 }
