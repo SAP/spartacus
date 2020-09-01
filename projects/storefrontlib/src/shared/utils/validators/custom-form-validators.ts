@@ -104,7 +104,7 @@ export class CustomFormValidators {
   }
 
   /**
-   * Checks if control's value is greater than 0
+   * Checks if control's value is euqal or greater than 0
    *
    * NOTE: Use it as a control validator
    *
