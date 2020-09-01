@@ -12,6 +12,8 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: yarn build:core:lib
-          command: yarn e2e:cy:start-run-smoke-ci:2005
+          start: start:ci:2005
+          working-directory: projects/storefrontapp-e2e-cypress
+          command: yarn e2e:cy:run:smoke:ci:2005
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
