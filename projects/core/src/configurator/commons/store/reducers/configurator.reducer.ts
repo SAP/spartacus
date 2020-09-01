@@ -37,6 +37,7 @@ export function reducer(
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       return setInitialCurrentGroup(takeOverChanges(action, state));
     }
+
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
 
@@ -44,6 +45,10 @@ export function reducer(
         ...state,
         overview: content,
         priceSummary: content.priceSummary,
+        interactionState: {
+          ...state.interactionState,
+          issueNavigationDone: false,
+        },
       };
 
       return result;
@@ -183,6 +188,11 @@ function takeOverChanges(
   const result = {
     ...state,
     ...content,
+    interactionState: {
+      ...state.interactionState,
+      ...content.interactionState,
+      issueNavigationDone: true,
+    },
   };
   return result;
 }

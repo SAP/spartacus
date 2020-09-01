@@ -11,7 +11,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
@@ -29,6 +29,16 @@ export class ConfigGroupMenuComponent {
   > = this.routerData$.pipe(
     switchMap((routerData) =>
       this.configCommonsService.getConfiguration(routerData.owner)
+    ),
+    //We need to ensure that the navigation to conflict groups or
+    //groups with mandatory attributes already has taken place, as this happens
+    //in an onInit of another component.
+    //otherwise we risk that this component is completely initialized too early,
+    //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+    filter(
+      (configuration) =>
+        (configuration.complete && configuration.consistent) ||
+        configuration.interactionState.issueNavigationDone
     )
   );
 

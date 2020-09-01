@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -45,7 +46,7 @@ export class ConfiguratorEffects {
           catchError((error) => [
             new ConfiguratorActions.CreateConfigurationFail({
               ownerKey: action.payload.key,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         );
@@ -75,7 +76,7 @@ export class ConfiguratorEffects {
           catchError((error) => [
             new ConfiguratorActions.ReadConfigurationFail({
               ownerKey: action.payload.configuration.owner.key,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         );
@@ -102,8 +103,7 @@ export class ConfiguratorEffects {
             );
           }),
           catchError((error) => {
-            const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.configId;
+            const errorPayload = normalizeHttpError(error);
             return [
               new ConfiguratorActions.UpdateConfigurationFail({
                 configuration: payload,
@@ -133,8 +133,7 @@ export class ConfiguratorEffects {
           );
         }),
         catchError((error) => {
-          const errorPayload = makeErrorSerializable(error);
-          errorPayload.configId = payload.configId;
+          const errorPayload = normalizeHttpError(error);
           return [
             new ConfiguratorActions.UpdatePriceSummaryFail({
               ownerKey: payload.owner.key,
@@ -166,8 +165,7 @@ export class ConfiguratorEffects {
             });
           }),
           catchError((error) => {
-            const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.owner.id;
+            const errorPayload = normalizeHttpError(error);
             return [
               new ConfiguratorActions.GetConfigurationOverviewFail({
                 ownerKey: payload.owner.key,
@@ -299,7 +297,7 @@ export class ConfiguratorEffects {
               catchError((error) => [
                 new ConfiguratorActions.ReadConfigurationFail({
                   ownerKey: action.payload.configuration.owner.key,
-                  error: makeErrorSerializable(error),
+                  error: normalizeHttpError(error),
                 }),
               ])
             );
@@ -399,7 +397,7 @@ export class ConfiguratorEffects {
           catchError((error) => [
             new ConfiguratorActions.ReadCartEntryConfigurationFail({
               ownerKey: action.payload.owner.key,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         );
@@ -424,7 +422,7 @@ export class ConfiguratorEffects {
           catchError((error) => [
             new ConfiguratorActions.ReadOrderEntryConfigurationFail({
               ownerKey: action.payload.owner.key,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         );
