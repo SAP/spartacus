@@ -55,6 +55,7 @@ export class SplitViewService {
       map((views) => views[position]),
       // we must filter here, since outlet driven views will destroyed the view
       filter((view) => Boolean(view))
+      // distinctUntilChanged()
     );
   }
 

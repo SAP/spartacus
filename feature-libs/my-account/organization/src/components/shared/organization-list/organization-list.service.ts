@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
-  ResponsiveTableConfiguration,
   Table,
   TableLayout,
   TableService,
@@ -26,20 +25,32 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    * The default table structure is used to add the default configuration for all
    * organization list related tables. This avoids a lot of boilerplate configuration.
    */
-  protected defaultTableStructure: ResponsiveTableConfiguration = {
+  protected defaultTableStructure = {
     options: { layout: TableLayout.VERTICAL_STACKED },
     lg: { options: { layout: TableLayout.VERTICAL } },
   };
 
   /**
-   * Used to load the table structure configuration and generate table outlets.
+   * The `viewType` is used to load the proper table configuration and localizations for the view.
+   *
+   * TODO: rename to `viewType`
    */
   protected abstract tableType: OrganizationTableType;
+
+  get viewType() {
+    return this.tableType;
+  }
+
+  /**
+   * Bind to the domain specific fields and routing.
+   * TODO: abstract
+   */
+  protected domainType: string;
 
   /**
    * The pagination state of the listing
    */
-  protected pagination$: BehaviorSubject<P> = new BehaviorSubject(null);
+  protected pagination$: BehaviorSubject<P> = new BehaviorSubject(undefined);
 
   constructor(protected tableService: TableService) {}
 
@@ -69,7 +80,17 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
                 pagination: { ...pagination },
                 sorts,
               } as Table<T>)
-          )
+          ),
+          map((table) => {
+            // While we've build the table structure by a specific table type, we like the actual
+            // table component to work with the domain type, so that the actual data field and locales
+            // are reused.
+            if (this.domainType) {
+              table.structure.type = this.domainType;
+            }
+            // table.structure.domainType = this.domainType;
+            return table;
+          })
         )
       )
     );
@@ -111,6 +132,7 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
       map(([structure, pagination]: [TableStructure, P]) => {
         const clone: TableStructure = { options: {}, ...structure };
         clone.options.pagination = {
+          ...({ pageSize: 10 } as PaginationModel),
           ...clone.options.pagination,
           ...pagination,
         };

@@ -1,15 +1,17 @@
 <cx-split-view [hideMode]="false">
   <ng-container *ngIf="dataTable$ | async as dataTable">
     <cx-view>
-      <h3>
-        {{
-          dataTable.structure.type + '.header'
-            | cxTranslate: { count: dataTable.pagination?.totalResults }
-        }}
-      </h3>
+      <div class="header">
+        <div class="title">
+          <h3>
+            {{
+              viewType + '.header'
+                | cxTranslate: { count: getListCount(dataTable) }
+            }}
+          </h3>
+        </div>
 
-      <div class="actions">
-        <div>
+        <div class="actions">
           <ng-select
             *ngIf="dataTable.pagination?.sort"
             [searchable]="false"
@@ -22,22 +24,24 @@
               {{ dataTable.structure.type + '.' + sort.code | cxTranslate }}
             </ng-option>
           </ng-select>
+
+          <button
+            class="button primary"
+            [routerLink]="
+              { cxRoute: dataTable.structure.type + 'Create' } | cxUrl
+            "
+            routerLinkActive="disabled"
+          >
+            {{ 'organization.add' | cxTranslate }}
+          </button>
         </div>
-        <button
-          class="button primary"
-          [routerLink]="
-            { cxRoute: dataTable.structure.type + 'Create' } | cxUrl
-          "
-          routerLinkActive="disabled"
-        >
-          {{ 'organization.add' | cxTranslate }}
-        </button>
       </div>
 
       <cx-table
         *ngIf="dataTable.data?.length > 0; else emptyList"
         [dataset]="dataTable"
         [currentItem]="{ property: key, value: currentKey$ | async }"
+        (launch)="launchItem($event)"
       >
       </cx-table>
 
@@ -50,13 +54,13 @@
       </div>
     </cx-view>
 
-    <ng-template cxOutletRef="table.data.suffix">
+    <!-- <ng-template cxOutletRef="table.data.suffix">
       <cx-icon type="CARET_RIGHT"></cx-icon>
-    </ng-template>
-  </ng-container>
+    </ng-template> -->
 
-  <!-- nested split views are rendered inside child routes -->
-  <router-outlet></router-outlet>
+    <!-- nested split views are rendered inside child routes -->
+    <router-outlet></router-outlet>
+  </ng-container>
 </cx-split-view>
 
 <ng-template #emptyList>

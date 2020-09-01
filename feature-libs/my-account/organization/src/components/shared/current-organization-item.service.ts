@@ -44,6 +44,14 @@ export abstract class CurrentOrganizationItemService<T> {
 
   constructor(protected routingService: RoutingService) {}
 
+  // TODO: consider to implement the method and only add a method to register the detailed route
+  launchDetails(params: T): void {
+    const cxRoute = this.getDetailsRoute();
+    if (cxRoute) {
+      this.routingService.go({ cxRoute, params });
+    }
+  }
+
   /**
    * Returns the route parameter key for the item. The route parameter key differs
    * per item, so that route parameters are distinguished in the route configuration.
@@ -54,4 +62,12 @@ export abstract class CurrentOrganizationItemService<T> {
    * Emits the current model or null, if there is no model available
    */
   protected abstract getItem(...params: any[]): Observable<T>;
+
+  protected getDetailsRoute(): string {
+    return;
+  }
+
+  getTitle(): Observable<string> {
+    return this.item$.pipe(map((item) => item?.['name']));
+  }
 }

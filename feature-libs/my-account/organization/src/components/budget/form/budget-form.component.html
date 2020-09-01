@@ -10,6 +10,7 @@
         required
         placeholder="{{ 'budget.form.name.placeholder' | cxTranslate }}"
         formControlName="name"
+        autofocus
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>

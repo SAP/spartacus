@@ -34,7 +34,8 @@ export class OutletDirective implements OnDestroy, OnChanges {
     Array<ComponentRef<any> | EmbeddedViewRef<any>>
   >();
 
-  @Input() cxOutlet: string;
+  @Input()
+  cxOutlet: string;
 
   @Input() cxOutletContext: any;
 
@@ -57,6 +58,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
   public render(): void {
     this.vcr.clear();
+    this.getHostElement().setAttribute('outlet', this.cxOutlet);
     this.renderedTemplate = [];
     this.renderedComponents.clear();
     this.subscription.unsubscribe();
@@ -184,7 +186,10 @@ export class OutletDirective implements OnDestroy, OnChanges {
    *
    * @param element
    */
-  private getHostElement(element: Node): HTMLElement {
+  private getHostElement(element?: Node): HTMLElement {
+    if (!element) {
+      element = this.vcr.element.nativeElement;
+    }
     if (element instanceof HTMLElement) {
       return element;
     }

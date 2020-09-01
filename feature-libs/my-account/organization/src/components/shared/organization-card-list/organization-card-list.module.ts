@@ -4,24 +4,24 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
-  OutletRefModule,
-  TableModule,
+  PaginationModule,
   SplitViewModule,
+  TableModule,
 } from '@spartacus/storefront';
-import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
+import { OrganizationCardListComponent } from './organization-card-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    UrlModule,
     SplitViewModule,
-    I18nModule,
     RouterModule,
-    OutletRefModule,
+    I18nModule,
     IconModule,
+    UrlModule,
     TableModule,
+    PaginationModule,
   ],
-  declarations: [CostCenterBudgetListComponent],
-  exports: [CostCenterBudgetListComponent],
+  declarations: [OrganizationCardListComponent],
+  exports: [OrganizationCardListComponent],
 })
-export class CostCenterBudgetListModule {}
+export class OrganizationCardListModule {}

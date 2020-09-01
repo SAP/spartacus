@@ -1,0 +1,47 @@
+<cx-view #view *ngIf="dataTable$ | async as dataTable">
+  <div class="card">
+    <!-- <ng-content select="[header]"></ng-content> -->
+    <div class="header">
+      <div class="title">
+        <h3>
+          {{ viewType + '.cardTitle' | cxTranslate }}
+        </h3>
+        <h4 subtitle *ngIf="title$ | async as title">
+          {{ viewType + '.cardSubtitle' | cxTranslate: { name: title } }}
+        </h4>
+      </div>
+      <div class="actions">
+        <ng-content select="[actions]"></ng-content>
+        <a class="link" routerLink="../">
+          <!-- (click)="view.toggle()" -->
+          <cx-icon type="CLOSE"></cx-icon>
+        </a>
+      </div>
+    </div>
+
+    <div class="main">
+      <cx-table
+        *ngIf="dataTable.data?.length > 0; else emptyList"
+        [dataset]="dataTable"
+        [currentItem]="{ property: key, value: currentKey$ | async }"
+      >
+      </cx-table>
+    </div>
+
+    <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
+      <cx-pagination
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="browse(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </div>
+  </div>
+</cx-view>
+
+<!-- nested split views are rendered inside child routes -->
+<router-outlet></router-outlet>
+
+<ng-template #emptyList>
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>

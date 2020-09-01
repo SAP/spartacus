@@ -8,6 +8,7 @@ export const budget = {
   unit: 'Parent Unit',
   amount: 'Amount',
   dateRange: 'Start - End',
+  actions: '',
 
   byName: 'Sort by name',
   byUnitName: 'Sort by unit',
@@ -48,4 +49,12 @@ export const budget = {
     link: 'Cost Centers',
     header: 'Cost Centers in {{code}}',
   },
+
+  cardTitle: 'Budget Details',
+  cardSubtitle: 'Budget: {{ name }}',
+};
+
+export const budgetCostCenters = {
+  cardTitle: 'Cost centers',
+  cardSubtitle: 'Budget: {{ name }}',
 };

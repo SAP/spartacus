@@ -10,6 +10,12 @@
     max-width: 1140px;
     padding-bottom: max(calc((100vw - 1140px) / 2), var(--cx-spatial-md));
     margin: auto;
+
+    @include media-breakpoint-down(sm) {
+      cx-page-slot {
+        margin: 0;
+      }
+    }
   }
 }
 

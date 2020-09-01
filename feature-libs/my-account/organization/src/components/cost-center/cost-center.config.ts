@@ -14,6 +14,7 @@ import { OrganizationCellComponent } from '../shared/organization-table/organiza
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
+import { AssignBudgetCellComponent } from './budgets/assign-cell.component';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
@@ -21,9 +22,6 @@ import { CostCenterDetailsComponent } from './details/cost-center-details.compon
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListService } from './services/cost-center-list.service';
 import { CurrentCostCenterService } from './services/current-cost-center.service';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
@@ -89,13 +87,11 @@ export const costCenterCmsConfig: CmsConfig = {
               path: 'budgets',
               component: CostCenterBudgetListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
-              children: [
-                {
-                  path: 'assign',
-                  component: CostCenterAssignBudgetsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
+            },
+            {
+              path: 'budgets/assign',
+              component: CostCenterAssignBudgetsComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
         },
@@ -118,9 +114,6 @@ export const costCenterTableConfig: TableConfig = {
     [OrganizationTableType.COST_CENTER]: {
       cells: ['name', 'active', 'currency', 'unit'],
       options: {
-        pagination: {
-          sort: 'byName',
-        },
         dataComponent: OrganizationCellComponent,
         cells: {
           name: {
@@ -136,24 +129,16 @@ export const costCenterTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      cells: ['summary', 'link', 'unassign'],
+      cells: ['name', 'actions'],
       options: {
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    },
-    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
-      xs: {
-        cells: ['selected', 'summary', 'link'],
-        options: {
-          pagination: {
-            sort: 'byName',
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          actions: {
+            dataComponent: AssignBudgetCellComponent,
           },
         },
-      },
-      lg: {
-        cells: ['name', 'code', 'amount', 'dateRange'],
       },
     },
   },

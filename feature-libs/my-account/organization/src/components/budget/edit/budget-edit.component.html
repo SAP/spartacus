@@ -1,35 +1,18 @@
-<cx-view #view *ngIf="viewModel$ | async as viewModel">
-  <form
-    [formGroup]="viewModel.form"
-    (ngSubmit)="save(viewModel.code, viewModel.form)"
-  >
-    <h3>
-      <a
-        class="link"
-        [routerLink]="
-          { cxRoute: 'budgetDetails', params: viewModel.budget } | cxUrl
-        "
-        (click)="view.toggle()"
-      >
-        <cx-icon type="CARET_LEFT"></cx-icon>
-      </a>
-      <span>{{ 'organization.edit' | cxTranslate }}</span>
-    </h3>
-    <section>
+<form
+  *ngIf="viewModel$ | async as viewModel"
+  [formGroup]="viewModel.form"
+  (ngSubmit)="save(viewModel.code, viewModel.form)"
+>
+  <cx-organization-card>
+    <button actions class="button primary">
+      {{ 'organization.save' | cxTranslate }}
+    </button>
+    <button actions class="link" routerLink="../">
+      {{ 'organization.cancel' | cxTranslate }}
+    </button>
+
+    <section main>
       <cx-budget-form [form]="viewModel.form"> </cx-budget-form>
-      <div class="form-buttons">
-        <button class="button primary" type="submit">
-          {{ 'organization.save' | cxTranslate }}
-        </button>
-        <a
-          [routerLink]="
-            { cxRoute: 'budgetDetails', params: viewModel.budget } | cxUrl
-          "
-          class="button secondary"
-        >
-          {{ 'organization.cancel' | cxTranslate }}
-        </a>
-      </div>
     </section>
-  </form>
-</cx-view>
+  </cx-organization-card>
+</form>

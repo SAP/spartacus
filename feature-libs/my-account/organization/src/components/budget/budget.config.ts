@@ -9,24 +9,19 @@ import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import {
-  ActiveLinkCellComponent,
-  OrganizationCellComponent,
-} from '../shared/organization-table';
+import { ActiveLinkCellComponent } from '../shared/organization-table';
 import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
 import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
+import { CellActionsComponent } from './cost-centers/cell-actions/cell-actions.component';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListService } from './services';
 import { CurrentBudgetService } from './services/current-budget.service';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
@@ -110,19 +105,15 @@ export const budgetTableConfig: TableConfig = {
     [OrganizationTableType.BUDGET]: {
       cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
       options: {
-        pagination: {
-          sort: 'byName',
-        },
-        dataComponent: OrganizationCellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
-          amount: {
-            dataComponent: AmountCellComponent,
-          },
           active: {
             dataComponent: StatusCellComponent,
+          },
+          amount: {
+            dataComponent: AmountCellComponent,
           },
           dateRange: {
             dataComponent: DateRangeCellComponent,
@@ -135,10 +126,15 @@ export const budgetTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
-      cells: ['summary', 'link'],
+      cells: ['name', 'actions'],
       options: {
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          actions: {
+            dataComponent: CellActionsComponent,
+          },
         },
       },
     },

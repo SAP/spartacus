@@ -136,7 +136,7 @@ export function userGroupTableConfigFactory(): TableConfig {
 export const userGroupTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER_GROUP]: {
-      cells: ['name', 'unit'],
+      cells: ['name'],
       options: {
         pagination: {
           sort: 'byName',
@@ -150,6 +150,10 @@ export const userGroupTableConfig: TableConfig = {
             dataComponent: UnitCellComponent,
           },
         },
+      },
+      lg: {
+        cells: ['name', 'unit'],
+        options: {},
       },
     },
     [OrganizationTableType.USER_GROUP_USERS]: {

@@ -3,9 +3,14 @@
     th,
     td {
       &.amount,
-      &.dateRange {
+      &.dateRange,
+      &.currency {
         opacity: 0;
         width: 0.1%;
+      }
+      // let's make status column smaller
+      &.active {
+        width: 100px;
       }
     }
   }

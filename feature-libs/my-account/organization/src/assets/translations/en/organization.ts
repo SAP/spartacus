@@ -1,5 +1,5 @@
-import { budget } from './budget.i18n';
-import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
+import { budget, budgetCostCenters } from './budget.i18n';
+import { costCenter, costCenterBudgets } from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
@@ -23,7 +23,7 @@ import {
 
 export const organization = {
   organization: {
-    enabled: 'Enabled',
+    enabled: 'Active',
     disabled: 'Disabled',
     enable: 'Enable',
     disable: 'Disable',
@@ -37,7 +37,7 @@ export const organization = {
 
     add: 'Add',
     create: 'Create {{name}}',
-    edit: 'Edit details',
+    edit: 'Edit',
     save: 'Save {{name}}',
     delete: 'Delete',
 
@@ -62,7 +62,7 @@ export const organization = {
 
   // sub feature labels are added below
   costCenter,
-  costCenterAssignBudgets,
+  costCenterBudgets,
   unit,
   unitAssignRoles,
   unitAssignApprovers,
@@ -70,6 +70,7 @@ export const organization = {
   userGroupAssignUsers,
   userGroupAssignPermissions,
   budget,
+  budgetCostCenters,
   user,
   userAssignApprovers,
   userAssignPermissions,

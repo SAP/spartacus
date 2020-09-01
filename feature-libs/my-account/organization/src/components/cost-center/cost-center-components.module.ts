@@ -5,8 +5,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { OrganizationListModule } from '../shared/organization-list/organization-list.module';
-import { CostCenterAssignBudgetsModule } from './budgets/assign/cost-center-assign-budgets.module';
-import { CostCenterBudgetListModule } from './budgets/list/cost-center-budget-list.module';
+import { CostCenterBudgetsModule } from './budgets/cost-centers-budgets.module';
 import {
   costCenterCmsConfig,
   costCenterRoutingConfig,
@@ -20,8 +19,7 @@ import { CostCenterFormModule } from './form/cost-center-form.module';
 @NgModule({
   imports: [
     RouterModule,
-    CostCenterAssignBudgetsModule,
-    CostCenterBudgetListModule,
+    CostCenterBudgetsModule,
     CostCenterCreateModule,
     CostCenterEditModule,
     CostCenterFormModule,

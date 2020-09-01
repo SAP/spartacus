@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import {
+  Converter,
+  ConverterService,
+  EntitiesModel,
+  Occ,
+} from '@spartacus/core';
 import { BUDGET_NORMALIZER } from '../../../../connectors/budget/converters';
 import { Budget } from '../../../../model/budget.model';
-import {
-  EntitiesModel,
-  Converter,
-  Occ,
-  ConverterService,
-} from '@spartacus/core';
 
 @Injectable()
 export class OccBudgetListNormalizer
@@ -23,6 +23,7 @@ export class OccBudgetListNormalizer
         values: source.budgets.map((budget) => ({
           ...this.converter.convert(budget, BUDGET_NORMALIZER),
         })),
+        // .filter((_value, index) => index === 0),
       };
     }
     return target;

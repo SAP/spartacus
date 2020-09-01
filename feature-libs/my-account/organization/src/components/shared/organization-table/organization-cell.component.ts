@@ -17,7 +17,7 @@ export class OrganizationCellComponent {
     return -1;
   }
 
-  get model(): any {
+  get model(): TableDataOutletContext {
     return this.outlet.context;
   }
 
@@ -31,5 +31,9 @@ export class OrganizationCellComponent {
 
   get routeModel(): any {
     return this.outlet.context;
+  }
+
+  get type(): string {
+    return this.model._type;
   }
 }

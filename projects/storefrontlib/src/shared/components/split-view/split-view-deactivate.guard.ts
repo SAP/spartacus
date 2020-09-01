@@ -14,6 +14,6 @@ import { map } from 'rxjs/operators';
 export class SplitViewDeactivateGuard implements CanDeactivate<boolean> {
   canDeactivate(): Observable<boolean> {
     // TODO: this might cause an issue with e2e
-    return timer(300).pipe(map(() => true));
+    return timer(0).pipe(map(() => true));
   }
 }

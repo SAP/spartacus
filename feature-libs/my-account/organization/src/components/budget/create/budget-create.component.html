@@ -1,33 +1,18 @@
-<cx-view #view>
+<cx-organization-card>
   <form
     *ngIf="form$ | async as form"
     [formGroup]="form"
     (ngSubmit)="save(form)"
   >
-    <h3>
-      <a
-        class="link"
-        [routerLink]="{ cxRoute: 'budget' } | cxUrl"
-        (click)="view.toggle()"
-      >
-        <cx-icon type="CARET_LEFT"></cx-icon>
-      </a>
-      <span>{{ 'organization.create' | cxTranslate }}</span>
-    </h3>
+    <button actions class="button primary">
+      {{ 'organization.create' | cxTranslate }}
+    </button>
+    <button actions class="link" routerLink="../">
+      {{ 'organization.cancel' | cxTranslate }}
+    </button>
 
-    <section>
+    <section main>
       <cx-budget-form [form]="form"> </cx-budget-form>
-      <div class="form-buttons">
-        <button class="button primary" type="submit">
-          {{ 'organization.save' | cxTranslate }}
-        </button>
-        <a
-          [routerLink]="{ cxRoute: 'budget' } | cxUrl"
-          class="button secondary"
-        >
-          {{ 'organization.cancel' | cxTranslate }}
-        </a>
-      </div>
     </section>
   </form>
-</cx-view>
+</cx-organization-card>

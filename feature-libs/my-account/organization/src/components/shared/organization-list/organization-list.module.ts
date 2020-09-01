@@ -12,6 +12,7 @@ import {
   TableModule,
 } from '@spartacus/storefront';
 import { OrganizationListComponent } from './organization-list.component';
+import { OrganizationViewComponent } from './organization-view.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { OrganizationListComponent } from './organization-list.component';
     FormsModule,
     OutletRefModule,
   ],
-  declarations: [OrganizationListComponent],
+  declarations: [OrganizationListComponent, OrganizationViewComponent],
+  exports: [OrganizationListComponent, OrganizationViewComponent],
 })
 export class OrganizationListModule {}

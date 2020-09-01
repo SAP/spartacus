@@ -1,0 +1,26 @@
+<cx-view #view>
+  <div class="card">
+    <div class="header">
+      <div class="title">
+        <h3>
+          {{ viewType + '.cardTitle' | cxTranslate }}
+        </h3>
+        <h4 subtitle *ngIf="title$ | async as title">
+          {{ viewType + '.cardSubtitle' | cxTranslate: { name: title } }}
+        </h4>
+      </div>
+      <div class="actions">
+        <ng-content select="[actions]"></ng-content>
+        <a class="link" routerLink="../" (click)="view.toggle()">
+          <cx-icon type="CLOSE"></cx-icon>
+        </a>
+      </div>
+    </div>
+
+    <div class="main">
+      <ng-content select="[main]"></ng-content>
+    </div>
+  </div>
+</cx-view>
+
+<router-outlet></router-outlet>

@@ -7,6 +7,7 @@ import {
   IconModule,
   SplitViewModule,
 } from '@spartacus/storefront';
+import { OrganizationCardModule } from '../../shared';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 
 @NgModule({
@@ -18,6 +19,8 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     SplitViewModule,
     IconModule,
     ConfirmModalModule,
+
+    OrganizationCardModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],

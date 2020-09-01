@@ -7,6 +7,14 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 })
 export class AmountCellComponent extends OrganizationCellComponent {
   get property() {
-    return this.model.budget + ' ' + this.model.currency;
+    return this.budget + ' ' + this.currency;
+  }
+
+  protected get budget() {
+    return this.model.budget;
+  }
+
+  protected get currency() {
+    return this.model.currency?.isocode || this.model.currency;
   }
 }

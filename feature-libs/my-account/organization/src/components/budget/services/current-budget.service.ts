@@ -19,6 +19,10 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     super(routingService);
   }
 
+  protected getDetailsRoute(): string {
+    return 'budgetDetails';
+  }
+
   protected getParamKey() {
     return ROUTE_PARAMS.budgetCode;
   }

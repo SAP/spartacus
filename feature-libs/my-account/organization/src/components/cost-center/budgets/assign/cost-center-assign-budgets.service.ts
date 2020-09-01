@@ -13,7 +13,8 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 export class CostCenterAssignBudgetListService extends OrganizationListService<
   Budget
 > {
-  protected tableType = OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS;
+  protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
+  protected domainType = OrganizationTableType.BUDGET;
 
   constructor(
     protected tableService: TableService,
@@ -30,13 +31,5 @@ export class CostCenterAssignBudgetListService extends OrganizationListService<
       code,
       structure.options?.pagination
     );
-  }
-
-  toggleAssign(costCenterCode: string, budgetCode: string, assign = true) {
-    if (assign) {
-      this.costCenterService.assignBudget(costCenterCode, budgetCode);
-    } else {
-      this.costCenterService.unassignBudget(costCenterCode, budgetCode);
-    }
   }
 }

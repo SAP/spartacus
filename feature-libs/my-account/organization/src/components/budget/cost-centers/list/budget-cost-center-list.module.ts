@@ -1,27 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-  IconModule,
-  OutletRefModule,
-  TableModule,
-  SplitViewModule,
-} from '@spartacus/storefront';
+import { I18nModule } from '@spartacus/core';
+import { OrganizationCardListModule } from '../../../shared/organization-card-list/organization-card-list.module';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UrlModule,
-    SplitViewModule,
-    I18nModule,
-    RouterModule,
-    OutletRefModule,
-    IconModule,
-    TableModule,
-  ],
+  imports: [CommonModule, I18nModule, OrganizationCardListModule],
   declarations: [BudgetCostCenterListComponent],
-  exports: [BudgetCostCenterListComponent],
 })
 export class BudgetCostCenterListModule {}

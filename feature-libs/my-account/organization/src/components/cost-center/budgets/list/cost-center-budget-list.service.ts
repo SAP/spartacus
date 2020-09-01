@@ -19,6 +19,7 @@ export class CostCenterBudgetListService extends OrganizationListService<
   Budget
 > {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
+  protected domainType = OrganizationTableType.BUDGET;
 
   constructor(
     protected tableService: TableService,
@@ -41,18 +42,12 @@ export class CostCenterBudgetListService extends OrganizationListService<
    * As we can't filter with the backend API, we do this client side.
    */
   protected filterSelected({
-    pagination,
     sorts,
     values,
   }: EntitiesModel<Budget>): EntitiesModel<Budget> {
     return {
-      pagination,
       sorts,
       values: values.filter((value) => value.selected),
     };
-  }
-
-  unassign(costCenterCode: string, budget: Budget) {
-    this.costCenterService.unassignBudget(costCenterCode, budget.code);
   }
 }

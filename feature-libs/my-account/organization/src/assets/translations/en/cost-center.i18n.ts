@@ -11,6 +11,8 @@ export const costCenter = {
   byCode: 'Sort by code',
   byUnitName: 'Sort by unit',
 
+  actions: '',
+
   messages: {
     enabled:
       'When you disable the cost center, the related data will be disabled as well. ',
@@ -22,8 +24,9 @@ export const costCenter = {
 
   budget: {
     link: 'Budgets',
-    header: 'Budgets in {{code}}',
-    assign: 'Assign budgets',
+    // header: 'Budgets: {{code}}',
+
+    assign: 'Assign',
     assignHeader: 'Assign budgets in {{code}}',
     back: 'Back',
     instructions: {
@@ -32,11 +35,20 @@ export const costCenter = {
       changes: 'Changes are saved automatically.',
     },
   },
+
+  cardTitle: 'Cost Center Details',
+  cardSubtitle: 'Cost Center {{ name }}',
 };
 
-export const costCenterAssignBudgets = {
-  name: 'Name',
-  code: 'Code',
-  amount: 'Amount',
-  dateRange: 'Start - End',
+export const costCenterBudgets = {
+  cardTitle: 'Assigned budgets',
+  cardSubtitle: 'Budget: {{ name }}',
+  actions: '',
 };
+
+// export const costCenterAssignBudgets = {
+//   name: 'Name',
+//   assign: '',
+
+//   header: 'Assign budgets ({{ count}})',
+// };
