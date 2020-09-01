@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { TableConfig } from './config/table.config';
-import { TableStructure } from './table.model';
+import { TableLayout, TableStructure } from './table.model';
 import { TableService } from './table.service';
 
 class MockBreakpointService {
@@ -22,36 +22,36 @@ class MockBreakpointService {
 
 const MockTableConfig: TableConfig = {
   table: {
-    table1: { fields: ['name-col'] },
+    table1: { cells: ['name-col'] },
     table2: {
-      fields: ['name'],
-      [BREAKPOINT.xs]: { fields: ['xs-col'] },
-      [BREAKPOINT.md]: { fields: ['md-col'] },
+      cells: ['name'],
+      [BREAKPOINT.xs]: { cells: ['xs-col'] },
+      [BREAKPOINT.md]: { cells: ['md-col'] },
     },
     table3: {
-      fields: ['xs'],
+      cells: ['xs'],
       sm: {
-        fields: ['sm'],
+        cells: ['sm'],
       },
       md: {
-        fields: ['md'],
+        cells: ['md'],
       },
       lg: {
-        fields: ['lg'],
+        cells: ['lg'],
       },
       xl: {
-        fields: ['xl'],
+        cells: ['xl'],
       },
     },
     table4: {
-      fields: ['xs'],
+      cells: ['xs'],
       options: {
-        hideHeader: true,
+        layout: TableLayout.VERTICAL,
       },
       xl: {
-        fields: ['xl'],
+        cells: ['xl'],
         options: {
-          hideHeader: false,
+          layout: TableLayout.HORIZONTAL,
         },
       },
     },
@@ -89,7 +89,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table3')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['xs']);
+          expect(result.cells).toEqual(['xs']);
         });
 
         it('should return fields for sm screen', () => {
@@ -100,7 +100,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table3')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['sm']);
+          expect(result.cells).toEqual(['sm']);
         });
 
         it('should return fields for md screen', () => {
@@ -111,7 +111,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table3')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['md']);
+          expect(result.cells).toEqual(['md']);
         });
 
         it('should return fields for lg screen', () => {
@@ -122,7 +122,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table3')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['lg']);
+          expect(result.cells).toEqual(['lg']);
         });
 
         it('should return fields for xl screen', () => {
@@ -133,7 +133,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table3')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['xl']);
+          expect(result.cells).toEqual(['xl']);
         });
 
         it('should return default fields for md screen', () => {
@@ -144,7 +144,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table4')
             .subscribe((table) => (result = table));
-          expect(result.fields).toEqual(['xs']);
+          expect(result.cells).toEqual(['xs']);
         });
       });
 
@@ -157,7 +157,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table4')
             .subscribe((table) => (result = table));
-          expect(result.options.hideHeader).toEqual(true);
+          expect(result.options.layout).toEqual(TableLayout.VERTICAL);
         });
 
         it('should merge options for xl screen', () => {
@@ -168,7 +168,7 @@ describe('TableService', () => {
           tableService
             .buildStructure('table4')
             .subscribe((table) => (result = table));
-          expect(result.options.hideHeader).toEqual(false);
+          expect(result.options.layout).toEqual(TableLayout.HORIZONTAL);
         });
       });
 
@@ -186,7 +186,7 @@ describe('TableService', () => {
               .buildStructure('table2')
               .subscribe((structure) => (result = structure));
 
-            expect(result.fields).toEqual(['md-col']);
+            expect(result.cells).toEqual(['md-col']);
           });
         });
       });
@@ -214,7 +214,7 @@ describe('TableService', () => {
               .buildStructure('table1')
               .subscribe((structure) => (result = structure));
 
-            expect(result.fields[0]).toEqual('name-col');
+            expect(result.cells[0]).toEqual('name-col');
           });
         });
 
@@ -225,7 +225,7 @@ describe('TableService', () => {
               .buildStructure('table2')
               .subscribe((structure) => (result = structure));
 
-            expect(result.fields[0]).toEqual('xs-col');
+            expect(result.cells[0]).toEqual('xs-col');
           });
         });
 
@@ -235,12 +235,13 @@ describe('TableService', () => {
             tableService
               .buildStructure(
                 'unknown',
+                {},
                 of([{ firstUnknown: 'foo', lastUnknown: 'bar' }])
               )
               .subscribe((structure) => (result = structure));
 
-            expect(result.fields[0]).toEqual('firstUnknown');
-            expect(result.fields[1]).toEqual('lastUnknown');
+            expect(result.cells[0]).toEqual('firstUnknown');
+            expect(result.cells[1]).toEqual('lastUnknown');
           });
         });
 
@@ -250,8 +251,7 @@ describe('TableService', () => {
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));
 
-          expect(result.fields.length).toEqual(5);
-          expect(result.options.hideHeader).toEqual(true);
+          expect(result.cells.length).toEqual(5);
         });
       });
     });

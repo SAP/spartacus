@@ -37,7 +37,6 @@
       <cx-table
         *ngIf="dataTable.data?.length > 0; else emptyList"
         [dataset]="dataTable"
-        [suffix]="true"
         [currentItem]="{ property: key, value: currentKey$ | async }"
       >
       </cx-table>

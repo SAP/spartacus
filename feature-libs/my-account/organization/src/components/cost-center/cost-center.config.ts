@@ -116,14 +116,13 @@ export function costCenterTableConfigFactory(): TableConfig {
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
-      fields: ['name'],
+      cells: ['name', 'active', 'currency', 'unit'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -135,17 +134,10 @@ export const costCenterTableConfig: TableConfig = {
           },
         },
       },
-      lg: {
-        fields: ['name', 'active', 'currency', 'unit'],
-        options: {
-          hideHeader: false,
-        },
-      },
     },
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
@@ -153,16 +145,15 @@ export const costCenterTableConfig: TableConfig = {
     },
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
       xs: {
-        fields: ['selected', 'summary', 'link'],
+        cells: ['selected', 'summary', 'link'],
         options: {
-          hideHeader: true,
           pagination: {
             sort: 'byName',
           },
         },
       },
       lg: {
-        fields: ['name', 'code', 'amount', 'dateRange'],
+        cells: ['name', 'code', 'amount', 'dateRange'],
       },
     },
   },

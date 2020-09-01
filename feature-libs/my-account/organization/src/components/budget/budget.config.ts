@@ -108,14 +108,13 @@ export function budgetTableConfigFactory(): TableConfig {
 export const budgetTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.BUDGET]: {
-      fields: ['name'],
+      cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -133,18 +132,11 @@ export const budgetTableConfig: TableConfig = {
           },
         },
       },
-      lg: {
-        options: {
-          hideHeader: false,
-        },
-        fields: ['name', 'active', 'amount', 'dateRange', 'unit'],
-      },
     },
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
-      fields: ['summary', 'link'],
+      cells: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },

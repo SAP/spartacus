@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -11,6 +11,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableHeaderCellComponent {
+  @HostBinding('class') cls = 'header-wrapper';
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
 
   /**
@@ -40,7 +41,7 @@ export class TableHeaderCellComponent {
   }
 
   protected get fieldOptions(): TableFieldOptions {
-    return this.outlet?.context._options?.fields?.[this.field];
+    return this.outlet?.context._options?.cells?.[this.field];
   }
 
   protected get field(): string {

@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
-import { Table } from './table.model';
+import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
 
 const headers: string[] = ['key1', 'key2', 'key3'];
@@ -19,7 +19,10 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    fields: headers,
+    cells: headers,
+    options: {
+      layout: TableLayout.VERTICAL,
+    },
   },
   data,
 };
@@ -82,7 +85,7 @@ describe('TableComponent', () => {
   });
 
   it('should add the table type to __cx-table-type attribute in devMode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
@@ -92,7 +95,7 @@ describe('TableComponent', () => {
   });
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
@@ -126,19 +129,6 @@ describe('TableComponent', () => {
     });
 
     describe('UI', () => {
-      it('should not add the thead when hideHeader = true', () => {
-        tableComponent.dataset = {
-          ...mockDataset,
-          structure: {
-            ...mockDataset.structure,
-            options: { hideHeader: true },
-          },
-        };
-        fixture.detectChanges();
-        const table = fixture.debugElement.query(By.css('table > thead'));
-        expect(table).toBeNull();
-      });
-
       it('should add a th for each tableHeader ', () => {
         fixture.detectChanges();
         const table = fixture.debugElement.query(By.css('table > thead'));
@@ -228,51 +218,118 @@ describe('TableComponent', () => {
     });
   });
 
-  describe('table suffix', () => {
-    beforeEach(() => {
-      tableComponent.dataset = mockDataset;
+  describe('table layout', () => {
+    describe('vertical', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical class', () => {
+        expect(tableComponent.verticalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical');
+      });
+
+      it('should send out an event for the selected item', () => {
+        spyOn(tableComponent.launch, 'emit');
+        tableComponent.launchItem({ foo: 'bar' });
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
+      });
+
+      it('should launch on TR click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tr'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should have a current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val7' };
+        expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
+      });
+
+      it('should add is-current class to tr holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+
+        fixture.detectChanges();
+        const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+        expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tr[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
     });
 
-    it('should render a suffix th to the header', () => {
-      tableComponent.suffix = true;
-      fixture.detectChanges();
-      const td = fixture.debugElement.query(By.css('table > tr > th.suffix'));
-      expect(td).toBeDefined();
+    describe('vertical stacked', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL_STACKED;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical-stacked class', () => {
+        expect(tableComponent.verticalStackedLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical-stacked');
+      });
+
+      it('should have a tbody for each data item', () => {
+        const tbody = fixture.debugElement.queryAll(By.css('tbody'));
+        expect(tbody.length).toEqual(data.length);
+      });
+
+      it('should have a tr in tbody for each data item', () => {
+        const tr = fixture.debugElement.queryAll(
+          By.css('tbody:first-child tr')
+        );
+        expect(tr.length).toEqual(Object.keys(data[0]).length);
+      });
+
+      it('should launch on tbody click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should add is-current class to tbody holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+        fixture.detectChanges();
+        const tbody = fixture.debugElement.queryAll(By.css('table > tbody'));
+        expect((tbody[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tbody[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tbody[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
     });
 
-    it('should add a suffix td to each row', () => {
-      tableComponent.suffix = true;
-      fixture.detectChanges();
-      const td = fixture.debugElement.queryAll(
-        By.css('table > tr > td.suffix')
-      );
-      expect(td.length).toBe(3);
-    });
-  });
+    describe('horizontal', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.HORIZONTAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
 
-  describe('current item', () => {
-    beforeEach(() => {
-      tableComponent.dataset = mockDataset;
-    });
-
-    it('should have a current item', () => {
-      tableComponent.currentItem = { property: 'key1', value: 'val7' };
-      expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
-    });
-
-    it('should add is-current class to tr holding the current item', () => {
-      tableComponent.currentItem = { property: 'key1', value: 'val4' };
-      fixture.detectChanges();
-      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
-        'is-current'
-      );
-      expect((tr[1].nativeElement as HTMLElement).classList).toContain(
-        'is-current'
-      );
-      expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
-        'is-current'
-      );
+      it('should have horizontal class', () => {
+        expect(tableComponent.horizontalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('horizontal');
+      });
     });
   });
 });

@@ -170,14 +170,13 @@ export function userTableConfigFactory(): TableConfig {
 export const userTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
-      fields: ['name'],
+      cells: ['name', 'active', 'uid', 'roles', 'unit'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
         dataComponent: OrganizationCellComponent,
-        fields: {
+        cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
@@ -192,77 +191,63 @@ export const userTableConfig: TableConfig = {
           },
         },
       },
-      lg: {
-        fields: ['name', 'active', 'uid', 'roles', 'unit'],
-        options: {
-          hideHeader: false,
-        },
-      },
     },
     [OrganizationTableType.USER_APPROVERS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.USER_ASSIGN_APPROVERS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
-        fields: ['name', 'email', 'roles', 'orgUnit'],
-        options: {
-          hideHeader: false,
-        },
+        cells: ['name', 'email', 'roles', 'orgUnit'],
+        options: {},
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.USER_ASSIGN_PERMISSIONS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },
       },
       lg: {
-        fields: ['name', 'limit', 'orgUnit'],
+        cells: ['name', 'limit', 'orgUnit'],
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.USER_ASSIGN_USER_GROUPS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byCode',
         },
       },
       lg: {
-        fields: ['name', 'uid', 'orgUnit'],
+        cells: ['name', 'uid', 'orgUnit'],
       },
     },
   },

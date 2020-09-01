@@ -39,7 +39,8 @@ export abstract class TableConfig {
 /**
  * Helper configuration to introduce breakpoint specific table configuration.
  */
-interface ResponsiveTableConfiguration extends TableStructureConfiguration {
+export interface ResponsiveTableConfiguration
+  extends TableStructureConfiguration {
   /** The table configurations for all screens */
   [BREAKPOINT.xl]?: TableStructureConfiguration;
   /** The table configurations for large screens and smaller */

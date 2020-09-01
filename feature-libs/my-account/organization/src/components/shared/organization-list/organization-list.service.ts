@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import {
+  ResponsiveTableConfiguration,
+  Table,
+  TableLayout,
+  TableService,
+  TableStructure,
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
@@ -16,6 +22,15 @@ import { OrganizationTableType } from '../organization.model';
 
 @Injectable()
 export abstract class OrganizationListService<T, P = PaginationModel> {
+  /**
+   * The default table structure is used to add the default configuration for all
+   * organization list related tables. This avoids a lot of boilerplate configuration.
+   */
+  protected defaultTableStructure: ResponsiveTableConfiguration = {
+    options: { layout: TableLayout.VERTICAL_STACKED },
+    lg: { options: { layout: TableLayout.VERTICAL } },
+  };
+
   /**
    * Used to load the table structure configuration and generate table outlets.
    */
@@ -87,7 +102,10 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    */
   protected getStructure(): Observable<TableStructure> {
     return combineLatest([
-      this.tableService.buildStructure(this.tableType),
+      this.tableService.buildStructure(
+        this.tableType,
+        this.defaultTableStructure
+      ),
       this.pagination$,
     ]).pipe(
       map(([structure, pagination]: [TableStructure, P]) => {

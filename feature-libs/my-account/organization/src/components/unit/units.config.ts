@@ -184,57 +184,50 @@ export function unitsTableConfigFactory(): TableConfig {
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT_USERS]: {
-      fields: ['summary', 'link'],
+      cells: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.UNIT_CHILDREN]: {
-      fields: ['summary', 'link'],
+      cells: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.UNIT_APPROVERS]: {
-      fields: ['summary', 'link', 'unassign'],
+      cells: ['summary', 'link', 'unassign'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: {
-      fields: ['selected', 'summary', 'link'],
+      cells: ['selected', 'summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
-        fields: ['name', 'email', 'roles', 'orgUnit'],
-        options: {
-          hideHeader: false,
-        },
+        cells: ['name', 'email', 'roles', 'orgUnit'],
+        options: {},
       },
     },
     [OrganizationTableType.UNIT_ASSIGN_ROLES]: {
-      fields: ['summary', 'link'],
+      cells: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           sort: 'byName',
         },
       },
       lg: {
-        fields: [
+        cells: [
           'name',
           'email',
           'roleCustomer',
@@ -242,24 +235,20 @@ export const unitsTableConfig: TableConfig = {
           'roleManager',
           'roleAdministrator',
         ],
-        options: {
-          hideHeader: false,
-        },
+        options: {},
       },
     },
     [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: {
-      fields: ['summary'],
+      cells: ['summary'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },
     [OrganizationTableType.UNIT_COST_CENTERS]: {
-      fields: ['summary', 'link'],
+      cells: ['summary', 'link'],
       options: {
-        hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },

@@ -30,20 +30,25 @@ export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  fields?: string[];
+  cells?: string[];
 
+  /**
+   * Global table structure options.
+   */
   options?: TableOptions;
 }
 
 export interface TableOptions {
   /**
-   * Table headers can be  are added by default
-   */
-  hideHeader?: boolean;
-  /**
    * Default pagination for the table that is used for the initial load of the table data.
    */
   pagination?: PaginationModel;
+
+  /**
+   * The layout for the table component can be used for horizontal, vertical and vertical stacked
+   * table layouts.
+   */
+  layout?: TableLayout;
 
   /**
    * Global component to render table header _content_ (`<th>...</th>`). A specific component per
@@ -63,9 +68,31 @@ export interface TableOptions {
   dataComponent?: Type<any>;
 
   // field specific options
-  fields?: {
+  cells?: {
     [fieldKey: string]: TableFieldOptions;
   };
+}
+
+/**
+ * Layout orientation for the table configuration.
+ */
+export enum TableLayout {
+  /**
+   * Renders the table vertically, with a heading on top of the table.
+   *
+   * Vertical layout is most common and the default layout.
+   */
+  VERTICAL = 1,
+
+  /**
+   * Stacks items in a tables by generating a `tbody` for each item.
+   */
+  VERTICAL_STACKED,
+
+  /**
+   * Horizontal oriented table layout renders the table headers in the first column of the table.
+   */
+  HORIZONTAL,
 }
 
 export interface TableFieldOptions {
@@ -97,11 +124,8 @@ export interface TableFieldOptions {
  */
 export interface TableStructure extends TableStructureConfiguration {
   /**
-   * The table type is a mandatory property. It's used in various cases:
-   * - identify the table structure configuration
-   * - translate label keys into unique i18n properties
-   * - use the type to generate unique outlet references for headers and data.
-   * - add a unique class on the table, so we can apply custom css to it
+   * The table type is a mandatory property. The type is used to identify the table
+   * configuration and is used to generate a unique outlet reference.
    */
   type: string;
 }
