@@ -19,6 +19,7 @@ import {
 } from '../../../model/order.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   CUSTOMER_COUPONS,
@@ -33,6 +34,7 @@ import {
   USER_ORDERS,
   USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
+  USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
@@ -46,6 +48,7 @@ import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
+import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
@@ -105,6 +108,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     costCenters: loaderReducer<CostCenter[]>(
       USER_COST_CENTERS,
       fromCostCenterReducer.reducer
+    ),
+    replenishmentOrder: loaderReducer<ReplenishmentOrder>(
+      USER_REPLENISHMENT_ORDER_DETAILS,
+      fromReplenishmentOrderDetailsReducer.reducer
     ),
   };
 }
