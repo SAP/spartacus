@@ -1,6 +1,9 @@
 export interface MyCompanyRowConfig {
-  header: string;
+  label: string;
+  variableName: string;
   sortByUrl?: string;
-  text: string;
   link?: string;
+  inputType?: string;
+  createValue?: string;
+  updateValue?: string;
 }
