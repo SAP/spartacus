@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   Order,
   PaymentDetails,
+  ReplenishmentOrder,
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -69,6 +70,29 @@ const mockPayment: PaymentDetails = {
   billingAddress: mockBillingAddress,
 };
 
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  firstDate: '1994-01-11T00:00Z',
+  trigger: {
+    activationTime: '1994-01-11T00:00Z',
+    displayTimeTable: 'every-test-date',
+  },
+  paymentType: {
+    code: 'test-type',
+    displayName: 'test-type-name',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+  paymentInfo: mockPayment,
+};
+
 const mockOrder: Order = {
   code: 'test-code-412',
   deliveryAddress: mockDeliveryAddress,
@@ -128,6 +152,138 @@ describe('OrderConfirmationOverviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('when replenishment order code is defined', () => {
+    beforeEach(() => {
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
+    });
+
+    it('should call getReplenishmentCodeCardContent(orderCode: string)', () => {
+      spyOn(component, 'getReplenishmentCodeCardContent').and.callThrough();
+
+      component
+        .getReplenishmentCodeCardContent(
+          mockReplenishmentOrder.replenishmentOrderCode
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.replenishmentOrderCode,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentCodeCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.replenishmentOrderCode
+      );
+    });
+
+    it('should call getOrderCurrentDateCardContent()', () => {
+      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+
+      const date = component['getDate'](new Date());
+
+      component
+        .getOrderCurrentDateCardContent()
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+    });
+
+    it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
+      spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
+
+      component
+        .getReplenishmentActiveCardContent(mockReplenishmentOrder.active)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual(['test']);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentActiveCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.active
+      );
+    });
+
+    it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
+      spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
+
+      const date = component['getDate'](
+        new Date(mockReplenishmentOrder.firstDate)
+      );
+
+      component
+        .getReplenishmentStartOnCardContent(mockReplenishmentOrder.firstDate)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(component.getReplenishmentStartOnCardContent).toHaveBeenCalledWith(
+        mockReplenishmentOrder.firstDate
+      );
+    });
+
+    it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
+      spyOn(
+        component,
+        'getReplenishmentFrequencyCardContent'
+      ).and.callThrough();
+
+      component
+        .getReplenishmentFrequencyCardContent(
+          mockReplenishmentOrder.trigger.displayTimeTable
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([
+            mockReplenishmentOrder.trigger.displayTimeTable,
+          ]);
+        })
+        .unsubscribe();
+
+      expect(
+        component.getReplenishmentFrequencyCardContent
+      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.displayTimeTable);
+    });
+
+    it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
+      spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
+
+      const date = component['getDate'](
+        new Date(mockReplenishmentOrder.trigger.activationTime)
+      );
+
+      component
+        .getReplenishmentNextDateCardContent(
+          mockReplenishmentOrder.trigger.activationTime
+        )
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([date]);
+        })
+        .unsubscribe();
+
+      expect(
+        component.getReplenishmentNextDateCardContent
+      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.activationTime);
+    });
+  });
+
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
       spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
@@ -151,7 +307,7 @@ describe('OrderConfirmationOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
+    it('should call getOrderCurrentDateCardContent(isoDate?: string)', () => {
       spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
 
       const date = component['getDate'](mockOrder.created);

@@ -1,18 +1,60 @@
 <div class="cx-order-review-summary" *ngIf="order$ | async as order">
   <div class="container">
-    <div class="summary-card">
-      <cx-card
-        [content]="getOrderCodeCardContent(order?.code) | async"
-      ></cx-card>
+    <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
+      <div class="summary-card">
+        <cx-card
+          [content]="
+            getReplenishmentCodeCardContent(order?.replenishmentOrderCode)
+              | async
+          "
+        ></cx-card>
 
-      <cx-card
-        [content]="getOrderCurrentDateCardContent(order?.created) | async"
-      ></cx-card>
+        <cx-card [content]="getOrderCurrentDateCardContent() | async"></cx-card>
 
-      <cx-card
-        [content]="getOrderStatusCardContent(order.statusDisplay) | async"
-      ></cx-card>
-    </div>
+        <cx-card
+          [content]="getReplenishmentActiveCardContent(order?.active) | async"
+        ></cx-card>
+      </div>
+
+      <div class="summary-card">
+        <cx-card
+          [content]="
+            getReplenishmentStartOnCardContent(order?.firstDate) | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getReplenishmentFrequencyCardContent(
+              order?.trigger?.displayTimeTable
+            ) | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getReplenishmentNextDateCardContent(order?.trigger?.activationTime)
+              | async
+          "
+        ></cx-card>
+      </div>
+    </ng-container>
+
+    <ng-template #otherOrder>
+      <div class="summary-card">
+        <cx-card
+          [content]="getOrderCodeCardContent(order?.code) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="getOrderCurrentDateCardContent(order?.created) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+        ></cx-card>
+      </div>
+    </ng-template>
 
     <ng-container
       *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === ''"

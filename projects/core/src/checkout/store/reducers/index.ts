@@ -1,13 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  Action,
-  ActionReducer,
-  ActionReducerMap,
-  MetaReducer,
-} from '@ngrx/store';
-import { ORDER_TYPE } from '../../../model/replenishment-order.model';
+import { ActionReducerMap } from '@ngrx/store';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { CheckoutActions } from '../actions/index';
 import {
   CheckoutState,
   CheckoutStepsState,
@@ -40,21 +33,3 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
-
-export function resetCheckoutOrderType(
-  reducer: ActionReducer<CheckoutState, Action>
-): ActionReducer<CheckoutState, Action> {
-  return function (state, action) {
-    if (action.type === CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS) {
-      state = {
-        ...state,
-        orderType: {
-          selected: ORDER_TYPE.PLACE_ORDER,
-        },
-      };
-    }
-    return reducer(state, action);
-  };
-}
-
-export const metaReducers: MetaReducer<any>[] = [resetCheckoutOrderType];
