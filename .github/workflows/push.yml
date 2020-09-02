@@ -13,7 +13,7 @@ jobs:
       - name: Build Spartacus
         run: yarn build:core:lib
       - name: Start server in the background
-        run: yarn start:ci:2005 &
+        run: yarn start:ci:2005
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
