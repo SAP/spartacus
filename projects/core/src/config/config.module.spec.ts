@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { ConfigModule } from './config.module';
 import {
-  Config,
-  ConfigModule,
   provideConfig,
   provideConfigFactory,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from './config.module';
+} from './config-providers';
+import { Config } from '@spartacus/core';
 
 describe('ConfigModule', () => {
   const exampleConfigFactory = () => ({

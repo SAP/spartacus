@@ -3,10 +3,10 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { Config } from '../config.module';
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
+import { Config, RootConfig } from '../config-injectors';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -19,7 +19,8 @@ export class ConfigInitializerService {
     @Inject(Config) protected config: any,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard
+    protected initializerGuard,
+    @Inject(RootConfig) protected rootConfig: any
   ) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
@@ -148,7 +149,11 @@ export class ConfigInitializerService {
 
       asyncConfigs.push(
         (async () => {
-          deepMerge(this.config, await initializer.configFactory());
+          const initializerConfig = await initializer.configFactory();
+          // contribute configuration to global config
+          deepMerge(this.rootConfig, initializerConfig);
+          // contribute configuration to rootConfig
+          deepMerge(this.config, initializerConfig);
           this.finishScopes(initializer.scopes);
         })()
       );

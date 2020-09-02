@@ -1,6 +1,6 @@
 import { GlobalMessageType } from '../models/global-message.model';
 import { Injectable } from '@angular/core';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-injectors';
 
 export type GlobalMessageTypeConfig = {
   timeout?: number;

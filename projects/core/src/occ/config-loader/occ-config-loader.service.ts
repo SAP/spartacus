@@ -13,7 +13,6 @@ import {
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Config } from '../../config/config.module';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
@@ -21,6 +20,7 @@ import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
+import { Config } from '../../config/config-injectors';
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
   string

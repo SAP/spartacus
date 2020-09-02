@@ -3,7 +3,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
-import { provideDefaultConfig } from '../../../config/config.module';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
@@ -27,6 +26,7 @@ import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-pr
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { provideDefaultConfig } from '../../../config/config-providers';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

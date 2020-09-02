@@ -1,10 +1,10 @@
 import { Optional, PLATFORM_ID, Provider, InjectionToken } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { META_REDUCERS } from '@ngrx/store';
-import { Config } from '../../config/config.module';
 import { WindowRef } from '../../window/window-ref';
 import { getStorageSyncReducer } from './storage-sync.reducer';
 import { getTransferStateReducer } from './transfer-state.reducer';
+import { Config } from '../../config/config-injectors';
 
 export { getStateSlice } from '../utils/get-state-slice';
 export { getStorageSyncReducer } from './storage-sync.reducer';
