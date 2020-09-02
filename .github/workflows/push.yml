@@ -12,15 +12,17 @@ jobs:
         uses: bahmutov/npm-install@v1
       - name: Build Spartacus
         run: yarn build:core:lib
+      - name: Start server in the background
+        run: yarn start:ci:2005 &
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: yarn start:ci:2005
           record: true
           working-directory: projects/storefrontapp-e2e-cypress
           config-file: cypress.ci.2005.json
           spec: cypress/integration/smoke/**/*
           wait-on: http://localhost:4200
+          wait-on-timeout: 120
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
