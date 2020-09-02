@@ -30,8 +30,10 @@ const mockDeliveryAddress: Address = {
   postalCode: 'MA8902',
   town: 'London',
   country: {
+    name: 'test-country-name',
     isocode: 'UK',
   },
+  formattedAddress: 'test-formattedAddress',
 };
 
 const mockDeliveryMode: DeliveryMode = {
@@ -54,6 +56,7 @@ const mockBillingAddress: Address = {
     name: 'test-country-name',
     isocode: 'UK',
   },
+  formattedAddress: 'test-formattedAddress',
 };
 
 const mockPayment: PaymentDetails = {
@@ -65,14 +68,6 @@ const mockPayment: PaymentDetails = {
     name: 'Visa',
   },
   billingAddress: mockBillingAddress,
-};
-
-const mockOrder: Order = {
-  code: 'test-code-412',
-  deliveryAddress: mockDeliveryAddress,
-  deliveryMode: mockDeliveryMode,
-  paymentInfo: mockBillingAddress,
-  statusDisplay: 'test-status-display',
 };
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -96,6 +91,22 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
     },
   },
   paymentInfo: mockPayment,
+};
+
+const mockOrder: Order = {
+  code: 'test-code-412',
+  deliveryAddress: mockDeliveryAddress,
+  deliveryMode: mockDeliveryMode,
+  paymentInfo: mockPayment,
+  statusDisplay: 'test-status-display',
+  created: new Date('2019-02-11T13:02:58+0000'),
+  purchaseOrderNumber: 'test-po',
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
 };
 
 class MockCheckoutService {
@@ -296,13 +307,13 @@ describe('OrderConfirmationOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent()', () => {
+    it('should call getOrderCurrentDateCardContent(isoDate?: string)', () => {
       spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
 
-      const date = component['getDate'](new Date());
+      const date = component['getDate'](mockOrder.created);
 
       component
-        .getOrderCurrentDateCardContent()
+        .getOrderCurrentDateCardContent(mockOrder.created.toDateString())
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -333,9 +344,7 @@ describe('OrderConfirmationOverviewComponent', () => {
 
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
-      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
-        of(mockReplenishmentOrder)
-      );
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -343,18 +352,16 @@ describe('OrderConfirmationOverviewComponent', () => {
       spyOn(component, 'getPurchaseOrderNumber').and.callThrough();
 
       component
-        .getPurchaseOrderNumber(mockReplenishmentOrder.purchaseOrderNumber)
+        .getPurchaseOrderNumber(mockOrder.purchaseOrderNumber)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.text).toEqual([
-            mockReplenishmentOrder.purchaseOrderNumber,
-          ]);
+          expect(data.text).toEqual([mockOrder.purchaseOrderNumber]);
         })
         .unsubscribe();
 
       expect(component.getPurchaseOrderNumber).toHaveBeenCalledWith(
-        mockReplenishmentOrder.purchaseOrderNumber
+        mockOrder.purchaseOrderNumber
       );
     });
 
@@ -362,7 +369,7 @@ describe('OrderConfirmationOverviewComponent', () => {
       spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
 
       component
-        .getMethodOfPaymentCardContent(mockReplenishmentOrder.paymentInfo)
+        .getMethodOfPaymentCardContent(mockOrder.paymentInfo)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -371,7 +378,7 @@ describe('OrderConfirmationOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.paymentInfo
+        mockOrder.paymentInfo
       );
     });
 
@@ -379,19 +386,17 @@ describe('OrderConfirmationOverviewComponent', () => {
       spyOn(component, 'getCostCenterCardContent').and.callThrough();
 
       component
-        .getCostCenterCardContent(mockReplenishmentOrder.costCenter)
+        .getCostCenterCardContent(mockOrder.costCenter)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(mockReplenishmentOrder.costCenter.name);
-          expect(data.text).toEqual([
-            `(${mockReplenishmentOrder.costCenter.unit.name})`,
-          ]);
+          expect(data.textBold).toEqual(mockOrder.costCenter.name);
+          expect(data.text).toEqual([`(${mockOrder.costCenter.unit.name})`]);
         })
         .unsubscribe();
 
       expect(component.getCostCenterCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.costCenter
+        mockOrder.costCenter
       );
     });
   });
@@ -436,9 +441,8 @@ describe('OrderConfirmationOverviewComponent', () => {
             `${billingAddress.firstName} ${billingAddress.lastName}`
           );
           expect(data.text).toEqual([
-            `${billingAddress.line1}, ${billingAddress.town}, ${billingAddress.country.isocode}`,
-            `${billingAddress.line2}, ${billingAddress.town}, ${billingAddress.country.isocode}`,
-            `${billingAddress.country.name}, ${billingAddress.postalCode}`,
+            billingAddress.formattedAddress,
+            billingAddress.country.name,
           ]);
         })
         .unsubscribe();
@@ -451,16 +455,14 @@ describe('OrderConfirmationOverviewComponent', () => {
 
   describe('common column in all types of order', () => {
     beforeEach(() => {
-      spyOn(checkoutService, 'getOrderDetails').and.returnValue(
-        of(mockReplenishmentOrder)
-      );
+      spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockOrder));
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
     it('should call getAddressCardContent(deliveryAddress: Address)', () => {
       spyOn(component, 'getAddressCardContent').and.callThrough();
 
-      const deliveryAddress = mockReplenishmentOrder.deliveryAddress;
+      const deliveryAddress = mockOrder.deliveryAddress;
 
       component
         .getAddressCardContent(deliveryAddress)
@@ -471,9 +473,8 @@ describe('OrderConfirmationOverviewComponent', () => {
             `${deliveryAddress.firstName} ${deliveryAddress.lastName}`
           );
           expect(data.text).toEqual([
-            `${deliveryAddress.line1}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`,
-            `${deliveryAddress.line2}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`,
-            `${deliveryAddress.country.name}, ${deliveryAddress.postalCode}`,
+            deliveryAddress.formattedAddress,
+            deliveryAddress.country.name,
           ]);
         })
         .unsubscribe();
@@ -487,22 +488,20 @@ describe('OrderConfirmationOverviewComponent', () => {
       spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
 
       component
-        .getDeliveryModeCardContent(mockReplenishmentOrder.deliveryMode)
+        .getDeliveryModeCardContent(mockOrder.deliveryMode)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(
-            mockReplenishmentOrder.deliveryMode.name
-          );
+          expect(data.textBold).toEqual(mockOrder.deliveryMode.name);
           expect(data.text).toEqual([
-            mockReplenishmentOrder.deliveryMode.description,
-            mockReplenishmentOrder.deliveryMode.deliveryCost.formattedValue,
+            mockOrder.deliveryMode.description,
+            mockOrder.deliveryMode.deliveryCost.formattedValue,
           ]);
         })
         .unsubscribe();
 
       expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.deliveryMode
+        mockOrder.deliveryMode
       );
     });
   });
