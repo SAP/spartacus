@@ -58,31 +58,4 @@ export class BudgetDetailsComponent {
         );
       });
   }
-
-  // toggleConfirm(item: Budget) {
-  //   const confirmObj = {
-  //     message: item.active
-  //       ? 'budget.messages.deactivate'
-  //       : 'budget.messages.activate',
-  //   };
-  //   this.confirm$.next(confirmObj);
-  // }
-
-  // cancelConfirm() {
-  //   this.confirm$.next(null);
-  // }
-
-  // toggleActive(model: Budget) {
-  //   const budget = { ...model };
-  //   budget.active = !budget.active;
-  //   this.cancelConfirm();
-  //   this.model$
-  //     .pipe(first((update) => update.active === budget.active))
-  //     .subscribe((update) => {
-  //       this.confirm$.next({
-  //         message: update.active ? 'is activated!' : 'is deactivated!',
-  //       });
-  //     });
-  //   this.budgetService.update(budget.code, budget);
-  // }
 }
