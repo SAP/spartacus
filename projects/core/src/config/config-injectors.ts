@@ -35,18 +35,3 @@ export const ConfigChunk = new InjectionToken<object[]>('ConfigurationChunk');
 export const DefaultConfigChunk = new InjectionToken<object[]>(
   'DefaultConfigurationChunk'
 );
-
-/**
- * Factory function that merges all configurations chunks. Should not be used directly without explicit reason.
- */
-export function configurationFactory(
-  configChunks: any[] = [],
-  defaultConfigChunks: any[] = []
-) {
-  const config = deepMerge(
-    {},
-    ...(defaultConfigChunks ?? []),
-    ...(configChunks ?? [])
-  );
-  return config;
-}

@@ -13,7 +13,7 @@ import {
   CmsConfig,
   ConfigChunk,
   ConfigInitializerService,
-  configurationFactory,
+  deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
 } from '@spartacus/core';
@@ -227,9 +227,10 @@ export class FeatureModulesService implements OnDestroy {
       InjectFlags.Self
     );
 
-    return configurationFactory(
-      featureConfigChunks,
-      featureDefaultConfigChunks
+    return deepMerge(
+      {},
+      ...(featureDefaultConfigChunks ?? []),
+      ...(featureConfigChunks ?? [])
     ) as CmsConfig;
   }
 
