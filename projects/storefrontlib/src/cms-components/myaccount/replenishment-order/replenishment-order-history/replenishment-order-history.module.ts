@@ -20,7 +20,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orders' },
+        data: { cxRoute: 'replenishmentOrders' },
       },
     ]),
     RouterModule,
@@ -41,4 +41,4 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
   ],
   entryComponents: [ReplenishmentOrderHistoryComponent],
 })
-export class OrderHistoryModule {}
+export class ReplenishmentOrderHistoryModule {}
