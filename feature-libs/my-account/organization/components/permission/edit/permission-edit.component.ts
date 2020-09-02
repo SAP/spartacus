@@ -10,8 +10,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import {
+  PermissionService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 import { CurrentPermissionService } from '../current-permission.service';
 import { PermissionFormService } from '../form/permission-form.service';
 

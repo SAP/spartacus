@@ -7,9 +7,9 @@ import {
 import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
-  OrderApprovalPermissionType,
-  CurrencyService,
   Currency,
+  CurrencyService,
+  OrderApprovalPermissionType,
   Period,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -17,8 +17,10 @@ import {
   PermissionFormService,
   PermissionType,
 } from './permission-form.service';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-permission-form',

@@ -6,8 +6,10 @@ import {
   BaseOrganizationListService,
   OrganizationTableType,
 } from '../../../shared/index';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  B2BUserService,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 
 @Injectable({
   providedIn: 'root',

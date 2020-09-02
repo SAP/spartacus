@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap, tap } from 'rxjs/operators';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { CurrentUserGroupService } from '../current-user-group.service';
 
 @Component({

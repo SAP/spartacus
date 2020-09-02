@@ -5,8 +5,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
+
 /**
  * The UI model for the cost center, which is a slightly flattened version
  * of the core cost center model.

@@ -5,8 +5,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import {
+  B2BUserService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 
 /**
  * Service to populate Cost Center User data to `Table` data. The cost center

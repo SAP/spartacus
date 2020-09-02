@@ -10,8 +10,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { CurrentUserGroupService } from '../current-user-group.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
 

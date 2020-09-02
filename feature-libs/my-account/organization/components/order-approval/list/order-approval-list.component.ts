@@ -7,8 +7,10 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { OrderApprovalService } from '@spartacus/my-account/organization/core';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import {
+  B2BSearchConfig,
+  OrderApprovalService,
+} from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-order-approval-list',

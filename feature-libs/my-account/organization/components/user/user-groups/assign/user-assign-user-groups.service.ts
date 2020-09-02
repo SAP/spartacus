@@ -4,8 +4,10 @@ import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import {
+  B2BUserService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 
 @Injectable({
   providedIn: 'root',

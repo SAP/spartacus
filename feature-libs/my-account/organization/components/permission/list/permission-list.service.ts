@@ -5,8 +5,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
-import { UserGroup } from '@spartacus/my-account/organization/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import {
+  PermissionService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 
 /**
  * The UI model for the permission, which is a slightly flattened version
