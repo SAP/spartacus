@@ -76,19 +76,13 @@ export class ConfiguratorGroupStatusService {
   }
 
   checkIsGroupComplete(group: Configurator.Group): Boolean {
-    let isGroupComplete = true;
-
-    //Check required attributes and check that group contains no conflict
-    group.attributes.forEach((attribute) => {
-      if (
-        (attribute.required && isGroupComplete && attribute.incomplete) ||
-        (attribute.hasConflicts && isGroupComplete)
-      ) {
-        isGroupComplete = false;
-      }
-    });
-
-    return isGroupComplete;
+    return group.attributes
+      ? group.attributes.filter(
+          (attribute) =>
+            attribute.hasConflicts ||
+            (attribute.required && attribute.incomplete)
+        ).length === 0
+      : true;
   }
 
   getParentGroupStatusCompleted(
