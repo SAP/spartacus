@@ -5,7 +5,6 @@
   <cx-organization-message
     main
     [message]="notification$ | async"
-    [i18nRoot]="i18nRoot"
   ></cx-organization-message>
 
   <section main *ngIf="dataTable$ | async as dataTable">

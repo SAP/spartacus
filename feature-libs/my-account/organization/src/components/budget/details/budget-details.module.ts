@@ -8,6 +8,7 @@ import {
   SplitViewModule,
 } from '@spartacus/storefront';
 import { OrganizationCardModule } from '../../shared/organization-card/organization-card.module';
+import { OrganizationMessageModule } from '../../shared/organization-message/organization-message.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 
 @NgModule({
@@ -22,6 +23,8 @@ import { BudgetDetailsComponent } from './budget-details.component';
 
     // OrganizationListModule,
     OrganizationCardModule,
+
+    OrganizationMessageModule,
   ],
   declarations: [BudgetDetailsComponent],
   exports: [BudgetDetailsComponent],

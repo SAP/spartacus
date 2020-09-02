@@ -1,6 +1,6 @@
 export const budget = {
   header: 'All budgets ({{count}})',
-  disabled: '(disabled)',
+
   code: 'Code',
   name: 'Name',
   active: 'Status',
@@ -15,14 +15,16 @@ export const budget = {
   byCode: 'Sort by code',
   byValue: 'Sort by value',
 
-  messages: {
-    enabled:
-      'When you disable the budget, the related data will be disabled as well. ',
-    disabled: 'You cannot edit a disabled Budget.',
-    disabledUnit: 'You cannot enable budget if unit is disabled.',
-    deactivate: 'Are you sure you want to disable this budget?',
-    deactivateHeader: 'Disable Budget',
+  title: 'Budget Details',
+  subtitle: 'Budget: {{ item.name }}',
 
+  edit: {
+    title: 'Edit Budget',
+    subtitle: 'Budget: {{ item.name }}',
+  },
+
+  messages: {
+    deactivate: 'Are you sure you want to disable this budget?',
     confirmEnabled: 'Budget enabled successfully',
     confirmDisabled: 'Budget disabled successfully',
   },
