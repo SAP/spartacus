@@ -231,8 +231,8 @@ export class ConfiguratorEffects {
                     updatePriceSummaryAction,
                     new ConfiguratorActions.ChangeGroup({
                       configuration: payload,
-                      groupId: this.getGroupWithAttributes(payload.groups),
-                      parentGroupId: null,
+                      groupId: container.groupIdFromPayload,
+                      parentGroupId: container.parentGroupFromPayload?.id,
                     }),
                   ];
             })
