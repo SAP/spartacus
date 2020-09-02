@@ -24,6 +24,9 @@ import { StateWithConfiguration } from '../configuration-state';
 import { normalizeHttpError } from './../../../../util/normalize-http-error';
 
 @Injectable()
+/**
+ * Configurator effects
+ */
 export class ConfiguratorEffects {
   @Effect()
   createConfiguration$: Observable<
