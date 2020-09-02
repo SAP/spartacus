@@ -12,5 +12,9 @@ jobs:
         uses: bahmutov/npm-install@v1
       - name: Build Spartacus
         run: yarn build:core:lib
+      - name: Install cypress dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: projects/storefrontapp-e2e-cypress
       - name: Run e2es
         run: yarn e2e:cy:start-run-smoke-ci:2005
