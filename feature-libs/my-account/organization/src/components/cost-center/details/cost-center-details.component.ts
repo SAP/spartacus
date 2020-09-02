@@ -14,12 +14,7 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
 export class CostCenterDetailsComponent {
   @ViewChild(MsgBox, { read: MsgBox }) messageBox: MsgBox;
 
-  /**
-   * The model of the current cost center.
-   *
-   * It reloads the model when the code of the current cost center changes.
-   */
-  costCenter$: Observable<CostCenter> = this.currentCostCenterService.key$.pipe(
+  model$: Observable<CostCenter> = this.currentCostCenterService.key$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -46,7 +41,7 @@ export class CostCenterDetailsComponent {
 
   protected confirmMessage(model: CostCenter): void {
     this.messageBox.close();
-    this.costCenter$
+    this.model$
       .pipe(first((update) => update.active === model.activeFlag))
       .subscribe((update) => {
         this.messageBox.notify(

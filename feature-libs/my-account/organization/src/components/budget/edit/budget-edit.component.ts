@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -26,7 +25,7 @@ export class BudgetEditComponent {
   protected budget$: Observable<Budget> = this.code$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   protected form$: Observable<FormGroup> = this.budget$.pipe(
@@ -43,8 +42,7 @@ export class BudgetEditComponent {
   constructor(
     protected budgetService: BudgetService,
     protected budgetFormService: BudgetFormService,
-    protected currentBudgetService: CurrentBudgetService,
-    protected routingService: RoutingService
+    protected currentBudgetService: CurrentBudgetService
   ) {}
 
   save(budgetCode: string, form: FormGroup): void {
@@ -54,7 +52,7 @@ export class BudgetEditComponent {
     } else {
       form.disable();
       this.budgetService.update(budgetCode, form.value);
-      this.routingService.go('budgetDetails', form.value);
+      this.currentBudgetService.launchDetails(form.value);
     }
   }
 }

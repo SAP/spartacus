@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CostCenter, RoutingService } from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -50,11 +50,7 @@ export class CostCenterEditComponent {
   constructor(
     protected costCenterService: CostCenterService,
     protected currentCostCenterService: CurrentCostCenterService,
-    protected costCenterFormService: CostCenterFormService,
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
-    protected routingService: RoutingService
+    protected costCenterFormService: CostCenterFormService
   ) {}
 
   save(costCenterCode: string, form: FormGroup): void {
@@ -64,11 +60,7 @@ export class CostCenterEditComponent {
     } else {
       form.disable();
       this.costCenterService.update(costCenterCode, form.value);
-
-      this.routingService.go({
-        cxRoute: 'costCenterDetails',
-        params: form.value,
-      });
+      this.currentCostCenterService.launchDetails(form.value);
     }
   }
 }

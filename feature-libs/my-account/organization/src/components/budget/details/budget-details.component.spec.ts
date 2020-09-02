@@ -108,7 +108,7 @@ describe('BudgetDetailsComponent', () => {
   describe('costCenter$', () => {
     it('should emit current cost center model', () => {
       let result;
-      component.budget$.subscribe((r) => (result = r)).unsubscribe();
+      component.model$.subscribe((r) => (result = r)).unsubscribe();
       expect(result).toBe(mockBudget);
     });
   });

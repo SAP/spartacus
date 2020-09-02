@@ -20,7 +20,6 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     SplitViewModule,
     IconModule,
     ConfirmModalModule,
-
     OrganizationCardModule,
     OrganizationMessageModule,
   ],
