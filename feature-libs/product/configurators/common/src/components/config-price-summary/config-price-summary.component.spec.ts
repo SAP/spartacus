@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
-  ConfiguratorCommonsService,
   GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import { ConfigPriceSummaryComponent } from './config-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

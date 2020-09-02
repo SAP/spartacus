@@ -5,7 +5,6 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
@@ -13,10 +12,11 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
+import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import { ConfigProductTitleComponent } from './config-product-title.component';
-import { IconLoaderService } from '@spartacus/storefront';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT_NAME = 'productName';

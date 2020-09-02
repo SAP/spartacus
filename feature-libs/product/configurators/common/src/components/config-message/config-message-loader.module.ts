@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import { Config, ConfigModule } from '@spartacus/core';
 import {
-  DefaultMessageConfig,
-  MessageConfig,
   OutletPosition,
   OutletService,
   PageComponentModule,
 } from '@spartacus/storefront';
+import { DefaultMessageConfig } from './../config/default-message-config';
+import { MessageConfig } from './../config/message-config';
 import { ConfigMessageComponent } from './config-message.component';
 
 @NgModule({

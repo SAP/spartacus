@@ -1,23 +1,27 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  ActiveCartService,
+  Configurator,
+  ConfiguratorActions,
+  ConfiguratorSelectors,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  StateWithConfiguration,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorActions } from '../store/actions/index';
-import { StateWithConfiguration } from '../store/configuration-state';
-import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
 import { ConfiguratorCartService } from './configurator-cart.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
     protected genericConfigUtilsService: GenericConfigUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected configuratorUtils: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -54,7 +58,9 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Returns the configuration.
+   * Returns a configuration for an owner. Emits only if there are valid configurations
+   * available for the requested owner, does not trigger the re-read or
+   * creation of the configuration in case it's not there
    *
    * @param owner - Configuration owner
    *
@@ -65,12 +71,17 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-      filter((configuration) => this.isConfigurationCreated(configuration))
+      filter((configuration) =>
+        this.configuratorUtils.isConfigurationCreated(configuration)
+      )
     );
   }
 
   /**
    * Returns a configuration if it exists or creates a new one.
+   * Emits if there is a valid configuration available and triggers
+   * the configuration creation or read from backend in case it is not
+   * available
    *
    * @param owner - Configuration owner
    *
@@ -96,33 +107,6 @@ export class ConfiguratorCommonsService {
     }
   }
 
-  getOrCreateConfigurationForProduct(
-    owner: GenericConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          owner.key
-        )
-      ),
-
-      tap((configurationState) => {
-        if (
-          !this.isConfigurationCreated(configurationState.value) &&
-          configurationState.loading !== true &&
-          configurationState.error !== true
-        ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
-          );
-        }
-      }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
-      ),
-      map((configurationState) => configurationState.value)
-    );
-  }
   /**
    * Updates a configuration, specified by the configuration owner key, group ID and a changed attribute.
    *
@@ -162,16 +146,21 @@ export class ConfiguratorCommonsService {
       .subscribe((configuration) => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
-            this.createConfigurationExtract(changedAttribute, configuration)
+            this.configuratorUtils.createConfigurationExtract(
+              changedAttribute,
+              configuration
+            )
           )
         );
       });
   }
 
   /**
-   * Returns a configuration with an overview.
+   * Returns a configuration with an overview. Emits valid configurations which
+   * include the overview aspect
    *
    * @param configuration - Configuration
+   * @returns Observable of configurations including the overview
    */
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
@@ -180,7 +169,7 @@ export class ConfiguratorCommonsService {
       select(
         ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
       ),
-      filter((config) => this.isConfigurationCreated(config)),
+      filter((config) => this.configuratorUtils.isConfigurationCreated(config)),
       tap((configurationState) => {
         if (!this.hasConfigurationOverview(configurationState)) {
           this.store.dispatch(
@@ -197,14 +186,14 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    */
-  removeConfiguration(owner: GenericConfigurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner): void {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );
   }
 
   /**
-   * Verifies weather the configuration contains conflicts
+   * Checks if the configuration contains conflicts
    *
    * @param owner - Configuration owner
    *
@@ -221,93 +210,34 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  ////
-  // Helper methods
-  ////
+  protected getOrCreateConfigurationForProduct(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
 
-  isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    const configId: String = configuration?.configId;
-    return configId !== undefined && configId.length !== 0;
-  }
-
-  createConfigurationExtract(
-    changedAttribute: Configurator.Attribute,
-    configuration: Configurator.Configuration
-  ): Configurator.Configuration {
-    const newConfiguration: Configurator.Configuration = {
-      configId: configuration.configId,
-      groups: [],
-      owner: configuration.owner,
-      productCode: configuration.productCode,
-    };
-
-    const groupPath: Configurator.Group[] = [];
-    this.buildGroupPath(
-      changedAttribute.groupId,
-      configuration.groups,
-      groupPath
+      tap((configurationState) => {
+        if (
+          !this.configuratorUtils.isConfigurationCreated(
+            configurationState.value
+          ) &&
+          configurationState.loading !== true &&
+          configurationState.error !== true
+        ) {
+          this.store.dispatch(
+            new ConfiguratorActions.CreateConfiguration(owner)
+          );
+        }
+      }),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      map((configurationState) => configurationState.value)
     );
-    const groupPathLength = groupPath.length;
-    if (groupPathLength === 0) {
-      throw new Error(
-        'At this point we expect that group is available in the configuration: ' +
-          changedAttribute.groupId +
-          ', ' +
-          JSON.stringify(configuration.groups.map((cGroup) => cGroup.id))
-      );
-    }
-    let currentGroupInExtract: Configurator.Group = this.buildGroupForExtract(
-      groupPath[groupPathLength - 1]
-    );
-    let currentLeafGroupInExtract: Configurator.Group = currentGroupInExtract;
-    newConfiguration.groups.push(currentGroupInExtract);
-
-    for (let index = groupPath.length - 1; index > 0; index--) {
-      currentLeafGroupInExtract = this.buildGroupForExtract(
-        groupPath[index - 1]
-      );
-      currentGroupInExtract.subGroups = [currentLeafGroupInExtract];
-      currentGroupInExtract = currentLeafGroupInExtract;
-    }
-
-    currentLeafGroupInExtract.attributes = [changedAttribute];
-    return newConfiguration;
-  }
-
-  buildGroupPath(
-    groupId: string,
-    groupList: Configurator.Group[],
-    groupPath: Configurator.Group[]
-  ): boolean {
-    let haveFoundGroup = false;
-    const group: Configurator.Group = groupList.find(
-      (currentGroup) => currentGroup.id === groupId
-    );
-
-    if (group) {
-      groupPath.push(group);
-      haveFoundGroup = true;
-    } else {
-      groupList
-        .filter((currentGroup) => currentGroup.subGroups)
-        .forEach((currentGroup) => {
-          if (this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)) {
-            groupPath.push(currentGroup);
-            haveFoundGroup = true;
-          }
-        });
-    }
-    return haveFoundGroup;
-  }
-
-  protected buildGroupForExtract(
-    group: Configurator.Group
-  ): Configurator.Group {
-    const changedGroup: Configurator.Group = {
-      groupType: group.groupType,
-      id: group.id,
-    };
-    return changedGroup;
   }
 
   protected hasConfigurationOverview(

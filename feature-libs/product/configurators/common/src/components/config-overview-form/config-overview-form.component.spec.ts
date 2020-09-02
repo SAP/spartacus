@@ -4,7 +4,6 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
   GenericConfigurator,
   I18nTestingModule,
   RoutingService,
@@ -13,6 +12,7 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
 const owner: GenericConfigurator.Owner =

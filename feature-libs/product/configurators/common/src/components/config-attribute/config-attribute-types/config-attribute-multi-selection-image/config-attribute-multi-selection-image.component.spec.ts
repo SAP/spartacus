@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Configurator, ConfiguratorGroupsService } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../../service/config-utils.service';
+import { ConfiguratorGroupsService } from './../../../../core/facade/configurator-groups.service';
 import { ConfigAttributeMultiSelectionImageComponent } from './config-attribute-multi-selection-image.component';
 class MockGroupService {}
 

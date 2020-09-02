@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
@@ -13,6 +9,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -172,8 +170,7 @@ export class ConfigGroupMenuComponent {
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
           configuration.groups,
-          group,
-          null
+          group
         )
       )
     );

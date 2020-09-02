@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigurator,
   LanguageService,
 } from '@spartacus/core';
@@ -12,6 +10,8 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({

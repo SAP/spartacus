@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  ActiveCartService,
+  Configurator,
+  ConfiguratorActions,
+  ConfiguratorSelectors,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  OCC_USER_ID_CURRENT,
+  StateUtils,
+  StateWithConfiguration,
+  StateWithMultiCart,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { StateWithMultiCart } from '../../../cart/store/multi-cart-state';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorSelectors } from '../store';
-import { ConfiguratorActions } from '../store/actions/index';
-import { StateWithConfiguration } from '../store/configuration-state';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
     protected cartStore: Store<StateWithMultiCart>,
@@ -139,6 +141,8 @@ export class ConfiguratorCartService {
 
   /**
    * Updates a cart entry, specified by the configuration.
+   * The cart entry number for the entry that owns the configuration can be told
+   * from the configuration's owner ID
    *
    * @param configuration - Configuration
    */
@@ -188,12 +192,12 @@ export class ConfiguratorCartService {
   }
 
   protected configurationNeedsReading(
-    configurationState: LoaderState<Configurator.Configuration>
+    configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {
     return (
       !this.isConfigurationCreated(configurationState.value) &&
-      configurationState.loading !== true &&
-      configurationState.error !== true
+      !configurationState.loading &&
+      !configurationState.error
     );
   }
 }

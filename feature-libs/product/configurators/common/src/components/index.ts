@@ -14,4 +14,5 @@ export * from './config-previous-next-buttons/index';
 export * from './config-price-summary/index';
 export * from './config-product-title/index';
 export * from './config-tab-bar/index';
+export * from './config/index';
 export * from './service/index';

@@ -1,22 +1,24 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfiguratorGroupUtilsService } from '@spartacus/core';
+import {
+  ActiveCartService,
+  ConfiguratorActions,
+  StateWithConfiguration,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './configuration-test-data';
+} from './../../shared/testing/configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 class MockActiveCartService {}
 class MockConfiguratorCartService {
@@ -30,7 +32,7 @@ describe('ConfiguratorGroupsService', () => {
   let store: Store<StateWithConfiguration>;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configGroupStatusService: ConfiguratorGroupStatusService;
-  let configGroupUtilsService: ConfiguratorGroupUtilsService;
+  let configFacadeUtilsService: ConfiguratorUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +41,7 @@ describe('ConfiguratorGroupsService', () => {
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
         ConfiguratorGroupStatusService,
-        ConfiguratorGroupUtilsService,
+        ConfiguratorUtilsService,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -62,8 +64,8 @@ describe('ConfiguratorGroupsService', () => {
     configGroupStatusService = TestBed.inject(
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
-    configGroupUtilsService = TestBed.inject(
-      ConfiguratorGroupUtilsService as Type<ConfiguratorGroupUtilsService>
+    configFacadeUtilsService = TestBed.inject(
+      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
 
     spyOn(store, 'dispatch').and.stub();
@@ -72,9 +74,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
-    spyOn(configGroupUtilsService, 'getParentGroup').and.callThrough();
-    spyOn(configGroupUtilsService, 'hasSubGroups').and.callThrough();
-    spyOn(configGroupUtilsService, 'getGroupById').and.callThrough();
+    spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
+    spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
+    spyOn(configFacadeUtilsService, 'getGroupById').and.callThrough();
   });
 
   it('should create service', () => {
@@ -234,28 +236,6 @@ describe('ConfiguratorGroupsService', () => {
     expect(configGroupStatusService.getGroupStatus).toHaveBeenCalled();
   });
 
-  it('should check whether getParentGroup has been called by the configuration group utils service', () => {
-    classUnderTest.getParentGroup(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
-    );
-    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalledWith(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
-    );
-    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalled();
-  });
-
-  it('should check whether hasSubGroups has been called by the configuration group utils service', () => {
-    classUnderTest.hasSubGroups(productConfiguration.groups[2]);
-    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalledWith(
-      productConfiguration.groups[2]
-    );
-    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalled();
-  });
-
   it('should get first conflict group from configuration, no conflicts', () => {
     expect(classUnderTest.getFirstConflictGroup(productConfiguration)).toBe(
       undefined
@@ -298,5 +278,24 @@ describe('ConfiguratorGroupsService', () => {
         parentGroupId: null,
       })
     );
+  });
+
+  it('should delegate calls for parent group to the facade utils service', () => {
+    classUnderTest.getParentGroup(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
+    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
+  });
+
+  it('should delegate calls for sub groups to the facade utils service', () => {
+    classUnderTest.hasSubGroups(productConfiguration.groups[2]);
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalledWith(
+      productConfiguration.groups[2]
+    );
+    expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalled();
   });
 });

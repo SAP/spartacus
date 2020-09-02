@@ -5,23 +5,25 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { ConfigUtilsService } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
+import {
+  mockRouterState,
+  productConfiguration,
+  PRODUCT_CODE,
+} from './../../shared/testing/configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
-const mockRouterState: any = ConfigurationTestData.mockRouterState;
 let mockGroupVisited = false;
-const mockProductConfiguration: Configurator.Configuration =
-  ConfigurationTestData.productConfiguration;
+const mockProductConfiguration: Configurator.Configuration = productConfiguration;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -83,9 +85,9 @@ let configuratorGroupsService: ConfiguratorGroupsService;
 let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
 let configuratorUtils: GenericConfigUtilsService;
-let routerStateObservable = null;
-let groupVisitedObservable = null;
-let productConfigurationObservable = null;
+let routerStateObservable;
+let groupVisitedObservable;
+let productConfigurationObservable;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
@@ -131,7 +133,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(() => {
     routerStateObservable = null;
     groupVisitedObservable = null;
-    productConfigurationObservable = null;
+
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -161,7 +163,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     initialize();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(ConfigurationTestData.PRODUCT_CODE);
+      expect(data.productCode).toEqual(PRODUCT_CODE);
     });
   });
 
@@ -171,22 +173,32 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
   });
 
-  it('should render no groups if configuration is not consistent', () => {
+  it('should render no groups if configuration is not consistent and issue navigation has not been done', () => {
     const incompleteConfig: Configurator.Configuration = {
-      ...mockProductConfiguration,
+      configId: mockProductConfiguration.configId,
+      groups: mockProductConfiguration.groups,
+      flatGroups: mockProductConfiguration.flatGroups,
       consistent: false,
       complete: true,
+      interactionState: {
+        issueNavigationDone: false,
+      },
     };
     productConfigurationObservable = of(incompleteConfig);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
   });
 
-  it('should render no groups if configuration is not consistent', () => {
+  it('should render no groups if configuration is not consistent and issue navigation has not been done', () => {
     const incompleteConfig: Configurator.Configuration = {
-      ...mockProductConfiguration,
+      configId: mockProductConfiguration.configId,
+      groups: mockProductConfiguration.groups,
+      flatGroups: mockProductConfiguration.flatGroups,
       consistent: true,
       complete: false,
+      interactionState: {
+        issueNavigationDone: false,
+      },
     };
     productConfigurationObservable = of(incompleteConfig);
     initialize();
@@ -195,11 +207,12 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
     const incompleteConfig: Configurator.Configuration = {
-      ...mockProductConfiguration,
+      configId: mockProductConfiguration.configId,
+      groups: mockProductConfiguration.groups,
+      flatGroups: mockProductConfiguration.flatGroups,
       consistent: true,
       complete: false,
       interactionState: {
-        ...mockProductConfiguration.interactionState,
         issueNavigationDone: true,
       },
     };
@@ -219,7 +232,9 @@ describe('ConfigurationGroupMenuComponent', () => {
   it('should set current group in case of clicking on a group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     initialize();
+
     component.click(mockProductConfiguration.groups[1]);
+
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
