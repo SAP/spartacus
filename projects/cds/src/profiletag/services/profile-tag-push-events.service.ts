@@ -3,25 +3,28 @@ import {
   ActiveCartService,
   EventService,
   OrderPlacedEvent,
+  PageType,
   PersonalizationContextService,
   ProductSearchService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
-  CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
-import { EMPTY, merge, Observable, of } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
 import {
+  distinctUntilChanged,
   distinctUntilKeyChanged,
+  filter,
   map,
   mapTo,
   skip,
   skipWhile,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -129,21 +132,46 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to CategoryPageResultsEvent events, parses and pushes them to profiletag to pick them up further.
+   * Emits the category page visited event.
    *
    * @returns an observable emitting events that describe category page visits in a profiltag compliant way
    * @see CategoryPageResultsEvent
    * @see CategoryViewPushEvent
    */
+  // TODO:#cds - add a test. maybe cover the following cases:
+  // 1. it should emit the event when switching between categories. double check if the emitted category ID is being updated
+  // 2. it should not emit when changing facets / sorting / paging
+  // 3. when navigating from a category page to another page (e.g. home) and then back to the same category, the event should be emitted
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(CategoryPageResultsEvent).pipe(
-      distinctUntilKeyChanged('categoryCode'),
-      map(
-        (categoryPageResultsEvent) =>
-          new CategoryViewPushEvent({
-            productCategory: categoryPageResultsEvent.categoryCode,
-            productCategoryName: categoryPageResultsEvent.categoryName,
-          })
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1),
+      // prevent emissions from the search results (changing facets, sorting order or paging)
+      take(1)
+    );
+
+    const categoryPageEvent$ = this.eventService.get(PageEvent).pipe(
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev.context?.type === PageType.CATEGORY_PAGE &&
+          curr.context?.type === PageType.CATEGORY_PAGE &&
+          prev.context?.id === curr.context?.id
+      ),
+      filter((pageEvent) => pageEvent.semanticRoute === 'category')
+    );
+
+    return categoryPageEvent$.pipe(
+      switchMap((categoryPageEvent) =>
+        searchResults$.pipe(
+          map(
+            (searchResults) =>
+              new CategoryViewPushEvent({
+                productCategory: categoryPageEvent.context?.id,
+                productCategoryName:
+                  searchResults.breadcrumbs?.[0].facetValueName,
+              })
+          )
+        )
       )
     );
   }
@@ -230,35 +258,32 @@ export class ProfileTagPushEventsService {
   protected buildBrandPageVisitedEvent(): Observable<BrandPageVisitedEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
-      skip(1)
+      skip(1),
+      // prevent emissions from the search results (changing facets, sorting order or paging)
+      take(1)
     );
 
-    const brandPageVisitedEvent$ = this.eventService.get(PageEvent).pipe(
-      map((pageEvent) => ({
-        isBrandPage: pageEvent.semanticRoute === 'brand',
-        brandCode: pageEvent.context.id,
-      }))
+    const brandPageEvent$ = this.eventService.get(PageEvent).pipe(
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev.context?.type === PageType.CATEGORY_PAGE &&
+          curr.context?.type === PageType.CATEGORY_PAGE &&
+          prev.context?.id === curr.context?.id
+      ),
+      filter((pageEvent) => pageEvent.semanticRoute === 'brand')
     );
 
-    return brandPageVisitedEvent$.pipe(
-      switchMap((pageEvent) => {
-        if (!pageEvent.isBrandPage) {
-          return EMPTY;
-        }
-
-        return searchResults$.pipe(
+    return brandPageEvent$.pipe(
+      switchMap((brandPageEvent) =>
+        searchResults$.pipe(
           map(
             (searchResults) =>
               new BrandPageVisitedEvent({
-                brandCode: pageEvent.brandCode,
-                brandName: searchResults.breadcrumbs[0].facetValueName,
+                brandCode: brandPageEvent.context?.id,
+                brandName: searchResults.breadcrumbs?.[0].facetValueName,
               })
           )
-        );
-      }),
-      distinctUntilKeyChanged(
-        'data',
-        (prev, curr) => prev.brandCode === curr.brandCode
+        )
       )
     );
   }
