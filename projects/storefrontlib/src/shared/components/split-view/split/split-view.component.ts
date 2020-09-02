@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -26,7 +27,7 @@ import { SplitViewService } from '../split-view.service';
  * view components, so that the `lastVisibleView` can be updated accordingly. The actual
  * visibility of views is controlled by CSS. To allow for maximum flexibility, the CSS
  * implementation is using CSS variables. The `lastVisibleView` is bind to the
- * `--cx-last-visible-view` on the host, so that all descendants views will inherit the
+ * `--cx-active-view` on the host, so that all descendants views will inherit the
  * property conveniently.
  */
 @Component({
@@ -37,16 +38,27 @@ import { SplitViewService } from '../split-view.service';
 })
 export class SplitViewComponent implements OnDestroy {
   /**
+   * Sets the default hide mode for views. This mode is useful in case views are dynamically being created,
+   * for example when they are created by router components.
+   */
+  @Input()
+  set hideMode(mode: boolean) {
+    this.splitService.defaultHideMode = mode;
+  }
+
+  /**
    * Indicates the last visible view in the range of views that is visible. This
-   * is bind to a css variable `--cx-last-visible-view` so that the experience
+   * is bind to a css variable `--cx-active-view` so that the experience
    * can be fully controlled by css.
    */
-  @HostBinding('style.--cx-last-visible-view')
+  @HostBinding('style.--cx-active-view')
   lastVisibleView = 1;
 
   protected subscription: Subscription = this.splitService
-    .visibleViewCount()
-    .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
+    .getActiveView()
+    .subscribe(
+      (lastVisible: number) => (this.lastVisibleView = lastVisible + 1)
+    );
 
   constructor(protected splitService: SplitViewService) {}
 

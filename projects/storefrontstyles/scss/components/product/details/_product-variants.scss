@@ -21,7 +21,7 @@
     padding: 0;
 
     li {
-      display: inline;
+      display: inline-block;
 
       &.selected-variant {
         img {
@@ -29,10 +29,17 @@
         }
       }
 
-      img {
-        cursor: pointer;
-        margin: 3px;
-        border: 1px solid #ddd;
+      .variant-button {
+        @include button-reset();
+
+        &:focus {
+          @include visible-focus();
+        }
+
+        img {
+          margin: 3px;
+          border: 1px solid #ddd;
+        }
       }
     }
   }

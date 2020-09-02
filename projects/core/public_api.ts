@@ -27,3 +27,9 @@ export * from './src/store-finder/index';
 export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
+
+/** AUGMENTABLE_TYPES_START */
+export { Product } from './src/model/product.model';
+export { ProductSearchPage, Facet } from './src/model/product-search.model';
+export { Cart } from './src/model/cart.model';
+/** AUGMENTABLE_TYPES_END */

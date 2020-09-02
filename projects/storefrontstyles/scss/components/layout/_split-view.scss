@@ -9,12 +9,14 @@
     properties cascade.
     The  default (global) max views for a split view on tablet or higher is 2, where as we use 1 view on mobile.
 
-    The 2nd CSS property that is used to split views, is the `--cx-last-visible-view`. This property is set by the 
+    The 2nd CSS property that is used to split views, is the `--cx-active-view`. This property is set by the 
     component logic and indicates the deepest view that is visible. When the visibility of views are toggled, the 
-    `--cx-last-visible-view` is set accordingly. 
+    `--cx-active-view` is set accordingly. 
   */
 
 :root {
+  --cx-transition-duration: 0.3s;
+
   @include media-breakpoint-down(md) {
     --cx-max-views: 1;
   }
@@ -25,7 +27,7 @@
   /**
    * Hide all split views by default.
    */
-  --cx-last-visible-view: 1;
+  --cx-active-view: 1;
 }
 
 %cx-split-view {
@@ -35,28 +37,32 @@
   overflow: hidden;
 
   --cx-view-flex: calc(
-    (100% / min(var(--cx-last-visible-view), var(--cx-max-views)))
+    (100% / min(var(--cx-active-view), var(--cx-max-views)))
   );
 
   cx-view {
     width: 100%;
     height: 100%;
 
-    transition: 0.3s;
+    transition: var(--cx-transition-duration);
     transition-timing-function: ease-in;
 
     overflow: hidden;
 
-    flex: 1 0
-      calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));
+    flex: 1 0 calc((100% / min(var(--cx-active-view), var(--cx-max-views))));
 
     // The inline start margin of the first flex item decreases to move
     // the flex items outside the flex container.
     &[position='0'] {
       margin-inline-start: calc(
-        max(var(--cx-last-visible-view) - var(--cx-max-views), 0) *
+        max(var(--cx-active-view) - var(--cx-max-views), 0) *
           (var(--cx-view-flex) * -1)
       );
+    }
+
+    &[disappeared='true'] {
+      max-height: 0;
+      visibility: hidden;
     }
   }
 }
