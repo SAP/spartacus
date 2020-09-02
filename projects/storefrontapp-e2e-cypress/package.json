@@ -17,7 +17,7 @@
     "cy:run:regression:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/regression/**/*\"",
     "cy:run:smoke": "cypress run --spec \"cypress/integration/smoke/**/*\"",
     "cy:run:smoke:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:2005": "cypress run --spec \"cypress/integration/smoke/checkout-flow.e2e.spec.ts\"",
+    "cy:run:smoke:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\"",
     "cy:run:smoke:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\""
   },
   "devDependencies": {
