@@ -14,8 +14,6 @@ import { CurrentBudgetService } from '../services/current-budget.service';
 export class BudgetDetailsComponent {
   @ViewChild(MsgBox, { read: MsgBox }) messageBox: MsgBox;
 
-  // confirm$ = new BehaviorSubject(null);
-
   /**
    * The model of the current budget.
    *
