@@ -6,8 +6,8 @@ import {
   GROUP_ID_1,
   GROUP_ID_2,
   productConfiguration,
-} from './../../../shared/testing/configuration-test-data';
-import { ConfiguratorFacadeUtilsService } from './configurator-facade-utils.service';
+} from '../../../shared/testing/configuration-test-data';
+import { ConfiguratorUtilsService } from './configurator-utils.service';
 
 const CONFIG_ID = '1234-56-7890';
 
@@ -89,7 +89,7 @@ const productConfigurationMultiLevel: Configurator.Configuration = {
 };
 
 function mergeChangesAndGetFirstGroup(
-  serviceUnderTest: ConfiguratorFacadeUtilsService,
+  serviceUnderTest: ConfiguratorUtilsService,
   changedAttribute: Configurator.Attribute,
   configuration: Configurator.Configuration
 ) {
@@ -106,17 +106,17 @@ function mergeChangesAndGetFirstGroup(
 }
 
 describe('ConfiguratorGroupUtilsService', () => {
-  let classUnderTest: ConfiguratorFacadeUtilsService;
+  let classUnderTest: ConfiguratorUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [ConfiguratorFacadeUtilsService],
+      providers: [ConfiguratorUtilsService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      ConfiguratorFacadeUtilsService as Type<ConfiguratorFacadeUtilsService>
+      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
   });
 

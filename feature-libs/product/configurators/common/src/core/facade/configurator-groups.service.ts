@@ -10,17 +10,17 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 /**
  * Service for handling configuration groups
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorFacadeUtilsService: ConfiguratorFacadeUtilsService,
+    protected configuratorUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
@@ -116,7 +116,7 @@ export class ConfiguratorGroupsService {
       .getConfiguration(owner)
       .pipe(
         map((configuration) =>
-          this.configuratorFacadeUtilsService.getGroupById(
+          this.configuratorUtilsService.getGroupById(
             configuration.groups,
             configuration.interactionState.menuParentGroup
           )
@@ -157,7 +157,7 @@ export class ConfiguratorGroupsService {
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configuratorFacadeUtilsService.getGroupById(
+              this.configuratorUtilsService.getGroupById(
                 configuration.groups,
                 currentGroupId
               )
@@ -219,12 +219,9 @@ export class ConfiguratorGroupsService {
         });
     }
 
-    const parentGroup = this.configuratorFacadeUtilsService.getParentGroup(
+    const parentGroup = this.configuratorUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorFacadeUtilsService.getGroupById(
-        configuration.groups,
-        groupId
-      )
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
     );
 
     this.store.dispatch(
@@ -295,7 +292,7 @@ export class ConfiguratorGroupsService {
     groups: Configurator.Group[],
     group: Configurator.Group
   ): Configurator.Group {
-    return this.configuratorFacadeUtilsService.getParentGroup(groups, group);
+    return this.configuratorUtilsService.getParentGroup(groups, group);
   }
 
   /**
@@ -305,7 +302,7 @@ export class ConfiguratorGroupsService {
    * @return {boolean} Sub groups available?
    */
   hasSubGroups(group: Configurator.Group): boolean {
-    return this.configuratorFacadeUtilsService.hasSubGroups(group);
+    return this.configuratorUtilsService.hasSubGroups(group);
   }
 
   protected getNeighboringGroupId(

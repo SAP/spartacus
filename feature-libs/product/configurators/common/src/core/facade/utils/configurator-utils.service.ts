@@ -4,8 +4,8 @@ import { Configurator } from '@spartacus/core';
 /**
  * Utility service for the facade layer. Supposed to be accessed by facade services
  */
-@Injectable()
-export class ConfiguratorFacadeUtilsService {
+@Injectable({ providedIn: 'root' })
+export class ConfiguratorUtilsService {
   /**
    * Determines the direct parent group for an attribute group
    * @param groups List of groups where we search for parent

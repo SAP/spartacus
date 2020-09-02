@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import {
-  CommonConfiguratorModule,
-  ConfigAddToCartButtonComponent,
-} from '@spartacus/product/configurators/common';
+import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 /**
@@ -33,11 +30,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
-        },
-      },
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {
@@ -56,7 +48,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
               slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
-
           navigation: {
             xs: {
               slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],

@@ -15,7 +15,7 @@ import {
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
     protected cartStore: Store<StateWithMultiCart>,

@@ -1,1 +1,1 @@
-export * from './configurator-facade-utils.service';
+export * from './configurator-utils.service';

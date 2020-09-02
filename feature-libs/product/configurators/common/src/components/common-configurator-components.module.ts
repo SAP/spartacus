@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { ConfigAddToCartButtonModule } from './config-add-to-cart-button/config-add-to-cart-button.module';
 import { ConfigFormModule } from './config-form/config-form.module';
+import { ConfigGroupMenuModule } from './config-group-menu/config-group-menu.module';
 import { ConfigGroupTitleModule } from './config-group-title/config-group-title.module';
 import { ConfigurationMessageLoaderModule } from './config-message/config-message-loader.module';
 import { ConfigMessageModule } from './config-message/config-message.module';
@@ -14,6 +16,8 @@ import { ConfigTabBarModule } from './config-tab-bar/config-tab-bar.module';
 @NgModule({
   imports: [
     ConfigPriceSummaryModule,
+    ConfigAddToCartButtonModule,
+    ConfigGroupMenuModule,
     ConfigProductTitleModule,
     ConfigTabBarModule,
     ConfigFormModule,

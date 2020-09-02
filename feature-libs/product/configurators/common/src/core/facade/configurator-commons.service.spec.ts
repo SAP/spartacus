@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
-import { select, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
@@ -9,7 +9,6 @@ import {
   CONFIGURATION_FEATURE,
   Configurator,
   ConfiguratorActions,
-  ConfiguratorSelectors,
   GenericConfigurator,
   GenericConfigUtilsService,
   getConfiguratorReducers,
@@ -21,7 +20,7 @@ import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
-import { ConfiguratorFacadeUtilsService } from './utils';
+import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT: GenericConfigurator.Owner = {};
@@ -91,7 +90,7 @@ class MockActiveCartService {
   }
 }
 
-class MockConfiguratorFacadeUtilsService {
+class MockconfiguratorUtilsService {
   createConfigurationExtract(): Configurator.Configuration {
     return productConfiguration;
   }
@@ -132,7 +131,7 @@ function callGetOrCreate(
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
-  let configuratorFacadeUtilsService: ConfiguratorFacadeUtilsService;
+  let configuratorUtilsService: ConfiguratorUtilsService;
   let store: Store<StateWithConfiguration>;
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
@@ -158,8 +157,8 @@ describe('ConfiguratorCommonsService', () => {
           useClass: MockActiveCartService,
         },
         {
-          provide: ConfiguratorFacadeUtilsService,
-          useClass: MockConfiguratorFacadeUtilsService,
+          provide: ConfiguratorUtilsService,
+          useClass: MockconfiguratorUtilsService,
         },
       ],
     }).compileComponents();
@@ -175,8 +174,8 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
-    configuratorFacadeUtilsService = TestBed.inject(
-      ConfiguratorFacadeUtilsService as Type<ConfiguratorFacadeUtilsService>
+    configuratorUtilsService = TestBed.inject(
+      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
 
     OWNER_PRODUCT = {
@@ -213,7 +212,7 @@ describe('ConfiguratorCommonsService', () => {
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
     spyOn(
-      configuratorFacadeUtilsService,
+      configuratorUtilsService,
       'createConfigurationExtract'
     ).and.callThrough();
   });
@@ -258,19 +257,6 @@ describe('ConfiguratorCommonsService', () => {
     expect(isLoading).toBe(false);
   });
 
-  it('should be able to get configuration from store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
-    let configurationFromStore = null;
-    store
-      .pipe(select(ConfiguratorSelectors.getConfigurationFactory(PRODUCT_CODE)))
-      .subscribe((configuration) => {
-        configurationFromStore = configuration;
-      });
-    expect(configurationFromStore).toBe(productConfiguration);
-  });
-
   it('should update a configuration, accessing the store', () => {
     cart.code = 'X';
     cartObs = of(cart);
@@ -287,7 +273,7 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
 
     expect(
-      configuratorFacadeUtilsService.createConfigurationExtract
+      configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
   });
 
@@ -300,7 +286,7 @@ describe('ConfiguratorCommonsService', () => {
     };
     serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
     expect(
-      configuratorFacadeUtilsService.createConfigurationExtract
+      configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
   });
 
@@ -321,7 +307,7 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
 
     expect(
-      configuratorFacadeUtilsService.createConfigurationExtract
+      configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
   });
 

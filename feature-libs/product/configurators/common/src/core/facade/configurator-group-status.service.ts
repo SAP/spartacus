@@ -9,16 +9,16 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 /**
  * Service for handling group statuses
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupStatusService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected configuratorFacadeUtilsService: ConfiguratorFacadeUtilsService
+    protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -102,16 +102,13 @@ export class ConfiguratorGroupStatusService {
     groupId: string,
     setGroupVisited: boolean
   ): void {
-    const group = this.configuratorFacadeUtilsService.getGroupById(
+    const group = this.configuratorUtilsService.getGroupById(
       configuration.groups,
       groupId
     );
-    const parentGroup = this.configuratorFacadeUtilsService.getParentGroup(
+    const parentGroup = this.configuratorUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorFacadeUtilsService.getGroupById(
-        configuration.groups,
-        groupId
-      )
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
     );
 
     this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
@@ -177,9 +174,9 @@ export class ConfiguratorGroupStatusService {
 
     this.getParentGroupStatusCompleted(
       configuration,
-      this.configuratorFacadeUtilsService.getParentGroup(
+      this.configuratorUtilsService.getParentGroup(
         configuration.groups,
-        this.configuratorFacadeUtilsService.getGroupById(
+        this.configuratorUtilsService.getGroupById(
           configuration.groups,
           parentGroup.id
         )
@@ -217,9 +214,9 @@ export class ConfiguratorGroupStatusService {
           this.getParentGroupStatusVisited(
             configuration,
             parentGroup.id,
-            this.configuratorFacadeUtilsService.getParentGroup(
+            this.configuratorUtilsService.getParentGroup(
               configuration.groups,
-              this.configuratorFacadeUtilsService.getGroupById(
+              this.configuratorUtilsService.getGroupById(
                 configuration.groups,
                 parentGroup.id
               )

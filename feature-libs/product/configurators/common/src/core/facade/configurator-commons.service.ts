@@ -12,16 +12,16 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorCartService } from './configurator-cart.service';
-import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
     protected genericConfigUtilsService: GenericConfigUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartService,
-    protected configuratorFacadeUtils: ConfiguratorFacadeUtilsService
+    protected configuratorUtils: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -72,7 +72,7 @@ export class ConfiguratorCommonsService {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
-        this.configuratorFacadeUtils.isConfigurationCreated(configuration)
+        this.configuratorUtils.isConfigurationCreated(configuration)
       )
     );
   }
@@ -146,7 +146,7 @@ export class ConfiguratorCommonsService {
       .subscribe((configuration) => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
-            this.configuratorFacadeUtils.createConfigurationExtract(
+            this.configuratorUtils.createConfigurationExtract(
               changedAttribute,
               configuration
             )
@@ -169,9 +169,7 @@ export class ConfiguratorCommonsService {
       select(
         ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
       ),
-      filter((config) =>
-        this.configuratorFacadeUtils.isConfigurationCreated(config)
-      ),
+      filter((config) => this.configuratorUtils.isConfigurationCreated(config)),
       tap((configurationState) => {
         if (!this.hasConfigurationOverview(configurationState)) {
           this.store.dispatch(
@@ -224,7 +222,7 @@ export class ConfiguratorCommonsService {
 
       tap((configurationState) => {
         if (
-          !this.configuratorFacadeUtils.isConfigurationCreated(
+          !this.configuratorUtils.isConfigurationCreated(
             configurationState.value
           ) &&
           configurationState.loading !== true &&
@@ -236,9 +234,7 @@ export class ConfiguratorCommonsService {
         }
       }),
       filter((configurationState) =>
-        this.configuratorFacadeUtils.isConfigurationCreated(
-          configurationState.value
-        )
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
       ),
       map((configurationState) => configurationState.value)
     );

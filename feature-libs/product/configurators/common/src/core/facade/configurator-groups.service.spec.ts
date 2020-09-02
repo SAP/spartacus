@@ -18,7 +18,7 @@ import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
-import { ConfiguratorFacadeUtilsService } from './utils/configurator-facade-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 class MockActiveCartService {}
 class MockConfiguratorCartService {
@@ -32,7 +32,7 @@ describe('ConfiguratorGroupsService', () => {
   let store: Store<StateWithConfiguration>;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configGroupStatusService: ConfiguratorGroupStatusService;
-  let configFacadeUtilsService: ConfiguratorFacadeUtilsService;
+  let configFacadeUtilsService: ConfiguratorUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +41,7 @@ describe('ConfiguratorGroupsService', () => {
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
         ConfiguratorGroupStatusService,
-        ConfiguratorFacadeUtilsService,
+        ConfiguratorUtilsService,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -65,7 +65,7 @@ describe('ConfiguratorGroupsService', () => {
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
     configFacadeUtilsService = TestBed.inject(
-      ConfiguratorFacadeUtilsService as Type<ConfiguratorFacadeUtilsService>
+      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
 
     spyOn(store, 'dispatch').and.stub();

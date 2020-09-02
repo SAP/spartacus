@@ -3,8 +3,6 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CommonConfiguratorModule,
-  ConfigAddToCartButtonComponent,
-  ConfigGroupMenuComponent,
   ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
@@ -31,14 +29,6 @@ import {
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        VariantConfigurationMenu: {
-          component: ConfigGroupMenuComponent,
-        },
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
-        },
-      },
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {
