@@ -1,5 +1,5 @@
 <form *ngIf="form$ | async as form" [formGroup]="form" (ngSubmit)="save(form)">
-  <cx-organization-card [previous]="false">
+  <cx-organization-card [previous]="false" i18nRoot="budget.create">
     <button actions class="button primary">
       {{ 'organization.create' | cxTranslate }}
     </button>

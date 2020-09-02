@@ -15,6 +15,20 @@ export const budget = {
   byCode: 'Sort by code',
   byValue: 'Sort by value',
 
+  details: {
+    title: 'Details Budget',
+    subtitle: 'Budget: {{ item.name }}',
+  },
+
+  edit: {
+    title: 'Edit Budget',
+    subtitle: 'Budget: {{ item.name }}',
+  },
+
+  create: {
+    title: 'Create Budget',
+  },
+
   messages: {
     enabled:
       'When you disable the budget, the related data will be disabled as well. ',

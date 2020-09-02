@@ -7,7 +7,7 @@ import { BudgetService } from '../../../core/services/budget.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
 @Component({
-  // selector: 'cx-budget-details',
+  selector: 'cx-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

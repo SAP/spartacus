@@ -1,4 +1,7 @@
-<cx-organization-card *ngIf="budget$ | async as model">
+<cx-organization-card
+  *ngIf="budget$ | async as model"
+  i18nRoot="budget.details"
+>
   <a
     actions
     class="link"
@@ -24,7 +27,7 @@
       {{ 'organization.enable' | cxTranslate }}
     </button>
   </ng-template>
-  <!-- 
+  <!--
   <div class="confirmation" confirmation *ngIf="confirm$ | async as confirm">
     <p>{{ confirm.message | cxTranslate }}</p>
     <button class="button" (click)="cancelConfirm()">

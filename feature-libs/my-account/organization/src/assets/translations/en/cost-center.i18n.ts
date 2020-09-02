@@ -22,12 +22,21 @@ export const costCenter = {
     confirmDisabled: 'Cost Center disabled successfully',
   },
 
-  title: 'Cost Center Details',
+  title: 'Details Cost Center',
   subtitle: 'Cost Center: {{ item.name }}',
+
+  details: {
+    title: 'Details Cost Center',
+    subtitle: 'Cost Center: {{ item.name }}',
+  },
 
   edit: {
     title: 'Edit Cost Center',
     subtitle: 'Cost Center: {{ item.name }}',
+  },
+
+  create: {
+    title: 'Create Cost Center',
   },
 
   budget: {

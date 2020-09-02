@@ -1,60 +1,14 @@
-<cx-view #view>
-  <form
-    *ngIf="form$ | async as form"
-    [formGroup]="form"
-    (ngSubmit)="save(form)"
-  >
-    <h3>
-      <a
-        *ngIf="parentUnit$ | async as parentUnit; else orgUnitLink"
-        class="link"
-        [routerLink]="
-          { cxRoute: 'orgUnitCostCenters', params: { uid: parentUnit } } | cxUrl
-        "
-        (click)="view.toggle()"
-      >
-        <cx-icon type="CARET_LEFT"></cx-icon>
-      </a>
-      <ng-template #orgUnitLink>
-        <a
-          class="link"
-          [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
-          (click)="view.toggle()"
-        >
-          <cx-icon type="CARET_LEFT"></cx-icon>
-        </a>
-      </ng-template>
+<form *ngIf="form$ | async as form" [formGroup]="form" (ngSubmit)="save(form)">
+  <cx-organization-card [previous]="false" i18nRoot="costCenter.create">
+    <button actions class="button primary">
+      {{ 'organization.save' | cxTranslate }}
+    </button>
+    <button actions class="link" routerLink="../" type="button">
+      {{ 'organization.cancel' | cxTranslate }}
+    </button>
 
-      <span>{{ 'organization.create' | cxTranslate }}</span>
-    </h3>
-
-    <section>
-      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
-      <div class="form-buttons">
-        <button class="button primary" type="submit">
-          {{ 'organization.save' | cxTranslate }}
-        </button>
-        <a
-          *ngIf="parentUnit$ | async as parentUnit; else orgUnitButton"
-          class="button secondary"
-          [routerLink]="
-            { cxRoute: 'orgUnitCostCenters', params: { uid: parentUnit } }
-              | cxUrl
-          "
-          (click)="view.toggle()"
-        >
-          {{ 'organization.cancel' | cxTranslate }}
-        </a>
-        <ng-template #orgUnitButton>
-          <a
-            class="button secondary"
-            [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
-            (click)="view.toggle()"
-          >
-            {{ 'organization.cancel' | cxTranslate }}
-          </a>
-        </ng-template>
-      </div>
+    <section main class="details">
+      <cx-cost-center-form [form]="form"></cx-cost-center-form>
     </section>
-  </form>
-</cx-view>
+  </cx-organization-card>
+</form>
