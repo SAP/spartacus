@@ -12,11 +12,10 @@ jobs:
         uses: bahmutov/npm-install@v1
       - name: Build Spartacus
         run: yarn build:core:lib
-      - name: Start server in the background
-        run: yarn start:ci:2005
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          start: yarn start:ci:2005
           record: true
           working-directory: projects/storefrontapp-e2e-cypress
           config-file: cypress.ci.2005.json
