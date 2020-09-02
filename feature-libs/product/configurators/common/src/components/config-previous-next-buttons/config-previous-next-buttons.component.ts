@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-  GenericConfigurator,
-} from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',

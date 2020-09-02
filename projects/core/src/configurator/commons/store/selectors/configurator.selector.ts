@@ -81,7 +81,7 @@ export const getGroupStatus = (
 export const isGroupVisited = (
   ownerKey: string,
   groupId: string
-): MemoizedSelector<StateWithConfiguration, Boolean> => {
+): MemoizedSelector<StateWithConfiguration, boolean> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
     (configuration) =>
@@ -92,9 +92,9 @@ export const isGroupVisited = (
 export const areGroupsVisited = (
   ownerKey: string,
   groupIds: string[]
-): MemoizedSelector<StateWithConfiguration, Boolean> => {
+): MemoizedSelector<StateWithConfiguration, boolean> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
-    let isVisited: Boolean = true;
+    let isVisited = true;
     groupIds.forEach((groupId) => {
       if (!isVisited) {
         return;

@@ -1,9 +1,8 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ConfiguratorActions, StateWithConfiguration } from '@spartacus/core';
 import { of } from 'rxjs';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
 import {
   GROUP_ID_1,
   GROUP_ID_3,
@@ -14,9 +13,9 @@ import {
   GROUP_ID_8,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './configuration-test-data';
+} from './../../shared/testing/configuration-test-data';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
@@ -25,10 +24,7 @@ describe('ConfiguratorGroupStatusService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [
-        ConfiguratorGroupUtilsService,
-        ConfiguratorGroupStatusService,
-      ],
+      providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
     }).compileComponents();
   }));
 
@@ -115,8 +111,8 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBe(productConfigurationWithConflicts.flatGroups[3]);
     });
 
-    it('should return status completed if required fields are filled', () => {
-      //required checkbox not filled
+    it('should return status completed if required fields are filled for different groups', () => {
+      // required checkbox not filled
       expect(
         classUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
       ).toBe(false);

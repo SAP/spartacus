@@ -13,7 +13,7 @@ export class ConfigureIssuesNotificationComponent {
   @Input() disabled: boolean;
   iconTypes = ICON_TYPE;
 
-  constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
+  constructor(protected genericConfigUtilsService: GenericConfigUtilsService) {}
 
   /**
    * Verifies whether the item has any issues.
@@ -40,13 +40,6 @@ export class ConfigureIssuesNotificationComponent {
    * @return {string} - the error message key
    */
   getIssueMessageKey(numberOfErrors: number): string {
-    if (numberOfErrors && numberOfErrors !== 0) {
-      if (numberOfErrors === 1) {
-        return 'configurator.notificationBanner.numberOfIssue';
-      } else {
-        return 'configurator.notificationBanner.numberOfIssues';
-      }
-    }
-    return '';
+    return this.genericConfigUtilsService.getIssueMessageKey(numberOfErrors);
   }
 }

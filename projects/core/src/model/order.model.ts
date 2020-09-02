@@ -34,10 +34,15 @@ export interface OrderEntry {
   statusSummaryList?: StatusSummary[];
   configurationInfos?: ConfigurationInfo[];
 }
-
+export enum OrderEntryStatus {
+  Success = 'SUCCESS',
+  Info = 'INFO',
+  Warning = 'WARNING',
+  Error = 'ERROR',
+}
 export interface StatusSummary {
   numberOfIssues?: number;
-  status?: string;
+  status?: OrderEntryStatus;
 }
 
 export interface ConfigurationInfo {

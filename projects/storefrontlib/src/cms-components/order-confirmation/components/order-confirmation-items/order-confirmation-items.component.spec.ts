@@ -14,6 +14,7 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { PromotionsModule } from '../../../checkout';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-cart-item-list', template: '' })

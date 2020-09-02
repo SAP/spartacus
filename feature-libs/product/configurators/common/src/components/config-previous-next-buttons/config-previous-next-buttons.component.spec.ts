@@ -3,20 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigUtilsService,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
-import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
+import * as ConfigurationTestData from './../../shared/testing/configuration-test-data';
+import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
 let routerStateObservable = null;
 

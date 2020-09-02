@@ -1,20 +1,24 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="row">
     <div class="col-md-9 col-lg-9">
-      <div class="form-group">
-        <div *ngIf="attribute.values && attribute.values.length !== 0">
-          <ng-select
-            [formControl]="attributeDropDownForm"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="attribute.values"
-            [cxFocus]="{ key: attribute.name }"
-            bindLabel="valueDisplay"
-            bindValue="valueCode"
-            (change)="onSelect()"
-          >
-          </ng-select>
-        </div>
+      <div
+        class="form-group"
+        *ngIf="attribute.values && attribute.values.length !== 0"
+      >
+        <select
+          class="form-control"
+          [formControl]="attributeDropDownForm"
+          [cxFocus]="{ key: attribute.name }"
+          (change)="onSelect()"
+        >
+          <option
+            *ngFor="let item of attribute.values"
+            [label]="item.valueDisplay"
+            [selected]="item.selected"
+            [value]="item.valueCode"
+            >{{ item.valueDisplay }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="cx-config-option-price col-md-3 col-lg-3"></div>

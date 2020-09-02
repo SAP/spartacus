@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { OrderEntryStatus } from '@spartacus/core';
 import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
 import { ConfigureIssuesNotificationComponent } from './configure-issues-notification.component';
 
@@ -49,32 +50,24 @@ describe('ConfigureIssuesNotificationComponent', () => {
     expect(result).toEqual('');
   });
 
-  it('should return a singular issue message key for one issue', () => {
-    const result = component.getIssueMessageKey(1);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssue');
-  });
-
-  it('should return a plural issue message key for more than one issue', () => {
-    const result = component.getIssueMessageKey(3);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssues');
-  });
-
   it('should return number of issues of ERROR status', () => {
-    component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+    component.item.statusSummaryList = [
+      { numberOfIssues: 2, status: OrderEntryStatus.Error },
+    ];
     expect(component.getNumberOfIssues()).toBe(2);
   });
 
   it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
     component.item.statusSummaryList = [
-      { numberOfIssues: 1, status: 'SUCCESS' },
-      { numberOfIssues: 3, status: 'ERROR' },
+      { numberOfIssues: 1, status: OrderEntryStatus.Success },
+      { numberOfIssues: 3, status: OrderEntryStatus.Error },
     ];
     expect(component.getNumberOfIssues()).toBe(3);
   });
 
   it('should return number of issues as 0 if only SUCCESS status is present', () => {
     component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: 'SUCCESS' },
+      { numberOfIssues: 2, status: OrderEntryStatus.Success },
     ];
     expect(component.getNumberOfIssues()).toBe(0);
   });
@@ -90,7 +83,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return true if number of issues of ERROR status is > 0', () => {
-    component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+    component.item.statusSummaryList = [
+      { numberOfIssues: 2, status: OrderEntryStatus.Error },
+    ];
     fixture.detectChanges();
     expect(component.hasIssues()).toBeTrue();
     ConfigComponentTestUtilsService.expectElementPresent(
@@ -102,7 +97,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
   it('should return false if number of issues of ERROR status is = 0', () => {
     component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: 'SUCCESS' },
+      { numberOfIssues: 2, status: OrderEntryStatus.Success },
     ];
     fixture.detectChanges();
     expect(component.hasIssues()).toBeFalse();

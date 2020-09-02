@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  Configurator,
+  ConfiguratorActions,
+  GenericConfigurator,
+  StateWithConfiguration,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 /**
  * Service for handling configuration groups
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
   constructor(
-    private store: Store<StateWithConfiguration>,
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupUtilsService: ConfiguratorGroupUtilsService,
-    private configuratorGroupStatusService: ConfiguratorGroupStatusService
+    protected store: Store<StateWithConfiguration>,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorUtilsService: ConfiguratorUtilsService,
+    protected configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
   /**
@@ -28,6 +30,7 @@ export class ConfiguratorGroupsService {
    * Return null when configuration contains no groups.
    *
    * @param owner configuration owner
+   * @returns {Observable<string>} Group ID
    */
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
@@ -44,9 +47,11 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Return the first conflict group of a configuration.
+   * Return the first conflict group of a configuration or undefined
+   * if not present
    *
    * @param configuration - Configuration
+   * @returns {Configurator.Group} Conflict group
    */
   getFirstConflictGroup(
     configuration: Configurator.Configuration
@@ -102,15 +107,16 @@ export class ConfiguratorGroupsService {
    * Returns the parent group of the subgroup that is displayed in the group menu.
    *
    * @param owner - Configuration owner
+   * @returns {Observable<Configurator.Group>} Group
    */
-  public getMenuParentGroup(
+  getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(
         map((configuration) =>
-          this.configuratorGroupUtilsService.getGroupById(
+          this.configuratorUtilsService.getGroupById(
             configuration.groups,
             configuration.interactionState.menuParentGroup
           )
@@ -119,12 +125,12 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Set the parent group, specified by the group ID, that is displayed in the group menu.
+   * Set the parent group, specified by the group ID, which is displayed in the group menu.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
    */
-  public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
@@ -137,8 +143,9 @@ export class ConfiguratorGroupsService {
    * Returns the group that is currently visited.
    *
    * @param owner - Configuration owner
+   * @return {Observable<Configurator.Group>} Current group
    */
-  public getCurrentGroup(
+  getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
@@ -150,7 +157,7 @@ export class ConfiguratorGroupsService {
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configuratorGroupUtilsService.getGroupById(
+              this.configuratorUtilsService.getGroupById(
                 configuration.groups,
                 currentGroupId
               )
@@ -167,10 +174,10 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    * @param setGroupVisited - Determines whether the group has to be set as visited or not
    */
-  public setGroupStatus(
+  setGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string,
-    setGroupVisited: Boolean
+    setGroupVisited: boolean
   ): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
@@ -194,11 +201,11 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    * @param setStatus - Group status will be set for previous group, default true
    */
-  public navigateToGroup(
+  navigateToGroup(
     configuration: Configurator.Configuration,
     groupId: string,
     setStatus = true
-  ) {
+  ): void {
     if (setStatus) {
       //Set Group status for current group
       this.getCurrentGroup(configuration.owner)
@@ -212,13 +219,9 @@ export class ConfiguratorGroupsService {
         });
     }
 
-    const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
+    const parentGroup = this.configuratorUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorGroupUtilsService.getGroupById(
-        configuration.groups,
-        groupId
-      ),
-      null
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
     );
 
     this.store.dispatch(
@@ -234,8 +237,9 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
    * @param owner - Configuration owner
+   * @return {Observable<string>} ID of next group
    */
-  public getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, 1);
   }
 
@@ -243,14 +247,65 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
    * @param owner - Configuration owner
+   * @return {Observable<string>} ID of previous group
    */
-  public getPreviousGroupId(
-    owner: GenericConfigurator.Owner
-  ): Observable<string> {
+  getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, -1);
   }
 
-  private getNeighboringGroupId(
+  /**
+   * Verifies whether the group has been visited
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   * @return {Observable<boolean>} Has been visited?
+   */
+  isGroupVisited(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<boolean> {
+    return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
+  }
+
+  /**
+   * Returns the group status for the given group ID.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   * @return {Observable<Configurator.GroupStatus>} Group status
+   */
+  getGroupStatus(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Configurator.GroupStatus> {
+    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
+  }
+
+  /**
+   * Returns a parent group for the given group.
+   *
+   * @param groups - List of groups where we search for the parent group
+   * @param group - Given group
+   * @return {Configurator.Group} Parent group or null if group is a top-level group
+   */
+  getParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group
+  ): Configurator.Group {
+    return this.configuratorUtilsService.getParentGroup(groups, group);
+  }
+
+  /**
+   * Verifies whether the given group has sub groups.
+   *
+   * @param group - Given group
+   * @return {boolean} Sub groups available?
+   */
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorUtilsService.hasSubGroups(group);
+  }
+
+  protected getNeighboringGroupId(
     owner: GenericConfigurator.Owner,
     neighboringIndex: number
   ): Observable<string> {
@@ -278,59 +333,5 @@ export class ConfiguratorGroupsService {
         );
       })
     );
-  }
-
-  /**
-   * Verifies whether the group has been visited
-   *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
-   */
-  public isGroupVisited(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Boolean> {
-    return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
-  }
-
-  /**
-   * Returns a group status for the given group ID.
-   *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
-   */
-  public getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
-  }
-
-  /**
-   * Returns a parent group for the given group.
-   *
-   * @param groups - List of groups
-   * @param group - Given group
-   * @param parentGroup - Parent group
-   */
-  public getParentGroup(
-    groups: Configurator.Group[],
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ): Configurator.Group {
-    return this.configuratorGroupUtilsService.getParentGroup(
-      groups,
-      group,
-      parentGroup
-    );
-  }
-
-  /**
-   * Verifies whether the given group has a parent.
-   *
-   * @param group - Given group
-   */
-  public hasSubGroups(group: Configurator.Group): boolean {
-    return this.configuratorGroupUtilsService.hasSubGroups(group);
   }
 }

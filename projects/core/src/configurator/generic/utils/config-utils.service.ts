@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cart, OrderEntry } from '../../../model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { OrderEntryStatus } from '../../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
 
 /**
@@ -93,10 +94,27 @@ export class GenericConfigUtilsService {
   getNumberOfIssues(cartItem: OrderEntry): number {
     let numberOfIssues = 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) => {
-      if (statusSummary.status === 'ERROR') {
+      if (statusSummary.status === OrderEntryStatus.Error) {
         numberOfIssues = statusSummary.numberOfIssues;
       }
     });
     return numberOfIssues;
+  }
+
+  /**
+   * Retrieves a certain issue message key depending on the number of issues for translation.
+   *
+   * @param numberOfErrors - number of errors
+   * @return {string} - the error message key
+   */
+  getIssueMessageKey(numberOfErrors: number): string {
+    if (numberOfErrors && numberOfErrors !== 0) {
+      if (numberOfErrors === 1) {
+        return 'configurator.notificationBanner.numberOfIssue';
+      } else {
+        return 'configurator.notificationBanner.numberOfIssues';
+      }
+    }
+    return '';
   }
 }

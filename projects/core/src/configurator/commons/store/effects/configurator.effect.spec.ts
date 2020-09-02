@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
@@ -200,7 +201,7 @@ describe('ConfiguratorEffect', () => {
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
       ownerKey: productConfiguration.owner.key,
-      error: makeErrorSerializable(errorResponse),
+      error: normalizeHttpError(errorResponse),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -342,7 +343,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -391,7 +392,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -524,7 +525,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
 

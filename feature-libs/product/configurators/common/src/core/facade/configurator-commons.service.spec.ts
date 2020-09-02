@@ -1,25 +1,26 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorActions } from '../store/actions/index';
+import { Store, StoreModule } from '@ngrx/store';
 import {
+  ActiveCartService,
+  Cart,
   ConfigurationState,
   CONFIGURATION_FEATURE,
+  Configurator,
+  ConfiguratorActions,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  getConfiguratorReducers,
+  StateUtils,
   StateWithConfiguration,
-} from '../store/configuration-state';
-import * as fromReducers from '../store/reducers/index';
-import { ConfiguratorSelectors } from '../store/selectors';
-import { Configurator } from './../../../model/configurator.model';
-import { productConfigurationWithConflicts } from './configuration-test-data';
+} from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
+import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT: GenericConfigurator.Owner = {};
@@ -29,18 +30,12 @@ let OWNER_ORDER_ENTRY: GenericConfigurator.Owner = {};
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
 const GROUP_ID_2 = '1234-56-7892';
-const GROUP_ID_3 = '23456-45-2';
-const GROUP_ID_31 = '23456-75-2';
-const GROUP_ID_4_ROOT = '23456-45-3';
+
 const GROUP_NAME = 'Software';
 const GROUP_NAME_2 = 'Hardware';
-const GROUP_NAME_LEVEL1_CHILD = 'Child group 1';
-const GROUP_NAME_LEVEL1_CHILD_2 = 'Child group 2';
-const GROUP_ROOT = 'Root level group';
+
 const ATTRIBUTE_NAME_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
-const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
-const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 
 const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
@@ -69,43 +64,7 @@ const group2: Configurator.Group = {
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
 
-const group31: Configurator.Group = {
-  id: GROUP_ID_31,
-  name: GROUP_NAME_LEVEL1_CHILD_2,
-  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-};
-
-const group3: Configurator.Group = {
-  id: GROUP_ID_3,
-  name: GROUP_NAME_LEVEL1_CHILD,
-  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-  subGroups: [group1, group2],
-  attributes: [
-    {
-      name: ATTRIBUTE_NAME_3_1,
-      uiType: Configurator.UiType.STRING,
-      userInput: 'input',
-    },
-    {
-      name: ATTRIBUTE_NAME_3_2,
-      uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
-    },
-  ],
-};
-
-const group4: Configurator.Group = {
-  id: GROUP_ID_4_ROOT,
-  name: GROUP_ROOT,
-  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-  subGroups: [group3, group31],
-};
-
 let productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-};
-
-let productConfigurationMultiLevel: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
@@ -120,10 +79,24 @@ const configurationState: ConfigurationState = {
 let configCartObservable;
 let configOrderObservable;
 let isStableObservable;
+let cartObs;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
     return isStableObservable;
+  }
+  getActive(): Observable<Cart> {
+    return cartObs;
+  }
+}
+
+class MockconfiguratorUtilsService {
+  createConfigurationExtract(): Configurator.Configuration {
+    return productConfiguration;
+  }
+  isConfigurationCreated(configuration: Configurator.Configuration): boolean {
+    const configId: String = configuration?.configId;
+    return configId !== undefined && configId.length !== 0;
   }
 }
 
@@ -136,31 +109,14 @@ class MockConfiguratorCartService {
   }
 }
 
-function mergeChangesAndGetFirstGroup(
-  serviceUnderTest: ConfiguratorCommonsService,
-  changedAttribute: Configurator.Attribute,
-  configuration: Configurator.Configuration
-) {
-  const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
-    changedAttribute,
-    configuration
-  );
-  expect(configurationForSendingChanges).toBeDefined();
-  const groups = configurationForSendingChanges.groups;
-  expect(groups).toBeDefined();
-  expect(groups.length).toBe(1);
-  const groupForUpdateRequest = groups[0];
-  return groupForUpdateRequest;
-}
-
 function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
   owner: GenericConfigurator.Owner
 ) {
-  const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+  const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
     value: productConfiguration,
   };
-  const productConfigurationLoaderStateChanged: LoaderState<Configurator.Configuration> = {
+  const productConfigurationLoaderStateChanged: StateUtils.LoaderState<Configurator.Configuration> = {
     value: productConfigurationChanged,
   };
   const obs = cold('x-y', {
@@ -175,20 +131,20 @@ function callGetOrCreate(
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtilsService: ConfiguratorUtilsService;
   let store: Store<StateWithConfiguration>;
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
+  const cart: Cart = {};
+  cartObs = of(cart);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers
-        ),
+        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCommonsService,
@@ -200,15 +156,26 @@ describe('ConfiguratorCommonsService', () => {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
         },
+        {
+          provide: ConfiguratorUtilsService,
+          useClass: MockconfiguratorUtilsService,
+        },
       ],
     }).compileComponents();
   }));
   beforeEach(() => {
+    configOrderObservable = of(productConfiguration);
+    configCartObservable = of(productConfiguration);
+    isStableObservable = of(true);
+
     serviceUnderTest = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
+    configuratorUtilsService = TestBed.inject(
+      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
 
     OWNER_PRODUCT = {
@@ -233,13 +200,6 @@ describe('ConfiguratorCommonsService', () => {
       groups: [group1, group2],
     };
 
-    productConfigurationMultiLevel = {
-      configId: CONFIG_ID,
-      productCode: PRODUCT_CODE,
-      owner: OWNER_PRODUCT,
-      groups: [group4],
-    };
-
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
 
@@ -251,7 +211,10 @@ describe('ConfiguratorCommonsService', () => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
+    spyOn(
+      configuratorUtilsService,
+      'createConfigurationExtract'
+    ).and.callThrough();
   });
 
   it('should create service', () => {
@@ -294,20 +257,9 @@ describe('ConfiguratorCommonsService', () => {
     expect(isLoading).toBe(false);
   });
 
-  it('should be able to get configuration from store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
-    let configurationFromStore = null;
-    store
-      .pipe(select(ConfiguratorSelectors.getConfigurationFactory(PRODUCT_CODE)))
-      .subscribe((configuration) => {
-        configurationFromStore = configuration;
-      });
-    expect(configurationFromStore).toBe(productConfiguration);
-  });
-
   it('should update a configuration, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
     );
@@ -318,21 +270,45 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
 
-    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalled();
   });
 
   it('should do nothing on update in case cart updates are pending', () => {
     isStableObservable = of(false);
+    cartObs = of(cart);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
-    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalledTimes(
-      0
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalledTimes(0);
+  });
+
+  it('should update a configuration in case no session cart is present yet, even when cart is busy', () => {
+    cart.code = undefined;
+    cartObs = of(cart);
+    isStableObservable = of(false);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
     );
+    store.dispatch(
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalled();
   });
 
   describe('getConfigurationWithOverview', () => {
@@ -374,84 +350,6 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('createConfigurationExtract', () => {
-    it('should create a new configuration object for changes received, containing one group', () => {
-      const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
-        groupId: GROUP_ID_1,
-      };
-
-      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
-        serviceUnderTest,
-        changedAttribute,
-        productConfiguration
-      );
-      expect(groupForUpdateRequest.id).toBe(GROUP_ID_1);
-      //group name not needed for update
-      expect(groupForUpdateRequest.name).toBeUndefined();
-      expect(groupForUpdateRequest.groupType).toBe(
-        Configurator.GroupType.ATTRIBUTE_GROUP
-      );
-    });
-
-    it('should be able to handle multilevel configurations as well, returning a projection of the original configuration with only the path to the changes', () => {
-      const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
-        groupId: GROUP_ID_1,
-      };
-
-      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
-        serviceUnderTest,
-        changedAttribute,
-        productConfigurationMultiLevel
-      );
-      expect(groupForUpdateRequest.id).toBe(GROUP_ID_4_ROOT);
-      expect(groupForUpdateRequest.name).toBeUndefined();
-      expect(groupForUpdateRequest.groupType).toBe(
-        Configurator.GroupType.ATTRIBUTE_GROUP
-      );
-
-      expect(groupForUpdateRequest.subGroups.length).toBe(1);
-      expect(groupForUpdateRequest.subGroups[0].subGroups.length).toBe(1);
-      expect(
-        groupForUpdateRequest.subGroups[0].subGroups[0].attributes
-      ).toEqual([changedAttribute]);
-    });
-
-    it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
-      const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
-        groupId: GROUP_ID_1,
-      };
-
-      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
-        serviceUnderTest,
-        changedAttribute,
-        productConfiguration
-      );
-      const attributes = groupForUpdateRequest.attributes;
-      expect(attributes).toBeDefined(
-        'We expect changed attributes in configuration for the update request'
-      );
-      expect(attributes.length).toBe(1);
-      expect(attributes[0]).toBe(changedAttribute);
-    });
-
-    it('should throw an error if group for change is not part of the configuration', () => {
-      const changedAttribute: Configurator.Attribute = {
-        name: ATTRIBUTE_NAME_1,
-        groupId: 'unknown',
-      };
-
-      expect(function () {
-        serviceUnderTest.createConfigurationExtract(
-          changedAttribute,
-          productConfiguration
-        );
-      }).toThrow();
-    });
-  });
-
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
@@ -466,10 +364,14 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should filter incomplete configurations from store', () => {
-      productConfigurationChanged.configId = '';
+      const productConfigIncomplete = {
+        ...productConfigurationChanged,
+        configId: '',
+      };
+
       const obs = cold('xy|', {
         x: productConfiguration,
-        y: productConfigurationChanged,
+        y: productConfigIncomplete,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
@@ -487,22 +389,11 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('getOrCreateConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
-      productConfigurationChanged.configId = CONFIG_ID;
       const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(
         cold('x-y', {
           x: productConfiguration,
           y: productConfigurationChanged,
-        })
-      );
-    });
-
-    it('should filter incomplete configurations from store', () => {
-      productConfigurationChanged.configId = '';
-      const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
-      expect(configurationObs).toBeObservable(
-        cold('x-', {
-          x: productConfiguration,
         })
       );
     });
@@ -534,7 +425,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: false,
       };
 
@@ -555,7 +446,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: true,
       };
 
@@ -574,7 +465,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if existing yet but erroneous', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         loading: false,
         error: true,
       };
@@ -591,73 +482,6 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('buildGroupPath', () => {
-    it('should create a group path for a single level model', () => {
-      const groupPath: Configurator.Group[] = [];
-      serviceUnderTest.buildGroupPath(
-        GROUP_ID_1,
-        productConfiguration.groups,
-        groupPath
-      );
-      expect(groupPath.length).toBe(1);
-      expect(groupPath[0].id).toBe(GROUP_ID_1);
-    });
-
-    it('should create an empty group path for a single level model in case ID does not match', () => {
-      const groupPath: Configurator.Group[] = [];
-      serviceUnderTest.buildGroupPath(
-        'Not known',
-        productConfiguration.groups,
-        groupPath
-      );
-      expect(groupPath.length).toBe(0);
-    });
-
-    it('should create a group path for a multi level model', () => {
-      const groupPath: Configurator.Group[] = [];
-      serviceUnderTest.buildGroupPath(
-        GROUP_ID_1,
-        productConfigurationMultiLevel.groups,
-        groupPath
-      );
-      expect(groupPath.length).toBe(
-        3,
-        'Expected path or 3 groups but was: ' + JSON.stringify(groupPath)
-      );
-      expect(groupPath[2].name).toBe(GROUP_ROOT);
-      expect(groupPath[0].name).toBe(GROUP_NAME);
-    });
-
-    it('should create an empty group path for a multi level model in case ID does not match', () => {
-      const groupPath: Configurator.Group[] = [];
-      serviceUnderTest.buildGroupPath(
-        'Not known',
-        productConfigurationMultiLevel.groups,
-        groupPath
-      );
-      expect(groupPath.length).toBe(0);
-    });
-  });
-
-  describe('isConfigurationCreated', () => {
-    it('should tell from undefined config', () => {
-      const configuration: Configurator.Configuration = undefined;
-      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
-        false
-      );
-    });
-    it('should tell from config ID', () => {
-      const configuration: Configurator.Configuration = { configId: 'a' };
-      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(true);
-    });
-    it('should tell from blank config ID', () => {
-      const configuration: Configurator.Configuration = { configId: '' };
-      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
-        false
-      );
     });
   });
 
