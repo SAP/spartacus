@@ -162,6 +162,23 @@ export class ConfiguratorCartService {
         );
       });
   }
+  /**
+   * Can be used to check if the active cart has any product configuration issues.
+   * @returns True if and only if there is at least one cart entry with product configuration issues
+   */
+  activeCartHasIssues(): Observable<boolean> {
+    return this.activeCartService.requireLoadedCart().pipe(
+      map((cartState) => cartState.value.entries),
+      map((entries) =>
+        entries
+          ? entries.filter((entry) =>
+              this.genericConfigUtilsService.getNumberOfIssues(entry)
+            )
+          : []
+      ),
+      map((entries) => entries.length > 0)
+    );
+  }
 
   protected isConfigurationCreated(
     configuration: Configurator.Configuration

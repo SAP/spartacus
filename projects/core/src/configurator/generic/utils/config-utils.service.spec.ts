@@ -3,6 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { OrderEntry } from 'projects/core/src/model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { OrderEntryStatus } from '../../../model/order.model';
 import { GenericConfigUtilsService } from './config-utils.service';
 
 const productCode = 'CONF_LAPTOP';
@@ -139,20 +140,24 @@ describe('GenericConfigUtilsService', () => {
 
   describe('Cart item issue handling', () => {
     it('should return number of issues of ERROR status', () => {
-      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+      cartItem.statusSummaryList = [
+        { numberOfIssues: 2, status: OrderEntryStatus.Error },
+      ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(2);
     });
 
     it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 1, status: 'SUCCESS' },
-        { numberOfIssues: 3, status: 'ERROR' },
+        { numberOfIssues: 1, status: OrderEntryStatus.Success },
+        { numberOfIssues: 3, status: OrderEntryStatus.Error },
       ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(3);
     });
 
     it('should return number of issues as 0 if only SUCCESS status is present', () => {
-      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'SUCCESS' }];
+      cartItem.statusSummaryList = [
+        { numberOfIssues: 2, status: OrderEntryStatus.Success },
+      ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(0);
     });
 
@@ -167,12 +172,16 @@ describe('GenericConfigUtilsService', () => {
     });
 
     it('should return true if number of issues of ERROR status is > 0', () => {
-      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+      cartItem.statusSummaryList = [
+        { numberOfIssues: 2, status: OrderEntryStatus.Error },
+      ];
       expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
     });
 
     it('should return false if number of issues of ERROR status is = 0', () => {
-      cartItem.statusSummaryList = [{ numberOfIssues: 2, status: 'SUCCESS' }];
+      cartItem.statusSummaryList = [
+        { numberOfIssues: 2, status: OrderEntryStatus.Success },
+      ];
       expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
     });
   });
