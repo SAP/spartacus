@@ -24,6 +24,9 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
+    placedOn: 'Placed on',
+    orderNumber: 'Order Number',
+    status: 'Status',
   },
   checkoutReview: {
     review: 'Review',
@@ -60,6 +63,7 @@ export const checkout = {
     noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
+    placeholder: 'Enter P.O',
     availableLabel:
       "Shipping addresses available to you depend on the cost center's unit",
   },
