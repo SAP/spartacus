@@ -8,7 +8,7 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
-    'https://localhost:9002' ||
+    'https://cpqteamserver.mo.sap.corp:39002' ||
     // 'https://dev-com-6.accdemo.b2c.ydev.hybris.com:9002' ||
     // 'https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002' ||
     // 'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com' ||
