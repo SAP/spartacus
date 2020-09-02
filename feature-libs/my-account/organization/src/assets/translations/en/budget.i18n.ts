@@ -25,6 +25,7 @@ export const budget = {
 
   create: {
     title: 'Create Budget',
+    subtitle: '',
   },
 
   messages: {

@@ -37,6 +37,7 @@ export const costCenter = {
 
   create: {
     title: 'Create Cost Center',
+    subtitle: '',
   },
 
   budget: {
