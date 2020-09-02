@@ -29,8 +29,6 @@
   a.button {
     @extend .btn, .btn-sm;
 
-    &.primary {
-    }
     &.secondary {
       @extend .btn-secondary;
     }
@@ -60,7 +58,8 @@
     color: var(--cx-color-primary);
   }
   button.button.primary,
-  button.button.disabled.primary {
+  button.button.disabled.primary,
+  button.button:active:not(:disabled):not(.disabled) {
     @extend .btn-primary;
     background-color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);

@@ -9,21 +9,26 @@
           {{ viewType + '.cardSubtitle' | cxTranslate: { name: title } }}
         </h4>
       </div>
+
       <div class="actions">
         <ng-content select="[actions]"></ng-content>
+
         <a
-          *ngIf="previous"
+          *ngIf="!!previous"
           class="link"
           routerLink="../"
           (click)="view.toggle()"
         >
-          <cx-icon type="CLOSE"></cx-icon>
+          <cx-icon
+            *ngIf="previous === true; else prevLabel"
+            type="CLOSE"
+          ></cx-icon>
+          <ng-template #prevLabel>{{ previous | cxTranslate }}</ng-template>
         </a>
       </div>
     </div>
 
     <div class="main">
-      <ng-content select="[confirmation]"></ng-content>
       <ng-content select="[main]"></ng-content>
     </div>
   </div>

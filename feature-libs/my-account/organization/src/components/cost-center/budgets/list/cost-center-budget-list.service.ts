@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Budget } from '../../../../core/model/budget.model';
 import { CostCenterService } from '../../../../core/services/cost-center.service';
-import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
+import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
@@ -15,7 +15,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterBudgetListService extends OrganizationListService<
+export class CostCenterBudgetListService extends OrganizationSubListService<
   Budget
 > {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
@@ -33,9 +33,29 @@ export class CostCenterBudgetListService extends OrganizationListService<
     code: string
   ): Observable<EntitiesModel<Budget>> {
     const config = structure.options?.pagination;
-    return this.costCenterService
-      .getBudgets(code, config)
-      .pipe(map((budgets) => this.filterSelected(budgets)));
+    const activeValues = new Map();
+    return this.costCenterService.getBudgets(code, config).pipe(
+      tap((list) => this.notify(activeValues, list.values)),
+      map((budgets) => this.filterSelected(budgets))
+    );
+  }
+
+  protected notify(list: Map<string, boolean>, values: Budget[]) {
+    values.forEach((value) => {
+      if (list.has(value.code) && list.get(value.code) !== value.selected) {
+        // this.messageService.setNotification(
+        //   value.selected
+        //     ? 'costCenter.budget.assigned'
+        //     : 'costCenter.budget.unassigned'
+        // );
+        this.notification$.next(
+          value.selected
+            ? 'costCenter.budget.assigned'
+            : 'costCenter.budget.unassigned'
+        );
+      }
+      list.set(value.code, value.selected);
+    });
   }
 
   /**

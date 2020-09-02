@@ -7,7 +7,7 @@ import {
   TableService,
   TableStructure,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
 
@@ -30,6 +30,8 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     options: { layout: TableLayout.VERTICAL_STACKED },
     lg: { options: { layout: TableLayout.VERTICAL } },
   };
+
+  notification$: Subject<any> = new Subject();
 
   /**
    * The `viewType` is used to load the proper table configuration and localizations for the view.

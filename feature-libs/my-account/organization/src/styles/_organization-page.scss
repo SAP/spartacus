@@ -19,6 +19,11 @@
   }
 }
 
+.organization {
+  // required for our ng-select components
+  position: relative;
+}
+
 /**
  * Ensure that all components will varnish in the flex flow.
  */

@@ -11,6 +11,8 @@ import { QUERY_PARAMS } from '../constants';
  */
 @Injectable()
 export abstract class CurrentOrganizationItemService<T> {
+  constructor(protected routingService: RoutingService) {}
+
   /**
    * Observes the key for the active organization item. The active key is observed
    * from the list of route parameters. The full route parameter list is evaluated,
@@ -41,8 +43,6 @@ export abstract class CurrentOrganizationItemService<T> {
     ),
     distinctUntilChanged()
   );
-
-  constructor(protected routingService: RoutingService) {}
 
   // TODO: consider to implement the method and only add a method to register the detailed route
   launchDetails(params: T): void {

@@ -132,9 +132,6 @@ export const costCenterTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-          },
           actions: {
             dataComponent: AssignBudgetCellComponent,
           },

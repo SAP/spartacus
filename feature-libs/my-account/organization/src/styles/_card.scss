@@ -2,38 +2,10 @@
   .main {
     position: relative;
   }
-  .confirmation {
-    position: absolute;
-    // top: 0;
-    // left: 0;
-    width: 100%;
-    padding: 20px 40px;
-
-    background-color: #cbe6fe;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    p {
-      flex: 100%;
-      margin-bottom: 20px;
-    }
-
-    button {
-      margin-inline-start: 20px;
-    }
-
-    button.button:not(.primary) {
-      background-color: var(--cx-color-inverse);
-      color: var(--cx-color-primary);
-    }
-    button.button.primary {
-      border-color: var(--cx-color-inverse);
-    }
-  }
 
   section {
     display: flex;
+    flex-direction: column;
     margin: 40px;
     background-color: var(--cx-color-inverse);
     border: solid 1px var(--cx-color-light);

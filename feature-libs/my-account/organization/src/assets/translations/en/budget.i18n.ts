@@ -22,6 +22,9 @@ export const budget = {
     disabledUnit: 'You cannot enable budget if unit is disabled.',
     deactivate: 'Are you sure you want to disable this budget?',
     deactivateHeader: 'Disable Budget',
+
+    confirmEnabled: 'Budget enabled successfully',
+    confirmDisabled: 'Budget disabled successfully',
   },
 
   form: {

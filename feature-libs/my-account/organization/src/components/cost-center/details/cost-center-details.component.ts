@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { first, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CostCenterService } from '../../../core/services/cost-center.service';
+import { OrganizationMessageComponent as MsgBox } from '../../shared/organization-message/organization-message.component';
 import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
@@ -12,6 +12,8 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterDetailsComponent {
+  @ViewChild(MsgBox, { read: MsgBox }) messageBox: MsgBox;
+
   /**
    * The model of the current cost center.
    *
@@ -20,23 +22,38 @@ export class CostCenterDetailsComponent {
   costCenter$: Observable<CostCenter> = this.currentCostCenterService.key$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(
     protected currentCostCenterService: CurrentCostCenterService,
-    protected costCenterService: CostCenterService,
-    // TODO: consider relying on css only
-    protected modalService: ModalService
+    protected costCenterService: CostCenterService
   ) {}
 
-  update(costCenter: CostCenter) {
-    this.costCenterService.update(costCenter.code, costCenter);
+  toggleActive(model: CostCenter) {
+    if (model.active) {
+      this.messageBox.prompt('budget.messages.deactivate');
+    } else {
+      this.update(model);
+    }
   }
 
-  openModal(template: TemplateRef<any>): void {
-    this.modalService.open(template, {
-      centered: true,
-    });
+  protected update(model: CostCenter): void {
+    const costCenter = { ...model, activeFlag: !model.active };
+    this.costCenterService.update(costCenter.code, costCenter);
+    this.confirmMessage(costCenter);
+  }
+
+  protected confirmMessage(model: CostCenter): void {
+    this.messageBox.close();
+    this.costCenter$
+      .pipe(first((update) => update.active === model.activeFlag))
+      .subscribe((update) => {
+        this.messageBox.notify(
+          update.active
+            ? 'budget.messages.confirmEnabled'
+            : 'budget.messages.confirmDisabled'
+        );
+      });
   }
 }

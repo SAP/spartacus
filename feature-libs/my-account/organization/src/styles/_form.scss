@@ -1,7 +1,5 @@
-.card .main section > * {
-  &:not(.property):not(a) {
-    display: contents;
-  }
+cx-cost-center-form {
+  display: contents;
 }
 
 .form-group {
@@ -17,13 +15,14 @@
     position: relative;
     p {
       padding-inline-start: 30px;
+      font-size: 16px;
     }
   }
 }
 
 ng-select {
   font-weight: normal;
-  .ng-select-container.ng-has-value {
+  .ng-select-container {
     // align the height of the select with buttons
     max-height: 48px;
   }

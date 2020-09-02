@@ -1,0 +1,28 @@
+<cx-organization-card [previous]="previous">
+  <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
+  <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
+
+  <cx-organization-message
+    main
+    [message]="notification$ | async"
+  ></cx-organization-message>
+
+  <section main *ngIf="dataTable$ | async as dataTable">
+    <cx-table
+      *ngIf="dataTable.data?.length > 0; else emptyList"
+      [dataset]="dataTable"
+      [currentItem]="{ property: key, value: currentKey$ | async }"
+    >
+    </cx-table>
+    <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
+      <cx-pagination
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="browse(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </div>
+  </section>
+</cx-organization-card>
+
+<ng-template #emptyList>
+  <p class="is-empty">{{ 'organization.messages.emptyList' | cxTranslate }}</p>
+</ng-template>

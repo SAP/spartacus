@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { CostCenterActions } from '../store/actions/index';
 import {
-  getCostCenter,
-  getCostCenterList,
-  getAssignedBudgets,
-} from '../store/selectors/cost-center.selector';
-import { B2BSearchConfig } from '../model/search-config';
-import {
+  AuthService,
   CostCenter,
   EntitiesModel,
-  StateWithProcess,
-  AuthService,
   StateUtils,
+  StateWithProcess,
 } from '@spartacus/core';
+import { Observable, queueScheduler } from 'rxjs';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
+import { B2BSearchConfig } from '../model/search-config';
+import { CostCenterActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getAssignedBudgets,
+  getCostCenter,
+  getCostCenterList,
+} from '../store/selectors/cost-center.selector';
 
 @Injectable()
 export class CostCenterService {
@@ -141,7 +140,7 @@ export class CostCenterService {
     );
   }
 
-  assignBudget(costCenterCode: string, budgetCode: string): void {
+  assignBudget(costCenterCode: string, budgetCode: string) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.AssignBudget({

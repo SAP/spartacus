@@ -7,7 +7,7 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationCardComponent extends OrganizationListComponent {
-  @Input() previous = true;
+  @Input() previous: boolean | string = true;
 
   title$ = this.currentService.getTitle();
 }

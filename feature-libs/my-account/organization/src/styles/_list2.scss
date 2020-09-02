@@ -1,3 +1,4 @@
+cx-organization-sub-list,
 form,
 cx-organization-view,
 cx-organization-card,
@@ -132,33 +133,40 @@ cx-organization-card-list {
 // generic table styles for both vertical and stacked tables
 %table {
   // avoid the card list to be interactive
-  .card cx-table.vertical {
+  cx-organization-sub-list cx-table.vertical {
     table {
       table-layout: auto;
-    }
-    tr:hover {
-      background: none;
-    }
-    td {
-      pointer-events: none;
-      a {
-        text-decoration: none;
-        color: var(--cx-color-text);
+      thead {
+        display: none;
       }
-      &.actions button {
-        pointer-events: initial;
+      tr {
+        :hover {
+          background: none;
+        }
+        &:focus-within {
+          outline: none;
+        }
+        td {
+          width: 100%;
+          &.actions {
+            width: auto;
+            &:last-child {
+              padding-inline-end: 30px;
+              padding-inline-start: 5px;
+            }
+          }
+          a {
+            text-decoration: none;
+            color: var(--cx-color-text);
+          }
+        }
+        th:last-child,
+        td:last-child {
+          width: auto;
+          background-image: none;
+        }
       }
     }
-    th:last-child,
-    td:last-child {
-      width: auto;
-      background-image: none;
-    }
-
-    // th:not(:last-child),
-    // td:not(:last-child) {
-    //   width: 100%;
-    // }
   }
 
   cx-table {
@@ -178,10 +186,10 @@ cx-organization-card-list {
 
       &:focus-within {
         @include visible-focus();
-
         outline-offset: -2px;
       }
     }
+
     &.vertical tr td:last-child,
     &.vertical-stacked tbody {
       // <?xml version="1.0" encoding="utf-8"?>
@@ -215,6 +223,13 @@ cx-organization-card-list {
 
     td {
       font-size: 16px;
+
+      .content-wrapper {
+        height: 74px;
+        align-items: center;
+        padding-inline-start: 30px;
+      }
+
       .text {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -261,13 +276,6 @@ cx-organization-card-list {
 }
 
 %viewHeader {
-  .actions {
-    a,
-    button {
-      text-transform: uppercase;
-    }
-  }
-
   .card {
     width: 100%;
 
@@ -298,6 +306,12 @@ cx-organization-card-list {
       }
       h4 {
         font-size: 16px;
+      }
+      .actions {
+        a,
+        button {
+          text-transform: uppercase;
+        }
       }
     }
 

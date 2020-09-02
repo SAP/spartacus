@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -9,8 +9,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationCellComponent {
-  @HostBinding('class') cls = 'content-wrapper';
-
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   get tabIndex(): number {

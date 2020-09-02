@@ -32,7 +32,7 @@ export const organization = {
     code: 'Code',
 
     back: '',
-    close: '',
+    close: 'close',
     cancel: 'Cancel',
 
     add: 'Add',

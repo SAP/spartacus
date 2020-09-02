@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -21,7 +16,7 @@ const BASE_CLASS = 'organization';
 export class OrganizationListComponent<T = any, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
 
-  @Input() domainType: string;
+  notification$: Observable<string> = this.service.notification$;
 
   constructor(
     protected service: OrganizationListService<T, P>,

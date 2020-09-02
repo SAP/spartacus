@@ -11,8 +11,8 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
+import { OrganizationMessageModule } from '../organization-message/organization-message.module';
 import { OrganizationListComponent } from './organization-list.component';
-import { OrganizationViewComponent } from './organization-view.component';
 
 @NgModule({
   imports: [
@@ -27,8 +27,10 @@ import { OrganizationViewComponent } from './organization-view.component';
     NgSelectModule,
     FormsModule,
     OutletRefModule,
+
+    OrganizationMessageModule,
   ],
-  declarations: [OrganizationListComponent, OrganizationViewComponent],
-  exports: [OrganizationListComponent, OrganizationViewComponent],
+  declarations: [OrganizationListComponent],
+  exports: [OrganizationListComponent],
 })
 export class OrganizationListModule {}

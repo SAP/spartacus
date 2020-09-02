@@ -9,21 +9,17 @@
   </a>
   <button
     actions
-    *ngIf="model.active; else disabled"
     class="button active"
-    (click)="openModal(confirmDisable)"
+    [disabled]="!model.unit?.active"
+    (click)="toggleActive(model)"
   >
-    {{ 'organization.disable' | cxTranslate }}
+    {{ 'organization.' + (model.active ? 'disable' : 'enable') | cxTranslate }}
   </button>
-  <ng-template #disabled>
-    <button
-      class="button"
-      [disabled]="!model.unit?.active"
-      (click)="update({ code: model.code, active: true })"
-    >
-      {{ 'organization.enable' | cxTranslate }}
-    </button>
-  </ng-template>
+
+  <cx-organization-message
+    main
+    (confirm)="update(model)"
+  ></cx-organization-message>
 
   <section main>
     <div class="details">
@@ -38,6 +34,16 @@
         <label>{{ 'costCenter.code' | cxTranslate }}</label>
         <span class="value">
           {{ model.code }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'costCenter.active' | cxTranslate }}</label>
+        <span class="value" [class.is-active]="model.active">
+          {{
+            (model.active ? 'organization.enabled' : 'organization.disabled')
+              | cxTranslate
+          }}
         </span>
       </div>
 

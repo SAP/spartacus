@@ -8,6 +8,7 @@ import {
   SplitViewModule,
 } from '@spartacus/storefront';
 import { OrganizationCardModule } from '../../shared';
+import { OrganizationMessageModule } from '../../shared/organization-message/organization-message.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     ConfirmModalModule,
 
     OrganizationCardModule,
+    OrganizationMessageModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],

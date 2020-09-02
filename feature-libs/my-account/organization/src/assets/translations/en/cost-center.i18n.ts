@@ -28,6 +28,10 @@ export const costCenter = {
 
     assign: 'Assign',
     assignHeader: 'Assign budgets in {{code}}',
+
+    assigned: 'Budget assigned successfully',
+    unassigned: 'Budget unassigned successfully',
+
     back: 'Back',
     instructions: {
       check: 'To assign a budget to this cost center, select its check box.',
