@@ -11,7 +11,7 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
 export class OrganizationSubListComponent extends OrganizationListComponent {
   hostClass = '';
 
-  @Input() i18NRoot: string;
+  @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 
   getRouteParam(): Observable<any> {

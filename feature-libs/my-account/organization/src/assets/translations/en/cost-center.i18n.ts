@@ -12,6 +12,10 @@ export const costCenter = {
   byCode: 'Sort by code',
   byUnitName: 'Sort by unit',
 
+  disable: {
+    confirm: 'Disable',
+  },
+
   messages: {
     deactivate: 'Are you sure you want to disable this cost center?',
     confirmEnabled: 'Cost Center enabled successfully',

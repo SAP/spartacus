@@ -25,6 +25,7 @@ export const organization = {
   organization: {
     enabled: 'Active',
     disabled: 'Disabled',
+
     enable: 'Enable',
     disable: 'Disable',
 
@@ -33,7 +34,9 @@ export const organization = {
 
     back: '',
     close: 'close',
+
     cancel: 'Cancel',
+    ok: 'Ok',
 
     add: 'Add',
     create: 'Create {{name}}',

@@ -1,10 +1,11 @@
-<cx-organization-card [previous]="previous" [i18NRoot]="i18NRoot">
+<cx-organization-card [previous]="previous" [i18nRoot]="i18nRoot">
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
 
   <cx-organization-message
     main
     [message]="notification$ | async"
+    [i18nRoot]="i18nRoot"
   ></cx-organization-message>
 
   <section main *ngIf="dataTable$ | async as dataTable">

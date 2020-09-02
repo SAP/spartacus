@@ -21,6 +21,9 @@ export class OrganizationMessageComponent {
 
   message$ = new BehaviorSubject(undefined);
 
+  @Input() i18nCancel = 'organization.cancel';
+  @Input() i18nConfirm = 'organization.ok';
+
   @Input()
   set message(value) {
     this.notify(value);
@@ -50,7 +53,7 @@ export class OrganizationMessageComponent {
     this.hide = true;
   }
 
-  handleOk() {
+  handleConfirm() {
     this.confirm.emit(true);
   }
 }

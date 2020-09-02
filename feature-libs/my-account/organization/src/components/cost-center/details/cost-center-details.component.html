@@ -1,6 +1,6 @@
 <cx-organization-card
   *ngIf="costCenter$ | async as model"
-  i18NRoot="costCenter"
+  i18nRoot="costCenter"
 >
   <a
     actions
@@ -22,6 +22,7 @@
   <cx-organization-message
     main
     (confirm)="update(model)"
+    i18nConfirm="organization.disable"
   ></cx-organization-message>
 
   <section main>
