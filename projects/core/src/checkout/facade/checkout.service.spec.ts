@@ -5,7 +5,10 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
-import { ORDER_TYPE } from '../../model/replenishment-order.model';
+import {
+  ORDER_TYPE,
+  ReplenishmentOrder,
+} from '../../model/replenishment-order.model';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
@@ -71,7 +74,7 @@ describe('CheckoutService', () => {
     }
   ));
 
-  it('should be able to get the order details', () => {
+  it('should be able to get the order details when placing an order', () => {
     store.dispatch(
       new CheckoutActions.PlaceOrderSuccess({ code: 'testOrder' })
     );
@@ -84,6 +87,30 @@ describe('CheckoutService', () => {
       })
       .unsubscribe();
     expect(orderDetails).toEqual({ code: 'testOrder' });
+  });
+
+  it('should be able to get the order details when scheduling an order', () => {
+    const mockReplenishmentOrderDetails: ReplenishmentOrder = {
+      active: true,
+      purchaseOrderNumber: 'test-po',
+      replenishmentOrderCode: 'test-repl-order',
+    };
+
+    store.dispatch(
+      new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+        mockReplenishmentOrderDetails
+      )
+    );
+
+    let orderDetails: ReplenishmentOrder;
+    service
+      .getOrderDetails()
+      .subscribe((data) => {
+        orderDetails = data;
+      })
+      .unsubscribe();
+
+    expect(orderDetails).toEqual(mockReplenishmentOrderDetails);
   });
 
   it('should be able to place order', () => {

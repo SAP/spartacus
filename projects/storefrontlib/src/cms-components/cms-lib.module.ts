@@ -39,7 +39,10 @@ import {
   NavigationModule,
   SearchBoxModule,
 } from './navigation/index';
-import { OrderConfirmationModule } from './order-confirmation/index';
+import {
+  OrderConfirmationModule,
+  ReplenishmentOrderConfirmationModule,
+} from './order-confirmation/index';
 import {
   ProductCarouselModule,
   ProductFacetNavigationModule,
@@ -107,6 +110,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
+    ReplenishmentOrderConfirmationModule,
   ],
 })
 export class CmsLibModule {}

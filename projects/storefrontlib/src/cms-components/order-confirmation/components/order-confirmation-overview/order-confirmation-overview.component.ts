@@ -9,7 +9,6 @@ import {
   CheckoutService,
   CostCenter,
   DeliveryMode,
-  Order,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
@@ -23,7 +22,7 @@ import { Card } from '../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
-  order$: Observable<Order>;
+  order$: Observable<any>;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -38,6 +37,73 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
     this.checkoutService.clearCheckoutData();
   }
 
+  getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.replenishmentNumber')
+      .pipe(
+        filter(() => Boolean(orderCode)),
+        map((textTitle) => ({
+          title: textTitle,
+          text: [orderCode],
+        }))
+      );
+  }
+
+  getReplenishmentActiveCardContent(active: boolean): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutOrderConfirmation.status'),
+      this.translation.translate('checkoutOrderConfirmation.active'),
+      this.translation.translate('checkoutOrderConfirmation.cancelled'),
+    ]).pipe(
+      map(([textTitle, textActive, textCancelled]) => ({
+        title: textTitle,
+        text: [active ? textActive : textCancelled],
+      }))
+    );
+  }
+
+  getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
+    return this.translation.translate('checkoutReview.startOn').pipe(
+      filter(() => Boolean(isoDate)),
+      map((textTitle) => {
+        const date = this.getDate(new Date(isoDate));
+
+        return {
+          title: textTitle,
+          text: [date],
+        };
+      })
+    );
+  }
+
+  getReplenishmentFrequencyCardContent(frequency: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.frequency')
+      .pipe(
+        filter(() => Boolean(frequency)),
+        map((textTitle) => ({
+          title: textTitle,
+          text: [frequency],
+        }))
+      );
+  }
+
+  getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.nextOrderDate')
+      .pipe(
+        filter(() => Boolean(isoDate)),
+        map((textTitle) => {
+          const date = this.getDate(new Date(isoDate));
+
+          return {
+            title: textTitle,
+            text: [date],
+          };
+        })
+      );
+  }
+
   getOrderCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation
       .translate('checkoutOrderConfirmation.orderNumber')
@@ -50,12 +116,18 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       );
   }
 
-  getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
+  getOrderCurrentDateCardContent(isoDate?: string): Observable<Card> {
     return this.translation
       .translate('checkoutOrderConfirmation.placedOn')
       .pipe(
         map((textTitle) => {
-          const date = this.getDate(new Date(isoDate));
+          let date: string;
+
+          if (Boolean(isoDate)) {
+            date = this.getDate(new Date(isoDate));
+          } else {
+            date = this.getDate(new Date());
+          }
 
           return {
             title: textTitle,

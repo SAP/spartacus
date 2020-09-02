@@ -14,7 +14,6 @@ export const initialState: CheckoutStepsState = {
   },
   paymentDetails: {},
   orderDetails: {},
-  replenishmentOrderDetails: {},
 };
 
 export function reducer(
@@ -116,21 +115,13 @@ export function reducer(
       return state;
     }
 
-    case CheckoutActions.PLACE_ORDER_SUCCESS: {
-      const orderDetails: Order = action.payload;
+    case CheckoutActions.PLACE_ORDER_SUCCESS:
+    case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
+      const orderDetails: Order | ReplenishmentOrder = action.payload;
 
       return {
         ...state,
         orderDetails,
-      };
-    }
-
-    case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
-      const replenishmentOrderDetails: ReplenishmentOrder = action.payload;
-
-      return {
-        ...state,
-        replenishmentOrderDetails,
       };
     }
 
