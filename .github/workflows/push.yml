@@ -21,6 +21,7 @@ jobs:
           working-directory: projects/storefrontapp-e2e-cypress
           config-file: cypress.ci.2005.json
           spec: cypress/integration/smoke/**/*
+          wait-on: http://localhost:4200
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
