@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckoutConfigService } from '../../checkout/services/index';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutConfigService } from '../../checkout/services/index';
 
 @Component({
   selector: 'cx-login-register',
@@ -16,6 +16,7 @@ export class LoginRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.checkoutConfigService.isGuestCheckout()) {
+      console.log('true');
       this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
         'forced'
       ];
