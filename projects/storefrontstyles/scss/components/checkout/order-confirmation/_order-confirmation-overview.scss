@@ -7,7 +7,7 @@
     border-style: solid;
     border-color: var(--cx-color-light);
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
       background-color: var(--cx-color-inverse);
     }
 

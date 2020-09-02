@@ -101,7 +101,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  private hasResults(results: SearchResults): boolean {
+  protected hasResults(results: SearchResults): boolean {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
@@ -109,7 +109,7 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getProductResults(
+  protected getProductResults(
     config: SearchBoxConfig
   ): Observable<ProductSearchPage> {
     if (config.displayProducts) {
@@ -123,7 +123,9 @@ export class SearchBoxComponentService {
    * Loads suggestions from the backend. In case there's no suggestion
    * available, we try to get an exact match suggestion.
    */
-  private getProductSuggestions(config: SearchBoxConfig): Observable<string[]> {
+  protected getProductSuggestions(
+    config: SearchBoxConfig
+  ): Observable<string[]> {
     if (!config.displaySuggestions) {
       return of([]);
     } else {
@@ -146,7 +148,7 @@ export class SearchBoxComponentService {
    * whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+  protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
@@ -158,7 +160,7 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getSearchMessage(config: SearchBoxConfig): Observable<string> {
+  protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),

@@ -46,7 +46,9 @@
           [content]="getOrderCodeCardContent(order?.code) | async"
         ></cx-card>
 
-        <cx-card [content]="getOrderCurrentDateCardContent() | async"></cx-card>
+        <cx-card
+          [content]="getOrderCurrentDateCardContent(order?.created) | async"
+        ></cx-card>
 
         <cx-card
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"

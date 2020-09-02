@@ -49,21 +49,6 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       );
   }
 
-  getOrderCurrentDateCardContent(): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.placedOn')
-      .pipe(
-        map((textTitle) => {
-          const date = this.getDate(new Date());
-
-          return {
-            title: textTitle,
-            text: [date],
-          };
-        })
-      );
-  }
-
   getReplenishmentActiveCardContent(active: boolean): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutOrderConfirmation.status'),
@@ -131,6 +116,27 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       );
   }
 
+  getOrderCurrentDateCardContent(isoDate?: string): Observable<Card> {
+    return this.translation
+      .translate('checkoutOrderConfirmation.placedOn')
+      .pipe(
+        map((textTitle) => {
+          let date: string;
+
+          if (Boolean(isoDate)) {
+            date = this.getDate(new Date(isoDate));
+          } else {
+            date = this.getDate(new Date());
+          }
+
+          return {
+            title: textTitle,
+            text: [date],
+          };
+        })
+      );
+  }
+
   getOrderStatusCardContent(status: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutOrderConfirmation.status'),
@@ -189,13 +195,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-        text: [
-          `${deliveryAddress.line1}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`,
-          deliveryAddress.line2
-            ? `${deliveryAddress.line2}, ${deliveryAddress.town}, ${deliveryAddress.country.isocode}`
-            : '',
-          `${deliveryAddress.country.name}, ${deliveryAddress.postalCode}`,
-        ],
+        text: [deliveryAddress.formattedAddress, deliveryAddress.country.name],
       }))
     );
   }
@@ -239,13 +239,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-        text: [
-          `${billingAddress.line1}, ${billingAddress.town}, ${billingAddress.country.isocode}`,
-          billingAddress.line2
-            ? `${billingAddress.line2}, ${billingAddress.town}, ${billingAddress.country.isocode}`
-            : '',
-          `${billingAddress.country.name}, ${billingAddress.postalCode}`,
-        ],
+        text: [billingAddress.formattedAddress, billingAddress.country.name],
       }))
     );
   }
