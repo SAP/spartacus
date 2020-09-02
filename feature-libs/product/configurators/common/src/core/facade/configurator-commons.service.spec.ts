@@ -4,6 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
+  Cart,
   ConfigurationState,
   CONFIGURATION_FEATURE,
   Configurator,
@@ -79,10 +80,14 @@ const configurationState: ConfigurationState = {
 let configCartObservable;
 let configOrderObservable;
 let isStableObservable;
+let cartObs;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
     return isStableObservable;
+  }
+  getActive(): Observable<Cart> {
+    return cartObs;
   }
 }
 
@@ -130,6 +135,11 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorFacadeUtilsService: ConfiguratorFacadeUtilsService;
   let store: Store<StateWithConfiguration>;
   let configuratorCartService: ConfiguratorCartService;
+  configOrderObservable = of(productConfiguration);
+  configCartObservable = of(productConfiguration);
+  isStableObservable = of(true);
+  const cart: Cart = {};
+  cartObs = of(cart);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -262,6 +272,8 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should update a configuration, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
     );
@@ -281,6 +293,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should do nothing on update in case cart updates are pending', () => {
     isStableObservable = of(false);
+    cartObs = of(cart);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
@@ -289,6 +302,27 @@ describe('ConfiguratorCommonsService', () => {
     expect(
       configuratorFacadeUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
+  });
+
+  it('should update a configuration in case no session cart is present yet, even when cart is busy', () => {
+    cart.code = undefined;
+    cartObs = of(cart);
+    isStableObservable = of(false);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    store.dispatch(
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+
+    expect(
+      configuratorFacadeUtilsService.createConfigurationExtract
+    ).toHaveBeenCalled();
   });
 
   describe('getConfigurationWithOverview', () => {

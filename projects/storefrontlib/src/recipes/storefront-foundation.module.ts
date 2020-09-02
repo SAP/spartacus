@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {
-  AnonymousConsentsModule,
   AuthModule,
   CartModule,
   CheckoutModule,
@@ -27,7 +26,8 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
   imports: [
     StateModule.forRoot(),
     AuthModule.forRoot(),
-    AnonymousConsentsModule.forRoot(),
+    // AnonymousConsentsModule.forRoot(),
+
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
     ConfigValidatorModule.forRoot(),
