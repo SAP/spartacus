@@ -41,12 +41,12 @@ export const costCenter = {
   },
 
   cardTitle: 'Cost Center Details',
-  cardSubtitle: 'Cost Center {{ name }}',
+  cardSubtitle: 'Cost Center: {{ name }}',
 };
 
 export const costCenterBudgets = {
   cardTitle: 'Assigned budgets',
-  cardSubtitle: 'Budget: {{ name }}',
+  cardSubtitle: 'Cost Center: {{ name }}',
   actions: '',
 };
 
