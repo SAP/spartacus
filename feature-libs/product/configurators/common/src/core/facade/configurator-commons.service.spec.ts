@@ -270,7 +270,7 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
 
     expect(
       configuratorUtilsService.createConfigurationExtract
@@ -284,7 +284,7 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
@@ -304,7 +304,7 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(PRODUCT_CODE, changedAttribute);
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
 
     expect(
       configuratorUtilsService.createConfigurationExtract

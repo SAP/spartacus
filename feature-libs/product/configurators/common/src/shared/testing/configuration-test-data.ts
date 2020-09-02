@@ -203,6 +203,7 @@ export const productConfiguration: Configurator.Configuration = {
     menuParentGroup: GROUP_ID_3,
     groupsStatus: {},
     groupsVisited: {},
+    issueNavigationDone: true,
   },
   overview: {
     groups: [
