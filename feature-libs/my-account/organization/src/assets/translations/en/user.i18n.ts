@@ -7,6 +7,7 @@ export const user = {
   firstName: 'Fist name',
   lastName: 'Last name',
   email: 'Email',
+  orgUnit: 'Unit',
   unit: 'Unit',
   roles: 'Roles',
   title: 'Title',
