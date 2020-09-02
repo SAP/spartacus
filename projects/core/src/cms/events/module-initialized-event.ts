@@ -15,7 +15,7 @@ export class ModuleInitializedEvent {
    */
   featureName?: string;
   /**
-   * Module reference fpr created ,pdi;e
+   * Reference fpr lazy loaded module instance
    */
   moduleRef: NgModuleRef<any>;
 }
