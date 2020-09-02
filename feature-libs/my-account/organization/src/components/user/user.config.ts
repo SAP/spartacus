@@ -22,6 +22,7 @@ import { UserAssignPermissionsComponent } from './permissions/assign/user-assign
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
+import { B2bIsAdminGuard } from '../../core/guards/b2b-is-admin.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -143,7 +144,7 @@ export const userCmsConfig: CmsConfig = {
           component: UserChangePasswordComponent,
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, B2bIsAdminGuard],
     },
   },
 };

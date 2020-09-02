@@ -9,6 +9,7 @@ import { OrgUnitService } from './services/org-unit.service';
 import { UserGroupService } from './services/user-group.service';
 import { OrganizationStoreModule } from './store/organization-store.module';
 import { OrganizationOccModule } from './occ/adapters/organization/organization-occ.module';
+import { B2bIsAdminGuard } from './guards/b2b-is-admin.guard';
 @NgModule({
   imports: [
     OrganizationPageMetaModule,
@@ -28,6 +29,7 @@ export class OrganizationCoreModule {
         CostCenterService,
         B2BUserService,
         OrderApprovalService,
+        B2bIsAdminGuard,
       ],
     };
   }

@@ -15,6 +15,7 @@ import { PermissionCreateComponent } from './create/permission-create.component'
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
 import { PermissionListComponent } from './list/permission-list.component';
+import { B2bIsAdminGuard } from '../../core/guards/b2b-is-admin.guard';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
 const paramsMapping: ParamsMapping = {
@@ -63,7 +64,7 @@ export const permissionCmsConfig: CmsConfig = {
           component: PermissionEditComponent,
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, B2bIsAdminGuard],
     },
   },
 };

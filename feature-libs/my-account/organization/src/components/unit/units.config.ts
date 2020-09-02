@@ -25,6 +25,7 @@ import { UnitEditComponent } from './edit/unit-edit.component';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
+import { B2bIsAdminGuard } from '../../core/guards/b2b-is-admin.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -176,7 +177,7 @@ export const unitsCmsConfig: CmsConfig = {
         },
       ],
 
-      guards: [AuthGuard],
+      guards: [AuthGuard, B2bIsAdminGuard],
     },
   },
 };
