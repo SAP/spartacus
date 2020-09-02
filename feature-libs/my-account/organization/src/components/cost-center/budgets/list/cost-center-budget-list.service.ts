@@ -43,11 +43,6 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
   protected notify(list: Map<string, boolean>, values: Budget[]) {
     values.forEach((value) => {
       if (list.has(value.code) && list.get(value.code) !== value.selected) {
-        // this.messageService.setNotification(
-        //   value.selected
-        //     ? 'costCenter.budget.assigned'
-        //     : 'costCenter.budget.unassigned'
-        // );
         this.notification$.next(
           value.selected
             ? 'costCenter.budget.assigned'

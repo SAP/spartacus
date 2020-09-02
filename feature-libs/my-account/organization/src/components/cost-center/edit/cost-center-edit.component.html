@@ -3,7 +3,7 @@
   [formGroup]="viewModel.form"
   (ngSubmit)="save(viewModel.code, viewModel.form)"
 >
-  <cx-organization-card [previous]="false">
+  <cx-organization-card [previous]="false" i18NRoot="costCenter.edit">
     <button actions class="button primary">
       {{ 'organization.save' | cxTranslate }}
     </button>

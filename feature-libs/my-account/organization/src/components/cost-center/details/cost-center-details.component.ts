@@ -32,7 +32,7 @@ export class CostCenterDetailsComponent {
 
   toggleActive(model: CostCenter) {
     if (model.active) {
-      this.messageBox.prompt('budget.messages.deactivate');
+      this.messageBox.prompt('costCenter.messages.deactivate');
     } else {
       this.update(model);
     }
@@ -51,8 +51,8 @@ export class CostCenterDetailsComponent {
       .subscribe((update) => {
         this.messageBox.notify(
           update.active
-            ? 'budget.messages.confirmEnabled'
-            : 'budget.messages.confirmDisabled'
+            ? 'costCenter.messages.confirmEnabled'
+            : 'costCenter.messages.confirmDisabled'
         );
       });
   }

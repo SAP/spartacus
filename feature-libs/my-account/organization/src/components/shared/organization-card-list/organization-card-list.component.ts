@@ -6,6 +6,4 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
   templateUrl: './organization-card-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationCardListComponent extends OrganizationListComponent {
-  title$ = this.currentService.getTitle();
-}
+export class OrganizationCardListComponent extends OrganizationListComponent {}

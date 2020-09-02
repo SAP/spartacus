@@ -1,12 +1,12 @@
 <cx-view #view>
   <div class="card">
     <div class="header">
-      <div class="title">
+      <div class="title" *ngIf="item$ | async as item">
         <h3>
-          {{ viewType + '.cardTitle' | cxTranslate }}
+          {{ i18NRoot + '.title' | cxTranslate: { item: item } }}
         </h3>
-        <h4 subtitle *ngIf="title$ | async as title">
-          {{ viewType + '.cardSubtitle' | cxTranslate: { name: title } }}
+        <h4>
+          {{ i18NRoot + '.subtitle' | cxTranslate: { item: item } }}
         </h4>
       </div>
 

@@ -66,8 +66,4 @@ export abstract class CurrentOrganizationItemService<T> {
   protected getDetailsRoute(): string {
     return;
   }
-
-  getTitle(): Observable<string> {
-    return this.item$.pipe(map((item) => item?.['name']));
-  }
 }

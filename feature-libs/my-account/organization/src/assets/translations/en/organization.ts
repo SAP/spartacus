@@ -1,5 +1,5 @@
 import { budget, budgetCostCenters } from './budget.i18n';
-import { costCenter, costCenterBudgets } from './cost-center.i18n';
+import { costCenter } from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
@@ -41,6 +41,8 @@ export const organization = {
     save: 'Save {{name}}',
     delete: 'Delete',
 
+    assign: 'Assign',
+
     manage: 'Manage',
 
     active: 'Active',
@@ -62,7 +64,6 @@ export const organization = {
 
   // sub feature labels are added below
   costCenter,
-  costCenterBudgets,
   unit,
   unitAssignRoles,
   unitAssignApprovers,
