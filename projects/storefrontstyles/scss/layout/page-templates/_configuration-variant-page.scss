@@ -1,6 +1,5 @@
 %VariantConfigurationTemplate {
-  max-width: 1140px;
-  padding: 0 0 2rem 0;
+  padding-bottom: 2rem;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -15,6 +14,16 @@
 
     cx-page-slot.VariantConfigContent {
       max-width: 70%;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    cx-page-slot.VariantConfigMenu {
+      max-width: calc(1140px * 0.3);
+    }
+
+    cx-page-slot.VariantConfigContent {
+      max-width: calc(1140px * 0.7);
     }
   }
 }
