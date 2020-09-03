@@ -5,13 +5,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import { ConfiguratorGroupUtilsService } from '../../facade/configurator-group-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions/index';
 import {
@@ -21,6 +19,7 @@ import {
 import { Configurator } from './../../../../model/configurator.model';
 import { normalizeHttpError } from './../../../../util/normalize-http-error';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
+import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -124,8 +123,8 @@ describe('ConfiguratorEffect', () => {
           useClass: MockConnector,
         },
         {
-          provide: ConfiguratorGroupUtilsService,
-          useClass: ConfiguratorGroupUtilsService,
+          provide: ConfiguratorTempUtilsService,
+          useClass: ConfiguratorTempUtilsService,
         },
       ],
     });

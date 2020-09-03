@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -18,11 +17,11 @@ import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
-import { ConfiguratorGroupUtilsService } from '../../facade/configurator-group-utils.service';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
 import { normalizeHttpError } from './../../../../util/normalize-http-error';
+import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
 
 @Injectable()
 /**
@@ -535,7 +534,7 @@ export class ConfiguratorEffects {
     protected actions$: Actions,
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
     protected genericConfigUtilsService: GenericConfigUtilsService,
-    protected configuratorGroupUtilsService: ConfiguratorGroupUtilsService,
+    protected configuratorGroupUtilsService: ConfiguratorTempUtilsService,
     protected store: Store<StateWithConfiguration>
   ) {}
 }
