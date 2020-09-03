@@ -5,19 +5,21 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
-  ConfigurationState,
-  CONFIGURATION_FEATURE,
   Configurator,
-  ConfiguratorActions,
   GenericConfigurator,
   GenericConfigUtilsService,
-  getConfiguratorReducers,
   StateUtils,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
+import { ConfiguratorActions } from './../state/actions/index';
+import {
+  ConfigurationState,
+  CONFIGURATION_FEATURE,
+  StateWithConfiguration,
+} from './../state/configuration-state';
+import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';

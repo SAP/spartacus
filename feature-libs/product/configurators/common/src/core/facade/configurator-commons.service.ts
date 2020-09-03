@@ -3,14 +3,14 @@ import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
   Configurator,
-  ConfiguratorActions,
-  ConfiguratorSelectors,
   GenericConfigurator,
   GenericConfigUtilsService,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { ConfiguratorActions } from './../state/actions/index';
+import { StateWithConfiguration } from './../state/configuration-state';
+import { ConfiguratorSelectors } from './../state/selectors/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 

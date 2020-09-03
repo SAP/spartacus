@@ -2,23 +2,25 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromReducers from '@spartacus/core';
 import {
   ActiveCartService,
   Cart,
-  CONFIGURATION_FEATURE,
   Configurator,
-  ConfiguratorActions,
   GenericConfigurator,
   GenericConfigUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
   StateUtils,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorActions } from './../state/actions/index';
+import {
+  CONFIGURATION_FEATURE,
+  StateWithConfiguration,
+} from './../state/configuration-state';
+import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
@@ -82,10 +84,7 @@ describe('ConfiguratorCartService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers
-        ),
+        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCartService,

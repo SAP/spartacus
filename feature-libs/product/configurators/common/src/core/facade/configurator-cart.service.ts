@@ -3,17 +3,17 @@ import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
   Configurator,
-  ConfiguratorActions,
-  ConfiguratorSelectors,
   GenericConfigurator,
   GenericConfigUtilsService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithConfiguration,
   StateWithMultiCart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
+import { ConfiguratorActions } from './../state/actions/index';
+import { StateWithConfiguration } from './../state/configuration-state';
+import { ConfiguratorSelectors } from './../state/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
