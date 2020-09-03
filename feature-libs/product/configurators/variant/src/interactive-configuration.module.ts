@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
-  CommonConfiguratorComponentsModule,
-  ConfigAddToCartButtonComponent,
-  ConfigGroupMenuComponent,
+  CommonConfiguratorModule,
   ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
@@ -20,7 +18,7 @@ import {
 @NgModule({
   imports: [
     ProductModule,
-    CommonConfiguratorComponentsModule,
+    CommonConfiguratorModule,
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
@@ -31,14 +29,6 @@ import {
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        VariantConfigurationMenu: {
-          component: ConfigGroupMenuComponent,
-        },
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
-        },
-      },
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {

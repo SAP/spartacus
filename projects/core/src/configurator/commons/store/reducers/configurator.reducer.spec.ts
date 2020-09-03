@@ -26,6 +26,7 @@ const configuration: Configurator.Configuration = {
     groupsStatus: {},
     groupsVisited: {},
     menuParentGroup: null,
+    issueNavigationDone: true,
   },
 };
 const CURRENT_GROUP = 'currentGroupId';
@@ -52,6 +53,21 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(configuration);
       expect(state.interactionState.currentGroup).toEqual(
         configuration.groups[0].id
+      );
+    });
+    it('should set current group if not present', () => {
+      const configurationWithoutCurrentGroup: Configurator.Configuration = {
+        configId: configuration.configId,
+        owner: configuration.owner,
+        flatGroups: configuration.groups,
+      };
+      const action = new ConfiguratorActions.CreateConfigurationSuccess(
+        configurationWithoutCurrentGroup
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.interactionState.currentGroup).toEqual(
+        configurationWithoutCurrentGroup.flatGroups[0].id
       );
     });
   });

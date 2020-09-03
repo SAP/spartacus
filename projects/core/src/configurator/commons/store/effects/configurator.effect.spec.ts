@@ -4,20 +4,23 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as ngrxStore from '@ngrx/store';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions/index';
-import { CONFIGURATION_FEATURE } from '../configuration-state';
+import {
+  CONFIGURATION_FEATURE,
+  StateWithConfiguration,
+} from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
 import { normalizeHttpError } from './../../../../util/normalize-http-error';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
+import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -37,7 +40,8 @@ let productConfiguration: Configurator.Configuration = {
   configId: 'a',
 };
 
-let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {};
+let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters;
+
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
@@ -63,6 +67,7 @@ describe('ConfiguratorEffect', () => {
   let overviewMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
   let configuratorUtils: GenericConfigUtilsService;
+  let store: Store<StateWithConfiguration>;
 
   let actions$: Observable<any>;
 
@@ -117,6 +122,10 @@ describe('ConfiguratorEffect', () => {
           provide: ConfiguratorCommonsConnector,
           useClass: MockConnector,
         },
+        {
+          provide: ConfiguratorTempUtilsService,
+          useClass: ConfiguratorTempUtilsService,
+        },
       ],
     });
 
@@ -126,6 +135,7 @@ describe('ConfiguratorEffect', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
 
     owner = {
       type: GenericConfigurator.OwnerType.PRODUCT,
@@ -161,6 +171,7 @@ describe('ConfiguratorEffect', () => {
       userId: userId,
       cartId: cartId,
       configuration: productConfiguration,
+      cartEntryNumber: entryNumber.toString(),
     };
     configuratorUtils.setOwnerKey(owner);
   });
@@ -202,7 +213,7 @@ describe('ConfiguratorEffect', () => {
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
       ownerKey: productConfiguration.owner.key,
-      error: makeErrorSerializable(errorResponse),
+      error: normalizeHttpError(errorResponse),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -450,7 +461,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -499,7 +510,7 @@ describe('ConfiguratorEffect', () => {
       const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -512,7 +523,7 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect updateConfigurationSuccess', () => {
-    it('should raise UpdateConfigurationFinalize on UpdateConfigurationSuccess in case no changes are pending', () => {
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup in case no changes are pending', () => {
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         payloadInput
@@ -523,16 +534,45 @@ describe('ConfiguratorEffect', () => {
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
         productConfiguration
       );
-      const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup({
-        entityKey: productConfiguration.owner.key,
-        currentGroup: groupId,
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: groupId,
+        parentGroupId: undefined,
       });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: setCurrentGroup,
+        d: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should not raise ChangeGroup in case current group does not change', () => {
+      store.dispatch(
+        new ConfiguratorActions.SetCurrentGroup({
+          entityKey: productConfiguration.owner.key,
+          currentGroup: productConfiguration.groups[0].id,
+        })
+      );
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        productConfiguration
+      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
+        productConfiguration
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: finalizeSuccess,
+        c: updatePrices,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -632,7 +672,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: makeErrorSerializable(errorResponse),
+          error: normalizeHttpError(errorResponse),
         }
       );
 
@@ -692,9 +732,13 @@ describe('ConfiguratorEffect', () => {
         ownerKey: owner.key,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntryFail = new CartActions.CartAddEntryFail(
-        makeErrorSerializable(errorResponse)
-      );
+      const cartAddEntryFail = new CartActions.CartAddEntryFail({
+        userId,
+        cartId,
+        productCode,
+        quantity,
+        error: normalizeHttpError(errorResponse),
+      });
 
       actions$ = hot('-a', { a: action });
 
@@ -731,9 +775,13 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
       );
-      const cartAddEntryFail = new CartActions.CartUpdateEntryFail(
-        makeErrorSerializable(errorResponse)
-      );
+      const cartAddEntryFail = new CartActions.CartUpdateEntryFail({
+        userId,
+        cartId,
+        entryNumber: entryNumber.toString(),
+        quantity: 1,
+        error: normalizeHttpError(errorResponse),
+      });
 
       actions$ = hot('-a', { a: action });
 

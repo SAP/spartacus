@@ -5,8 +5,6 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
@@ -27,6 +25,8 @@ import { ConfigAttributeMultiSelectionImageComponent } from '../config-attribute
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -96,7 +96,7 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
   updateConfiguration(): void {}
 
-  isConfigurationLoading(): Observable<Boolean> {
+  isConfigurationLoading(): Observable<boolean> {
     return isConfigurationLoadingObservable;
   }
   hasConflicts(): Observable<boolean> {
@@ -376,8 +376,8 @@ describe('ConfigurationFormComponent', () => {
   it('check update configuration', () => {
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
     isConfigurationLoadingObservable = cold('xy', {
-      x: Boolean(true),
-      y: Boolean(false),
+      x: true,
+      y: false,
     });
     routerStateObservable = of(mockRouterState);
     const fixture = TestBed.createComponent(ConfigFormComponent);
