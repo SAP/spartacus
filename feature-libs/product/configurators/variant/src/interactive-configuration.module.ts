@@ -22,8 +22,11 @@ import {
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-        data: { pageLabel: '/configureCPQCONFIGURATOR' },
+        path: null,
+        data: {
+          pageLabel: '/configureCPQCONFIGURATOR',
+          cxRoute: 'configureCPQCONFIGURATOR',
+        },
         component: PageLayoutComponent,
         canActivate: [CmsPageGuard],
       },

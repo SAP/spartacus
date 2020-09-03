@@ -15,17 +15,12 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     CommonConfiguratorModule,
     RouterModule.forChild([
       {
-        path:
-          'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',
+        path: null,
         component: PageLayoutComponent,
-        data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
-        canActivate: [CmsPageGuard],
-      },
-      {
-        path:
-          'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-        component: PageLayoutComponent,
-        data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
+        data: {
+          pageLabel: '/configureOverviewCPQCONFIGURATOR',
+          cxRoute: 'configureOverviewCPQCONFIGURATOR',
+        },
         canActivate: [CmsPageGuard],
       },
     ]),

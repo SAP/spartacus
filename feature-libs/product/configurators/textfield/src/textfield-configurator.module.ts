@@ -18,9 +18,12 @@ import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-c
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'configureTEXTFIELD/:ownerType/entityKey/:entityKey',
+        path: null,
         component: PageLayoutComponent,
-        data: { pageLabel: '/configureTEXTFIELD' },
+        data: {
+          pageLabel: '/configureTEXTFIELD',
+          cxRoute: 'configureTEXTFIELD',
+        },
         canActivate: [CmsPageGuard],
       },
     ]),
