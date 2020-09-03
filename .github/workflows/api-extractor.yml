@@ -1,0 +1,12 @@
+on: push
+name: API extractor
+jobs:
+  breakingChangeDetectionBot:
+    name: Breaking change detection bot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Breaking change detection bot
+        uses: ./.github/api-extractor-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
