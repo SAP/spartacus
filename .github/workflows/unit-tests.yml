@@ -1,0 +1,14 @@
+on: push
+name: Spartacus github actions
+jobs:
+  unitTests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.6.0-chrome77
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@master
+      - name: Run unit tests
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./build.sh sonar
