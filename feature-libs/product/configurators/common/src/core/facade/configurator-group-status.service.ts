@@ -72,22 +72,14 @@ export class ConfiguratorGroupStatusService {
       .find((group) => !this.checkIsGroupComplete(group));
   }
 
-  /**
-   * Checks if group is complete
-   * @param group
-   * @return {boolean} - Complete?
-   */
-  checkIsGroupComplete(group: Configurator.Group): boolean {
-    let isGroupComplete = true;
-
-    //Only required attributes need to be checked
-    group.attributes.forEach((attribute) => {
-      if (attribute.required && isGroupComplete && attribute.incomplete) {
-        isGroupComplete = false;
-      }
-    });
-
-    return isGroupComplete;
+  checkIsGroupComplete(group: Configurator.Group): Boolean {
+    return group.attributes
+      ? group.attributes.filter(
+          (attribute) =>
+            attribute.hasConflicts ||
+            (attribute.required && attribute.incomplete)
+        ).length === 0
+      : true;
   }
 
   /**
