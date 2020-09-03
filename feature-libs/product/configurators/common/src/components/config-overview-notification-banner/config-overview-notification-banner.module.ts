@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { GenericConfiguratorModule, IconModule } from '@spartacus/storefront';
@@ -18,7 +18,9 @@ import { ConfigOverviewNotificationBannerComponent } from './config-overview-not
     IconModule,
     RouterModule,
     GenericConfiguratorModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationOverviewBanner: {
           component: ConfigOverviewNotificationBannerComponent,

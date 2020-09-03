@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfigAttributeFooterModule } from './../config-attribute/config-attribute-footer/config-attribute-footer.module';
 import { ConfigAttributeHeaderModule } from './../config-attribute/config-attribute-header/config-attribute-header.module';
 import { ConfigAttributeCheckboxListModule } from './../config-attribute/config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.module';
@@ -39,7 +39,9 @@ import { ConfigFormComponent } from './config-form.component';
     ConfigAttributeMultiSelectionImageModule,
     ConfigConflictDescriptionModule,
     ConfigConflictSuggestionModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationForm: {
           component: ConfigFormComponent,

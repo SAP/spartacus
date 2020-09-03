@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
@@ -15,21 +15,18 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     CommonConfiguratorModule,
     RouterModule.forChild([
       {
-        path:
-          'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',
+        path: null,
         component: PageLayoutComponent,
-        data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
-        canActivate: [CmsPageGuard],
-      },
-      {
-        path:
-          'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-        component: PageLayoutComponent,
-        data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
+        data: {
+          pageLabel: '/configureOverviewCPQCONFIGURATOR',
+          cxRoute: 'configureOverviewCPQCONFIGURATOR',
+        },
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {

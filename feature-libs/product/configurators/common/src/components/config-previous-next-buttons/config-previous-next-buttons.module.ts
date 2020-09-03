@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    KeyboardFocusModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, I18nModule, KeyboardFocusModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationPrevNext: {
           component: ConfigPreviousNextButtonsComponent,
