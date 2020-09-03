@@ -22,4 +22,4 @@ jobs:
         with:
           args: >
             -Dsonar.organization=sap
-            -Dsonar.projectKey=cloud-commerce-spartacus-storefront
+            -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront
