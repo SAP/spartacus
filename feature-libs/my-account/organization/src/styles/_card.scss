@@ -14,14 +14,12 @@
   .header {
     display: flex;
     justify-content: space-between;
-    background-color: var(--cx-color-background);
+    background-color: var(--cx-color-inverse);
     border-bottom: solid 1px var(--cx-color-light);
     padding: 40px 30px 20px;
-    height: 130px;
-
-    background: var(--cx-color-back);
 
     @include media-breakpoint-up(md) {
+      height: 130px;
       align-items: center;
     }
 
@@ -48,10 +46,14 @@
     }
     .actions {
       display: flex;
+      align-items: baseline;
       a,
       button {
         text-transform: uppercase;
-        margin-inline-start: 10px;
+
+        @include media-breakpoint-up(md) {
+          margin-inline-start: 10px;
+        }
       }
     }
 

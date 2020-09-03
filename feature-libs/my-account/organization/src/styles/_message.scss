@@ -10,6 +10,9 @@
     .message {
       padding: 20px 40px;
       display: flex;
+      p {
+        margin: 0;
+      }
     }
 
     &.prompt {
