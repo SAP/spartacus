@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { ConfigTextfieldFormComponent } from './components/config-textfield-form/config-textfield-form.component';
 import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
@@ -27,7 +27,9 @@ import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-c
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         TextfieldConfigurationForm: {
           component: ConfigTextfieldFormComponent,

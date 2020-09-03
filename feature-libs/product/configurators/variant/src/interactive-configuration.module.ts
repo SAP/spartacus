@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ProductModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   CommonConfiguratorModule,
   ConfigurationMessageLoaderModule,
@@ -31,7 +35,10 @@ import {
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+    HamburgerMenuModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {
@@ -80,7 +87,6 @@ import {
         },
       },
     }),
-    HamburgerMenuModule,
   ],
 })
 export class InteractiveConfigurationModule {}

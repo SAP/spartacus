@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ConfigTabBarComponent } from './config-tab-bar.component';
@@ -20,7 +20,9 @@ import { ConfigTabBarComponent } from './config-tab-bar.component';
     I18nModule,
     UrlModule,
     RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
