@@ -13,8 +13,4 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
     },
   ],
 })
-export class BudgetCostCenterListComponent {
-  constructor() {
-    console.log('cost center...');
-  }
-}
+export class BudgetCostCenterListComponent {}

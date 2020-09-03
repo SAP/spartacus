@@ -163,22 +163,25 @@ cx-organization-card-list {
 
   cx-table {
     width: 100%;
-    &.vertical-stacked tbody,
-    &.vertical tr {
-      // highlight the items on hovering
-      &:hover:not(.is-current) {
-        background-color: var(--cx-color-background);
-      }
-      // highlight current items
-      &.is-current {
-        outline: solid 3px var(--cx-color-primary);
-        outline-offset: -3px;
-        background: var(--cx-color-background-focus);
-      }
 
-      &:focus-within {
-        @include visible-focus();
-        outline-offset: -2px;
+    .list {
+      &.vertical-stacked tbody,
+      &.vertical tr {
+        // highlight the items on hovering
+        &:hover:not(.is-current) {
+          background-color: var(--cx-color-background);
+        }
+        // highlight current items
+        &.is-current {
+          outline: solid 3px var(--cx-color-primary);
+          outline-offset: -3px;
+          background: var(--cx-color-background-focus);
+        }
+
+        &:focus-within {
+          @include visible-focus();
+          outline-offset: -2px;
+        }
       }
     }
 

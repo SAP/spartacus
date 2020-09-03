@@ -4,11 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  SplitViewDeactivateGuard,
-  TableConfig,
-  TableLayout,
-} from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
@@ -130,14 +126,6 @@ export const budgetTableConfig: TableConfig = {
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
       cells: ['name'],
-      options: {
-        layout: TableLayout.VERTICAL,
-        cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-        },
-      },
     },
   },
 };
