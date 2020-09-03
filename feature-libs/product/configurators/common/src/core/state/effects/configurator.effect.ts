@@ -23,7 +23,7 @@ import {
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
 import * as ConfiguratorSelectors from '../selectors/configurator.selector';
-import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
+import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 
 @Injectable()
 /**
@@ -536,7 +536,7 @@ export class ConfiguratorEffects {
     protected actions$: Actions,
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
     protected genericConfigUtilsService: GenericConfigUtilsService,
-    protected configuratorGroupUtilsService: ConfiguratorTempUtilsService,
+    protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfiguration>
   ) {}
 }

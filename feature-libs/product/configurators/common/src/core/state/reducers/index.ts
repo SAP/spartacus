@@ -4,6 +4,8 @@ import { Configurator, StateUtils } from '@spartacus/core';
 import { ConfigurationState, CONFIGURATION_DATA } from '../configuration-state';
 import * as StateReduce from './configurator.reducer';
 
+export { reducer as ɵconfiguratorReducer } from './configurator.reducer';
+
 export function getConfiguratorReducers(): ActionReducerMap<
   ConfigurationState
 > {

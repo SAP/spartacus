@@ -22,7 +22,7 @@ import {
   StateWithConfiguration,
 } from '../configuration-state';
 import * as fromConfigurationReducers from '../reducers/index';
-import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
+import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -125,8 +125,8 @@ describe('ConfiguratorEffect', () => {
           useClass: MockConnector,
         },
         {
-          provide: ConfiguratorTempUtilsService,
-          useClass: ConfiguratorTempUtilsService,
+          provide: ConfiguratorUtilsService,
+          useClass: ConfiguratorUtilsService,
         },
       ],
     });
