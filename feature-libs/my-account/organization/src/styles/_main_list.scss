@@ -1,3 +1,32 @@
+// .organization {
+// //   cx-split-view:not([active-view='1']) .list table {
+// //     th,
+// //     td {
+// //       // common
+// //       &.active,
+// //       // budget
+// //       &.amount,
+// //       &.dateRange,
+// //       // cost center
+// //       &.currency
+// //       //
+// //       {
+// //         opacity: 0;
+// //         width: 0.1%;
+// //       }
+// //       // let's make status column smaller
+// //     }
+// //   }
+// //   // .list table {
+// //   //   th,
+// //   //   td {
+// //   //     &.active {
+// //   //       width: 100px;
+// //   //     }
+// //   //   }
+// //   // }
+// // }
+
 .organization {
   cx-split-view:not([active-view='1']) > cx-view > cx-table > table {
     th,

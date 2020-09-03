@@ -161,10 +161,8 @@ cx-organization-card-list {
     }
   }
 
-  cx-table {
-    width: 100%;
-
-    .list {
+  .list {
+    cx-table {
       &.vertical-stacked tbody,
       &.vertical tr {
         // highlight the items on hovering
@@ -184,6 +182,10 @@ cx-organization-card-list {
         }
       }
     }
+  }
+
+  cx-table {
+    width: 100%;
 
     &.vertical tr td:last-child,
     &.vertical-stacked tbody {
@@ -195,7 +197,14 @@ cx-organization-card-list {
       background-repeat: no-repeat;
       background-size: 12px;
       background-position: calc(100% - 26px) 50%;
+
+      // padding-inline-end: 40px;
     }
+
+    td:last-child {
+      padding-inline-end: 40px;
+    }
+
     &.vertical-stacked tbody {
       display: table;
     }

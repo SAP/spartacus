@@ -54,6 +54,9 @@
         @include media-breakpoint-up(md) {
           margin-inline-start: 10px;
         }
+        @include media-breakpoint-down(sm) {
+          margin-inline-end: 10px;
+        }
       }
     }
 
