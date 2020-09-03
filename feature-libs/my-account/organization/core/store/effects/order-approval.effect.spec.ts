@@ -15,12 +15,12 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 import createSpy = jasmine.createSpy;
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
-import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { OrderApprovalConnector } from '@spartacus/my-account/organization/core';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 const httpErrorResponse = new HttpErrorResponse({

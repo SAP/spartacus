@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { Budget } from '../../../../core/model/budget.model';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { CurrentBudgetService } from '../../current-budget.service';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';

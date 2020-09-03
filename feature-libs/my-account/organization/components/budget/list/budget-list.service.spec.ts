@@ -4,8 +4,7 @@ import { EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BudgetListService } from './budget-list.service';
-import { BudgetService } from '../../../core/services/budget.service';
-import { Budget } from '../../../core/model/budget.model';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 
 const mockBudgetEntities: EntitiesModel<Budget> = {
   values: [

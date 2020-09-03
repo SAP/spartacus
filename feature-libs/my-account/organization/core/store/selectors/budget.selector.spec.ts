@@ -10,7 +10,7 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
-import { Budget } from '../../model/budget.model';
+import { Budget } from '@spartacus/my-account/organization/core';
 
 describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;

@@ -14,7 +14,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { PermissionService } from '../../../core/services/permission.service';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 import { CurrentPermissionService } from '../current-permission.service';
 import {
   PermissionFormService,

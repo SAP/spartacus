@@ -12,7 +12,7 @@ import {
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 
 import createSpy = jasmine.createSpy;
-import { B2BSearchConfig } from '../../../model';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
   B2BUNIT_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -21,7 +21,7 @@ import {
   B2B_USERS_NORMALIZER,
   B2B_ADDRESS_LIST_NORMALIZER,
   B2B_ADDRESS_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 
 const orgUnitId = 'testId';
 const userId = 'userId';

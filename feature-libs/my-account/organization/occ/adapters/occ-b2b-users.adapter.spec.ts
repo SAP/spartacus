@@ -11,13 +11,13 @@ import {
 } from '@spartacus/core';
 
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
-import { B2BSearchConfig } from '../../../model';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';

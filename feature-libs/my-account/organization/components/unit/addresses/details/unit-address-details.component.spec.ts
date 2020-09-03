@@ -6,7 +6,7 @@ import { I18nTestingModule, RoutingService, B2BAddress } from '@spartacus/core';
 import { CurrentUnitAddressService } from './current-unit-address.service';
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import { CurrentUnitService } from '../../current-unit.service';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { ModalService } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';

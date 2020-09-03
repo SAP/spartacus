@@ -9,15 +9,15 @@ import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 import { OccConfig, normalizeHttpError } from '@spartacus/core';
 import * as fromEffects from './user-group.effect';
-import { B2BSearchConfig } from '../../model/search-config';
-import { UserGroup } from '../../model/user-group.model';
-import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import { UserGroup } from '@spartacus/my-account/organization/core';
+import { UserGroupConnector } from '@spartacus/my-account/organization/core';
 import {
   UserGroupActions,
   PermissionActions,
   B2BUserActions,
 } from '../actions';
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 const httpErrorResponse = new HttpErrorResponse({

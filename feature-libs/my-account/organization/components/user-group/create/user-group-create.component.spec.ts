@@ -8,7 +8,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroupService } from '../../../core/services/user-group.service';
+import { UserGroupService } from '@spartacus/my-account/organization/core';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { UserGroupCreateComponent } from './user-group-create.component';
 import createSpy = jasmine.createSpy;

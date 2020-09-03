@@ -16,7 +16,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { Component, Input } from '@angular/core';
-import { OrgUnitService } from '@spartacus/my-account/organization';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 
 const orgUnitId = 'orgUnitId1';
 

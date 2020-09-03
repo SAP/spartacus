@@ -3,15 +3,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { B2BUser, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitUserListComponent } from './unit-user-list.component';
-import {
-  CurrentUnitService,
-  UnitUsersService,
-} from '@spartacus/my-account/organization';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import createSpy = jasmine.createSpy;
 import { TableModule } from '@spartacus/storefront';
+import { CurrentUnitService } from '../../current-unit.service';
+import { UnitUsersService } from '../../users/list/unit-users.service';
 
 const code = 'code1';
 const customerId = 'customerId1';

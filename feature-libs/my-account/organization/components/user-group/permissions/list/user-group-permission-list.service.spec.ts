@@ -5,7 +5,7 @@ import { Permission, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
-import { UserGroupService } from '../../../../core/services/user-group.service';
+import { UserGroupService } from '@spartacus/my-account/organization/core';
 
 const mockUserGroupPermissionEntities: EntitiesModel<Permission> = {
   values: [

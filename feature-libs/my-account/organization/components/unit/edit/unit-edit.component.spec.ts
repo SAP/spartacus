@@ -4,14 +4,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { UnitEditComponent } from './unit-edit.component';
 import createSpy = jasmine.createSpy;
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UnitFormService } from '../form/unit-form.service';
-import { CurrentUnitService } from '@spartacus/my-account/organization';
+import { CurrentUnitService } from '../current-unit.service';
 
 const code = 'b1';
 

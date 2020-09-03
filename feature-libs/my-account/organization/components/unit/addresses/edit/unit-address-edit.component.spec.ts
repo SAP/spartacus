@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { CurrentUnitService } from '../../current-unit.service';
 import { CurrentUnitAddressService } from '../details/current-unit-address.service';
 import { UnitAddressFormService } from '../form';

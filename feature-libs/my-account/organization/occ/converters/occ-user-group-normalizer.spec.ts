@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { UserGroup } from '../../../../model/user-group.model';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { OccUserGroupNormalizer } from './occ-user-group-normalizer';
 import { OccConfig, Occ } from '@spartacus/core';
 

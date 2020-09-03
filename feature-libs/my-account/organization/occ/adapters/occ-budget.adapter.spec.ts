@@ -8,7 +8,10 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
 import createSpy = jasmine.createSpy;
-import { BUDGET_NORMALIZER, BUDGETS_NORMALIZER } from '../../../connectors';
+import {
+  BUDGET_NORMALIZER,
+  BUDGETS_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
 
 const budgetCode = 'testCode';
 const userId = 'userId';

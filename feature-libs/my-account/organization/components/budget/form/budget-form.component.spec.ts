@@ -9,8 +9,8 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrgUnitService } from '../../..';
 import { BudgetFormComponent } from './budget-form.component';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 
 const mockForm = new FormGroup({
   name: new FormControl(),

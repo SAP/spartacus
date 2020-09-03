@@ -5,7 +5,7 @@ import createSpy = jasmine.createSpy;
 
 import { CostCenterAdapter } from './cost-center.adapter';
 import { CostCenterConnector } from './cost-center.connector';
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 
 const userId = 'userId';
 const costCenterCode = 'costCenterCode';

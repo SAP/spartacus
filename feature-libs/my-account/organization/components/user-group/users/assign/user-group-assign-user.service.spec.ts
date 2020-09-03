@@ -5,7 +5,7 @@ import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignUserService } from './user-group-assign-user.service';
-import { UserGroupService } from '../../../../core/services/user-group.service';
+import { UserGroupService } from '@spartacus/my-account/organization/core';
 
 const mockUserEntities: EntitiesModel<B2BUser> = {
   values: [

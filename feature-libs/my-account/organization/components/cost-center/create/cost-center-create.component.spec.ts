@@ -8,7 +8,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CostCenterService } from '../../../core/services/cost-center.service';
+import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CostCenterCreateComponent } from './cost-center-create.component';
 

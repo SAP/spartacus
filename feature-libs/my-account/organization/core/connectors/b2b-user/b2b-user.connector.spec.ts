@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 
 import { B2BUser, Permission } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { UserGroup } from '../../model/user-group.model';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { B2BUserAdapter } from './b2b-user.adapter';
 import { B2BUserConnector } from './b2b-user.connector';
 

@@ -12,7 +12,7 @@ import createSpy = jasmine.createSpy;
 import {
   PERMISSION_NORMALIZER,
   PERMISSIONS_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 
 const orderApprovalPermissionCode = 'testCode';
 const userId = 'userId';

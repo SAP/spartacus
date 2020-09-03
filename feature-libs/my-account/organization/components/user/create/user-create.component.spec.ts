@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { UserCreateComponent } from './user-create.component';
 import { By } from '@angular/platform-browser';
 import { UserFormService } from '../form/user-form.service';
-import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';

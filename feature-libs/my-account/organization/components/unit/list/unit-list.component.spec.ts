@@ -5,7 +5,7 @@ import {
   I18nTestingModule,
   SemanticPathService,
 } from '@spartacus/core';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { UnitListComponent } from './unit-list.component';
 import createSpy = jasmine.createSpy;
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';

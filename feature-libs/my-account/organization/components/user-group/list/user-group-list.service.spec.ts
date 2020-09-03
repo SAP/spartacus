@@ -4,8 +4,11 @@ import { EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupListService } from './user-group-list.service';
-import { UserGroup } from '../../../core/model/user-group.model';
-import { UserGroupService } from '../../../core/services/user-group.service';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
+
 const uid = 'userGroup';
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {
   values: [

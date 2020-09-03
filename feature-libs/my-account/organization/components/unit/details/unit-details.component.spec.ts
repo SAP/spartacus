@@ -10,7 +10,7 @@ import { CurrentUnitService } from '../current-unit.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { OrgUnitService } from '@spartacus/my-account/organization';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 
 const mockUnit = {
   uid: 'uid1',

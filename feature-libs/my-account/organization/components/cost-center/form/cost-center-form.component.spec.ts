@@ -11,7 +11,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;

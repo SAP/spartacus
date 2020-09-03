@@ -8,7 +8,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { B2BUserService } from '../../../core/services/b2b-user.service';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { CurrentUserService } from '../current-user.service';
 import { UserDetailsComponent } from './user-details.component';
 

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import createSpy = jasmine.createSpy;
 
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import { UserGroupAdapter } from './user-group.adapter';
 import { UserGroupConnector } from './user-group.connector';
 

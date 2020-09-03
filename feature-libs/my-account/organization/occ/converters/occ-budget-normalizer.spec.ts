@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { Budget } from '../../../../model/budget.model';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { OccBudgetNormalizer } from './occ-budget-normalizer';
 import { Occ, OccConfig } from '@spartacus/core';
 

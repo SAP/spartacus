@@ -6,7 +6,7 @@ import { B2BUnitNode, I18nTestingModule, UserService } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { UserFormComponent } from './user-form.component';
 import createSpy = jasmine.createSpy;
 

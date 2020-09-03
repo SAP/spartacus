@@ -11,9 +11,9 @@ import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/compon
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
-import { UnitRoleType } from '@spartacus/my-account/organization';
 
 import createSpy = jasmine.createSpy;
+import { UnitRoleType } from '../../../shared';
 
 const code = 'unitCode';
 const roleId = UnitRoleType.APPROVER;

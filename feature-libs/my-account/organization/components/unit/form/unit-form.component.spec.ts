@@ -10,11 +10,11 @@ import {
   B2BUnit,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { CurrentUnitService } from '@spartacus/my-account/organization';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CurrentUnitService } from '../current-unit.service';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CurrentPermissionService } from '.';
-import { PermissionService } from '../../core';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 
 class MockRoutingService {
   getParams() {

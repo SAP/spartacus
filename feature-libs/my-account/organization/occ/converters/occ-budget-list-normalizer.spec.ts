@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EntitiesModel, OccConfig, Occ } from '@spartacus/core';
-import { Budget } from '../../../../model/budget.model';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { OccBudgetListNormalizer } from './occ-budget-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

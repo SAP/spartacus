@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { B2BAddress } from '@spartacus/core';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { CurrentUnitService } from '../../current-unit.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
 

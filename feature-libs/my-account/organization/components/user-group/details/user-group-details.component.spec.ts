@@ -7,11 +7,12 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroup } from '../../../core/model/user-group.model';
-import { UserGroupService } from '../../../core/services/user-group.service';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { CurrentUserGroupService } from '../current-user-group.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
-
 import createSpy = jasmine.createSpy;
 
 const userGroupCode = 'b1';

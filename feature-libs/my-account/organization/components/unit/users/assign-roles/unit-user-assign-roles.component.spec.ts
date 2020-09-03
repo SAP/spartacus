@@ -4,15 +4,13 @@ import { of } from 'rxjs';
 import { B2BUser, EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { UnitUserAssignRolesComponent } from './unit-user-assign-roles.component';
 import createSpy = jasmine.createSpy;
-import {
-  CurrentUnitService,
-  UnitUserAssignRolesService,
-} from '@spartacus/my-account/organization';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { TableModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { CurrentUnitService } from '../../current-unit.service';
+import { UnitUserAssignRolesService } from './unit-user-assign-roles.service';
 
 const code = 'code1';
 const roleId = 'b2bcustomergroup';

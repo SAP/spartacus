@@ -7,8 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { Budget } from '../../../core/model/budget.model';
-import { BudgetService } from '../../../core/services/budget.service';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { CurrentBudgetService } from '../current-budget.service';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;

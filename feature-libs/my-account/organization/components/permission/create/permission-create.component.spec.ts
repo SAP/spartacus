@@ -8,7 +8,7 @@ import { I18nTestingModule, RoutingService } from '@spartacus/core';
 
 import { PermissionFormService } from '../form/permission-form.service';
 import { PermissionCreateComponent } from './permission-create.component';
-import { PermissionService } from '../../../core/services/permission.service';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';

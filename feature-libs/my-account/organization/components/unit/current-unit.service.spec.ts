@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OrgUnitService, PermissionService } from '../../core';
+import {
+  OrgUnitService,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { CurrentUnitService } from './current-unit.service';
 
 class MockRoutingService {

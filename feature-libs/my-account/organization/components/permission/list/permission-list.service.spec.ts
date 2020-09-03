@@ -4,7 +4,7 @@ import { EntitiesModel, Permission } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { PermissionListService } from './permission-list.service';
-import { PermissionService } from '../../../core/services/permission.service';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 
 const code = 'permission';
 const mockPermissionEntities: EntitiesModel<Permission> = {

@@ -8,7 +8,7 @@ import {
 } from '../organization-state';
 import { StateUtils } from '@spartacus/core';
 import { UserGroupActions } from './index';
-import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 
 const userGroupId = 'testUserGroupId';
 const permissionUid = 'permissionUid';

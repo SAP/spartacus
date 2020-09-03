@@ -11,12 +11,12 @@ import createSpy = jasmine.createSpy;
 
 import { CostCenterActions, BudgetActions } from '../actions/index';
 import * as fromEffects from './cost-center.effect';
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 
 import { CostCenter, OccConfig, normalizeHttpError } from '@spartacus/core';
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
-import { Budget } from '../../model/budget.model';
-import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { Budget } from '@spartacus/my-account/organization/core';
+import { CostCenterConnector } from '@spartacus/my-account/organization/core';
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CurrentUserGroupService } from '.';
-import { UserGroupService } from '../../core';
+import { UserGroupService } from '@spartacus/my-account/organization/core';
 
 class MockRoutingService {
   getParams() {

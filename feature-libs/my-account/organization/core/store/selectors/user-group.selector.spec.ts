@@ -10,7 +10,7 @@ import {
 import * as fromReducers from '../reducers/index';
 import { UserGroupSelectors } from '../selectors/index';
 import { StateUtils } from '@spartacus/core';
-import { UserGroup } from '../../model/user-group.model';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 
 describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;

@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel, Permission } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { UserAssignPermissionsListService } from './user-assign-permissions.service';
 
 const mockUserPermissionEntities: EntitiesModel<Permission> = {

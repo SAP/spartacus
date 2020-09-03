@@ -5,7 +5,7 @@ import { Permission, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserPermissionListService } from './user-permission-list.service';
-import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 
 const mockUserPermissionEntities: EntitiesModel<Permission> = {
   values: [

@@ -10,7 +10,7 @@ import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
   BUDGETS_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 
 import createSpy = jasmine.createSpy;
 

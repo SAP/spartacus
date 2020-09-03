@@ -13,9 +13,11 @@ import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PermissionFormComponent } from './permission-form.component';
+import {
+  OrgUnitService,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import createSpy = jasmine.createSpy;
-import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { PermissionService } from '../../../core/services/permission.service';
 
 const mockOrgUnits: B2BUnitNode[] = [
   {

@@ -14,7 +14,7 @@ import {
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
   Permission,
   B2BUser,
@@ -22,8 +22,8 @@ import {
   RoutingService,
   normalizeHttpError,
 } from '@spartacus/core';
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
-import { UserGroup } from '../../model/user-group.model';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { B2BUserConnector } from '../../connectors';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 

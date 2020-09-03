@@ -4,7 +4,7 @@ import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
-import { CostCenterService } from '../../../core/services/cost-center.service';
+import { CostCenterService } from '@spartacus/my-account/organization/core';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [

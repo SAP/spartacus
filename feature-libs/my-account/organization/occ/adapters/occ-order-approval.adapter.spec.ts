@@ -8,7 +8,7 @@ import {
   ORDER_APPROVAL_NORMALIZER,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 import {
   ConverterService,
   OrderApproval,

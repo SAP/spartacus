@@ -5,7 +5,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
 import createSpy = jasmine.createSpy;
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';

@@ -13,7 +13,7 @@ import {
   USER_GROUPS_NORMALIZER,
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
-} from '../../../connectors';
+} from '@spartacus/my-account/organization/core';
 
 const userGroupId = 'testUid';
 const permissionUid = 'permissionUid';

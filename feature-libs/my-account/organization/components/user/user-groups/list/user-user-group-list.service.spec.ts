@@ -4,8 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroup } from '../../../../core/model/user-group.model';
-import { B2BUserService } from '../../../../core/services/b2b-user.service';
+import {
+  B2BUserService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 import { UserUserGroupListService } from './user-user-group-list.service';
 
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {

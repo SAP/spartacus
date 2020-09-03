@@ -24,8 +24,8 @@ import { B2BSearchConfig } from '../../model';
 import { OrgUnitActions, B2BUserActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 import createSpy = jasmine.createSpy;
-import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
+import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 const httpErrorResponse = new HttpErrorResponse({

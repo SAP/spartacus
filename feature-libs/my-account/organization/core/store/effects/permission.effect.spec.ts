@@ -12,12 +12,12 @@ import {
   OccConfig,
   normalizeHttpError,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
 import createSpy = jasmine.createSpy;
-import { PermissionConnector } from '../../connectors/permission/permission.connector';
-import { defaultOccOrganizationConfig } from '../../occ/adapters/organization/default-occ-organization-config';
+import { PermissionConnector } from '@spartacus/my-account/organization/core';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 const httpErrorResponse = new HttpErrorResponse({
