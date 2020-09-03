@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfigProductTitleComponent } from './config-product-title.component';
 
@@ -14,7 +14,9 @@ import { ConfigProductTitleComponent } from './config-product-title.component';
     CommonModule,
     I18nModule,
     IconModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationTitle: {
           component: ConfigProductTitleComponent,

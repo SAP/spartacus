@@ -120,7 +120,7 @@ describe('ConfiguratorGroupStatusService', () => {
       expect(
         classUnderTest.checkIsGroupComplete(productConfiguration.groups[1])
       ).toBe(true);
-      // two required attributes, only one is filled
+      //two required attributes, only one is filled
       expect(
         classUnderTest.checkIsGroupComplete(
           productConfiguration.groups[2].subGroups[0]
@@ -132,12 +132,11 @@ describe('ConfiguratorGroupStatusService', () => {
           productConfiguration.groups[3].subGroups[0]
         )
       ).toBe(false);
-    });
-
-    it('should return status completed if required fields are filled', () => {
-      // required checkbox not filled
+      //has a conflict
       expect(
-        classUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
+        classUnderTest.checkIsGroupComplete(
+          productConfigurationWithConflicts.groups[5].subGroups[0]
+        )
       ).toBe(false);
     });
   });

@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ProductModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   CommonConfiguratorModule,
   ConfigurationMessageLoaderModule,
@@ -22,13 +26,19 @@ import {
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-        data: { pageLabel: '/configureCPQCONFIGURATOR' },
+        path: null,
+        data: {
+          pageLabel: '/configureCPQCONFIGURATOR',
+          cxRoute: 'configureCPQCONFIGURATOR',
+        },
         component: PageLayoutComponent,
         canActivate: [CmsPageGuard],
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+    HamburgerMenuModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {
@@ -77,7 +87,6 @@ import {
         },
       },
     }),
-    HamburgerMenuModule,
   ],
 })
 export class InteractiveConfigurationModule {}

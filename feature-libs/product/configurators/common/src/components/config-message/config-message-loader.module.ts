@@ -5,7 +5,7 @@ import {
   ComponentFactoryResolver,
   NgModule,
 } from '@angular/core';
-import { Config, ConfigModule } from '@spartacus/core';
+import { Config, provideDefaultConfig } from '@spartacus/core';
 import {
   OutletPosition,
   OutletService,
@@ -16,12 +16,9 @@ import { MessageConfig } from './../config/message-config';
 import { ConfigMessageComponent } from './config-message.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PageComponentModule,
-    ConfigModule.withConfig(DefaultMessageConfig),
-  ],
+  imports: [CommonModule, PageComponentModule],
   providers: [
+    provideDefaultConfig(DefaultMessageConfig),
     {
       provide: APP_INITIALIZER,
       useFactory: bannerFactory,
