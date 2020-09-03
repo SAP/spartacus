@@ -57,7 +57,7 @@ fi
 validatestyles
 
 echo "Validating code linting"
-ng lint
+yarn lint
 
 echo "-----"
 echo "Validating code formatting (using prettier)"
