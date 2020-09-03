@@ -5,16 +5,16 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  ConverterService,
   B2BUser,
+  ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
 
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
+  B2BSearchConfig,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
 } from '@spartacus/my-account/organization/core';

@@ -10,18 +10,17 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
-
-import createSpy = jasmine.createSpy;
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
-  B2BUNIT_NORMALIZER,
-  B2BUNIT_NODE_LIST_NORMALIZER,
-  B2BUNIT_NODE_NORMALIZER,
-  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-  B2B_USERS_NORMALIZER,
   B2B_ADDRESS_LIST_NORMALIZER,
   B2B_ADDRESS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  B2BSearchConfig,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import createSpy = jasmine.createSpy;
 
 const orgUnitId = 'testId';
 const userId = 'userId';

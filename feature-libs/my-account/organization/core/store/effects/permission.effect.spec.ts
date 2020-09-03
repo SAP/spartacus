@@ -7,18 +7,20 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
 import {
+  normalizeHttpError,
+  OccConfig,
   OrderApprovalPermissionType,
   Permission,
-  OccConfig,
-  normalizeHttpError,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import {
+  B2BSearchConfig,
+  PermissionConnector,
+} from '@spartacus/my-account/organization/core';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
-import createSpy = jasmine.createSpy;
-import { PermissionConnector } from '@spartacus/my-account/organization/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',

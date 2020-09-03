@@ -6,7 +6,6 @@ import { StoreModule } from '@ngrx/store';
 import { Observable, of, throwError } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-import createSpy = jasmine.createSpy;
 
 import {
   B2BUserActions,
@@ -14,18 +13,21 @@ import {
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import {
-  Permission,
+  B2BSearchConfig,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
+import {
   B2BUser,
-  OccConfig,
-  RoutingService,
   normalizeHttpError,
+  OccConfig,
+  Permission,
+  RoutingService,
 } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
-import { UserGroup } from '@spartacus/my-account/organization/core';
 import { B2BUserConnector } from '../../connectors';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',

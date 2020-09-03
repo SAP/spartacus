@@ -8,20 +8,22 @@ import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
 
 import {
+  normalizeHttpError,
+  OccConfig,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  OccConfig,
-  normalizeHttpError,
 } from '@spartacus/core';
 
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import {
+  B2BSearchConfig,
+  OrderApprovalConnector,
+} from '@spartacus/my-account/organization/core';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
-import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
-import { OrderApprovalConnector } from '@spartacus/my-account/organization/core';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
