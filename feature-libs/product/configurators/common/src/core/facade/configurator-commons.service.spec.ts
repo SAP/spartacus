@@ -263,9 +263,6 @@ describe('ConfiguratorCommonsService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
     );
-    store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
-    );
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
@@ -279,6 +276,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should do nothing on update in case cart updates are pending', () => {
     isStableObservable = of(false);
+    cart.code = 'X';
     cartObs = of(cart);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
@@ -297,9 +295,7 @@ describe('ConfiguratorCommonsService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
     );
-    store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
-    );
+
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,

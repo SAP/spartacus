@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -9,20 +8,25 @@ import {
   map,
   mergeMap,
   switchMap,
+  switchMapTo,
   take,
 } from 'rxjs/operators';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
+import { normalizeHttpError } from './../../../../util/normalize-http-error';
+import { ConfiguratorTempUtilsService } from './configurator-temp-utils.service';
 
 @Injectable()
+/**
+ * Configurator effects
+ */
 export class ConfiguratorEffects {
   @Effect()
   createConfiguration$: Observable<
@@ -181,7 +185,7 @@ export class ConfiguratorEffects {
   updateConfigurationSuccess$: Observable<
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SetCurrentGroup
+    | ConfiguratorActions.ChangeGroup
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -192,19 +196,51 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
         filter((hasPendingChanges) => hasPendingChanges === false),
-        switchMap(() => [
-          new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(payload),
-
-          //When no changes are pending update prices
-          new ConfiguratorActions.UpdatePriceSummary(payload),
-
-          //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
-          //we need to ensure that the last update determines the current group.
-          new ConfiguratorActions.SetCurrentGroup({
-            entityKey: payload.owner.key,
-            currentGroup: this.getGroupWithAttributes(payload.groups),
-          }),
-        ])
+        switchMapTo(
+          this.store.pipe(
+            select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
+            take(1),
+            map((currentGroupId) => {
+              const groupIdFromPayload = this.getGroupWithAttributes(
+                payload.groups
+              );
+              const parentGroupFromPayload = this.configuratorGroupUtilsService.getParentGroup(
+                payload.groups,
+                this.configuratorGroupUtilsService.getGroupById(
+                  payload.groups,
+                  groupIdFromPayload
+                ),
+                null
+              );
+              return {
+                currentGroupId,
+                groupIdFromPayload,
+                parentGroupFromPayload,
+              };
+            }),
+            switchMap((container) => {
+              //changeGroup because in cases where a queue of updates exists with a group navigation in between,
+              //we need to ensure that the last update determines the current group.
+              const updateFinalizeSuccessAction = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                payload
+              );
+              const updatePriceSummaryAction = new ConfiguratorActions.UpdatePriceSummary(
+                payload
+              );
+              return container.currentGroupId === container.groupIdFromPayload
+                ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
+                : [
+                    updateFinalizeSuccessAction,
+                    updatePriceSummaryAction,
+                    new ConfiguratorActions.ChangeGroup({
+                      configuration: payload,
+                      groupId: container.groupIdFromPayload,
+                      parentGroupId: container.parentGroupFromPayload?.id,
+                    }),
+                  ];
+            })
+          )
+        )
       );
     })
   );
@@ -337,7 +373,15 @@ export class ConfiguratorEffects {
           ];
         }),
         catchError((error) =>
-          of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+          of(
+            new CartActions.CartAddEntryFail({
+              userId: payload.userId,
+              cartId: payload.cartId,
+              productCode: payload.productCode,
+              quantity: payload.quantity,
+              error: normalizeHttpError(error),
+            })
+          )
         )
       );
     })
@@ -367,9 +411,13 @@ export class ConfiguratorEffects {
             }),
             catchError((error) =>
               of(
-                new CartActions.CartUpdateEntryFail(
-                  makeErrorSerializable(error)
-                )
+                new CartActions.CartUpdateEntryFail({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  entryNumber: payload.cartEntryNumber,
+                  quantity: 1,
+                  error: normalizeHttpError(error),
+                })
               )
             )
           );
@@ -483,9 +531,10 @@ export class ConfiguratorEffects {
   }
 
   constructor(
-    private actions$: Actions,
-    private configuratorCommonsConnector: ConfiguratorCommonsConnector,
-    private genericConfigUtilsService: GenericConfigUtilsService,
-    private store: Store<StateWithConfiguration>
+    protected actions$: Actions,
+    protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
+    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected configuratorGroupUtilsService: ConfiguratorTempUtilsService,
+    protected store: Store<StateWithConfiguration>
   ) {}
 }
