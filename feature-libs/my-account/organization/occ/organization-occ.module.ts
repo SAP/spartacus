@@ -1,6 +1,5 @@
 import { OccOrgUnitNodeNormalizer } from './converters/occ-org-unit-node-normalizer';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
@@ -13,36 +12,36 @@ import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
 import { OccOrderApprovalAdapter } from './adapters/occ-order-approval.adapter';
 import {
-  PERMISSION_NORMALIZER,
-  PERMISSION_TYPE_NORMALIZER,
-  B2BUserAdapter,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
-  OrderApprovalAdapter,
-  ORDER_APPROVAL_NORMALIZER,
-  ORDER_APPROVALS_NORMALIZER,
-  ORDER_APPROVAL_DECISION_NORMALIZER,
-  BudgetAdapter,
-  BUDGET_NORMALIZER,
-  BUDGETS_NORMALIZER,
-  OrgUnitAdapter,
-  B2BUNIT_NORMALIZER,
-  B2BUNIT_NODE_NORMALIZER,
-  B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-  UserGroupAdapter,
-  USER_GROUP_NORMALIZER,
-  USER_GROUPS_NORMALIZER,
-  PermissionAdapter,
-  PERMISSIONS_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
-  CostCenterAdapter,
+  B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NORMALIZER,
+  B2BUserAdapter,
+  BUDGET_NORMALIZER,
+  BudgetAdapter,
+  BUDGETS_NORMALIZER,
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_ADDRESS_LIST_NORMALIZER,
+  CostCenterAdapter,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
+  ORDER_APPROVAL_NORMALIZER,
+  ORDER_APPROVALS_NORMALIZER,
+  OrderApprovalAdapter,
+  OrgUnitAdapter,
+  PERMISSION_NORMALIZER,
+  PERMISSION_TYPE_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+  PermissionAdapter,
+  PERMISSIONS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
+  UserGroupAdapter,
 } from '@spartacus/my-account/organization/core';
-import { ConfigModule } from '@spartacus/core';
+import { ConverterService, provideDefaultConfig } from '@spartacus/core';
 import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
 import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
@@ -64,12 +63,9 @@ import { OccOrgUnitNodeListNormalizer } from './converters/occ-org-unit-node-lis
 import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-approval-processes-normalizer';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    ConfigModule.withConfig(defaultOccOrganizationConfig),
-  ],
+  imports: [CommonModule],
   providers: [
+    provideDefaultConfig(defaultOccOrganizationConfig),
     {
       provide: BudgetAdapter,
       useClass: OccBudgetAdapter,
@@ -199,6 +195,7 @@ import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-a
       useClass: OccOrderApprovalDecisionNormalizer,
       multi: true,
     },
+    ConverterService,
   ],
 })
 export class OrganizationOccModule {}
