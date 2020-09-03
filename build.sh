@@ -4,4 +4,3 @@ set -o pipefail
 
 ./ci-scripts/validate-lint.sh
 ./ci-scripts/unit-tests.sh
-./ci-scripts/build-for-deploy.sh
