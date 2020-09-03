@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cart, OrderEntry } from '../../../model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { OrderEntryStatus } from '../../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
 
 /**
@@ -93,7 +94,7 @@ export class GenericConfigUtilsService {
   getNumberOfIssues(cartItem: OrderEntry): number {
     let numberOfIssues = 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) => {
-      if (statusSummary.status === 'ERROR') {
+      if (statusSummary.status === OrderEntryStatus.Error) {
         numberOfIssues = statusSummary.numberOfIssues;
       }
     });

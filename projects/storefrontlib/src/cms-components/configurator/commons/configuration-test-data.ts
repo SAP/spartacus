@@ -31,6 +31,8 @@ export const mockRouterState: any = {
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  consistent: true,
+  complete: true,
   groups: [
     {
       id: GROUP_ID_1,

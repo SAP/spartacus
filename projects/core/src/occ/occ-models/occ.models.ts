@@ -1466,6 +1466,16 @@ export namespace Occ {
   }
 
   /**
+   * Possible order entry statuses
+   */
+  export enum OrderEntryStatus {
+    Success = 'SUCCESS',
+    Info = 'INFO',
+    Warning = 'WARNING',
+    Error = 'ERROR',
+  }
+
+  /**
    *
    * An interface representing StatusSummary.
    * Provides status including number of issues for configurable entry.
@@ -1478,7 +1488,7 @@ export namespace Occ {
     /**
      * @member {string} [status]
      */
-    status?: string;
+    status?: OrderEntryStatus;
   }
 
   /**

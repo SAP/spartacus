@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  Configurator,
+  ConfiguratorActions,
+  ConfiguratorSelectors,
+  GenericConfigurator,
+  StateWithConfiguration,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Configurator, GenericConfigurator } from '../../../model';
-import { StateWithConfiguration } from '../store';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { ConfiguratorSelectors } from '../store/selectors';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 /**
- * Service for handling group status
+ * Service for handling group statuses
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupStatusService {
   constructor(
-    private store: Store<StateWithConfiguration>,
-    private configuratorGroupUtilsService: ConfiguratorGroupUtilsService
+    protected store: Store<StateWithConfiguration>,
+    protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -23,23 +26,26 @@ export class ConfiguratorGroupStatusService {
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
+   * @returns {Observable<boolean>} Has group been visited?
    */
-  public isGroupVisited(
+  isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.select(
       ConfiguratorSelectors.isGroupVisited(owner.key, groupId)
     );
   }
 
   /**
-   * Returns the group status by the group ID.
+   * Returns the group status for a group
+   * spefified by its ID
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
+   * @returns {Observable<Configurator.GroupStatus>} Group status
    */
-  public getGroupStatus(
+  getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Configurator.GroupStatus> {
@@ -66,16 +72,12 @@ export class ConfiguratorGroupStatusService {
       .find((group) => !this.checkIsGroupComplete(group));
   }
 
-  areGroupsVisited(
-    owner: GenericConfigurator.Owner,
-    groupIds: string[]
-  ): Observable<Boolean> {
-    return this.store.select(
-      ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
-    );
-  }
-
-  checkIsGroupComplete(group: Configurator.Group): Boolean {
+  /**
+   * Checks if group is complete
+   * @param group
+   * @return {boolean} - Complete?
+   */
+  checkIsGroupComplete(group: Configurator.Group): boolean {
     let isGroupComplete = true;
 
     //Only required attributes need to be checked
@@ -88,7 +90,66 @@ export class ConfiguratorGroupStatusService {
     return isGroupComplete;
   }
 
-  getParentGroupStatusCompleted(
+  /**
+   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
+   *
+   * @param configuration - Configuration
+   * @param groupId - Group ID
+   * @param setGroupVisited - Determines whether the group has to be set as visited or not
+   */
+  setGroupStatus(
+    configuration: Configurator.Configuration,
+    groupId: string,
+    setGroupVisited: boolean
+  ): void {
+    const group = this.configuratorUtilsService.getGroupById(
+      configuration.groups,
+      groupId
+    );
+    const parentGroup = this.configuratorUtilsService.getParentGroup(
+      configuration.groups,
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
+    );
+
+    this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
+
+    if (setGroupVisited) {
+      this.setGroupStatusVisited(configuration, group, parentGroup);
+    }
+  }
+
+  protected setGroupStatusVisited(
+    configuration: Configurator.Configuration,
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ): void {
+    const visitedGroupIds = [];
+    visitedGroupIds.push(group.id);
+    this.getParentGroupStatusVisited(
+      configuration,
+      group.id,
+      parentGroup,
+      visitedGroupIds
+    );
+
+    this.store.dispatch(
+      new ConfiguratorActions.SetGroupsVisited({
+        entityKey: configuration.owner.key,
+        visitedGroups: visitedGroupIds,
+      })
+    );
+  }
+
+  protected areGroupsVisited(
+    owner: GenericConfigurator.Owner,
+    groupIds: string[]
+  ): Observable<boolean> {
+    return this.store.select(
+      ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
+    );
+  }
+
+  protected getParentGroupStatusCompleted(
     configuration: Configurator.Configuration,
     parentGroup: Configurator.Group,
     completedGroupIds: string[],
@@ -113,20 +174,19 @@ export class ConfiguratorGroupStatusService {
 
     this.getParentGroupStatusCompleted(
       configuration,
-      this.configuratorGroupUtilsService.getParentGroup(
+      this.configuratorUtilsService.getParentGroup(
         configuration.groups,
-        this.configuratorGroupUtilsService.getGroupById(
+        this.configuratorUtilsService.getGroupById(
           configuration.groups,
           parentGroup.id
-        ),
-        null
+        )
       ),
       completedGroupIds,
       incompleteGroupdIds
     );
   }
 
-  getParentGroupStatusVisited(
+  protected getParentGroupStatusVisited(
     configuration: Configurator.Configuration,
     groupId: string,
     parentGroup: Configurator.Group,
@@ -138,7 +198,7 @@ export class ConfiguratorGroupStatusService {
 
     const subGroups = [];
     parentGroup.subGroups.forEach((subGroup) => {
-      //The current group is not set to visited yet, therefor we have to exclude it in the check
+      //The current group is not set to visited yet, therefore we have to exclude it in the check
       if (subGroup.id === groupId) {
         return;
       }
@@ -154,57 +214,23 @@ export class ConfiguratorGroupStatusService {
           this.getParentGroupStatusVisited(
             configuration,
             parentGroup.id,
-            this.configuratorGroupUtilsService.getParentGroup(
+            this.configuratorUtilsService.getParentGroup(
               configuration.groups,
-              this.configuratorGroupUtilsService.getGroupById(
+              this.configuratorUtilsService.getGroupById(
                 configuration.groups,
                 parentGroup.id
-              ),
-              null
+              )
             ),
             visitedGroupIds
           );
         }
       });
   }
-
-  /**
-   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
-   *
-   * @param configuration - Configuration
-   * @param groupId - Group ID
-   * @param setGroupVisited - Determines whether the group has to be set as visited or not
-   */
-  public setGroupStatus(
-    configuration: Configurator.Configuration,
-    groupId: string,
-    setGroupVisited: Boolean
-  ) {
-    const group = this.configuratorGroupUtilsService.getGroupById(
-      configuration.groups,
-      groupId
-    );
-    const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
-      configuration.groups,
-      this.configuratorGroupUtilsService.getGroupById(
-        configuration.groups,
-        groupId
-      ),
-      null
-    );
-
-    this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
-
-    if (setGroupVisited) {
-      this.setGroupStatusVisited(configuration, group, parentGroup);
-    }
-  }
-
-  setGroupStatusCompletedOrError(
+  protected setGroupStatusCompletedOrError(
     configuration: Configurator.Configuration,
     group: Configurator.Group,
     parentGroup: Configurator.Group
-  ) {
+  ): void {
     const completedGroupIds = [];
     const incompleteOrErrorGroupdIds = [];
 
@@ -233,28 +259,6 @@ export class ConfiguratorGroupStatusService {
       new ConfiguratorActions.SetGroupsError({
         entityKey: configuration.owner.key,
         errorGroups: incompleteOrErrorGroupdIds,
-      })
-    );
-  }
-
-  setGroupStatusVisited(
-    configuration: Configurator.Configuration,
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ) {
-    const visitedGroupIds = [];
-    visitedGroupIds.push(group.id);
-    this.getParentGroupStatusVisited(
-      configuration,
-      group.id,
-      parentGroup,
-      visitedGroupIds
-    );
-
-    this.store.dispatch(
-      new ConfiguratorActions.SetGroupsVisited({
-        entityKey: configuration.owner.key,
-        visitedGroups: visitedGroupIds,
       })
     );
   }

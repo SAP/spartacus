@@ -26,6 +26,7 @@ const configuration: Configurator.Configuration = {
     groupsStatus: {},
     groupsVisited: {},
     menuParentGroup: null,
+    issueNavigationDone: true,
   },
 };
 const CURRENT_GROUP = 'currentGroupId';

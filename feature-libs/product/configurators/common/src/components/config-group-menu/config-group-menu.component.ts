@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
@@ -11,8 +7,10 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from './../../core/facade/configurator-groups.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -29,6 +27,16 @@ export class ConfigGroupMenuComponent {
   > = this.routerData$.pipe(
     switchMap((routerData) =>
       this.configCommonsService.getConfiguration(routerData.owner)
+    ),
+    //We need to ensure that the navigation to conflict groups or
+    //groups with mandatory attributes already has taken place, as this happens
+    //in an onInit of another component.
+    //otherwise we risk that this component is completely initialized too early,
+    //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+    filter(
+      (configuration) =>
+        (configuration.complete && configuration.consistent) ||
+        configuration.interactionState.issueNavigationDone
     )
   );
 
@@ -162,8 +170,7 @@ export class ConfigGroupMenuComponent {
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
           configuration.groups,
-          group,
-          null
+          group
         )
       )
     );

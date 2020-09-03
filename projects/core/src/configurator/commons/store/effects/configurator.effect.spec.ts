@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';

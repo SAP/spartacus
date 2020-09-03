@@ -1,17 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  GenericConfigurator,
-} from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
-import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import {
+  productConfigurationWithConflicts,
+  productConfigurationWithoutIssues,
+} from '../../shared/testing/configuration-test-data';
+import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 import { ConfigOverviewNotificationBannerComponent } from './config-overview-notification-banner.component';
 
 @Pipe({
@@ -28,16 +28,16 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-const productConfiguration = ConfigurationTestData.productConfiguration;
-productConfiguration.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-productConfiguration.owner.id = '3';
 const configuratorType = 'cpqconfigurator';
 
 const routerData: ConfigurationRouter.Data = {
   configuratorType: configuratorType,
   pageType: ConfigurationRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: productConfiguration.owner,
+  owner: {
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    id: '3',
+  },
 };
 
 let routerObs;
@@ -89,13 +89,13 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   }));
 
   it('should create', () => {
-    configurationObs = of(productConfiguration);
+    configurationObs = of(productConfigurationWithoutIssues);
     initialize();
     expect(component).toBeTruthy();
   });
 
   it('should display no banner in case there are no issues', () => {
-    configurationObs = of(productConfiguration);
+    configurationObs = of(productConfigurationWithoutIssues);
     initialize();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
@@ -105,12 +105,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   });
 
   it('should display banner in case there are issues', () => {
-    //create a configuration with a conflict
-    const conflictingConfiguration: Configurator.Configuration = {
-      configId: productConfiguration.configId,
-      flatGroups: [{ groupType: Configurator.GroupType.CONFLICT_GROUP }],
-    };
-    configurationObs = of(conflictingConfiguration);
+    configurationObs = of(productConfigurationWithConflicts);
     initialize();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
