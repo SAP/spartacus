@@ -276,6 +276,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should do nothing on update in case cart updates are pending', () => {
     isStableObservable = of(false);
+    cart.code = 'X';
     cartObs = of(cart);
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
