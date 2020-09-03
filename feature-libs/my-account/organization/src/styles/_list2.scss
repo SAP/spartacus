@@ -1,3 +1,4 @@
+// cx-organization-list,
 cx-organization-sub-list,
 form,
 cx-organization-view,
@@ -11,15 +12,6 @@ cx-organization-card-list {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
   }
-
-  //   cx-view {
-  //     display: block;
-  //     padding: 0;
-  //     height: auto;
-
-  //     &.card {
-  //       border: solid 1px var(--cx-color-light);
-  //     }
 
   @extend %viewHeader !optional;
   @extend %table !optional;
@@ -276,97 +268,47 @@ cx-organization-card-list {
 }
 
 %viewHeader {
-  .card {
-    width: 100%;
-
-    // margin-inline-start: 40px;
-
-    // margin-inline-start: calc(
-    //   ((var(--cx-view-position) - (var(--cx-active-view) - 1)) + 1) * 40px
-    // );
-
-    // margin-inline-start: calc(
-    //   (var(--cx-active-view) - var(--cx-view-position)) * 40px
-    // );
-
+  .list {
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: white;
-      border-bottom: solid 1px var(--cx-color-light);
-      height: 125px;
-      padding: 40px;
-      cx-icon {
-        color: var(--cx-color-text);
-      }
+      padding: 0 6px 38px 6px;
+      height: 130px;
+
       h3 {
-        margin: 0 0 5px 0;
-        font-size: 22px;
+        text-transform: uppercase;
+        margin: 0 0 23px 0;
       }
-      h4 {
-        font-size: 16px;
+      @include media-breakpoint-down(sm) {
+        padding: 20px;
       }
+
       .actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        button {
+          // add a bit more space to call-to-action button
+          padding: 0 15px;
+        }
         a,
         button {
-          text-transform: uppercase;
+          // margin: 0 10px;
         }
-      }
-    }
 
-    .main {
-      background: var(--cx-color-background);
-      table {
-        tr {
-          // tables should link to details on this level according to UX team
-          // pointer-events: none;
-        }
-        th {
-          &:first-child {
-            padding: var(--cx-spatial-md) var(--cx-spatial-lg);
+        // UX team proposed to make header actions in mobile view block style,
+        // I think it's taken too much space.
+        // @include media-breakpoint-down(sm) {
+        //   flex-wrap: wrap;
+        //   ng-select,button { flex: 100%; }
+        // }
+
+        // sort
+        ng-select {
+          // margin: 20px 0;
+          .ng-select-container.ng-has-value {
+            // align the height of the select with buttons
+            max-height: 40px;
           }
-        }
-        td:first-child a {
-          padding: var(--cx-spatial-md) var(--cx-spatial-lg);
-        }
-      }
-    }
-  }
-
-  .header {
-    h3 {
-      text-transform: uppercase;
-      margin: 0 0 20px 0;
-    }
-    @include media-breakpoint-down(sm) {
-      padding: 20px;
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 20px 0;
-      button {
-        // add a bit more space to call-to-action button
-        padding: 0 15px;
-      }
-
-      // UX team proposed to make header actions in mobile view block style,
-      // I think it's taken too much space.
-      // @include media-breakpoint-down(sm) {
-      //   flex-wrap: wrap;
-      //   ng-select,button { flex: 100%; }
-      // }
-
-      // sort
-      ng-select {
-        // margin: 20px 0;
-        .ng-select-container.ng-has-value {
-          // align the height of the select with buttons
-          max-height: 40px;
         }
       }
     }

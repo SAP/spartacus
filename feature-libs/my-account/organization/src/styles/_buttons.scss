@@ -4,7 +4,9 @@
   a.link,
   button.link {
     @extend .btn, .btn-link, .btn-sm;
-    @include alt-visible-focus();
+    &:focus {
+      @include visible-focus();
+    }
     color: var(--cx-color-primary);
 
     padding: 0;
@@ -28,6 +30,16 @@
   button.button,
   a.button {
     @extend .btn, .btn-sm;
+
+    &:focus {
+      @include visible-focus();
+    }
+
+    &.primary:focus,
+    &.primary:focus:active,
+    &:not(:disabled):not(.disabled):active:focus {
+      box-shadow: none;
+    }
 
     &.secondary {
       @extend .btn-secondary;

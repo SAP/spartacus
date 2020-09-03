@@ -1,8 +1,99 @@
 .card {
-  .main {
-    position: relative;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    border: none;
   }
 
+  @extend %cardHeader !optional;
+  @extend %cardMain !optional;
+  @extend %cardSection !optional;
+}
+
+%cardHeader {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--cx-color-background);
+    border-bottom: solid 1px var(--cx-color-light);
+    padding: 40px 30px 20px;
+    height: 130px;
+
+    background: var(--cx-color-back);
+
+    @include media-breakpoint-up(md) {
+      align-items: center;
+    }
+
+    .title-bar {
+      display: flex;
+      align-items: center;
+      flex: 100%;
+      justify-content: space-between;
+    }
+
+    h3,
+    h4 {
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+    }
+    h3 {
+      margin: 0 0 5px 0;
+      font-size: 22px;
+      text-transform: uppercase;
+    }
+    h4 {
+      font-size: 16px;
+    }
+    .actions {
+      display: flex;
+      a,
+      button {
+        text-transform: uppercase;
+        margin-inline-start: 10px;
+      }
+    }
+
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 40px 30px 25px 30px;
+
+      .title-bar {
+        flex-wrap: wrap;
+      }
+      .actions {
+        flex: 100%;
+      }
+    }
+  }
+}
+
+%cardMain {
+  .main {
+    position: relative;
+    background: var(--cx-color-background);
+    table {
+      tr {
+        // tables should link to details on this level according to UX team
+        // pointer-events: none;
+      }
+      th {
+        &:first-child {
+          padding: var(--cx-spatial-md) var(--cx-spatial-lg);
+        }
+      }
+      td:first-child a {
+        padding: var(--cx-spatial-md) var(--cx-spatial-lg);
+      }
+    }
+  }
+}
+
+%cardSection {
   section {
     display: flex;
     flex-direction: column;
