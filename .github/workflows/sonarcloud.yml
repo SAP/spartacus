@@ -23,4 +23,3 @@ jobs:
           args: >
             -Dsonar.organization=sap
             -Dsonar.projectKey=cloud-commerce-spartacus-storefront
-            -Dsonar.login=$SONAR_TOKEN
