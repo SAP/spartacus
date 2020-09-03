@@ -300,6 +300,7 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
+
     serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
 
     expect(
