@@ -16,7 +16,7 @@ import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
-import { B2bIsAdminGuard } from '../../core/guards/b2b-is-admin.guard';
+import { AdminGuard } from '../../core/guards/admin.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -79,7 +79,7 @@ export const budgetCmsConfig: CmsConfig = {
           component: BudgetEditComponent,
         },
       ],
-      guards: [AuthGuard, B2bIsAdminGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

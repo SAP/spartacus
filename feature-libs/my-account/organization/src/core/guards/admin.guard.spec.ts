@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2bIsAdminGuard } from './b2b-is-admin.guard';
+import { AdminGuard } from './admin.guard';
 import createSpy = jasmine.createSpy;
 import { User, UserService } from '@spartacus/core';
 import { UnitRoleType } from '@spartacus/my-account/organization';
@@ -15,20 +15,20 @@ class MockUserService implements Partial<MockUserService> {
   get = createSpy('get').and.returnValue(of(mockUserDetails));
 }
 
-describe('B2bIsAdminGuard', () => {
-  let guard: B2bIsAdminGuard;
+describe('AdminGuard', () => {
+  let guard: AdminGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        B2bIsAdminGuard,
+        AdminGuard,
         {
           provide: UserService,
           useClass: MockUserService,
         },
       ],
     });
-    guard = TestBed.inject(B2bIsAdminGuard);
+    guard = TestBed.inject(AdminGuard);
   });
 
   it('should return true when admin role found', () => {

@@ -8,7 +8,7 @@ import { UnitRoleType } from '../../components/shared';
 @Injectable({
   providedIn: 'root',
 })
-export class B2bIsAdminGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(protected userService: UserService) {}
 
   canActivate(): Observable<boolean> {
