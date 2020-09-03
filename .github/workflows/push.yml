@@ -17,4 +17,6 @@ jobs:
         with:
           working-directory: projects/storefrontapp-e2e-cypress
       - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
         run: yarn e2e:cy:start-run-smoke-ci:2005
