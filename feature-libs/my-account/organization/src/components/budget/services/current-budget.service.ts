@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { BudgetService } from '../../../core/index';
+import { Budget, BudgetService } from '../../../core/index';
 import { ROUTE_PARAMS } from '../../constants';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
-import { BudgetModel } from './budget-list.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentBudgetService extends CurrentOrganizationItemService<
-  BudgetModel
+  Budget
 > {
   constructor(
     protected routingService: RoutingService,
     protected budgetService: BudgetService
   ) {
     super(routingService);
+  }
+
+  load(code: string): Observable<Budget> {
+    this.budgetService.loadBudget(code);
+    return this.budgetService.get(code);
+  }
+
+  protected update(code, value: Budget) {
+    this.budgetService.update(code, value);
+  }
+
+  protected create(value: Budget) {
+    this.budgetService.create(value);
   }
 
   protected getDetailsRoute(): string {
@@ -27,7 +39,7 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     return ROUTE_PARAMS.budgetCode;
   }
 
-  protected getItem(code: string): Observable<BudgetModel> {
-    return <any>(<BudgetModel>this.budgetService.get(code));
+  protected getItem(code: string): Observable<Budget> {
+    return <any>(<Budget>this.budgetService.get(code));
   }
 }

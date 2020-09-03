@@ -16,7 +16,6 @@ import { StatusCellComponent } from '../shared/organization-table/status/status-
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
-import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListService } from './services';
@@ -70,7 +69,7 @@ export const budgetCmsConfig: CmsConfig = {
       childRoutes: [
         {
           path: 'create',
-          component: BudgetCreateComponent,
+          component: BudgetEditComponent,
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {

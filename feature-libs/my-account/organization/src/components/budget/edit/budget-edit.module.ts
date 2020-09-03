@@ -1,23 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { I18nModule } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
-import { OrganizationCardModule } from '../../shared/organization-card/organization-card.module';
+import { OrganizationEditModule } from '../../shared/organization-edit/organization-edit.module';
 import { BudgetFormModule } from '../form/budget-form.module';
 import { BudgetEditComponent } from './budget-edit.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    IconModule,
-    BudgetFormModule,
-    ReactiveFormsModule,
-    OrganizationCardModule,
-  ],
+  imports: [CommonModule, OrganizationEditModule, BudgetFormModule],
   declarations: [BudgetEditComponent],
   exports: [BudgetEditComponent],
 })

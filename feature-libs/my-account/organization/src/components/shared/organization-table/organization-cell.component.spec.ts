@@ -2,12 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, UrlModule } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import {
+  OutletContextData,
+  TableDataOutletContext,
+} from '@spartacus/storefront';
 import { OrganizationCellComponent } from './organization-cell.component';
 
-const mockContext = {
+const mockContext: TableDataOutletContext = {
   _field: 'name',
   _type: 'myType',
+  _options: {},
   name: 'my name',
   code: 'my code',
 };

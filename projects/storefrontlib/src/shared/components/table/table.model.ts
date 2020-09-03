@@ -150,7 +150,7 @@ export interface TableHeader {
 export interface TableHeaderOutletContext {
   _type: string;
   _field: string;
-  _options: TableOptions;
+  _options?: TableOptions;
 }
 
 // tslint:disable-next-line: no-empty-interface

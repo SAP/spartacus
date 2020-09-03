@@ -1,13 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { BudgetFormService } from './budget-form.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -15,20 +11,15 @@ import { OrgUnitService } from '../../../core/services/org-unit.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetFormComponent implements OnInit {
-  /**
-   * The form is controlled from the container component.
-   */
-  @Input() form: FormGroup;
+  form: FormGroup = this.budgetFormService.getForm();
 
-  b2bUnits$: Observable<
-    B2BUnitNode[]
-  > = this.orgUnitService.getActiveUnitList();
-
+  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    protected budgetFormService: BudgetFormService,
+    protected orgUnitService: OrgUnitService,
+    protected currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {

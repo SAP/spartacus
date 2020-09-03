@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 import { QUERY_PARAMS } from '../constants';
@@ -37,6 +39,7 @@ export abstract class CurrentOrganizationItemService<T> {
   /**
    * Observes the b2bUnit based on the query parameters.
    */
+  // TODO: rename to unit$ or activeUnit$
   readonly b2bUnit$ = this.routingService.getRouterState().pipe(
     map(
       (routingData) => routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
@@ -44,12 +47,35 @@ export abstract class CurrentOrganizationItemService<T> {
     distinctUntilChanged()
   );
 
-  // TODO: consider to implement the method and only add a method to register the detailed route
   launchDetails(params: T): void {
     const cxRoute = this.getDetailsRoute();
     if (cxRoute) {
       this.routingService.go({ cxRoute, params });
     }
+  }
+
+  save(form: FormGroup, code?: string) {
+    if (form.invalid) {
+      form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(form);
+    } else {
+      form.disable();
+      if (code) {
+        this.update(code, form.value);
+      } else {
+        this.create(form.value);
+      }
+      this.launchDetails(form.value);
+    }
+  }
+
+  // TODO: make abstract as soon as all services move to this new version
+  protected update(_key: string, _value: T): void {}
+  protected create(_value: T): void {}
+
+  // TODO: make abstract!
+  load(..._args): Observable<T> {
+    return;
   }
 
   /**

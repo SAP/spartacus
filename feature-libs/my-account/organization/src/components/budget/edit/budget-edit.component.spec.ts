@@ -3,11 +3,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Budget } from '../../../core/model';
 import { BudgetService } from '../../../core/services/budget.service';
@@ -39,13 +35,14 @@ const mockBudget: Budget = {
 
 class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
   key$ = of(budgetCode);
+  launchDetails = createSpy('launchDetails');
 }
-
+const mockForm = new FormGroup({
+  code: new FormControl(budgetCode),
+});
 class MockBudgetFormService implements Partial<BudgetFormService> {
   getForm(): FormGroup {
-    return new FormGroup({
-      code: new FormControl(budgetCode),
-    });
+    return mockForm;
   }
 }
 
@@ -54,47 +51,49 @@ class MockBudgetService implements Partial<BudgetService> {
   loadBudget = createSpy('loadBudget');
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
-class MockRoutingService {
-  go = createSpy('go');
+
+@Component({
+  selector: 'cx-organization-card',
+  template: '<ng-content></ng-content>',
+})
+class MockOrganizationCardComponent {
+  @Input() previous;
 }
 
-describe('BudgetEditComponent', () => {
+fdescribe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
   let budgetService: BudgetService;
-  let routingService: RoutingService;
+
   let saveButton;
   let budgetFormComponent;
+  let currentBudgetService: CurrentBudgetService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        SplitViewTestingModule,
-        IconTestingModule,
-        ReactiveFormsModule,
+      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+      declarations: [
+        BudgetEditComponent,
+        MockBudgetFormComponent,
+        MockOrganizationCardComponent,
       ],
-      declarations: [BudgetEditComponent, MockBudgetFormComponent],
       providers: [
         { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
         { provide: BudgetService, useClass: MockBudgetService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
-    routingService = TestBed.inject(RoutingService);
+    currentBudgetService = TestBed.inject(CurrentBudgetService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BudgetEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    saveButton = fixture.debugElement.query(By.css('button[type=submit]'))
+
+    saveButton = fixture.debugElement.query(By.css('button:not([type=button])'))
       .nativeElement;
     budgetFormComponent = fixture.debugElement.query(By.css('cx-budget-form'))
       .componentInstance;
@@ -111,7 +110,7 @@ describe('BudgetEditComponent', () => {
   describe('save valid form', () => {
     it('should disable form on save ', () => {
       saveButton.click();
-      expect(budgetFormComponent.form.disabled).toBeTruthy();
+      expect(mockForm.disabled).toBeTruthy();
     });
 
     it('should create budget', () => {
@@ -121,8 +120,7 @@ describe('BudgetEditComponent', () => {
 
     it('should navigate to the detail page', () => {
       saveButton.click();
-      expect(routingService.go).toHaveBeenCalledWith(
-        'budgetDetails',
+      expect(currentBudgetService.launchDetails).toHaveBeenCalledWith(
         budgetFormComponent.form.value
       );
     });

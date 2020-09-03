@@ -1,16 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormUtils } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import {
-  map,
-  shareReplay,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { Budget } from '../../../core/model/budget.model';
-import { BudgetService } from '../../../core/services/budget.service';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
+import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
 import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
@@ -18,41 +8,15 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   selector: 'cx-budget-edit',
   templateUrl: './budget-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentBudgetService,
+    },
+    {
+      provide: OrganizationFormService,
+      useExisting: BudgetFormService,
+    },
+  ],
 })
-export class BudgetEditComponent {
-  protected code$ = this.currentBudgetService.key$;
-
-  protected budget$: Observable<Budget> = this.code$.pipe(
-    tap((code) => this.budgetService.loadBudget(code)),
-    switchMap((code) => this.budgetService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
-
-  protected form$: Observable<FormGroup> = this.budget$.pipe(
-    map((budget) => this.budgetFormService.getForm(budget))
-  );
-
-  // We have to keep all observable values consistent for a view,
-  // that's why we are wrapping them into one observable
-  viewModel$ = this.form$.pipe(
-    withLatestFrom(this.budget$, this.code$),
-    map(([form, budget, code]) => ({ form, code, budget }))
-  );
-
-  constructor(
-    protected budgetService: BudgetService,
-    protected budgetFormService: BudgetFormService,
-    protected currentBudgetService: CurrentBudgetService
-  ) {}
-
-  save(budgetCode: string, form: FormGroup): void {
-    if (form.invalid) {
-      form.markAllAsTouched();
-      FormUtils.deepUpdateValueAndValidity(form);
-    } else {
-      form.disable();
-      this.budgetService.update(budgetCode, form.value);
-      this.currentBudgetService.launchDetails(form.value);
-    }
-  }
-}
+export class BudgetEditComponent {}

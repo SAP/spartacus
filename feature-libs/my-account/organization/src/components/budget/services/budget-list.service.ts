@@ -9,27 +9,13 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
- * UI model for the budget.
- */
-export interface BudgetModel {
-  code?: string;
-  name?: string;
-  unit?: any;
-  currency?: string;
-  active?: boolean;
-  budget?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-/**
  * Service to populate Budget data to `Table` data. Budget
  * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetListService extends OrganizationListService<BudgetModel> {
+export class BudgetListService extends OrganizationListService<Budget> {
   protected tableType = OrganizationTableType.BUDGET;
 
   constructor(
@@ -42,7 +28,7 @@ export class BudgetListService extends OrganizationListService<BudgetModel> {
   protected load(
     structure: TableStructure,
     _params?
-  ): Observable<EntitiesModel<BudgetModel>> {
+  ): Observable<EntitiesModel<Budget>> {
     const paginationConfig = structure.options?.pagination;
     return this.budgetService
       .getList(paginationConfig)
@@ -57,8 +43,8 @@ export class BudgetListService extends OrganizationListService<BudgetModel> {
     pagination,
     sorts,
     values,
-  }: EntitiesModel<Budget>): EntitiesModel<BudgetModel> {
-    const budgetModels: EntitiesModel<BudgetModel> = {
+  }: EntitiesModel<Budget>): EntitiesModel<Budget> {
+    const budgetModels: EntitiesModel<Budget> = {
       pagination,
       sorts,
       values: values.map((value: any) => ({

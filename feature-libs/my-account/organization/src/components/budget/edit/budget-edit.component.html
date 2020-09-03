@@ -1,18 +1,3 @@
-<form
-  *ngIf="viewModel$ | async as viewModel"
-  [formGroup]="viewModel.form"
-  (ngSubmit)="save(viewModel.code, viewModel.form)"
->
-  <cx-organization-card [previous]="false" i18nRoot="budget.edit">
-    <button actions class="button primary">
-      {{ 'organization.save' | cxTranslate }}
-    </button>
-    <button actions class="link" routerLink="../">
-      {{ 'organization.cancel' | cxTranslate }}
-    </button>
-
-    <section main class="details">
-      <cx-budget-form [form]="viewModel.form"> </cx-budget-form>
-    </section>
-  </cx-organization-card>
-</form>
+<cx-organization-edit i18nRoot="budget">
+  <cx-budget-form main> </cx-budget-form>
+</cx-organization-edit>

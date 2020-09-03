@@ -1,4 +1,4 @@
-<ng-container *ngIf="form" [formGroup]="form">
+<ng-container [formGroup]="form">
   <div class="form-group">
     <label>
       <span class="label-content required">{{
@@ -102,7 +102,7 @@
   </div>
 
   <div
-    *ngIf="form.get('orgUnit') && b2bUnits$ | async as b2bUnits"
+    *ngIf="units$ | async as units"
     class="form-group"
     [formGroup]="form.get('orgUnit')"
   >
@@ -114,7 +114,7 @@
         formControlName="uid"
         [searchable]="false"
         [clearable]="false"
-        [items]="b2bUnits"
+        [items]="units"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
