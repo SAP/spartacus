@@ -98,9 +98,6 @@
   cx-order-details-shipping {
     .cx-account-summary {
       background-color: var(--cx-color-background);
-      border-width: 0 0 1px 0;
-      border-style: solid;
-      border-color: var(--cx-color-light);
 
       @include media-breakpoint-down(sm) {
         background-color: var(--cx-color-inverse);
