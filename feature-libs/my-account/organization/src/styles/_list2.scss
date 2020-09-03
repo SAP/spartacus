@@ -197,11 +197,10 @@ cx-organization-card-list {
       background-repeat: no-repeat;
       background-size: 12px;
       background-position: calc(100% - 26px) 50%;
-
-      // padding-inline-end: 40px;
     }
 
     td:last-child {
+      // last cell will have an icon
       padding-inline-end: 40px;
     }
 

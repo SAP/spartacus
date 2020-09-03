@@ -1,39 +1,21 @@
-// .organization {
-// //   cx-split-view:not([active-view='1']) .list table {
-// //     th,
-// //     td {
-// //       // common
-// //       &.active,
-// //       // budget
-// //       &.amount,
-// //       &.dateRange,
-// //       // cost center
-// //       &.currency
-// //       //
-// //       {
-// //         opacity: 0;
-// //         width: 0.1%;
-// //       }
-// //       // let's make status column smaller
-// //     }
-// //   }
-// //   // .list table {
-// //   //   th,
-// //   //   td {
-// //   //     &.active {
-// //   //       width: 100px;
-// //   //     }
-// //   //   }
-// //   // }
-// // }
-
 .organization {
-  cx-split-view:not([active-view='1']) > cx-view > cx-table > table {
+  cx-split-view:not([active-view='1']) .list table {
     th,
     td {
+      // common
+      // &.active,
+      // budget
       &.amount,
       &.dateRange,
-      &.currency {
+      // cost center
+      &.currency,
+      // users
+      &.uid,
+      &.roles,
+      // permissions
+      &.limit
+      //
+      {
         opacity: 0;
         width: 0.1%;
       }
@@ -44,6 +26,24 @@
     }
   }
 }
+
+// .organization {
+//   cx-split-view:not([active-view='1']) > cx-view > cx-table > table {
+//     th,
+//     td {
+//       &.amount,
+//       &.dateRange,
+//       &.currency {
+//         opacity: 0;
+//         width: 0.1%;
+//       }
+//       // let's make status column smaller
+//       &.active {
+//         width: 100px;
+//       }
+//     }
+//   }
+// }
 
 cx-unit-tree {
   a {
