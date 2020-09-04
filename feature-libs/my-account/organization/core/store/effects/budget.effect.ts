@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
@@ -42,6 +42,9 @@ export class BudgetEffects {
     | BudgetActions.LoadBudgetsFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
+    tap((action) => {
+      this.previousLoadBudgetsAction = action;
+    }),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
@@ -69,13 +72,18 @@ export class BudgetEffects {
 
   @Effect()
   createBudget$: Observable<
-    BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
+    | BudgetActions.CreateBudgetSuccess
+    | BudgetActions.CreateBudgetFail
+    | BudgetActions.LoadBudgets
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
-        map((data) => new BudgetActions.CreateBudgetSuccess(data)),
+        switchMap((data) => [
+          new BudgetActions.CreateBudgetSuccess(data),
+          this.previousLoadBudgetsAction,
+        ]),
         catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.CreateBudgetFail({
@@ -90,7 +98,9 @@ export class BudgetEffects {
 
   @Effect()
   updateBudget$: Observable<
-    BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
+    | BudgetActions.UpdateBudgetSuccess
+    | BudgetActions.UpdateBudgetFail
+    | BudgetActions.LoadBudgets
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
@@ -98,7 +108,10 @@ export class BudgetEffects {
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
-          map((data) => new BudgetActions.UpdateBudgetSuccess(data)),
+          switchMap((data) => [
+            new BudgetActions.UpdateBudgetSuccess(data),
+            this.previousLoadBudgetsAction,
+          ]),
           catchError((error: HttpErrorResponse) =>
             of(
               new BudgetActions.UpdateBudgetFail({
@@ -110,6 +123,8 @@ export class BudgetEffects {
         )
     )
   );
+
+  previousLoadBudgetsAction: BudgetActions.LoadBudgets;
 
   constructor(
     private actions$: Actions,
