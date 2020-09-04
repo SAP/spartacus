@@ -1,13 +1,10 @@
 import { Configurator, StateUtils } from '@spartacus/core';
 
-export const CONFIGURATION_FEATURE = 'productConfiguration';
-export const CONFIGURATION_DATA = '[Configurator] Configuration Data';
-export const CONFIGURATION_UI_DATA = '[Configurator] Configuration UI Data';
-export const CONFIGURATION_PENDING_CHANGES =
-  '[Configurator] Configuration Pending Changes';
+export const CONFIGURATOR_FEATURE = 'productConfigurator';
+export const CONFIGURATOR_DATA = '[Configurator] Configuration Data';
 
 export interface StateWithConfiguration {
-  [CONFIGURATION_FEATURE]: ConfigurationState;
+  [CONFIGURATOR_FEATURE]: ConfigurationState;
 }
 
 export interface ConfigurationState {

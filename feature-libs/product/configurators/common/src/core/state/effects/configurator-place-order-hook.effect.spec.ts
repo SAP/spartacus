@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CONFIGURATION_FEATURE } from '../configuration-state';
+import { CONFIGURATOR_FEATURE } from '../configuration-state';
 import * as fromConfigurationReducers from '../reducers/index';
 import { ConfiguratorActions } from './../actions/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
@@ -74,7 +74,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
+          CONFIGURATOR_FEATURE,
           fromConfigurationReducers.getConfiguratorReducers()
         ),
       ],

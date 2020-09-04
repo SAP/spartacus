@@ -7,7 +7,7 @@ import {
   MULTI_CART_DATA,
   StateUtils,
 } from '@spartacus/core';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import { CONFIGURATOR_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator-cart.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -41,7 +41,7 @@ describe('ConfiguratorCartActions', () => {
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
         payload: { configuration: CONFIGURATION, cartEntryNo: cartEntryNo },
         meta: StateUtils.entitySuccessMeta(
-          CONFIGURATION_DATA,
+          CONFIGURATOR_DATA,
           CONFIGURATION.owner.key
         ),
       });

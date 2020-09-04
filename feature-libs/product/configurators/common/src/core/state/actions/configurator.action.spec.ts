@@ -6,7 +6,7 @@ import {
   GenericConfigUtilsService,
   StateUtils,
 } from '@spartacus/core';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import { CONFIGURATOR_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -55,7 +55,7 @@ describe('ConfiguratorActions', () => {
             groupId: GROUP_ID,
           },
           meta: StateUtils.entityLoadMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });
@@ -76,7 +76,7 @@ describe('ConfiguratorActions', () => {
             error: error,
           },
           meta: StateUtils.entityFailMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             PRODUCT_CODE,
             error
           ),
@@ -93,7 +93,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
           meta: StateUtils.entitySuccessMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });
@@ -112,7 +112,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
           payload: CONFIGURATION,
           meta: {
-            entityType: CONFIGURATION_DATA,
+            entityType: CONFIGURATOR_DATA,
             entityId: CONFIGURATION.owner.key,
             loader: { load: true },
             processesCountDiff: 1,
@@ -136,7 +136,7 @@ describe('ConfiguratorActions', () => {
             error: error,
           },
           meta: {
-            entityType: CONFIGURATION_DATA,
+            entityType: CONFIGURATOR_DATA,
             entityId: CONFIGURATION.owner.key,
             loader: { error: error },
             processesCountDiff: -1,
@@ -154,7 +154,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
           meta: StateUtils.entityProcessesDecrementMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });

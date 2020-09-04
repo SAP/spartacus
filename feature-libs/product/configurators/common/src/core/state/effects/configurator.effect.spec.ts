@@ -15,7 +15,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
 import {
-  CONFIGURATION_FEATURE,
+  CONFIGURATOR_FEATURE,
   StateWithConfiguration,
 } from '../configuration-state';
 import * as fromConfigurationReducers from '../reducers/index';
@@ -72,7 +72,7 @@ describe('ConfiguratorEffect', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
+          CONFIGURATOR_FEATURE,
           fromConfigurationReducers.getConfiguratorReducers()
         ),
       ],

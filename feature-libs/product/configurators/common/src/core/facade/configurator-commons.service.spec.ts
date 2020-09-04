@@ -16,7 +16,7 @@ import { productConfigurationWithConflicts } from './../../shared/testing/config
 import { ConfiguratorActions } from './../state/actions/index';
 import {
   ConfigurationState,
-  CONFIGURATION_FEATURE,
+  CONFIGURATOR_FEATURE,
   StateWithConfiguration,
 } from './../state/configuration-state';
 import { getConfiguratorReducers } from './../state/reducers/index';
@@ -146,7 +146,7 @@ describe('ConfiguratorCommonsService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCommonsService,

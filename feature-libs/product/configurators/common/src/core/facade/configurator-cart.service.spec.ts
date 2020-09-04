@@ -17,7 +17,7 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from './../state/actions/index';
 import {
-  CONFIGURATION_FEATURE,
+  CONFIGURATOR_FEATURE,
   StateWithConfiguration,
 } from './../state/configuration-state';
 import { getConfiguratorReducers } from './../state/reducers/index';
@@ -84,7 +84,7 @@ describe('ConfiguratorCartService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCartService,

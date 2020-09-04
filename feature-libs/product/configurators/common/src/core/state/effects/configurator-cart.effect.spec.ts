@@ -17,7 +17,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
-import { CONFIGURATION_FEATURE } from '../configuration-state';
+import { CONFIGURATOR_FEATURE } from '../configuration-state';
 import * as fromConfigurationReducers from '../reducers/index';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 import * as fromEffects from './configurator-cart.effect';
@@ -87,7 +87,7 @@ describe('ConfiguratorCartEffect', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
+          CONFIGURATOR_FEATURE,
           fromConfigurationReducers.getConfiguratorReducers()
         ),
       ],

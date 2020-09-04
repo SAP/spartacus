@@ -6,14 +6,14 @@ import {
 import { Configurator, StateUtils } from '@spartacus/core';
 import {
   ConfigurationState,
-  CONFIGURATION_FEATURE,
+  CONFIGURATOR_FEATURE,
   StateWithConfiguration,
 } from '../configuration-state';
 
 export const getConfigurationsState: MemoizedSelector<
   StateWithConfiguration,
   ConfigurationState
-> = createFeatureSelector<ConfigurationState>(CONFIGURATION_FEATURE);
+> = createFeatureSelector<ConfigurationState>(CONFIGURATOR_FEATURE);
 
 export const getConfigurationState: MemoizedSelector<
   StateWithConfiguration,

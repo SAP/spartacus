@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { ConfiguratorActions } from '../actions';
 import {
-  CONFIGURATION_FEATURE,
+  CONFIGURATOR_FEATURE,
   StateWithConfiguration,
 } from '../configuration-state';
 import * as fromReducers from '../reducers/index';
@@ -40,7 +40,7 @@ describe('Configurator selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
+          CONFIGURATOR_FEATURE,
           fromReducers.getConfiguratorReducers()
         ),
       ],
