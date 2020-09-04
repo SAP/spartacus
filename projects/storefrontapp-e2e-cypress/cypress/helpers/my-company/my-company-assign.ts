@@ -2,113 +2,74 @@ import { MyCompanyConfig, MyCompanySelectorSuffixes } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
-  getListRowsFromBody,
-  ngSelect,
   scanTablePagesForText,
+  verifyList,
+  getListRowsFromBody,
 } from './my-company';
+import { testList, testListSorting } from './my-company-list';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config.subCategories.forEach((tab) => {
-    let assignmentRows;
     let firstRow;
     const selectorAssignment = `${config.selector}-${MyCompanySelectorSuffixes.ASSIGN}-${tab.selector}`;
     const selectorList = `${config.selector}-${tab.selector}-${MyCompanySelectorSuffixes.LIST}`;
 
     describe(`${config.name} Assignment - ${tab.name}`, () => {
+      let listData: any;
+
       before(() => {
         loginAsMyCompanyAdmin();
         cy.visit(`${config.baseUrl}s`);
       });
 
+      beforeEach(() => {
+        cy.server();
+      });
+
       it('should show list', () => {
-        cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-        waitForData((data) => {
-          const rows = getListRowsFromBody(
-            data,
-            config.objectType,
-            config.rows
-          );
-          firstRow = rows[0];
-
-          cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
-            () => {
-              cy.get('a')
-                .contains(`${firstRow.text[0]}`)
-                .click({ force: true });
-            }
-          );
-
+        testList(config, cy.visit(`${config.baseUrl}s`), (data) => {
+          listData = data;
+          firstRow = data[0];
+          cy.get('a').contains(`${firstRow.text[0]}`).click({ force: true });
           cy.url().should('contain', `${firstRow.links[0]}`);
-        }, cy.visit(`${config.baseUrl}s`));
 
-        cy.route('GET', `${tab.apiEndpoint}`).as('getData');
-        waitForData((data) => {
-          cy.url().should(
-            'contain',
-            `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
-          );
+          cy.route('GET', `${tab.apiEndpoint}`).as('getData');
+          waitForData((assignmentData: any) => {
+            cy.url().should(
+              'contain',
+              `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
+            );
+            listData = getListRowsFromBody(
+              assignmentData,
+              tab.objectType,
+              tab.rows
+            );
 
-          // TODO: Verify list is correct
-          // cy.get('a').contains('Assign').click();
-          // cy.wait(5000);
-          // verifyList(
-          //   config,
-          //   getListRowsFromBody(data, tab.objectType, tab.rows),
-          //   tab.rows
-          // );
-        }, cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST} a`).contains(tab.name).click({ force: true }));
+            // TODO: Should show all assigned items in details table
+          }, cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST} a`).contains(tab.name).click({ force: true }));
+        });
       });
 
       // TODO: Fails because assignment details do not align
       it('should show assignments list', () => {
-        cy.server();
-
-        cy.route('GET', `${tab.apiEndpoint}`).as('getData');
-        waitForData((data) => {
-          // const assignmentRowHeaders = tab.rowHeaders.splice(0, 0, 'Assign');
-          // tab.dataConfig.rowConfig = tab.dataConfig.rowConfig.splice(0, 0, {
-          //   text: '',
-          // });
-          // verifyList(
-          //   config,
-          //   getListRowsFromBody(data, tab.objectType, tab.rows),
-          //   tab.rows
-          // );
-        }, cy.get('a').contains('Assign').click());
-
+        cy.get('a').contains('Assign').click();
         cy.url().should(
           'contain',
           `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}/assign`
         );
-        cy.get(selectorAssignment).within(() => {
-          cy.get('h3').should(
-            'contain.text',
-            `Assign ${tab.name.toLowerCase()}`
-          );
-        });
+        cy.get(`${selectorAssignment} h3`).should(
+          'contain.text',
+          `Assign ${tab.name.toLowerCase()}`
+        );
+        cy.wait(5000);
+        verifyList(listData, tab.rows);
       });
 
-      xit('should sort assignments table data', () => {
-        cy.server();
-        tab.sorts?.forEach((sort) => {
-          cy.route('GET', `${tab.apiEndpoint}`).as('getData');
-          waitForData((data) => {
-            const assignmentRowHeaders = tab.rowHeaders.splice(0, 0, 'Assign');
-            tab.dataConfig.rowConfig = tab.dataConfig.rowConfig.splice(0, 0, {
-              text: '',
-            });
-            // TODO: Currently fails due to
-            // verifyList(
-            //   config,
-            //   getListRowsFromBody(data, tab.objectType, tab.rows),
-            //   assignmentRowHeaders
-            // );
-          }, ngSelect(sort.value));
-        });
+      it('should sort assignments table data', () => {
+        testListSorting(tab);
       });
 
       it(`should assign and validate`, () => {
-        cy.server();
         cy.get('cx-table').within(() => {
           // cy.route('POST', `**/${tab.dataConfig.type}**`).as('getData');
           cy.route('POST', `**`).as('getData');
@@ -133,8 +94,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
       });
 
       it(`should unassign and validate`, () => {
-        cy.server();
-
         cy.get('a').contains('Assign').click();
         cy.get('cx-table').within(() => {
           cy.route('DELETE', `**`).as('delete');
@@ -160,8 +119,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
       if (tab.canUnassignAll) {
         it(`should unassign all and validate`, () => {
-          cy.server();
-
           cy.get('a').contains('Assign').click();
 
           cy.route('DELETE', `**`).as('getData');

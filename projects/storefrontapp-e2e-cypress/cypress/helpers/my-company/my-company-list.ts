@@ -1,8 +1,4 @@
-import {
-  MyCompanyConfig,
-  MyCompanySelectorSuffixes,
-  MyCompanyRowConfig,
-} from './models/index';
+import { MyCompanyConfig, MyCompanyRowConfig } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
@@ -11,9 +7,6 @@ import {
 } from './my-company';
 
 export function testListFromConfig(config: MyCompanyConfig) {
-  const defaultRow = config.rows[0];
-
-  // TODO: We should perform our own sort function to compare data returned with expected result
   describe(`${config.name} List`, () => {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
@@ -21,50 +14,57 @@ export function testListFromConfig(config: MyCompanyConfig) {
     });
 
     it('should show list', () => {
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-      waitForData((data) => {
-        checkUrlHasSortParams(defaultRow);
-        cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
-          () => {
-            // cy.get('h3').should('contain.text', config.name);
-            verifyList(
-              getListRowsFromBody(data, config.objectType, config.rows),
-              config.rows
-            );
-          }
-        );
-      }, cy.visit(`${config.baseUrl}s`));
+      testList(config, cy.visit(`${config.baseUrl}s`));
     });
 
     it('should sort table data', () => {
-      config.rows.forEach((row) => {
-        cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-        waitForData((data) => {
-          // TODO: Should be checked but sort param in url not currently implemented. Uncomment once it is.
-          // checkUrlHasSortParams(row);
-
-          cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
-            () => {
-              verifyList(
-                getListRowsFromBody(data, config.objectType, config.rows),
-                config.rows
-              );
-            }
-          );
-        }, clickSortButton(row));
-      });
+      testListSorting(config);
     });
   });
+}
 
-  function checkUrlHasSortParams(row: MyCompanyRowConfig) {
-    cy.url().should('contain', `${config.baseUrl}s${row.sortByUrl ?? ''}`);
-  }
+export function testList(
+  config: MyCompanyConfig,
+  trigger: any,
+  callback?: Function
+) {
+  cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+  waitForData((data) => {
+    const defaultRow: MyCompanyRowConfig = config.rows[0];
+    const listData = getListRowsFromBody(data, config.objectType, config.rows);
 
-  function clickSortButton(row: MyCompanyRowConfig) {
-    cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`)
-      .contains(row.label)
-      .within(() => {
-        cy.get('cx-icon[class^="cx-icon fas fa-sort"]').click();
-      });
-  }
+    checkUrlHasSortParams(defaultRow);
+    verifyList(listData, config.rows);
+
+    if (callback) {
+      callback(listData);
+    }
+  }, trigger);
+}
+
+export function testListSorting(config: MyCompanyConfig) {
+  // TODO: We could perform our own sort function to compare data returned with expected result
+  config.rows.forEach((row) => {
+    cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+    waitForData((data) => {
+      checkUrlHasSortParams(row);
+      verifyList(
+        getListRowsFromBody(data, config.objectType, config.rows),
+        config.rows
+      );
+    }, clickSortButton(row));
+  });
+}
+
+function checkUrlHasSortParams(row: MyCompanyRowConfig) {
+  // TODO: Omitted for now while url does not contain sort params, could come back though
+  // cy.url().should('contain', `${row.sortByUrl ?? ''}`);
+}
+
+function clickSortButton(row: MyCompanyRowConfig) {
+  cy.get('cx-table thead')
+    .contains(row.label)
+    .within(() => {
+      cy.get('cx-icon[class^="cx-icon fas fa-sort"]').click();
+    });
 }
