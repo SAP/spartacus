@@ -37,7 +37,7 @@ export class AdminGuard implements CanActivate {
           );
         }
 
-        return !!hasRole;
+        return hasRole;
       })
     );
   }
