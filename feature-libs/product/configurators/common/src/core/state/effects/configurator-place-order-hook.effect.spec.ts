@@ -10,9 +10,9 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfiguratorActions } from './../actions/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
 
 const cartEntryWOconfiguration: OrderEntry[] = [

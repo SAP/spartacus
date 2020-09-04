@@ -8,12 +8,17 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { RemoveConfiguration } from '../actions/configurator.action';
+import { ConfiguratorActions } from './../actions/index';
 
 @Injectable()
+/**
+ * Effect used to hook into the place order action
+ */
 export class ConfiguratorPlaceOrderHookEffects {
   @Effect()
-  placeOrder$: Observable<RemoveConfiguration> = this.actions$.pipe(
+  placeOrder$: Observable<
+    ConfiguratorActions.RemoveConfiguration
+  > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() => {
       const ownerKeys = [];
@@ -38,7 +43,9 @@ export class ConfiguratorPlaceOrderHookEffects {
             ownerKeys.push(owner.key);
           });
         });
-      return new RemoveConfiguration({ ownerKey: ownerKeys });
+      return new ConfiguratorActions.RemoveConfiguration({
+        ownerKey: ownerKeys,
+      });
     })
   );
 

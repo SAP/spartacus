@@ -12,7 +12,7 @@ export const initialState: Configurator.Configuration = {
 };
 export const initialStatePendingChanges = 0;
 
-export function reducer(
+export function configuratorReducer(
   state = initialState,
   action:
     | ConfiguratorActions.ConfiguratorAction

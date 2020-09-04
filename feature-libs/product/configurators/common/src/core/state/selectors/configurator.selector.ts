@@ -10,9 +10,6 @@ import {
   StateWithConfiguration,
 } from '../configuration-state';
 
-// const getConfigurationContentSelector = (state: ConfigurationState) =>
-//   state.content;
-
 export const getConfigurationsState: MemoizedSelector<
   StateWithConfiguration,
   ConfigurationState

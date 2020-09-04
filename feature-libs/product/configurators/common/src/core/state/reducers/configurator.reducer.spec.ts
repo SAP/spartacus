@@ -37,7 +37,7 @@ describe('Configurator reducer', () => {
     it('should return the default state', () => {
       const { initialState } = StateReduce;
       const action = {} as any;
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
@@ -47,7 +47,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.CreateConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(configuration);
       expect(state.interactionState.currentGroup).toEqual(
@@ -60,7 +60,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(configuration);
       expect(state.interactionState.currentGroup).toEqual(
@@ -73,7 +73,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(configuration);
       expect(state.interactionState.currentGroup).toEqual(
@@ -87,7 +87,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
@@ -101,7 +101,7 @@ describe('Configurator reducer', () => {
           error: null,
         }
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
@@ -112,7 +112,7 @@ describe('Configurator reducer', () => {
       const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfiguration(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
@@ -122,7 +122,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.owner).toEqual(configuration.owner);
       expect(state.configId).toEqual(configuration.configId);
@@ -133,7 +133,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(true);
     });
@@ -146,7 +146,10 @@ describe('Configurator reducer', () => {
         configId: 'A',
         overview: {},
       };
-      const state = StateReduce.reducer(configurationWithOverview, action);
+      const state = StateReduce.configuratorReducer(
+        configurationWithOverview,
+        action
+      );
 
       expect(state.overview).toBeUndefined();
     });
@@ -158,7 +161,7 @@ describe('Configurator reducer', () => {
         configuration: configuration,
       };
       const action = new ConfiguratorActions.UpdateCartEntry(params);
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(false);
     });
@@ -169,14 +172,14 @@ describe('Configurator reducer', () => {
       const action1 = new ConfiguratorActions.ReadConfigurationSuccess(
         configuration
       );
-      let state = StateReduce.reducer(undefined, action1);
+      let state = StateReduce.configuratorReducer(undefined, action1);
 
       expect(state.configId).toEqual('ds');
 
       const action2 = new ConfiguratorActions.RemoveConfiguration({
         ownerKey: configuration.productCode,
       });
-      state = StateReduce.reducer(undefined, action2);
+      state = StateReduce.configuratorReducer(undefined, action2);
 
       expect(state.configId).toEqual('');
     });
@@ -186,7 +189,7 @@ describe('Configurator reducer', () => {
     it('interaction state should be set', () => {
       const { initialState } = StateReduce;
 
-      const state = StateReduce.reducer(
+      const state = StateReduce.configuratorReducer(
         initialState,
         new ConfiguratorActions.SetInteractionState({
           entityKey: PRODUCT_CODE,
@@ -204,7 +207,7 @@ describe('Configurator reducer', () => {
     it('should change the current group', () => {
       const { initialState } = StateReduce;
 
-      const state = StateReduce.reducer(
+      const state = StateReduce.configuratorReducer(
         initialState,
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: PRODUCT_CODE,
@@ -220,7 +223,7 @@ describe('Configurator reducer', () => {
     it('should change the parentGroup group', () => {
       const { initialState } = StateReduce;
 
-      const state = StateReduce.reducer(
+      const state = StateReduce.configuratorReducer(
         initialState,
         new ConfiguratorActions.SetMenuParentGroup({
           entityKey: PRODUCT_CODE,
@@ -241,7 +244,7 @@ describe('Configurator reducer', () => {
         visitedGroups: ['group1', 'group2', 'group3'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsVisited).toEqual({
         group1: true,
@@ -267,7 +270,7 @@ describe('Configurator reducer', () => {
         visitedGroups: ['group4'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsVisited).toEqual({
         group1: true,
@@ -285,7 +288,7 @@ describe('Configurator reducer', () => {
         completedGroups: ['group1', 'group2', 'group3'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsStatus).toEqual({
         group1: Configurator.GroupStatus.COMPLETE,
@@ -311,7 +314,7 @@ describe('Configurator reducer', () => {
         completedGroups: ['group4'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsStatus).toEqual({
         group1: Configurator.GroupStatus.COMPLETE,
@@ -329,7 +332,7 @@ describe('Configurator reducer', () => {
         errorGroups: ['group1', 'group2', 'group3'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsStatus).toEqual({
         group1: Configurator.GroupStatus.ERROR,
@@ -355,7 +358,7 @@ describe('Configurator reducer', () => {
         errorGroups: ['group4'],
       });
 
-      const state = StateReduce.reducer(initialState, action);
+      const state = StateReduce.configuratorReducer(initialState, action);
 
       expect(state.interactionState.groupsStatus).toEqual({
         group1: Configurator.GroupStatus.ERROR,
@@ -374,7 +377,7 @@ describe('Configurator reducer', () => {
         ownerKey: configuration.owner.key,
         overview: overview,
       });
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.overview).toEqual(overview);
       expect(state.priceSummary).toBe(priceSummary);
@@ -388,7 +391,7 @@ describe('Configurator reducer', () => {
         ownerKey: configuration.owner.key,
         overview: overview,
       });
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.overview).toEqual(overview);
     });
@@ -400,7 +403,7 @@ describe('Configurator reducer', () => {
         ownerKey: configuration.owner.key,
         overview: overview,
       });
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.priceSummary).toBe(priceSummary);
     });
@@ -413,7 +416,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.overview).toEqual(overview);
     });
@@ -425,7 +428,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
         configuration
       );
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.priceSummary).toBe(priceSummary);
     });
@@ -437,7 +440,7 @@ describe('Configurator reducer', () => {
         configuration: configuration,
         cartEntryNo: '1',
       });
-      const state = StateReduce.reducer(undefined, action);
+      const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.nextOwner).toBeDefined();
       expect(state.nextOwner.type).toBe(
