@@ -2,41 +2,48 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { CurrentOrganizationItemService } from '../current-organization-item.service';
-import { OrganizationFormService } from './organization-form.service';
+import { OrganizationItemService } from '../organization-item.service';
 
+/**
+ * Reusable component for creating and editing organization items. The component does not
+ * know anything about form specific.
+ */
 @Component({
   selector: 'cx-organization-edit',
   templateUrl: './organization-edit.component.html',
 })
 export class OrganizationEditComponent<T> {
+  /**
+   * i18n root for all localizations. The i18n root key is suffixed with
+   * either `.edit` or `.create`, depending on the usage of the component.
+   */
   @Input() i18nRoot: string;
 
+  /**
+   * i18n key for the localizations.
+   */
   i18n: string;
 
-  form$: Observable<FormGroup> = this.currentItemService.b2bUnit$.pipe(
+  form$: Observable<FormGroup> = this.itemService.unit$.pipe(
     switchMap((unitUid) => {
-      return this.currentItemService.item$.pipe(
+      return this.itemService.current$.pipe(
         map((item) => {
           this.setI18nRoot(item);
           if (!item) {
             // TODO: as long as we do not have harmonized unit property, we have to workaround here,
             item = { orgUnit: { uid: unitUid } } as any;
           }
-          return this.formService.getForm(item);
+          return this.itemService.getForm(item);
         })
       );
     })
   );
 
-  constructor(
-    protected currentItemService: CurrentOrganizationItemService<T>,
-    protected formService: OrganizationFormService<T>
-  ) {}
+  constructor(protected itemService: OrganizationItemService<T>) {}
 
   save(form: FormGroup): void {
-    this.currentItemService.key$.pipe(first()).subscribe((key) => {
-      this.currentItemService.save(form, key);
+    this.itemService.key$.pipe(first()).subscribe((key) => {
+      this.itemService.save(form, key);
     });
   }
 

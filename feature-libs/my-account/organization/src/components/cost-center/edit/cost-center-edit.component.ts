@@ -60,7 +60,7 @@ export class CostCenterEditComponent {
     } else {
       form.disable();
       this.costCenterService.update(costCenterCode, form.value);
-      this.currentCostCenterService.launchDetails(form.value);
+      // this.currentCostCenterService.launchDetails(form.value);
     }
   }
 }

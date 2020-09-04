@@ -4,8 +4,8 @@ import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../../core';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
-import { BudgetFormService } from './budget-form.service';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -13,19 +13,19 @@ import { BudgetFormService } from './budget-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationFormService,
-      useExisting: BudgetFormService,
+      provide: OrganizationItemService,
+      useExisting: BudgetItemService,
     },
   ],
 })
 export class BudgetFormComponent implements OnInit {
-  form: FormGroup = this.budgetFormService.getForm();
+  form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected budgetFormService: OrganizationFormService<Budget>,
+    protected itemService: OrganizationItemService<Budget>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}

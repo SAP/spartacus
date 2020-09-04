@@ -18,19 +18,6 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     super(routingService);
   }
 
-  load(code: string): Observable<Budget> {
-    this.budgetService.loadBudget(code);
-    return this.budgetService.get(code);
-  }
-
-  protected update(code, value: Budget) {
-    this.budgetService.update(code, value);
-  }
-
-  protected create(value: Budget) {
-    this.budgetService.create(value);
-  }
-
   protected getDetailsRoute(): string {
     return 'budgetDetails';
   }

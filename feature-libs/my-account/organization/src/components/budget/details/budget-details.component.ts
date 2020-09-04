@@ -4,7 +4,7 @@ import { first, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
 import { OrganizationMessageComponent } from '../../shared/organization-message/organization-message.component';
-import { CurrentBudgetService } from '../services/current-budget.service';
+import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
   selector: 'cx-budget-details',
@@ -22,7 +22,7 @@ export class BudgetDetailsComponent {
    *
    * It reloads the model when the code of the current budget center changes.
    */
-  model$: Observable<Budget> = this.currentBudgetService.key$.pipe(
+  model$: Observable<Budget> = this.budgetItemService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -30,7 +30,7 @@ export class BudgetDetailsComponent {
 
   constructor(
     protected budgetService: BudgetService,
-    protected currentBudgetService: CurrentBudgetService
+    protected budgetItemService: BudgetItemService
   ) {}
 
   toggleActive(model: Budget) {

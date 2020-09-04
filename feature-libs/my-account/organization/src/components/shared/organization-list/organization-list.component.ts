@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { CurrentOrganizationItemService } from '../current-organization-item.service';
+import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from './organization-list.service';
 
 const BASE_CLASS = 'organization';
@@ -17,7 +17,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
 
   constructor(
     protected service: OrganizationListService<T, P>,
-    protected currentService: CurrentOrganizationItemService<T>
+    protected organizationItemService: OrganizationItemService<T>
   ) {}
 
   get viewType() {
@@ -29,7 +29,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    * This key is used to load the item details as well as highlight the item in
    * a list of items.
    */
-  readonly currentKey$ = this.currentService.key$;
+  readonly currentKey$ = this.organizationItemService.key$;
 
   readonly dataTable$: Observable<Table> = this.service.getTable();
 
@@ -57,7 +57,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    * Navigates to the detailed view of the selected list item.
    */
   launchItem(event: T): void {
-    this.currentService.launchDetails(event);
+    this.organizationItemService.launchDetails(event);
   }
 
   /**

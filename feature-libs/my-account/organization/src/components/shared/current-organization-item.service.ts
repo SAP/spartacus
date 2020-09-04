@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { FormUtils } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 import { QUERY_PARAMS } from '../constants';
@@ -47,37 +45,6 @@ export abstract class CurrentOrganizationItemService<T> {
     distinctUntilChanged()
   );
 
-  launchDetails(params: T): void {
-    const cxRoute = this.getDetailsRoute();
-    if (cxRoute) {
-      this.routingService.go({ cxRoute, params });
-    }
-  }
-
-  save(form: FormGroup, code?: string) {
-    if (form.invalid) {
-      form.markAllAsTouched();
-      FormUtils.deepUpdateValueAndValidity(form);
-    } else {
-      form.disable();
-      if (code) {
-        this.update(code, form.value);
-      } else {
-        this.create(form.value);
-      }
-      this.launchDetails(form.value);
-    }
-  }
-
-  // TODO: make abstract as soon as all services move to this new version
-  protected update(_key: string, _value: T): void {}
-  protected create(_value: T): void {}
-
-  // TODO: make abstract!
-  load(..._args): Observable<T> {
-    return;
-  }
-
   /**
    * Returns the route parameter key for the item. The route parameter key differs
    * per item, so that route parameters are distinguished in the route configuration.
@@ -88,8 +55,4 @@ export abstract class CurrentOrganizationItemService<T> {
    * Emits the current model or null, if there is no model available
    */
   protected abstract getItem(...params: any[]): Observable<T>;
-
-  protected getDetailsRoute(): string {
-    return;
-  }
 }

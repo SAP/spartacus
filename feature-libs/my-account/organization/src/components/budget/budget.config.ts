@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { ActiveLinkCellComponent } from '../shared/organization-table';
@@ -19,7 +19,7 @@ import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-c
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetFormComponent } from './form';
 import { BudgetListService } from './services';
-import { CurrentBudgetService } from './services/current-budget.service';
+import { BudgetItemService } from './services/budget-item.service';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
@@ -62,8 +62,8 @@ export const budgetCmsConfig: CmsConfig = {
           useExisting: BudgetListService,
         },
         {
-          provide: CurrentOrganizationItemService,
-          useExisting: CurrentBudgetService,
+          provide: OrganizationItemService,
+          useExisting: BudgetItemService,
         },
       ],
       childRoutes: [

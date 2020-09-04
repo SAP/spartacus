@@ -32,9 +32,6 @@ const paramsMapping: ParamsMapping = {
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      costCenter: {
-        paths: ['organization/cost-centers'],
-      },
       costCenterCreate: {
         paths: ['organization/cost-centers/create'],
       },

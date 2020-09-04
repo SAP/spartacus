@@ -7,13 +7,13 @@ export abstract class OrganizationFormService<T> {
 
   protected abstract build(): void;
 
-  getForm(model?: T): FormGroup {
+  getForm(item?: T): FormGroup {
     if (!this.form) {
       this.build();
     }
     this.form.reset();
-    if (model) {
-      this.form.patchValue(model);
+    if (item) {
+      this.form.patchValue(item);
     }
     this.form.enable();
     return this.form;

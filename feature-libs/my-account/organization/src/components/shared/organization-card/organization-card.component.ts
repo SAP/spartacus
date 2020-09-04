@@ -1,17 +1,19 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
-import { OrganizationListComponent } from '../organization-list/organization-list.component';
+import { OrganizationItemService } from '../organization-item.service';
 
 @Component({
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationCardComponent extends OrganizationListComponent {
+export class OrganizationCardComponent<T> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 
-  item$ = this.currentService.item$;
+  item$ = this.currentService.current$;
+
+  constructor(protected currentService: OrganizationItemService<T>) {}
 
   closeView(view: ViewComponent, event: MouseEvent) {
     event.stopPropagation();

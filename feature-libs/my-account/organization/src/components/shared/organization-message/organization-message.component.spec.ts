@@ -28,7 +28,7 @@ describe('OrganizationSubListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call notify on input message?', () => {
+  it('should call notify on input message', () => {
     spyOn(component, 'notify');
     component.message = 'msg...';
     expect(component.notify).toHaveBeenCalledWith('msg...');
