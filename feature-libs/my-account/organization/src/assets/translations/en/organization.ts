@@ -57,6 +57,10 @@ export const organization = {
     },
 
     breadcrumb: 'Organization',
+
+    error: {
+      noSufficientPermissions: 'No sufficient permissions to access this page',
+    },
   },
 
   // sub feature labels are added below
