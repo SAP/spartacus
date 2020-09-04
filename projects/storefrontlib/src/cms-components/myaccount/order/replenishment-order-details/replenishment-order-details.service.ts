@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  Order,
+  ReplenishmentOrder,
   RoutingService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
@@ -35,7 +35,7 @@ export class ReplenishmentOrderDetailsService {
     protected userReplenishmentOrderService: UserReplenishmentOrderService
   ) {}
 
-  getOrderDetails(): Observable<Order> {
+  getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderLoad$.pipe(
       switchMap((_) =>
         this.userReplenishmentOrderService.getReplenishmentOrderDetails()

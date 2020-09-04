@@ -270,12 +270,21 @@ describe('OrderDetailHeadlineComponent', () => {
         fixture.detectChanges();
         const element: DebugElement = el.query(
           By.css(
-            '.cx-header:nth-of-type(2) .cx-detail:last-of-type .cx-detail-value'
+            '.cx-header:nth-of-type(2) div:nth-child(2) > div.cx-detail-value'
           )
         );
         expect(element.nativeElement.textContent).toContain(
           mockReplenishmentOrder.trigger.displayTimeTable
         );
+      });
+
+      it('should display empty slot', () => {
+        fixture.detectChanges();
+        const element: DebugElement = el.query(
+          By.css('.cx-header:nth-of-type(2) .cx-detail:last-of-type')
+        );
+        expect(element).toBeDefined();
+        expect(element).toBeNull();
       });
     });
   });
