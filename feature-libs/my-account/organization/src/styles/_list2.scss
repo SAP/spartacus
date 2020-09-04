@@ -200,8 +200,8 @@ cx-organization-edit {
       background-position: calc(100% - 26px) 50%;
     }
 
-    td:last-child {
-      // last cell will have an icon
+    td:last-child a {
+      // last cell will have an icon, which is why we add additional padding
       padding-inline-end: 40px;
     }
 
