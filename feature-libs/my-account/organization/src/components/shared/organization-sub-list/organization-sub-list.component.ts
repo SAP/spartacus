@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 
 @Component({
@@ -13,6 +14,10 @@ export class OrganizationSubListComponent extends OrganizationListComponent {
 
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
+
+  readonly dataTable$: Observable<Table> = this.currentKey$.pipe(
+    switchMap((key) => this.service.getTable(key))
+  );
 
   getRouteParam(): Observable<any> {
     return this.currentKey$.pipe(
