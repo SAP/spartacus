@@ -13,10 +13,10 @@ import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/compo
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
 
 import createSpy = jasmine.createSpy;
-import { UnitRoleType } from '../../../shared';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 const code = 'unitCode';
-const roleId = UnitRoleType.APPROVER;
+const roleId = UserRole.APPROVER;
 const customerId = 'customerId1';
 
 const mockUserList: EntitiesModel<B2BUser> = {

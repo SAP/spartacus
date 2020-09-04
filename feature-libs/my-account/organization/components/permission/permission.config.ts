@@ -15,7 +15,7 @@ import { PermissionCreateComponent } from './create/permission-create.component'
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
 import { PermissionListComponent } from './list/permission-list.component';
-import { AdminGuard } from '../../core/guards/admin.guard';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
 const paramsMapping: ParamsMapping = {

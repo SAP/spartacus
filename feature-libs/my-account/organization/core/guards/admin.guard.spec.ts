@@ -9,7 +9,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { UnitRoleType } from '@spartacus/my-account/organization/components';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 const mockUserDetails: User = {
   firstName: 'test',
@@ -59,7 +59,7 @@ describe('AdminGuard', () => {
 
   it('should return true when admin role found', () => {
     let result: boolean;
-    mockUserDetails.roles = [UnitRoleType.APPROVER, UnitRoleType.ADMIN];
+    mockUserDetails.roles = [UserRole.APPROVER, UserRole.ADMIN];
 
     guard
       .canActivate()
@@ -71,7 +71,7 @@ describe('AdminGuard', () => {
 
   it('should return false when admin role not found', () => {
     let result: boolean;
-    mockUserDetails.roles = [UnitRoleType.APPROVER];
+    mockUserDetails.roles = [UserRole.APPROVER];
 
     guard
       .canActivate()

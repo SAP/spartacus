@@ -22,7 +22,7 @@ import { UserAssignPermissionsComponent } from './permissions/assign/user-assign
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
-import { AdminGuard } from '../../core/guards/admin.guard';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;

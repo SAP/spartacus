@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   BaseOrganizationListService,
   OrganizationTableType,
-  UnitRoleType,
 } from '../../../shared/index';
 import { EntitiesModel, B2BUser } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +52,7 @@ export class UnitApproverListService extends BaseOrganizationListService<
     this.orgUnitService.unassignApprover(
       orgUnitId,
       orgCustomerId,
-      UnitRoleType.APPROVER
+      UserRole.APPROVER
     );
   }
 }

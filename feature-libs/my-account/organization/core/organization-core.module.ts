@@ -8,7 +8,6 @@ import { PermissionService } from './services/permission.service';
 import { OrgUnitService } from './services/org-unit.service';
 import { UserGroupService } from './services/user-group.service';
 import { OrganizationStoreModule } from './store/organization-store.module';
-import { AdminGuard } from './guards/admin.guard';
 @NgModule({
   imports: [OrganizationPageMetaModule, OrganizationStoreModule],
 })
@@ -24,7 +23,6 @@ export class OrganizationCoreModule {
         CostCenterService,
         B2BUserService,
         OrderApprovalService,
-        AdminGuard,
       ],
     };
   }
