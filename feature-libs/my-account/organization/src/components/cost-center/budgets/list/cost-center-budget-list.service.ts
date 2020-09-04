@@ -35,7 +35,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
     const config = structure.options?.pagination;
     const activeValues = new Map();
     return this.costCenterService.getBudgets(code, config).pipe(
-      tap((list) => this.notify(activeValues, list.values)),
+      tap((list) => this.notify(activeValues, list?.values)),
       map((budgets) => this.filterSelected(budgets))
     );
   }
