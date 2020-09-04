@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
-import { UnitRoleType } from '../../components/shared';
+import { UnitRoleType } from '../../components/shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
