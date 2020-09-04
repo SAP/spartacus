@@ -24,7 +24,8 @@ export class AdminGuard implements CanActivate {
     return this.userService.get().pipe(
       pluck('roles'),
       map((roles: string[]) => {
-        const hasRole = roles?.length && roles.includes(UnitRoleType.ADMIN);
+        const hasRole =
+          Array.isArray(roles) && roles.includes(UnitRoleType.ADMIN);
 
         if (!hasRole) {
           // routing as temporary solution until /organization won't
