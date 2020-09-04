@@ -13,6 +13,7 @@ export namespace OccConfigurator {
      */
     complete?: boolean;
 
+    totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct?: string;
   }
@@ -106,6 +107,7 @@ export namespace OccConfigurator {
 
   export interface Overview {
     id: string;
+    totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode?: string;
