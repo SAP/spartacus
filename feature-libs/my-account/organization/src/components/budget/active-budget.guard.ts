@@ -12,13 +12,11 @@ export class ActiveBudgetGuard extends ExistBudgetGuard {
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(
-      this.semanticPathService
-        .transform({
-          cxRoute: 'budgetDetails',
-          params: { code: _urlParams.code },
-        })
-        .join('/')
-    );
+    const urlPath = this.semanticPathService.transform({
+      cxRoute: 'budgetDetails',
+      params: { code: _urlParams.code },
+    });
+
+    return this.router.parseUrl(urlPath.join('/'));
   }
 }

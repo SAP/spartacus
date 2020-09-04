@@ -1,13 +1,12 @@
-import { Budget, RoutingService, BudgetService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ActiveBudgetGuard } from './active-budget.guard';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { Budget, BudgetService, SemanticPathService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ActiveBudgetGuard } from './active-budget.guard';
 
 const BUDGET_NOT_ACTIVE = Object.freeze({ active: false });
 const BUDGET_ACTIVE = Object.freeze({ active: true });
-const BUDGET_INVALID = Object.freeze({});
 
 class BudgetServiceStub {
   get(): Observable<Budget> {
@@ -15,11 +14,20 @@ class BudgetServiceStub {
   }
 }
 
-const mockRoutingService = { go: () => {} };
+class SemanticPathServiceStub {
+  get(): string {
+    return 'budgets';
+  }
+  transform(): string[] {
+    return ['organization', 'budgets'];
+  }
+}
+
+const mockRouter = { parseUrl: () => {} };
 
 describe('ActiveBudgetGuard', () => {
   let activeBudgetGuard: ActiveBudgetGuard;
-  let routingService: RoutingService;
+  let router: Router;
   let budgetService: BudgetService;
   let route: ActivatedRoute;
 
@@ -27,8 +35,8 @@ describe('ActiveBudgetGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: Router,
+          useValue: mockRouter,
         },
         {
           provide: BudgetService,
@@ -38,19 +46,23 @@ describe('ActiveBudgetGuard', () => {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { code: 'budgetCode' } } },
         },
+        {
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
+        },
       ],
       imports: [RouterTestingModule],
     });
 
     activeBudgetGuard = TestBed.inject(ActiveBudgetGuard);
-    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
     budgetService = TestBed.inject(BudgetService);
     route = TestBed.inject(ActivatedRoute);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go');
+      spyOn(router, 'parseUrl');
     });
 
     describe('when budget is loaded', () => {
@@ -65,9 +77,7 @@ describe('ActiveBudgetGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'budget',
-          });
+          expect(router.parseUrl).toHaveBeenCalledWith('organization/budgets');
         });
       });
     });
@@ -84,7 +94,7 @@ describe('ActiveBudgetGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled();
+          expect(router.parseUrl).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -97,31 +107,6 @@ describe('ActiveBudgetGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-      });
-    });
-
-    describe('when budget is not loaded', () => {
-      beforeEach(() => {
-        spyOn(budgetService, 'get').and.returnValue(of(BUDGET_INVALID));
-      });
-
-      it('then router should redirect to budgets page', () => {
-        activeBudgetGuard.canActivate(route.snapshot).subscribe().unsubscribe();
-
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'budget',
-        });
-      });
-
-      it('then returned observable should emit false', () => {
-        let emittedValue;
-
-        activeBudgetGuard
-          .canActivate(route.snapshot)
-          .subscribe((result) => (emittedValue = result))
-          .unsubscribe();
-
-        expect(emittedValue).toBe(false);
       });
     });
   });
