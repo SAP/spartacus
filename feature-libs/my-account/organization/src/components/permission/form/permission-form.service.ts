@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderApprovalPermissionType, Permission } from '@spartacus/core';
+import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
 
 export enum PermissionType {
   ORDER = 'B2BOrderThresholdPermission',
@@ -10,20 +11,9 @@ export enum PermissionType {
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionFormService {
-  getForm(model?: Permission): FormGroup {
+export class PermissionFormService extends OrganizationFormService<Permission> {
+  protected build() {
     const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      if (model.orderApprovalPermissionType) {
-        this.adjustForm(form, model.orderApprovalPermissionType);
-      }
-      form.patchValue(model);
-    }
-    return form;
-  }
-
-  protected build(form: FormGroup) {
     form.setControl('code', new FormControl('', Validators.required));
     form.setControl(
       'orderApprovalPermissionType',
@@ -38,6 +28,7 @@ export class PermissionFormService {
       })
     );
     this.setAdditionalFields(form);
+    this.form = form;
   }
 
   /**

@@ -1,0 +1,31 @@
+%organizationItemDetails {
+  .details {
+    padding-top: 30px;
+    padding-inline-start: 30px;
+    padding-inline-end: 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    .property {
+      @include media-breakpoint-up(md) {
+        flex: 50%;
+      }
+      @include media-breakpoint-down(sm) {
+        flex: 100%;
+      }
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .value {
+      font-size: 16px;
+      &.is-active {
+        color: var(--cx-color-success);
+      }
+    }
+  }
+}

@@ -1,13 +1,15 @@
-.card {
-  width: 100%;
+%organizationCard {
+  .card {
+    width: 100%;
 
-  @include media-breakpoint-down(sm) {
-    border: none;
+    @include media-breakpoint-down(sm) {
+      border: none;
+    }
+
+    @extend %cardHeader !optional;
+    @extend %cardMain !optional;
+    @extend %cardSection !optional;
   }
-
-  @extend %cardHeader !optional;
-  @extend %cardMain !optional;
-  @extend %cardSection !optional;
 }
 
 %cardHeader {
@@ -33,7 +35,7 @@
     h3 {
       margin: 0 0 5px 0;
       font-size: 22px;
-      text-transform: uppercase;
+      text-transform: var(--case);
     }
     h4 {
       font-size: 16px;
@@ -43,7 +45,7 @@
       align-items: baseline;
       a,
       button {
-        text-transform: uppercase;
+        text-transform: var(--case);
 
         @include media-breakpoint-up(md) {
           margin-inline-start: 10px;

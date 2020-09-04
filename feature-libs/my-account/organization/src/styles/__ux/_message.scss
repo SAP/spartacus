@@ -1,0 +1,57 @@
+%organizationMessage {
+  .card {
+    cx-organization-message {
+      position: absolute;
+      width: 100%;
+
+      &.hide {
+        display: none;
+      }
+
+      .message {
+        padding: 20px 40px;
+        display: flex;
+        p {
+          margin: 0;
+        }
+      }
+
+      &.prompt {
+        background-color: #cbe6fe;
+        .close {
+          display: none;
+        }
+      }
+      &.notify {
+        background-color: #deeecc;
+        .actions {
+          display: none;
+        }
+      }
+
+      .close {
+        margin-inline-start: auto;
+      }
+
+      button.button:not(.primary) {
+        background-color: var(--cx-color-inverse);
+        color: var(--cx-color-primary);
+      }
+      button.button.primary {
+        border-color: var(--cx-color-inverse);
+      }
+
+      .actions {
+        flex: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        margin: 0 20px 20px 20px;
+
+        button {
+          margin-inline-start: 20px;
+        }
+      }
+    }
+  }
+}

@@ -59,12 +59,6 @@ export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
       component: OrganizationListComponent,
-      // providers: [
-      //   {
-      //     provide: OrganizationListService,
-      //     useExisting: CostCenterListService,
-      //   },
-      // ],
       providers: [
         {
           provide: OrganizationListService,

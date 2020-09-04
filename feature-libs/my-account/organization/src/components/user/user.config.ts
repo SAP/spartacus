@@ -4,10 +4,10 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { ActiveLinkCellComponent } from '../shared';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
@@ -23,7 +23,7 @@ import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
-import { CurrentUserService } from './services/current-user.service';
+import { UserItemService } from './services/user-item.service';
 import { UserListService } from './services/user-list.service';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
@@ -96,54 +96,46 @@ export const userCmsConfig: CmsConfig = {
           useExisting: UserListService,
         },
         {
-          provide: CurrentOrganizationItemService,
-          useExisting: CurrentUserService,
+          provide: OrganizationItemService,
+          useExisting: UserItemService,
         },
       ],
       childRoutes: [
         {
           path: 'create',
           component: UserCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: `:${ROUTE_PARAMS.userCode}`,
           component: UserDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
               path: 'approvers',
               component: UserApproverListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
                   component: UserAssignApproversComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'user-groups',
               component: UserUserGroupListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
                   component: UserAssignUserGroupsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'purchase-limits',
               component: UserPermissionListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
                   component: UserAssignPermissionsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },

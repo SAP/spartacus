@@ -4,9 +4,9 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
+import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
@@ -18,7 +18,7 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
-import { CurrentPermissionService } from './services/current-permission.service';
+import { PermissionItemService } from './services/permission-item.service';
 import { PermissionListService } from './services/permission-list.service';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
@@ -58,20 +58,18 @@ export const permissionCmsConfig: CmsConfig = {
           useExisting: PermissionListService,
         },
         {
-          provide: CurrentOrganizationItemService,
-          useExisting: CurrentPermissionService,
+          provide: OrganizationItemService,
+          useExisting: PermissionItemService,
         },
       ],
       childRoutes: [
         {
           path: 'create',
           component: PermissionCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: `:${ROUTE_PARAMS.permissionCode}/edit`,

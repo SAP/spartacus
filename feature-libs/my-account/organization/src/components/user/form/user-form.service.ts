@@ -2,22 +2,14 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserFormService {
-  getForm(model?: B2BUser): FormGroup {
+export class UserFormService extends OrganizationFormService<B2BUser> {
+  protected build() {
     const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      form.patchValue(model);
-      this.pathRoles(form, model);
-    }
-    return form;
-  }
-
-  protected build(form: FormGroup) {
     form.setControl('titleCode', new FormControl(''));
     form.setControl(
       'email',
@@ -36,6 +28,7 @@ export class UserFormService {
     );
     form.setControl('roles', new FormArray([]));
     form.setControl('isAssignedToApprovers', new FormControl(false));
+    this.form = form;
   }
 
   protected pathRoles(form, model) {
