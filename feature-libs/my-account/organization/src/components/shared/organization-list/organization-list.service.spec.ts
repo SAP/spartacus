@@ -85,9 +85,17 @@ describe('OrganizationListService', () => {
     });
   });
 
-  describe('viewPage()', () => {
+  describe('view()', () => {
     it('should paginate to page 5', () => {
       service.view({ currentPage: 1 }, 5);
+      let result: Table<any>;
+      service.getTable().subscribe((data) => (result = data));
+      expect(result.pagination.currentPage).toEqual(5);
+    });
+
+    // TODO: drop as soon as we dropped the method
+    it('should paginate to page 5', () => {
+      service.viewPage({ currentPage: 1 }, 5);
       let result: Table<any>;
       service.getTable().subscribe((data) => (result = data));
       expect(result.pagination.currentPage).toEqual(5);

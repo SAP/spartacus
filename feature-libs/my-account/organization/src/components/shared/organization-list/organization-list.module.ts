@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
-  OutletRefModule,
   PaginationModule,
   SplitViewModule,
   TableModule,
@@ -26,8 +25,6 @@ import { OrganizationListComponent } from './organization-list.component';
     PaginationModule,
     NgSelectModule,
     FormsModule,
-    OutletRefModule,
-
     OrganizationMessageModule,
   ],
   declarations: [OrganizationListComponent],

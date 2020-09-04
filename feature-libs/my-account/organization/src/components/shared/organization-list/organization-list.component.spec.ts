@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -50,6 +50,7 @@ class MockBaseOrganizationListService {
 
 class MockCurrentOrganizationItemService {
   key$ = of();
+  launchDetails = createSpy('launchDetails');
 }
 
 @Component({
@@ -58,8 +59,8 @@ class MockCurrentOrganizationItemService {
 })
 class MockTableComponent {
   @Input() dataset;
-  @Input() suffix;
   @Input() currentItem;
+  @Output() launch = new EventEmitter();
 }
 
 @Component({
@@ -80,6 +81,7 @@ describe('OrganizationListComponent', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
   let service: OrganizationListService<Mock>;
+  let currentService: CurrentOrganizationItemService<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -108,9 +110,10 @@ describe('OrganizationListComponent', () => {
     }).compileComponents();
 
     service = TestBed.inject(OrganizationListService);
+    currentService = TestBed.inject(CurrentOrganizationItemService);
   }));
 
-  describe('with table data?', () => {
+  describe('with table data', () => {
     beforeEach(() => {
       spyOn(service, 'getTable').and.returnValue(of(mockList));
       fixture = TestBed.createComponent(MockListComponent);
@@ -122,9 +125,30 @@ describe('OrganizationListComponent', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should resolve get property', () => {
+      spyOn(service, 'key').and.callThrough();
+      const key = component.key;
+      expect(service.key).toHaveBeenCalled();
+      expect(key).toEqual('code');
+    });
+
+    it('should return list count', () => {
+      const count = component.getListCount({
+        pagination: { totalResults: 5 },
+      } as Table);
+      expect(count).toEqual(5);
+    });
+
     it('should delegate browsing to service.view', () => {
       component.browse({ currentPage: 3 }, 7);
       expect(service.view).toHaveBeenCalledWith({ currentPage: 3 }, 7);
+    });
+
+    it('should delegate launch to service.launch', () => {
+      component.launchItem(mockList.data[0]);
+      expect(currentService.launchDetails).toHaveBeenCalledWith(
+        mockList.data[0]
+      );
     });
 
     it('should delegate sorting to service.sort', () => {

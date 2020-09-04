@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
 import { OrganizationListService } from './organization-list.service';
 
@@ -15,8 +14,6 @@ const BASE_CLASS = 'organization';
 })
 export class OrganizationListComponent<T = any, P = PaginationModel> {
   @HostBinding('class') hostClass = BASE_CLASS;
-
-  notification$: Observable<string> = this.service.notification$;
 
   constructor(
     protected service: OrganizationListService<T, P>,
@@ -34,9 +31,9 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    */
   readonly currentKey$ = this.currentService.key$;
 
-  readonly dataTable$: Observable<Table> = this.currentKey$.pipe(
-    switchMap((key) => this.service.getTable(key))
-  );
+  readonly dataTable$: Observable<Table> = this.service.getTable();
+
+  notification$: Observable<string> = this.service.notification$;
 
   get key(): string {
     return this.service.key();

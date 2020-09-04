@@ -57,6 +57,10 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
 
   constructor(protected tableService: TableService) {}
 
+  /**
+   * Indicates the unique key for the item model. The key is different for various
+   * organizations, i.e. `budget.code`, `user.uid`.
+   */
   key(): string {
     return 'code';
   }
