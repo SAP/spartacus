@@ -9,6 +9,7 @@ import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
+import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
@@ -24,7 +25,7 @@ const mockBudget: Budget = {
   },
 };
 
-class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+class MockBudgetItemService implements Partial<CurrentBudgetService> {
   key$ = of(budgetCode);
 }
 
@@ -58,7 +59,7 @@ describe('BudgetDetailsComponent', () => {
       declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
       providers: [
         { provide: BudgetService, useClass: MockBudgetService },
-        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
+        { provide: BudgetItemService, useClass: MockBudgetItemService },
       ],
     }).compileComponents();
 

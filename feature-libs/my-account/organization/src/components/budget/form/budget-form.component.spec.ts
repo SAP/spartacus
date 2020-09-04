@@ -11,6 +11,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { OrgUnitService } from '../../..';
 import { OrganizationEditTestingModule } from '../../shared/organization-edit/organization-edit.testing.module';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
 
 const mockForm = new FormGroup({
@@ -37,6 +39,10 @@ class MockCurrencyService {
   getAll() {}
 }
 
+class MockOrganizationItemService {
+  getForm() {}
+}
+
 describe('BudgetFormComponent', () => {
   let component: BudgetFormComponent;
   let fixture: ComponentFixture<BudgetFormComponent>;
@@ -58,6 +64,11 @@ describe('BudgetFormComponent', () => {
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: OrganizationItemService,
+          useClass: MockOrganizationItemService,
+        },
+        { provide: BudgetItemService, useClass: MockOrganizationItemService },
       ],
     }).compileComponents();
 

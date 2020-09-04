@@ -6,7 +6,6 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
@@ -21,7 +20,6 @@ import { CostCenterCreateComponent } from './create/cost-center-create.component
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListService } from './services/cost-center-list.service';
-import { CurrentCostCenterService } from './services/current-cost-center.service';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
@@ -63,10 +61,6 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           provide: OrganizationListService,
           useExisting: CostCenterListService,
-        },
-        {
-          provide: CurrentOrganizationItemService,
-          useExisting: CurrentCostCenterService,
         },
       ],
       childRoutes: [

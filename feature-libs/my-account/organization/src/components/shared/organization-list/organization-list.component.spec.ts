@@ -13,6 +13,7 @@ import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/compo
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
+import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListComponent } from './organization-list.component';
 import { OrganizationListService } from './organization-list.service';
 import createSpy = jasmine.createSpy;
@@ -69,11 +70,9 @@ class MockTableComponent {
 class MockListComponent extends OrganizationListComponent<Mock> {
   constructor(
     protected baseOrganizationListService: OrganizationListService<Mock>,
-    protected currentOrganizationItemService: CurrentOrganizationItemService<
-      Mock
-    >
+    protected organizationItemService: OrganizationItemService<Mock>
   ) {
-    super(baseOrganizationListService, currentOrganizationItemService);
+    super(baseOrganizationListService, organizationItemService);
   }
 }
 
@@ -81,7 +80,7 @@ describe('OrganizationListComponent', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
   let service: OrganizationListService<Mock>;
-  let currentService: CurrentOrganizationItemService<any>;
+  let itemService: OrganizationItemService<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -110,7 +109,7 @@ describe('OrganizationListComponent', () => {
     }).compileComponents();
 
     service = TestBed.inject(OrganizationListService);
-    currentService = TestBed.inject(CurrentOrganizationItemService);
+    itemService = TestBed.inject(OrganizationItemService);
   }));
 
   describe('with table data', () => {
@@ -146,9 +145,7 @@ describe('OrganizationListComponent', () => {
 
     it('should delegate launch to service.launch', () => {
       component.launchItem(mockList.data[0]);
-      expect(currentService.launchDetails).toHaveBeenCalledWith(
-        mockList.data[0]
-      );
+      expect(itemService.launchDetails).toHaveBeenCalledWith(mockList.data[0]);
     });
 
     it('should delegate sorting to service.sort', () => {
