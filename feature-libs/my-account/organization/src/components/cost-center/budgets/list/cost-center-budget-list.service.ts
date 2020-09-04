@@ -32,6 +32,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<Budget>> {
+    console.log('code', code);
     const config = structure.options?.pagination;
     const activeValues = new Map();
     return this.costCenterService.getBudgets(code, config).pipe(
@@ -41,7 +42,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
   }
 
   protected notify(list: Map<string, boolean>, values: Budget[]) {
-    values.forEach((value) => {
+    values?.forEach((value) => {
       if (list.has(value.code) && list.get(value.code) !== value.selected) {
         this.notification$.next(
           value.selected

@@ -1,5 +1,8 @@
 <cx-organization-sub-list
-  previous="organization.close"
+  [previous]="false"
   i18nRoot="costCenter.budget.assign"
 >
+  <button actions class="link" routerLink="../">
+    {{ 'organization.close' | cxTranslate }}
+  </button>
 </cx-organization-sub-list>

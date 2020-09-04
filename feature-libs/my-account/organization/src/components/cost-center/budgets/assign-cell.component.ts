@@ -5,7 +5,7 @@ import {
 } from '@spartacus/storefront';
 import { CostCenterService } from 'feature-libs/my-account/organization/src/core';
 import { Budget } from '../../../core/model/budget.model';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
+import { OrganizationItemService } from '../../shared/organization-item.service';
 
 @Component({
   template: `
@@ -18,9 +18,7 @@ import { CurrentOrganizationItemService } from '../../shared/current-organizatio
 export class AssignBudgetCellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected currentOrganizationItemService: CurrentOrganizationItemService<
-      Budget
-    >,
+    protected organizationItemService: OrganizationItemService<Budget>,
     protected costCenterService: CostCenterService
   ) {}
 
@@ -29,7 +27,7 @@ export class AssignBudgetCellComponent {
   }
 
   assign() {
-    this.currentOrganizationItemService.key$
+    this.organizationItemService.key$
       .subscribe((key) => {
         this.isAssigned
           ? this.costCenterService.unassignBudget(key, this.outlet.context.code)

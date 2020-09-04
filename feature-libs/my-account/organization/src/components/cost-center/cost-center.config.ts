@@ -4,8 +4,9 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
@@ -19,6 +20,7 @@ import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
+import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
@@ -57,32 +59,38 @@ export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
       component: OrganizationListComponent,
+      // providers: [
+      //   {
+      //     provide: OrganizationListService,
+      //     useExisting: CostCenterListService,
+      //   },
+      // ],
       providers: [
         {
           provide: OrganizationListService,
           useExisting: CostCenterListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: CostCenterItemService,
         },
       ],
       childRoutes: [
         {
           path: 'create',
           component: CostCenterCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
               path: 'budgets',
               component: CostCenterBudgetListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
             {
               path: 'budgets/assign',
               component: CostCenterAssignBudgetsComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
         },

@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
+import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterFormService {
-  getForm(model?: CostCenter): FormGroup {
+export class CostCenterFormService extends OrganizationFormService<CostCenter> {
+  protected build() {
     const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      form.patchValue(model);
-    }
-    return form;
-  }
-
-  protected build(form: FormGroup) {
     form.setControl('code', new FormControl('', Validators.required));
     form.setControl('name', new FormControl('', Validators.required));
 
@@ -31,5 +24,6 @@ export class CostCenterFormService {
         uid: new FormControl(undefined, Validators.required),
       })
     );
+    this.form = form;
   }
 }
