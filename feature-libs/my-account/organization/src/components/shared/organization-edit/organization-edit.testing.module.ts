@@ -1,6 +1,7 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
 import { OrganizationFormService } from './organization-form.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-organization-edit',
@@ -10,8 +11,12 @@ class MockOrganizationEditComponent {
   @Input() i18nRoot;
 }
 
+export class MockBudgetFormService {}
+
 class MockCurrentOrganizationItemService {}
-class MockOrganizationFormService {}
+class MockOrganizationFormService {
+  getForm = createSpy('getForm');
+}
 
 @NgModule({
   declarations: [MockOrganizationEditComponent],

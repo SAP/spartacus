@@ -32,7 +32,6 @@ export class OrganizationMessageComponent {
   @Output() confirm = new EventEmitter();
 
   prompt(message: string) {
-    console.log('prompt');
     this.show(message);
     this.type = MessageType.prompt;
   }

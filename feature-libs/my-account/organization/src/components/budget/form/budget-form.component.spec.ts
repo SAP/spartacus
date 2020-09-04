@@ -10,6 +10,7 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { OrgUnitService } from '../../..';
+import { OrganizationEditTestingModule } from '../../shared/organization-edit/organization-edit.testing.module';
 import { BudgetFormComponent } from './budget-form.component';
 
 const mockForm = new FormGroup({
@@ -50,6 +51,8 @@ describe('BudgetFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         DateTimePickerModule,
+
+        OrganizationEditTestingModule,
       ],
       declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [

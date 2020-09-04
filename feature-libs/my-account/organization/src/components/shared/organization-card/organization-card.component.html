@@ -7,26 +7,19 @@
             {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
           </h3>
           <h4>
-            {{
-              i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async }
-            }}
+            {{ i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async } }}
             &nbsp;
           </h4>
         </div>
-
         <div class="actions">
           <ng-content select="[actions]"></ng-content>
         </div>
       </div>
-      <a
-        *ngIf="!!previous"
-        class="link"
-        routerLink="../"
-        (click)="view.toggle()"
-      >
+      <a *ngIf="!!previous" class="link close" routerLink="../">
         <cx-icon
           *ngIf="previous === true; else prevLabel"
           type="CLOSE"
+          (click)="closeView(view, $event)"
         ></cx-icon>
         <ng-template #prevLabel>{{ previous | cxTranslate }}</ng-template>
       </a>

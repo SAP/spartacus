@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule, DateTimePickerModule } from '@spartacus/storefront';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { DateTimePickerModule, FormErrorsModule } from '@spartacus/storefront';
+import { OrganizationEditModule } from '../../shared/organization-edit/organization-edit.module';
 import { BudgetFormComponent } from './budget-form.component';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 @NgModule({
   imports: [
@@ -19,10 +19,10 @@ import { OrgUnitService } from '../../../core/services/org-unit.service';
     ReactiveFormsModule,
     DateTimePickerModule,
     FormErrorsModule,
+
+    OrganizationEditModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],
-  providers: [CurrencyService, OrgUnitService],
-  entryComponents: [BudgetFormComponent],
 })
 export class BudgetFormModule {}

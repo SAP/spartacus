@@ -1,14 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
 import { CurrentBudgetService } from '../services/current-budget.service';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
@@ -34,17 +34,13 @@ class MockBudgetService implements Partial<BudgetService> {
   get = createSpy('get').and.returnValue(of(mockBudget));
 }
 
-class MockModalService {
-  open() {}
-}
-
 @Component({
   selector: 'cx-budget-cost-center-list',
   template: '',
 })
 export class MockBudgetCostCenterListComponent {}
 
-describe('BudgetDetailsComponent', () => {
+fdescribe('BudgetDetailsComponent', () => {
   let component: BudgetDetailsComponent;
   let fixture: ComponentFixture<BudgetDetailsComponent>;
   let budgetService: BudgetService;
@@ -52,30 +48,19 @@ describe('BudgetDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
+        OrganizationMessageTestingModule,
       ],
       declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
       providers: [
         { provide: BudgetService, useClass: MockBudgetService },
-        { provide: ModalService, useClass: MockModalService },
+        { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
       ],
-    })
-      .overrideComponent(BudgetDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentBudgetService,
-              useClass: MockCurrentBudgetService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
   }));
@@ -86,21 +71,27 @@ describe('BudgetDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
+  // afterEach(() => {
+  //   fixture.destroy();
+  // });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update costCenter', () => {
-    // component.update(mockBudget);
+  fit('should update costCenter?', () => {
+    fixture.detectChanges();
+    // tick();
+    component.toggleActive(mockBudget);
     // expect(budgetService.update).toHaveBeenCalledWith(
     //   mockBudget.code,
     //   mockBudget
     // );
   });
+
+  // it('should prompt costCenter', () => {
+  // })
+
   it('should trigger reload of cost center model on each code change', () => {
     expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
   });

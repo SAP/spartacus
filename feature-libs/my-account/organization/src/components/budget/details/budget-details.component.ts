@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { first, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Budget } from '../../../core/model/budget.model';
 import { BudgetService } from '../../../core/services/budget.service';
-import { OrganizationMessageComponent as MsgBox } from '../../shared/organization-message/organization-message.component';
+import { OrganizationMessageComponent } from '../../shared/organization-message/organization-message.component';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
 @Component({
@@ -12,7 +12,10 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsComponent {
-  @ViewChild(MsgBox, { read: MsgBox }) messageBox: MsgBox;
+  @ViewChild(OrganizationMessageComponent, {
+    read: OrganizationMessageComponent,
+  })
+  messageBox: OrganizationMessageComponent;
 
   /**
    * The model of the current budget.
@@ -22,7 +25,7 @@ export class BudgetDetailsComponent {
   model$: Observable<Budget> = this.currentBudgetService.key$.pipe(
     tap((code) => this.budgetService.loadBudget(code)),
     switchMap((code) => this.budgetService.get(code)),
-    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

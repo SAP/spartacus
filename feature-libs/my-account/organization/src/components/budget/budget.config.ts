@@ -4,7 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { CurrentOrganizationItemService } from '../shared/current-organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
@@ -17,7 +17,7 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
-import { BudgetEditComponent } from './edit/budget-edit.component';
+import { BudgetFormComponent } from './form';
 import { BudgetListService } from './services';
 import { CurrentBudgetService } from './services/current-budget.service';
 
@@ -69,24 +69,21 @@ export const budgetCmsConfig: CmsConfig = {
       childRoutes: [
         {
           path: 'create',
-          component: BudgetEditComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: BudgetFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
               path: 'cost-centers',
               component: BudgetCostCenterListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
         },
         {
           path: `:${ROUTE_PARAMS.budgetCode}/edit`,
-          component: BudgetEditComponent,
+          component: BudgetFormComponent,
         },
       ],
       guards: [AuthGuard],
