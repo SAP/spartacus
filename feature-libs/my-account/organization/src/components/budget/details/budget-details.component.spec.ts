@@ -40,7 +40,7 @@ class MockBudgetService implements Partial<BudgetService> {
 })
 export class MockBudgetCostCenterListComponent {}
 
-fdescribe('BudgetDetailsComponent', () => {
+describe('BudgetDetailsComponent', () => {
   let component: BudgetDetailsComponent;
   let fixture: ComponentFixture<BudgetDetailsComponent>;
   let budgetService: BudgetService;
@@ -79,18 +79,15 @@ fdescribe('BudgetDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should update costCenter?', () => {
-    fixture.detectChanges();
-    // tick();
+  xit('should update costCenter?', () => {
     component.toggleActive(mockBudget);
-    // expect(budgetService.update).toHaveBeenCalledWith(
-    //   mockBudget.code,
-    //   mockBudget
-    // );
+    expect(budgetService.update).toHaveBeenCalledWith(
+      mockBudget.code,
+      mockBudget
+    );
   });
 
-  // it('should prompt costCenter', () => {
-  // })
+  xit('should prompt costCenter', () => {});
 
   it('should trigger reload of cost center model on each code change', () => {
     expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);

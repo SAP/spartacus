@@ -16,10 +16,6 @@ class OrganizationMessageComponent {
   @Output() confirm = new EventEmitter();
   prompt() {}
   close() {}
-
-  constructor() {
-    console.log('construct message...');
-  }
 }
 
 @NgModule({
