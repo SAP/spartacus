@@ -118,7 +118,7 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
   /**
    * Updates the sort code for the PaginationModel.
    *
-   *  and resets the `currentPage`.
+   * The `currentPage` is reset to 0.
    */
   sort(pagination: P, _obsoleteSort?: string): void {
     this.view(pagination, 0);

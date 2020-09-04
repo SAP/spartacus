@@ -7,16 +7,16 @@ import {
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-enum MessageType {
-  notify = 'notify',
-  prompt = 'prompt',
+export enum OrganizationMessageType {
+  NOTIFY = 'notify',
+  PROMPT = 'prompt',
 }
 @Component({
   selector: 'cx-organization-message',
   templateUrl: './organization-message.component.html',
 })
 export class OrganizationMessageComponent {
-  @HostBinding('class') type: MessageType;
+  @HostBinding('class') type: OrganizationMessageType;
   @HostBinding('class.hide') hide = true;
 
   message$ = new BehaviorSubject(undefined);
@@ -28,17 +28,20 @@ export class OrganizationMessageComponent {
   set message(value) {
     this.notify(value);
   }
+  get message() {
+    return 'xyz';
+  }
 
   @Output() confirm = new EventEmitter();
 
   prompt(message: string) {
     this.show(message);
-    this.type = MessageType.prompt;
+    this.type = OrganizationMessageType.PROMPT;
   }
 
   notify(message: string) {
     this.show(message);
-    this.type = MessageType.notify;
+    this.type = OrganizationMessageType.NOTIFY;
   }
 
   protected show(message: string) {

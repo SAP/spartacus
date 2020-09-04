@@ -13,6 +13,7 @@ import {
 class OrganizationMessageComponent {
   @Input() i18nCancel;
   @Input() i18nConfirm;
+  @Input() message;
   @Output() confirm = new EventEmitter();
   prompt() {}
   close() {}
