@@ -12,7 +12,6 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { CurrentOrganizationItemService } from '../current-organization-item.service';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListComponent } from './organization-list.component';
 import { OrganizationListService } from './organization-list.service';
@@ -49,7 +48,7 @@ class MockBaseOrganizationListService {
   }
 }
 
-class MockCurrentOrganizationItemService {
+class MockOrganizationItemService {
   key$ = of();
   launchDetails = createSpy('launchDetails');
 }
@@ -102,8 +101,8 @@ describe('OrganizationListComponent', () => {
           useClass: MockBaseOrganizationListService,
         },
         {
-          provide: CurrentOrganizationItemService,
-          useClass: MockCurrentOrganizationItemService,
+          provide: OrganizationItemService,
+          useClass: MockOrganizationItemService,
         },
       ],
     }).compileComponents();

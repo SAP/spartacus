@@ -19,6 +19,12 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     super(currentItemService, routingService, formService);
   }
 
+  /**
+   * @override
+   * Returns the budget for the given code.
+   *
+   * Loads the budget each time, to ensure accurate data is resolved.
+   */
   load(code: string): Observable<Budget> {
     this.budgetService.loadBudget(code);
     return this.budgetService.get(code);
@@ -32,6 +38,10 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     this.budgetService.create(value);
   }
 
+  /**
+   * @override
+   * Returns 'budgetDetails'
+   */
   protected getDetailsRoute(): string {
     return 'budgetDetails';
   }

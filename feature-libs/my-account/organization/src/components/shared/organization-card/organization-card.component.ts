@@ -11,9 +11,9 @@ export class OrganizationCardComponent<T> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 
-  item$ = this.currentService.current$;
+  item$ = this.itemService.current$;
 
-  constructor(protected currentService: OrganizationItemService<T>) {}
+  constructor(protected itemService: OrganizationItemService<T>) {}
 
   closeView(view: ViewComponent, event: MouseEvent) {
     event.stopPropagation();

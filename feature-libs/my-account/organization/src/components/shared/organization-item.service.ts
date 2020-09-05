@@ -7,9 +7,10 @@ import { CurrentOrganizationItemService } from './current-organization-item.serv
 import { OrganizationFormService } from './organization-edit/organization-form.service';
 
 /**
- * Abstract Base class for all organization entities. This class simplifies
- * the various entity implementation, that only differ by contracts (dependencies and
- * data model).
+ * Provides CRUD operations for all organization entities.
+ *
+ * This base class simplifies the various entity implementation, and ensures a consistent
+ * component implementation.
  */
 @Injectable()
 export abstract class OrganizationItemService<T> {
@@ -41,19 +42,37 @@ export abstract class OrganizationItemService<T> {
     }
   }
 
+  /**
+   * Loads an item.
+   */
   protected abstract load(...params: any[]): Observable<T>;
+
+  /**
+   * Creates a new item.
+   */
   protected abstract create(value: T): void;
+
+  /**
+   * Updates an existing item.
+   */
   protected abstract update(key: string, value: T): void;
+
+  /**
+   * Returns the detailed cxRoute for the organization item.
+   */
   protected abstract getDetailsRoute(): string;
 
   getForm(item?: T): FormGroup {
     return this.formService.getForm(item);
   }
 
-  launchDetails(params: T): void {
+  /**
+   * Launches the detailed route for the given item item.
+   */
+  launchDetails(item: T): void {
     const cxRoute = this.getDetailsRoute();
     if (cxRoute) {
-      this.routingService.go({ cxRoute, params });
+      this.routingService.go({ cxRoute, params: item });
     }
   }
 }

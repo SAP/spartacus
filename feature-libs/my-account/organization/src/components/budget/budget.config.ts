@@ -121,7 +121,7 @@ export const budgetTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
-      cells: ['name'],
+      cells: ['name', 'code'],
     },
   },
 };

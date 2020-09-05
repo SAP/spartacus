@@ -6,6 +6,9 @@ import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { OrganizationMessageModule } from '../organization-message/organization-message.module';
 import { OrganizationCardComponent } from './organization-card.component';
 
+/**
+ * Provides a reusable card UI component for the organization split views.
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { OrganizationItemService } from '../organization-item.service';
 @Component({
   selector: 'cx-organization-edit',
   templateUrl: './organization-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationEditComponent<T> {
   /**
