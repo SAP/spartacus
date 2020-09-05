@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, UrlModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { UnitCellComponent } from '..';
 
 describe('UnitCellComponent', () => {
@@ -11,7 +12,7 @@ describe('UnitCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UnitCellComponent],
-      imports: [RouterTestingModule, UrlModule, I18nTestingModule],
+      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { ActiveLinkCellComponent } from './active-link/active-link-cell.component';
 import { AmountCellComponent } from './amount/amount-cell.component';
 import { DateRangeCellComponent } from './date-range/date-range-cell.component';
@@ -13,7 +14,13 @@ import { StatusCellComponent } from './status/status-cell.component';
 import { UnitCellComponent } from './unit/unit-cell.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlTestingModule,
+    I18nModule,
+    IconModule,
+  ],
   declarations: [
     OrganizationCellComponent,
 

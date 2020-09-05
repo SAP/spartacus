@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { AmountCellComponent } from '..';
 
 describe('AmountCellComponent', () => {
@@ -11,7 +11,7 @@ describe('AmountCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AmountCellComponent],
-      imports: [RouterTestingModule, UrlModule],
+      imports: [RouterTestingModule, UrlTestingModule],
       providers: [
         {
           provide: OutletContextData,
