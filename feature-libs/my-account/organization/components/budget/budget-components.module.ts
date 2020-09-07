@@ -3,6 +3,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import {
   budgetCmsConfig,
   budgetRoutingConfig,
@@ -10,7 +11,7 @@ import {
 } from './budget.config';
 
 @NgModule({
-  imports: [],
+  imports: [SharedOrganizationModule],
   providers: [
     provideDefaultConfig(budgetRoutingConfig),
     provideDefaultConfig(budgetCmsConfig),

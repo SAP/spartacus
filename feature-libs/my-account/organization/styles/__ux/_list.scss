@@ -7,7 +7,7 @@ form,
 cx-organization-view,
 cx-organization-card,
 cx-organization-card-list,
-cx-organization-form {
+cx-organization-edit {
   display: contents;
 }
 
@@ -28,8 +28,11 @@ cx-organization-form {
 
     @include media-breakpoint-up(lg) {
       padding-top: 40px;
-      &[active-view='2'] {
+
+      &:not([active-view='1']) {
         padding-inline-end: 40px;
+      }
+      &[active-view='2'] {
         cx-view[position='0'] {
           margin-inline-end: 40px;
           padding-inline-end: 40px;
@@ -255,7 +258,6 @@ cx-organization-form {
 
         &:hover {
           text-decoration: none;
-          color: var(--cx-color-text);
         }
 
         &[tabindex='0'],

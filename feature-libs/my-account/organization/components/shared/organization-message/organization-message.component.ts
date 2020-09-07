@@ -33,7 +33,7 @@ export class OrganizationMessageComponent implements OnInit, OnDestroy {
         if (msg) {
           this.render(msg);
         } else {
-          this.vcr.clear();
+          this.vcr?.clear();
         }
       })
     );
