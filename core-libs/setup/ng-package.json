@@ -2,7 +2,11 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/setup",
   "lib": {
-    "entryFile": "public_api.ts.ts",
-
+    "entryFile": "public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "@spartacus/storefront": "storefront",
+      "rxjs": "rxjs"
+    }
   }
 }
