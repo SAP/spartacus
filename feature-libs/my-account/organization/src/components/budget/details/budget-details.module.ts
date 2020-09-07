@@ -2,20 +2,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { OrganizationCardModule } from '../../shared/organization-card/organization-card.module';
-import { OrganizationMessageModule } from '../../shared/organization-message/organization-message.module';
+import { OrganizationCardModule } from '../../shared';
+import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    OrganizationCardModule,
     RouterModule,
     UrlModule,
     I18nModule,
-    OrganizationCardModule,
-    OrganizationMessageModule,
+    ToggleStatusModule,
   ],
   declarations: [BudgetDetailsComponent],
-  exports: [BudgetDetailsComponent],
 })
 export class BudgetDetailsModule {}

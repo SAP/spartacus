@@ -24,7 +24,7 @@ export class UserItemService extends OrganizationItemService<Permission> {
     return this.userService.get(code);
   }
 
-  protected update(code, value: Budget) {
+  update(code, value: Budget) {
     this.userService.update(code, value);
   }
 

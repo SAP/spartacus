@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { NotificationMessageModule } from './notification/notification.module';
 import { OrganizationMessageComponent } from './organization-message.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
+  imports: [CommonModule, NotificationMessageModule],
   declarations: [OrganizationMessageComponent],
   exports: [OrganizationMessageComponent],
 })

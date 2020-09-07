@@ -30,7 +30,7 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     return this.budgetService.get(code);
   }
 
-  protected update(code, value: Budget) {
+  update(code, value: Budget) {
     this.budgetService.update(code, value);
   }
 

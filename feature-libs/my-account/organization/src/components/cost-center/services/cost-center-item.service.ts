@@ -24,7 +24,7 @@ export class CostCenterItemService extends OrganizationItemService<CostCenter> {
     return this.costCenterService.get(code);
   }
 
-  protected update(code, value: Budget) {
+  update(code, value: Budget) {
     this.costCenterService.update(code, value);
   }
 

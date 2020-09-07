@@ -24,7 +24,7 @@ export class PermissionItemService extends OrganizationItemService<Permission> {
     return this.permissionService.get(code);
   }
 
-  protected update(code, value: Budget) {
+  update(code, value: Budget) {
     this.permissionService.update(code, value);
   }
 

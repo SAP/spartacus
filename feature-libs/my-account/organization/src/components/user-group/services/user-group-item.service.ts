@@ -24,7 +24,7 @@ export class UserGroupItemService extends OrganizationItemService<UserGroup> {
     return this.userGroupService.get(code);
   }
 
-  protected update(code, value: Budget) {
+  update(code, value: Budget) {
     this.userGroupService.update(code, value);
   }
 

@@ -33,3 +33,9 @@ export enum UnitRoleType {
   MANAGER = 'b2bmanagergroup',
   ADMIN = 'b2badmingroup',
 }
+
+export type BaseItem = {
+  code?: string;
+  active?: boolean;
+  orgUnit?: any;
+};

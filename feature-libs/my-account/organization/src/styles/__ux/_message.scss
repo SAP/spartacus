@@ -1,57 +1,83 @@
 %organizationMessage {
   .card {
     cx-organization-message {
-      position: absolute;
-      width: 100%;
-
-      &.hide {
-        display: none;
-      }
-
-      .message {
-        padding: 20px 40px;
-        display: flex;
-        p {
-          margin: 0;
-        }
-      }
-
-      &.prompt {
-        background-color: #cbe6fe;
-        .close {
-          display: none;
-        }
-      }
-      &.notify {
-        background-color: #deeecc;
-        .actions {
-          display: none;
-        }
-      }
-
       .close {
-        margin-inline-start: auto;
+        position: absolute;
+        right: 20px;
+        margin-top: -5px;
+      }
+      p {
+        margin: 0;
       }
 
-      button.button:not(.primary) {
-        background-color: var(--cx-color-inverse);
-        color: var(--cx-color-primary);
-      }
-      button.button.primary {
-        border-color: var(--cx-color-inverse);
+      cx-icon {
+        align-self: flex-start;
+        margin: 5px;
       }
 
-      .actions {
-        flex: 100%;
+      cx-notification,
+      cx-prompt {
         display: flex;
-        justify-content: flex-end;
+        padding: 20px 40px;
+      }
 
-        margin: 0 20px 20px 20px;
+      cx-notification {
+        display: flex;
+        background-color: #deeecc;
+      }
 
-        button {
-          margin-inline-start: 20px;
+      cx-prompt {
+        flex: 100%;
+        flex-direction: column;
+
+        &.info {
+          background-color: #cbe6fe;
+        }
+
+        .message {
+          display: flex;
+        }
+
+        .actions {
+          flex: 100%;
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 20px;
+          button {
+            margin-inline-start: 20px;
+          }
         }
       }
     }
+
+    //   cx-organization-message {
+    //     position: absolute;
+    //     width: 100%;
+
+    //     &.hide {
+    //       display: none;
+    //     }
+
+    //     &.prompt {
+    //       background-color: #cbe6fe;
+    //       .close {
+    //         display: none;
+    //       }
+    //     }
+    //     &.notify {
+    //       background-color: #deeecc;
+    //       .actions {
+    //         display: none;
+    //       }
+    //     }
+
+    //     button.button:not(.primary) {
+    //       background-color: var(--cx-color-inverse);
+    //       color: var(--cx-color-primary);
+    //     }
+    //     button.button.primary {
+    //       border-color: var(--cx-color-inverse);
+    //     }
+    //   }
   }
 }

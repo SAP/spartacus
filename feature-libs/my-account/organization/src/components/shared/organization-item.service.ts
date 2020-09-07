@@ -45,7 +45,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Loads an item.
    */
-  protected abstract load(...params: any[]): Observable<T>;
+  abstract load(...params: any[]): Observable<T>;
 
   /**
    * Creates a new item.
@@ -55,7 +55,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Updates an existing item.
    */
-  protected abstract update(key: string, value: T): void;
+  abstract update(key: string, value: T): void;
 
   /**
    * Returns the detailed cxRoute for the organization item.

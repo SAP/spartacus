@@ -20,5 +20,6 @@ import { UserComponentsModule } from './user/user-components.module';
 
     OrganizationTableModule,
   ],
+  providers: [],
 })
 export class OrganizationComponentsModule {}

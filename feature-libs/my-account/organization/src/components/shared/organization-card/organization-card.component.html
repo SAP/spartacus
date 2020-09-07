@@ -20,11 +20,12 @@
         type="CLOSE"
         (click)="closeView(view, $event)"
       ></cx-icon>
-      <ng-template #prevLabel>{{ previous | cxTranslate }}</ng-template>
+      <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
     </a>
   </div>
 
   <div class="main">
+    <cx-organization-message></cx-organization-message>
     <ng-content select="[main]"></ng-content>
   </div>
 </cx-view>

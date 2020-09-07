@@ -2,11 +2,6 @@
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
 
-  <cx-organization-message
-    main
-    [message]="notification$ | async"
-  ></cx-organization-message>
-
   <section main *ngIf="dataTable$ | async as dataTable">
     <cx-table
       *ngIf="dataTable.data?.length > 0; else emptyList"

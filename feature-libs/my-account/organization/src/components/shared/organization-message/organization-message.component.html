@@ -1,18 +1,1 @@
-<div class="message">
-  <!-- <cx-icon class="info" type="INFO"></cx-icon> -->
-  <p *ngIf="message$ | async as message">{{ message | cxTranslate }}</p>
-
-  <button class="close" (click)="close()">
-    <cx-icon type="CLOSE"></cx-icon>
-  </button>
-</div>
-
-<div class="actions">
-  <button class="button cancel" (click)="close()">
-    {{ i18nCancel | cxTranslate }}
-  </button>
-
-  <button class="button primary confirm" (click)="handleConfirm()">
-    {{ i18nConfirm | cxTranslate }}
-  </button>
-</div>
+<ng-container #vc></ng-container>

@@ -7,75 +7,61 @@
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
-  <button
-    actions
-    class="button active"
-    [disabled]="!model.orgUnit?.active"
-    (click)="toggleActive(model)"
-  >
-    {{ 'organization.' + (model.active ? 'disable' : 'enable') | cxTranslate }}
-  </button>
 
-  <cx-organization-message
-    main
-    (confirm)="update(model)"
-    i18nConfirm="organization.disable"
-  ></cx-organization-message>
+  <cx-toggle-status actions i18nRoot="budget"></cx-toggle-status>
 
-  <section main>
-    <div class="details">
-      <div class="property">
-        <label>{{ 'budget.name' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.name }}
-        </span>
-      </div>
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'budget.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.code' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.code }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.active' | cxTranslate }}</label>
-        <span class="value" [class.is-active]="model.active">
-          {{
-            (model.active ? 'organization.enabled' : 'organization.disabled')
-              | cxTranslate
-          }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.amount' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.budget }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.amount' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.budget }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.currency' | cxTranslate }}</label>
-        <span class="value">
-          {{ model.currency?.isocode }}
-        </span>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.currency' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.currency?.isocode }}
+      </span>
+    </div>
 
-      <div class="property">
-        <label>{{ 'budget.unit' | cxTranslate }}</label>
-        <a
-          class="value"
-          [routerLink]="
-            {
-              cxRoute: 'orgUnitDetails',
-              params: model.orgUnit
-            } | cxUrl
-          "
-        >
-          {{ model.orgUnit?.name }}
-        </a>
-      </div>
+    <div class="property">
+      <label>{{ 'budget.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
     </div>
   </section>
 

@@ -1,61 +1,45 @@
 import {
+  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  Output,
+  ComponentRef,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BaseMessageComponent } from './base-message.component';
+import { Message } from './message.model';
+import { NotificationRenderService } from './services/message-render.service';
+import { MessageService } from './services/message.service';
 
-export enum OrganizationMessageType {
-  NOTIFY = 'notify',
-  PROMPT = 'prompt',
-}
 @Component({
   selector: 'cx-organization-message',
   templateUrl: './organization-message.component.html',
 })
-export class OrganizationMessageComponent {
-  @HostBinding('class') type: OrganizationMessageType;
-  @HostBinding('class.hide') hide = true;
+export class OrganizationMessageComponent implements OnInit {
+  @ViewChild('vc', { read: ViewContainerRef }) vcr: ViewContainerRef;
 
-  message$ = new BehaviorSubject(undefined);
+  constructor(
+    protected messageService: MessageService,
+    protected notificationRenderService: NotificationRenderService
+  ) {}
 
-  @Input() i18nCancel = 'organization.cancel';
-  @Input() i18nConfirm = 'organization.ok';
-
-  @Input()
-  set message(value) {
-    this.notify(value);
-  }
-  get message() {
-    return 'xyz';
-  }
-
-  @Output() confirm = new EventEmitter();
-
-  prompt(message: string) {
-    this.show(message);
-    this.type = OrganizationMessageType.PROMPT;
+  ngOnInit() {
+    this.messageService.message$.subscribe((msg) => {
+      if (msg) {
+        this.render(msg);
+      } else {
+        this.vcr.clear();
+      }
+    });
   }
 
-  notify(message: string) {
-    this.show(message);
-    this.type = OrganizationMessageType.NOTIFY;
-  }
-
-  protected show(message: string) {
-    if (message && message !== '') {
-      this.message$.next(message);
-      this.hide = false;
-    }
-  }
-
-  close() {
-    this.hide = true;
-  }
-
-  handleConfirm() {
-    this.confirm.emit(true);
+  render(msg: Message) {
+    const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
+      this.notificationRenderService.getComponent(msg),
+      undefined,
+      this.notificationRenderService.getInjector(msg.data)
+    );
+    ref.injector.get(ChangeDetectorRef).markForCheck();
+    ref.instance.closeEvent.subscribe(() => ref.destroy());
   }
 }
