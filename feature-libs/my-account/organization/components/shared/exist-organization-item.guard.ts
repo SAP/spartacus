@@ -31,7 +31,7 @@ export abstract class ExistOrganizationItemGuard<T> implements CanActivate {
     return Object.keys(item).length !== 0;
   }
 
-  protected abstract showErrorMessage();
+  protected showErrorMessage() {}
 
   protected abstract getRedirectUrl(_urlParams?: any): UrlTree;
 
