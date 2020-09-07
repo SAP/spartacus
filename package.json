@@ -11,7 +11,7 @@
     "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
     "build:core:lib": "echo Deprecated command! Use `yarn build:libs` instead. && yarn build:libs",
     "build:incubator": "ng build incubator --prod",
-    "build:setp": "ng build setup --prod",
+    "build:setup": "ng build setup --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
     "e2e:cy:run:ci:all": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:all",
