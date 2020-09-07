@@ -1,0 +1,183 @@
+.organization {
+  // overflow-x: hidden;
+  .active {
+    background: var(--cx-color-light);
+    color: var(--cx-color-text);
+  }
+
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    // ensure that all headers are aligned, as otherwise the UI is mixed up
+    // in case we have a split view with the headers next to each other.
+    min-height: 5rem;
+
+    margin: 0;
+    padding: 0;
+
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-spatial-md);
+
+      > a.link {
+        margin-inline-end: calc(var(--cx-spatial-md) * -1);
+      }
+    }
+
+    // Buttons with a background are aligned as their background matches the alignment,
+    // however buttons and links without need to move visually to the start
+    > *:first-child {
+      &.link,
+      &.button:not(.primary),
+      &.button:not(.secondary) {
+        padding-inline-start: 0;
+      }
+    }
+
+    // space-between should be adapted only for headers on the left side (i.e. add action)
+    // for the rest we decided to keep header text to the left, next to icon (i.e. back button)
+    > span {
+      flex: 1;
+    }
+  }
+
+  cx-pagination {
+    display: inline-flex;
+    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
+
+    @include media-breakpoint-down(md) {
+      margin: 0 var(--cx-spatial-md);
+    }
+
+    a {
+      border: none;
+      border-radius: 0;
+
+      &:not(.current) {
+        background-color: var(--cx-color-inverse);
+      }
+
+      &.disabled {
+        color: var(--cx-color-light);
+      }
+    }
+  }
+
+  cx-table {
+    td {
+      padding: 0;
+      a {
+        @include alt-visible-focus();
+
+        justify-content: flex-start;
+        padding: var(--cx-spatial-md);
+
+        .text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        cx-icon {
+          margin: -0.1rem 0 0 0.5rem;
+
+          &.active-state {
+            margin-inline-end: var(--cx-spatial-md);
+            color: var(--cx-color-success);
+          }
+
+          &.inactive {
+            opacity: 0.25;
+          }
+
+          &.open {
+            // hide open arrow on > mobile
+            @include media-breakpoint-up(md) {
+              display: none;
+            }
+          }
+        }
+
+        &:hover {
+          text-decoration: none;
+
+          &:not(.active) {
+            .text {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      &.summary {
+        padding: 1rem;
+        > * {
+          @include media-breakpoint-down(md) {
+            display: block;
+            white-space: normal;
+          }
+        }
+        h3 {
+          font-size: 1.1rem;
+          min-height: auto;
+          @include media-breakpoint-down(md) {
+            padding: 0;
+          }
+        }
+        small {
+          font-size: 0.75rem;
+        }
+        a {
+          margin: -1rem;
+          justify-content: space-between;
+          & > * {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+      &.name {
+        label {
+          padding: var(--cx-spatial-md) var(--cx-spatial-md)
+            var(--cx-spatial-md) calc(3 * var(--cx-spatial-md));
+          justify-content: flex-start;
+          align-items: center;
+        }
+        input[type='checkbox'] {
+          margin-top: 0;
+        }
+      }
+      &.code {
+        > div {
+          align-items: center;
+        }
+        .link {
+          display: flex;
+          padding: 0;
+        }
+      }
+      &.selected,
+      &.unassign,
+      &.link {
+        width: 70px;
+        text-overflow: initial;
+        cx-icon {
+          margin-left: 0;
+        }
+        a,
+        button {
+          margin: 0 auto;
+        }
+      }
+      &.selected {
+        input[type='checkbox'] {
+          @include media-breakpoint-down(md) {
+            margin-left: 0.8rem;
+            margin-top: -0.6rem;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<cx-view #view>
+  <form
+    *ngIf="form$ | async as form"
+    [formGroup]="form"
+    (ngSubmit)="save(form)"
+  >
+    <h3>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userGroup' } | cxUrl"
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+      </a>
+      <span>{{ 'organization.create' | cxTranslate }}</span>
+    </h3>
+
+    <section>
+      <cx-user-group-form [form]="form"> </cx-user-group-form>
+      <div class="form-buttons">
+        <button class="button primary" type="submit">
+          {{ 'organization.save' | cxTranslate }}
+        </button>
+        <a
+          [routerLink]="{ cxRoute: 'userGroup' } | cxUrl"
+          class="button secondary"
+        >
+          {{ 'organization.cancel' | cxTranslate }}
+        </a>
+      </div>
+    </section>
+  </form>
+</cx-view>

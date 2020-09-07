@@ -1,4 +1,6 @@
-import { TranslationChunksConfig } from '@spartacus/core';
+export interface TranslationChunksConfig {
+  [chunk: string]: string[];
+}
 
 export const translationChunksConfig: TranslationChunksConfig = {
   common: [

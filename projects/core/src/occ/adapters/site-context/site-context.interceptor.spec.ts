@@ -7,7 +7,7 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig, SiteContextConfig } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { defaultOccConfig } from '../../../occ/config/default-occ-config';
+import { defaultOccConfig } from '../../config/default-occ-config';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { SiteContextInterceptor } from './site-context.interceptor';

@@ -8,7 +8,8 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc",
+    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib",
+    "build:core:lib": "echo Deprecated command! Use `yarn build:libs` instead. && yarn build:libs",
     "build:incubator": "ng build incubator --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
@@ -71,7 +72,7 @@
     "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\"",
     "build:cds": "cross-env SPARTACUS_CDS=true ng build storefrontapp --prod",
     "build:cds:lib": "ng build cds --prod",
-    "build:core:lib:cds": "yarn build:core:lib && yarn build:cds:lib",
+    "build:core:lib:cds": "echo Deprecated command! Use `yarn build:libs` instead. && yarn build:libs",
     "e2e:cy:cds:run:vendor": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cds:run:vendor",
     "e2e:cy:cds:start-open": "start-server-and-test start:cds:ci:1905 http-get://localhost:4200 e2e:cy:open",
     "e2e:cy:cds:start-run": "start-server-and-test start:cds:ci:1905 http-get://localhost:4200 e2e:cy:run",

@@ -1,10 +1,10 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  OrganizationModule,
   organizationTranslationChunksConfig,
   organizationTranslations,
-} from '@spartacus/my-account/organization';
-import { B2bStorefrontModule } from '@spartacus/storefront';
+} from '@spartacus/my-account/organization/assets';
+import { OrganizationModule } from '@spartacus/my-account/organization';
+import { B2bStorefrontModule } from '@spartacus/my-account';
 import { environment } from '../environment';
 import { FeatureEnvironment } from '../models/feature.model';
 

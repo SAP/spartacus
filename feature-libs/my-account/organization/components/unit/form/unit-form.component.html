@@ -1,0 +1,88 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'unit.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'unit.name' | cxTranslate }}"
+        formControlName="name"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{ 'unit.uid' | cxTranslate }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'unit.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <ng-container
+      *ngIf="approvalProcesses$ | async as approvalProcesses"
+      formGroupName="approvalProcess"
+    >
+      <div *ngIf="approvalProcesses.length !== 0">
+        <label aria-required="true">
+          <span class="label-content required">{{
+            'unit.approvalProcess' | cxTranslate
+          }}</span>
+          <ng-select
+            formControlName="code"
+            [searchable]="false"
+            [items]="approvalProcesses"
+            bindLabel="name"
+            bindValue="code"
+            [class.invalid]="isNotValid('approvalProcess')"
+            appendTo=".organization"
+          >
+          </ng-select>
+          <cx-form-errors
+            [control]="form.get('approvalProcess.code')"
+          ></cx-form-errors>
+        </label>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="form-group" *ngIf="form.get('parentOrgUnit')">
+    <ng-container
+      *ngIf="businessUnits$ | async as businessUnits"
+      formGroupName="parentOrgUnit"
+    >
+      <div *ngIf="businessUnits.length !== 0">
+        <label aria-required="true">
+          <span class="label-content required">{{
+            'unit.form.parentOrgUnit' | cxTranslate
+          }}</span>
+          <ng-select
+            formControlName="uid"
+            [searchable]="false"
+            [clearable]="false"
+            [items]="businessUnits"
+            bindLabel="name"
+            bindValue="id"
+            [class.invalid]="isNotValid('parentOrgUnit')"
+            appendTo=".organization"
+          >
+          </ng-select>
+          <cx-form-errors
+            [control]="form.get('parentOrgUnit.uid')"
+          ></cx-form-errors>
+        </label>
+      </div>
+    </ng-container>
+  </div>
+</form>

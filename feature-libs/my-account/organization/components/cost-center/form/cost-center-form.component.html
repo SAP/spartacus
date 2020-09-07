@@ -1,0 +1,82 @@
+<ng-container *ngIf="form" [formGroup]="form">
+  <div class="form-group" *ngIf="form.get('name')">
+    <label>
+      <span class="label-content required">{{
+        'costCenter.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'costCenter.name' | cxTranslate }}"
+        formControlName="name"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group" *ngIf="form.get('code')">
+    <label>
+      <span class="label-content required">{{
+        'costCenter.code' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'costCenter.code' | cxTranslate }}"
+        formControlName="code"
+      />
+      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+    </label>
+  </div>
+
+  <ng-container *ngIf="form.get('currency')" [formGroup]="form.get('currency')">
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'costCenter.currency' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="isocode"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="currencies$ | async"
+          bindLabel="name"
+          bindValue="isocode"
+          [class.invalid]="form.get('currency.isocode').invalid"
+          appendTo=".organization"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="form.get('currency.isocode')"
+        ></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="form.get('unit') && units$ | async as units"
+    [formGroup]="form.get('unit')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'costCenter.unit' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="units"
+          bindLabel="name"
+          bindValue="id"
+          [readonly]="form.get('unit.uid').disabled"
+          appendTo=".organization"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+</ng-container>

@@ -4,9 +4,9 @@ import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 class MockSplitViewService {
-  visibleViewCount() {
+  getActiveView() {
     return of(5);
   }
 }
@@ -23,7 +23,7 @@ describe('SplitViewComponent', () => {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
           providers: [
-            { provide: SplitViewService, useClass: MockSplitViewService },
+            { provide: SplitViewService, useExisting: MockSplitViewService },
           ],
         },
       })
@@ -41,12 +41,12 @@ describe('SplitViewComponent', () => {
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
     fixture.detectChanges();
-    expect(component.lastVisibleView).toEqual(5);
+    expect(component.lastVisibleView).toEqual(6);
   });
 
-  it('should bind lastVisibleView to --cx-last-visible-view CSS property', () => {
+  it('should bind lastVisibleView to --cx-active-view CSS property', () => {
     fixture.detectChanges();
     const el: HTMLElement = fixture.debugElement.nativeElement;
-    expect(el.style.getPropertyValue('--cx-last-visible-view')).toEqual('5');
+    expect(el.style.getPropertyValue('--cx-active-view')).toEqual('6');
   });
 });
