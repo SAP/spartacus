@@ -55,7 +55,8 @@ describe('CustomerCouponService', () => {
   });
 
   it('should be able to load customer coupons data', () => {
-    service.loadCustomerCoupons(10, 1, 'byDate');
+    const PAGE_SIZE = 10;
+    service.loadCustomerCoupons(PAGE_SIZE, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadCustomerCoupons({
         userId: OCC_USER_ID_CURRENT,

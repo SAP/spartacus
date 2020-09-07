@@ -118,6 +118,7 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should render all payment methods', () => {
+    const EXPECTED_LENGTH = 2;
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     spyOn(userService, 'getPaymentMethods').and.returnValue(
       of([mockPayment, mockPayment])
@@ -128,7 +129,7 @@ describe('PaymentMethodsComponent', () => {
     }
     component.ngOnInit();
     fixture.detectChanges();
-    expect(getCards(el).length).toEqual(2);
+    expect(getCards(el).length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should render correct content in card', () => {

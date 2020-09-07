@@ -34,11 +34,12 @@ export class WindowRef {
    * If there's no window object availale (i.e. in SSR), a null value is emitted.
    */
   get resize$(): Observable<any> {
+    const DEBOUNCE_TIME = 300;
     if (!this.nativeWindow) {
       return of(null);
     } else {
       return fromEvent(this.nativeWindow, 'resize').pipe(
-        debounceTime(300),
+        debounceTime(DEBOUNCE_TIME),
         startWith({ target: this.nativeWindow }),
         distinctUntilChanged()
       );

@@ -60,8 +60,9 @@ export class CardComponent implements OnInit {
   }
 
   cancelEdit(): void {
+    const VALUE = 5;
     this.editMode = false;
-    this.cancelCard.emit(5);
+    this.cancelCard.emit(VALUE);
   }
 
   delete(): void {
@@ -69,16 +70,19 @@ export class CardComponent implements OnInit {
   }
 
   setDefault(): void {
+    const VALUE = 2;
     this.isDefault = true;
-    this.setDefaultCard.emit(2);
+    this.setDefaultCard.emit(VALUE);
   }
 
   send(): void {
-    this.sendCard.emit(3);
+    const VALUE = 3;
+    this.sendCard.emit(VALUE);
   }
 
   edit(): void {
-    this.editCard.emit(4);
+    const VALUE = 4;
+    this.editCard.emit(VALUE);
   }
 
   constructor() {}

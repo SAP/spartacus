@@ -465,9 +465,10 @@ describe('SemanticPathService', () => {
       });
 
       it(`should NOT modify commands that are are not object with "route" property`, () => {
+        const URL_COMMAND = 111;
         test_transform({
           urlCommands: [
-            111,
+            URL_COMMAND,
             { cxRoute: 'test2', params: { param2: 'value2' } },
             'testString3',
             null,
@@ -475,7 +476,7 @@ describe('SemanticPathService', () => {
           ],
           routesConfigs: [{ paths: ['path2/:param2'] }],
           expectedResult: [
-            111,
+            URL_COMMAND,
             'path2',
             'value2',
             'testString3',

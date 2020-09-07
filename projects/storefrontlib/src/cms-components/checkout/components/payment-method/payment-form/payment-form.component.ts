@@ -181,14 +181,16 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   expMonthAndYear(): void {
+    const TEN = 10;
+    const TWELVE = 12;
     const year = new Date().getFullYear();
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < TEN; i++) {
       this.years.push(year + i);
     }
 
-    for (let j = 1; j <= 12; j++) {
-      if (j < 10) {
+    for (let j = 1; j <= TWELVE; j++) {
+      if (j < TEN) {
         this.months.push(`0${j}`);
       } else {
         this.months.push(j.toString());

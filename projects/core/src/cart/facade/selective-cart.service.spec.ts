@@ -81,6 +81,7 @@ describe('Selective Cart Service', () => {
   let multiCartService: MultiCartService;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
   let cartConfigService: CartConfigService;
+  const ENTRY_QUANTITY = 2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -259,32 +260,36 @@ describe('Selective Cart Service', () => {
     spyOn(multiCartService, 'loadCart').and.callThrough();
     service.getCart().subscribe().unsubscribe();
 
-    service.addEntry('productCode', 2);
+    service.addEntry('productCode', ENTRY_QUANTITY);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
   it('should add entry one by one ', () => {
+    const EXPECTED_TIMES_CALLED = 2;
     spyOn(multiCartService, 'addEntry').and.callThrough();
     service.getCart().subscribe().unsubscribe();
 
-    service.addEntry('productCode1', 2);
-    service.addEntry('productCode2', 2);
+    service.addEntry('productCode1', ENTRY_QUANTITY);
+    service.addEntry('productCode2', ENTRY_QUANTITY);
 
-    expect(multiCartService['addEntry']).toHaveBeenCalledTimes(2);
+    expect(multiCartService['addEntry']).toHaveBeenCalledTimes(
+      EXPECTED_TIMES_CALLED
+    );
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode1',
-      2
+      ENTRY_QUANTITY
     );
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode2',
-      2
+      ENTRY_QUANTITY
     );
   });
 
   it('should call multiCartService remove entry method with selective cart', () => {
+    const EXPECTED_QUANTITY = 3;
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
     spyOn(multiCartService, 'removeEntry').and.callThrough();
@@ -295,7 +300,7 @@ describe('Selective Cart Service', () => {
     expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
       'userId',
       'cartId',
-      3
+      EXPECTED_QUANTITY
     );
   });
 
@@ -304,12 +309,12 @@ describe('Selective Cart Service', () => {
     service['userId'] = 'userId';
     spyOn(multiCartService, 'updateEntry').and.callThrough();
 
-    service.updateEntry(1, 2);
+    service.updateEntry(1, ENTRY_QUANTITY);
     expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
       'userId',
       'cartId',
       1,
-      2
+      ENTRY_QUANTITY
     );
   });
 

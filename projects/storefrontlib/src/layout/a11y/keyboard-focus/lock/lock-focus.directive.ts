@@ -86,6 +86,7 @@ export class LockFocusDirective extends TrapFocusDirective
   }
 
   protected unlockFocus(event?: UIEvent) {
+    const TIMEOUT = 100;
     this.unlock.emit(true);
     this.addTabindexToChildren(0);
     // we focus the host if the event was triggered from a child
@@ -94,7 +95,7 @@ export class LockFocusDirective extends TrapFocusDirective
       // the mouse event on the new focused child element
       setTimeout(() => {
         super.handleFocus(event as KeyboardEvent);
-      }, 100);
+      }, TIMEOUT);
     }
   }
 

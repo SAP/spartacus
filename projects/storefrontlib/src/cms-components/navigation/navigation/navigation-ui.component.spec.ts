@@ -98,31 +98,56 @@ describe('Navigation UI Component', () => {
 
   describe('calculate columns', () => {
     beforeEach(() => {
-      navigationComponent.wrapAfter = 5;
+      const NODE_NUMBER = 5;
+      navigationComponent.wrapAfter = NODE_NUMBER;
     });
 
     it('should return 2 for 10', () => {
-      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+      const EXPECTED_COL_COUNT = 2;
+      const COLUMN_COUNT = 10;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
 
     it('should return 2 for 11', () => {
-      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+      const EXPECTED_COL_COUNT = 2;
+      const COLUMN_COUNT = 11;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
 
     it('should return 2 for 12', () => {
-      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+      const COLUMN_COUNT = 12;
+      const EXPECTED_COL_COUNT = 2;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
 
     it('should return 3 for 13', () => {
-      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+      const COLUMN_COUNT = 13;
+      const EXPECTED_COL_COUNT = 3;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
 
     it('should return column count of 3 for 14 items', () => {
-      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+      const COLUMN_COUNT = 14;
+      const EXPECTED_COL_COUNT = 3;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
 
     it('should return column count of 3 for 15 items', () => {
-      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+      const COLUMN_COUNT = 15;
+      const EXPECTED_COL_COUNT = 3;
+      expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
+        EXPECTED_COL_COUNT
+      );
     });
   });
 
@@ -176,6 +201,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render 2 root nav elements', () => {
+      const EXPECTED_NAV_COUNT = 2;
       fixture.detectChanges();
       // mmm... no `> nav` available in By.css
       let rootNavElementCount = 0;
@@ -184,7 +210,7 @@ describe('Navigation UI Component', () => {
           rootNavElementCount++;
         }
       });
-      expect(rootNavElementCount).toEqual(2);
+      expect(rootNavElementCount).toEqual(EXPECTED_NAV_COUNT);
     });
 
     it('should render heading for nav nodes without a URL', () => {
@@ -204,38 +230,42 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render a wrapper container for nav nodes with childs', () => {
+      const EXPECTED_LENGTH = 3;
       fixture.detectChanges();
 
       const wrapper: ElementRef[] = element.queryAll(By.css('nav .wrapper'));
-      expect(wrapper.length).toEqual(3);
+      expect(wrapper.length).toEqual(EXPECTED_LENGTH);
     });
 
     it('should render a childs container for nav nodes with childs', () => {
+      const EXPECTED_LENGTH = 3;
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
-      expect(child.length).toEqual(3);
+      expect(child.length).toEqual(EXPECTED_LENGTH);
     });
 
     it('should render a depth attribute on child containers indicating the depth of the navigation ', () => {
+      const CHILD_INDEX = 2;
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
       const first: HTMLElement = child[0].nativeElement;
       const second: HTMLElement = child[1].nativeElement;
-      const third: HTMLElement = child[2].nativeElement;
+      const third: HTMLElement = child[CHILD_INDEX].nativeElement;
       expect(first.attributes.getNamedItem('depth').value).toEqual('3');
       expect(second.attributes.getNamedItem('depth').value).toEqual('2');
       expect(third.attributes.getNamedItem('depth').value).toEqual('1');
     });
 
     it('should render child element in the childs container for nav nodes with childs', () => {
+      const EXPECTED_LENGTH = 7;
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(
         By.css('nav div .childs nav')
       );
-      expect(child.length).toEqual(7);
+      expect(child.length).toEqual(EXPECTED_LENGTH);
     });
   });
 });

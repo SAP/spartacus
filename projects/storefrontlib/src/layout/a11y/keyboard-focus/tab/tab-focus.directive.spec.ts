@@ -5,6 +5,8 @@ import { TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from './tab-focus.directive';
 import { TabFocusService } from './tab-focus.service';
 
+const EXPECTED_TIMES_CALLED = 2;
+
 @Directive({
   selector: '[cxTabFocus]',
 })
@@ -59,7 +61,7 @@ describe('TabFocusDirective', () => {
 
       host.triggerEventHandler('keydown.arrowRight', event);
       host.triggerEventHandler('keydown.arrowLeft', event);
-      expect(service.moveTab).toHaveBeenCalledTimes(2);
+      expect(service.moveTab).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should call moveTab when tab = true', () => {
@@ -69,7 +71,7 @@ describe('TabFocusDirective', () => {
 
       host.triggerEventHandler('keydown.arrowRight', event);
       host.triggerEventHandler('keydown.arrowLeft', event);
-      expect(service.moveTab).toHaveBeenCalledTimes(2);
+      expect(service.moveTab).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should not call moveTab when tab = false', () => {

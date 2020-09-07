@@ -34,9 +34,16 @@ describe('CartEntryConnector', () => {
   });
 
   it('update should call adapter', () => {
+    const CART_ENTRY_QTY = 4;
     const adapter = TestBed.inject(CartEntryAdapter);
-    service.update('1', '2', '3', 4).subscribe();
-    expect(adapter.update).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
+    service.update('1', '2', '3', CART_ENTRY_QTY).subscribe();
+    expect(adapter.update).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      CART_ENTRY_QTY,
+      undefined
+    );
   });
 
   it('remove should call adapter', () => {

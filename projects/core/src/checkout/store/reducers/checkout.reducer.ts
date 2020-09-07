@@ -104,15 +104,19 @@ export function reducer(
 
     case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
+      const STEP_ONE = 1,
+        STEP_TWO = 2,
+        STEP_THREE = 3;
+
       switch (stepNumber) {
-        case 1: {
+        case STEP_ONE: {
           return {
             ...state,
             address: {},
           };
         }
 
-        case 2: {
+        case STEP_TWO: {
           return {
             ...state,
             deliveryMode: {
@@ -123,7 +127,7 @@ export function reducer(
           };
         }
 
-        case 3: {
+        case STEP_THREE: {
           return {
             ...state,
             paymentDetails: {},

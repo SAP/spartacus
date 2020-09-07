@@ -7,7 +7,8 @@ import { SplitViewComponent } from './split-view.component';
 @Injectable({ providedIn: 'root' })
 class MockSplitViewService {
   getActiveView() {
-    return of(5);
+    const VISIBLE_VIEW_COUNT = 5;
+    return of(VISIBLE_VIEW_COUNT);
   }
 }
 
@@ -40,8 +41,9 @@ describe('SplitViewComponent', () => {
   });
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
+    const VALUE = 6;
     fixture.detectChanges();
-    expect(component.lastVisibleView).toEqual(6);
+    expect(component.lastVisibleView).toEqual(VALUE);
   });
 
   it('should bind lastVisibleView to --cx-active-view CSS property', () => {

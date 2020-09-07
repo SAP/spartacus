@@ -723,6 +723,7 @@ describe('ConsentManagementComponent', () => {
 
       describe('when nothing is being loaded', () => {
         it('should NOT show the spinner but rather diplay a checkbox for each consent', () => {
+          const EXPECTED_LENGTH = 3;
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
@@ -748,7 +749,7 @@ describe('ConsentManagementComponent', () => {
             (el.nativeElement as HTMLElement).querySelectorAll(
               'cx-consent-management-form'
             ).length
-          ).toEqual(3);
+          ).toEqual(EXPECTED_LENGTH);
         });
       });
     });

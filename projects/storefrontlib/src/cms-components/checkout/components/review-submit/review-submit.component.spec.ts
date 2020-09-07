@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Address,
   Cart,
-  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -349,7 +349,8 @@ describe('ReviewSubmitComponent', () => {
     });
 
     it('should contain total number of items', () => {
-      expect(getCartTotalText()).toContain(123);
+      const EXPECTED_TEXT_VALUE = 123;
+      expect(getCartTotalText()).toContain(EXPECTED_TEXT_VALUE);
     });
 
     it('should contain total price', () => {

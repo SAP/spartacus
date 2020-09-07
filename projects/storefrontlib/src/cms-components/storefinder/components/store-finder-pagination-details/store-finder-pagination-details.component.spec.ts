@@ -42,7 +42,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   });
 
   it('should display last page', () => {
-    component.pagination.currentPage = 2;
+    const CURRENT_PAGE = 2;
+    component.pagination.currentPage = CURRENT_PAGE;
     fixture.detectChanges();
 
     const detailsElement = fixture.debugElement.query(
@@ -55,7 +56,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   });
 
   it('should display proper pagination results info when there is only one page', () => {
-    component.pagination.totalResults = 15;
+    const TOTAL_RESULTS = 15;
+    component.pagination.totalResults = TOTAL_RESULTS;
 
     fixture.detectChanges();
 

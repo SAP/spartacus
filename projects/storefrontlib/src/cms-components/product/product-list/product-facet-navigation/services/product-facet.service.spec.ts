@@ -5,7 +5,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProductListComponentService } from '../../container/product-list-component.service';
 import { FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
@@ -130,11 +130,12 @@ describe('ProductFacetService', () => {
       });
 
       it('should return facets without brand facet', () => {
+        const ACTIVE_FACET_LENGTH = 2;
         let result: FacetList;
         service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
-        expect(result.activeFacets.length).toEqual(2);
+        expect(result.activeFacets.length).toEqual(ACTIVE_FACET_LENGTH);
       });
     });
 

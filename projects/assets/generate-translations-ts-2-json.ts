@@ -25,7 +25,8 @@ if (!fs.existsSync(assetsDistDir)) {
     createDir(getLangDir(lang));
     Object.keys(translations[lang]).forEach((chunk) => {
       const obj = translations[lang][chunk];
-      const json = JSON.stringify(obj, null, 2);
+      const SPACE = 2;
+      const json = JSON.stringify(obj, null, SPACE);
       const fileName = getFileName(lang, chunk);
       fs.writeFileSync(fileName, json, 'utf8');
     });

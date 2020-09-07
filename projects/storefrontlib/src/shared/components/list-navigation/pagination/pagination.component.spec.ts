@@ -60,7 +60,8 @@ describe('PaginationComponent', () => {
     });
 
     it('should return true for current page = 5', () => {
-      component.pagination.currentPage = 5;
+      const CUR_PAGE = 5;
+      component.pagination.currentPage = CUR_PAGE;
       expect(
         component.isCurrent({ type: PaginationItemType.PAGE, number: 5 })
       ).toBeTruthy();
@@ -115,7 +116,8 @@ describe('PaginationComponent', () => {
         });
       });
       it('should not query parameter for current page', () => {
-        component.pagination.currentPage = 2;
+        const CUR_PAGE = 2;
+        component.pagination.currentPage = CUR_PAGE;
         expect(
           component.getQueryParams({
             type: PaginationItemType.PAGE,

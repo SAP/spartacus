@@ -154,6 +154,8 @@ describe('MerchandisingCarouselComponentService', () => {
   }));
 
   describe('getMerchandisingCaourselViewportThreshold', () => {
+    const PERCENT = 100;
+    const MERCHANDISING_CAROUSAL_VIEWPORT_THRESHOLD = 0.8;
     it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {
       TestBed.resetTestingModule();
       configureTestingModule().overrideProvider(CdsConfig, {
@@ -165,7 +167,7 @@ describe('MerchandisingCarouselComponentService', () => {
         componentService.getMerchandisingCaourselViewportThreshold(
           emptyComponentData
         )
-      ).toBe(0.8);
+      ).toBe(MERCHANDISING_CAROUSAL_VIEWPORT_THRESHOLD);
     });
 
     it('should fallback to the carousel viewport threshold in the CDS config if one is not provided in the carousel CMS component config', () => {
@@ -174,7 +176,8 @@ describe('MerchandisingCarouselComponentService', () => {
           emptyComponentData
         )
       ).toBe(
-        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100
+        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold /
+          PERCENT
       );
     });
 
@@ -183,7 +186,7 @@ describe('MerchandisingCarouselComponentService', () => {
         componentService.getMerchandisingCaourselViewportThreshold(
           mockComponentData
         )
-      ).toBe(mockComponentData.viewportPercentage / 100);
+      ).toBe(mockComponentData.viewportPercentage / PERCENT);
     });
   });
 
@@ -236,6 +239,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
   describe('sendCarouselViewEvent', () => {
     it('should send a carousel view event to profile tag', () => {
+      const MOCK_PRODUCT_INDEX = 2;
       const expectedCarouselViewEvent = new MerchandisingCarouselViewedEvent(
         {
           carouselId: mockMerchandisingCarouselModel.metadata.id,
@@ -243,7 +247,7 @@ describe('MerchandisingCarouselComponentService', () => {
           strategyId: mockMerchandisingCarouselModel.metadata.strategyid,
           metadata: mockMerchandisingCarouselModel.metadata,
         },
-        [mockProducts[1].code, mockProducts[2].code]
+        [mockProducts[1].code, mockProducts[MOCK_PRODUCT_INDEX].code]
       );
 
       componentService

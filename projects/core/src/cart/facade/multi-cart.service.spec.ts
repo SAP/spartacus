@@ -260,7 +260,8 @@ describe('MultiCartService', () => {
 
   describe('addEntry', () => {
     it('should dispatch addEntry action', () => {
-      service.addEntry('userId', 'cartId', 'productCode', 2);
+      const ENTRY_QUANTITY = 2;
+      service.addEntry('userId', 'cartId', 'productCode', ENTRY_QUANTITY);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
@@ -315,7 +316,8 @@ describe('MultiCartService', () => {
 
   describe('updateEntry', () => {
     it('should dispatch UpdateEntry action for quantity > 0', () => {
-      service.updateEntry('userId', 'cartId', 0, 2);
+      const ENTRY_QUANTITY = 2;
+      service.updateEntry('userId', 'cartId', 0, ENTRY_QUANTITY);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartUpdateEntry({

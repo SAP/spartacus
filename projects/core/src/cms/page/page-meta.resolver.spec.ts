@@ -45,9 +45,10 @@ describe('PageMetaResolver', () => {
   });
 
   it('should score -2 for non CategoryPage and lacking page template', () => {
+    const EXPECTED_SCORE = -2;
     service.pageType = PageType.CATEGORY_PAGE;
     service.pageTemplate = 'page-requires-template';
-    expect(service.getScore(mockContentPage)).toEqual(-2);
+    expect(service.getScore(mockContentPage)).toEqual(EXPECTED_SCORE);
   });
 
   it('should score 1 for ContentPage with page template', () => {
@@ -56,8 +57,11 @@ describe('PageMetaResolver', () => {
   });
 
   it('should score 2 for ContentPage with page template', () => {
+    const EXPECTED_SCORE = 2;
     service.pageType = PageType.CONTENT_PAGE;
     service.pageTemplate = 'any-template';
-    expect(service.getScore(mockContentPageWithTemplate)).toEqual(2);
+    expect(service.getScore(mockContentPageWithTemplate)).toEqual(
+      EXPECTED_SCORE
+    );
   });
 });

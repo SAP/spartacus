@@ -103,10 +103,11 @@ export abstract class OrderAmendService {
    * The calculation and validation should be in backend facade layer.
    */
   getAmendedPrice(entry: OrderEntry): Price {
+    const CENT = 100;
     const amendedQuantity = this.getFormControl(this.form, entry).value;
     const amendedPrice = Object.assign({}, entry.basePrice);
     amendedPrice.value =
-      Math.round(entry.basePrice.value * amendedQuantity * 100) / 100;
+      Math.round(entry.basePrice.value * amendedQuantity * CENT) / CENT;
 
     amendedPrice.formattedValue = formatCurrency(
       amendedPrice.value,

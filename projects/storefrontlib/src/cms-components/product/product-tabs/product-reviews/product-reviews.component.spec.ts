@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   I18nTestingModule,
-  ProductReviewService,
   Product,
+  ProductReviewService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ItemCounterModule, FormErrorsModule } from '../../../../shared/index';
-import { ProductReviewsComponent } from './product-reviews.component';
+import { FormErrorsModule, ItemCounterModule } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
+import { ProductReviewsComponent } from './product-reviews.component';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -115,8 +115,9 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   describe('Overall rating display', () => {
+    const AVG_RATING = 4.5;
     it('should display rating component when rating is available', () => {
-      mockProduct.averageRating = 4.5;
+      mockProduct.averageRating = AVG_RATING;
       fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(

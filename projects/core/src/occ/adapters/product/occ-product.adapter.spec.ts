@@ -13,6 +13,7 @@ const product = {
   code: productCode,
   name: 'testProduct',
 };
+const EXPECTED_LENGTH = 2;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
@@ -114,7 +115,7 @@ describe('OccProductAdapter', () => {
         { code: '333', scope: 'scope' },
       ]);
 
-      expect(scopedData.length).toEqual(2);
+      expect(scopedData.length).toEqual(EXPECTED_LENGTH);
 
       let result1;
       scopedData[0].data$.subscribe((res) => (result1 = res));
@@ -137,7 +138,7 @@ describe('OccProductAdapter', () => {
         { code: productCode, scope: 'name' },
       ]);
 
-      expect(scopedData.length).toEqual(2);
+      expect(scopedData.length).toEqual(EXPECTED_LENGTH);
 
       let result1;
       scopedData[0].data$.subscribe((res) => (result1 = res));

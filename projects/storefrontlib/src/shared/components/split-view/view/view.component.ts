@@ -64,6 +64,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    const DURATION_MULTIPLICITY = 1.25;
     this.splitService.splitViewCount = this.splitViewCount;
 
     const hidden = this._hidden ? { hidden: this._hidden } : {};
@@ -77,7 +78,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         if (view.hidden) {
           setTimeout(() => {
             this.disappeared = true;
-          }, this.duration * 1.25);
+          }, this.duration * DURATION_MULTIPLICITY);
         } else {
           this.disappeared = false;
         }
@@ -110,6 +111,8 @@ export class ViewComponent implements OnInit, OnDestroy {
    * `--cx-transition-duration`. Defaults to 300 milliseconds.
    */
   protected get duration(): number {
+    const DEFAULT_DURATION = 300;
+    const DURATION = 1000;
     const duration: string = getComputedStyle(this.elementRef.nativeElement)
       .getPropertyValue('--cx-transition-duration')
       .trim();
@@ -117,9 +120,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     if (duration.indexOf('ms') > -1) {
       return Number(duration.split('ms')[0]);
     } else if (duration.indexOf('s') > -1) {
-      return Number(duration.split('s')[0]) * 1000;
+      return Number(duration.split('s')[0]) * DURATION;
     } else {
-      return 300;
+      return DEFAULT_DURATION;
     }
   }
 
@@ -128,10 +131,11 @@ export class ViewComponent implements OnInit, OnDestroy {
    * `--cx-max-views`. Defaults to `2`
    */
   protected get splitViewCount(): number {
+    const MAX_DEFAULT_VIEW = 2;
     return Number(
       getComputedStyle(this.elementRef.nativeElement)
         .getPropertyValue('--cx-max-views')
-        .trim() || 2
+        .trim() || MAX_DEFAULT_VIEW
     );
   }
 

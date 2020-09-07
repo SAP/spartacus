@@ -16,6 +16,8 @@ import {
 import { SiteContextParamsService } from './site-context-params.service';
 import createSpy = jasmine.createSpy;
 
+const BUFFER_COUNT = 3;
+
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
     context: {
@@ -121,7 +123,7 @@ describe('SiteContextParamsService', () => {
       );
       service
         .getValues([LANGUAGE_CONTEXT_ID])
-        .pipe(bufferCount(3), take(1))
+        .pipe(bufferCount(BUFFER_COUNT), take(1))
         .subscribe((values) => {
           expect(values).toEqual([['en'], ['de'], ['en']]);
         });
@@ -134,7 +136,7 @@ describe('SiteContextParamsService', () => {
       );
       service
         .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])
-        .pipe(bufferCount(3), take(1))
+        .pipe(bufferCount(BUFFER_COUNT), take(1))
         .subscribe((values) => {
           expect(values).toEqual([
             ['ja', 'USD'],

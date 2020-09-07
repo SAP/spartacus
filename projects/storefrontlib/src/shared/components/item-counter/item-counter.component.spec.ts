@@ -5,6 +5,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ItemCounterComponent } from './item-counter.component';
 
+const MIN_VALUE_DEFAULT = 3;
+const VALUE_DEFAULT = 5;
+
 const form = new FormGroup({
   quantity: new FormControl('1'),
 });
@@ -38,7 +41,7 @@ describe('ItemCounterComponent', () => {
   it('should update the input value when the control value is changed', () => {
     const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
       .nativeElement;
-    component.control.setValue(5);
+    component.control.setValue(VALUE_DEFAULT);
     fixture.detectChanges();
     expect(input.value).toEqual('5');
   });
@@ -46,13 +49,13 @@ describe('ItemCounterComponent', () => {
   it('should update the form control when the input is changed', async(() => {
     const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
       .nativeElement;
-
+    const EXPECTED_VALUE = 10;
     input.focus();
     input.value = '10';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(component.control.value).toEqual(10);
+    expect(component.control.value).toEqual(EXPECTED_VALUE);
   }));
 
   describe('readonly', () => {
@@ -75,23 +78,27 @@ describe('ItemCounterComponent', () => {
 
   describe('validate value', () => {
     it('should set value to max when it is greater than max value', () => {
-      component.max = 40;
-      component.control.setValue(50);
+      const VALUE = 50;
+      const MAX_VALUE = 40;
+      component.max = MAX_VALUE;
+      component.control.setValue(VALUE);
       fixture.detectChanges();
 
-      expect(component.control.value).toEqual(40);
+      expect(component.control.value).toEqual(MAX_VALUE);
     });
 
     it('should set value to min when it is smaller than min value', () => {
-      component.min = 3;
-      component.control.setValue(2);
+      const VALUE = 2;
+      component.min = MIN_VALUE_DEFAULT;
+      component.control.setValue(VALUE);
       fixture.detectChanges();
 
-      expect(component.control.value).toEqual(3);
+      expect(component.control.value).toEqual(MIN_VALUE_DEFAULT);
     });
 
     it('should avoid invalid characters in the input to silently fail', async(() => {
-      component.min = 5;
+      const MINIMUM_VALUE = 5;
+      component.min = MINIMUM_VALUE;
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
@@ -122,12 +129,13 @@ describe('ItemCounterComponent', () => {
 
   describe('increment()', () => {
     it('should increase form control value when plus button is used', () => {
+      const EXPECTED_VALUE = 2;
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
       button[1].nativeElement.click();
       fixture.detectChanges();
-      expect(component.control.value).toEqual(2);
+      expect(component.control.value).toEqual(EXPECTED_VALUE);
     });
 
     it('should mark the control "dirty" when the value increases', () => {
@@ -141,8 +149,9 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should enable increase button if max number is not reached', () => {
-      component.control.setValue(5);
-      component.max = 10;
+      const MAX_VALUE = 10;
+      component.control.setValue(VALUE_DEFAULT);
+      component.max = MAX_VALUE;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -151,8 +160,9 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should disable increase button if max number is reached', () => {
-      component.control.setValue(5);
-      component.max = 5;
+      const MAX_VALUE = 5;
+      component.control.setValue(VALUE_DEFAULT);
+      component.max = MAX_VALUE;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -165,19 +175,20 @@ describe('ItemCounterComponent', () => {
 
   describe('decrement()', () => {
     it('should decrease form control value when minus button is used', () => {
-      component.control.setValue(5);
+      const EXPECTED_VALUE = 4;
+      component.control.setValue(VALUE_DEFAULT);
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
       button[0].nativeElement.click();
       fixture.detectChanges();
-      expect(component.control.value).toEqual(4);
+      expect(component.control.value).toEqual(EXPECTED_VALUE);
     });
 
     it('should mark the control "dirty" when the value decreases', () => {
       expect(component.control.dirty).toBe(false);
-      component.control.setValue(5);
+      component.control.setValue(VALUE_DEFAULT);
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -188,8 +199,8 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should enable decrease button if min number is not reached', () => {
-      component.control.setValue(5);
-      component.min = 3;
+      component.control.setValue(VALUE_DEFAULT);
+      component.min = MIN_VALUE_DEFAULT;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -198,8 +209,9 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should disable decrease button if min number is reached', () => {
-      component.control.setValue(5);
-      component.min = 5;
+      const MINIMUM_VALUE = 5;
+      component.control.setValue(VALUE_DEFAULT);
+      component.min = MINIMUM_VALUE;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')

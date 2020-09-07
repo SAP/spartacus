@@ -104,9 +104,10 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to clear checkout step', () => {
-    service.clearCheckoutStep(2);
+    const STEP = 2;
+    service.clearCheckoutStep(STEP);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.ClearCheckoutStep(2)
+      new CheckoutActions.ClearCheckoutStep(STEP)
     );
   });
 

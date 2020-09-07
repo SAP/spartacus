@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import {
-  CustomFormValidators,
   controlsMustMatch,
+  CustomFormValidators,
 } from './custom-form-validators';
 
 describe('FormValidationService', () => {

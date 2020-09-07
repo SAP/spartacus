@@ -5,6 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HttpResponseStatus } from '../../../global-message/models/response-status.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
@@ -117,7 +118,7 @@ describe('UserAuthenticationTokenService', () => {
       authTokenService.refreshToken('invalid token').subscribe(
         (_result) => {},
         (error: HttpErrorResponse) => {
-          expect(error.status).toBe(400);
+          expect(error.status).toBe(HttpResponseStatus.BAD_REQUEST);
           expect(error.statusText).toEqual('Error');
         }
       );

@@ -93,6 +93,7 @@ export class GigyaRaasComponent implements OnInit {
   }
 
   protected getSessionExpirationValue(): number {
+    const DEFAULT_SESSION_EXPIRATION_VALUE = 3600;
     const filteredConfigs: any = this.cdcConfig.cdc.filter(
       (conf) => conf.baseSite === this.getCurrentBaseSite()
     );
@@ -100,7 +101,7 @@ export class GigyaRaasComponent implements OnInit {
       return filteredConfigs[0].sessionExpiration;
     }
     // Return a default value
-    return 3600;
+    return DEFAULT_SESSION_EXPIRATION_VALUE;
   }
 
   private getCurrentBaseSite(): string {

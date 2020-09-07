@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
+const TIME_INTERVAL = 1000;
+
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
@@ -40,7 +42,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
         this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }
       this.changeDetectorRef.markForCheck();
-    }, 1000);
+    }, TIME_INTERVAL);
 
     this.resetOnNavigate();
     this.resetOnCustomerSessionChange();

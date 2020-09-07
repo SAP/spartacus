@@ -7,9 +7,9 @@ import {
   GlobalMessageType,
 } from '../../models/global-message.model';
 import {
-  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageEntities,
   GlobalMessageState,
+  GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
 import { GlobalMessageActions } from './../actions/index';
@@ -124,6 +124,7 @@ describe('Global Messages selectors', () => {
   describe('getGlobalMessageCountByType', () => {
     it('Should return count of global messages by type', () => {
       let result: number;
+      const EXPECTED_RESULT = 2;
 
       sub = store
         .pipe(
@@ -148,7 +149,7 @@ describe('Global Messages selectors', () => {
       store.dispatch(
         new GlobalMessageActions.AddMessage(testMessageConfirmation2)
       );
-      expect(result).toBe(2);
+      expect(result).toBe(EXPECTED_RESULT);
     });
   });
 });

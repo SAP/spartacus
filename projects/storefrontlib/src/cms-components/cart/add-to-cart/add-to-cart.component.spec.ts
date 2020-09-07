@@ -155,6 +155,7 @@ describe('AddToCartComponent', () => {
   describe('Product from page', () => {
     it('should reset counter value when changing product', () => {
       const currentProduct = new BehaviorSubject<Product>(mockProduct);
+      const CART_QTY = 5;
 
       //Product 1
       spyOn(currentProductService, 'getProduct').and.returnValue(
@@ -162,7 +163,7 @@ describe('AddToCartComponent', () => {
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
-      addToCartComponent.quantity = 5;
+      addToCartComponent.quantity = CART_QTY;
 
       //Product 2
       currentProduct.next(mockProduct2);

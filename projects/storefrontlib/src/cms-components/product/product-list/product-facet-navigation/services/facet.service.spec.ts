@@ -69,15 +69,17 @@ describe('FacetService', () => {
 
   describe('facetList$', () => {
     it('should return facets', () => {
+      const FACET_LENGTH = 5;
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.facets.length).toEqual(5);
+      expect(result.facets.length).toEqual(FACET_LENGTH);
     });
 
     it('should return active facets', () => {
+      const ACTIVE_FACET_LENGTH = 2;
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.activeFacets.length).toEqual(2);
+      expect(result.activeFacets.length).toEqual(ACTIVE_FACET_LENGTH);
     });
   });
 
@@ -144,6 +146,7 @@ describe('FacetService', () => {
     });
 
     it('should not update maxVisible state if it is already initialized', () => {
+      const MAX_VISIBLE_LENGTH = 5;
       let result: FacetCollapseState;
       service.getState(facet1);
       service.increaseVisibleValues(facet1);
@@ -152,7 +155,7 @@ describe('FacetService', () => {
         .subscribe((f) => (result = f))
         .unsubscribe();
 
-      expect(result.maxVisible).not.toEqual(5);
+      expect(result.maxVisible).not.toEqual(MAX_VISIBLE_LENGTH);
     });
   });
 
@@ -191,6 +194,7 @@ describe('FacetService', () => {
   });
 
   describe('visible values', () => {
+    const EXPECTED_VISIBLE_VALUE = 7;
     it('should increase visible', () => {
       service.increaseVisibleValues(facet1);
 
@@ -199,10 +203,11 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(7);
+      expect(result.maxVisible).toEqual(EXPECTED_VISIBLE_VALUE);
     });
 
     it('should decrease visible', () => {
+      const MAX_VISIBLE_LENGTH = 5;
       service.decreaseVisibleValues(facet1);
 
       let result: FacetCollapseState;
@@ -210,7 +215,7 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(5);
+      expect(result.maxVisible).toEqual(MAX_VISIBLE_LENGTH);
     });
   });
 

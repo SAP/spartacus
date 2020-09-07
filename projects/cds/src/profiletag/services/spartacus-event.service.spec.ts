@@ -111,6 +111,7 @@ describe('SpartacusEventTracker', () => {
       .navigated()
       .pipe(tap(() => timesCalled++))
       .subscribe();
+    const EXPECTED_TIMES_CALLED = 5;
     getConsentBehavior.next({ consent: 'test' });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -121,10 +122,11 @@ describe('SpartacusEventTracker', () => {
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test3'));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test1'));
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(5);
+    expect(timesCalled).toEqual(EXPECTED_TIMES_CALLED);
   });
 
   it(`Should call the cartChanged method for every CartSnapshot event`, () => {
+    const EXPECTED_TIMES_CALLED = 2;
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
@@ -143,7 +145,7 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next(testCart);
     cartBehavior.next(testCartWithAdditionalOrderEntry);
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(EXPECTED_TIMES_CALLED);
   });
 
   it(`Should not call the cartChanged method when the cart is not modified`, () => {
@@ -174,6 +176,7 @@ describe('SpartacusEventTracker', () => {
       .cartChanged()
       .pipe(tap(() => timesCalled++))
       .subscribe();
+    const EXPECTED_TIMES_CALLED = 4;
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     cartBehavior.next({ id: 123, entries: [] });
     cartBehavior.next({ id: 123, entries: [] });
@@ -183,7 +186,7 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next({ id: 123, entries: [] });
     cartBehavior.next({ id: 123, entries: [] });
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(4);
+    expect(timesCalled).toEqual(EXPECTED_TIMES_CALLED);
   });
 
   it(`Should call the push method first time a login is successful`, () => {
@@ -192,6 +195,7 @@ describe('SpartacusEventTracker', () => {
       .loginSuccessful()
       .pipe(tap((_) => timesCalled++))
       .subscribe();
+    const EXPECTED_TIMES_CALLED = 2;
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGIN });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
@@ -199,6 +203,6 @@ describe('SpartacusEventTracker', () => {
     mockActionsSubject.next({ type: AuthActions.LOGIN });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(EXPECTED_TIMES_CALLED);
   });
 });

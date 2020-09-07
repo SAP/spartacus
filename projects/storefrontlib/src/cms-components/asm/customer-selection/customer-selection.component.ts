@@ -48,6 +48,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const DEBOUNCE_TIME = 300;
+
     this.customerSelectionForm = this.fb.group({
       searchTerm: ['', Validators.required],
     });
@@ -57,7 +59,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.customerSelectionForm.controls.searchTerm.valueChanges
-        .pipe(debounceTime(300))
+        .pipe(debounceTime(DEBOUNCE_TIME))
         .subscribe((searchTermValue) => {
           this.handleSearchTerm(searchTermValue);
         })
@@ -65,6 +67,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   private handleSearchTerm(searchTermValue: string) {
+    const SEARCH_TERMS_LENGTH = 3;
     if (
       Boolean(this.selectedCustomer) &&
       searchTermValue !== this.selectedCustomer.name
@@ -75,7 +78,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       return;
     }
     this.asmService.customerSearchReset();
-    if (searchTermValue.trim().length >= 3) {
+    if (searchTermValue.trim().length >= SEARCH_TERMS_LENGTH) {
       this.asmService.customerSearch({
         query: searchTermValue,
         pageSize: this.config.asm.customerSearch.maxResults,

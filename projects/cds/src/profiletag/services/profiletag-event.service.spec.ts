@@ -150,6 +150,7 @@ describe('ProfileTagEventTracker', () => {
 
   it(`Should call the consentReferenceChanged method when consentReference value changes`, () => {
     let timesCalled = 0;
+    const EXPECTED_TIMES_CALLED = 2;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
       .pipe(tap(() => timesCalled++))
@@ -174,7 +175,7 @@ describe('ProfileTagEventTracker', () => {
     );
     subscription.unsubscribe();
 
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(EXPECTED_TIMES_CALLED);
   });
   it('Should give the lastest consent reference to late subscribers', () => {
     let cr1 = null;

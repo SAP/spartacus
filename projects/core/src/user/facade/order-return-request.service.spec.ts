@@ -135,7 +135,13 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should be able to load order return requests list', () => {
-    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
+    const PAGE_SIZE = 10;
+    orderReturnRequestService.loadOrderReturnRequestList(
+      PAGE_SIZE,
+      1,
+      'byDate'
+    );
+
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderReturnRequestList({
         userId: OCC_USER_ID_CURRENT,
@@ -147,11 +153,16 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should NOT load order return requests list when user is anonymous', () => {
+    const PAGE_SIZE = 10;
     spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
       cb(OCC_USER_ID_ANONYMOUS)
     );
 
-    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
+    orderReturnRequestService.loadOrderReturnRequestList(
+      PAGE_SIZE,
+      1,
+      'byDate'
+    );
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 

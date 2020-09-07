@@ -258,58 +258,65 @@ describe('MyInterestsComponent', () => {
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
+    const EXPECTED_LENGTH = 2;
     expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(
       1
     );
-    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
-    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(EXPECTED_LENGTH);
+    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(
+      EXPECTED_LENGTH
+    );
     expect(
       el.queryAll(By.css('.cx-product-interests-product-item')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
+    expect(el.queryAll(By.css('cx-media')).length).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-image-link')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-name')).length).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
+    expect(el.queryAll(By.css('.cx-name')).length).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-code-link')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-code')).length).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
+    expect(el.queryAll(By.css('.cx-code')).length).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-variant-name')).length
-    ).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-variant-value')).length
-    ).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-stock')).length
-    ).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-price')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
+    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(
+      EXPECTED_LENGTH
+    );
     expect(
       el.queryAll(By.css('.cx-product-interests-expiration-date')).length
-    ).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
     expect(
       el.queryAll(By.css('.cx-product-interests-remove-btn')).length
-    ).toEqual(2);
+    ).toEqual(EXPECTED_LENGTH);
   });
 
   it('should be able to change page/sort', () => {
+    const PAGE_SIZE = 10;
+    const PAGE_NUMBER = 2;
     fixture.detectChanges();
 
     component.sortChange('byNameAsc');
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
-      10,
+      PAGE_SIZE,
       0,
       'name:asc'
     );
 
-    component.pageChange(2);
+    component.pageChange(PAGE_NUMBER);
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
-      10,
-      2,
+      PAGE_SIZE,
+      PAGE_NUMBER,
       'name:asc'
     );
   });

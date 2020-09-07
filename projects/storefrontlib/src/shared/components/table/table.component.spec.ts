@@ -107,6 +107,8 @@ describe('TableComponent', () => {
     });
 
     it('should add a th for each tableHeader ', () => {
+      const ELEMENT_INDEX = 2;
+      const EXPECTED_LENGTH = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
       const table = fixture.debugElement.query(By.css('table > thead'));
@@ -114,10 +116,10 @@ describe('TableComponent', () => {
       const th = fixture.debugElement.queryAll(
         By.css('table > thead > tr > th')
       );
-      expect(th.length).toBe(3);
+      expect(th.length).toBe(EXPECTED_LENGTH);
       expect(th[0].nativeElement).toBeTruthy();
       expect(th[1].nativeElement).toBeTruthy();
-      expect(th[2].nativeElement).toBeTruthy();
+      expect(th[ELEMENT_INDEX].nativeElement).toBeTruthy();
     });
 
     it('should leverage the translate pipe for the header key when there is no header label', () => {
@@ -156,19 +158,21 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     it('should generate a tr for each data row', () => {
+      const EXPECTED_LENGTH = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(3);
+      expect(tr.length).toBe(EXPECTED_LENGTH);
     });
 
     it('should generate a td for each data row', () => {
+      const EXPECTED_LENGTH = 9;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(9);
+      expect(td.length).toBe(EXPECTED_LENGTH);
     });
 
     it('should add the col key as a css class to each <td>', () => {

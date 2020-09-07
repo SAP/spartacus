@@ -58,7 +58,10 @@ export class MultiCartService {
    * Simple random temp cart id generator
    */
   private generateTempCartId(): string {
-    const pseudoUuid = Math.random().toString(36).substr(2, 9);
+    const RADIX = 36,
+      FROM = 2,
+      LENGTH = 9;
+    const pseudoUuid = Math.random().toString(RADIX).substr(FROM, LENGTH);
     return `temp-${pseudoUuid}`;
   }
 

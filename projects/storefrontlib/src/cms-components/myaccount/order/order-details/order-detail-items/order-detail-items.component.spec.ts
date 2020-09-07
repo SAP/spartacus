@@ -196,6 +196,8 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize others and check if it does not allow valid consignment status', () => {
+    const CONSIGNMENT_INDEX = 2;
+    const CONSIGNMENT_INDEX_THIRD = 3;
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -205,11 +207,14 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).not.toContain(mockOrder.consignments[1]);
-    expect(others).not.toContain(mockOrder.consignments[2]);
-    expect(others).not.toContain(mockOrder.consignments[3]);
+    expect(others).not.toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
+    expect(others).not.toContain(
+      mockOrder.consignments[CONSIGNMENT_INDEX_THIRD]
+    );
   });
 
   it('should initialize others and check if it contains any consignment status', () => {
+    const CONSIGNMENT_INDEX = 4;
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -219,10 +224,11 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).toContain(mockOrder.consignments[0]);
-    expect(others).toContain(mockOrder.consignments[4]);
+    expect(others).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should initialize completed', () => {
+    const CONSIGNMENT_INDEX = 2;
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
@@ -232,10 +238,11 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(completed).toContain(mockOrder.consignments[1]);
-    expect(completed).toContain(mockOrder.consignments[2]);
+    expect(completed).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should initialize cancel', () => {
+    const CONSIGNMENT_INDEX = 3;
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
@@ -243,7 +250,7 @@ describe('OrderDetailItemsComponent', () => {
         cancel = value;
       })
       .unsubscribe();
-    expect(cancel).toContain(mockOrder.consignments[3]);
+    expect(cancel).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should order details item be rendered', () => {

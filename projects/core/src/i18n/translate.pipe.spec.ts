@@ -60,28 +60,31 @@ describe('TranslatePipe', () => {
     });
 
     it('should call service.translate every time pipe.transform was called with different keys', () => {
+      const EXPECTED_TIMES_CALLED = 2;
       spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKeyOther', { param: 'param1' });
-      expect(service.translate).toHaveBeenCalledTimes(2);
+      expect(service.translate).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should call service.translate every time pipe.transform was called with different options', () => {
+      const EXPECTED_TIMES_CALLED = 3;
       spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
       pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });
-      expect(service.translate).toHaveBeenCalledTimes(3);
+      expect(service.translate).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should call cd.markForCheck every time when service.translate emits value', () => {
+      const EXPECTED_TIMES_CALLED = 3;
       spyOn(service, 'translate').and.returnValues(
         of('value1', 'value2'),
         of('value3')
       );
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
-      expect(cd.markForCheck).toHaveBeenCalledTimes(3);
+      expect(cd.markForCheck).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
   });
 });

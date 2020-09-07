@@ -58,7 +58,8 @@ describe('UserInterestsService', () => {
   ));
 
   it('should be able to load product interests', () => {
-    service.loadProductInterests(5, 0, 'name:asc');
+    const PAGE_SIZE = 5;
+    service.loadProductInterests(PAGE_SIZE, 0, 'name:asc');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadProductInterests({
         userId: 'current',

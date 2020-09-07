@@ -18,6 +18,8 @@ import { SiteContextActions } from '../actions/index';
 import { getActiveCurrency } from '../selectors/currencies.selectors';
 import { StateWithSiteContext } from '../state';
 
+const BUFFER_SIZE = 2;
+
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
@@ -58,7 +60,7 @@ export class CurrenciesEffects {
   activateCurrency$: Observable<
     SiteContextActions.CurrencyChange
   > = this.state.select(getActiveCurrency).pipe(
-    bufferCount(2, 1),
+    bufferCount(BUFFER_SIZE, 1),
 
     // avoid dispatching `change` action when we're just setting the initial value:
     filter(([previous]) => !!previous),

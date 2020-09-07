@@ -11,7 +11,8 @@ class MockSplitViewService {
     return 0;
   }
   visibleViewCount() {
-    return of(5);
+    const VISIBLE_VIEW_COUNT = 5;
+    return of(VISIBLE_VIEW_COUNT);
   }
   add() {}
   remove() {}
@@ -63,9 +64,11 @@ describe('ViewComponent', () => {
     });
 
     it('should add view with position 3', () => {
-      component.position = '3';
+      const INPUT_POSITION = '3';
+      const EXPECTED_POSITION = 3;
+      component.position = INPUT_POSITION;
       component.ngOnInit();
-      expect(service.add).toHaveBeenCalledWith(3, {});
+      expect(service.add).toHaveBeenCalledWith(EXPECTED_POSITION, {});
     });
   });
 
@@ -76,10 +79,13 @@ describe('ViewComponent', () => {
     });
 
     it('should remove view with position 0', () => {
-      component.position = '3';
+      const INPUT_POSITION = '3';
+      const EXPECTED_POSITION = 3;
+
+      component.position = INPUT_POSITION;
       component.ngOnInit();
       component.ngOnDestroy();
-      expect(service.remove).toHaveBeenCalledWith(3);
+      expect(service.remove).toHaveBeenCalledWith(EXPECTED_POSITION);
     });
   });
 
@@ -90,9 +96,10 @@ describe('ViewComponent', () => {
     });
 
     it('should toggle view based on hidden state', () => {
+      const EXPECTED_RESULT = 5;
       component.position = '5';
       component.hidden = true;
-      expect(service.toggle).toHaveBeenCalledWith(5, true);
+      expect(service.toggle).toHaveBeenCalledWith(EXPECTED_RESULT, true);
     });
 
     it('should force show', () => {
@@ -117,11 +124,13 @@ describe('ViewComponent', () => {
     });
 
     it('should set position attribute to given position', () => {
-      component.position = '5';
+      const INPUT_POSITION = '5',
+        EXPECTED_POSITION = '5';
+      component.position = INPUT_POSITION;
       component.ngOnInit();
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
-      expect(el.getAttribute('position')).toEqual('5');
+      expect(el.getAttribute('position')).toEqual(EXPECTED_POSITION);
     });
   });
 });

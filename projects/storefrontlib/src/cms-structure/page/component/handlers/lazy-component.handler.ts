@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
-import { DefaultComponentHandler } from './default-component.handler';
 import { switchMap } from 'rxjs/operators';
 import { ComponentHandler } from './component-handler';
+import { DefaultComponentHandler } from './default-component.handler';
 
 /**
  * Lazy component handler used for launching lazy loaded cms components implemented
@@ -32,7 +32,8 @@ export class LazyComponentHandler implements ComponentHandler {
   }
 
   private isNotClass(symbol: any): boolean {
-    const signature = symbol.toString().substr(0, 20).replace(' ', '');
+    const VALUE = 20;
+    const signature = symbol.toString().substr(0, VALUE).replace(' ', '');
     return signature.startsWith('function()') || signature.startsWith('()=>');
   }
 

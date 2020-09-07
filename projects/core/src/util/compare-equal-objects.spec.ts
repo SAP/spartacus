@@ -105,13 +105,14 @@ describe('compare equal objects utilities', () => {
 
   describe('countOfDeepEqualObjects utility', () => {
     it('should return count of deep equal objects', () => {
+      const EXPECTED_COUNT = 2;
       expect(
         countOfDeepEqualObjects({ x: 1, z: { z: 2 } }, [
           { x: 1, z: { z: 2 } },
           { x: 2, z: { z: 2 } },
           { x: 1, z: { z: 2 } },
         ])
-      ).toEqual(2);
+      ).toEqual(EXPECTED_COUNT);
       expect(
         countOfDeepEqualObjects({ x: 1 }, [
           { x: 1 },
@@ -123,13 +124,29 @@ describe('compare equal objects utilities', () => {
     });
 
     it('should return count of equal primitives', () => {
-      expect(countOfDeepEqualObjects(2, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
-      expect(countOfDeepEqualObjects(5, [])).toEqual(0);
+      const EXPECTED_COUNT = 3;
+      const EXPECTED_DEEP_OBJ_COUNT = 5;
+      const COUNT_DEEP_OBJ_FOUR = 4;
+      const COUNT_DEEP_OBJ_THREE = 3;
+      const COUNT_DEEP_OBJ_TWO = 2;
+      expect(
+        countOfDeepEqualObjects(COUNT_DEEP_OBJ_TWO, [
+          1,
+          COUNT_DEEP_OBJ_TWO,
+          COUNT_DEEP_OBJ_THREE,
+          COUNT_DEEP_OBJ_FOUR,
+          COUNT_DEEP_OBJ_TWO,
+          COUNT_DEEP_OBJ_TWO,
+          COUNT_DEEP_OBJ_THREE,
+        ])
+      ).toEqual(EXPECTED_COUNT);
+      expect(countOfDeepEqualObjects(EXPECTED_DEEP_OBJ_COUNT, [])).toEqual(0);
     });
   });
 
   describe('indexOfFirstOccurrence utility', () => {
     it('should return index of first deep equal object', () => {
+      const EXPECTED_COUNT = 2;
       expect(
         indexOfFirstOccurrence({ x: 1, z: { z: 2 } }, [
           { x: 2, z: { z: 2 } },
@@ -144,12 +161,28 @@ describe('compare equal objects utilities', () => {
           { x: 1 },
           { x: 2 },
         ])
-      ).toEqual(2);
+      ).toEqual(EXPECTED_COUNT);
     });
 
     it('should return index of first deep equal primitive', () => {
-      expect(indexOfFirstOccurrence(3, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
-      expect(indexOfFirstOccurrence(5, [])).toEqual(undefined);
+      const EXPECTED_COUNT = 2;
+      const FIRST_OCC_INDEX = 5;
+      const COUNT_DEEP_OBJ_FOUR = 4;
+      const COUNT_DEEP_OBJ_THREE = 3;
+      const EXPECTED_FIRST_OCC = 3;
+      const COUNT_DEEP_OBJ_TWO = 2;
+      expect(
+        indexOfFirstOccurrence(EXPECTED_FIRST_OCC, [
+          1,
+          COUNT_DEEP_OBJ_TWO,
+          COUNT_DEEP_OBJ_THREE,
+          COUNT_DEEP_OBJ_FOUR,
+          COUNT_DEEP_OBJ_TWO,
+          COUNT_DEEP_OBJ_THREE,
+          COUNT_DEEP_OBJ_THREE,
+        ])
+      ).toEqual(EXPECTED_COUNT);
+      expect(indexOfFirstOccurrence(FIRST_OCC_INDEX, [])).toEqual(undefined);
     });
   });
 });

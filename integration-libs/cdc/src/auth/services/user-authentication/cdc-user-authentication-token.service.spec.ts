@@ -105,6 +105,7 @@ describe('CdcUserAuthenticationTokenService', () => {
     });
 
     it('should throw error for invalid custom flow invocation', () => {
+      const EXPECTED_STATUS = 400;
       authTokenService
         .loadTokenUsingCustomFlow(
           UID,
@@ -116,7 +117,7 @@ describe('CdcUserAuthenticationTokenService', () => {
         .subscribe(
           (_result) => {},
           (error: HttpErrorResponse) => {
-            expect(error.status).toBe(400);
+            expect(error.status).toBe(EXPECTED_STATUS);
             expect(error.statusText).toEqual('Error');
           }
         );

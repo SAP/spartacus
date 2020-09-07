@@ -70,31 +70,34 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should contain a schema with 2 crumb', () => {
+    const EXPECTED_LENGTH = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(2);
+        expect(schema.itemListElement.length).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });
 
   it('should contain a schema with 3 crumbs', () => {
+    const EXPECTED_LENGTH = 3;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaChild));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(3);
+        expect(schema.itemListElement.length).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });
 
   it('should have crumb with positions', () => {
+    const EXPECTED_LENGTH = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement[1].position).toEqual(2);
+        expect(schema.itemListElement[1].position).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });

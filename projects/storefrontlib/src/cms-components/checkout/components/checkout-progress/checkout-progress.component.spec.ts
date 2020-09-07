@@ -16,6 +16,7 @@ import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 
+const INDEX = 2;
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
@@ -99,11 +100,12 @@ describe('CheckoutProgressComponent', () => {
   });
 
   it('should contain links with "disabled" class', () => {
+    const EXPECTED_LENGTH = 2;
     const steps = fixture.debugElement.queryAll(
       By.css('.cx-item .cx-link.disabled')
     );
 
-    expect(steps.length).toBe(3);
+    expect(steps.length).toBe(EXPECTED_LENGTH);
   });
 
   describe('isActive()', () => {
@@ -144,9 +146,9 @@ describe('CheckoutProgressComponent', () => {
     });
 
     it('should return third step as NOT focusable via tabindex', () => {
-      expect(component.isActive(2)).toBe(false);
-      expect(component.isDisabled(2)).toBe(true);
-      expect(component.getTabIndex(2)).toBe(-1);
+      expect(component.isActive(INDEX)).toBe(false);
+      expect(component.isDisabled(INDEX)).toBe(true);
+      expect(component.getTabIndex(INDEX)).toBe(-1);
     });
   });
 });

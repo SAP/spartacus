@@ -39,15 +39,17 @@ export class CarouselService {
    */
   private calculateItems(availableWidth: number, itemWidth: string) {
     let calculatedItems = 0;
+    const END = 2;
     if (itemWidth.endsWith('px')) {
-      const num = itemWidth.substring(0, itemWidth.length - 2);
+      const num = itemWidth.substring(0, itemWidth.length - END);
       calculatedItems = availableWidth / <number>(<any>num);
     }
 
     if (itemWidth.endsWith('%')) {
       const perc = itemWidth.substring(0, itemWidth.length - 1);
+      const PERCENT = 100;
       calculatedItems =
-        availableWidth / (availableWidth * (<number>(<any>perc) / 100));
+        availableWidth / (availableWidth * (<number>(<any>perc) / PERCENT));
     }
 
     return Math.floor(calculatedItems) || 1;

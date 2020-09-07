@@ -187,9 +187,10 @@ describe('UserAddressService', () => {
 
   it('should get address loading status', () => {
     const results: boolean[] = [];
+    const VALUE = 2;
     service
       .getAddressesLoading()
-      .pipe(take(2))
+      .pipe(take(VALUE))
       .subscribe((loadingStatus) => {
         results.push(loadingStatus);
       });
@@ -198,10 +199,11 @@ describe('UserAddressService', () => {
   });
 
   it('should indicate successful loading', () => {
+    const VALUE = 2;
     const results: boolean[] = [];
     service
       .getAddressesLoadedSuccess()
-      .pipe(take(2))
+      .pipe(take(VALUE))
       .subscribe((loadedStatus) => {
         results.push(loadedStatus);
       });

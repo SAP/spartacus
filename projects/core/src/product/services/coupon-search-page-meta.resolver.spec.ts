@@ -87,7 +87,8 @@ describe('CouponSearchPageResolver', () => {
         } as ActivatedRouteSnapshot);
       });
       it('should score 3 for search page', () => {
-        expect(service.getScore(mockSearchPage)).toEqual(3);
+        const EXPECTED_SCORE = 3;
+        expect(service.getScore(mockSearchPage)).toEqual(EXPECTED_SCORE);
       });
 
       it('should score 1 for other content pages', () => {
@@ -113,7 +114,8 @@ describe('CouponSearchPageResolver', () => {
       });
 
       it('should score -3 for other pages', () => {
-        expect(service.getScore(mockProductPage)).toEqual(-3);
+        const EXPECTED_SCORE = -3;
+        expect(service.getScore(mockProductPage)).toEqual(EXPECTED_SCORE);
       });
     });
   });
@@ -155,12 +157,13 @@ describe('CouponSearchPageResolver', () => {
       authService.isUserLoggedIn.and.returnValue(of(true));
 
       let result: BreadcrumbMeta[];
+      const EXPECTED_ARRAY_LENGTH = 2;
       service
         .resolveBreadcrumbs()
         .subscribe((breadcrumb) => (result = breadcrumb))
         .unsubscribe();
 
-      expect(result.length).toEqual(2);
+      expect(result.length).toEqual(EXPECTED_ARRAY_LENGTH);
       expect(result[0].label).toEqual('common.home');
       expect(result[1].label).toEqual('myCoupons.myCoupons');
     });

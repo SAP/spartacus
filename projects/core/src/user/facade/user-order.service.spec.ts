@@ -123,7 +123,9 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order list data', () => {
-    userOrderService.loadOrderList(10, 1, 'byDate');
+    const PAGE_SIZE = 10;
+    userOrderService.loadOrderList(PAGE_SIZE, 1, 'byDate');
+
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
@@ -135,11 +137,12 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
+    const PAGE_SIZE = 10;
     spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
       cb(OCC_USER_ID_ANONYMOUS)
     );
 
-    userOrderService.loadOrderList(10, 1, 'byDate');
+    userOrderService.loadOrderList(PAGE_SIZE, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 

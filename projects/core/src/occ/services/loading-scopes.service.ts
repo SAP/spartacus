@@ -63,6 +63,7 @@ export class LoadingScopesService {
       this.config.backend &&
       this.config.backend.loadingScopes &&
       this.config.backend.loadingScopes[model];
-    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * 1000 || 0;
+    const THOUSAND = 1000;
+    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * THOUSAND || 0;
   }
 }

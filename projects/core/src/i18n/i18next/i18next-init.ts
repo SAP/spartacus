@@ -87,6 +87,7 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/universal/issues/858
  */
 export function getLoadPath(path: string, serverRequestOrigin: string): string {
+  const START_INDEX = 2;
   if (!path) {
     return undefined;
   }
@@ -95,7 +96,7 @@ export function getLoadPath(path: string, serverRequestOrigin: string): string {
       path = path.slice(1);
     }
     if (path.startsWith('./')) {
-      path = path.slice(2);
+      path = path.slice(START_INDEX);
     }
     const result = `${serverRequestOrigin}/${path}`;
     return result;

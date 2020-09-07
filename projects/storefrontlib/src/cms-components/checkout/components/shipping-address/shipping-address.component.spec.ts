@@ -16,6 +16,8 @@ import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';
 import createSpy = jasmine.createSpy;
 
+const EXPECTED_LENGTH = 2;
+
 class MockUserAddressService {
   getAddresses(): Observable<Address[]> {
     return of([]);
@@ -218,7 +220,7 @@ describe('ShippingAddressComponent', () => {
       expect(address).toBe(mockAddresses);
 
       component.cards$.subscribe((cards) => {
-        expect(cards.length).toEqual(2);
+        expect(cards.length).toEqual(EXPECTED_LENGTH);
       });
 
       expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
@@ -239,7 +241,7 @@ describe('ShippingAddressComponent', () => {
 
       expect(address).toBe(mockAddresses);
       component.cards$.subscribe((cards) => {
-        expect(cards.length).toEqual(2);
+        expect(cards.length).toEqual(EXPECTED_LENGTH);
         expect(cards[1].card.header).toBe('addressCard.selected');
       });
     });
@@ -285,7 +287,7 @@ describe('ShippingAddressComponent', () => {
 
     //mockAddresses array contains an address that is default so it will be selected
     component.cards$.subscribe((cards) => {
-      expect(cards.length).toEqual(2);
+      expect(cards.length).toEqual(EXPECTED_LENGTH);
       expect(cards[1].card.header).toBe('addressCard.selected');
     });
   });
@@ -311,7 +313,7 @@ describe('ShippingAddressComponent', () => {
 
     //mockAddresses array contains an address that is default so it will be selected
     component.cards$.subscribe((cards) => {
-      expect(cards.length).toEqual(2);
+      expect(cards.length).toEqual(EXPECTED_LENGTH);
       expect(cards[1].card.header).toBe('addressCard.selected');
     });
 
@@ -469,7 +471,7 @@ describe('ShippingAddressComponent', () => {
       );
 
       fixture.detectChanges();
-      expect(getCards().length).toEqual(2);
+      expect(getCards().length).toEqual(EXPECTED_LENGTH);
     });
 
     it('should not display if there are no existng addresses', () => {

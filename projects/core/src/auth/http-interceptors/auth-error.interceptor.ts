@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpResponseStatus } from '../../global-message/models/response-status.model';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
@@ -39,7 +40,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
       catchError((errResponse: any) => {
         if (errResponse instanceof HttpErrorResponse) {
           switch (errResponse.status) {
-            case 401: // Unauthorized
+            case HttpResponseStatus.UNAUTHORIZED:
               if (isClientTokenRequest) {
                 if (this.isExpiredToken(errResponse)) {
                   return this.clientErrorHandlingService.handleExpiredClientToken(
@@ -65,7 +66,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 }
               }
               break;
-            case 400: // Bad Request
+            case HttpResponseStatus.BAD_REQUEST:
               if (
                 errResponse.url.includes(OAUTH_ENDPOINT) &&
                 errResponse.error.error === 'invalid_grant'

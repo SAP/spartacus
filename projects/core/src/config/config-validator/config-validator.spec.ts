@@ -17,7 +17,8 @@ describe('config validator', () => {
     spyOn(console, 'warn');
     const mockInvalid = (_c) => 'error';
     const mockValidValidator = (_c) => {};
+    const EXPECTED_TIMES_CALLED = 2;
     validateConfig({}, [mockInvalid, mockValidValidator, mockInvalid]);
-    expect(console.warn).toHaveBeenCalledTimes(2);
+    expect(console.warn).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
   });
 });

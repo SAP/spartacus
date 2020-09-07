@@ -1,3 +1,5 @@
+const APPLICABLES_LENGTH = 2;
+
 export const enum Priority {
   /**
    * Used as fallback, when there is no other matches
@@ -63,7 +65,7 @@ export function resolveApplicable<T extends Applicable>(
     (applicable) => !applicable.hasMatch || applicable.hasMatch(...matchParams)
   );
 
-  if (matchedApplicables.length < 2) {
+  if (matchedApplicables.length < APPLICABLES_LENGTH) {
     return matchedApplicables[0];
   }
 

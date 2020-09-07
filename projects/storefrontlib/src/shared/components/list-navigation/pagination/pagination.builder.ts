@@ -15,6 +15,7 @@ const FALLBACK_PAGINATION_OPTIONS: PaginationOptions = {
   nextLabel: '›',
   endLabel: '»',
 };
+const PAGE_COUNT = 2;
 
 /**
  * Builds a pagination structures based on a pageCount and current page number.
@@ -58,7 +59,7 @@ export class PaginationBuilder {
    */
   paginate(pageCount: number, current: number): PaginationItem[] {
     const pages: PaginationItem[] = [];
-    if (pageCount < 2) {
+    if (pageCount < PAGE_COUNT) {
       return pages;
     }
     this.addPages(pages, pageCount, current);
@@ -137,7 +138,7 @@ export class PaginationBuilder {
 
     const addLastGap = () => {
       const nextPageNumber = pages[pages.length - 1].number + 1;
-      const last = pageCount - (this.config.addLast ? 2 : 1);
+      const last = pageCount - (this.config.addLast ? PAGE_COUNT : 1);
       if (nextPageNumber <= last) {
         const isSubstitued =
           this.config.addLast &&
@@ -310,7 +311,7 @@ export class PaginationBuilder {
   private getStartOfRange(pageCount: number, current: number): number {
     const count = this.config.rangeCount - 1;
     // the least number of pages before and after the current
-    const delta = Math.round(count / 2);
+    const delta = Math.round(count / PAGE_COUNT);
 
     // ensure that we start with at least the first page
     const minStart = Math.max(0, current - delta);

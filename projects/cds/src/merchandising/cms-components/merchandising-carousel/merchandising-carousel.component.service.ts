@@ -19,8 +19,6 @@ import {
   MerchandisingCarouselViewedEvent,
 } from './model/index';
 
-const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
-
 @Injectable({
   providedIn: 'root',
 })
@@ -37,12 +35,14 @@ export class MerchandisingCarouselComponentService {
   getMerchandisingCaourselViewportThreshold(
     cmsComponent: CmsMerchandisingCarouselComponent
   ): number {
+    const CENT = 100;
+    const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
     const viewportPercentage =
       cmsComponent.viewportPercentage ??
       this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
       DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD;
 
-    return viewportPercentage / 100;
+    return viewportPercentage / CENT;
   }
 
   getMerchandisingCarouselModel(

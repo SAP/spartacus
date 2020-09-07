@@ -122,6 +122,7 @@ describe('CmsStructureConfigService', () => {
 
     describe('Slot configuration', () => {
       it('should merge global slots and page slots', () => {
+        const EXPECTED_LENGTH = 2;
         let result: CmsStructureModel;
         service
           .mergePageStructure('cartPage', mockPageStructure)
@@ -133,7 +134,7 @@ describe('CmsStructureConfigService', () => {
           'EmptyCartMiddleContent'
         );
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-        expect(Object.keys(result.page.slots).length).toEqual(2);
+        expect(Object.keys(result.page.slots).length).toEqual(EXPECTED_LENGTH);
       });
 
       it('should add global slots to empty page', () => {
@@ -176,6 +177,7 @@ describe('CmsStructureConfigService', () => {
 
     describe('Component configuration', () => {
       it('should add GobalSlot with 3 component', () => {
+        const EXPECTED_LENGTH = 3;
         let result: CmsStructureModel;
         service
           .mergePageStructure('cartPage', mockPageStructure)
@@ -184,7 +186,9 @@ describe('CmsStructureConfigService', () => {
           });
 
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-        expect(result.page.slots['GobalSlot'].components.length).toEqual(3);
+        expect(result.page.slots['GobalSlot'].components.length).toEqual(
+          EXPECTED_LENGTH
+        );
       });
 
       it('should have uid in page component data', () => {

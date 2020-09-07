@@ -92,7 +92,8 @@ describe('OrderReturnService', () => {
       .subscribe((f) => (form = f))
       .unsubscribe();
 
-    form.get('entries').get('2').setValue(3);
+    const VALUE = 3;
+    form.get('entries').get('2').setValue(VALUE);
   });
 
   it('should be created', () => {
@@ -104,13 +105,14 @@ describe('OrderReturnService', () => {
   });
 
   it('should return 2 cancellable entries', () => {
+    const EXPECTED_LENGTH = 2;
     let result;
     service
       .getEntries()
       .subscribe((entries) => (result = entries))
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should return 1 amended entry', () => {

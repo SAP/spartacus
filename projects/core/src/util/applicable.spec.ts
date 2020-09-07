@@ -25,12 +25,13 @@ describe('resolveApplicable', () => {
   });
 
   it('should resolve applicable with highest priority', () => {
+    const PRIORITY = 2;
     const applicables: Applicable[] = [
       {
         getPriority: () => -1,
       },
       {
-        getPriority: () => 2,
+        getPriority: () => PRIORITY,
       },
       {
         getPriority: () => 1,
@@ -41,26 +42,32 @@ describe('resolveApplicable', () => {
 
   describe('applicable without getPriority method is treated as Priotity.NORMAL or 0', () => {
     it('should resolve applicable with highest priority', () => {
+      const LEAST_PRIO = -1100;
+      const APPLICABLE_INDEX = 2;
+
       const applicables: Applicable[] = [
         {
-          getPriority: () => -1100,
+          getPriority: () => LEAST_PRIO,
         },
         {},
         {
           getPriority: () => 1,
         },
       ];
-      expect(resolveApplicable(applicables)).toBe(applicables[2]);
+      expect(resolveApplicable(applicables)).toBe(
+        applicables[APPLICABLE_INDEX]
+      );
     });
 
     it('should resolve applicable with highest priority', () => {
+      const NEGATIVE_PRIORITY = -3;
       const applicables: Applicable[] = [
         {
           getPriority: () => -1,
         },
         {},
         {
-          getPriority: () => -3,
+          getPriority: () => NEGATIVE_PRIORITY,
         },
       ];
       expect(resolveApplicable(applicables)).toBe(applicables[1]);
@@ -68,13 +75,15 @@ describe('resolveApplicable', () => {
   });
 
   it('should take into account both hasMatch and getPriority', () => {
+    const PRIORITY_HIGHER = 2;
+    const PRIORITY_LOWER = 100;
     const applicables: Applicable[] = [
       {
-        getPriority: () => 100,
+        getPriority: () => PRIORITY_LOWER,
         hasMatch: () => false,
       },
       {
-        getPriority: () => 2,
+        getPriority: () => PRIORITY_HIGHER,
         hasMatch: () => true,
       },
     ];
@@ -99,12 +108,13 @@ describe('resolveApplicable', () => {
   });
 
   it('will pass hasMatch parameters to hasMatch method', () => {
+    const VALUE = 3;
     const applicables: Applicable[] = [
       {
         hasMatch: createSpy(),
       },
     ];
-    const hasMatchParams = ['a', 3];
+    const hasMatchParams = ['a', VALUE];
     resolveApplicable(applicables, hasMatchParams);
     expect(applicables[0].hasMatch).toHaveBeenCalledWith(...hasMatchParams);
   });
@@ -118,7 +128,8 @@ describe('resolveApplicable', () => {
         getPriority: createSpy(),
       },
     ];
-    const getPriorityParams = ['a', 3];
+    const VALUE = 3;
+    const getPriorityParams = ['a', VALUE];
     resolveApplicable(applicables, undefined, getPriorityParams);
     expect(applicables[0].getPriority).toHaveBeenCalledWith(
       ...getPriorityParams
@@ -139,7 +150,8 @@ describe('resolveApplicable', () => {
   });
 
   it('in case of identical priorities last one applicable should win', () => {
+    const APPLICABLE_INDEX = 2;
     const applicables: Applicable[] = [{}, {}, {}];
-    expect(resolveApplicable(applicables)).toBe(applicables[2]);
+    expect(resolveApplicable(applicables)).toBe(applicables[APPLICABLE_INDEX]);
   });
 });

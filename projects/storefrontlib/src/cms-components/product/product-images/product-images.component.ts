@@ -74,10 +74,11 @@ export class ProductImagesComponent {
    * In case there are less then 2 thumbs, we return null.
    */
   private createThumbs(product: Product): Observable<any>[] {
+    const THUMB_NUMBER = 2;
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2
+      product.images.GALLERY.length < THUMB_NUMBER
     ) {
       return [];
     }

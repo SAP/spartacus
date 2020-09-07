@@ -22,9 +22,10 @@ describe('SplitViewService', () => {
     });
 
     it('should return 2 for the next view number', () => {
+      const EXPECTED_POSITION = 2;
       service.add(0);
       service.add(1);
-      expect(service.nextPosition).toEqual(2);
+      expect(service.nextPosition).toEqual(EXPECTED_POSITION);
     });
 
     it('should return 1 for the next view number', () => {
@@ -68,24 +69,28 @@ describe('SplitViewService', () => {
     });
 
     it('should add views in random order', () => {
+      const INPUT_POSITION = 2;
+      const EXPECTED_POSITION = 2;
+
       service.defaultHideMode = false;
       let result: number;
       service.add(1);
-      service.add(2);
+      service.add(INPUT_POSITION);
       service.add(0);
       service
         .getActiveView()
         .subscribe((view) => (result = view))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should add view with explicit hidden state', () => {
+      const INPUT_POSITION = 2;
       let result: number;
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
+      service.add(INPUT_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -96,9 +101,11 @@ describe('SplitViewService', () => {
 
     it('should avoid explicit hidden state for first view', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+
       service.add(0, { hidden: true });
       service.add(1);
-      service.add(2);
+      service.add(INPUT_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -109,23 +116,28 @@ describe('SplitViewService', () => {
 
     it('should activate last view if all view are added with visible state = true', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const EXPECTED_POSITION = 2;
+
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2, { hidden: false });
+      service.add(INPUT_POSITION, { hidden: false });
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should activate first view if defaultHideMode = true', () => {
       service.defaultHideMode = true;
       let result: number;
+      const INPUT_POSITION = 2;
+
       service.add(0);
       service.add(1);
-      service.add(2);
+      service.add(INPUT_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -136,9 +148,11 @@ describe('SplitViewService', () => {
 
     it('should defaultHideMode set to true by default', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+
       service.add(0);
       service.add(1);
-      service.add(2);
+      service.add(INPUT_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -149,31 +163,36 @@ describe('SplitViewService', () => {
 
     it('should activate last view if defaultHideMode = false', () => {
       service.defaultHideMode = false;
+      const TOGGLED_POSITION = 2;
+      const EXPECTED_POSITION = 2;
       let result: number;
       service.add(0);
       service.add(1);
-      service.add(2);
+      service.add(TOGGLED_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
   });
 
   describe('remove', () => {
     it('should change active after views are removed', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const INPUT_POSITION_ANOTHER = 3;
+      const INPUT_POSITION_ADD = 4;
 
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
-      service.add(3);
-      service.add(4);
+      service.add(INPUT_POSITION);
+      service.add(INPUT_POSITION_ANOTHER);
+      service.add(INPUT_POSITION_ADD);
 
-      service.remove(4);
-      service.remove(3);
+      service.remove(INPUT_POSITION_ADD);
+      service.remove(INPUT_POSITION_ANOTHER);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
@@ -184,51 +203,62 @@ describe('SplitViewService', () => {
 
     it('should remove all subsequential views', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const INPUT_POSITION_ANOTHER = 3;
+      const INPUT_POSITION_ADD = 4;
+      const EXPECTED_POSITION = 2;
 
       service.add(0);
       service.add(1);
-      service.add(2);
-      service.add(3);
-      service.add(4, { hidden: false });
+      service.add(INPUT_POSITION);
+      service.add(INPUT_POSITION_ANOTHER);
+      service.add(INPUT_POSITION_ADD, { hidden: false });
 
-      service.remove(3);
+      service.remove(INPUT_POSITION_ANOTHER);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should change the active view if the view is removed  the same active when a the removed view does not effect the view', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const INPUT_POSITION_ANOTHER = 3;
+      const INPUT_POSITION_ADD = 4;
+      const EXPECTED_POSITION = 3;
 
       service.add(0);
       service.add(1);
-      service.add(2);
-      service.add(3);
-      service.add(4, { hidden: false });
+      service.add(INPUT_POSITION);
+      service.add(INPUT_POSITION_ANOTHER);
+      service.add(INPUT_POSITION_ADD, { hidden: false });
 
-      service.remove(4);
+      service.remove(INPUT_POSITION_ADD);
 
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(3);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should keep the same active when a the removed view does not effect the view', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const INPUT_POSITION_ANOTHER = 3;
+      const INPUT_POSITION_ADD = 4;
 
       service.add(0);
       service.add(1);
-      service.add(2);
-      service.add(3);
-      service.add(4);
+      service.add(INPUT_POSITION);
+      service.add(INPUT_POSITION_ANOTHER);
+      service.add(INPUT_POSITION_ADD);
 
-      service.remove(4);
+      service.remove(INPUT_POSITION_ADD);
 
       service
         .getActiveView()
@@ -241,31 +271,41 @@ describe('SplitViewService', () => {
 
   describe('toggle()', () => {
     it('should add view during toggling if it was not added before', () => {
+      const TOGGLED_POSITION = 2;
+      const EXPECTED_TIMES_CALLED = 2;
       spyOn(service, 'add');
-      service.toggle(2);
-      expect(service.add).toHaveBeenCalledWith(2, { hidden: false });
+      service.toggle(TOGGLED_POSITION);
+      expect(service.add).toHaveBeenCalledWith(EXPECTED_TIMES_CALLED, {
+        hidden: false,
+      });
     });
 
     it('should change activeView after toggling', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+      const TOGGLED_POSITION = 2;
+      const EXPECTED_POSITION = 2;
+
       service.add(0);
       service.add(1);
-      service.add(2);
+      service.add(INPUT_POSITION);
 
-      service.toggle(2);
+      service.toggle(TOGGLED_POSITION);
       service
         .getActiveView()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should drop activeView for the position if it was already active', () => {
       let result: number;
+      const INPUT_POSITION = 2;
+
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
+      service.add(INPUT_POSITION);
 
       service.toggle(1);
       service
@@ -278,9 +318,10 @@ describe('SplitViewService', () => {
 
     it('should keep the activeView for the position if hide is forced', () => {
       let result: number;
+      const INPUT_POSITION = 2;
       service.add(0);
       service.add(1, { hidden: false });
-      service.add(2);
+      service.add(INPUT_POSITION);
 
       service.toggle(1, false);
       service

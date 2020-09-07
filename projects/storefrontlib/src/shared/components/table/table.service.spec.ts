@@ -129,12 +129,13 @@ describe('TableService', () => {
         });
 
         it('should generate random table structure', () => {
+          const EXPECTED_LENGTH = 5;
           let result: TableStructure;
           tableService
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));
 
-          expect(result.headers.length).toEqual(5);
+          expect(result.headers.length).toEqual(EXPECTED_LENGTH);
           expect(result.hideHeader).toEqual(true);
         });
       });

@@ -323,24 +323,26 @@ describe('ActiveCartService', () => {
 
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
+      const PRODUCT_QUANTITY = 2;
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
         of({ value: { code: 'code', guid: 'guid' } })
       );
       spyOn(multiCartService, 'addEntry').and.callThrough();
 
-      service.addEntry('productCode', 2);
+      service.addEntry('productCode', PRODUCT_QUANTITY);
 
       expect(multiCartService['addEntry']).toHaveBeenCalledWith(
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
-        2
+        PRODUCT_QUANTITY
       );
     });
   });
 
   describe('removeEntry', () => {
     it('should call multiCartService remove entry method with active cart', () => {
+      const ENTRY_NUMBER = 3;
       service['cartId'] = 'cartId';
       service['userId'] = 'userId';
       spyOn(multiCartService, 'removeEntry').and.callThrough();
@@ -351,23 +353,24 @@ describe('ActiveCartService', () => {
       expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
-        3
+        ENTRY_NUMBER
       );
     });
   });
 
   describe('updateEntry', () => {
+    const PRODUCT_QUANTITY = 2;
     it('should call multiCartService update entry method with active cart', () => {
       service['cartId'] = 'cartId';
       service['userId'] = 'userId';
       spyOn(multiCartService, 'updateEntry').and.callThrough();
 
-      service.updateEntry(1, 2);
+      service.updateEntry(1, PRODUCT_QUANTITY);
       expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         1,
-        2
+        PRODUCT_QUANTITY
       );
     });
   });
@@ -478,10 +481,11 @@ describe('ActiveCartService', () => {
 
   describe('addEntries', () => {
     it('should add each entry one by one', () => {
+      const EXPECTED_TIMES_CALLED = 2;
       spyOn(service, 'addEntry').and.callThrough();
 
       service.addEntries([mockCartEntry, mockCartEntry]);
-      expect(service['addEntry']).toHaveBeenCalledTimes(2);
+      expect(service['addEntry']).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
       expect(service['addEntry']).toHaveBeenCalledWith(
         mockCartEntry.product.code,
         mockCartEntry.quantity

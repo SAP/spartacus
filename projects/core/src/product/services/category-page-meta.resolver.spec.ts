@@ -78,11 +78,12 @@ describe('CategoryPageMetaResolver', () => {
 
   it('should resolve breadcrumbs', () => {
     let result: any[];
+    const EXPECTED_LENGTH = 2;
     service
       .resolveBreadcrumbs()
       .subscribe((value) => (result = value))
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(EXPECTED_LENGTH);
   });
 });

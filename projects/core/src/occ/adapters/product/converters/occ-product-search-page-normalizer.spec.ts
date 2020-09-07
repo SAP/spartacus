@@ -105,26 +105,30 @@ describe('OccProductSearchPageNormalizer', () => {
 
   describe('normalize top values', () => {
     it('should normalize top values', () => {
+      const EXPECTED_COUNT = 2;
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[0].topValueCount).toEqual(2);
+      expect(result.facets[0].topValueCount).toEqual(EXPECTED_COUNT);
       expect(converter.convert).toHaveBeenCalled();
     });
 
     it('should fallback to default top values when topValues is undefined', () => {
+      const EXPECTED_COUNT = 6;
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[1].topValueCount).toEqual(6);
+      expect(result.facets[1].topValueCount).toEqual(EXPECTED_COUNT);
       expect(converter.convert).toHaveBeenCalled();
     });
 
     it('should fallback to default top value when topValues is an empty list', () => {
+      const EXPECTED_RESULT = 6;
+      const FACET_INDEX = 2;
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[2].topValueCount).toEqual(6);
+      expect(result.facets[FACET_INDEX].topValueCount).toEqual(EXPECTED_RESULT);
       expect(converter.convert).toHaveBeenCalled();
     });
   });
@@ -137,8 +141,9 @@ describe('OccProductSearchPageNormalizer', () => {
     });
 
     it('should not remove useless facet facet list if pagination is not used', () => {
+      const EXPECTED_COUNT = 2;
       const result = normalizer.convert(mockPlpWithoutPagination);
-      expect(result.facets.length).toEqual(2);
+      expect(result.facets.length).toEqual(EXPECTED_COUNT);
     });
   });
 });

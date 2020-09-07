@@ -128,9 +128,10 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should get a list of cms component data using GET request with pagination parameters', () => {
+      const PAGE_SIZE = 5;
       spyOnEndpoint(spyOnGetEndpoint);
 
-      assertGetSubscription(service, 'FULL', 0, 5);
+      assertGetSubscription(service, 'FULL', 0, PAGE_SIZE);
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
@@ -165,9 +166,10 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should get a list of cms component data using POST request with pagination parameters', () => {
+      const PAGE_SIZE = 5;
       spyOnEndpoint(spyOnPostEndpoint);
 
-      assertPostSubscription(service, 'FULL', 0, 5);
+      assertPostSubscription(service, 'FULL', 0, PAGE_SIZE);
 
       const testRequest = mockHttpRequest('POST', spyOnPostEndpoint);
 

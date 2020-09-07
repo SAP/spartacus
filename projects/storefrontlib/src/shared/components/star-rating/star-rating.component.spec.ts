@@ -27,6 +27,8 @@ describe('StarRatingComponent in product', () => {
     starRatingComponent = fixture.componentInstance;
   });
 
+  const INPUT_RATE = 3;
+
   it('should be created', () => {
     expect(starRatingComponent).toBeTruthy();
   });
@@ -39,7 +41,7 @@ describe('StarRatingComponent in product', () => {
 
   it('should call setRate and call through it', () => {
     spyOn(starRatingComponent, 'setRate').and.callThrough();
-    starRatingComponent.setRate(3, true);
+    starRatingComponent.setRate(INPUT_RATE, true);
     expect(starRatingComponent.setRate).toHaveBeenCalled();
   });
 
@@ -47,9 +49,9 @@ describe('StarRatingComponent in product', () => {
     spyOn(starRatingComponent, 'saveRate').and.callThrough();
     spyOn(starRatingComponent, 'setRate');
     starRatingComponent.disabled = false;
-    starRatingComponent.saveRate(3);
+    starRatingComponent.saveRate(INPUT_RATE);
     expect(starRatingComponent.setRate).toHaveBeenCalled();
     starRatingComponent.disabled = true;
-    starRatingComponent.saveRate(3);
+    starRatingComponent.saveRate(INPUT_RATE);
   });
 });

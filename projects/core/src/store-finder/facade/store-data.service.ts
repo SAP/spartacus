@@ -5,7 +5,7 @@ import { PointOfService } from '../../model/point-of-service.model';
   providedIn: 'root',
 })
 export class StoreDataService {
-  readonly DECIMAL_BASE: 10;
+  readonly DECIMAL_BASE: Number = 10;
   readonly weekDays = {
     0: 'Sun',
     1: 'Mon',
