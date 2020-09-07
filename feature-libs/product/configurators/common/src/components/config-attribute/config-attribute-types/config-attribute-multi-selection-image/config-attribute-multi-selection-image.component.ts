@@ -46,7 +46,7 @@ export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
    * @param index Index of selected value
    */
   onKeyUp(event: KeyboardEvent, index: number): void {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.onSelect(index);
     }
   }
