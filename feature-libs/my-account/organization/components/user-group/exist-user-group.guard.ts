@@ -30,7 +30,7 @@ export class ExistUserGroupGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['userGroupCode'];
 
     return this.userGroupService.get(urlParams.code).pipe(
       map((userGroup) => {

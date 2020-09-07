@@ -27,7 +27,7 @@ export class ExistCostCenterGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['costCenterCode'];
 
     return this.costCenterService.get(urlParams.code).pipe(
       map((costCenter) => {

@@ -27,7 +27,7 @@ export class ExistUserGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['userCode'];
 
     return this.userService.get(urlParams.code).pipe(
       map((user) => {

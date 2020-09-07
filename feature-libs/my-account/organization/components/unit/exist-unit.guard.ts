@@ -27,7 +27,7 @@ export class ExistUnitGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['unitCode'];
 
     return this.unitService.get(urlParams.code).pipe(
       map((unit) => {

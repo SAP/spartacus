@@ -27,7 +27,7 @@ export class ExistPermissionGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['permissionCode'];
 
     return this.permissionService.get(urlParams.code).pipe(
       map((permission) => {

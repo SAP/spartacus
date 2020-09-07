@@ -27,7 +27,8 @@ export class ExistBudgetGuard implements CanActivate {
       code: '',
     };
 
-    urlParams.code = activatedRoute.params['code'];
+    urlParams.code = activatedRoute.params['budgetCode'];
+    console.log('params: ', urlParams);
 
     return this.budgetService.get(urlParams.code).pipe(
       map((budget) => {
