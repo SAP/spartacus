@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '@spartacus/core';
 import { CONFIGURATOR_FEATURE } from './configurator-state';
-import { configuratorEffects } from './effects/index';
+import { ConfiguratorEffects } from './effects/index';
 import {
   configuratorReducerProvider,
   configuratorReducerToken,
@@ -17,7 +17,7 @@ import {
     HttpClientModule,
     StateModule,
     StoreModule.forFeature(CONFIGURATOR_FEATURE, configuratorReducerToken),
-    EffectsModule.forFeature(configuratorEffects),
+    EffectsModule.forFeature(ConfiguratorEffects),
   ],
   providers: [configuratorReducerProvider],
 })

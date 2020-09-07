@@ -12,15 +12,15 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { ConfigComponentTestUtilsService } from '../../../shared/testing/config-component-test-utils.service';
+import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { ConfiguratorActions } from '../actions/index';
 import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
-import { ConfigComponentTestUtilsService } from './../../../shared/testing/config-component-test-utils.service';
-import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
-import * as fromEffects from './configurator.effect';
+import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -68,7 +68,7 @@ describe('ConfiguratorEffect', () => {
   let updateConfigurationMock: jasmine.Spy;
   let readPriceSummaryMock: jasmine.Spy;
   let overviewMock: jasmine.Spy;
-  let configEffects: fromEffects.ConfiguratorEffects;
+  let configEffects: fromEffects.ConfiguratorBasicEffects;
 
   let store: Store<StateWithConfigurator>;
 
@@ -105,7 +105,7 @@ describe('ConfiguratorEffect', () => {
       ],
 
       providers: [
-        fromEffects.ConfiguratorEffects,
+        fromEffects.ConfiguratorBasicEffects,
         provideMockActions(() => actions$),
         {
           provide: ConfiguratorCommonsConnector,
@@ -119,7 +119,9 @@ describe('ConfiguratorEffect', () => {
     });
 
     configEffects = TestBed.inject(
-      fromEffects.ConfiguratorEffects as Type<fromEffects.ConfiguratorEffects>
+      fromEffects.ConfiguratorBasicEffects as Type<
+        fromEffects.ConfiguratorBasicEffects
+      >
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
   });

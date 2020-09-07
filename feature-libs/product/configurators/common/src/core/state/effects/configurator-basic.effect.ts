@@ -17,17 +17,17 @@ import {
   switchMapTo,
   take,
 } from 'rxjs/operators';
+import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
-import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 
 @Injectable()
 /**
  * Common configurator effects, used for complex configurators like variant configurator
  * and CPQ
  */
-export class ConfiguratorEffects {
+export class ConfiguratorBasicEffects {
   @Effect()
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
