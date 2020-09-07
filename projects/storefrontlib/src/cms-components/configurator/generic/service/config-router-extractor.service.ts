@@ -35,7 +35,7 @@ export class ConfigRouterExtractorService {
           owner: owner,
           isOwnerCartEntry:
             owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
-          configuratorType: this.getConfiguratorTypeCxRoute(
+          configuratorType: this.getConfiguratorTypeFromSemanticRoute(
             routingData.state.semanticRoute
           ),
           displayOnly: routingData.state.params.displayOnly,
@@ -72,7 +72,7 @@ export class ConfigRouterExtractorService {
     return owner;
   }
 
-  protected getConfiguratorTypeCxRoute(route: string): string {
+  protected getConfiguratorTypeFromSemanticRoute(route: string): string {
     let configuratorType: string;
     if (route.includes(this.routeFragmentConfigureOverview)) {
       configuratorType = route
