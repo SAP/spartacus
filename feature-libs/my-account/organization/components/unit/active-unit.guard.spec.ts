@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUnit, OrgUnitService, SemanticPathService } from '@spartacus/core';
+import { B2BUnit, SemanticPathService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ActiveUnitGuard } from './active-unit.guard';
 

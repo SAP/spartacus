@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Permission,
-  PermissionService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { Permission, SemanticPathService } from '@spartacus/core';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ActivePermissionGuard } from './active-permission.guard';
 

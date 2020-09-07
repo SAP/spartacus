@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CostCenter,
-  CostCenterService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CostCenter, SemanticPathService } from '@spartacus/core';
+import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistCostCenterGuard } from './exist-cost-center.guard';
 

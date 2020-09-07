@@ -5,7 +5,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { Budget, BudgetService, SemanticPathService } from '@spartacus/core';
+import { SemanticPathService } from '@spartacus/core';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

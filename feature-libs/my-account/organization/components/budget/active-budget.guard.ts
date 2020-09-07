@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
-import { Budget } from '@spartacus/core';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { ExistBudgetGuard } from './exist-budget.guard';
 
 @Injectable({

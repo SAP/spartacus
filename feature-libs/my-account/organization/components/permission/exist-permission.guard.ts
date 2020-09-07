@@ -5,11 +5,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import {
-  Permission,
-  PermissionService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { Permission, SemanticPathService } from '@spartacus/core';
+import { PermissionService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

@@ -5,11 +5,11 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { SemanticPathService } from '@spartacus/core';
 import {
-  SemanticPathService,
   UserGroup,
   UserGroupService,
-} from '@spartacus/core';
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

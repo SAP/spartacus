@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SemanticPathService } from '@spartacus/core';
 import {
-  SemanticPathService,
   UserGroup,
   UserGroupService,
-} from '@spartacus/core';
+} from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGroupGuard } from './exist-user-group.guard';
 

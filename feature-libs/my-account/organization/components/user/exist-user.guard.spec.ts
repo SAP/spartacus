@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, B2BUserService, SemanticPathService } from '@spartacus/core';
+import { B2BUser, SemanticPathService } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGuard } from './exist-user.guard';
 

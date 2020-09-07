@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Budget, BudgetService, SemanticPathService } from '@spartacus/core';
+import { SemanticPathService } from '@spartacus/core';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistBudgetGuard } from './exist-budget.guard';
 

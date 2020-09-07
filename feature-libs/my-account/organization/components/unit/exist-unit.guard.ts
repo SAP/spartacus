@@ -5,7 +5,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { B2BUnit, OrgUnitService, SemanticPathService } from '@spartacus/core';
+import { B2BUnit, SemanticPathService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

@@ -5,11 +5,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import {
-  CostCenter,
-  CostCenterService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CostCenter, SemanticPathService } from '@spartacus/core';
+import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
