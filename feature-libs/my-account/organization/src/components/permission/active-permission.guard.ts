@@ -1,33 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { PermissionService, RoutingService, Permission } from '@spartacus/core';
+import { UrlTree } from '@angular/router';
+import { Permission } from '@spartacus/core';
+import { ExistPermissionGuard } from './exist-permission.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActivePermissionGuard implements CanActivate {
-  constructor(
-    protected permissionService: PermissionService,
-    protected routingService: RoutingService
-  ) {}
-
-  canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
-    const code = activatedRoute.params['code'];
-    return this.permissionService.get(code).pipe(
-      map((permission) => {
-        if (permission && this.isActive(permission)) {
-          return true;
-        }
-
-        this.routingService.go({ cxRoute: 'permission' });
-        return false;
-      })
-    );
+export class ActivePermissionGuard extends ExistPermissionGuard {
+  protected isValid(permission: Permission): boolean {
+    return permission.active;
   }
 
-  protected isActive(permission: Permission): boolean {
-    return permission.active;
+  protected getRedirectUrl(_urlParams?: any): UrlTree {
+    const urlPath = this.semanticPathService.transform({
+      cxRoute: 'permissionDetails',
+      params: { code: _urlParams.code },
+    });
+
+    return this.router.parseUrl(urlPath.join('/'));
   }
 }

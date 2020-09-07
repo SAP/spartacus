@@ -1,33 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { B2BUserService, RoutingService, B2BUser } from '@spartacus/core';
+import { UrlTree } from '@angular/router';
+import { B2BUser } from '@spartacus/core';
+import { ExistUserGuard } from './exist-user.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUserGuard implements CanActivate {
-  constructor(
-    protected userService: B2BUserService,
-    protected routingService: RoutingService
-  ) {}
-
-  canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<boolean> {
-    const code = activatedRoute.params['code'];
-    return this.userService.get(code).pipe(
-      map((user) => {
-        if (user && this.isActive(user)) {
-          return true;
-        }
-
-        this.routingService.go({ cxRoute: 'user' });
-        return false;
-      })
-    );
+export class ActiveUserGuard extends ExistUserGuard {
+  protected isValid(user: B2BUser): boolean {
+    return user.active;
   }
 
-  protected isActive(user: B2BUser): boolean {
-    return user.active;
+  protected getRedirectUrl(_urlParams?: any): UrlTree {
+    const urlPath = this.semanticPathService.transform({
+      cxRoute: 'userDetails',
+      params: { code: _urlParams.code },
+    });
+
+    return this.router.parseUrl(urlPath.join('/'));
   }
 }

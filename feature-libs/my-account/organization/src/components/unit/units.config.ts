@@ -5,6 +5,7 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActiveUnitGuard } from './active-unit.guard';
 import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
 import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
 import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
@@ -16,9 +17,9 @@ import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.compo
 import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitEditComponent } from './edit/unit-edit.component';
+import { ExistUnitGuard } from './exist-unit.guard';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
-import { ActiveUnitGuard } from './active-unit.guard';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
@@ -98,7 +99,7 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: UnitDetailsComponent,
-          canActivate: [ActiveUnitGuard],
+          canActivate: [ExistUnitGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -164,6 +165,7 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: ':code/edit',
           component: UnitEditComponent,
+          canActivate: [ActiveUnitGuard],
         },
       ],
 

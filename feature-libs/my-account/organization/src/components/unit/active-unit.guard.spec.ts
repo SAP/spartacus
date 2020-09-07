@@ -1,13 +1,12 @@
-import { B2BUnit, RoutingService, OrgUnitService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ActiveUnitGuard } from './active-unit.guard';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { B2BUnit, OrgUnitService, SemanticPathService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ActiveUnitGuard } from './active-unit.guard';
 
-const PERMISSION_NOT_ACTIVE = Object.freeze({ active: false });
-const PERMISSION_ACTIVE = Object.freeze({ active: true });
-const PERMISSION_INVALID = Object.freeze({});
+const UNIT_NOT_ACTIVE = Object.freeze({ active: false });
+const UNIT_ACTIVE = Object.freeze({ active: true });
 
 class UnitServiceStub {
   get(): Observable<B2BUnit> {
@@ -15,11 +14,20 @@ class UnitServiceStub {
   }
 }
 
-const mockRoutingService = { go: () => {} };
+class SemanticPathServiceStub {
+  get(): string {
+    return 'units';
+  }
+  transform(): string[] {
+    return ['organization', 'units'];
+  }
+}
+
+const mockRouter = { parseUrl: () => {} };
 
 describe('ActiveUnitGuard', () => {
   let activeUnitGuard: ActiveUnitGuard;
-  let routingService: RoutingService;
+  let router: Router;
   let unitService: OrgUnitService;
   let route: ActivatedRoute;
 
@@ -27,8 +35,8 @@ describe('ActiveUnitGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: Router,
+          useValue: mockRouter,
         },
         {
           provide: OrgUnitService,
@@ -36,35 +44,37 @@ describe('ActiveUnitGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'unitCode' } } },
+          useValue: { snapshot: { params: { code: 'unitUid' } } },
+        },
+        {
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
       ],
       imports: [RouterTestingModule],
     });
 
     activeUnitGuard = TestBed.inject(ActiveUnitGuard);
-    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
     unitService = TestBed.inject(OrgUnitService);
     route = TestBed.inject(ActivatedRoute);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go');
+      spyOn(router, 'parseUrl');
     });
 
     describe('when unit is loaded', () => {
       describe('and is not active', () => {
         beforeEach(() => {
-          spyOn(unitService, 'get').and.returnValue(of(PERMISSION_NOT_ACTIVE));
+          spyOn(unitService, 'get').and.returnValue(of(UNIT_NOT_ACTIVE));
         });
 
         it('then router should redirect to units page', () => {
           activeUnitGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'orgUnits',
-          });
+          expect(router.parseUrl).toHaveBeenCalledWith('organization/units');
         });
       });
     });
@@ -72,13 +82,13 @@ describe('ActiveUnitGuard', () => {
     describe('when unit is loaded', () => {
       describe('and is active', () => {
         beforeEach(() => {
-          spyOn(unitService, 'get').and.returnValue(of(PERMISSION_ACTIVE));
+          spyOn(unitService, 'get').and.returnValue(of(UNIT_ACTIVE));
         });
 
         it('then router should not redirect', () => {
           activeUnitGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled();
+          expect(router.parseUrl).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -91,31 +101,6 @@ describe('ActiveUnitGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-      });
-    });
-
-    describe('when unit is not loaded', () => {
-      beforeEach(() => {
-        spyOn(unitService, 'get').and.returnValue(of(PERMISSION_INVALID));
-      });
-
-      it('then router should redirect to units page', () => {
-        activeUnitGuard.canActivate(route.snapshot).subscribe().unsubscribe();
-
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'orgUnits',
-        });
-      });
-
-      it('then returned observable should emit false', () => {
-        let emittedValue;
-
-        activeUnitGuard
-          .canActivate(route.snapshot)
-          .subscribe((result) => (emittedValue = result))
-          .unsubscribe();
-
-        expect(emittedValue).toBe(false);
       });
     });
   });

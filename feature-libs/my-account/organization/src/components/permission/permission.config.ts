@@ -5,10 +5,11 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActivePermissionGuard } from './active-permission.guard';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
-import { ActivePermissionGuard } from './active-permission.guard';
+import { ExistPermissionGuard } from './exist-permission.guard';
 import { PermissionListComponent } from './list/permission-list.component';
 
 // TODO: this doesn't work with lazy loaded feature
@@ -44,12 +45,13 @@ export const permissionCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: PermissionDetailsComponent,
-          canActivate: [ActivePermissionGuard],
+          canActivate: [ExistPermissionGuard],
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: 'edit/:code',
           component: PermissionEditComponent,
+          canActivate: [ActivePermissionGuard],
         },
       ],
       guards: [AuthGuard],

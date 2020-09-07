@@ -5,14 +5,15 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActiveUserGuard } from './active-user.guard';
 import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
 import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
 import { UserCreateComponent } from './create/user-create.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
+import { ExistUserGuard } from './exist-user.guard';
 import { UserListComponent } from './list/user-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
-import { ActiveUserGuard } from './active-user.guard';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-groups.component';
 import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
@@ -79,7 +80,7 @@ export const userCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: UserDetailsComponent,
-          canActivate: [ActiveUserGuard],
+          canActivate: [ExistUserGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -123,6 +124,7 @@ export const userCmsConfig: CmsConfig = {
         {
           path: ':code/edit',
           component: UserEditComponent,
+          canActivate: [ActiveUserGuard],
         },
       ],
       guards: [AuthGuard],

@@ -1,13 +1,16 @@
-import { Permission, RoutingService, PermissionService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ActivePermissionGuard } from './active-permission.guard';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Permission,
+  PermissionService,
+  SemanticPathService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ActivePermissionGuard } from './active-permission.guard';
 
 const PERMISSION_NOT_ACTIVE = Object.freeze({ active: false });
 const PERMISSION_ACTIVE = Object.freeze({ active: true });
-const PERMISSION_INVALID = Object.freeze({});
 
 class PermissionServiceStub {
   get(): Observable<Permission> {
@@ -15,11 +18,20 @@ class PermissionServiceStub {
   }
 }
 
-const mockRoutingService = { go: () => {} };
+class SemanticPathServiceStub {
+  get(): string {
+    return 'purchase-limits';
+  }
+  transform(): string[] {
+    return ['organization', 'purchase-limits'];
+  }
+}
+
+const mockRouter = { parseUrl: () => {} };
 
 describe('ActivePermissionGuard', () => {
   let activePermissionGuard: ActivePermissionGuard;
-  let routingService: RoutingService;
+  let router: Router;
   let permissionService: PermissionService;
   let route: ActivatedRoute;
 
@@ -27,8 +39,8 @@ describe('ActivePermissionGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: Router,
+          useValue: mockRouter,
         },
         {
           provide: PermissionService,
@@ -38,19 +50,23 @@ describe('ActivePermissionGuard', () => {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { code: 'permissionCode' } } },
         },
+        {
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
+        },
       ],
       imports: [RouterTestingModule],
     });
 
     activePermissionGuard = TestBed.inject(ActivePermissionGuard);
-    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
     permissionService = TestBed.inject(PermissionService);
     route = TestBed.inject(ActivatedRoute);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go');
+      spyOn(router, 'parseUrl');
     });
 
     describe('when permission is loaded', () => {
@@ -67,9 +83,9 @@ describe('ActivePermissionGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'permission',
-          });
+          expect(router.parseUrl).toHaveBeenCalledWith(
+            'organization/purchase-limits'
+          );
         });
       });
     });
@@ -88,7 +104,7 @@ describe('ActivePermissionGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled();
+          expect(router.parseUrl).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -101,34 +117,6 @@ describe('ActivePermissionGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-      });
-    });
-
-    describe('when permission is not loaded', () => {
-      beforeEach(() => {
-        spyOn(permissionService, 'get').and.returnValue(of(PERMISSION_INVALID));
-      });
-
-      it('then router should redirect to permissions page', () => {
-        activePermissionGuard
-          .canActivate(route.snapshot)
-          .subscribe()
-          .unsubscribe();
-
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'permission',
-        });
-      });
-
-      it('then returned observable should emit false', () => {
-        let emittedValue;
-
-        activePermissionGuard
-          .canActivate(route.snapshot)
-          .subscribe((result) => (emittedValue = result))
-          .unsubscribe();
-
-        expect(emittedValue).toBe(false);
       });
     });
   });

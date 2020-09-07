@@ -1,13 +1,16 @@
-import { CostCenter, RoutingService, CostCenterService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ActiveCostCenterGuard } from './active-cost-center.guard';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import {
+  CostCenter,
+  CostCenterService,
+  SemanticPathService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ActiveCostCenterGuard } from './active-cost-center.guard';
 
 const COST_CENTER_NOT_ACTIVE = Object.freeze({ active: false });
 const COST_CENTER_ACTIVE = Object.freeze({ active: true });
-const COST_CENTER_INVALID = Object.freeze({});
 
 class CostCenterServiceStub {
   get(): Observable<CostCenter> {
@@ -15,11 +18,20 @@ class CostCenterServiceStub {
   }
 }
 
-const mockRoutingService = { go: () => {} };
+class SemanticPathServiceStub {
+  get(): string {
+    return 'costCenters';
+  }
+  transform(): string[] {
+    return ['organization', 'cost-centers'];
+  }
+}
+
+const mockRouter = { parseUrl: () => {} };
 
 describe('ActiveCostCenterGuard', () => {
   let activeCostCenterGuard: ActiveCostCenterGuard;
-  let routingService: RoutingService;
+  let router: Router;
   let costCenterService: CostCenterService;
   let route: ActivatedRoute;
 
@@ -27,8 +39,8 @@ describe('ActiveCostCenterGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: Router,
+          useValue: mockRouter,
         },
         {
           provide: CostCenterService,
@@ -38,19 +50,23 @@ describe('ActiveCostCenterGuard', () => {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { code: 'costCenterCode' } } },
         },
+        {
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
+        },
       ],
       imports: [RouterTestingModule],
     });
 
     activeCostCenterGuard = TestBed.inject(ActiveCostCenterGuard);
-    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
     costCenterService = TestBed.inject(CostCenterService);
     route = TestBed.inject(ActivatedRoute);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go');
+      spyOn(router, 'parseUrl');
     });
 
     describe('when costCenter is loaded', () => {
@@ -67,9 +83,9 @@ describe('ActiveCostCenterGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'costCenter',
-          });
+          expect(router.parseUrl).toHaveBeenCalledWith(
+            'organization/cost-centers'
+          );
         });
       });
     });
@@ -88,7 +104,7 @@ describe('ActiveCostCenterGuard', () => {
             .subscribe()
             .unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled();
+          expect(router.parseUrl).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -101,36 +117,6 @@ describe('ActiveCostCenterGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-      });
-    });
-
-    describe('when costCenter is not loaded', () => {
-      beforeEach(() => {
-        spyOn(costCenterService, 'get').and.returnValue(
-          of(COST_CENTER_INVALID)
-        );
-      });
-
-      it('then router should redirect to costCenters page', () => {
-        activeCostCenterGuard
-          .canActivate(route.snapshot)
-          .subscribe()
-          .unsubscribe();
-
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'costCenter',
-        });
-      });
-
-      it('then returned observable should emit false', () => {
-        let emittedValue;
-
-        activeCostCenterGuard
-          .canActivate(route.snapshot)
-          .subscribe((result) => (emittedValue = result))
-          .unsubscribe();
-
-        expect(emittedValue).toBe(false);
       });
     });
   });

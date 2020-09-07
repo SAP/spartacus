@@ -1,13 +1,12 @@
-import { B2BUser, RoutingService, B2BUserService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ActiveUserGuard } from './active-user.guard';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { B2BUser, B2BUserService, SemanticPathService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ActiveUserGuard } from './active-user.guard';
 
-const B2B_USER_NOT_ACTIVE = Object.freeze({ active: false });
-const B2B_USER_ACTIVE = Object.freeze({ active: true });
-const B2B_USER_INVALID = Object.freeze({});
+const USER_NOT_ACTIVE = Object.freeze({ active: false });
+const USER_ACTIVE = Object.freeze({ active: true });
 
 class B2BUserServiceStub {
   get(): Observable<B2BUser> {
@@ -15,20 +14,29 @@ class B2BUserServiceStub {
   }
 }
 
-const mockRoutingService = { go: () => {} };
+class SemanticPathServiceStub {
+  get(): string {
+    return 'users';
+  }
+  transform(): string[] {
+    return ['organization', 'users'];
+  }
+}
+
+const mockRouter = { parseUrl: () => {} };
 
 describe('ActiveUserGuard', () => {
   let activeUserGuard: ActiveUserGuard;
-  let routingService: RoutingService;
-  let b2bUserService: B2BUserService;
+  let router: Router;
+  let userService: B2BUserService;
   let route: ActivatedRoute;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: Router,
+          useValue: mockRouter,
         },
         {
           provide: B2BUserService,
@@ -36,35 +44,37 @@ describe('ActiveUserGuard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { code: 'b2bUserCode' } } },
+          useValue: { snapshot: { params: { code: 'userCode' } } },
+        },
+        {
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
       ],
       imports: [RouterTestingModule],
     });
 
     activeUserGuard = TestBed.inject(ActiveUserGuard);
-    routingService = TestBed.inject(RoutingService);
-    b2bUserService = TestBed.inject(B2BUserService);
+    router = TestBed.inject(Router);
+    userService = TestBed.inject(B2BUserService);
     route = TestBed.inject(ActivatedRoute);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go');
+      spyOn(router, 'parseUrl');
     });
 
     describe('when user is loaded', () => {
       describe('and is not active', () => {
         beforeEach(() => {
-          spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_NOT_ACTIVE));
+          spyOn(userService, 'get').and.returnValue(of(USER_NOT_ACTIVE));
         });
 
         it('then router should redirect to users page', () => {
           activeUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'user',
-          });
+          expect(router.parseUrl).toHaveBeenCalledWith('organization/users');
         });
       });
     });
@@ -72,13 +82,13 @@ describe('ActiveUserGuard', () => {
     describe('when user is loaded', () => {
       describe('and is active', () => {
         beforeEach(() => {
-          spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_ACTIVE));
+          spyOn(userService, 'get').and.returnValue(of(USER_ACTIVE));
         });
 
         it('then router should not redirect', () => {
           activeUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
-          expect(routingService.go).not.toHaveBeenCalled();
+          expect(router.parseUrl).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -91,31 +101,6 @@ describe('ActiveUserGuard', () => {
 
           expect(emittedValue).toBe(true);
         });
-      });
-    });
-
-    describe('when user is not loaded', () => {
-      beforeEach(() => {
-        spyOn(b2bUserService, 'get').and.returnValue(of(B2B_USER_INVALID));
-      });
-
-      it('then router should redirect to users page', () => {
-        activeUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
-
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'user',
-        });
-      });
-
-      it('then returned observable should emit false', () => {
-        let emittedValue;
-
-        activeUserGuard
-          .canActivate(route.snapshot)
-          .subscribe((result) => (emittedValue = result))
-          .unsubscribe();
-
-        expect(emittedValue).toBe(false);
       });
     });
   });

@@ -5,13 +5,14 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
+import { ActiveCostCenterGuard } from './active-cost-center.guard';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
+import { ExistCostCenterGuard } from './exist-cost-center.guard';
 import { CostCenterListComponent } from './list/cost-center-list.component';
-import { ActiveCostCenterGuard } from './active-cost-center.guard';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -55,7 +56,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: CostCenterDetailsComponent,
-          canActivate: [ActiveCostCenterGuard],
+          canActivate: [ExistCostCenterGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -75,6 +76,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: ':code/edit',
           component: CostCenterEditComponent,
+          canActivate: [ActiveCostCenterGuard],
         },
       ],
       guards: [AuthGuard],
