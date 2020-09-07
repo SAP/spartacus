@@ -61,6 +61,11 @@ export const organization = {
     error: {
       noSufficientPermissions: 'No sufficient permissions to access this page',
     },
+
+    warning: {
+      noExistItem: '{{item}} does not exist',
+      inactivatedItem: '{{item}} is not active',
+    },
   },
 
   // sub feature labels are added below

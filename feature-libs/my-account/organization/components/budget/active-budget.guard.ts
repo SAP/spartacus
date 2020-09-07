@@ -7,6 +7,11 @@ import { ExistBudgetGuard } from './exist-budget.guard';
   providedIn: 'root',
 })
 export class ActiveBudgetGuard extends ExistBudgetGuard {
+  protected message = {
+    key: 'organization.warning.inactivatedItem',
+    params: { item: 'Budget' },
+  };
+
   protected isValid(budget: Budget): boolean {
     return budget.active;
   }

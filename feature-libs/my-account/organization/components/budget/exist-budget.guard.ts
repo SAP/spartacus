@@ -1,47 +1,32 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
-import { SemanticPathService } from '@spartacus/core';
+import { Router, UrlTree } from '@angular/router';
+import { SemanticPathService, GlobalMessageService } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
+import { ROUTE_PARAMS } from '../constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistBudgetGuard implements CanActivate {
+export class ExistBudgetGuard extends ExistOrganizationItemGuard<Budget> {
+  protected code = ROUTE_PARAMS.budgetCode;
+  protected message = {
+    key: 'organization.warning.noExistItem',
+    params: { item: 'Budget' },
+  };
+
   constructor(
     protected budgetService: BudgetService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
-
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
-    const urlParams = {
-      code: '',
-    };
-
-    urlParams.code = activatedRoute.params['budgetCode'];
-
-    return this.budgetService.get(urlParams.code).pipe(
-      map((budget) => {
-        if (budget && this.isValid(budget)) {
-          return true;
-        }
-
-        return this.getRedirectUrl(urlParams);
-      })
-    );
+    protected semanticPathService: SemanticPathService,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super(router, semanticPathService, globalMessageService);
   }
 
-  protected isValid(budget: Budget): boolean {
-    return Object.keys(budget).length !== 0;
+  protected getItem(code: string): Observable<Budget> {
+    return this.budgetService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
