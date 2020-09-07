@@ -72,33 +72,17 @@ describe('BudgetDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  // afterEach(() => {
-  //   fixture.destroy();
-  // });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  xit('should update costCenter?', () => {
-    component.toggleActive(mockBudget);
-    expect(budgetService.update).toHaveBeenCalledWith(
-      mockBudget.code,
-      mockBudget
-    );
-  });
-
-  xit('should prompt costCenter', () => {});
 
   it('should trigger reload of cost center model on each code change', () => {
     expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
   });
 
-  describe('costCenter$', () => {
-    it('should emit current cost center model', () => {
-      let result;
-      component.model$.subscribe((r) => (result = r)).unsubscribe();
-      expect(result).toBe(mockBudget);
-    });
+  it('should emit current budget model', () => {
+    let result;
+    component.model$.subscribe((r) => (result = r)).unsubscribe();
+    expect(result).toBe(mockBudget);
   });
 });

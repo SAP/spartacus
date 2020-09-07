@@ -8,6 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
+import { OrganizationMessageTestingModule } from '../organization-message/organization-message.testing.module';
 import { OrganizationCardComponent } from './organization-card.component';
 import createSpy = jasmine.createSpy;
 
@@ -31,6 +32,7 @@ describe('OrganizationCardComponent', () => {
         IconTestingModule,
         I18nTestingModule,
         RouterTestingModule,
+        OrganizationMessageTestingModule,
       ],
       declarations: [OrganizationCardComponent],
       providers: [

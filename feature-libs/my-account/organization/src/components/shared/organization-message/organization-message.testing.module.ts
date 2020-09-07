@@ -1,23 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  NgModule,
-  Output,
-} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 
 @Component({
   selector: 'cx-organization-message',
   template: '',
 })
-class OrganizationMessageComponent {
-  @Input() i18nCancel;
-  @Input() i18nConfirm;
-  @Input() message;
-  @Output() confirm = new EventEmitter();
-  prompt() {}
-  close() {}
-}
+class OrganizationMessageComponent {}
 
 @NgModule({
   declarations: [OrganizationMessageComponent],

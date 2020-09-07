@@ -2,10 +2,12 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentRef,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
 import { Message } from './message.model';
 import { NotificationRenderService } from './services/message-render.service';
@@ -15,8 +17,10 @@ import { MessageService } from './services/message.service';
   selector: 'cx-organization-message',
   templateUrl: './organization-message.component.html',
 })
-export class OrganizationMessageComponent implements OnInit {
+export class OrganizationMessageComponent implements OnInit, OnDestroy {
   @ViewChild('vc', { read: ViewContainerRef }) vcr: ViewContainerRef;
+
+  protected subscription = new Subscription();
 
   constructor(
     protected messageService: MessageService,
@@ -24,16 +28,18 @@ export class OrganizationMessageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.messageService.message$.subscribe((msg) => {
-      if (msg) {
-        this.render(msg);
-      } else {
-        this.vcr.clear();
-      }
-    });
+    this.subscription.add(
+      this.messageService.message$.subscribe((msg) => {
+        if (msg) {
+          this.render(msg);
+        } else {
+          this.vcr.clear();
+        }
+      })
+    );
   }
 
-  render(msg: Message) {
+  protected render(msg: Message) {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
       this.notificationRenderService.getComponent(msg),
       undefined,
@@ -41,5 +47,9 @@ export class OrganizationMessageComponent implements OnInit {
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
     ref.instance.closeEvent.subscribe(() => ref.destroy());
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
