@@ -26,7 +26,6 @@ const paramsMapping: ParamsMapping = {
   budgetCode: 'code',
 };
 
-// TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
