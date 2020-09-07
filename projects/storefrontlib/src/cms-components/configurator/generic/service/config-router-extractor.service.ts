@@ -14,9 +14,11 @@ import { ConfigurationRouter } from './config-router-data';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
+  protected routeFragmentConfigure = 'configure';
+  protected routeFragmentConfigureOverview = 'configureOverview';
   constructor(
-    private configUtilsService: GenericConfigUtilsService,
-    private routingService: RoutingService
+    protected configUtilsService: GenericConfigUtilsService,
+    protected routingService: RoutingService
   ) {}
 
   extractRouterData(): Observable<ConfigurationRouter.Data> {
@@ -33,14 +35,16 @@ export class ConfigRouterExtractorService {
           owner: owner,
           isOwnerCartEntry:
             owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
-          configuratorType: this.getConfiguratorTypeFromUrl(
-            routingData.state.url
+          configuratorType: this.getConfiguratorTypeFromSemanticRoute(
+            routingData.state.semanticRoute
           ),
           displayOnly: routingData.state.params.displayOnly,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
-          pageType: routingData.state.url.includes('configureOverview')
+          pageType: routingData.state.semanticRoute.includes(
+            this.routeFragmentConfigureOverview
+          )
             ? ConfigurationRouter.PageType.OVERVIEW
             : ConfigurationRouter.PageType.CONFIGURATION,
         };
@@ -68,12 +72,16 @@ export class ConfigRouterExtractorService {
     return owner;
   }
 
-  getConfiguratorTypeFromUrl(url: string): string {
+  protected getConfiguratorTypeFromSemanticRoute(route: string): string {
     let configuratorType: string;
-    if (url.includes('configureOverview')) {
-      configuratorType = url.split('configureOverview')[1].split('/')[0];
-    } else if (url.includes('configure')) {
-      configuratorType = url.split('configure')[1].split('/')[0];
+    if (route.includes(this.routeFragmentConfigureOverview)) {
+      configuratorType = route
+        .split(this.routeFragmentConfigureOverview)[1]
+        .split('/')[0];
+    } else if (route.includes(this.routeFragmentConfigure)) {
+      configuratorType = route
+        .split(this.routeFragmentConfigure)[1]
+        .split('/')[0];
     }
     return configuratorType;
   }

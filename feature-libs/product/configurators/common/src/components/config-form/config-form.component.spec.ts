@@ -30,8 +30,7 @@ import { ConfiguratorGroupsService } from './../../core/facade/configurator-grou
 import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 const mockRouterState: any = {
   state: {
@@ -39,8 +38,8 @@ const mockRouterState: any = {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
+    semanticRoute: CONFIGURATOR_ROUTE,
     queryParams: {},
-    url: CONFIGURATOR_URL,
   },
 };
 
