@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
   CmsService,
   PageType,
   ProtectedRoutesService,
-  RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 /**
  * Guards the _logout_ route.
@@ -25,12 +24,12 @@ export class LogoutGuard implements CanActivate {
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
-    protected routing: RoutingService,
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService
+    protected protectedRoutes: ProtectedRoutesService,
+    protected router: Router
   ) {}
 
-  canActivate(): Observable<any> {
+  canActivate(): Observable<boolean | UrlTree> {
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
@@ -43,10 +42,11 @@ export class LogoutGuard implements CanActivate {
             type: PageType.CONTENT_PAGE,
           })
           .pipe(
-            tap((hasPage) => {
+            map((hasPage) => {
               if (!hasPage) {
-                this.redirect();
+                return this.getRedirectUrl();
               }
+              return hasPage;
             })
           );
       })
@@ -60,8 +60,8 @@ export class LogoutGuard implements CanActivate {
    * The user gets redirected to the homepage, unless the homepage is protected
    * (in case of a closed shop). We'll redirect to the login page instead.
    */
-  protected redirect(): void {
+  protected getRedirectUrl(): UrlTree {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    this.routing.go({ cxRoute });
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute));
   }
 }

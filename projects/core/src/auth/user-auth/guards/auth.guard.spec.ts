@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { NavigationExtras } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { UrlCommands } from '../../../routing/configurable-routes/url-translation/url-command';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthGuard } from './auth.guard';
@@ -13,8 +12,11 @@ class AuthServiceStub {
     return of();
   }
 }
-class RoutingServiceStub {
-  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
+
+class SemanticPathServiceStub {
+  get(a: string) {
+    return `/${a}`;
+  }
 }
 
 class MockAuthRedirectService {
@@ -23,7 +25,6 @@ class MockAuthRedirectService {
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
-  let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
 
@@ -31,8 +32,8 @@ describe('AuthGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useClass: RoutingServiceStub,
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
         {
           provide: AuthService,
@@ -46,11 +47,8 @@ describe('AuthGuard', () => {
       imports: [RouterTestingModule],
     });
     guard = TestBed.inject(AuthGuard);
-    service = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-
-    spyOn(service, 'go').and.stub();
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -58,13 +56,13 @@ describe('AuthGuard', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
-    it('should return false', () => {
-      let result: boolean;
+    it('should return login url to redirect', () => {
+      let result: boolean | UrlTree;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
         .unsubscribe();
-      expect(result).toBe(false);
+      expect(result.toString()).toBe('/login');
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
@@ -79,7 +77,7 @@ describe('AuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean;
+      let result: boolean | UrlTree;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

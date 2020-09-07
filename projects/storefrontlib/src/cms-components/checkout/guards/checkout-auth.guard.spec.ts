@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { NavigationExtras } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  RoutingService,
-  UrlCommands,
+  SemanticPathService,
   User,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -18,15 +17,19 @@ class AuthServiceStub {
     return of();
   }
 }
-class RoutingServiceStub {
-  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
-}
+
 class ActiveCartServiceStub {
   getAssignedUser(): Observable<User> {
     return of();
   }
   isGuestCart(): boolean {
     return true;
+  }
+}
+
+class SemanticPathServiceStub {
+  get(a: string) {
+    return `/${a}`;
   }
 }
 
@@ -42,7 +45,6 @@ class MockCheckoutConfigService {
 
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
-  let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
@@ -53,8 +55,8 @@ describe('CheckoutAuthGuard', () => {
       providers: [
         CheckoutAuthGuard,
         {
-          provide: RoutingService,
-          useClass: RoutingServiceStub,
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
         {
           provide: AuthRedirectService,
@@ -76,13 +78,10 @@ describe('CheckoutAuthGuard', () => {
       imports: [RouterTestingModule],
     });
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
-    service = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-
-    spyOn(service, 'go').and.stub();
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -96,27 +95,23 @@ describe('CheckoutAuthGuard', () => {
         spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
       });
 
-      it('should return false', () => {
-        let result: boolean;
+      it('should return url to login with forced flag when guestCheckout feature enabled', () => {
+        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result).toBe(false);
+        expect(result.toString()).toEqual(`/login?forced=true`);
       });
 
-      it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
-        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
-        checkoutGuard.canActivate().subscribe().unsubscribe();
-        expect(service.go).toHaveBeenCalledWith(
-          { cxRoute: 'login' },
-          { forced: true }
-        );
-      });
-
-      it('should redirect to login without forced flag when guestCheckout feature disabled', () => {
-        checkoutGuard.canActivate().subscribe().unsubscribe();
-        expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      it('should return url to login without forced flag when guestCheckout feature disabled', () => {
+        let result: boolean | UrlTree;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result.toString()).toEqual(`/login`);
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
@@ -133,7 +128,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -154,7 +149,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -171,7 +166,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
