@@ -90,5 +90,6 @@ export class ConfigurationService implements OnDestroy {
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
+    (this.unifiedConfig$ as BehaviorSubject<any>).complete();
   }
 }
