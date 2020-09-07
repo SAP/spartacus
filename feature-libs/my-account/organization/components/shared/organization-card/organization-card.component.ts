@@ -34,7 +34,7 @@ export class OrganizationCardComponent<T> {
     view.toggle(true);
 
     setTimeout(() => {
-      (event.target as HTMLElement).parentElement.click();
+      (event.target as HTMLElement)?.parentElement.click();
     }, 500);
 
     return false;
