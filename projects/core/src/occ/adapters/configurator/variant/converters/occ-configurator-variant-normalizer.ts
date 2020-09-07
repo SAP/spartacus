@@ -23,11 +23,11 @@ export class OccConfiguratorVariantNormalizer
       ...target,
       configId: source.configId,
       complete: source.complete,
+      totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
     };
-
     source.groups.forEach((group) =>
       this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
     );

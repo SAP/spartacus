@@ -51,6 +51,7 @@ export namespace Configurator {
     configId: string;
     consistent?: boolean;
     complete?: boolean;
+    totalNumberOfIssues?: number;
     productCode?: string;
     groups?: Group[];
     flatGroups?: Group[];
@@ -76,6 +77,7 @@ export namespace Configurator {
 
   export interface Overview {
     configId?: string;
+    totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode?: string;
