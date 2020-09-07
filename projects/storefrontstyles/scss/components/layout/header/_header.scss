@@ -7,6 +7,7 @@ $space: 0.5rem;
 
   .header {
     max-width: 1140px;
+    min-width: 1140px;
     margin: auto;
 
     @include media-breakpoint-up(lg) {
@@ -78,6 +79,7 @@ $space: 0.5rem;
 
   .SearchBox {
     margin: 14px auto;
+    max-width: 500px;
 
     @include media-breakpoint-down(sm) {
       margin: 4px 0 4px auto;
@@ -100,6 +102,7 @@ $space: 0.5rem;
   @include media-breakpoint-only(xs) {
     .SearchBox {
       margin-left: auto;
+      max-width: 750px;
     }
   }
 
