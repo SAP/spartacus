@@ -12,6 +12,9 @@
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/storefrontlib",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/compiler": "^9.0.0",

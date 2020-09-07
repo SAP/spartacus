@@ -6,6 +6,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "scripts": {
     "build": "ng build assets --prod && yarn generate:translations:ts-2-json",
     "generate:translations:ts-2-json": "ts-node ./generate-translations-ts-2-json",

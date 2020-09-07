@@ -17,6 +17,9 @@
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/cds",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
