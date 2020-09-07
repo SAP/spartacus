@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
-import { CurrentBudgetService } from '../current-budget.service';
+import { Budget } from '../../../core/model/budget.model';
+import { BudgetService } from '../../../core/services/budget.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
+import { BudgetItemService } from '../services/budget-item.service';
+import { CurrentBudgetService } from '../services/current-budget.service';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -23,7 +25,7 @@ const mockBudget: Budget = {
   },
 };
 
-class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
+class MockBudgetItemService implements Partial<CurrentBudgetService> {
   key$ = of(budgetCode);
 }
 
@@ -31,10 +33,6 @@ class MockBudgetService implements Partial<BudgetService> {
   loadBudget = createSpy('loadBudget');
   update = createSpy('update');
   get = createSpy('get').and.returnValue(of(mockBudget));
-}
-
-class MockModalService {
-  open() {}
 }
 
 @Component({
@@ -51,30 +49,19 @@ describe('BudgetDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
+        OrganizationMessageTestingModule,
       ],
       declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
       providers: [
         { provide: BudgetService, useClass: MockBudgetService },
-        { provide: ModalService, useClass: MockModalService },
+        { provide: BudgetItemService, useClass: MockBudgetItemService },
       ],
-    })
-      .overrideComponent(BudgetDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentBudgetService,
-              useClass: MockCurrentBudgetService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
 
     budgetService = TestBed.inject(BudgetService);
   }));
@@ -85,30 +72,17 @@ describe('BudgetDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update costCenter', () => {
-    component.update(mockBudget);
-    expect(budgetService.update).toHaveBeenCalledWith(
-      mockBudget.code,
-      mockBudget
-    );
-  });
   it('should trigger reload of cost center model on each code change', () => {
     expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
   });
 
-  describe('costCenter$', () => {
-    it('should emit current cost center model', () => {
-      let result;
-      component.budget$.subscribe((r) => (result = r)).unsubscribe();
-      expect(result).toBe(mockBudget);
-    });
+  it('should emit current budget model', () => {
+    let result;
+    component.model$.subscribe((r) => (result = r)).unsubscribe();
+    expect(result).toBe(mockBudget);
   });
 });

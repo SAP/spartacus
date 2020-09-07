@@ -1,0 +1,8 @@
+<div class="message">
+  <cx-icon [type]="icon"></cx-icon>
+  <p>{{ message | cxTranslate }}</p>
+</div>
+<div class="actions">
+  <button class="button" (click)="close()">cancel</button
+  ><button class="button primary" (click)="handleConfirm()">confirm</button>
+</div>

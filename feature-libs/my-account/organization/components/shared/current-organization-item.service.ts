@@ -11,6 +11,8 @@ import { QUERY_PARAMS } from '../constants';
  */
 @Injectable()
 export abstract class CurrentOrganizationItemService<T> {
+  constructor(protected routingService: RoutingService) {}
+
   /**
    * Observes the key for the active organization item. The active key is observed
    * from the list of route parameters. The full route parameter list is evaluated,
@@ -35,14 +37,13 @@ export abstract class CurrentOrganizationItemService<T> {
   /**
    * Observes the b2bUnit based on the query parameters.
    */
+  // TODO: rename to unit$ or activeUnit$
   readonly b2bUnit$ = this.routingService.getRouterState().pipe(
     map(
       (routingData) => routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
     ),
     distinctUntilChanged()
   );
-
-  constructor(protected routingService: RoutingService) {}
 
   /**
    * Returns the route parameter key for the item. The route parameter key differs

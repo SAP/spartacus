@@ -1,37 +1,36 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
   selector: 'cx-budget-form',
   templateUrl: './budget-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: BudgetItemService,
+    },
+  ],
 })
 export class BudgetFormComponent implements OnInit {
-  /**
-   * The form is controlled from the container component.
-   */
-  @Input() form: FormGroup;
+  form: FormGroup = this.itemService.getForm();
 
-  b2bUnits$: Observable<
-    B2BUnitNode[]
-  > = this.orgUnitService.getActiveUnitList();
-
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    protected itemService: OrganizationItemService<Budget>,
+    protected unitService: OrgUnitService,
+    protected currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadList();
+    this.unitService.loadList();
   }
 }

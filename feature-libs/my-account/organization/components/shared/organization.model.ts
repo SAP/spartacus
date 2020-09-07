@@ -26,3 +26,16 @@ export enum OrganizationTableType {
   PERMISSION = 'permission',
   ORDER_APPROVAL = 'orderApproval',
 }
+
+export enum UnitRoleType {
+  CUSTOMER = 'b2bcustomergroup',
+  APPROVER = 'b2bapprovergroup',
+  MANAGER = 'b2bmanagergroup',
+  ADMIN = 'b2badmingroup',
+}
+
+export type BaseItem = {
+  code?: string;
+  active?: boolean;
+  orgUnit?: any;
+};

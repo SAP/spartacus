@@ -3,8 +3,9 @@ import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
-import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
+import { Budget } from '../../../../core/model/budget.model';
+import { BudgetService } from '../../../../core/services/budget.service';
+import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
@@ -14,10 +15,11 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetCostCenterListService extends BaseOrganizationListService<
+export class BudgetCostCenterListService extends OrganizationListService<
   Budget
 > {
   protected tableType = OrganizationTableType.BUDGET_COST_CENTERS;
+  protected domainType = OrganizationTableType.COST_CENTER;
 
   constructor(
     protected tableService: TableService,

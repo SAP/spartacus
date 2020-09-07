@@ -1,22 +1,16 @@
-import { Component } from '@angular/core';
-import { Table } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { CurrentBudgetService } from '../../current-budget.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
   selector: 'cx-budget-cost-center-list',
   templateUrl: './budget-cost-center-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationListService,
+      useExisting: BudgetCostCenterListService,
+    },
+  ],
 })
-export class BudgetCostCenterListComponent {
-  code$ = this.currentBudgetService.key$;
-  dataTable$: Observable<Table> = this.code$.pipe(
-    switchMap((code) => this.budgetCostCenterListService.getTable(code))
-  );
-
-  constructor(
-    protected budgetCostCenterListService: BudgetCostCenterListService,
-    protected currentBudgetService: CurrentBudgetService
-  ) {}
-}
+export class BudgetCostCenterListComponent {}
