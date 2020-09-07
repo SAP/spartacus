@@ -80,8 +80,6 @@ export interface TableHeader {
    */
   label?: string;
 
-  /**
-   * Provides an optional sort code to sort the table data per header.
-   */
+  // deprecated
   sortCode?: string;
 }

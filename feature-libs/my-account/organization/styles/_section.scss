@@ -1,0 +1,115 @@
+.organization {
+  position: relative;
+  section {
+    background-color: var(--cx-color-inverse);
+    margin-bottom: var(--cx-spatial-md);
+    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
+
+    h4 {
+      display: flex;
+      justify-content: space-between;
+
+      align-items: center;
+      padding: 0 var(--cx-spatial-md);
+      margin: 0;
+
+      a.link {
+        font-size: 0.9rem;
+      }
+      button {
+        padding-inline-end: 0;
+        cx-icon {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .child-link {
+      h4 {
+        padding: 8px;
+      }
+      .link {
+        font-size: 1rem;
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+      }
+    }
+
+    .property {
+      // display: flex;
+      // flex-wrap: wrap;
+      // justify-content: space-between;
+      label {
+        font-size: 0.9rem;
+        color: initial;
+        margin: 0;
+        color: var(--cx-color-secondary);
+        line-height: 0.8rem;
+
+        padding: var(--cx-spatial-md) var(--cx-spatial-md)
+          var(--cx-spatial-base);
+
+        // display: flex;
+        // justify-content: space-between;
+        // align-items: center;
+      }
+      a.link {
+        font-size: 0.9rem;
+      }
+      .value {
+        padding: 0 var(--cx-spatial-md);
+        display: flex;
+        justify-content: space-between;
+        // width: 100%;
+        align-items: center;
+      }
+      button {
+        padding-inline-end: 0;
+        cx-icon {
+          font-size: 2rem;
+        }
+      }
+    }
+    .instruction {
+      color: var(--cx-color-secondary);
+      font-size: 1rem;
+      padding: var(--cx-spatial-md);
+      margin: 0;
+    }
+    .details {
+      padding-bottom: 16px;
+    }
+  }
+  .tree-list {
+    padding: 1rem;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    .link {
+      font-size: 1rem;
+      color: initial;
+      margin: 0;
+      color: var(--cx-color-primary);
+      line-height: 0.8rem;
+      text-transform: none;
+      padding-left: 1rem;
+    }
+  }
+  .instructions {
+    display: flex;
+    justify-content: space-between;
+    @include media-breakpoint-down(md) {
+      padding: 0 var(--cx-spatial-md);
+      flex-direction: column;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+    button {
+      min-width: 250px;
+    }
+  }
+}
