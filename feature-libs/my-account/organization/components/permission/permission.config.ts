@@ -17,6 +17,7 @@ import { PermissionDetailsComponent } from './details/permission-details.compone
 import { PermissionEditComponent } from './edit';
 import { ExistPermissionGuard } from './exist-permission.guard';
 import { PermissionListComponent } from './list/permission-list.component';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
 const paramsMapping: ParamsMapping = {
@@ -67,7 +68,7 @@ export const permissionCmsConfig: CmsConfig = {
           canActivate: [ActivePermissionGuard],
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

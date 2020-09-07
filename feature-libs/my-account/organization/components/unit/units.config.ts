@@ -27,6 +27,7 @@ import { ExistUnitGuard } from './exist-unit.guard';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -180,7 +181,7 @@ export const unitsCmsConfig: CmsConfig = {
         },
       ],
 
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

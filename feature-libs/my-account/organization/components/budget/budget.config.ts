@@ -18,6 +18,7 @@ import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { ExistBudgetGuard } from './exist-budget.guard';
 import { BudgetListComponent } from './list/budget-list.component';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -82,7 +83,7 @@ export const budgetCmsConfig: CmsConfig = {
           canActivate: [ActiveBudgetGuard],
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

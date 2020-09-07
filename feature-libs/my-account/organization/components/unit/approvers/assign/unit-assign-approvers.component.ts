@@ -3,9 +3,9 @@ import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-unit-assign-approvers',
@@ -16,7 +16,7 @@ export class UnitAssignApproversComponent {
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitAssignApproversService.getTable(code, UnitRoleType.APPROVER)
+      this.unitAssignApproversService.getTable(code, UserRole.APPROVER)
     )
   );
 
@@ -29,7 +29,7 @@ export class UnitAssignApproversComponent {
     this.unitAssignApproversService.toggleAssign(
       orgUnitId,
       orgCustomerId,
-      UnitRoleType.APPROVER,
+      UserRole.APPROVER,
       checked
     );
   }
