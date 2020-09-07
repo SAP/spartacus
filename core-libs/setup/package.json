@@ -14,7 +14,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
