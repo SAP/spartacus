@@ -3,7 +3,7 @@
     *ngFor="let value of attribute.values; let i = index"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (click)="onSelect(i)"
-    (keyup)="onEnter($event, i)"
+    (keyup)="onKeyUp($event, i)"
     class="cx-config-select col-6 col-sm-3"
     [attr.aria-labelledby]="
       createValueUiKey('label', attribute.name, value.valueCode)
