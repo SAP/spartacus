@@ -6,9 +6,10 @@ import {
   ActivatedRouterStateSnapshot,
   createFrom,
   EventService,
+  PageMetaService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { HomePageEvent, PageEvent } from './page.events';
 
 @Injectable({
@@ -17,7 +18,8 @@ import { HomePageEvent, PageEvent } from './page.events';
 export class PageEventBuilder {
   constructor(
     protected actions: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected pageMetaService: PageMetaService
   ) {
     this.register();
   }
@@ -28,14 +30,26 @@ export class PageEventBuilder {
   }
 
   protected buildPageEvent(): Observable<PageEvent> {
-    return this.getNavigatedEvent().pipe(
-      map((state) =>
-        createFrom(PageEvent, {
-          context: state.context,
-          semanticRoute: state.semanticRoute,
-          url: state.url,
-          params: state.params,
-        })
+    const navigation$ = this.getNavigatedEvent();
+    const pageTitle$ = this.pageMetaService
+      .getMeta()
+      .pipe(map((meta) => (meta ? meta.title : undefined)));
+
+    return navigation$.pipe(
+      switchMap((state) =>
+        pageTitle$.pipe(
+          map((title) =>
+            createFrom(PageEvent, {
+              ...{
+                title,
+                context: state?.context,
+                semanticRoute: state?.semanticRoute,
+                url: state?.url,
+                params: state?.params,
+              },
+            })
+          )
+        )
       )
     );
   }

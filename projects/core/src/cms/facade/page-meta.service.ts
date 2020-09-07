@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, map, switchMap } from 'rxjs/operators';
 import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
@@ -36,8 +36,11 @@ export class PageMetaService {
 
   getMeta(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
       switchMap((page: Page) => {
+        if (!page) {
+          return of(null);
+        }
+
         const metaResolver = this.getMetaResolver(page);
 
         if (metaResolver) {
