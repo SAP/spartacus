@@ -20,8 +20,7 @@ export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
 export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 export const mockRouterState: any = {
   state: {
@@ -30,7 +29,7 @@ export const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
-    url: CONFIGURATOR_URL,
+    semanticRoute: CONFIGURATOR_ROUTE,
   },
 };
 

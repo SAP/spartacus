@@ -19,8 +19,7 @@ import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.comp
 const CART_ENTRY_KEY = '1';
 const configuratorType = 'cpqconfigurator';
 
-const URL_OVERVIEW =
-  'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
+const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 
@@ -83,7 +82,7 @@ function setRouterTestDataCartBoundAndConfigPage() {
     entityKey: CART_ENTRY_KEY,
     ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
   };
-  mockRouterState.state.url = URL_CONFIGURATION;
+  mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.isOwnerCartEntry = true;
   mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
@@ -95,7 +94,7 @@ function setRouterTestDataProductBoundAndConfigPage() {
     entityKey: ConfigurationTestData.PRODUCT_CODE,
     ownerType: GenericConfigurator.OwnerType.PRODUCT,
   };
-  mockRouterState.state.url = URL_CONFIGURATION;
+  mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = GenericConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
@@ -104,7 +103,7 @@ function setRouterTestDataProductBoundAndConfigPage() {
 
 function performAddToCartOnOverview() {
   setRouterTestDataProductBoundAndConfigPage();
-  mockRouterState.state.url = URL_OVERVIEW;
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
   initialize();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
@@ -123,7 +122,7 @@ function ensureCartBound() {
 
 function ensureCartBoundAndOnOverview() {
   setRouterTestDataCartBoundAndConfigPage();
-  mockRouterState.state.url = URL_OVERVIEW;
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfigurationRouter.PageType.OVERVIEW;
   initialize();
 }
@@ -138,11 +137,10 @@ function performUpdateOnOV() {
   ensureCartBoundAndOnOverview();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
-const URL_CONFIGURATION =
-  'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR';
+const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
 const mockRouterState: any = {
   state: {
-    url: URL_CONFIGURATION,
+    semanticRoute: ROUTE_CONFIGURATION,
     params: {
       entityKey: ConfigurationTestData.PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,

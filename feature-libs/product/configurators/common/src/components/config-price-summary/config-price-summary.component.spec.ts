@@ -20,7 +20,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
-    url: 'CONFIG_OVERVIEW_URL',
+    semanticRoute: 'configureOverviewCPQCONFIGURATOR',
   },
 };
 

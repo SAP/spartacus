@@ -14,10 +14,8 @@ import { ConfigRouterExtractorService } from './config-router-extractor.service'
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
 const CONFIGURATOR_TYPE = 'CPQCONFIGURATOR';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-const OVERVIEW_URL =
-  'electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
 
 let mockRouterState: any;
 
@@ -53,7 +51,7 @@ describe('ConfigRouterExtractorService', () => {
           ownerType: GenericConfigurator.OwnerType.PRODUCT,
         },
         queryParams: {},
-        url: CONFIGURATOR_URL,
+        semanticRoute: CONFIGURATOR_ROUTE,
       },
     };
   });
@@ -122,7 +120,7 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.ownerType =
         GenericConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-      mockRouterState.state.url = OVERVIEW_URL;
+      mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
       let routerData: ConfigurationRouter.Data;
       serviceUnderTest
         .extractRouterData()

@@ -25,6 +25,7 @@ export class OccConfiguratorVariantOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       configId: source.id,
+      totalNumberOfIssues: source.totalNumberOfIssues,
       groups: source.groups.flatMap((group) => this.convertGroup(group)),
       priceSummary: this.converterService.convert(
         prices,

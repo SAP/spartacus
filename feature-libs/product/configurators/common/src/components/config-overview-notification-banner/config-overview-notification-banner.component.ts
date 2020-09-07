@@ -23,7 +23,13 @@ export class ConfigOverviewNotificationBannerComponent {
       this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
     ),
     distinctUntilKeyChanged('configId'),
-    map((configuration) => this.countNumberOfIssues(configuration))
+    map((configuration) => {
+      if (configuration.totalNumberOfIssues) {
+        return configuration.totalNumberOfIssues;
+      } else {
+        return this.countNumberOfIssues(configuration);
+      }
+    })
   );
 
   iconTypes = ICON_TYPE;
