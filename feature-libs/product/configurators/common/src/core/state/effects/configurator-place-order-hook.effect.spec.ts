@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CONFIGURATOR_FEATURE } from '../configuration-state';
+import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
 import { ConfiguratorActions } from './../actions/index';
 import * as fromEffects from './configurator-place-order-hook.effect';

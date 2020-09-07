@@ -9,13 +9,13 @@ import {
 import { ConfiguratorActions } from '../actions';
 import {
   CONFIGURATOR_FEATURE,
-  StateWithConfiguration,
-} from '../configuration-state';
+  StateWithConfigurator,
+} from '../configurator-state';
 import * as fromReducers from '../reducers/index';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorUtils: GenericConfigUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner: GenericConfigurator.Owner = {};
@@ -46,7 +46,7 @@ describe('Configurator selectors', () => {
       ],
     });
 
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );

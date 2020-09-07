@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '@spartacus/core';
-import { CONFIGURATOR_FEATURE } from './configuration-state';
+import { CONFIGURATOR_FEATURE } from './configurator-state';
 import { configuratorEffects } from './effects/index';
 import {
   configuratorReducerProvider,

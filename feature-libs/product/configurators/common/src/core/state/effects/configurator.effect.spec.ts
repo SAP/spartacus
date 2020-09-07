@@ -8,7 +8,6 @@ import {
   Configurator,
   ConfiguratorCommonsConnector,
   GenericConfigurator,
-  GenericConfigUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
@@ -16,9 +15,10 @@ import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
 import {
   CONFIGURATOR_FEATURE,
-  StateWithConfiguration,
-} from '../configuration-state';
+  StateWithConfigurator,
+} from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfigComponentTestUtilsService } from './../../../shared/testing/config-component-test-utils.service';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 import * as fromEffects from './configurator.effect';
 
@@ -30,10 +30,37 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-let owner: GenericConfigurator.Owner = {};
-let productConfiguration: Configurator.Configuration = {
-  configId: 'a',
+const owner: GenericConfigurator.Owner = {
+  type: GenericConfigurator.OwnerType.PRODUCT,
+  id: productCode,
+  key: 'product/CONF_LAPTOP',
 };
+
+const productConfiguration: Configurator.Configuration = {
+  configId: 'a',
+  productCode: productCode,
+  owner: owner,
+  complete: true,
+  consistent: true,
+  overview: {
+    groups: [
+      {
+        id: 'a',
+        groupDescription: 'a',
+        attributes: [
+          {
+            attribute: 'a',
+            value: 'A',
+          },
+        ],
+      },
+    ],
+  },
+  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+};
+ConfigComponentTestUtilsService.freezeProductConfiguration(
+  productConfiguration
+);
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -42,8 +69,8 @@ describe('ConfiguratorEffect', () => {
   let readPriceSummaryMock: jasmine.Spy;
   let overviewMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
-  let configuratorUtils: GenericConfigUtilsService;
-  let store: Store<StateWithConfiguration>;
+
+  let store: Store<StateWithConfigurator>;
 
   let actions$: Observable<any>;
 
@@ -94,42 +121,7 @@ describe('ConfiguratorEffect', () => {
     configEffects = TestBed.inject(
       fromEffects.ConfiguratorEffects as Type<fromEffects.ConfiguratorEffects>
     );
-    configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
-
-    owner = {
-      type: GenericConfigurator.OwnerType.PRODUCT,
-      id: productCode,
-    };
-
-    productConfiguration = {
-      configId: 'a',
-      productCode: productCode,
-      owner: owner,
-      complete: true,
-      consistent: true,
-      overview: {
-        groups: [
-          {
-            id: 'a',
-            groupDescription: 'a',
-            attributes: [
-              {
-                attribute: 'a',
-                value: 'A',
-              },
-            ],
-          },
-        ],
-      },
-      groups: [
-        { id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] },
-      ],
-    };
-
-    configuratorUtils.setOwnerKey(owner);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
   });
 
   it('should provide configuration effects', () => {
@@ -559,7 +551,7 @@ describe('ConfiguratorEffect', () => {
         },
         {
           attributes: [],
-          subGroups: productConfiguration.groups,
+          subGroups: [{ attributes: [], subGroups: [] }],
         },
         {
           attributes: [],
@@ -571,7 +563,6 @@ describe('ConfiguratorEffect', () => {
           ],
         },
       ];
-      productConfiguration.groups[0].attributes = [];
       expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
     });
   });

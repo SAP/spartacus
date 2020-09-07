@@ -11,15 +11,15 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorActions } from './../state/actions/index';
-import { StateWithConfiguration } from './../state/configuration-state';
 import { ConfiguratorSelectors } from './../state/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
     protected cartStore: Store<StateWithMultiCart>,
-    protected store: Store<StateWithConfiguration>,
+    protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected genericConfigUtilsService: GenericConfigUtilsService
   ) {}

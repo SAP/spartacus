@@ -15,11 +15,11 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorActions } from './../state/actions/index';
 import {
   CONFIGURATOR_FEATURE,
-  StateWithConfiguration,
-} from './../state/configuration-state';
+  StateWithConfigurator,
+} from '../state/configurator-state';
+import { ConfiguratorActions } from './../state/actions/index';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
@@ -75,7 +75,7 @@ class MockActiveCartService {
 
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
@@ -100,7 +100,7 @@ describe('ConfiguratorCartService', () => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );

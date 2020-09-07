@@ -1,14 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Configurator, StateUtils } from '@spartacus/core';
-import { ConfigurationState, CONFIGURATOR_DATA } from '../configuration-state';
+import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
 import * as StateReduce from './configurator.reducer';
 
-export { configuratorReducer as ɵConfiguratorReducer } from './configurator.reducer';
+export { configuratorReducer } from './configurator.reducer';
 
-export function getConfiguratorReducers(): ActionReducerMap<
-  ConfigurationState
-> {
+export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
   return {
     configurations: StateUtils.entityProcessesLoaderReducer<
       Configurator.Configuration
@@ -17,8 +15,8 @@ export function getConfiguratorReducers(): ActionReducerMap<
 }
 
 export const configuratorReducerToken: InjectionToken<ActionReducerMap<
-  ConfigurationState
->> = new InjectionToken<ActionReducerMap<ConfigurationState>>(
+  ConfiguratorState
+>> = new InjectionToken<ActionReducerMap<ConfiguratorState>>(
   'ConfiguratorReducers'
 );
 

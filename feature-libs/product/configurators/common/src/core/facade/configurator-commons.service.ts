@@ -8,8 +8,8 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorActions } from './../state/actions/index';
-import { StateWithConfiguration } from './../state/configuration-state';
 import { ConfiguratorSelectors } from './../state/selectors/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
@@ -17,7 +17,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   constructor(
-    protected store: Store<StateWithConfiguration>,
+    protected store: Store<StateWithConfigurator>,
     protected genericConfigUtilsService: GenericConfigUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartService,

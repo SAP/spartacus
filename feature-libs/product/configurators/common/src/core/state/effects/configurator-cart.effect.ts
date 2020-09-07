@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { ConfiguratorActions } from '../actions/index';
-import { StateWithConfiguration } from '../configuration-state';
+import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 
 @Injectable()
@@ -196,6 +196,6 @@ export class ConfiguratorCartEffects {
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
     protected genericConfigUtilsService: GenericConfigUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfiguration>
+    protected store: Store<StateWithConfigurator>
   ) {}
 }

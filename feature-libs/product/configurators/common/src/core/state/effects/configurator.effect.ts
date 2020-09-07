@@ -18,7 +18,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { ConfiguratorActions } from '../actions/index';
-import { StateWithConfiguration } from '../configuration-state';
+import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 
@@ -366,6 +366,6 @@ export class ConfiguratorEffects {
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
     protected genericConfigUtilsService: GenericConfigUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfiguration>
+    protected store: Store<StateWithConfigurator>
   ) {}
 }

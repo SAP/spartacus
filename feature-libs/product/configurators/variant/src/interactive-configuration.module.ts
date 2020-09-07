@@ -6,10 +6,6 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
-  CommonConfiguratorModule,
-  ConfigurationMessageLoaderModule,
-} from '@spartacus/product/configurators/common';
-import {
   CmsPageGuard,
   HamburgerMenuModule,
   PageLayoutComponent,
@@ -22,8 +18,7 @@ import {
 @NgModule({
   imports: [
     ProductModule,
-    CommonConfiguratorModule,
-    ConfigurationMessageLoaderModule,
+
     RouterModule.forChild([
       {
         path: null,

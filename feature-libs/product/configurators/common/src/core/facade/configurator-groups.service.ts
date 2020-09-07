@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorActions } from './../state/actions/index';
-import { StateWithConfiguration } from './../state/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
@@ -15,7 +15,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
   constructor(
-    protected store: Store<StateWithConfiguration>,
+    protected store: Store<StateWithConfigurator>,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService

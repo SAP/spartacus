@@ -17,8 +17,9 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
-import { CONFIGURATOR_FEATURE } from '../configuration-state';
+import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfigComponentTestUtilsService } from './../../../shared/testing/config-component-test-utils.service';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 import * as fromEffects from './configurator-cart.effect';
 
@@ -34,10 +35,37 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-let owner: GenericConfigurator.Owner = {};
-let productConfiguration: Configurator.Configuration = {
-  configId: 'a',
+const owner: GenericConfigurator.Owner = {
+  type: GenericConfigurator.OwnerType.PRODUCT,
+  id: productCode,
+  key: 'product/CONF_LAPTOP',
 };
+
+const productConfiguration: Configurator.Configuration = {
+  configId: 'a',
+  productCode: productCode,
+  owner: owner,
+  complete: true,
+  consistent: true,
+  overview: {
+    groups: [
+      {
+        id: 'a',
+        groupDescription: 'a',
+        attributes: [
+          {
+            attribute: 'a',
+            value: 'A',
+          },
+        ],
+      },
+    ],
+  },
+  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+};
+ConfigComponentTestUtilsService.freezeProductConfiguration(
+  productConfiguration
+);
 
 let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters;
 
@@ -115,43 +143,12 @@ describe('ConfiguratorCartEffect', () => {
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
 
-    owner = {
-      type: GenericConfigurator.OwnerType.PRODUCT,
-      id: productCode,
-    };
-
-    productConfiguration = {
-      configId: 'a',
-      productCode: productCode,
-      owner: owner,
-      complete: true,
-      consistent: true,
-      overview: {
-        groups: [
-          {
-            id: 'a',
-            groupDescription: 'a',
-            attributes: [
-              {
-                attribute: 'a',
-                value: 'A',
-              },
-            ],
-          },
-        ],
-      },
-      groups: [
-        { id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] },
-      ],
-    };
-
     payloadInputUpdateConfiguration = {
       userId: userId,
       cartId: cartId,
       configuration: productConfiguration,
       cartEntryNumber: entryNumber.toString(),
     };
-    configuratorUtils.setOwnerKey(owner);
   });
 
   it('should provide configuration effects', () => {

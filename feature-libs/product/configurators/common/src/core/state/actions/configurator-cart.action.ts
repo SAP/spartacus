@@ -5,7 +5,7 @@ import {
   MULTI_CART_DATA,
   StateUtils,
 } from '@spartacus/core';
-import { CONFIGURATOR_DATA } from '../configuration-state';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read Cart Entry Configuration';

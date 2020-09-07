@@ -8,6 +8,6 @@ export const configuratorEffects: any[] = [
   ConfiguratorPlaceOrderHookEffects,
 ];
 
-export { ConfiguratorPlaceOrderHookEffects as ɵConfiguratorPlaceOrderHookEffects };
-export { ConfiguratorEffects as ɵConfiguratorEffects };
-export { ConfiguratorCartEffects as ɵConfiguratorCartEffects };
+export { ConfiguratorPlaceOrderHookEffects };
+export { ConfiguratorEffects };
+export { ConfiguratorCartEffects };

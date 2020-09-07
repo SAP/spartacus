@@ -12,13 +12,13 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import {
+  ConfiguratorState,
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../state/configurator-state';
 import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorActions } from './../state/actions/index';
-import {
-  ConfigurationState,
-  CONFIGURATOR_FEATURE,
-  StateWithConfiguration,
-} from './../state/configuration-state';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -74,7 +74,7 @@ const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
-const configurationState: ConfigurationState = {
+const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
@@ -134,7 +134,7 @@ describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
   let configuratorUtilsService: ConfiguratorUtilsService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
@@ -209,7 +209,7 @@ describe('ConfiguratorCommonsService', () => {
       ...productConfiguration,
       loading: false,
     };
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );

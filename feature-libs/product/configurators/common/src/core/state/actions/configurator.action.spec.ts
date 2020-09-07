@@ -6,7 +6,7 @@ import {
   GenericConfigUtilsService,
   StateUtils,
 } from '@spartacus/core';
-import { CONFIGURATOR_DATA } from '../configuration-state';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
