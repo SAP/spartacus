@@ -10,6 +10,7 @@ describe('FormValidationService', () => {
   let passwordError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
   let budgetNegative: ValidationErrors;
+  let specialCharacters: ValidationErrors;
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: FormGroup;
@@ -24,6 +25,7 @@ describe('FormValidationService', () => {
       email: new FormControl(),
       emailconf: new FormControl(),
       budget: new FormControl(),
+      code: new FormControl(),
     });
 
     emailError = {
@@ -40,6 +42,10 @@ describe('FormValidationService', () => {
 
     budgetNegative = {
       cxNegativeAmount: true,
+    };
+
+    specialCharacters = {
+      cxContainsSpecialCharacters: true,
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
@@ -254,4 +260,21 @@ describe('FormValidationService', () => {
       });
     });
   });
+
+  describe('no special characters in string', () => {
+    it('should throw error if value contains special characters', () => {
+      const field = form.get('code');
+      field.setValue('test/code');
+      expect(CustomFormValidators.noSpecialCharacters(field)).toEqual(
+        specialCharacters
+      )
+    })
+
+    it('should return null for allowed value', () => {
+      const field = form.get('code');
+      field.setValue('test code');
+      expect(CustomFormValidators.noSpecialCharacters(field)).toBeNull();
+    })
+  })
+
 });
