@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SemanticPathService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ActiveBudgetGuard } from './active-budget.guard';
+import createSpy = jasmine.createSpy;
 
 const BUDGET_NOT_ACTIVE = Object.freeze({ active: false });
 const BUDGET_ACTIVE = Object.freeze({ active: true });
@@ -26,11 +31,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ActiveBudgetGuard', () => {
   let activeBudgetGuard: ActiveBudgetGuard;
   let router: Router;
   let budgetService: BudgetService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,6 +61,10 @@ describe('ActiveBudgetGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -59,6 +73,7 @@ describe('ActiveBudgetGuard', () => {
     router = TestBed.inject(Router);
     budgetService = TestBed.inject(BudgetService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -79,6 +94,10 @@ describe('ActiveBudgetGuard', () => {
             .unsubscribe();
 
           expect(router.parseUrl).toHaveBeenCalledWith('organization/budgets');
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'organization.error.disabled' },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
         });
       });
     });
