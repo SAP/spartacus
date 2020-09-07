@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
-import { Budget } from '../../../core/model/budget.model';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 
 @Component({

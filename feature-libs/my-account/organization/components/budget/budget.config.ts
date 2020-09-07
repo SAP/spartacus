@@ -17,9 +17,9 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
-import { BudgetFormComponent } from './form';
-import { BudgetListService } from './services';
+import { BudgetFormComponent } from './form/budget-form.component';
 import { BudgetItemService } from './services/budget-item.service';
+import { BudgetListService } from './services/budget-list.service';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {

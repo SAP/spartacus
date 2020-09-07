@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Budget } from '../../../../core/model/budget.model';
-import { BudgetService } from '../../../../core/services/budget.service';
 import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
