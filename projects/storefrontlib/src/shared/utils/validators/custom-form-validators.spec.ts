@@ -267,14 +267,13 @@ describe('FormValidationService', () => {
       field.setValue('test/code');
       expect(CustomFormValidators.noSpecialCharacters(field)).toEqual(
         specialCharacters
-      )
-    })
+      );
+    });
 
     it('should return null for allowed value', () => {
       const field = form.get('code');
       field.setValue('test code');
       expect(CustomFormValidators.noSpecialCharacters(field)).toBeNull();
-    })
-  })
-
+    });
+  });
 });
