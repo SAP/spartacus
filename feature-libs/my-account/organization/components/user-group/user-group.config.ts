@@ -19,6 +19,7 @@ import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-g
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
 import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -112,7 +113,7 @@ export const userGroupCmsConfig: CmsConfig = {
           component: UserGroupEditComponent,
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

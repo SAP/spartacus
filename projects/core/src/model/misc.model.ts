@@ -38,6 +38,7 @@ export interface User {
   title?: string;
   titleCode?: string;
   uid?: string;
+  roles?: string[];
 }
 
 export interface ListModel {
