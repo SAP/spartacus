@@ -15,7 +15,7 @@ export function goToConfigOverviewPage(
   configuratorType,
   productId
 ): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`;
+  const location = `/electronics-spa/en/USD/configure-overview/${configuratorType}/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');

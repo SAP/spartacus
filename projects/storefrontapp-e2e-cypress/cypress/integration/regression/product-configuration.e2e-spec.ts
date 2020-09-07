@@ -5,7 +5,7 @@ import * as productSearch from '../../helpers/product-search';
 
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
-const configurator = 'CPQCONFIGURATOR';
+const configurator = 'vc';
 
 // UI types
 const radioGroup = 'radioGroup';

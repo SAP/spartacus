@@ -27,7 +27,7 @@ export function goToConfigurationPage(
   configuratorType: string,
   productId: string
 ): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+  const location = `/electronics-spa/en/USD/configure/${configuratorType}/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     this.isConfigPageDisplayed();
