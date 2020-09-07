@@ -4,7 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
-import { OrganizationFormService } from './organization-edit/organization-form.service';
+import { OrganizationFormService } from './organization-form/organization-form.service';
 
 /**
  * Provides CRUD operations for all organization entities.

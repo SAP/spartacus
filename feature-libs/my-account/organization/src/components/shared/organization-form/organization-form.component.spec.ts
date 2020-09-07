@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationEditComponent } from './organization-edit.component';
+import { OrganizationFormComponent } from './organization-form.component';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
@@ -18,8 +18,8 @@ class MockOrganizationItemService {
 }
 
 describe('OrganizationEditComponent', () => {
-  let component: OrganizationEditComponent<any>;
-  let fixture: ComponentFixture<OrganizationEditComponent<any>>;
+  let component: OrganizationFormComponent<any>;
+  let fixture: ComponentFixture<OrganizationFormComponent<any>>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('OrganizationEditComponent', () => {
         ReactiveFormsModule,
         OrganizationCardTestingModule,
       ],
-      declarations: [OrganizationEditComponent],
+      declarations: [OrganizationFormComponent],
       providers: [
         {
           provide: OrganizationItemService,
@@ -40,7 +40,7 @@ describe('OrganizationEditComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationEditComponent);
+    fixture = TestBed.createComponent(OrganizationFormComponent);
     component = fixture.componentInstance;
   });
 

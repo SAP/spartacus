@@ -9,11 +9,11 @@ import { OrganizationItemService } from '../organization-item.service';
  * know anything about form specific.
  */
 @Component({
-  selector: 'cx-organization-edit',
-  templateUrl: './organization-edit.component.html',
+  selector: 'cx-organization-form',
+  templateUrl: './organization-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationEditComponent<T> {
+export class OrganizationFormComponent<T> {
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.

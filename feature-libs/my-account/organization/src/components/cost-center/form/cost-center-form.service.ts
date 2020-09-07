@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
-import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
+import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',

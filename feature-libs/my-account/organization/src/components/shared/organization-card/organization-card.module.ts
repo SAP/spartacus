@@ -9,7 +9,7 @@ import { OrganizationCardComponent } from './organization-card.component';
 /**
  * Provides a reusable card UI component for the organization split views.
  *
- * The component does not intend to provide a whole lot of card features, it's just
+ * The component does not intend to provide a complete set of card features, it's just
  * a reusable component inside the organization UI.
  */
 @NgModule({

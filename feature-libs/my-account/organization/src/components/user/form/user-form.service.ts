@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { OrganizationFormService } from '../../shared/organization-edit/organization-form.service';
+import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',

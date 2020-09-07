@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { OrganizationCardModule } from '../organization-card/organization-card.module';
-import { OrganizationEditComponent } from './organization-edit.component';
+import { OrganizationFormComponent } from './organization-form.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { OrganizationEditComponent } from './organization-edit.component';
     RouterModule,
     OrganizationCardModule,
   ],
-  declarations: [OrganizationEditComponent],
-  exports: [OrganizationEditComponent],
+  declarations: [OrganizationFormComponent],
+  exports: [OrganizationFormComponent],
 })
-export class OrganizationEditModule {}
+export class OrganizationFormModule {}
