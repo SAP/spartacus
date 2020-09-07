@@ -11,10 +11,8 @@ import { Observable, of } from 'rxjs';
 import { ConfigTabBarComponent } from './config-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIG_OVERVIEW_URL =
-  'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const CONFIG_OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 const mockRouterState: any = {
   state: {
@@ -23,7 +21,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
-    url: CONFIG_OVERVIEW_URL,
+    semanticRoute: CONFIG_OVERVIEW_ROUTE,
   },
 };
 
@@ -90,15 +88,15 @@ describe('ConfigTabBarComponent', () => {
     expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(0);
   });
 
-  it('should tell from URL that we are on OV page', () => {
-    mockRouterState.state.url = CONFIG_OVERVIEW_URL;
+  it('should tell from semantic route that we are on OV page', () => {
+    mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
     component.isOverviewPage$
       .subscribe((isOv) => expect(isOv).toBe(true))
       .unsubscribe();
   });
 
-  it('should tell from URL that we are on config page', () => {
-    mockRouterState.state.url = CONFIGURATOR_URL;
+  it('should tell from semantic route that we are on config page', () => {
+    mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
     component.isOverviewPage$
       .subscribe((isOv) => expect(isOv).toBe(false))
       .unsubscribe();

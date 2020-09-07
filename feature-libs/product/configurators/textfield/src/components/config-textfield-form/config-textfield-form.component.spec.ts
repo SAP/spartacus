@@ -20,14 +20,14 @@ import { ConfigTextfieldFormComponent } from './config-textfield-form.component'
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';
 const ATTRIBUTE_NAME = 'AttributeName';
-const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
+const ROUTE_CONFIGURATION = 'configureTEXTFIELD';
 const mockRouterState: any = {
   state: {
     params: {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
       entityKey: PRODUCT_CODE,
     },
-    url: URL_CONFIGURATION,
+    semanticRoute: ROUTE_CONFIGURATION,
   },
 };
 const productConfig: ConfiguratorTextfield.Configuration = {
@@ -112,7 +112,7 @@ describe('TextfieldFormComponent', () => {
         ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
         entityKey: CART_ENTRY_KEY,
       },
-      url: URL_CONFIGURATION,
+      semanticRoute: ROUTE_CONFIGURATION,
     };
 
     expect(component.configuration$).toBeObservable(
