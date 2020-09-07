@@ -8,3 +8,17 @@
 @import './unit';
 @import './order-approval/order-approval-list';
 @import './order-approval/order-approval-detail-form';
+
+@import './__ux/list';
+@import './__ux/card';
+@import './__ux/form';
+@import './__ux/details';
+@import './__ux/message';
+
+cx-organization-list {
+  @extend %organizationList !optional;
+  @extend %organizationCard !optional;
+  @extend %organizationItemDetails !optional;
+  @extend %organizationItemForm !optional;
+  @extend %organizationMessage !optional;
+}

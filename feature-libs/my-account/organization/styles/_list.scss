@@ -1,183 +1,267 @@
-.organization {
-  // overflow-x: hidden;
-  .active {
-    background: var(--cx-color-light);
-    color: var(--cx-color-text);
-  }
+// .mouse-focus .organization cx-table tr:focus-within {
+//   outline-width: 0;
+// }
 
-  h3 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+// cx-organization-list {
+//   display: contents;
+// }
 
-    // ensure that all headers are aligned, as otherwise the UI is mixed up
-    // in case we have a split view with the headers next to each other.
-    min-height: 5rem;
+// .organization {
+//   .actions {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
 
-    margin: 0;
-    padding: 0;
+//     text-transform: uppercase;
 
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-spatial-md);
+//     padding: 25px 0;
 
-      > a.link {
-        margin-inline-end: calc(var(--cx-spatial-md) * -1);
-      }
-    }
+//     ng-select {
+//       @include media-breakpoint-up(md) {
+//         min-width: 293px;
+//       }
+//       // max-height: 48px;
+//       .ng-select-container.ng-has-value {
+//         max-height: 40px;
+//       }
+//     }
+//   }
 
-    // Buttons with a background are aligned as their background matches the alignment,
-    // however buttons and links without need to move visually to the start
-    > *:first-child {
-      &.link,
-      &.button:not(.primary),
-      &.button:not(.secondary) {
-        padding-inline-start: 0;
-      }
-    }
+//   cx-table {
+//     table {
+//       border-top: solid 1px var(--cx-color-light);
+//     }
+//     thead tr {
+//       &:hover:not(.is-current) {
+//         background-color: transparent;
+//       }
+//       th {
+//         height: 60px;
+//       }
+//     }
 
-    // space-between should be adapted only for headers on the left side (i.e. add action)
-    // for the rest we decided to keep header text to the left, next to icon (i.e. back button)
-    > span {
-      flex: 1;
-    }
-  }
+//     tr {
+//       border-bottom: solid 1px var(--cx-color-light);
 
-  cx-pagination {
-    display: inline-flex;
-    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
+//       &:hover:not(.is-current) {
+//         background-color: var(--cx-color-background);
+//       }
+//       &.is-current {
+//         border: solid 3px var(--cx-color-primary);
+//         background: var(--cx-color-background-focus);
+//       }
 
-    @include media-breakpoint-down(md) {
-      margin: 0 var(--cx-spatial-md);
-    }
+//       &:focus-within {
+//         @include visible-focus();
+//       }
 
-    a {
-      border: none;
-      border-radius: 0;
+//       transition: background var(--cx-transition-duration, 0.3s);
 
-      &:not(.current) {
-        background-color: var(--cx-color-inverse);
-      }
+//       td {
+//         a {
+//           // display: flex;
+//           // align-items: center;
+//           // min-height: 74px;
+//           // text-decoration: underline;
+//         }
+//       }
 
-      &.disabled {
-        color: var(--cx-color-light);
-      }
-    }
-  }
+//       th.suffix,
+//       td.suffix {
+//         width: 60px;
+//         font-size: 20px;
+//       }
+//     }
 
-  cx-table {
-    td {
-      padding: 0;
-      a {
-        @include alt-visible-focus();
+//     td:not(.name) {
+//       a {
+//         color: inherit;
+//       }
+//     }
+//   }
 
-        justify-content: flex-start;
-        padding: var(--cx-spatial-md);
+//   h3 {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
 
-        .text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+//     // ensure that all headers are aligned, as otherwise the UI is mixed up
+//     // in case we have a split view with the headers next to each other.
+//     // min-height: 5rem;
 
-        cx-icon {
-          margin: -0.1rem 0 0 0.5rem;
+//     margin: 0;
+//     padding: 0;
 
-          &.active-state {
-            margin-inline-end: var(--cx-spatial-md);
-            color: var(--cx-color-success);
-          }
+//     text-transform: uppercase;
 
-          &.inactive {
-            opacity: 0.25;
-          }
+//     @include media-breakpoint-down(md) {
+//       padding: var(--cx-spatial-md);
 
-          &.open {
-            // hide open arrow on > mobile
-            @include media-breakpoint-up(md) {
-              display: none;
-            }
-          }
-        }
+//       > a.link {
+//         margin-inline-end: calc(var(--cx-spatial-md) * -1);
+//       }
+//     }
 
-        &:hover {
-          text-decoration: none;
+//     // Buttons with a background are aligned as their background matches the alignment,
+//     // however buttons and links without need to move visually to the start
+//     > *:first-child {
+//       &.link,
+//       &.button:not(.primary),
+//       &.button:not(.secondary) {
+//         padding-inline-start: 0;
+//       }
+//     }
 
-          &:not(.active) {
-            .text {
-              text-decoration: underline;
-            }
-          }
-        }
-      }
+//     // space-between should be adapted only for headers on the left side (i.e. add action)
+//     // for the rest we decided to keep header text to the left, next to icon (i.e. back button)
+//     > span {
+//       flex: 1;
+//     }
+//   }
+//   .footer {
+//     display: flex;
+//     justify-content: flex-end;
+//     padding: 25px 0;
+//   }
+//   cx-pagination {
+//     @include media-breakpoint-down(md) {
+//       margin: 0 var(--cx-spatial-md);
+//     }
 
-      &.summary {
-        padding: 1rem;
-        > * {
-          @include media-breakpoint-down(md) {
-            display: block;
-            white-space: normal;
-          }
-        }
-        h3 {
-          font-size: 1.1rem;
-          min-height: auto;
-          @include media-breakpoint-down(md) {
-            padding: 0;
-          }
-        }
-        small {
-          font-size: 0.75rem;
-        }
-        a {
-          margin: -1rem;
-          justify-content: space-between;
-          & > * {
-            display: flex;
-            flex-direction: column;
-          }
-        }
-      }
-      &.name {
-        label {
-          padding: var(--cx-spatial-md) var(--cx-spatial-md)
-            var(--cx-spatial-md) calc(3 * var(--cx-spatial-md));
-          justify-content: flex-start;
-          align-items: center;
-        }
-        input[type='checkbox'] {
-          margin-top: 0;
-        }
-      }
-      &.code {
-        > div {
-          align-items: center;
-        }
-        .link {
-          display: flex;
-          padding: 0;
-        }
-      }
-      &.selected,
-      &.unassign,
-      &.link {
-        width: 70px;
-        text-overflow: initial;
-        cx-icon {
-          margin-left: 0;
-        }
-        a,
-        button {
-          margin: 0 auto;
-        }
-      }
-      &.selected {
-        input[type='checkbox'] {
-          @include media-breakpoint-down(md) {
-            margin-left: 0.8rem;
-            margin-top: -0.6rem;
-          }
-        }
-      }
-    }
-  }
-}
+//     a {
+//       border-radius: 0;
+
+//       &:not(.current) {
+//         background-color: var(--cx-color-inverse);
+//       }
+
+//       &.disabled {
+//         color: var(--cx-color-light);
+//       }
+//     }
+//   }
+
+//   cx-table {
+//     td {
+//       padding: 0;
+//       overflow: visible;
+
+//       a[tabindex='0'],
+//       a[tabindex='0']:hover {
+//         text-decoration: underline;
+//         color: var(--cx-color-primary);
+//       }
+
+//       a {
+//         justify-content: flex-start;
+//         padding: var(--cx-spatial-md);
+
+//         text-decoration: none;
+//         // avoid a11y outline as we add this to the full row instead
+//         outline-width: 0;
+
+//         cx-icon {
+//           margin: -0.1rem 0 0 0.5rem;
+
+//           &.open {
+//             // hide open arrow on > mobile
+//             @include media-breakpoint-up(md) {
+//               display: none;
+//             }
+//           }
+//         }
+
+//         &:hover {
+//           text-decoration: inherit;
+
+//           &:not(.active) {
+//             .text {
+//               // text-decoration: underline;
+//             }
+//           }
+//         }
+//       }
+
+//       &.summary {
+//         padding: 20px;
+//         > * {
+//           @include media-breakpoint-down(md) {
+//             display: block;
+//             white-space: normal;
+//           }
+//         }
+//         h3 {
+//           font-size: 1.1rem;
+//           min-height: auto;
+//           @include media-breakpoint-down(md) {
+//             padding: 0;
+//           }
+//         }
+//         small {
+//           font-size: 0.75rem;
+//         }
+//         a {
+//           margin: -1rem;
+//           justify-content: space-between;
+//           & > * {
+//             display: flex;
+//             flex-direction: column;
+//           }
+//         }
+//       }
+//       &.name {
+//         label {
+//           padding: var(--cx-spatial-md) var(--cx-spatial-md)
+//             var(--cx-spatial-md) calc(3 * var(--cx-spatial-md));
+//           justify-content: flex-start;
+//           align-items: center;
+//         }
+//         input[type='checkbox'] {
+//           margin-top: 0;
+//         }
+//       }
+//       &.code {
+//         > div {
+//           align-items: center;
+//         }
+//         .link {
+//           display: flex;
+//           padding: 0;
+//         }
+//       }
+//       &.selected,
+//       &.unassign,
+//       &.link {
+//         width: 70px;
+//         text-overflow: initial;
+//         cx-icon {
+//           margin-left: 0;
+//         }
+//         a,
+//         button {
+//           margin: 0 auto;
+//         }
+//       }
+//       &.selected {
+//         input[type='checkbox'] {
+//           @include media-breakpoint-down(md) {
+//             margin-left: 0.8rem;
+//             margin-top: -0.6rem;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// cx-split-view {
+//   cx-organization-view {
+//     padding: 0 20px;
+
+//     cx-view {
+//       // .toolbar {
+
+//       // }
+//     }
+//   }
+// }
