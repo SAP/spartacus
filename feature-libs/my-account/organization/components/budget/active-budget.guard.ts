@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
+import { GlobalMessageType } from '@spartacus/core';
 import { Budget } from '@spartacus/my-account/organization/core';
 import { ExistBudgetGuard } from './exist-budget.guard';
 
@@ -7,11 +8,6 @@ import { ExistBudgetGuard } from './exist-budget.guard';
   providedIn: 'root',
 })
 export class ActiveBudgetGuard extends ExistBudgetGuard {
-  protected message = {
-    key: 'organization.warning.inactivatedItem',
-    params: { item: 'Budget' },
-  };
-
   protected isValid(budget: Budget): boolean {
     return budget.active;
   }
@@ -23,5 +19,15 @@ export class ActiveBudgetGuard extends ExistBudgetGuard {
     });
 
     return this.router.parseUrl(urlPath.join('/'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.disabled',
+        params: { item: 'Budget' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

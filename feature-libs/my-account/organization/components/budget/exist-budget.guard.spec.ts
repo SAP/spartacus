@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SemanticPathService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistBudgetGuard } from './exist-budget.guard';
+import createSpy = jasmine.createSpy;
 
 const BUDGET_VALID = Object.freeze({ code: 'budgetCode' });
 const BUDGET_INVALID = Object.freeze({});
@@ -26,11 +31,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistBudgetGuard', () => {
   let existBudgetGuard: ExistBudgetGuard;
   let router: Router;
   let budgetService: BudgetService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +62,10 @@ describe('ExistBudgetGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -60,6 +74,7 @@ describe('ExistBudgetGuard', () => {
     router = TestBed.inject(Router);
     budgetService = TestBed.inject(BudgetService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -99,6 +114,13 @@ describe('ExistBudgetGuard', () => {
         existBudgetGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('budgets');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'Budget' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });
