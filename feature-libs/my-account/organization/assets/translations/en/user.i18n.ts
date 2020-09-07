@@ -1,15 +1,21 @@
 export const user = {
-  header: 'Users',
+  header: 'All users ({{count}})',
   disabled: '(disabled)',
   uid: 'Email',
+  active: 'Status',
   name: 'Name',
   firstName: 'Fist name',
   lastName: 'Last name',
   email: 'Email',
   orgUnit: 'Unit',
+  unit: 'Unit',
   roles: 'Roles',
   title: 'Title',
   assignAprover: 'Add to the approvers list',
+
+  byName: 'Sort by name',
+  byUnit: 'Sort by unit',
+
   changePassword: {
     link: 'Change password',
     header: 'Change password of {{code}}',
