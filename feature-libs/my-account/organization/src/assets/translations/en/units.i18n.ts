@@ -24,7 +24,8 @@ export const unit = {
     upOneLevel: 'Up one level',
   },
   details: {
-    header: 'Details for {{code}}',
+    title: 'Unit Details',
+    subtitle: 'Unit: {{ item.name }}',
     children: 'Child Units',
     users: 'Users',
     approvers: 'Approvers',
