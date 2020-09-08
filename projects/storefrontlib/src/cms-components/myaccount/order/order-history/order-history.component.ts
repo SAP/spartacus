@@ -39,13 +39,15 @@ export class OrderHistoryComponent implements OnDestroy {
 
   replenishmentOrders$: Observable<
     ReplenishmentOrderList
-  > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryList(this.PAGE_SIZE).pipe(
-    tap((replenishmentOrders: ReplenishmentOrderList) => {
-      if (replenishmentOrders.pagination) {
-        this.sortType = replenishmentOrders.pagination.sort;
-      }
-    })
-  );
+  > = this.userReplenishmentOrderService
+    .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
+    .pipe(
+      tap((replenishmentOrders: ReplenishmentOrderList) => {
+        if (replenishmentOrders.pagination) {
+          this.sortType = replenishmentOrders.pagination.sort;
+        }
+      })
+    );
 
   isLoaded$: Observable<
     boolean
@@ -113,12 +115,14 @@ export class OrderHistoryComponent implements OnDestroy {
     );
   }
 
-  private fetchReplenishmentOrders(event: { sortCode: string; currentPage: number }): void {
+  private fetchReplenishmentOrders(event: {
+    sortCode: string;
+    currentPage: number;
+  }): void {
     this.userReplenishmentOrderService.loadReplenishmentOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode
     );
   }
-
 }

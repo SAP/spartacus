@@ -8,7 +8,7 @@ import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapte
   providedIn: 'root',
 })
 export class UserReplenishmentOrderConnector {
-  constructor(protected adapter: UserReplenishmentOrderAdapter) { }
+  constructor(protected adapter: UserReplenishmentOrderAdapter) {}
 
   public load(
     userId: string,

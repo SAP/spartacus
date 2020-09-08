@@ -68,7 +68,6 @@ describe('UserReplenishmentOrderService', () => {
     expect(userReplenishmentOrderService).toBeTruthy();
   });
 
-
   describe('Load replenishment order details', () => {
     it('should be able to load replenishment order details for a given current user', () => {
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
@@ -244,7 +243,6 @@ describe('UserReplenishmentOrderService', () => {
     });
   });
 
-
   describe('Replenishment order history', () => {
     it('should be able to get replenishment order history list', () => {
       store.dispatch(
@@ -301,7 +299,5 @@ describe('UserReplenishmentOrderService', () => {
         new UserActions.ClearUserReplenishmentOrders()
       );
     });
-
   });
-
 });
