@@ -16,22 +16,18 @@
 
     .cx-config-menu-item {
       line-height: var(--cx-line-height, 1.6);
-      padding: 15px;
       border-width: 0 0 1px 0;
       border-style: solid;
       border-color: var(--cx-color-light);
-
-      &:hover {
-        cursor: pointer;
-        color: var(--cx-color-primary);
-      }
 
       &:last-child {
         border-width: 0;
       }
 
       a {
+        padding: 15px;
         display: flow-root;
+        text-decoration: none;
         color: var(--cx-color-text);
 
         &:hover {
