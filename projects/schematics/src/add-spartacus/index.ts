@@ -73,7 +73,7 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^6.0.0',
+        version: '^7.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {

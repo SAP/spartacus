@@ -18,10 +18,10 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "@angular/router": "^9.0.0",
-    "rxjs": "^6.5.4",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "rxjs": "^6.5.5",
     "@spartacus/core": "2.1.0-dev.0",
     "@spartacus/storefront": "2.1.0-dev.0"
   }
