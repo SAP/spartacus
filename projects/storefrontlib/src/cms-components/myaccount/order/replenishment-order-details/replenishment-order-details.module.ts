@@ -11,6 +11,7 @@ import {
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
+import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
@@ -19,9 +20,10 @@ import { OrderDetailItemsComponent } from '../order-details/order-detail-items/o
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
+import { ReplenishmentOrderDetailsOrderHistoryComponent } from './replenishment-order-details-order-history/replenishment-order-details-order-history.component';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
-const moduleComponents = [];
+const moduleComponents = [ReplenishmentOrderDetailsOrderHistoryComponent];
 
 @NgModule({
   imports: [
@@ -32,6 +34,7 @@ const moduleComponents = [];
     PromotionsModule,
     UrlModule,
     SpinnerModule,
+    ListNavigationModule,
     RouterModule.forChild([
       {
         path: null,
@@ -79,6 +82,9 @@ const moduleComponents = [];
               useExisting: ReplenishmentOrderDetailsService,
             },
           ],
+        },
+        ReplenishmentDetailOrderHistoryComponent: {
+          component: ReplenishmentOrderDetailsOrderHistoryComponent,
         },
       },
     }),
