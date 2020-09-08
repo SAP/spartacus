@@ -4343,7 +4343,6 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
-
   export interface ReplenishmentOrder {
     active?: boolean;
     appliedOrderPromotions?: PromotionResult[];
@@ -4359,8 +4358,8 @@ export namespace Occ {
     deliveryOrderGroups?: DeliveryOrderEntryGroup[];
     description?: string;
     entries?: OrderEntry[];
-    expirationTime?: Date;
-    firstDate?: Date;
+    expirationTime?: string;
+    firstDate?: string;
     guid?: string;
     name?: string;
     net?: boolean;
@@ -4375,7 +4374,7 @@ export namespace Occ {
     productDiscounts?: Price;
     purchaseOrderNumber?: string;
     replenishmentOrderCode?: string;
-    saveTime?: Date;
+    saveTime?: string;
     savedBy?: Principal;
     site?: string;
     store?: string;
@@ -4386,6 +4385,7 @@ export namespace Occ {
     totalPriceWithTax?: Price;
     totalTax?: Price;
     totalUnitCount?: number;
+    trigger?: Trigger;
     user?: Principal;
   }
 
@@ -4393,6 +4393,11 @@ export namespace Occ {
     pagination?: PaginationModel;
     replenishmentOrders?: ReplenishmentOrder[];
     sorts?: SortModel[];
+  }
+
+  export interface Trigger {
+    activationTime: string;
+    displayTimeTable: string;
   }
 
   export interface ScheduleReplenishmentForm {
@@ -4405,12 +4410,12 @@ export namespace Occ {
   }
 
   export enum DaysOfWeek {
-    SUNDAY = 'SUNDAY',
     MONDAY = 'MONDAY',
     TUESDAY = 'TUESDAY',
     WEDNESDAY = 'WEDNESDAY',
     THURSDAY = 'THURSDAY',
     FRIDAY = 'FRIDAY',
     SATURDAY = 'SATURDAY',
+    SUNDAY = 'SUNDAY',
   }
 }
