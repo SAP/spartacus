@@ -136,6 +136,8 @@ export const common = {
     cxNoSelectedItemToCancel: 'Select at least one item to cancel',
     cxDateMin: 'Date cannot be before {{min}}',
     cxDateMax: 'Date cannot be after {{max}}',
+    cxNegativeAmount: 'Amount must be equal or greater than zero',
+    cxContainsSpecialCharacters: 'Field cannot contain special characters',
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
