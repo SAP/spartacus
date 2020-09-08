@@ -16,8 +16,8 @@ export interface FeatureToggles {
      *
      *This option allows to disable this mechanism, i.e.:
      *  - configuration won't change after app will be bootstrapped
-     *  - if any service would like to take into account configuration from lazy loaded
-     *    modules, it will have to use ConfigurationService.unifiedConfig$
+     *  - if any service would like to take into an account configuration from
+     *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
   };
