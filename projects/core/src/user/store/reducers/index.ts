@@ -58,7 +58,7 @@ import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromUserReplenishmetOrdersReducer from './user-replenishment-orders.reducer';
+import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -86,9 +86,9 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
-    replenishmetOrders: loaderReducer<ReplenishmentOrderList>(
+    replenishmentOrders: loaderReducer<ReplenishmentOrderList>(
       USER_REPLENISHMENT_ORDERS,
-      fromUserReplenishmetOrdersReducer.reducer
+      fromUserReplenishmentOrdersReducer.reducer
     ),
 
     orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),

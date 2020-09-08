@@ -70,9 +70,6 @@ describe('UserReplenishmentOrderConnector', () => {
         },
       ],
     });
-  });
-
-  beforeEach(() => {
     adapter = TestBed.inject(UserReplenishmentOrderAdapter);
     connector = TestBed.inject(UserReplenishmentOrderConnector);
   });
@@ -136,10 +133,13 @@ describe('UserReplenishmentOrderConnector', () => {
     );
   });
 
-  it('getHistory should call adapter', () => {
+  it('loadHistory should call adapter', () => {
     let result;
-    connector.getHistory('user3').subscribe((res) => (result = res));
-    console.log(result);
+    connector
+      .loadHistory('user3')
+      .subscribe((res) => (result = res))
+      .unsubscribe();
+
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadHistory).toHaveBeenCalledWith(
       'user3',
