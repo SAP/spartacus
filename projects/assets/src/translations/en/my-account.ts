@@ -67,6 +67,14 @@ export const myAccount = {
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
+    cancelReplenishment: {
+      title: 'Cancel Replenishment',
+      description: 'Cancel any future replenishment order?',
+      accept: 'Yes',
+      reject: 'No',
+      cancelSuccess:
+        'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',
