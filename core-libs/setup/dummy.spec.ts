@@ -1,6 +1,6 @@
 import { dummy } from '@spartacus/setup';
 
-describe('dummy test', () => {
+describe('dummy', () => {
   it('should be defined', () => {
     expect(dummy).toBeTruthy();
   });
