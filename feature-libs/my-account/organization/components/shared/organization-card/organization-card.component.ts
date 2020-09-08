@@ -1,27 +1,24 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
-import { PromptMessageService } from '../organization-detail/toggle-status-action/prompt/prompt.message.service';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
+import { BaseItem } from '../organization.model';
 
 @Component({
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: MessageService,
-      useExisting: PromptMessageService,
-    },
-  ],
+  providers: [{ provide: MessageService, useClass: MessageService }],
 })
-export class OrganizationCardComponent<T> {
+export class OrganizationCardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 
+  protected itemKey;
+
   item$ = this.itemService.current$.pipe(
-    tap(() => this.messageService.clear())
+    tap((item) => this.refreshMessages(item))
   );
 
   constructor(
@@ -42,5 +39,12 @@ export class OrganizationCardComponent<T> {
 
   get previousLabel(): string {
     return this.previous as string;
+  }
+
+  protected refreshMessages(item: T) {
+    if (item?.code !== this.itemKey) {
+      this.messageService.clear();
+    }
+    this.itemKey = item.code;
   }
 }

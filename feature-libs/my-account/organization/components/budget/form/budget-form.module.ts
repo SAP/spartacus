@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
@@ -12,15 +12,13 @@ import { BudgetFormComponent } from './budget-form.component';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
+    OrganizationFormModule,
     NgSelectModule,
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
     DateTimePickerModule,
     FormErrorsModule,
-
-    OrganizationFormModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

@@ -3,7 +3,7 @@ import { GlobalMessageType, Translatable } from '@spartacus/core';
 
 export class MessageComponentData {
   message?: Translatable;
-  type: GlobalMessageType;
+  type?: GlobalMessageType;
 }
 
 export interface Message {

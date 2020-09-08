@@ -11,6 +11,7 @@ export const budget = {
   dateRange: 'Start - End',
   startDate: 'Start',
   endDate: 'End',
+  actions: '',
 
   byName: 'Sort by name',
   byUnitName: 'Sort by unit',

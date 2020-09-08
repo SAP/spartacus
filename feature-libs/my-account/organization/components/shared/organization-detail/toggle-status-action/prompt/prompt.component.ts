@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseMessageComponent } from '../../../organization-message/base-message.component';
 import { MessageComponentData } from '../../../organization-message/message.model';
-import { PromptMessageService } from './prompt.message.service';
+import { MessageService } from '../../../organization-message/services/message.service';
+import { MessagePromptData } from './prompt.model';
 
 @Component({
   selector: 'cx-prompt',
@@ -11,12 +12,12 @@ import { PromptMessageService } from './prompt.message.service';
 export class PromptMessageComponent extends BaseMessageComponent {
   constructor(
     protected data: MessageComponentData,
-    protected promptMessageService: PromptMessageService
+    protected messageService: MessageService
   ) {
-    super(data);
+    super(data as MessageComponentData);
   }
 
-  handleConfirm() {
-    this.promptMessageService.confirm.emit(this.data);
+  confirm() {
+    (this.data as MessagePromptData<any>).confirm?.next(true);
   }
 }

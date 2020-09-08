@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentRef,
@@ -16,6 +17,7 @@ import { MessageService } from './services/message.service';
 @Component({
   selector: 'cx-organization-message',
   templateUrl: './organization-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationMessageComponent implements OnInit, OnDestroy {
   @ViewChild('vc', { read: ViewContainerRef }) vcr: ViewContainerRef;
@@ -29,7 +31,7 @@ export class OrganizationMessageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.messageService.message$.subscribe((msg) => {
+      this.messageService.get().subscribe((msg) => {
         if (msg) {
           this.render(msg);
         } else {
@@ -43,7 +45,7 @@ export class OrganizationMessageComponent implements OnInit, OnDestroy {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
       this.notificationRenderService.getComponent(msg),
       undefined,
-      this.notificationRenderService.getInjector(msg.data)
+      this.notificationRenderService.getInjector(msg.data, this.vcr.injector)
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
     ref.instance.closeEvent.subscribe(() => ref.destroy());

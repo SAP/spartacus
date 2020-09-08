@@ -1,16 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
+import { MessageService } from '../../organization-message';
 import { MessageComponentData } from '../../organization-message/message.model';
 import { BaseItem } from '../../organization.model';
 import { PromptMessageComponent } from './prompt/prompt.component';
-import { PromptMessageService } from './prompt/prompt.message.service';
 import { MessagePromptData } from './prompt/prompt.model';
 
 @Component({
@@ -18,7 +14,7 @@ import { MessagePromptData } from './prompt/prompt.model';
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem> implements OnInit {
+export class ToggleStatusComponent<T extends BaseItem> {
   @Input() i18nRoot;
 
   protected item: T;
@@ -29,22 +25,19 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit {
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: PromptMessageService
+    protected messageService: MessageService
   ) {}
-
-  ngOnInit() {
-    this.messageService.confirm.subscribe((data: MessagePromptData<T>) => {
-      if (this.item === data.item) {
-        this.messageService.clear();
-        this.update(data.item);
-      }
-    });
-  }
 
   toggleActive(item: T) {
     this.messageService.clear();
 
     if (item.active) {
+      const prompt = new Subject<boolean>();
+      prompt.subscribe(() => {
+        this.messageService.clear();
+        this.update(item);
+      });
+
       this.messageService.add<MessagePromptData<T>>(
         {
           message: {
@@ -52,6 +45,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit {
           },
           type: GlobalMessageType.MSG_TYPE_INFO,
           item: item,
+          confirm: prompt,
         },
         PromptMessageComponent
       );
@@ -60,13 +54,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit {
     }
   }
 
+  /**
+   * Indicates whether the status can be toggled or not.
+   */
   isDisabled(item): boolean {
-    if (item.orgUnit) {
-      return !item.orgUnit?.active;
-    }
-    if (item.unit) {
-      return !item.unit;
-    }
+    return !(item.orgUnit || item.unit)?.active;
   }
 
   protected update(model: T): void {
