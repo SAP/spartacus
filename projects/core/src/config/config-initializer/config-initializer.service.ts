@@ -150,9 +150,9 @@ export class ConfigInitializerService {
       asyncConfigs.push(
         (async () => {
           const initializerConfig = await initializer.configFactory();
-          // contribute configuration to global config
-          deepMerge(this.rootConfig, initializerConfig);
           // contribute configuration to rootConfig
+          deepMerge(this.rootConfig, initializerConfig);
+          // contribute configuration to global config
           deepMerge(this.config, initializerConfig);
           this.finishScopes(initializer.scopes);
         })()
