@@ -4,14 +4,16 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 @Component({
   template: `
     <button class="button action">
-      <cx-icon
-        *ngIf="expanded; else showExpand"
-        type="CARET_UP"
-        (click)="collapse($event)"
-      ></cx-icon>
-      <ng-template #showExpand>
-        <cx-icon type="CARET_DOWN" (click)="expand($event)"></cx-icon>
-      </ng-template>
+      <ng-container *ngIf="count > 0">
+        <cx-icon
+          *ngIf="expanded; else showExpand"
+          type="CARET_RIGHT"
+          (click)="collapse($event)"
+        ></cx-icon>
+        <ng-template #showExpand>
+          <cx-icon type="CARET_DOWN" (click)="expand($event)"></cx-icon>
+        </ng-template>
+      </ng-container>
     </button>
     <a
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"

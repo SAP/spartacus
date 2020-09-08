@@ -10,7 +10,6 @@ export const fontawesomeIconConfig: IconConfig = {
       GRID: 'fas fa-th-large',
       LIST: 'fas fa-bars',
       CARET_DOWN: 'fas fa-angle-down',
-      CARET_UP: 'fas fa-angle-up',
       CARET_RIGHT: 'fas fa-angle-right',
       CARET_LEFT: 'fas fa-angle-left',
       ERROR: 'fas fa-exclamation-circle',
