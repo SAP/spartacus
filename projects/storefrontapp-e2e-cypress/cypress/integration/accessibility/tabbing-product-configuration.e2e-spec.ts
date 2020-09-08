@@ -4,7 +4,6 @@ import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tab
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 
 const testProduct = 'CONF_CAMERA_SL';
-const configurator = 'CPQCONFIGURATOR';
 
 const containerSelectorConfigForm = 'main';
 const containerSelectorOverviewForm = 'main';
@@ -30,7 +29,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       // TODO: Replace implicit wait
       cy.wait(2000);
       verifyTabbingOrder(
@@ -62,7 +61,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.selectAttribute(
         CAMERA_COLOR,
         RADIO_GROUP,

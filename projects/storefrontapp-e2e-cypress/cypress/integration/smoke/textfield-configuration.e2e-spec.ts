@@ -3,7 +3,6 @@ import * as productSearch from '../../helpers/product-search';
 import * as textfiledConfiguration from '../../helpers/textfield-configuration';
 
 const testProduct = '1934793';
-const configurator = 'TEXTFIELD';
 const ENGRAVED_TEXT = 'Engraved Text';
 const HALLO = 'Hallo';
 
@@ -26,7 +25,7 @@ context('Textfield Configuration', () => {
     });
 
     it('should be able to navigate from the cart', () => {
-      textfiledConfiguration.goToConfigurationPage(configurator, testProduct);
+      textfiledConfiguration.goToConfigurationPage(testProduct);
       textfiledConfiguration.isConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
       textfiledConfiguration.clickOnEditConfigurationBtn();
@@ -43,7 +42,7 @@ context('Textfield Configuration', () => {
 
   describe('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
-      textfiledConfiguration.goToConfigurationPage(configurator, testProduct);
+      textfiledConfiguration.goToConfigurationPage(testProduct);
       textfiledConfiguration.isConfigurationPageIsDisplayed();
       textfiledConfiguration.isAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
@@ -51,7 +50,7 @@ context('Textfield Configuration', () => {
     });
 
     it('should be able to update a configured product from the cart', () => {
-      textfiledConfiguration.goToConfigurationPage(configurator, testProduct);
+      textfiledConfiguration.goToConfigurationPage(testProduct);
       textfiledConfiguration.isConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
       textfiledConfiguration.clickOnEditConfigurationBtn();

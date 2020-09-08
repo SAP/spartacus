@@ -5,7 +5,6 @@ import * as productSearch from '../../helpers/product-search';
 
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
-const configurator = 'CPQCONFIGURATOR';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -97,14 +96,14 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the overview page', () => {
-      configurationOverview.goToConfigOverviewPage(configurator, testProduct);
+      configurationOverview.goToConfigOverviewPage(testProduct);
       configurationOverview.navigateToConfigurationPage();
       configuration.isConfigPageDisplayed();
     });
 
     // Failing test
     it('should be able to navigate from the cart', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
@@ -122,7 +121,7 @@ context('Product Configuration', () => {
 
   describe('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
-      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
       configuration.isImageSelected(COLOUR_HT, single_selection_image, WHITE);
@@ -131,7 +130,7 @@ context('Product Configuration', () => {
     });
 
     it('Checkboxes should be still selected after group change', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
@@ -143,7 +142,7 @@ context('Product Configuration', () => {
 
   describe('Group Status', () => {
     it('should set group status for single level product', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -189,7 +188,7 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
-      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.isGroupMenuDisplayed();
 
       // no status should be displayed initially
@@ -252,14 +251,14 @@ context('Product Configuration', () => {
 
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
     it('should check if group buttons are clickable', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
@@ -272,7 +271,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu', () => {
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
 
       configuration.clickOnGroup(2);
@@ -282,14 +281,14 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.clickOnNextBtn(FLAT_PANEL);
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {
-      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnGroup(2);
       configuration.isAttributeDisplayed('CPQ_HT_RECV_MODEL2', dropdown);
     });
@@ -297,7 +296,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('Run through the conflict solving process', () => {
-      configuration.goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
