@@ -19,7 +19,7 @@ export class ConfigurationService implements OnDestroy {
   /**
    * Will emit unified configuration when some ambient configuration will appear
    *
-   * Ambiet configuration can appear when we lazy load module with configuration
+   * Ambient configuration can appear when we lazy load module with configuration
    */
   readonly unifiedConfig$: Observable<any>;
 
