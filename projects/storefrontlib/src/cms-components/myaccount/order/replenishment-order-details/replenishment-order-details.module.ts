@@ -5,6 +5,7 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -19,9 +20,17 @@ import { OrderDetailItemsComponent } from '../order-details/order-detail-items/o
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
+import { defaultReplenishmentOrderCancellationLayoutConfig } from './default-replenishment-order-cancellation-layout.config';
+import {
+  ReplenishmentOrderCancellationComponent,
+  ReplenishmentOrderCancellationDialogComponent,
+} from './replenishment-order-cancellation/index';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
-const moduleComponents = [];
+const moduleComponents = [
+  ReplenishmentOrderCancellationComponent,
+  ReplenishmentOrderCancellationDialogComponent,
+];
 
 @NgModule({
   imports: [
@@ -42,6 +51,7 @@ const moduleComponents = [];
     ]),
   ],
   providers: [
+    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReplenishmentDetailHeadlineComponent: {
@@ -79,6 +89,9 @@ const moduleComponents = [];
               useExisting: ReplenishmentOrderDetailsService,
             },
           ],
+        },
+        ReplenishmentDetailActionsComponent: {
+          component: ReplenishmentOrderCancellationComponent,
         },
       },
     }),

@@ -1,0 +1,33 @@
+<div class="cx-cancel-replenishment-dialog-foreground">
+  <div class="cx-cancel-replenishment-dialog-content">
+    <div class="cx-cancel-replenishment-dialog-header">
+      <h3>
+        {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
+      </h3>
+    </div>
+    <div class="cx-cancel-replenishment-dialog-description">
+      {{ 'orderDetails.cancelReplenishment.description' | cxTranslate }}
+    </div>
+
+    <div class="cx-cancel-replenishment-dialog-body">
+      <div class="cx-cancel-replenishment-btns row">
+        <div class="col-xs-12 col-md-4 col-lg-3">
+          <button
+            class="btn btn-block btn-action"
+            (click)="close('Close Replenishment Dialog')"
+          >
+            {{ 'orderDetails.cancelReplenishment.reject' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-3">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="cancelReplenishment()"
+          >
+            {{ 'orderDetails.cancelReplenishment.accept' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div
+  *ngIf="replenishmentOrderDetails.active"
+  class="cx-cancel-replenishment-btns row"
+>
+  <div class="col-xs-12 col-md-4 col-lg-3">
+    <a class="btn btn-block btn-action">
+      {{ 'common.back' | cxTranslate }}
+    </a>
+  </div>
+  <div class="col-xs-12 col-md-4 col-lg-3">
+    <button class="btn btn-block btn-primary" (click)="openDialog()">
+      {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
+    </button>
+  </div>
+</div>
