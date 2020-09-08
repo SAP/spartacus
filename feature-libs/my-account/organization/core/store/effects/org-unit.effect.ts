@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   EntitiesModel,
   B2BApprovalProcess,
@@ -281,7 +281,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
-    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
@@ -311,7 +311,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
-    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   B2BUserActions,
   PermissionActions,
@@ -245,7 +245,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
     map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .assignApprover(
           payload.userId,
@@ -281,7 +281,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .unassignApprover(
           payload.userId,

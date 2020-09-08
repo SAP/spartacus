@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntitiesModel, CostCenter, normalizeHttpError } from '@spartacus/core';
 import { CostCenterActions, BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
@@ -153,7 +153,7 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
-    switchMap(({ userId, costCenterCode, budgetCode }) =>
+    mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .assignBudget(userId, costCenterCode, budgetCode)
         .pipe(
@@ -183,7 +183,7 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
-    switchMap(({ userId, costCenterCode, budgetCode }) =>
+    mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .unassignBudget(userId, costCenterCode, budgetCode)
         .pipe(
