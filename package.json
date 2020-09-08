@@ -48,7 +48,7 @@
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "ng serve",
     "start:ci:1905": "cross-env SPARTACUS_BASE_URL=https://spartacus-legacy.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/rest/v2/ yarn start:prod",
-    "start:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ yarn start:prod",
+    "start:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev4.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ yarn start:prod",
     "start:ci:ccv2": "cross-env SPARTACUS_BASE_URL=https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com yarn start:prod",
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --ssl",
