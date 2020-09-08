@@ -42,7 +42,6 @@ export class MockTableService {
 
 describe('CostCenterAssignBudgetListService', () => {
   let service: CostCenterAssignBudgetListService;
-  // let costCenterService: CostCenterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,7 +59,6 @@ describe('CostCenterAssignBudgetListService', () => {
       ],
     });
     service = TestBed.inject(CostCenterAssignBudgetListService);
-    // costCenterService = TestBed.inject(CostCenterService);
   });
 
   it('should inject service', () => {
@@ -74,23 +72,5 @@ describe('CostCenterAssignBudgetListService', () => {
     expect(result.data[0].code).toEqual('first');
     expect(result.data[1].code).toEqual('second');
     expect(result.data[2].code).toEqual('third');
-  });
-
-  it('should assign budget', () => {
-    // spyOn(costCenterService, 'assignBudget');
-    // service.toggleAssign('costCenterCode', 'budgetCode');
-    // expect(costCenterService.assignBudget).toHaveBeenCalledWith(
-    //   'costCenterCode',
-    //   'budgetCode'
-    // );
-  });
-
-  it('should unassign budget', () => {
-    // spyOn(costCenterService, 'unassignBudget');
-    // service.toggleAssign('costCenterCode', 'budgetCode', false);
-    // expect(costCenterService.unassignBudget).toHaveBeenCalledWith(
-    //   'costCenterCode',
-    //   'budgetCode'
-    // );
   });
 });

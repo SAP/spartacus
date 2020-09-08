@@ -32,4 +32,4 @@ class MockOrganizationFormService {
     },
   ],
 })
-export class OrganizationEditTestingModule {}
+export class OrganizationFormTestingModule {}

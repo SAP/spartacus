@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { OrganizationMessageComponent } from './organization-message.component';
+import { MessageService } from './services';
 
-describe('OrganizationSubListComponent', () => {
+describe('OrganizationMessageComponent', () => {
   let component: OrganizationMessageComponent;
   let fixture: ComponentFixture<OrganizationMessageComponent>;
 
@@ -12,6 +13,7 @@ describe('OrganizationSubListComponent', () => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, IconTestingModule],
       declarations: [OrganizationMessageComponent],
+      providers: [{ provide: MessageService, useClass: MessageService }],
     }).compileComponents();
   }));
 

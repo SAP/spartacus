@@ -3,17 +3,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CurrencyService, I18nTestingModule } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationEditTestingModule } from '../../shared/organization-form/organization-form.testing.module';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
 
 const mockForm = new FormGroup({
   name: new FormControl(),
@@ -57,17 +56,12 @@ describe('BudgetFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         DateTimePickerModule,
-
-        OrganizationEditTestingModule,
+        OrganizationFormTestingModule,
       ],
       declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
-        },
         { provide: BudgetItemService, useClass: MockOrganizationItemService },
       ],
     }).compileComponents();
@@ -84,10 +78,6 @@ describe('BudgetFormComponent', () => {
     fixture = TestBed.createComponent(BudgetFormComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
