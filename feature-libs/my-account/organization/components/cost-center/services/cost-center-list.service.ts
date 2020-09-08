@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
+import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CostCenterService } from '../../../core/services/cost-center.service';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 

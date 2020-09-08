@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
+import {
+  Budget,
+  CostCenterService,
+} from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
-import { Budget } from '../../../../core/model/budget.model';
-import { CostCenterService } from '../../../../core/services/cost-center.service';
 
 const mockCostCenterEntities: EntitiesModel<Budget> = {
   values: [

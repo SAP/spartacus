@@ -6,8 +6,8 @@ import {
   Currency,
   CurrencyService,
 } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 

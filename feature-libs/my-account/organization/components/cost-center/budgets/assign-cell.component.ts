@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { CostCenterService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  CostCenterService,
+} from '@spartacus/my-account/organization/core';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { Budget } from '../../../core/model/budget.model';
-import { MessageService } from '../../shared';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Component({
   template: `
