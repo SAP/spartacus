@@ -72,8 +72,9 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       uid: unit.id,
       name: unit.name,
       active: unit.active,
-      level,
+      count: unit.children?.length ?? 0,
       expanded: true,
+      level,
     };
   }
 

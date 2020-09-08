@@ -17,7 +17,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [tabIndex]="tabIndex"
     >
-      <span class="text">{{ property }}</span>
+      <span class="text">{{ property }} ({{ count }})</span>
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +36,10 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   get level() {
     return this.model.level;
+  }
+
+  get count() {
+    return this.model.count;
   }
 
   collapse(event: Event) {
