@@ -30,7 +30,7 @@ export class OrganizationFormComponent<T> {
       return this.itemService.current$.pipe(
         map((item) => {
           this.setI18nRoot(item);
-          if (!item) {
+          if (!item && unitUid) {
             // TODO: as long as we do not have harmonized unit property, we have to workaround here,
             item = { orgUnit: { uid: unitUid } } as any;
           }

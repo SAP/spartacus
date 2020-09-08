@@ -45,6 +45,6 @@ export class OrganizationCardComponent<T extends BaseItem> {
     if (item?.code !== this.itemKey) {
       this.messageService.clear();
     }
-    this.itemKey = item.code;
+    this.itemKey = item?.code;
   }
 }

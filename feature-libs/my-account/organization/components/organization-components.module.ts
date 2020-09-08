@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BudgetComponentsModule } from './budget/budget-components.module';
-import { CostCenterComponentsModule } from './cost-center';
+import { CostCenterComponentsModule } from './cost-center/cost-center-components.module';
+import { PermissionComponentsModule } from './permission/permission-components.module';
 
 @NgModule({
   imports: [
@@ -9,7 +10,7 @@ import { CostCenterComponentsModule } from './cost-center';
     // UnitsComponentsModule,
     // UserGroupComponentsModule,
     // UserComponentsModule,
-    // PermissionComponentsModule,
+    PermissionComponentsModule,
     // OrderApprovalComponentsModule,
   ],
 })
