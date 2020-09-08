@@ -54,14 +54,20 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   //   return unitModels;
   // }
 
-  private flat(array: B2BUnitNode[], children: B2BUnitNode[], level) {
+  private flat(
+    array: B2BUnitNode[],
+    children: B2BUnitNode[],
+    level,
+    pagination
+  ) {
     children.forEach((child) => {
-      array.push(this.convertUnit(child, level));
-      this.flat(array, child.children, level + 1);
+      array.push(this.prepareUnit(child, level, pagination));
+      this.flat(array, child.children, level + 1, pagination);
     });
   }
 
-  convertUnit(unit: B2BUnitNode, level) {
+  private prepareUnit(unit: B2BUnitNode, level, pagination) {
+    pagination.totalResults++;
     return {
       uid: unit.id,
       name: unit.name,
@@ -72,11 +78,13 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   protected convertUnits(root: B2BUnitNode): EntitiesModel<B2BUnit> {
-    const level = 0;
+    const level = 0,
+      pagination = { totalResults: 0 };
     const unitModels: EntitiesModel<B2BUnit> = {
-      values: [this.convertUnit(root, level)],
+      values: [this.prepareUnit(root, level, pagination)],
+      pagination,
     };
-    this.flat(unitModels.values, root.children, level + 1);
+    this.flat(unitModels.values, root.children, level + 1, pagination);
     return unitModels;
   }
 }

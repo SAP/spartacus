@@ -1,5 +1,5 @@
 export const unit = {
-  header: 'Units',
+  header: 'All units ({{count}})',
   unit: 'Unit',
   name: 'Name',
   uid: 'ID',
