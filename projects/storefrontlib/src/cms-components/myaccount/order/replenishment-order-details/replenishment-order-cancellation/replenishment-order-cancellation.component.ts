@@ -3,11 +3,11 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
-} from 'projects/storefrontlib/src/layout';
-import { Subscription } from 'rxjs';
+} from '../../../../../layout/launch-dialog/index';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation',
