@@ -13,7 +13,8 @@
 @import './my-interests';
 
 $myaccount-components-whitelist: cx-address-book, cx-order-summary,
-  cx-order-history, cx-order-confirmation-items, cx-order-confirmation-totals,
+  cx-order-history, cx-replenishment-order-details-order-history,
+  cx-order-confirmation-items, cx-order-confirmation-totals,
   cx-order-confirmation-overview, cx-order-confirmation-thank-you-message,
   cx-promotions, cx-order-detail-headline, cx-order-detail-items,
   cx-order-detail-shipping, cx-order-detail-totals, cx-order-detail-totals,

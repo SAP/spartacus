@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   Order,
   OrderHistoryList,
@@ -7,7 +7,7 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap, filter, take } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',
@@ -16,9 +16,9 @@ import { map, tap, filter, take } from 'rxjs/operators';
 })
 export class OrderHistoryComponent implements OnDestroy {
   constructor(
-    private routing: RoutingService,
-    private userOrderService: UserOrderService,
-    private translation: TranslationService
+    protected routing: RoutingService,
+    protected userOrderService: UserOrderService,
+    protected translation: TranslationService
   ) {}
 
   private PAGE_SIZE = 5;
