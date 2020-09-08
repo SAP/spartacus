@@ -4,7 +4,7 @@
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     class="cx-config-select col-6 col-sm-3"
     (click)="onClick(i)"
-    (keyup)="onEnter($event, i)"
+    (keyup)="onKeyUp($event, i)"
     [attr.required]="attribute.required"
     [attr.aria-labelledby]="
       createValueUiKey('label', attribute.name, value.valueCode)

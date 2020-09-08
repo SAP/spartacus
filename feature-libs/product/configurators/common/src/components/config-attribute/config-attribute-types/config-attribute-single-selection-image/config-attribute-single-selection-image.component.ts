@@ -30,12 +30,13 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
   }
 
   /**
-   * Fired on keyboard event
+   * Fired on key board events, checks for 'enter' and 'space' and delegates to onClick.
+   *
    * @param event
    * @param index Index of selected value
    */
-  onEnter(event: KeyboardEvent, index: number): void {
-    if (event.key === 'Enter') {
+  onKeyUp(event: KeyboardEvent, index: number): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.onClick(index);
     }
   }
