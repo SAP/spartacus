@@ -6,7 +6,7 @@ import {
   ConfigurationTextfieldState,
   CONFIGURATION_TEXTFIELD_DATA,
 } from '../configuration-textfield-state';
-import { reducer as configurationReducer } from './configurator-textfield.reducer';
+import { reducer as configuratorTextfieldReducer } from './configurator-textfield.reducer';
 
 export function getConfiguratorTextfieldReducers(): ActionReducerMap<
   ConfigurationTextfieldState
@@ -14,7 +14,7 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<
   return {
     loaderState: StateUtils.loaderReducer<ConfiguratorTextfield.Configuration>(
       CONFIGURATION_TEXTFIELD_DATA,
-      configurationReducer
+      configuratorTextfieldReducer
     ),
   };
 }

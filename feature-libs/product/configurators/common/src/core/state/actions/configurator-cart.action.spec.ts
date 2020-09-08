@@ -1,11 +1,13 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { MULTI_CART_DATA } from '../../../../cart/store/multi-cart-state';
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateUtils } from '../../../../state/utils';
-import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import {
+  Configurator,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  MULTI_CART_DATA,
+  StateUtils,
+} from '@spartacus/core';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -39,7 +41,7 @@ describe('ConfiguratorCartActions', () => {
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
         payload: { configuration: CONFIGURATION, cartEntryNo: cartEntryNo },
         meta: StateUtils.entitySuccessMeta(
-          CONFIGURATION_DATA,
+          CONFIGURATOR_DATA,
           CONFIGURATION.owner.key
         ),
       });

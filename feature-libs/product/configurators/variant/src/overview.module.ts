@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 /**
@@ -12,7 +11,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
  */
 @NgModule({
   imports: [
-    CommonConfiguratorModule,
     RouterModule.forChild([
       {
         path: null,

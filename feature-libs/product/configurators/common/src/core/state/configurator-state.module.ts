@@ -3,9 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { StateModule } from '../../../state/state.module';
-import { CONFIGURATION_FEATURE } from './configuration-state';
-import { configuratorEffects } from './effects/index';
+import { StateModule } from '@spartacus/core';
+import { CONFIGURATOR_FEATURE } from './configurator-state';
+import { ConfiguratorEffects } from './effects/index';
 import {
   configuratorReducerProvider,
   configuratorReducerToken,
@@ -16,9 +16,9 @@ import {
     CommonModule,
     HttpClientModule,
     StateModule,
-    StoreModule.forFeature(CONFIGURATION_FEATURE, configuratorReducerToken),
-    EffectsModule.forFeature(configuratorEffects),
+    StoreModule.forFeature(CONFIGURATOR_FEATURE, configuratorReducerToken),
+    EffectsModule.forFeature(ConfiguratorEffects),
   ],
   providers: [configuratorReducerProvider],
 })
-export class ConfiguratorStoreModule {}
+export class ConfiguratorStateModule {}

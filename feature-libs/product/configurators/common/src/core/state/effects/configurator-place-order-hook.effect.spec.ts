@@ -2,15 +2,17 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import {
+  ActiveCartService,
+  CheckoutActions,
+  GenericConfigUtilsService,
+  OrderEntry,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../../cart/facade/active-cart.service';
-import { PlaceOrder } from '../../../../checkout/store/actions/checkout.action';
-import { OrderEntry } from '../../../../model/order.model';
-import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import * as ConfiguratorActions from '../actions/configurator.action';
-import { CONFIGURATION_FEATURE } from '../configuration-state';
+import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfiguratorActions } from './../actions/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
 
 const cartEntryWOconfiguration: OrderEntry[] = [
@@ -72,7 +74,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
+          CONFIGURATOR_FEATURE,
           fromConfigurationReducers.getConfiguratorReducers()
         ),
       ],
@@ -110,7 +112,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       of(cartEntryWithconfiguration)
     );
 
-    const action = new PlaceOrder({
+    const action = new CheckoutActions.PlaceOrder({
       cartId: '',
       userId: '',
     });
@@ -129,7 +131,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       of(cartEntryWOconfiguration)
     );
 
-    const action = new PlaceOrder({
+    const action = new CheckoutActions.PlaceOrder({
       cartId: '',
       userId: '',
     });

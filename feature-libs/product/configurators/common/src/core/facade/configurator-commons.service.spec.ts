@@ -5,19 +5,21 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
-  ConfigurationState,
-  CONFIGURATION_FEATURE,
   Configurator,
-  ConfiguratorActions,
   GenericConfigurator,
   GenericConfigUtilsService,
-  getConfiguratorReducers,
   StateUtils,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import {
+  ConfiguratorState,
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../state/configurator-state';
 import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
+import { ConfiguratorActions } from './../state/actions/index';
+import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
@@ -72,7 +74,7 @@ const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
-const configurationState: ConfigurationState = {
+const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
@@ -132,7 +134,7 @@ describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
   let configuratorUtilsService: ConfiguratorUtilsService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorCartService: ConfiguratorCartService;
   configOrderObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
@@ -144,7 +146,7 @@ describe('ConfiguratorCommonsService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATION_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCommonsService,
@@ -207,7 +209,7 @@ describe('ConfiguratorCommonsService', () => {
       ...productConfiguration,
       loading: false,
     };
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );

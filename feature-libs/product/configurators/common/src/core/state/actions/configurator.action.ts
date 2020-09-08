@@ -1,7 +1,5 @@
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateUtils } from '../../../../state/utils';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import { Configurator, GenericConfigurator, StateUtils } from '@spartacus/core';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -54,7 +52,7 @@ export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: GenericConfigurator.Owner) {
-    super(CONFIGURATION_DATA, payload.key);
+    super(CONFIGURATOR_DATA, payload.key);
   }
 }
 
@@ -66,14 +64,14 @@ export class CreateConfigurationFail extends StateUtils.EntityFailAction {
       error: any;
     }
   ) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class CreateConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -85,28 +83,28 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
       groupId: string;
     }
   ) {
-    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
 }
 
 export class ReadConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class ReadConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CONFIGURATION;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
     this.meta.loader = {
       load: true,
     };
@@ -118,7 +116,7 @@ export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrement
   constructor(
     public payload: { configuration: Configurator.Configuration; error: any }
   ) {
-    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
     this.meta.loader = {
       error: payload.error,
     };
@@ -128,41 +126,41 @@ export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrement
 export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_PRICE_SUMMARY;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -175,35 +173,35 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
       parentGroupId: string;
     }
   ) {
-    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
 }
 
 export class ChangeGroupFinalize extends StateUtils.EntityLoadAction {
   readonly type = CHANGE_GROUP_FINALIZE;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(public payload: { ownerKey: string | string[] }) {
-    super(CONFIGURATION_DATA, payload.ownerKey);
+    super(CONFIGURATOR_DATA, payload.ownerKey);
   }
 }
 
 export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
   readonly type = GET_CONFIGURATION_OVERVIEW;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
@@ -212,7 +210,7 @@ export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAct
   constructor(
     public payload: { ownerKey: string; overview: Configurator.Overview }
   ) {
-    super(CONFIGURATION_DATA, payload.ownerKey);
+    super(CONFIGURATOR_DATA, payload.ownerKey);
   }
 }
 
@@ -225,7 +223,7 @@ export class SetInteractionState extends StateUtils.EntitySuccessAction {
       interactionState: Configurator.InteractionState;
     }
   ) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.interactionState);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.interactionState);
   }
 }
 
@@ -235,7 +233,7 @@ export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: { entityKey: string | string[]; currentGroup: string }
   ) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.currentGroup);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.currentGroup);
   }
 }
 
@@ -245,14 +243,14 @@ export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: { entityKey: string | string[]; menuParentGroup: string }
   ) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.menuParentGroup);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.menuParentGroup);
   }
 }
 
 export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_VISITED;
   constructor(public payload: { entityKey: string; visitedGroups: string[] }) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.visitedGroups);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.visitedGroups);
   }
 }
 
@@ -262,7 +260,7 @@ export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: { entityKey: string; completedGroups: string[] }
   ) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.completedGroups);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.completedGroups);
   }
 }
 
@@ -271,7 +269,7 @@ export class SetGroupsError extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_ERROR;
 
   constructor(public payload: { entityKey: string; errorGroups: string[] }) {
-    super(CONFIGURATION_DATA, payload.entityKey, payload.errorGroups);
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.errorGroups);
   }
 }
 

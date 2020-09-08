@@ -1,5 +1,4 @@
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
@@ -13,7 +12,7 @@ export const initialState: Configurator.Configuration = {
 };
 export const initialStatePendingChanges = 0;
 
-export function reducer(
+export function configuratorReducer(
   state = initialState,
   action:
     | ConfiguratorActions.ConfiguratorAction

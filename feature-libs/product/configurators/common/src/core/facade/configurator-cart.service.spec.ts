@@ -2,23 +2,25 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromReducers from '@spartacus/core';
 import {
   ActiveCartService,
   Cart,
-  CONFIGURATION_FEATURE,
   Configurator,
-  ConfiguratorActions,
   GenericConfigurator,
   GenericConfigUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
   StateUtils,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import {
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../state/configurator-state';
+import { ConfiguratorActions } from './../state/actions/index';
+import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
@@ -73,7 +75,7 @@ class MockActiveCartService {
 
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
@@ -82,10 +84,7 @@ describe('ConfiguratorCartService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCartService,
@@ -101,7 +100,7 @@ describe('ConfiguratorCartService', () => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );

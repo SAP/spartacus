@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
-import { MULTI_CART_DATA } from '../../../../cart/store/multi-cart-state';
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateUtils } from '../../../../state/utils';
-import { EntityProcessesIncrementAction } from '../../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import {
+  Configurator,
+  GenericConfigurator,
+  MULTI_CART_DATA,
+  StateUtils,
+} from '@spartacus/core';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read Cart Entry Configuration';
@@ -33,21 +34,21 @@ export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   constructor(
     public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
@@ -56,32 +57,32 @@ export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   constructor(
     public payload: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
   ) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
 
-export class AddToCart extends EntityProcessesIncrementAction {
+export class AddToCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_TO_CART;
   constructor(public payload: Configurator.AddToCartParameters) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class UpdateCartEntry extends EntityProcessesIncrementAction {
+export class UpdateCartEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CART_ENTRY;
   constructor(
     public payload: Configurator.UpdateConfigurationForCartEntryParameters
@@ -104,7 +105,7 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
       cartEntryNo: string;
     }
   ) {
-    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
 }
 

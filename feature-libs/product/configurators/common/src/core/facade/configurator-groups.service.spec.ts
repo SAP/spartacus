@@ -1,12 +1,9 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  ConfiguratorActions,
-  StateWithConfiguration,
-} from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { StateWithConfigurator } from '../state/configurator-state';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
@@ -14,6 +11,7 @@ import {
   productConfiguration,
   productConfigurationWithConflicts,
 } from './../../shared/testing/configuration-test-data';
+import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
@@ -29,7 +27,7 @@ class MockConfiguratorCartService {
 
 describe('ConfiguratorGroupsService', () => {
   let classUnderTest: ConfiguratorGroupsService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configGroupStatusService: ConfiguratorGroupStatusService;
   let configFacadeUtilsService: ConfiguratorUtilsService;
@@ -57,7 +55,7 @@ describe('ConfiguratorGroupsService', () => {
     classUnderTest = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );

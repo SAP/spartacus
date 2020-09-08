@@ -14,8 +14,8 @@ import { ConfigurationRouter } from './config-router-data';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
-  protected routeFragmentConfigure = 'configure';
-  protected routeFragmentConfigureOverview = 'configureOverview';
+  protected readonly ROUTE_FRAGMENT_CONFIGURE = 'configure';
+  protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
   constructor(
     protected configUtilsService: GenericConfigUtilsService,
     protected routingService: RoutingService
@@ -43,7 +43,7 @@ export class ConfigRouterExtractorService {
             routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
           pageType: routingData.state.semanticRoute.includes(
-            this.routeFragmentConfigureOverview
+            this.ROUTE_FRAGMENT_OVERVIEW
           )
             ? ConfigurationRouter.PageType.OVERVIEW
             : ConfigurationRouter.PageType.CONFIGURATION,
@@ -72,15 +72,17 @@ export class ConfigRouterExtractorService {
     return owner;
   }
 
-  protected getConfiguratorTypeFromSemanticRoute(route: string): string {
+  protected getConfiguratorTypeFromSemanticRoute(
+    semanticRoute: string
+  ): string {
     let configuratorType: string;
-    if (route.includes(this.routeFragmentConfigureOverview)) {
-      configuratorType = route
-        .split(this.routeFragmentConfigureOverview)[1]
+    if (semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)) {
+      configuratorType = semanticRoute
+        .split(this.ROUTE_FRAGMENT_OVERVIEW)[1]
         .split('/')[0];
-    } else if (route.includes(this.routeFragmentConfigure)) {
-      configuratorType = route
-        .split(this.routeFragmentConfigure)[1]
+    } else if (semanticRoute.includes(this.ROUTE_FRAGMENT_CONFIGURE)) {
+      configuratorType = semanticRoute
+        .split(this.ROUTE_FRAGMENT_CONFIGURE)[1]
         .split('/')[0];
     }
     return configuratorType;

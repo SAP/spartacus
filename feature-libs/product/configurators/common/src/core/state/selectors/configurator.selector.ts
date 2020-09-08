@@ -3,37 +3,31 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Configurator } from '../../../../model/configurator.model';
-import { StateUtils } from '../../../../state/utils';
-import { EntityLoaderState } from '../../../../state/utils/entity-loader/entity-loader-state';
-import { ProcessesLoaderState } from '../../../../state/utils/processes-loader/processes-loader-state';
+import { Configurator, StateUtils } from '@spartacus/core';
 import {
-  ConfigurationState,
-  CONFIGURATION_FEATURE,
-  StateWithConfiguration,
-} from '../configuration-state';
-
-// const getConfigurationContentSelector = (state: ConfigurationState) =>
-//   state.content;
+  ConfiguratorState,
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../configurator-state';
 
 export const getConfigurationsState: MemoizedSelector<
-  StateWithConfiguration,
-  ConfigurationState
-> = createFeatureSelector<ConfigurationState>(CONFIGURATION_FEATURE);
+  StateWithConfigurator,
+  ConfiguratorState
+> = createFeatureSelector<ConfiguratorState>(CONFIGURATOR_FEATURE);
 
 export const getConfigurationState: MemoizedSelector<
-  StateWithConfiguration,
-  EntityLoaderState<Configurator.Configuration>
+  StateWithConfigurator,
+  StateUtils.EntityLoaderState<Configurator.Configuration>
 > = createSelector(
   getConfigurationsState,
-  (state: ConfigurationState) => state.configurations
+  (state: ConfiguratorState) => state.configurations
 );
 
 export const getConfigurationProcessLoaderStateFactory = (
   code: string
 ): MemoizedSelector<
-  StateWithConfiguration,
-  ProcessesLoaderState<Configurator.Configuration>
+  StateWithConfigurator,
+  StateUtils.ProcessesLoaderState<Configurator.Configuration>
 > => {
   return createSelector(getConfigurationState, (details) =>
     StateUtils.entityProcessesLoaderStateSelector(details, code)
@@ -42,7 +36,7 @@ export const getConfigurationProcessLoaderStateFactory = (
 
 export const hasPendingChanges = (
   code: string
-): MemoizedSelector<StateWithConfiguration, boolean> => {
+): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationState, (details) =>
     StateUtils.entityHasPendingProcessesSelector(details, code)
   );
@@ -50,7 +44,7 @@ export const hasPendingChanges = (
 
 export const getConfigurationFactory = (
   code: string
-): MemoizedSelector<StateWithConfiguration, Configurator.Configuration> => {
+): MemoizedSelector<StateWithConfigurator, Configurator.Configuration> => {
   return createSelector(
     getConfigurationProcessLoaderStateFactory(code),
     (configurationState) => StateUtils.loaderValueSelector(configurationState)
@@ -59,7 +53,7 @@ export const getConfigurationFactory = (
 
 export const getCurrentGroup = (
   ownerKey: string
-): MemoizedSelector<StateWithConfiguration, string> => {
+): MemoizedSelector<StateWithConfigurator, string> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
     (configuration) =>
@@ -70,7 +64,7 @@ export const getCurrentGroup = (
 export const getGroupStatus = (
   ownerKey: string,
   groupId: string
-): MemoizedSelector<StateWithConfiguration, Configurator.GroupStatus> => {
+): MemoizedSelector<StateWithConfigurator, Configurator.GroupStatus> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
     (configuration) =>
@@ -81,7 +75,7 @@ export const getGroupStatus = (
 export const isGroupVisited = (
   ownerKey: string,
   groupId: string
-): MemoizedSelector<StateWithConfiguration, boolean> => {
+): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
     (configuration) =>
@@ -92,7 +86,7 @@ export const isGroupVisited = (
 export const areGroupsVisited = (
   ownerKey: string,
   groupIds: string[]
-): MemoizedSelector<StateWithConfiguration, boolean> => {
+): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
     let isVisited = true;
     groupIds.forEach((groupId) => {

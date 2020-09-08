@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfiguratorActions, StateWithConfiguration } from '@spartacus/core';
 import { of } from 'rxjs';
+import { StateWithConfigurator } from '../state/configurator-state';
 import {
   GROUP_ID_1,
   GROUP_ID_3,
@@ -14,12 +14,13 @@ import {
   productConfiguration,
   productConfigurationWithConflicts,
 } from './../../shared/testing/configuration-test-data';
+import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurator>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,7 +33,7 @@ describe('ConfiguratorGroupStatusService', () => {
     classUnderTest = TestBed.inject(
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));

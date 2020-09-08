@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateUtils } from '../../../../state/utils';
-import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import {
+  Configurator,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  StateUtils,
+} from '@spartacus/core';
+import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -53,7 +55,7 @@ describe('ConfiguratorActions', () => {
             groupId: GROUP_ID,
           },
           meta: StateUtils.entityLoadMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });
@@ -74,7 +76,7 @@ describe('ConfiguratorActions', () => {
             error: error,
           },
           meta: StateUtils.entityFailMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             PRODUCT_CODE,
             error
           ),
@@ -91,7 +93,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
           meta: StateUtils.entitySuccessMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });
@@ -110,7 +112,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
           payload: CONFIGURATION,
           meta: {
-            entityType: CONFIGURATION_DATA,
+            entityType: CONFIGURATOR_DATA,
             entityId: CONFIGURATION.owner.key,
             loader: { load: true },
             processesCountDiff: 1,
@@ -134,7 +136,7 @@ describe('ConfiguratorActions', () => {
             error: error,
           },
           meta: {
-            entityType: CONFIGURATION_DATA,
+            entityType: CONFIGURATOR_DATA,
             entityId: CONFIGURATION.owner.key,
             loader: { error: error },
             processesCountDiff: -1,
@@ -152,7 +154,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
           meta: StateUtils.entityProcessesDecrementMeta(
-            CONFIGURATION_DATA,
+            CONFIGURATOR_DATA,
             CONFIGURATION.owner.key
           ),
         });
