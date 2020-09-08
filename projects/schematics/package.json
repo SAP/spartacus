@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.1.0-next.0",
+  "version": "2.1.0-next.1",
   "description": "Spartacus schematics",
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",

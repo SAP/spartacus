@@ -273,7 +273,7 @@ describe('SplitViewService', () => {
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(0);
+      expect(result).toEqual(1);
     });
 
     it('should keep the activeView for the position if hide is forced', () => {

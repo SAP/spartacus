@@ -9,8 +9,8 @@ import { TableComponent } from './table.component';
 import { Table, TableHeader } from './table.model';
 
 const headers: TableHeader[] = [
-  { key: 'key1', sortCode: 'sort1' },
-  { key: 'key2', sortCode: 'sort2' },
+  { key: 'key1' },
+  { key: 'key2' },
   { key: 'key3', label: 'label3' },
 ];
 
@@ -73,24 +73,24 @@ describe('TableComponent', () => {
     expect(table.nativeElement).toBeTruthy();
   });
 
-  it('should add the table type to cx-table-type attribute in devMode', () => {
+  it('should add the table type to __cx-table-type attribute in devMode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
     const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
     expect(attr).toEqual('test-1');
   });
 
-  it('should not add the table type to cx-table-type attribute in production mode', () => {
+  it('should not add the table type to __cx-table-type attribute in production mode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
 
     const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
     expect(attr).toBeFalsy();
   });
 
@@ -188,24 +188,6 @@ describe('TableComponent', () => {
         By.css('table td:nth-child(3)')
       ).nativeElement;
       expect(td3.classList).toContain('key3');
-    });
-
-    describe('sort data', () => {
-      it('should emit event if header has sortCode', () => {
-        spyOn(tableComponent.sortEvent, 'emit');
-        tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[0]);
-        expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
-          headers[0].sortCode
-        );
-      });
-
-      it('should not emit event if header has no sortCode', () => {
-        spyOn(tableComponent.sortEvent, 'emit');
-        tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[2]);
-        expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
-      });
     });
   });
 });
