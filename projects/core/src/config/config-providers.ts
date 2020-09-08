@@ -1,4 +1,4 @@
-import { Provider } from '@angular/core';
+import { FactoryProvider, ValueProvider } from '@angular/core';
 import { ConfigChunk, DefaultConfigChunk } from './config-injectors';
 
 /**
@@ -11,7 +11,7 @@ import { ConfigChunk, DefaultConfigChunk } from './config-injectors';
 export function provideConfig(
   config: any = {},
   defaultConfig = false
-): Provider {
+): ValueProvider {
   return {
     provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
     useValue: config,
@@ -31,7 +31,7 @@ export function provideConfigFactory(
   configFactory: Function,
   deps?: any[],
   defaultConfig = false
-): Provider {
+): FactoryProvider {
   return {
     provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
     useFactory: configFactory,
@@ -45,7 +45,7 @@ export function provideConfigFactory(
  *
  * @param config Config object to merge with the default configuration
  */
-export function provideDefaultConfig(config: any = {}): Provider {
+export function provideDefaultConfig(config: any = {}): ValueProvider {
   return {
     provide: DefaultConfigChunk,
     useValue: config,
@@ -62,7 +62,7 @@ export function provideDefaultConfig(config: any = {}): Provider {
 export function provideDefaultConfigFactory(
   configFactory: Function,
   deps?: any[]
-): Provider {
+): FactoryProvider {
   return {
     provide: DefaultConfigChunk,
     useFactory: configFactory,

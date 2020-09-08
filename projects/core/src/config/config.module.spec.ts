@@ -15,10 +15,8 @@ describe('ConfigModule', () => {
     test3: 3 * 5,
   });
 
-  it('forRoot should provide a configuration token', () => {
-    TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot()],
-    });
+  it('configuration token should expose configuration', () => {
+    TestBed.configureTestingModule({});
 
     const config = TestBed.inject(Config);
     expect(config).toBeTruthy();
@@ -26,7 +24,6 @@ describe('ConfigModule', () => {
 
   it('provideConfig should provide configuration', () => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot()],
       providers: [provideConfig({ test: 'config' })],
     });
 
@@ -47,10 +44,7 @@ describe('ConfigModule', () => {
 
   it('should allow to provide config with ConfigModule.withConfig', () => {
     TestBed.configureTestingModule({
-      imports: [
-        ConfigModule.withConfig({ test1: 'test1' }),
-        ConfigModule.forRoot(),
-      ],
+      imports: [ConfigModule.withConfig({ test1: 'test1' })],
     });
 
     const config = TestBed.inject(Config);
@@ -61,10 +55,7 @@ describe('ConfigModule', () => {
 
   it('should allow to provide config with ConfigModule.withConfigFactory', () => {
     TestBed.configureTestingModule({
-      imports: [
-        ConfigModule.withConfigFactory(exampleConfigFactory),
-        ConfigModule.forRoot(),
-      ],
+      imports: [ConfigModule.withConfigFactory(exampleConfigFactory)],
     });
 
     const config = TestBed.inject(Config);
@@ -73,7 +64,6 @@ describe('ConfigModule', () => {
 
   it('should allow to provide config with provideConfigFactory', () => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot()],
       providers: [provideConfigFactory(exampleConfigFactory)],
     });
 

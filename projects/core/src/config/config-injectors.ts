@@ -9,12 +9,18 @@ export const Config = new InjectionToken('Configuration', {
   factory: () => deepMerge({}, inject(DefaultConfig), inject(RootConfig)),
 });
 
+/**
+ * Default Configuration token, used to build Global Configuration, built from DefaultConfigChunks
+ */
 export const DefaultConfig = new InjectionToken('DefaultConfiguration', {
   providedIn: 'root',
   factory: () =>
     deepMerge({}, ...(inject(DefaultConfigChunk, InjectFlags.Optional) ?? [])),
 });
 
+/**
+ * Root Configuration token, used to build Global Configuration, built from ConfigChunks
+ */
 export const RootConfig = new InjectionToken('RootConfiguration', {
   providedIn: 'root',
   factory: () =>
