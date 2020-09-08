@@ -6,6 +6,7 @@ export const unit = {
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
   back: 'Back',
+  active: 'Status',
   confirmDeactivation: {
     title: 'Disable Unit',
     message: 'Are you sure you want to disable this unit?',

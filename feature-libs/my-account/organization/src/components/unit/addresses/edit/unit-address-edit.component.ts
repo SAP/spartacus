@@ -45,7 +45,7 @@ export class UnitAddressEditComponent {
       this.code$.pipe(take(1)).subscribe((code) => {
         this.orgUnitsService.updateAddress(code, form.value.id, form.value);
         this.routingService.go({
-          cxRoute: 'orgUnitAddressDetails',
+          cxRoute: 'unitAddressDetails',
           params: { id: form.value.id, uid: code },
         });
       });

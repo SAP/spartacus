@@ -123,11 +123,7 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUsers.data.orgUnit" let-model>
-    <a
-      [routerLink]="
-        { cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl
-      "
-    >
+    <a [routerLink]="{ cxRoute: 'unitDetails', params: model.orgUnit } | cxUrl">
       {{ model.orgUnit?.name }}
       <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
     </a>

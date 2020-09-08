@@ -18,9 +18,15 @@ import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.compo
 import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitEditComponent } from './edit/unit-edit.component';
-import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { UnitListService } from './services/unit-list.service';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { UnitItemService } from './services/unit-item.service';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -33,57 +39,57 @@ const paramsMapping: ParamsMapping = {
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      orgUnits: {
+      unit: {
         paths: ['organization/units'],
       },
-      orgUnitCreate: {
+      unitCreate: {
         paths: ['organization/units/create'],
       },
-      orgUnitDetails: {
+      unitDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      orgUnitEdit: {
+      unitEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      orgUnitChildren: {
+      unitChildren: {
         paths: [`${listPath}/children`],
         paramsMapping,
       },
-      orgUnitUsers: {
+      unitUsers: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
-      orgUnitAssignRoles: {
+      unitAssignRoles: {
         paths: [`${listPath}/users/roles/assign`],
         paramsMapping,
       },
-      orgUnitApprovers: {
+      unitApprovers: {
         paths: [`${listPath}/approvers`],
         paramsMapping,
       },
-      orgUnitAssignApprovers: {
+      unitAssignApprovers: {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      orgUnitManageAddresses: {
+      unitManageAddresses: {
         paths: [`${listPath}/addresses`],
         paramsMapping,
       },
-      orgUnitAddressDetails: {
+      unitAddressDetails: {
         paths: [`${listPath}/addresses/:id`],
         paramsMapping,
       },
-      orgUnitAddressCreate: {
+      unitAddressCreate: {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      orgUnitAddressEdit: {
+      unitAddressEdit: {
         paths: [`${listPath}/addresses/:id/edit`],
         paramsMapping,
       },
-      orgUnitCostCenters: {
+      unitCostCenters: {
         paths: [`${listPath}/cost-centers`],
         paramsMapping,
       },
@@ -94,7 +100,17 @@ export const unitsRoutingConfig: RoutingConfig = {
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
-      component: UnitListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UnitListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: UnitItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
@@ -183,6 +199,19 @@ export function unitsTableConfigFactory(): TableConfig {
 
 export const unitsTableConfig: TableConfig = {
   table: {
+    [OrganizationTableType.UNIT]: {
+      cells: ['name', 'active', 'uid'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ToggleLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+        },
+      },
+    },
     [OrganizationTableType.UNIT_USERS]: {
       cells: ['summary', 'link'],
       options: {
@@ -215,7 +244,7 @@ export const unitsTableConfig: TableConfig = {
         },
       },
       lg: {
-        cells: ['name', 'email', 'roles', 'orgUnit'],
+        cells: ['name', 'email', 'roles', 'unit'],
         options: {},
       },
     },

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitFormService {
+export class UnitFormService extends OrganizationFormService<B2BUnit> {
   getForm(model?: B2BUnit): FormGroup {
-    const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      form.patchValue(model);
-    }
+    const form = super.getForm(model);
     // disable parent unit select for root units
     if (model?.active && !model.parentOrgUnit?.uid) {
       form.removeControl('parentOrgUnit');
@@ -19,7 +16,8 @@ export class UnitFormService {
     return form;
   }
 
-  protected build(form: FormGroup) {
+  protected build() {
+    const form = new FormGroup({});
     form.setControl('uid', new FormControl('', Validators.required));
     form.setControl('name', new FormControl('', Validators.required));
 
@@ -35,5 +33,6 @@ export class UnitFormService {
         code: new FormControl(null),
       })
     );
+    this.form = form;
   }
 }
