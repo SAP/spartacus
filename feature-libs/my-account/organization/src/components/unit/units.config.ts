@@ -244,7 +244,7 @@ export const unitsTableConfig: TableConfig = {
         },
       },
       lg: {
-        cells: ['name', 'email', 'roles', 'unit'],
+        cells: ['name', 'email', 'roles', 'orgUnit'],
         options: {},
       },
     },
