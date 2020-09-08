@@ -6,8 +6,8 @@ import {
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { ICON_TYPE } from '../../../../../../cms-components/misc/icon/icon.model';
-import { LaunchDialogService } from '../../../../../../layout/launch-dialog/services/launch-dialog.service';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation-dialog',

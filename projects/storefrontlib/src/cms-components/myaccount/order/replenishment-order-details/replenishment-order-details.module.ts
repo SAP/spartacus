@@ -11,8 +11,11 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { CardModule } from '../../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import {
+  CardModule,
+  ReplenishmentOrderCancellationDialogModule,
+  SpinnerModule,
+} from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailHeadlineComponent } from '../order-details/order-detail-headline/order-detail-headline.component';
@@ -21,16 +24,10 @@ import { OrderDetailShippingComponent } from '../order-details/order-detail-ship
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from './default-replenishment-order-cancellation-layout.config';
-import {
-  ReplenishmentOrderCancellationComponent,
-  ReplenishmentOrderCancellationDialogComponent,
-} from './replenishment-order-cancellation/index';
+import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation/replenishment-order-cancellation.component';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
-const moduleComponents = [
-  ReplenishmentOrderCancellationComponent,
-  ReplenishmentOrderCancellationDialogComponent,
-];
+const moduleComponents = [ReplenishmentOrderCancellationComponent];
 
 @NgModule({
   imports: [
@@ -40,6 +37,7 @@ const moduleComponents = [
     I18nModule,
     PromotionsModule,
     UrlModule,
+    ReplenishmentOrderCancellationDialogModule,
     SpinnerModule,
     RouterModule.forChild([
       {
