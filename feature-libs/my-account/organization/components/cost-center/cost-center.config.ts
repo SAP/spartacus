@@ -15,8 +15,8 @@ import { OrganizationCellComponent } from '../shared/organization-table/organiza
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
-import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
+import { CostCenterBudgetListComponent } from './budgets';
+import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterFormComponent } from './form/cost-center-form.component';
 import { CostCenterItemService } from './services/cost-center-item.service';
@@ -78,11 +78,11 @@ export const costCenterCmsConfig: CmsConfig = {
           children: [
             {
               path: 'budgets',
-              component: CostCenterBudgetListComponent,
+              component: CostCenterAssignedBudgetListComponent,
             },
             {
               path: 'budgets/assign',
-              component: CostCenterAssignBudgetsComponent,
+              component: CostCenterBudgetListComponent,
             },
           ],
         },

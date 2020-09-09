@@ -31,6 +31,8 @@ class MockCostCenterService {
   getBudgets(): Observable<EntitiesModel<Budget>> {
     return of(mockCostCenterEntities);
   }
+  assignBudget() {}
+  unassignBudget() {}
 }
 
 @Injectable()
@@ -40,7 +42,7 @@ export class MockTableService {
   }
 }
 
-describe('CostCenterBudgetListService', () => {
+describe('CostCenterAssignBudgetListService', () => {
   let service: CostCenterBudgetListService;
 
   beforeEach(() => {
@@ -65,11 +67,12 @@ describe('CostCenterBudgetListService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should filter selected budgets', () => {
+  it('should not filter selected budgets', () => {
     let result: Table<Budget>;
     service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(2);
+    expect(result.data.length).toEqual(3);
     expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('third');
+    expect(result.data[1].code).toEqual('second');
+    expect(result.data[2].code).toEqual('third');
   });
 });

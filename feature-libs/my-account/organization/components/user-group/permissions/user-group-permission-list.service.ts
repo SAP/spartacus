@@ -33,10 +33,9 @@ export class UserGroupPermissionListService extends OrganizationListService<
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<Permission>> {
-    const config = structure.options?.pagination;
     return this.userGroupService.getAvailableOrderApprovalPermissions(
       code,
-      config
+      structure.options?.pagination
     );
   }
 

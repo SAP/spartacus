@@ -8,7 +8,7 @@ import {
 } from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
+import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budget-list.service';
 
 const mockCostCenterEntities: EntitiesModel<Budget> = {
   values: [
@@ -31,8 +31,6 @@ class MockCostCenterService {
   getBudgets(): Observable<EntitiesModel<Budget>> {
     return of(mockCostCenterEntities);
   }
-  assignBudget() {}
-  unassignBudget() {}
 }
 
 @Injectable()
@@ -42,14 +40,14 @@ export class MockTableService {
   }
 }
 
-describe('CostCenterAssignBudgetListService', () => {
-  let service: CostCenterAssignBudgetListService;
+describe('CostCenterAssignedBudgetListService', () => {
+  let service: CostCenterAssignedBudgetListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        CostCenterAssignBudgetListService,
+        CostCenterAssignedBudgetListService,
         {
           provide: CostCenterService,
           useClass: MockCostCenterService,
@@ -60,19 +58,18 @@ describe('CostCenterAssignBudgetListService', () => {
         },
       ],
     });
-    service = TestBed.inject(CostCenterAssignBudgetListService);
+    service = TestBed.inject(CostCenterAssignedBudgetListService);
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should not filter selected budgets', () => {
+  it('should filter selected budgets', () => {
     let result: Table<Budget>;
     service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
+    expect(result.data.length).toEqual(2);
     expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    expect(result.data[1].code).toEqual('third');
   });
 });

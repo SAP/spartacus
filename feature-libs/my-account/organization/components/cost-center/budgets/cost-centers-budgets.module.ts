@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { OrganizationListModule } from '../../shared/organization-list/organization-list.module';
 import { OrganizationSubListModule } from '../../shared/organization-sub-list/organization-sub-list.module';
-import { CostCenterAssignBudgetsComponent } from './assign/cost-center-assign-budgets.component';
-import { CostCenterBudgetListComponent } from './list/cost-center-budget-list.component';
+import { CostCenterAssignedBudgetListComponent } from './assigned/cost-center-assigned-budget-list.component';
+import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { CostCenterBudgetListComponent } from './list/cost-center-budget-list.co
     OrganizationSubListModule,
   ],
   declarations: [
-    CostCenterAssignBudgetsComponent,
+    CostCenterAssignedBudgetListComponent,
     CostCenterBudgetListComponent,
   ],
 })

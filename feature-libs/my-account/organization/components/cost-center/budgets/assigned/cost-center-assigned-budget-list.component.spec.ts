@@ -2,14 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
-import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
+import { CostCenterAssignedBudgetListComponent } from './cost-center-assigned-budget-list.component';
+import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budget-list.service';
 
-class MockCostCenterAssignBudgetListService {}
+class MockCostCenterBudgetListService {}
 
-describe('CostCenterAssignBudgetsComponent', () => {
-  let component: CostCenterAssignBudgetsComponent;
-  let fixture: ComponentFixture<CostCenterAssignBudgetsComponent>;
+describe('CostCenterBudgetListComponent', () => {
+  let component: CostCenterAssignedBudgetListComponent;
+  let fixture: ComponentFixture<CostCenterAssignedBudgetListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,16 +20,16 @@ describe('CostCenterAssignBudgetsComponent', () => {
       ],
       providers: [
         {
-          provide: CostCenterAssignBudgetListService,
-          useClass: MockCostCenterAssignBudgetListService,
+          provide: CostCenterAssignedBudgetListService,
+          useClass: MockCostCenterBudgetListService,
         },
       ],
-      declarations: [CostCenterAssignBudgetsComponent],
+      declarations: [CostCenterAssignedBudgetListComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterAssignBudgetsComponent);
+    fixture = TestBed.createComponent(CostCenterAssignedBudgetListComponent);
     component = fixture.componentInstance;
   });
 

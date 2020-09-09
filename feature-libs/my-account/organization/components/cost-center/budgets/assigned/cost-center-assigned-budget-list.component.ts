@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
-import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
+import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budget-list.service';
 
 @Component({
-  templateUrl: './cost-center-assign-budgets.component.html',
+  templateUrl: './cost-center-assigned-budget-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: OrganizationListService,
-      useExisting: CostCenterAssignBudgetListService,
+      useExisting: CostCenterAssignedBudgetListService,
     },
   ],
 })
-export class CostCenterAssignBudgetsComponent {}
+export class CostCenterAssignedBudgetListComponent {}
