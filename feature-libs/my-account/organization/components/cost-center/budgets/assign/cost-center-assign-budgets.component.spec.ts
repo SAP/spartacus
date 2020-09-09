@@ -3,6 +3,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
+import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
+
+class MockCostCenterAssignBudgetListService {}
 
 describe('CostCenterAssignBudgetsComponent', () => {
   let component: CostCenterAssignBudgetsComponent;
@@ -14,6 +17,12 @@ describe('CostCenterAssignBudgetsComponent', () => {
         OrganizationSubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
+      ],
+      providers: [
+        {
+          provide: CostCenterAssignBudgetListService,
+          useClass: MockCostCenterAssignBudgetListService,
+        },
       ],
       declarations: [CostCenterAssignBudgetsComponent],
     }).compileComponents();

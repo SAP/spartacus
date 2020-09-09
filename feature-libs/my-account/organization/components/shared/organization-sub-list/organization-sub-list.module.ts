@@ -4,6 +4,7 @@ import { I18nModule } from '@spartacus/core';
 import { PaginationModule, TableModule } from '@spartacus/storefront';
 import { OrganizationCardModule } from '../organization-card';
 import { OrganizationMessageModule } from '../organization-message/organization-message.module';
+import { AssignCellComponent } from './assign-cell.component';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 
 @NgModule({
@@ -16,7 +17,7 @@ import { OrganizationSubListComponent } from './organization-sub-list.component'
 
     OrganizationMessageModule,
   ],
-  declarations: [OrganizationSubListComponent],
+  declarations: [OrganizationSubListComponent, AssignCellComponent],
   exports: [OrganizationSubListComponent],
 })
 export class OrganizationSubListModule {}

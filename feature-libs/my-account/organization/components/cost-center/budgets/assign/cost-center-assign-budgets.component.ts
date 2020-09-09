@@ -3,7 +3,6 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budgets.service';
 
 @Component({
-  selector: 'cx-cost-center-assign-budgets',
   templateUrl: './cost-center-assign-budgets.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

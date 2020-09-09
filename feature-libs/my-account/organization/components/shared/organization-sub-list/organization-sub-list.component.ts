@@ -12,7 +12,6 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
 export class OrganizationSubListComponent extends OrganizationListComponent {
   hostClass = '';
 
-  @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 
   readonly dataTable$: Observable<Table> = this.currentKey$.pipe(

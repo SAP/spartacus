@@ -16,7 +16,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 export class CostCenterAssignBudgetListService extends OrganizationSubListService<
   Budget
 > {
-  protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
+  protected tableType = OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS;
   protected domainType = OrganizationTableType.BUDGET;
 
   constructor(
@@ -47,5 +47,21 @@ export class CostCenterAssignBudgetListService extends OrganizationSubListServic
       }
       list.set(value.code, value.selected);
     });
+  }
+
+  /**
+   * @override
+   * Assign budget to the cost center.
+   */
+  assign(costCenterCode: string, budgetCode: string) {
+    this.costCenterService.assignBudget(costCenterCode, budgetCode);
+  }
+
+  /**
+   * @override
+   * Unassign the budget from the cost center.
+   */
+  unassign(costCenterCode: string, budgetCode: string) {
+    this.costCenterService.unassignBudget(costCenterCode, budgetCode);
   }
 }

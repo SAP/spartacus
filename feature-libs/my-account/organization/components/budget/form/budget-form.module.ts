@@ -21,6 +21,5 @@ import { BudgetFormComponent } from './budget-form.component';
     FormErrorsModule,
   ],
   declarations: [BudgetFormComponent],
-  exports: [BudgetFormComponent],
 })
 export class BudgetFormModule {}

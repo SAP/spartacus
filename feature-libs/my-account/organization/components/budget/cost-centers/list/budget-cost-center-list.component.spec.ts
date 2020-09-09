@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
+import { BudgetCostCenterListService } from './budget-cost-center-list.service';
+
+class MocklBudgetCostCenterListService {}
 
 describe('BudgetCostCenterListComponent', () => {
   let component: BudgetCostCenterListComponent;
@@ -9,6 +12,12 @@ describe('BudgetCostCenterListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [OrganizationSubListTestingModule],
+      providers: [
+        {
+          provide: BudgetCostCenterListService,
+          useClass: MocklBudgetCostCenterListService,
+        },
+      ],
       declarations: [BudgetCostCenterListComponent],
     }).compileComponents();
   }));

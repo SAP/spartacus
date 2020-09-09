@@ -40,6 +40,9 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    */
   protected abstract tableType: OrganizationTableType;
 
+  get domain() {
+    return this.domainType;
+  }
   get viewType() {
     return this.tableType;
   }

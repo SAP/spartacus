@@ -42,15 +42,19 @@ export const costCenter = {
 
   budget: {
     link: 'Budgets',
-    assigned: 'Budget assigned successfully',
-    unassigned: 'Budget unassigned successfully',
-
-    title: 'Assigned budgets',
-    subtitle: 'Cost Center: {{ item.name }}',
-
-    assign: {
-      title: 'Budgets',
-      subtitle: 'Cost Center: {{ item.name }}',
-    },
   },
+};
+
+export const costCenterBudgets = {
+  title: 'Assigned budgets',
+  subtitle: 'Cost Center: {{ item.name }}',
+  assigned: 'Budget assigned successfully',
+  unassigned: 'Budget unassigned successfully',
+};
+
+export const costCenterAssignBudgets = {
+  title: 'Budgets',
+  subtitle: 'Cost Center: {{ item.name }}',
+  assigned: 'Budget assigned successfully',
+  unassigned: 'Budget unassigned successfully',
 };

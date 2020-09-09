@@ -1,0 +1,81 @@
+<cx-organization-sub-list [previous]="false">
+  <button actions (click)="unassignAll()" class="link">
+    {{ 'userGroupUsers.unassignAll' | cxTranslate }}
+  </button>
+  <a actions class="link" routerLink="../">
+    {{ 'organization.close' | cxTranslate }}
+  </a>
+</cx-organization-sub-list>
+
+<!-- 
+  
+
+
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small>
+      {{ model.email
+      }}<span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}</span
+      >
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.name" let-model>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="model.selected"
+          (change)="
+            toggleAssign(userGroupCode, model.customerId, $event.target.checked)
+          "
+        />
+      </label>
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'userDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.name }}
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.roles" let-model>
+    <small>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.orgUnit" let-model>
+    <a
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl
+      "
+    >
+      {{ model.orgUnit?.name }}
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view> -->

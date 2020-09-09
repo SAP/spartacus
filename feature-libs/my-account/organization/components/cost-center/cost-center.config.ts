@@ -9,12 +9,12 @@ import { ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { AssignBudgetCellComponent } from './budgets/assign-cell.component';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
@@ -124,7 +124,17 @@ export const costCenterTableConfig: TableConfig = {
       options: {
         cells: {
           actions: {
-            dataComponent: AssignBudgetCellComponent,
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
           },
         },
       },

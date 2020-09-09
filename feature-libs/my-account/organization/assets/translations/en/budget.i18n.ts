@@ -38,8 +38,11 @@ export const budget = {
   },
 
   costCenters: {
-    title: 'Cost centers',
-    subtitle: 'Budget: {{ item.name }}',
     link: 'Cost Centers',
   },
+};
+
+export const budgetCostCenters = {
+  title: 'Cost centers',
+  subtitle: 'Budget: {{ item.name }}',
 };

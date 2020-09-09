@@ -12,7 +12,6 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
-  selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

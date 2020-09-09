@@ -1,5 +1,9 @@
-import { budget } from './budget.i18n';
-import { costCenter } from './cost-center.i18n';
+import { budget, budgetCostCenters } from './budget.i18n';
+import {
+  costCenter,
+  costCenterAssignBudgets,
+  costCenterBudgets,
+} from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
@@ -7,6 +11,7 @@ import {
   userGroup,
   userGroupAssignPermissions,
   userGroupAssignUsers,
+  userGroupUsers,
 } from './user-group.i18n';
 import {
   user,
@@ -67,11 +72,15 @@ export const organization = {
 
   // sub feature labels are added below
   costCenter,
+  costCenterBudgets,
+  costCenterAssignBudgets,
   budget,
+  budgetCostCenters,
   unit,
   unitAssignRoles,
   unitAssignApprovers,
   userGroup,
+  userGroupUsers,
   userGroupAssignUsers,
   userGroupAssignPermissions,
   user,

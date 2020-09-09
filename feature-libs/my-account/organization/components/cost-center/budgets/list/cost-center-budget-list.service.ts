@@ -52,4 +52,20 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
       values: values.filter((value) => value.selected),
     };
   }
+
+  /**
+   * @override
+   * Assign budget to the cost center.
+   */
+  assign(costCenterCode: string, budgetCode: string) {
+    this.costCenterService.assignBudget(costCenterCode, budgetCode);
+  }
+
+  /**
+   * @override
+   * Unassign the budget from the cost center.
+   */
+  unassign(costCenterCode: string, budgetCode: string) {
+    this.costCenterService.unassignBudget(costCenterCode, budgetCode);
+  }
 }

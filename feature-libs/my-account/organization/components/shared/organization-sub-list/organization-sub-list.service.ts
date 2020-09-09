@@ -15,4 +15,8 @@ export abstract class OrganizationSubListService<
   protected defaultTableStructure: ResponsiveTableConfiguration = {
     options: { layout: TableLayout.VERTICAL },
   };
+
+  // TODO: abstract
+  assign(_key: string, _linkKey: string) {}
+  unassign(_key: string, _linkKey: string) {}
 }
