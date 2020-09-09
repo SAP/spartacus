@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUnit, SemanticPathService } from '@spartacus/core';
+import {
+  B2BUnit,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistUnitGuard } from './exist-unit.guard';
+import createSpy = jasmine.createSpy;
 
 const UNIT_VALID = Object.freeze({ uid: 'unitUid' });
 const UNIT_INVALID = Object.freeze({});
@@ -26,11 +32,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistUnitGuard', () => {
   let existUnitGuard: ExistUnitGuard;
   let router: Router;
   let unitService: OrgUnitService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +63,10 @@ describe('ExistUnitGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -60,6 +75,7 @@ describe('ExistUnitGuard', () => {
     router = TestBed.inject(Router);
     unitService = TestBed.inject(OrgUnitService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -99,6 +115,13 @@ describe('ExistUnitGuard', () => {
         existUnitGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('units');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'Unit' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });

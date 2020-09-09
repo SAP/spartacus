@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, SemanticPathService } from '@spartacus/core';
+import {
+  B2BUser,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ActiveUserGuard } from './active-user.guard';
+import createSpy = jasmine.createSpy;
 
 const USER_NOT_ACTIVE = Object.freeze({ active: false });
 const USER_ACTIVE = Object.freeze({ active: true });
@@ -26,11 +32,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ActiveUserGuard', () => {
   let activeUserGuard: ActiveUserGuard;
   let router: Router;
   let userService: B2BUserService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,6 +62,10 @@ describe('ActiveUserGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -59,6 +74,7 @@ describe('ActiveUserGuard', () => {
     router = TestBed.inject(Router);
     userService = TestBed.inject(B2BUserService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -76,6 +92,13 @@ describe('ActiveUserGuard', () => {
           activeUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
           expect(router.parseUrl).toHaveBeenCalledWith('organization/users');
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            {
+              key: 'organization.notification.disabled',
+              params: { item: 'User' },
+            },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
         });
       });
     });

@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CostCenter, SemanticPathService } from '@spartacus/core';
+import {
+  CostCenter,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistCostCenterGuard } from './exist-cost-center.guard';
+import createSpy = jasmine.createSpy;
 
 const COST_CENTER_VALID = Object.freeze({ code: 'costCenterCode' });
 const COST_CENTER_INVALID = Object.freeze({});
@@ -26,11 +32,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistCostCenterGuard', () => {
   let existCostCenterGuard: ExistCostCenterGuard;
   let router: Router;
   let costCenterService: CostCenterService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +63,10 @@ describe('ExistCostCenterGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -60,6 +75,7 @@ describe('ExistCostCenterGuard', () => {
     router = TestBed.inject(Router);
     costCenterService = TestBed.inject(CostCenterService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -107,6 +123,13 @@ describe('ExistCostCenterGuard', () => {
           .unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('cost-centers');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'Cost Center' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });

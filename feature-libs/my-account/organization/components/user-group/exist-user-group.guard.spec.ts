@@ -1,13 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SemanticPathService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
 } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGroupGuard } from './exist-user-group.guard';
+import createSpy = jasmine.createSpy;
 
 const USER_GROUP_VALID = Object.freeze({ uid: 'userGroupUid' });
 const USER_GROUP_INVALID = Object.freeze({});
@@ -29,11 +34,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistUserGroupGuard', () => {
   let existUserGroupGuard: ExistUserGroupGuard;
   let router: Router;
   let userGroupService: UserGroupService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,6 +65,10 @@ describe('ExistUserGroupGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -63,6 +77,7 @@ describe('ExistUserGroupGuard', () => {
     router = TestBed.inject(Router);
     userGroupService = TestBed.inject(UserGroupService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -108,6 +123,13 @@ describe('ExistUserGroupGuard', () => {
           .unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('user-groups');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'User Group' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });

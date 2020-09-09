@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, SemanticPathService } from '@spartacus/core';
+import {
+  B2BUser,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGuard } from './exist-user.guard';
+import createSpy = jasmine.createSpy;
 
 const USER_VALID = Object.freeze({ customerId: 'userCustomerId' });
 const USER_INVALID = Object.freeze({});
@@ -26,11 +32,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistUserGuard', () => {
   let existUserGuard: ExistUserGuard;
   let router: Router;
   let userService: B2BUserService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +63,10 @@ describe('ExistUserGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -60,6 +75,7 @@ describe('ExistUserGuard', () => {
     router = TestBed.inject(Router);
     userService = TestBed.inject(B2BUserService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -99,6 +115,13 @@ describe('ExistUserGuard', () => {
         existUserGuard.canActivate(route.snapshot).subscribe().unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('users');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'User' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });

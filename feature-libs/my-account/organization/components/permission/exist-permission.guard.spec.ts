@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Permission, SemanticPathService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  Permission,
+  SemanticPathService,
+} from '@spartacus/core';
 import { PermissionService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ExistPermissionGuard } from './exist-permission.guard';
+import createSpy = jasmine.createSpy;
 
 const PERMISSION_VALID = Object.freeze({ code: 'permissionCode' });
 const PERMISSION_INVALID = Object.freeze({});
@@ -26,11 +32,16 @@ class SemanticPathServiceStub {
 
 const mockRouter = { parseUrl: () => {} };
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy('add');
+}
+
 describe('ExistPermissionGuard', () => {
   let existPermissionGuard: ExistPermissionGuard;
   let router: Router;
   let permissionService: PermissionService;
   let route: ActivatedRoute;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +63,10 @@ describe('ExistPermissionGuard', () => {
           provide: SemanticPathService,
           useClass: SemanticPathServiceStub,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -60,6 +75,7 @@ describe('ExistPermissionGuard', () => {
     router = TestBed.inject(Router);
     permissionService = TestBed.inject(PermissionService);
     route = TestBed.inject(ActivatedRoute);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('canActivate:', () => {
@@ -105,6 +121,13 @@ describe('ExistPermissionGuard', () => {
           .unsubscribe();
 
         expect(router.parseUrl).toHaveBeenCalledWith('purchase-limits');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.notExist',
+            params: { item: 'Purchase limit' },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });
