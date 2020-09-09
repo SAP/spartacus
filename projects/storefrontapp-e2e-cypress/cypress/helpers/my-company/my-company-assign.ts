@@ -2,14 +2,13 @@ import { MyCompanyConfig, MyCompanySelectorSuffixes } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
-  scanTablePagesForText,
   verifyList,
   getListRowsFromBody,
 } from './my-company';
 import { testList, testListSorting } from './my-company-list';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
-  config.subCategories.forEach((tab) => {
+  config?.subCategories?.forEach((tab) => {
     let firstRow;
     const selectorAssignment = `${config.selector}-${MyCompanySelectorSuffixes.ASSIGN}-${tab.selector}`;
     const selectorList = `${config.selector}-${tab.selector}-${MyCompanySelectorSuffixes.LIST}`;
@@ -69,52 +68,55 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         testListSorting(tab);
       });
 
-      it(`should assign and validate`, () => {
-        cy.get('cx-table').within(() => {
-          // cy.route('POST', `**/${tab.dataConfig.type}**`).as('getData');
-          cy.route('POST', `**`).as('getData');
-          cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
-          cy.wait('@getData');
-          cy.get('tr input[type="checkbox"]').eq(1).should('be.checked');
-        });
-        cy.get(`${selectorAssignment} cx-icon[type="CARET_LEFT"]`).click();
-        cy.get(selectorList).within(() => {
-          cy.get('cx-table').within(() => {
-            // cy.get('tr').should('have.length', 3);
-          });
-          // cy.get('a').contains('Manage').click();
-        });
-        cy.url().should(
-          'contain',
-          `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
-        );
-        // cy.get(tab.manageSelector).within(() => {
-        //   cy.get('h3').should('contain.text', 'Manage');
-        // });
-      });
+      it('should toggle assignment and validate', () => {
+        if (listData[0].selected) {
+          unassignAndValidate();
+          assignAndValidate();
+        } else {
+          assignAndValidate();
+          unassignAndValidate();
+        }
 
-      it(`should unassign and validate`, () => {
-        cy.get('a').contains('Assign').click();
-        cy.get('cx-table').within(() => {
-          cy.route('DELETE', `**`).as('delete');
-          cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
-          cy.wait('@delete');
-          cy.get('tr input[type="checkbox"]').eq(1).should('not.be.checked');
-        });
-        cy.get(`${selectorAssignment} cx-icon[type="CARET_LEFT"]`).click();
-        cy.get(selectorList).within(() => {
+        function assignAndValidate() {
           cy.get('cx-table').within(() => {
-            // cy.get('tr').should('have.length', 2);
+            cy.route('POST', `**`).as('getData');
+            cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
+            cy.wait('@getData');
+            cy.get('tr input[type="checkbox"]').eq(1).should('be.checked');
           });
-          // cy.get('a').contains('Manage').click();
-        });
-        cy.url().should(
-          'contain',
-          `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
-        );
-        // cy.get(tab.manageSelector).within(() => {
-        //   cy.get('h3').should('contain.text', 'Manage');
-        // });
+          cy.get(`${selectorAssignment} cx-icon[type="CARET_LEFT"]`).click();
+          cy.get(selectorList).within(() => {
+            cy.get('cx-table').within(() => {
+              // cy.get('tr').should('have.length', 3);
+            });
+            // cy.get('a').contains('Manage').click();
+          });
+          cy.url().should(
+            'contain',
+            `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
+          );
+        }
+
+        function unassignAndValidate() {
+          cy.get('a').contains('Assign').click();
+          cy.get('cx-table').within(() => {
+            cy.route('DELETE', `**`).as('delete');
+            cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
+            cy.wait('@delete');
+            cy.get('tr input[type="checkbox"]').eq(1).should('not.be.checked');
+          });
+          cy.get(`${selectorAssignment} cx-icon[type="CARET_LEFT"]`).click();
+          cy.get(selectorList).within(() => {
+            cy.get('cx-table').within(() => {
+              // cy.get('tr').should('have.length', 2);
+            });
+            // cy.get('a').contains('Manage').click();
+          });
+          cy.url().should(
+            'contain',
+            `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
+          );
+        }
       });
 
       if (tab.canUnassignAll) {
@@ -122,7 +124,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           cy.get('a').contains('Assign').click();
 
           cy.route('DELETE', `**`).as('getData');
-          // cy.route('DELETE', `**/${config.apiEndpoint}**`).as('getData');
           cy.get(`a`).contains('Unassign All').click();
           cy.wait('@getData');
 
@@ -140,44 +141,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
           );
           // cy.get(`${tab.manageSelector} h3`).should('contain.text', 'Manage');
-        });
-
-        it(`should reassign all and validate`, () => {
-          cy.get('a').contains('Assign').click();
-          scanTablePagesForText(tab.rows[0].variableName[0], config);
-          cy.get(selectorAssignment).within(() => {
-            cy.get('cx-table').within(() => {
-              cy.get('tr')
-                .contains(tab.rows[0].variableName[0])
-                .parent()
-                .within(() => {
-                  cy.server();
-                  cy.route('POST', `**`).as('getData');
-                  cy.get('input[type="checkbox"]').click({ force: true });
-                  cy.wait('@getData');
-                });
-            });
-          });
-          cy.wait(2000);
-          cy.get(selectorAssignment).within(() => {
-            cy.get('cx-table').within(() => {
-              cy.get('tr')
-                .contains(tab.rows[0].variableName[0])
-                .parent()
-                .within(() => {
-                  cy.get('input[type="checkbox"]').should('be.checked');
-                });
-            });
-          });
-          cy.get(`${selectorAssignment} cx-icon[type="CARET_LEFT"]`).click();
-
-          cy.url().should(
-            'contain',
-            `${config.baseUrl}s/${firstRow.text[1]}${tab.baseUrl}`
-          );
-          // cy.get(tab.manageSelector).within(() => {
-          //   cy.get('h3').should('contain.text', 'Manage');
-          // });
         });
       }
 

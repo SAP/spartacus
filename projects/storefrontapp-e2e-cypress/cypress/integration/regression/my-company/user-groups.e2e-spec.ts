@@ -47,12 +47,14 @@ const config: MyCompanyConfig = {
           label: 'Code',
           variableName: 'code',
           // link: '/organization/purchase-limit/',
+          sortByUrl: '',
         },
         { label: 'Limit', variableName: 'orderApprovalPermissionType.name' },
         {
           label: 'Unit',
           variableName: 'orgUnit.name',
           link: `/organization/unit/`,
+          sortByUrl: '?sort=byUnitName',
         },
       ],
     },
@@ -65,20 +67,24 @@ const config: MyCompanyConfig = {
       canUnassignAll: true,
       rows: [
         {
-          label: 'Code',
-          variableName: 'code',
-          // link: '/organization/purchase-limit/',
-        },
-        {
           variableName: 'name',
-          label: 'name',
+          label: 'Name',
           link: '/organization/user/',
+          sortByUrl: '',
         },
-
         {
-          label: 'Parent Unit',
+          label: 'Email',
+          variableName: 'email',
+        },
+        {
+          label: 'Roles',
+          variableName: 'roles',
+        },
+        {
+          label: 'Unit',
           variableName: 'orgUnit.name',
           link: `/organization/unit/`,
+          sortByUrl: '?sort=byUnitName',
         },
       ],
     },

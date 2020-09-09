@@ -45,19 +45,21 @@ export function testList(
 export function testListSorting(config: MyCompanyConfig) {
   // TODO: We could perform our own sort function to compare data returned with expected result
   config.rows.forEach((row) => {
-    cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-    waitForData((data) => {
-      checkUrlHasSortParams(row);
-      verifyList(
-        getListRowsFromBody(data, config.objectType, config.rows),
-        config.rows
-      );
-    }, clickSortButton(row));
+    if (row.sortByUrl) {
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      waitForData((data) => {
+        checkUrlHasSortParams(row);
+        verifyList(
+          getListRowsFromBody(data, config.objectType, config.rows),
+          config.rows
+        );
+      }, clickSortButton(row));
+    }
   });
 }
 
 function checkUrlHasSortParams(row: MyCompanyRowConfig) {
-  // TODO: Omitted for now while url does not contain sort params, could come back though
+  // TODO: Omitted check for now while url does not contain sort params, could come back though
   // cy.url().should('contain', `${row.sortByUrl ?? ''}`);
 }
 
@@ -65,6 +67,6 @@ function clickSortButton(row: MyCompanyRowConfig) {
   cy.get('cx-table thead')
     .contains(row.label)
     .within(() => {
-      cy.get('cx-icon[class^="cx-icon fas fa-sort"]').click();
+      cy.get('cx-icon.fa-sort').click();
     });
 }
