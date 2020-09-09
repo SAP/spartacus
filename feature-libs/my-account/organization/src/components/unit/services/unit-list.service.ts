@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, B2BUnit, B2BUnitNode } from '@spartacus/core';
+import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -31,6 +31,10 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     return this.unitService
       .getTree()
       .pipe(map((raw) => this.convertUnits(raw)));
+  }
+
+  key(): string {
+    return 'uid';
   }
 
   /**
