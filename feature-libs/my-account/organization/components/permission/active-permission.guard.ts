@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
-import { Permission } from '@spartacus/core';
+import { GlobalMessageType, Permission } from '@spartacus/core';
 import { ExistPermissionGuard } from './exist-permission.guard';
 
 @Injectable({
@@ -18,5 +18,15 @@ export class ActivePermissionGuard extends ExistPermissionGuard {
     });
 
     return this.router.parseUrl(urlPath.join('/'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.disabled',
+        params: { item: 'Purchase limit' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
-import { CostCenter } from '@spartacus/core';
+import { CostCenter, GlobalMessageType } from '@spartacus/core';
 import { ExistCostCenterGuard } from './exist-cost-center.guard';
 
 @Injectable({
@@ -18,5 +18,15 @@ export class ActiveCostCenterGuard extends ExistCostCenterGuard {
     });
 
     return this.router.parseUrl(urlPath.join('/'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.disabled',
+        params: { item: 'Cost Center' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

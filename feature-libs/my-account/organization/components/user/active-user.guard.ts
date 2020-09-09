@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
-import { B2BUser } from '@spartacus/core';
+import { B2BUser, GlobalMessageType } from '@spartacus/core';
 import { ExistUserGuard } from './exist-user.guard';
 
 @Injectable({
@@ -18,5 +18,15 @@ export class ActiveUserGuard extends ExistUserGuard {
     });
 
     return this.router.parseUrl(urlPath.join('/'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.disabled',
+        params: { item: 'User' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

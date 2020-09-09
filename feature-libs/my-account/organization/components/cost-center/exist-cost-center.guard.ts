@@ -1,50 +1,45 @@
 import { Injectable } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
-import { CostCenter, SemanticPathService } from '@spartacus/core';
+  CostCenter,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistCostCenterGuard implements CanActivate {
+export class ExistCostCenterGuard extends ExistOrganizationItemGuard<
+  CostCenter
+> {
   constructor(
     protected costCenterService: CostCenterService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
-
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
-    const urlParams = {
-      code: '',
-    };
-
-    urlParams.code = activatedRoute.params['costCenterCode'];
-
-    return this.costCenterService.get(urlParams.code).pipe(
-      map((costCenter) => {
-        if (costCenter && this.isValid(costCenter)) {
-          return true;
-        }
-
-        return this.getRedirectUrl(urlParams);
-      })
-    );
+    protected semanticPathService: SemanticPathService,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super();
   }
 
-  protected isValid(costCenter: CostCenter): boolean {
-    return Object.keys(costCenter).length !== 0;
+  protected getItem(code: string): Observable<CostCenter> {
+    return this.costCenterService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
     return this.router.parseUrl(this.semanticPathService.get('costCenter'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.notExist',
+        params: { item: 'Cost Center' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

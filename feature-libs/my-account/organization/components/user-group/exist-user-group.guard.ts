@@ -1,53 +1,45 @@
 import { Injectable } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
-import { SemanticPathService } from '@spartacus/core';
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistUserGroupGuard implements CanActivate {
+export class ExistUserGroupGuard extends ExistOrganizationItemGuard<UserGroup> {
   constructor(
     protected userGroupService: UserGroupService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
-
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
-    const urlParams = {
-      code: '',
-    };
-
-    urlParams.code = activatedRoute.params['userGroupCode'];
-
-    return this.userGroupService.get(urlParams.code).pipe(
-      map((userGroup) => {
-        if (userGroup && this.isValid(userGroup)) {
-          return true;
-        }
-
-        return this.getRedirectUrl(urlParams);
-      })
-    );
+    protected semanticPathService: SemanticPathService,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super();
   }
 
-  protected isValid(userGroup: UserGroup): boolean {
-    return Object.keys(userGroup).length !== 0;
+  protected getItem(code: string): Observable<UserGroup> {
+    return this.userGroupService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
     return this.router.parseUrl(this.semanticPathService.get('userGroup'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.notExist',
+        params: { item: 'User Group' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }

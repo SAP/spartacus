@@ -1,50 +1,46 @@
 import { Injectable } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
-import { B2BUser, SemanticPathService } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+  B2BUser,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
+} from '@spartacus/core';
+import {
+  B2BUserService,
+  Budget,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistUserGuard implements CanActivate {
+export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
   constructor(
     protected userService: B2BUserService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
-
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
-    const urlParams = {
-      code: '',
-    };
-
-    urlParams.code = activatedRoute.params['userCode'];
-
-    return this.userService.get(urlParams.code).pipe(
-      map((user) => {
-        if (user && this.isValid(user)) {
-          return true;
-        }
-
-        return this.getRedirectUrl(urlParams);
-      })
-    );
+    protected semanticPathService: SemanticPathService,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super();
   }
 
-  protected isValid(user: B2BUser): boolean {
-    return Object.keys(user).length !== 0;
+  protected getItem(code: string): Observable<Budget> {
+    return this.userService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
     return this.router.parseUrl(this.semanticPathService.get('user'));
+  }
+
+  protected showErrorMessage() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.notExist',
+        params: { item: 'User' },
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
   }
 }
