@@ -25,7 +25,13 @@ export class PermissionFormService {
   }
 
   protected build(form: FormGroup) {
-    form.setControl('code', new FormControl('', Validators.required));
+    form.setControl(
+      'code',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.noSpecialCharacters,
+      ])
+    );
     form.setControl(
       'orderApprovalPermissionType',
       new FormGroup({
