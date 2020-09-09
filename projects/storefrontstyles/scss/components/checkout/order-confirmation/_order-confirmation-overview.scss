@@ -7,14 +7,14 @@
     border-style: solid;
     border-color: var(--cx-color-light);
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       background-color: var(--cx-color-inverse);
     }
 
     .container {
       display: flex;
       flex-wrap: wrap;
-      padding: 15px 0;
+      padding: 0;
 
       @include media-breakpoint-down(md) {
         max-width: 100%;
@@ -28,13 +28,6 @@
 
       .summary-card {
         flex: 1;
-        padding: 0 15px;
-
-        &:not(:last-of-type) {
-          @include media-breakpoint-up(lg) {
-            border-inline-end: 1px solid var(--cx-color-text);
-          }
-        }
 
         @include media-breakpoint-down(md) {
           flex: 0 0 33%;
@@ -47,11 +40,6 @@
           border-style: solid;
           border-color: var(--cx-color-light);
           margin: 0.625rem 0;
-        }
-
-        .cx-card-title {
-          @include type('4');
-          font-weight: bold;
         }
       }
     }

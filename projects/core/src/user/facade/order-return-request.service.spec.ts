@@ -2,10 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ReturnRequestList } from '../../model/order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -20,8 +17,7 @@ class MockAuthService {
 }
 
 describe('OrderReturnRequestService', () => {
-  let orderReturnRequestService: OrderReturnRequestService;
-  let authService: AuthService;
+  let service: OrderReturnRequestService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -40,22 +36,20 @@ describe('OrderReturnRequestService', () => {
       ],
     });
 
-    orderReturnRequestService = TestBed.inject(OrderReturnRequestService);
-    authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);
-
     spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.inject(OrderReturnRequestService);
   });
 
   it('should OrderReturnRequestService is injected', inject(
     [OrderReturnRequestService],
-    (service: OrderReturnRequestService) => {
-      expect(service).toBeTruthy();
+    (orderReturnRequestService: OrderReturnRequestService) => {
+      expect(orderReturnRequestService).toBeTruthy();
     }
   ));
 
   it('should be able to create order return request', () => {
-    orderReturnRequestService.createOrderReturnRequest({ orderCode: 'test' });
+    service.createOrderReturnRequest({ orderCode: 'test' });
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
@@ -70,14 +64,14 @@ describe('OrderReturnRequestService', () => {
         rma: '000000',
       })
     );
-    orderReturnRequestService
+    service
       .getOrderReturnRequest()
       .subscribe((r) => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
   });
 
   it('should be able to load an order return requests data', () => {
-    orderReturnRequestService.loadOrderReturnRequestDetail('test');
+    service.loadOrderReturnRequestDetail('test');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
@@ -93,7 +87,7 @@ describe('OrderReturnRequestService', () => {
         returnRequestInput: {},
       })
     );
-    orderReturnRequestService
+    service
       .getReturnRequestLoading()
       .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
@@ -105,7 +99,7 @@ describe('OrderReturnRequestService', () => {
         rma: '000000',
       })
     );
-    orderReturnRequestService
+    service
       .getReturnRequestSuccess()
       .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
@@ -121,7 +115,7 @@ describe('OrderReturnRequestService', () => {
     );
 
     let requestList: ReturnRequestList;
-    orderReturnRequestService
+    service
       .getOrderReturnRequestList(1)
       .subscribe((data) => {
         requestList = data;
@@ -135,7 +129,7 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should be able to load order return requests list', () => {
-    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
+    service.loadOrderReturnRequestList(10, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderReturnRequestList({
         userId: OCC_USER_ID_CURRENT,
@@ -146,33 +140,22 @@ describe('OrderReturnRequestService', () => {
     );
   });
 
-  it('should NOT load order return requests list when user is anonymous', () => {
-    spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
-      cb(OCC_USER_ID_ANONYMOUS)
-    );
-
-    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
   it('should be able to clear order return requests list', () => {
-    orderReturnRequestService.clearOrderReturnRequestList();
+    service.clearOrderReturnRequestList();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearOrderReturnRequestList()
     );
   });
 
   it('should be able to clear order return requests details', () => {
-    orderReturnRequestService.clearOrderReturnRequestDetail();
+    service.clearOrderReturnRequestDetail();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearOrderReturnRequest()
     );
   });
 
   it('should be able to cancel an order return request', () => {
-    orderReturnRequestService.cancelOrderReturnRequest('test', {
-      status: 'CANCELLING',
-    });
+    service.cancelOrderReturnRequest('test', { status: 'CANCELLING' });
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.CancelOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
@@ -190,7 +173,7 @@ describe('OrderReturnRequestService', () => {
         returnRequestModification: {},
       })
     );
-    orderReturnRequestService
+    service
       .getCancelReturnRequestLoading()
       .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
@@ -198,14 +181,14 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get CancelReturnRequest Success flag', () => {
     store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
-    orderReturnRequestService
+    service
       .getCancelReturnRequestSuccess()
       .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
   it('should be able to reset CancelReturnRequest process state', () => {
-    orderReturnRequestService.resetCancelReturnRequestProcessState();
+    service.resetCancelReturnRequestProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ResetCancelReturnProcess()
     );

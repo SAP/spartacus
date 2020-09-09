@@ -24,6 +24,7 @@ export interface Table<T = any> {
    * The pagination component is used to paginate through the data.
    */
   pagination?: PaginationModel;
+  // sorts?: SortModel[];
 }
 
 export interface TableStructureConfiguration {
@@ -70,4 +71,9 @@ export interface TableHeader {
    * key is used to translate to an i18n property.
    */
   label?: string;
+
+  /**
+   * Provides an optional sort code to sort the table data per header.
+   */
+  sortCode?: string;
 }

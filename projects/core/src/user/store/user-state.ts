@@ -14,7 +14,6 @@ import {
 import { ReplenishmentOrderList } from '../../model/replenishment-order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
@@ -31,7 +30,6 @@ export const ADD_PRODUCT_INTEREST_PROCESS_ID = 'addProductInterests';
 export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID = 'removeProductInterests';
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';
 export const CANCEL_RETURN_PROCESS_ID = 'cancelReturn';
-export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID = 'cancelReplenishmentOrder';
 
 export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
@@ -78,7 +76,6 @@ export interface UserState {
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
   costCenters: StateUtils.LoaderState<CostCenter[]>;
-  replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
 }
 
 export interface RegionsState {

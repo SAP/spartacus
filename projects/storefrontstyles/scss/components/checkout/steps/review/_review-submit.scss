@@ -181,34 +181,32 @@ cx-place-order {
 
 cx-schedule-replenishment-order {
   .scaled-input {
-    transform: scale(0.875);
+    transform: scale(0.7);
   }
 
   .cx-label-container {
-    display: flex;
-    margin-bottom: 5px;
+    display: inline-flex;
 
-    cx-icon {
-      font-size: $font-size-base * 1.3;
+    span {
+      font-size: $small-font-size;
+      color: $secondary;
+
+      margin-left: 8px;
+      margin-top: 3px;
     }
-  }
-
-  .cx-order-replenishment-header {
-    margin-inline-end: 14px;
-    margin-bottom: 0;
   }
 
   .cx-order-type-card {
     font-size: $small-font-size;
-    background-color: var(--cx-color-background);
+    background-color: #ecf2f7;
+
     border: 1px solid $light;
     border-radius: var(--cx-buttons-border-radius);
+
     margin-bottom: 10px;
-    padding: 20px 21px;
+    padding: 10px;
 
     .cx-order-type-container {
-      margin-bottom: 7px;
-
       &:first-child {
         margin-top: 10px;
       }
@@ -221,21 +219,16 @@ cx-schedule-replenishment-order {
     .cx-replenishment-form-data-container {
       display: flex;
       flex-direction: row;
-      margin-top: 20px;
 
       &:not(:last-child) {
         margin-bottom: 10px;
       }
 
-      .form-control {
-        height: 32px;
-        font-size: $small-font-size;
-        padding: 0 18px;
-      }
-
       .form-data-label {
         align-self: center;
-        padding-inline-end: 10px;
+
+        margin-left: 15px;
+        margin-right: 10px;
       }
 
       .form-data-input {
@@ -243,7 +236,8 @@ cx-schedule-replenishment-order {
       }
 
       .cx-days {
-        margin-inline-end: 1rem;
+        width: 5rem;
+        margin-right: 1rem;
       }
 
       .cx-day-of-month {
@@ -251,6 +245,8 @@ cx-schedule-replenishment-order {
       }
 
       .cx-month {
+        flex-grow: 1;
+
         @include media-breakpoint-down(sm) {
           flex-grow: unset;
           width: 50%;
@@ -263,22 +259,12 @@ cx-schedule-replenishment-order {
 
         .cx-repeat-days {
           flex: 0 100%;
-          margin-bottom: 14px;
         }
 
         .form-check {
           flex: 0 50%;
-          display: flex;
-          align-items: center;
         }
       }
-    }
-  }
-
-  .cx-replenishment-date {
-    input {
-      padding-inline-start: 18px;
-      padding-inline-end: 15px;
     }
   }
 }

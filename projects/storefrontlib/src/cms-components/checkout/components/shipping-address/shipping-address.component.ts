@@ -12,13 +12,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -108,13 +102,12 @@ export class ShippingAddressComponent implements OnInit {
 
   getSupportedAddresses(): Observable<Address[] | B2BAddress[]> {
     if (this.isAccountPayment) {
-      return this.checkoutCostCenterService.getCostCenter().pipe(
-        distinctUntilChanged(),
-        switchMap((selected) => {
-          this.doneAutoSelect = false;
-          return this.userCostCenterService.getCostCenterAddresses(selected);
-        })
-      );
+      let costCenterId: string;
+      this.checkoutCostCenterService
+        .getCostCenter()
+        .pipe(take(1))
+        .subscribe((selected) => (costCenterId = selected));
+      return this.userCostCenterService.getCostCenterAddresses(costCenterId);
     } else {
       return this.userAddressService.getAddresses();
     }
@@ -127,26 +120,16 @@ export class ShippingAddressComponent implements OnInit {
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
-      if (this.isAccountPayment) {
-        if (addresses.length === 1) {
-          this.selectAddress(addresses[0]);
-        }
-      } else {
-        selected = addresses.find((address) => address.defaultAddress);
-        if (selected) {
-          this.selectAddress(selected);
-        }
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.selectAddress(selected);
       }
       this.doneAutoSelect = true;
     }
   }
 
   ngOnInit(): void {
-    if (
-      this.paymentTypeService &&
-      this.userCostCenterService &&
-      this.checkoutCostCenterService
-    ) {
+    if (this.paymentTypeService) {
       this.paymentTypeService
         .isAccountPayment()
         .pipe(take(1))

@@ -296,33 +296,20 @@ describe('ShippingAddressComponent', () => {
     ]);
   });
 
-  describe('selectDefaultAddress', () => {
-    describe('Account Payment', () => {
-      it('should automatically select default shipping address when there is ONLY ONE', () => {
-        isAccount.next(true);
-        component.ngOnInit();
-        component.selectDefaultAddress([mockAddress1], undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
-      });
-    });
-
-    describe('Credit Card Payment', () => {
-      it('should automatically select default shipping address when there is no current selection', () => {
-        component.doneAutoSelect = false;
-        component.selectDefaultAddress(mockAddresses, undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-      });
+  describe('should automatically select default shipping address when there is no current selection', () => {
+    it('if payment type is credit card', () => {
+      component.doneAutoSelect = false;
+      component.selectDefaultAddress(mockAddresses, undefined);
+      expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
     });
   });
 
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', () => {
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
-        of([])
-      );
+      spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
       isAccount.next(true);
       component.ngOnInit();
-      component.getSupportedAddresses().subscribe();
+      component.getSupportedAddresses();
       expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
         'test-cost-center'
       );

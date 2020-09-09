@@ -2,10 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -20,8 +17,7 @@ class MockAuthService {
 }
 
 describe('UserOrderService', () => {
-  let userOrderService: UserOrderService;
-  let authService: AuthService;
+  let service: UserOrderService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -40,17 +36,15 @@ describe('UserOrderService', () => {
       ],
     });
 
-    userOrderService = TestBed.inject(UserOrderService);
-    authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);
-
     spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.inject(UserOrderService);
   });
 
   it('should UserOrderService is injected', inject(
     [UserOrderService],
-    (service: UserOrderService) => {
-      expect(service).toBeTruthy();
+    (userOrderService: UserOrderService) => {
+      expect(userOrderService).toBeTruthy();
     }
   ));
 
@@ -60,7 +54,7 @@ describe('UserOrderService', () => {
     );
 
     let order: Order;
-    userOrderService
+    service
       .getOrderDetails()
       .subscribe((data) => {
         order = data;
@@ -70,7 +64,7 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order details', () => {
-    userOrderService.loadOrderDetails('orderCode');
+    service.loadOrderDetails('orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderDetails({
         userId: OCC_USER_ID_CURRENT,
@@ -80,7 +74,7 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to clear order details', () => {
-    userOrderService.clearOrderDetails();
+    service.clearOrderDetails();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearOrderDetails()
     );
@@ -96,7 +90,7 @@ describe('UserOrderService', () => {
     );
 
     let orderList: OrderHistoryList;
-    userOrderService
+    service
       .getOrderHistoryList(1)
       .subscribe((data) => {
         orderList = data;
@@ -113,7 +107,7 @@ describe('UserOrderService', () => {
     store.dispatch(new UserActions.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
-    userOrderService
+    service
       .getOrderHistoryListLoaded()
       .subscribe((data) => {
         orderListLoaded = data;
@@ -123,29 +117,19 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order list data', () => {
-    userOrderService.loadOrderList(10, 1, 'byDate', 'test-repl-code');
+    service.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
-        replenishmentOrderCode: 'test-repl-code',
       })
     );
   });
 
-  it('should NOT load order list data when user is anonymous', () => {
-    spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
-      cb(OCC_USER_ID_ANONYMOUS)
-    );
-
-    userOrderService.loadOrderList(10, 1, 'byDate');
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
   it('should be able to clear order list', () => {
-    userOrderService.clearOrderList();
+    service.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearUserOrders()
     );
@@ -157,14 +141,14 @@ describe('UserOrderService', () => {
         trackingID: '1234567890',
       })
     );
-    userOrderService
+    service
       .getConsignmentTracking()
       .subscribe((r) => expect(r).toEqual({ trackingID: '1234567890' }))
       .unsubscribe();
   });
 
   it('should be able to load consignment tracking', () => {
-    userOrderService.loadConsignmentTracking('orderCode', 'consignmentCode');
+    service.loadConsignmentTracking('orderCode', 'consignmentCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadConsignmentTracking({
         userId: OCC_USER_ID_CURRENT,
@@ -175,14 +159,14 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to clear consignment tracking', () => {
-    userOrderService.clearConsignmentTracking();
+    service.clearConsignmentTracking();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearConsignmentTracking()
     );
   });
 
   it('should be able to cancel an order', () => {
-    userOrderService.cancelOrder('test', {});
+    service.cancelOrder('test', {});
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.CancelOrder({
         userId: OCC_USER_ID_CURRENT,
@@ -200,7 +184,7 @@ describe('UserOrderService', () => {
         cancelRequestInput: {},
       })
     );
-    userOrderService
+    service
       .getCancelOrderLoading()
       .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
@@ -208,14 +192,14 @@ describe('UserOrderService', () => {
 
   it('should be able to get CancelOrder Success flag', () => {
     store.dispatch(new UserActions.CancelOrderSuccess());
-    userOrderService
+    service
       .getCancelOrderSuccess()
       .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
   it('should be able to reset CancelOrder process state', () => {
-    userOrderService.resetCancelOrderProcessState();
+    service.resetCancelOrderProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ResetCancelOrderProcess()
     );

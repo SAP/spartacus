@@ -172,7 +172,9 @@ describe('Checkout reducer', () => {
         replenishmentOrderDetails
       );
       const state = fromCheckout.reducer(initialState, action);
-      expect(state.orderDetails).toEqual(replenishmentOrderDetails);
+      expect(state.replenishmentOrderDetails).toEqual(
+        replenishmentOrderDetails
+      );
     });
   });
 

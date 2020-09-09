@@ -4,9 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, ORDER_TYPE } from '@spartacus/core';
+import { CheckoutService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -15,9 +15,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy {
-  order$: Observable<any>;
-  isReplenishmentOrderType$: Observable<boolean>;
-
+  order$: Observable<Order>;
   isGuestCustomer = false;
   orderGuid: string;
 
@@ -30,14 +28,6 @@ export class OrderConfirmationThankYouMessageComponent
         this.orderGuid = order.guid;
       })
     );
-
-    this.isReplenishmentOrderType$ = this.checkoutService
-      .getCurrentOrderType()
-      .pipe(
-        map(
-          (orderType) => ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER === orderType
-        )
-      );
   }
 
   ngOnDestroy() {

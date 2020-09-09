@@ -103,14 +103,12 @@ export class FacetService {
    * and max visible values.
    */
   protected initialize(facet: Facet): void {
-    const topFacets =
-      facet.topValueCount > 0 ? facet.topValueCount : facet.values?.length || 0;
     if (!this.hasState(facet)) {
       this.facetState.set(
         facet.name,
         new BehaviorSubject({
-          topVisible: topFacets,
-          maxVisible: topFacets,
+          topVisible: facet.topValueCount || 0,
+          maxVisible: facet.topValueCount || 0,
         } as FacetCollapseState)
       );
     }

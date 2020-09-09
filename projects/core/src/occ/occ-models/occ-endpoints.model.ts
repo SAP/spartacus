@@ -607,21 +607,4 @@ export interface OccEndpoints {
    * * @member {string}
    */
   replenishmentOrderHistory?: string | OccEndpoint;
-  /** Endpoint to get a replenishment order details
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetails?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetailsHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  cancelReplenishmentOrder?: string | OccEndpoint;
 }

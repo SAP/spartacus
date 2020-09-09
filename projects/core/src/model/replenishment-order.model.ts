@@ -27,8 +27,8 @@ export interface ReplenishmentOrder {
   deliveryOrderGroups?: DeliveryOrderEntryGroup[];
   description?: string;
   entries?: OrderEntry[];
-  expirationTime?: string;
-  firstDate?: string;
+  expirationTime?: Date;
+  firstDate?: Date;
   guid?: string;
   name?: string;
   net?: boolean;
@@ -43,7 +43,7 @@ export interface ReplenishmentOrder {
   productDiscounts?: Price;
   purchaseOrderNumber?: string;
   replenishmentOrderCode?: string;
-  saveTime?: string;
+  saveTime?: Date;
   savedBy?: Principal;
   site?: string;
   store?: string;
@@ -54,7 +54,6 @@ export interface ReplenishmentOrder {
   totalPriceWithTax?: Price;
   totalTax?: Price;
   totalUnitCount?: number;
-  trigger?: Trigger;
   user?: Principal;
 }
 
@@ -62,11 +61,6 @@ export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
-}
-
-export interface Trigger {
-  activationTime: string;
-  displayTimeTable: string;
 }
 
 export interface ScheduleReplenishmentForm {

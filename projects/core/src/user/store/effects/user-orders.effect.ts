@@ -5,18 +5,14 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import {
-  UserOrderConnector,
-  UserReplenishmentOrderConnector,
-} from '../../connectors/index';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserOrdersEffect {
   constructor(
     private actions$: Actions,
-    private orderConnector: UserOrderConnector,
-    private replenishmentOrderConnector: UserReplenishmentOrderConnector
+    private orderConnector: UserOrderConnector
   ) {}
 
   @Effect()
@@ -26,28 +22,21 @@ export class UserOrdersEffect {
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap((payload) => {
-      return (Boolean(payload.replenishmentOrderCode)
-        ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
-            payload.userId,
-            payload.replenishmentOrderCode,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
-        : this.orderConnector.getHistory(
-            payload.userId,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
-      ).pipe(
-        map((orders: OrderHistoryList) => {
-          return new UserActions.LoadUserOrdersSuccess(orders);
-        }),
-        catchError((error) =>
-          of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
+      return this.orderConnector
+        .getHistory(
+          payload.userId,
+          payload.pageSize,
+          payload.currentPage,
+          payload.sort
         )
-      );
+        .pipe(
+          map((orders: OrderHistoryList) => {
+            return new UserActions.LoadUserOrdersSuccess(orders);
+          }),
+          catchError((error) =>
+            of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
+          )
+        );
     })
   );
 

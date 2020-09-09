@@ -10,12 +10,6 @@ export const defaultB2bOccConfig: OccConfig = {
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         placeOrder: 'orgUsers/${userId}/orders?termsChecked=true',
         scheduleReplenishmentOrder: 'orgUsers/${userId}/replenishmentOrders',
-        replenishmentOrderDetails:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
-        replenishmentOrderDetailsHistory:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
-        cancelReplenishmentOrder:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}',
       },
     },
   },

@@ -98,6 +98,24 @@ describe('Checkout Replenishment Order Service', () => {
       );
     });
 
+    it('should get the replenishment order details after successfully scheduling an order', () => {
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+          mockReplenishmentOrder
+        )
+      );
+
+      let result: ReplenishmentOrder;
+      service
+        .getReplenishmentOrderDetails()
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
+
+      expect(result).toEqual(mockReplenishmentOrder);
+    });
+
     it('should return the loading flag', () => {
       store.dispatch(
         new CheckoutActions.ScheduleReplenishmentOrderSuccess(
