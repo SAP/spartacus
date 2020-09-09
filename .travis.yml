@@ -14,10 +14,7 @@ branches:
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
     - "/^epic\\/.*$/"
-env:
-  - TEST_SUITE="./build.sh sonar"
-  - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
-script: $TEST_SUITE
+script: ./build.sh sonar
 deploy:
   provider: script
   skip_cleanup: true
