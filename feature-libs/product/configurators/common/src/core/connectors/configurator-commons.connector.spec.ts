@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  CartModification,
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
-import { CartModification } from '../../../model/cart.model';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfiguratorUtilsService } from '../../generic/utils/generic-configurator-utils.service';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Configurator, GenericConfiguratorUtilsService } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/core';
 import {
   ConfigurationRouter,
   ConfiguratorRouterExtractorService,
@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { distinctUntilKeyChanged, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-overview-notification-banner',

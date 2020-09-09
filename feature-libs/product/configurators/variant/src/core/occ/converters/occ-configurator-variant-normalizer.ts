@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Converter, OccConfig, TranslationService } from '@spartacus/core';
+import { Configurator } from '@spartacus/product/configurators/common';
 import { take } from 'rxjs/operators';
-import { TranslationService } from '../../../../../i18n/translation.service';
-import { Configurator } from '../../../../../model/configurator.model';
-import { Converter } from '../../../../../util/converter.service';
-import { OccConfig } from '../../../../config/occ-config';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })

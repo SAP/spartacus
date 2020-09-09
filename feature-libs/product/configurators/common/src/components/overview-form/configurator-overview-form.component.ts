@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Configurator } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -9,6 +8,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-overview-form',

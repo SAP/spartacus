@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../model/configurator.model';
 
 /**
  * Utility service for the facade layer. Supposed to be accessed by facade services

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';

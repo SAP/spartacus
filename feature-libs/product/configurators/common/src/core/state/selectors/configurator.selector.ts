@@ -3,12 +3,13 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Configurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import {
   ConfiguratorState,
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
+import { Configurator } from './../../model/configurator.model';
 
 export const getConfigurationsState: MemoizedSelector<
   StateWithConfigurator,

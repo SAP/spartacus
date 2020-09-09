@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '../../../../../model/configurator.model';
+import { Configurator } from '@spartacus/product/configurators/common';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantAddToCartSerializer } from './occ-configurator-variant-add-to-cart-serializer';
 

@@ -1,9 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, TranslationService } from '@spartacus/core';
+import { Configurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
-import { TranslationService } from '../../../../../i18n/translation.service';
-import { Configurator } from '../../../../../model/configurator.model';
-import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-variant-overview-normalizer';
 
@@ -29,12 +28,18 @@ const convertedOverview: Configurator.Overview = {
     {
       id: '1',
       groupDescription: groupDescription,
+
       attributes: [
         {
           attribute: 'C1',
           value: 'V1',
         },
       ],
+    },
+    {
+      id: '11',
+      groupDescription: undefined,
+      attributes: [],
     },
     {
       id: '2',
@@ -53,24 +58,26 @@ const convertedOverview: Configurator.Overview = {
   ],
 };
 
-const subGroups: OccConfigurator.GroupOverview[] = [
-  {
-    id: '3',
-    groupDescription: 'SubGroup',
-    characteristicValues: [{ characteristic: 'C3', value: 'V3' }],
-    subGroups: [
-      {
-        id: '4',
-        groupDescription: 'SubGroupLevel2',
-        characteristicValues: null,
-      },
-    ],
-  },
-];
+const group3: OccConfigurator.GroupOverview = {
+  id: '3',
+  groupDescription: 'SubGroup',
+  characteristicValues: [{ characteristic: 'C3', value: 'V3' }],
+  subGroups: [
+    {
+      id: '4',
+      groupDescription: 'SubGroupLevel2',
+      characteristicValues: null,
+    },
+  ],
+};
+Object.freeze(group3);
+const subGroups: OccConfigurator.GroupOverview[] = [group3];
+Object.freeze(subGroups);
 
 const group1: OccConfigurator.GroupOverview = {
   id: '1',
   groupDescription: groupDescription,
+  subGroups: [{ id: '11' }],
   characteristicValues: [
     {
       characteristic: 'C1',
@@ -78,6 +85,7 @@ const group1: OccConfigurator.GroupOverview = {
     },
   ],
 };
+Object.freeze(group1);
 
 const generalGroup: OccConfigurator.GroupOverview = {
   id: generalGroupName,
@@ -89,6 +97,7 @@ const generalGroup: OccConfigurator.GroupOverview = {
     },
   ],
 };
+Object.freeze(generalGroup);
 
 const overview: OccConfigurator.Overview = {
   id: configId,
@@ -113,6 +122,7 @@ const overview: OccConfigurator.Overview = {
     },
   ],
 };
+Object.freeze(overview);
 
 class MockConverterService {
   convert(source: OccConfigurator.Prices) {
@@ -149,28 +159,31 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should cover sub groups', () => {
-    overview.groups[0].subGroups = subGroups;
     const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
-    expect(result.groups.length).toBe(4);
+    expect(result.groups.length).toBe(3);
   });
 
   it('should be able to handle groups without attributes', () => {
-    group1.subGroups = null;
-    group1.characteristicValues = null;
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      group1
-    );
+    const group: OccConfigurator.GroupOverview = {
+      subGroups: null,
+      characteristicValues: null,
+      id: group1.id,
+    };
+
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(group);
     expect(result.length).toBe(1);
-    expect(result[0].id).toBe(group1.id);
+    expect(result[0].id).toBe(group.id);
   });
 
   it('should be able to handle groups with subgroups', () => {
-    group1.subGroups = subGroups;
+    const groupWithSubgroups: OccConfigurator.GroupOverview = {
+      subGroups: [group1, group3],
+    };
 
     const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      group1
+      groupWithSubgroups
     );
-    expect(result.length).toBe(3);
+    expect(result.length).toBe(5);
   });
   it('should set description for a general group', () => {
     const generalTargetGroup: Configurator.GroupOverview = {

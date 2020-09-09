@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
 
 @Component({

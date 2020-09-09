@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
-import { Configurator } from '../../../model/configurator.model';
-import { Converter } from '../../../util/converter.service';
+import { Converter } from '@spartacus/core';
+import { Configurator } from './../model/configurator.model';
 
 export const CONFIGURATION_NORMALIZER = new InjectionToken<
   Converter<any, Configurator.Configuration>

@@ -1,4 +1,4 @@
-import { GenericConfigurator } from './generic-configurator.model';
+import { GenericConfigurator } from '@spartacus/core';
 
 export namespace Configurator {
   export interface Attribute {

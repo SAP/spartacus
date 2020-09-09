@@ -4,12 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  Configurator,
-  ConfiguratorCommonsConnector,
-  GenericConfigurator,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { GenericConfigurator, normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
@@ -20,6 +15,8 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
+import { Configurator } from './../../model/configurator.model';
 import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';

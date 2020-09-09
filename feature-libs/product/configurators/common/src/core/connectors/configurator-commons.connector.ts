@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import {
+  CartModification,
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartModification } from '../../../model/cart.model';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfiguratorUtilsService } from '../../generic/utils/generic-configurator-utils.service';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
 @Injectable({

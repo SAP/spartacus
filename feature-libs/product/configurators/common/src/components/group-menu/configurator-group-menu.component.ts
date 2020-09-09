@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Configurator } from '@spartacus/core';
 import {
   ConfigurationRouter,
   ConfiguratorRouterExtractorService,
@@ -11,6 +10,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-group-menu',

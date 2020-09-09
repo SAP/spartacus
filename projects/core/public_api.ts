@@ -8,14 +8,17 @@ export * from './src/cart/index';
 export * from './src/checkout/index';
 export * from './src/cms/index';
 export * from './src/config/index';
-export * from './src/configurator/commons/index';
 export * from './src/configurator/generic/index';
 export * from './src/event/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';
 export * from './src/i18n/index';
 export * from './src/kyma/index';
+export { Cart } from './src/model/cart.model';
 export * from './src/model/index';
+export { Facet, ProductSearchPage } from './src/model/product-search.model';
+/** AUGMENTABLE_TYPES_START */
+export { Product } from './src/model/product.model';
 export * from './src/occ/index';
 export * from './src/personalization/index';
 export * from './src/process/index';
@@ -30,8 +33,4 @@ export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
 
-/** AUGMENTABLE_TYPES_START */
-export { Product } from './src/model/product.model';
-export { ProductSearchPage, Facet } from './src/model/product-search.model';
-export { Cart } from './src/model/cart.model';
 /** AUGMENTABLE_TYPES_END */

@@ -1,5 +1,6 @@
-import { Configurator, GenericConfigurator, StateUtils } from '@spartacus/core';
+import { GenericConfigurator, StateUtils } from '@spartacus/core';
 import { CONFIGURATOR_DATA } from '../configurator-state';
+import { Configurator } from './../../model/configurator.model';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =

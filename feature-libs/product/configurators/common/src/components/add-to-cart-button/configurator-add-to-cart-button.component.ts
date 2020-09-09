@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  Configurator,
   GenericConfigurator,
   GlobalMessageService,
   GlobalMessageType,
@@ -15,6 +14,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',

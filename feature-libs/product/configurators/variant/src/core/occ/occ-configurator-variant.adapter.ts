@@ -1,9 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
-import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
+import {
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
+  ConverterService,
+  GenericConfigurator,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
@@ -11,12 +14,11 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
   CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
-} from '../../../../configurator/commons/connectors/converters';
-import { CartModification } from '../../../../model/cart.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { ConverterService } from '../../../../util/converter.service';
-import { OccEndpointsService } from '../../../services/occ-endpoints.service';
-import { Configurator } from './../../../../model/configurator.model';
+  Configurator,
+  ConfiguratorCommonsAdapter,
+} from '@spartacus/product/configurators/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OccConfigurator } from './occ-configurator.models';
 
 @Injectable()

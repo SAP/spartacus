@@ -114,9 +114,9 @@ export namespace OccConfigurator {
   }
 
   export interface GroupOverview {
-    id: string;
-    groupDescription: string;
-    characteristicValues: CharacteristicOverview[];
+    id?: string;
+    groupDescription?: string;
+    characteristicValues?: CharacteristicOverview[];
     subGroups?: GroupOverview[];
   }
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
@@ -12,6 +11,7 @@ import {
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorSelectors } from './../state/selectors/index';
 

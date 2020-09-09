@@ -4,20 +4,22 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
-import { of } from 'rxjs';
-import { OccConfiguratorVariantAdapter } from '.';
+import {
+  ConverterService,
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
-} from '../../../../configurator/commons/connectors/converters';
-import { GenericConfiguratorUtilsService } from '../../../../configurator/generic/utils/generic-configurator-utils.service';
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { ConverterService } from '../../../../util/converter.service';
-import { OccEndpointsService } from '../../../services/occ-endpoints.service';
+  Configurator,
+} from '@spartacus/product/configurators/common';
+import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
+import { of } from 'rxjs';
+import { OccConfiguratorVariantAdapter } from '.';
 import { OccConfigurator } from './occ-configurator.models';
 
 class MockOccEndpointsService {

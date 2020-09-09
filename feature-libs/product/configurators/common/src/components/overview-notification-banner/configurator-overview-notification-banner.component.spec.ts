@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import {
   ConfigurationRouter,
   ConfiguratorRouterExtractorService,
@@ -12,6 +12,7 @@ import {
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
 } from '../../shared/testing/configurator-test-data';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @Pipe({

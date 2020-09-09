@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfigurator,
   I18nTestingModule,
   RoutingService,
@@ -13,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: GenericConfigurator.Owner =

@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 import {
-  Configurator,
   GenericConfigurator,
   MULTI_CART_DATA,
   StateUtils,
 } from '@spartacus/core';
 import { CONFIGURATOR_DATA } from '../configurator-state';
+import { Configurator } from './../../model/configurator.model';
 
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read Cart Entry Configuration';

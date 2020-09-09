@@ -1,7 +1,6 @@
+import { CartModification, GenericConfigurator } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartModification } from '../../../model/cart.model';
-import { Configurator } from '../../../model/configurator.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { Configurator } from './../model/configurator.model';
 
 export abstract class ConfiguratorCommonsAdapter {
   /**

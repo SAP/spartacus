@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { CONFIGURATION_PRICE_SUMMARY_NORMALIZER } from '../../../../../configurator/commons/connectors/converters';
-import { TranslationService } from '../../../../../i18n/translation.service';
-import { Configurator } from '../../../../../model/configurator.model';
 import {
   Converter,
   ConverterService,
-} from '../../../../../util/converter.service';
+  TranslationService,
+} from '@spartacus/core';
+import {
+  CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
+  Configurator,
+} from '@spartacus/product/configurators/common';
+import { take } from 'rxjs/operators';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })

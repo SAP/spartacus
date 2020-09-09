@@ -1,13 +1,13 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import {
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   MULTI_CART_DATA,
   StateUtils,
 } from '@spartacus/core';
 import { CONFIGURATOR_DATA } from '../configurator-state';
+import { Configurator } from './../../model/configurator.model';
 import * as ConfiguratorActions from './configurator-cart.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

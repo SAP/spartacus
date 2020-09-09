@@ -1,4 +1,4 @@
-import { OccConfig } from '../../../config/occ-config';
+import { OccConfig } from '@spartacus/core';
 
 export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
   return {

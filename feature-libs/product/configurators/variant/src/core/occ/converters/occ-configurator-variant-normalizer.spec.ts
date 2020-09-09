@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  ConverterService,
+  OccConfig,
+  TranslationService,
+} from '@spartacus/core';
+import { Configurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
-import { TranslationService } from '../../../../../i18n/translation.service';
-import { Configurator } from '../../../../../model/configurator.model';
-import { ConverterService } from '../../../../../util/converter.service';
-import { OccConfig } from '../../../../config/occ-config';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
@@ -548,6 +550,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert image with media URL configured', () => {
     const images = [];
+    occConfig.backend.media.baseUrl = 'https://mediaBackendBaseUrl/';
 
     occConfiguratorVariantNormalizer.convertImage(occImage, images);
 

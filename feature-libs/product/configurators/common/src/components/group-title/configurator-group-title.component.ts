@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Configurator } from '@spartacus/core';
 import {
   ConfiguratorRouterExtractorService,
   ICON_TYPE,
@@ -8,6 +7,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-group-title',

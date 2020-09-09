@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Configurator } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-conflict-description',
