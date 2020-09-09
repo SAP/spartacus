@@ -267,13 +267,14 @@ describe('UserReplenishmentOrderService', () => {
       });
     });
 
-    it('should be able to get replenishment order list success', () => {
+    it('should be able to get replenishment order list loaded flag', () => {
       store.dispatch(new UserActions.LoadUserReplenishmentOrdersSuccess({}));
 
       let orderListLoaded: boolean;
       userReplenishmentOrderService
-        .getReplenishmentOrderHistoryListSuccess()
+        .getReplenishmentOrderHistoryListLoaded()
         .subscribe((data) => {
+          console.log('from loaded flag service', data);
           orderListLoaded = data;
         })
         .unsubscribe();

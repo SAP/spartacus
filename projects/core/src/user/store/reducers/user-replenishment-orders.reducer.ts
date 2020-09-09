@@ -13,6 +13,7 @@ export function reducer(
 ): ReplenishmentOrderList {
   switch (action.type) {
     case UserActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS: {
+      console.log('from replen-order-reducer', action.payload);
       return action.payload ? action.payload : initialState;
     }
     case UserActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL: {

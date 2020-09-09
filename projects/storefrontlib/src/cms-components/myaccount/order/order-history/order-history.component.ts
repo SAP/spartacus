@@ -5,6 +5,8 @@ import {
   RoutingService,
   TranslationService,
   UserOrderService,
+  UserReplenishmentOrderService,
+  ReplenishmentOrderList,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap, filter, take } from 'rxjs/operators';
@@ -18,6 +20,7 @@ export class OrderHistoryComponent implements OnDestroy {
   constructor(
     private routing: RoutingService,
     private userOrderService: UserOrderService,
+    private userReplenishmentOrderService: UserReplenishmentOrderService,
     private translation: TranslationService
   ) {}
 
@@ -33,6 +36,18 @@ export class OrderHistoryComponent implements OnDestroy {
       }
     })
   );
+
+  replenishmentOrders$: Observable<
+    ReplenishmentOrderList
+  > = this.userReplenishmentOrderService
+    .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
+    .pipe(
+      tap((replenishmentOrders: ReplenishmentOrderList) => {
+        if (replenishmentOrders.pagination) {
+          this.sortType = replenishmentOrders.pagination.sort;
+        }
+      })
+    );
 
   isLoaded$: Observable<
     boolean
@@ -59,6 +74,7 @@ export class OrderHistoryComponent implements OnDestroy {
     };
     this.sortType = sortCode;
     this.fetchOrders(event);
+    this.fetchReplenishmentOrders(event);
   }
 
   pageChange(page: number): void {
@@ -67,6 +83,7 @@ export class OrderHistoryComponent implements OnDestroy {
       currentPage: page,
     };
     this.fetchOrders(event);
+    this.fetchReplenishmentOrders(event);
   }
 
   goToOrderDetail(order: Order): void {
@@ -92,6 +109,17 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
     this.userOrderService.loadOrderList(
+      this.PAGE_SIZE,
+      event.currentPage,
+      event.sortCode
+    );
+  }
+
+  private fetchReplenishmentOrders(event: {
+    sortCode: string;
+    currentPage: number;
+  }): void {
+    this.userReplenishmentOrderService.loadReplenishmentOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode

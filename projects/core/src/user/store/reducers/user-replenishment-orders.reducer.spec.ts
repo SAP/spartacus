@@ -19,7 +19,7 @@ describe('User Orders Replenishment Reducer', () => {
   });
 
   describe('LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS action', () => {
-    it('should populate the user Replenishment Orders state entities', () => {
+    it('should populate the user Orders state entities', () => {
       const replenishmentOrders: OrderHistory[] = [
         { code: '01' },
         { code: '02' },
@@ -30,7 +30,7 @@ describe('User Orders Replenishment Reducer', () => {
         pageSize: 5,
       };
       const sorts: SortModel[] = [{ code: 'byDate' }];
-      const mockUserReplenishmentOrders: ReplenishmentOrderList = {
+      const mockUserOrders: ReplenishmentOrderList = {
         replenishmentOrders,
         pagination,
         sorts,
@@ -38,14 +38,14 @@ describe('User Orders Replenishment Reducer', () => {
 
       const { initialState } = fromUserReplenishmentOrdersReducer;
       const action = new UserActions.LoadUserReplenishmentOrdersSuccess(
-        mockUserReplenishmentOrders
+        mockUserOrders
       );
       const state = fromUserReplenishmentOrdersReducer.reducer(
         initialState,
         action
       );
 
-      expect(state).toEqual(mockUserReplenishmentOrders);
+      expect(state).toEqual(mockUserOrders);
     });
   });
 

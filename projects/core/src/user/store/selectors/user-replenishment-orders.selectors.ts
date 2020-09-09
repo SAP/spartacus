@@ -10,7 +10,7 @@ export const getReplenishmentOrdersState: MemoizedSelector<
   LoaderState<ReplenishmentOrderList>
 > = createSelector(
   getUserState,
-  (state: UserState) => state.replenishmentOrders
+  (state: UserState) => state.replenishmetOrders
 );
 
 export const getReplenishmentOrdersLoaded: MemoizedSelector<

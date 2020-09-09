@@ -43,7 +43,7 @@ export class UserReplenishmentOrderConnector {
     );
   }
 
-  public loadHistory(
+  public getHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,

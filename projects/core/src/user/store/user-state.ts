@@ -67,7 +67,7 @@ export interface UserState {
   payments: StateUtils.LoaderState<PaymentDetails[]>;
   orders: StateUtils.LoaderState<OrderHistoryList>;
   order: StateUtils.LoaderState<Order>;
-  replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
+  replenishmetOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   titles: TitlesState;

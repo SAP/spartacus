@@ -5,13 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import {
-  UserReplenishmentOrderAdapter,
-  UserReplenishmentOrderConnector,
-} from '../../connectors/replenishment-order/index';
+import { UserReplenishmentOrderAdapter } from '../../connectors/replenishment-order/user-replenishment-order.adapter';
+import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
 import { UserActions } from '../actions/index';
-import * as fromUserReplenishmentOrdersEffect from './user-replenishment-orders.effect';
-import { Action } from '@ngrx/store';
+import * as fromUserOrdersEffect from './user-replenishment-orders.effect';
 
 const mockUserReplenishmentOrders: ReplenishmentOrderList = {
   replenishmentOrders: [],
@@ -20,15 +17,15 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
 };
 
 describe('User Replenishment Orders effect', () => {
-  let userReplenishmentOrdersEffect: fromUserReplenishmentOrdersEffect.UserReplenishmentOrdersEffect;
-  let replenishmentOrderConnector: UserReplenishmentOrderConnector;
-  let actions$: Observable<Action>;
+  let userReplenishmentOrdersEffect: fromUserOrdersEffect.UserReplenishmentOrdersEffect;
+  let orderReplenishmentConnector: UserReplenishmentOrderConnector;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        fromUserReplenishmentOrdersEffect.UserReplenishmentOrdersEffect,
+        fromUserOrdersEffect.UserReplenishmentOrdersEffect,
         { provide: UserReplenishmentOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
@@ -36,16 +33,16 @@ describe('User Replenishment Orders effect', () => {
 
     actions$ = TestBed.inject(Actions);
     userReplenishmentOrdersEffect = TestBed.inject(
-      fromUserReplenishmentOrdersEffect.UserReplenishmentOrdersEffect
+      fromUserOrdersEffect.UserReplenishmentOrdersEffect
     );
-    replenishmentOrderConnector = TestBed.inject(
+    orderReplenishmentConnector = TestBed.inject(
       UserReplenishmentOrderConnector
     );
   });
 
-  describe('loadUserReplenishmentOrders$', () => {
+  describe('loadUserReplenishOrders$', () => {
     it('should load user Orders', () => {
-      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
+      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
         of(mockUserReplenishmentOrders)
       );
       const action = new UserActions.LoadUserReplenishmentOrders({
@@ -61,12 +58,12 @@ describe('User Replenishment Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishOrders$
       ).toBeObservable(expected);
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
-      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
+      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
         throwError('Error')
       );
 
@@ -83,7 +80,7 @@ describe('User Replenishment Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishOrders$
       ).toBeObservable(expected);
     });
   });
