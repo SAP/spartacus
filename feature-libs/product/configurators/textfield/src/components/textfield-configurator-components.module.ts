@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
-import { ConfigTextfieldFormComponent } from './config-textfield-form/config-textfield-form.component';
-import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-field/config-textfield-input-field.component';
+import { ConfiguratorTextfieldAddToCartButtonComponent } from './add-to-cart-button/configurator-textfield-add-to-cart-button.component';
+import { ConfiguratorTextfieldFormComponent } from './form/configurator-textfield-form.component';
+import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configurator-textfield-input-field.component';
 
 @NgModule({
   imports: [
@@ -19,19 +19,19 @@ import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-fie
     UrlModule,
   ],
   declarations: [
-    ConfigTextfieldFormComponent,
-    ConfigTextfieldInputFieldComponent,
-    ConfigTextfieldAddToCartButtonComponent,
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   exports: [
-    ConfigTextfieldFormComponent,
-    ConfigTextfieldInputFieldComponent,
-    ConfigTextfieldAddToCartButtonComponent,
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   entryComponents: [
-    ConfigTextfieldFormComponent,
-    ConfigTextfieldInputFieldComponent,
-    ConfigTextfieldAddToCartButtonComponent,
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
   ],
 })
 export class TextfieldConfiguratorComponentsModule {}

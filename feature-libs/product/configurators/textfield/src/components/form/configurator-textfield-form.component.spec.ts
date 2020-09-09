@@ -13,9 +13,9 @@ import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
-import { ConfigTextfieldAddToCartButtonComponent } from '../config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
-import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
-import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
+import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
+import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
+import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';
@@ -57,8 +57,8 @@ class MockConfiguratorTextfieldService {
   }
 }
 describe('TextfieldFormComponent', () => {
-  let component: ConfigTextfieldFormComponent;
-  let fixture: ComponentFixture<ConfigTextfieldFormComponent>;
+  let component: ConfiguratorTextfieldFormComponent;
+  let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
   beforeEach(async(() => {
@@ -70,9 +70,9 @@ describe('TextfieldFormComponent', () => {
         PageLayoutModule,
       ],
       declarations: [
-        ConfigTextfieldFormComponent,
-        ConfigTextfieldInputFieldComponent,
-        ConfigTextfieldAddToCartButtonComponent,
+        ConfiguratorTextfieldFormComponent,
+        ConfiguratorTextfieldInputFieldComponent,
+        ConfiguratorTextfieldAddToCartButtonComponent,
       ],
       providers: [
         {
@@ -87,7 +87,7 @@ describe('TextfieldFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigTextfieldFormComponent);
+    fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
     textfieldService = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>

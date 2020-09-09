@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { ConfigTextfieldFormComponent } from './components/config-textfield-form/config-textfield-form.component';
+import { ConfiguratorTextfieldFormComponent } from './components/form/configurator-textfield-form.component';
 import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
 import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-core.module';
 
@@ -32,7 +32,7 @@ import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-c
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         TextfieldConfigurationForm: {
-          component: ConfigTextfieldFormComponent,
+          component: ConfiguratorTextfieldFormComponent,
         },
       },
       layoutSlots: {

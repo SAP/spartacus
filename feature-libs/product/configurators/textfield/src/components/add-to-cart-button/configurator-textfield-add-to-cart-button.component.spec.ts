@@ -14,7 +14,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
-import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button.component';
+import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -57,8 +57,8 @@ class MockUrlPipe implements PipeTransform {
 }
 
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
-  let classUnderTest: ConfigTextfieldAddToCartButtonComponent;
-  let fixture: ComponentFixture<ConfigTextfieldAddToCartButtonComponent>;
+  let classUnderTest: ConfiguratorTextfieldAddToCartButtonComponent;
+  let fixture: ComponentFixture<ConfiguratorTextfieldAddToCartButtonComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
   let htmlElem: HTMLElement;
@@ -76,7 +76,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfigTextfieldAddToCartButtonComponent, MockUrlPipe],
+      declarations: [
+        ConfiguratorTextfieldAddToCartButtonComponent,
+        MockUrlPipe,
+      ],
       providers: [
         {
           provide: ConfiguratorTextfieldService,
@@ -88,7 +91,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
       ],
     })
-      .overrideComponent(ConfigTextfieldAddToCartButtonComponent, {
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -97,7 +100,9 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigTextfieldAddToCartButtonComponent);
+    fixture = TestBed.createComponent(
+      ConfiguratorTextfieldAddToCartButtonComponent
+    );
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;

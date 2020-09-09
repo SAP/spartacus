@@ -11,10 +11,10 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 
 @Component({
   selector: 'cx-config-textfield-input-field',
-  templateUrl: './config-textfield-input-field.component.html',
+  templateUrl: './configurator-textfield-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldInputFieldComponent implements OnInit {
+export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-config-textfield';
   attributeInputForm = new FormControl('');
 

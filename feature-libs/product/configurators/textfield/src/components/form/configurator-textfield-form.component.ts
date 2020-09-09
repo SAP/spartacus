@@ -8,9 +8,9 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 
 @Component({
   selector: 'cx-config-textfield-form',
-  templateUrl: './config-textfield-form.component.html',
+  templateUrl: './configurator-textfield-form.component.html',
 })
-export class ConfigTextfieldFormComponent {
+export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<
     ConfiguratorTextfield.Configuration
   > = this.configRouterExtractorService.extractRouterData().pipe(

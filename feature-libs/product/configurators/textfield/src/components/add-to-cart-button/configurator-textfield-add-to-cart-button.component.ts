@@ -5,10 +5,10 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 
 @Component({
   selector: 'cx-config-textfield-add-to-cart-button',
-  templateUrl: './config-textfield-add-to-cart-button.component.html',
+  templateUrl: './configurator-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldAddToCartButtonComponent {
+export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() configuration: ConfiguratorTextfield.Configuration;
   @Input() productCode: string;
 
