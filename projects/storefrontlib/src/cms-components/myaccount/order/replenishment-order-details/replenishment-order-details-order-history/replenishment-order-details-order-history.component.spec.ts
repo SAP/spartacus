@@ -24,7 +24,7 @@ const mockOrders: OrderHistoryList = {
   pagination: { totalResults: 1, totalPages: 1 },
 };
 
-const orderHistroy = new BehaviorSubject<OrderHistoryList>(mockOrders);
+const mockOrderHistoryList = new BehaviorSubject<OrderHistoryList>(mockOrders);
 
 class MockRoutingService {
   go() {}
@@ -32,7 +32,7 @@ class MockRoutingService {
 
 class MockUserOrderService {
   getOrderHistoryList(): Observable<OrderHistoryList> {
-    return orderHistroy.asObservable();
+    return mockOrderHistoryList.asObservable();
   }
   getOrderHistoryListLoaded(): Observable<boolean> {
     return of(true);
@@ -141,7 +141,7 @@ describe('ReplenishmentOrderDetailsOrderHistoryComponent', () => {
       pagination: { totalResults: 0 },
     };
 
-    orderHistroy.next(emptyOrderList);
+    mockOrderHistoryList.next(emptyOrderList);
 
     fixture.detectChanges();
 
