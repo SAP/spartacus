@@ -10,9 +10,11 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { CardModule } from '../../../../shared/components/card/card.module';
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import {
+  CardModule,
+  ListNavigationModule,
+  SpinnerModule,
+} from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailHeadlineComponent } from '../order-details/order-detail-headline/order-detail-headline.component';
