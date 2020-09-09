@@ -1,15 +1,15 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   GenericConfigurator,
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
-import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 import { ModalService } from '@spartacus/storefront';
-import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
-import { By } from '@angular/platform-browser';
+import { ConfigComponentTestUtilsService } from '../service/configurator-component-test-utils.service';
+import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @Pipe({
   name: 'cxUrl',

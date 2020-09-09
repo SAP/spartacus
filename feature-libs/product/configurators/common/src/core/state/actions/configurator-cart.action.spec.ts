@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   MULTI_CART_DATA,
   StateUtils,
 } from '@spartacus/core';
@@ -20,11 +20,11 @@ const CONFIGURATION: Configurator.Configuration = {
 };
 
 describe('ConfiguratorCartActions', () => {
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);
   }));

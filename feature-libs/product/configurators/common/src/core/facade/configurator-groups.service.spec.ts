@@ -3,14 +3,14 @@ import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { StateWithConfigurator } from '../state/configurator-state';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './../../shared/testing/configuration-test-data';
+} from '../../shared/testing/configurator-test-data';
+import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';

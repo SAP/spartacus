@@ -4,7 +4,7 @@ import {
   ActiveCartService,
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfigurator>,
-    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartService,
     protected configuratorUtils: ConfiguratorUtilsService

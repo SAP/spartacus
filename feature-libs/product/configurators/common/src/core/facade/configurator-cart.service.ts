@@ -4,7 +4,7 @@ import {
   ActiveCartService,
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
@@ -21,7 +21,7 @@ export class ConfiguratorCartService {
     protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService
   ) {}
 
   /**

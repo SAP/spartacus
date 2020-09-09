@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Configurator,
   ConfiguratorCommonsConnector,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -364,7 +364,7 @@ export class ConfiguratorBasicEffects {
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
-    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>
   ) {}

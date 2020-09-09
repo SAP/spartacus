@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OrderEntry,
 } from '@spartacus/core';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
@@ -68,7 +68,7 @@ export class ConfigureCartEntryComponent {
   }
 
   constructor(
-    private genericConfigUtilsService: GenericConfigUtilsService,
+    private genericConfigUtilsService: GenericConfiguratorUtilsService,
     private modalService: ModalService
   ) {}
 }
