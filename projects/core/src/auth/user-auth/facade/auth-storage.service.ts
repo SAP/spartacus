@@ -55,7 +55,11 @@ export class AuthStorageService extends OAuthStorage {
 
   /** Sync API for oAuth lib use */
   getItem(key: string): any {
-    return this.decode(key, this.getToken()[key]);
+    let token;
+    this.getToken()
+      .subscribe((currentToken) => (token = currentToken))
+      .unsubscribe();
+    return this.decode(key, token?.[key]);
   }
 
   removeItem(key: string): void {

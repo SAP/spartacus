@@ -5,18 +5,17 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { AuthConfigService } from '../services/auth-config.service';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
 
 class MockAuthStorageService {
-  getItem(a) {
-    if (a === 'token_type') {
-      return '"Bearer"';
-    } else if (a === 'access_token') {
-      return 'acc_token';
-    }
+  getToken() {
+    return of({
+      token_type: 'Bearer',
+      access_token: 'acc_token',
+    });
   }
 }
 

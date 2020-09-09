@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
       map((isLoggedIn) => {
         if (!isLoggedIn) {
           this.authRedirectService.reportAuthGuard();
+          // TODO: For implicit + code flow we should just initialize login (that would cause redirect) and return false here
           return this.router.parseUrl(this.semanticPathService.get('login'));
         }
         return isLoggedIn;

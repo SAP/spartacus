@@ -4,6 +4,7 @@ import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
+import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
 
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
@@ -11,6 +12,7 @@ export interface SyncedAuthState {
   userId: string;
   access_token: string;
   [token_param: string]: any;
+  redirectUrl: string;
 }
 
 @Injectable({
@@ -22,7 +24,8 @@ export class AuthStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
-    protected authStorageService: AuthStorageService
+    protected authStorageService: AuthStorageService,
+    protected authRedirectStorageService: AuthRedirectStorageService
   ) {}
 
   protected key = 'auth';
@@ -48,7 +51,10 @@ export class AuthStatePersistenceService implements OnDestroy {
         })
       ),
       this.userIdService.getUserId(),
-    ]).pipe(map(([token, userId]) => ({ ...token, userId })));
+      this.authRedirectStorageService.getRedirectUrl(),
+    ]).pipe(
+      map(([token, userId, redirectUrl]) => ({ ...token, userId, redirectUrl }))
+    );
   }
 
   // TODO: Should we still omit refresh_token as before?
@@ -57,11 +63,13 @@ export class AuthStatePersistenceService implements OnDestroy {
       const tokenData = Object.fromEntries(
         Object.entries(state).filter(([key]) => {
           // userId used only for userIdService
-          return key !== 'userId';
+          // redirectUrl used only for auth redirects
+          return key !== 'userId' && key !== 'redirectUrl';
         })
       );
       this.authStorageService.setToken(tokenData as AuthToken);
       this.userIdService.setUserId(state.userId);
+      this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
     }
   }
 

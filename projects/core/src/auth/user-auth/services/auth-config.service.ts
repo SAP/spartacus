@@ -18,6 +18,14 @@ export class AuthConfigService {
     );
   }
 
+  getTokenEndpoint() {
+    let tokenEndpoint = this.authConfig.authentication.tokenEndpoint;
+    if (!tokenEndpoint.startsWith('/')) {
+      tokenEndpoint = '/' + tokenEndpoint;
+    }
+    return `${this.getBaseUrl()}${tokenEndpoint}`;
+  }
+
   getLoginEndpoint() {
     let loginEndpoint = this.authConfig.authentication.loginEndpoint;
     if (!loginEndpoint.startsWith('/')) {

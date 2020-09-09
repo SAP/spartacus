@@ -16,7 +16,7 @@ export class ClientAuthenticationTokenService {
   ) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {
-    const url: string = this.authConfigService.getLoginEndpoint();
+    const url: string = this.authConfigService.getTokenEndpoint();
     const params = new HttpParams()
       .set(
         'client_id',

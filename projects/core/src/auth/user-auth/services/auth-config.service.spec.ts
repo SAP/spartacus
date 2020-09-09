@@ -5,6 +5,7 @@ import { AuthConfigService } from './auth-config.service';
 
 const mockAuthConfig: AuthConfig = {
   authentication: {
+    tokenEndpoint: '/token',
     loginEndpoint: '/login',
     revokeEndpoint: '/revoke',
     baseUrl: 'authBaseUrl',
@@ -44,6 +45,22 @@ describe('AuthConfigService', () => {
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('getTokenEndpoint', () => {
+    it('should return token endpoint with provided auth baseUrl', () => {
+      expect(service.getTokenEndpoint()).toEqual('authBaseUrl/token');
+    });
+
+    it('should return token endpoint with occ baseUrl, when auth baseUrl is not provided', () => {
+      authConfig.authentication.baseUrl = undefined;
+      expect(service.getTokenEndpoint()).toEqual('occBaseUrl/token');
+    });
+
+    it('should add / when token endpoint does not start with it', () => {
+      authConfig.authentication.tokenEndpoint = 'token';
+      expect(service.getTokenEndpoint()).toEqual('authBaseUrl/token');
+    });
   });
 
   describe('getLoginEndpoint', () => {

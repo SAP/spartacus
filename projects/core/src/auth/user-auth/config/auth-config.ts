@@ -11,7 +11,8 @@ export abstract class AuthConfig extends OccConfig {
     client_id?: string;
     client_secret?: string;
     baseUrl?: string;
-    loginEndpoint?: string;
+    tokenEndpoint?: string;
     revokeEndpoint?: string;
+    loginEndpoint?: string;
   };
 }

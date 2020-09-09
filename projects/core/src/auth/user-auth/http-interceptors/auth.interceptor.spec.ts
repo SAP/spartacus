@@ -26,7 +26,7 @@ const userToken = {
 } as AuthToken;
 
 class MockAuthService {
-  getUserToken(): Observable<AuthToken> {
+  getToken(): Observable<AuthToken> {
     return of();
   }
 }

@@ -16,7 +16,7 @@ const token: ClientToken = {
   scope: 'user',
 };
 
-const loginEndpoint = '/authorizationserver/oauth/token';
+const tokenEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig: AuthConfig = {
   authentication: {
@@ -26,8 +26,8 @@ const MockAuthConfig: AuthConfig = {
 };
 
 class AuthConfigServiceMock {
-  getLoginEndpoint() {
-    return loginEndpoint;
+  getTokenEndpoint() {
+    return tokenEndpoint;
   }
 }
 
@@ -49,7 +49,7 @@ describe('ClientAuthenticationTokenService', () => {
     service = TestBed.inject(ClientAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
     authConfigService = TestBed.inject(AuthConfigService);
-    spyOn(authConfigService, 'getLoginEndpoint').and.callThrough();
+    spyOn(authConfigService, 'getTokenEndpoint').and.callThrough();
   });
 
   afterEach(() => {
@@ -63,10 +63,10 @@ describe('ClientAuthenticationTokenService', () => {
       });
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
-        return req.method === 'POST' && req.url === loginEndpoint;
+        return req.method === 'POST' && req.url === tokenEndpoint;
       });
 
-      expect(authConfigService.getLoginEndpoint).toHaveBeenCalled();
+      expect(authConfigService.getTokenEndpoint).toHaveBeenCalled();
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);
