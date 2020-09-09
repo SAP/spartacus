@@ -1,5 +1,5 @@
-<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="row">
-  <div
+<ul id="{{ createAttributeIdForConfigurator(attribute) }}" class="row">
+  <li
     *ngFor="let value of attribute.values; let i = index"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (click)="onSelect(i)"
@@ -24,7 +24,6 @@
       [formControl]="attributeCheckBoxForms[i]"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
     />
-
     <img
       *ngIf="value.images[0]"
       class="cx-config-attribute-value-img"
@@ -46,5 +45,5 @@
         >{{ value.valueDisplay }}</label
       >
     </div>
-  </div>
-</div>
+  </li>
+</ul>
