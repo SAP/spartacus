@@ -101,7 +101,7 @@ describe('ActivePermissionGuard', () => {
           );
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
-              key: 'organization.notification.notExist',
+              key: 'organization.notification.disabled',
               params: { item: 'Purchase limit' },
             },
             GlobalMessageType.MSG_TYPE_WARNING
