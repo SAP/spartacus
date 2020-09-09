@@ -57,6 +57,7 @@ assignees: ''
 
 ---
 
+- [ ] Before you release libraries fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
 - [ ] Release libraries with release-it scripts
   - Make sure your GITHUB_TOKEN env variable is set
   - Check if you are logged into npm with `npm whoami`
