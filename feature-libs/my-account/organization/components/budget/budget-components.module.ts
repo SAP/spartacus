@@ -9,7 +9,7 @@ import {
   budgetRoutingConfig,
   budgetTableConfigFactory,
 } from './budget.config';
-import { BudgetCostCenterListModule } from './cost-centers/list/budget-cost-center-list.module';
+import { BudgetCostCenterListModule } from './cost-centers/budget-cost-center-list.module';
 import { BudgetDetailsModule } from './details';
 import { BudgetFormModule } from './form/budget-form.module';
 

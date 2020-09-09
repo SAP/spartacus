@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
+import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({

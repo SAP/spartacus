@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -18,7 +18,7 @@ import { DateRangeCellComponent } from '../shared/organization-table/date-range/
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
+import { BudgetCostCenterListComponent } from './cost-centers/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetFormComponent } from './form/budget-form.component';
 import { BudgetItemService } from './services/budget-item.service';
@@ -125,6 +125,11 @@ export const budgetTableConfig: TableConfig = {
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: {
       cells: ['name'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
     },
   },
 };

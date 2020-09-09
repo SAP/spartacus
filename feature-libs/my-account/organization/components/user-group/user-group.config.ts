@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import {
   ActiveLinkCellComponent,
   AssignCellComponent,
@@ -24,9 +24,6 @@ import { UserGroupListService } from './services';
 import { UserGroupItemService } from './services/user-group-item.service';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
 const paramsMapping: ParamsMapping = {

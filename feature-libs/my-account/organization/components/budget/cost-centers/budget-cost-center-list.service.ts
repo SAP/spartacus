@@ -4,8 +4,8 @@ import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
-import { OrganizationTableType } from '../../../shared/organization.model';
+import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
+import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
  * Service to populate Cost Center Budget data to `Table` data. The cost center
