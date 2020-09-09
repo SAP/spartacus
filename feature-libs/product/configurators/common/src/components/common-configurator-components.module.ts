@@ -1,33 +1,33 @@
 import { NgModule } from '@angular/core';
-import { ConfigAddToCartButtonModule } from './config-add-to-cart-button/config-add-to-cart-button.module';
-import { ConfigFormModule } from './config-form/config-form.module';
-import { ConfigGroupMenuModule } from './config-group-menu/config-group-menu.module';
-import { ConfigGroupTitleModule } from './config-group-title/config-group-title.module';
-import { ConfigurationMessageLoaderModule } from './config-message/config-message-loader.module';
-import { ConfigMessageModule } from './config-message/config-message.module';
-import { ConfigOverviewAttributeModule } from './config-overview-attribute/config-overview-attribute.module';
-import { ConfigOverviewFormModule } from './config-overview-form/config-overview-form.module';
-import { ConfigOverviewNotificationBannerModule } from './config-overview-notification-banner/config-overview-notification-banner.module';
-import { ConfigPreviousNextButtonsModule } from './config-previous-next-buttons/config-previous-next-buttons.module';
-import { ConfigPriceSummaryModule } from './config-price-summary/config-price-summary.module';
-import { ConfigProductTitleModule } from './config-product-title/config-product-title.module';
-import { ConfigTabBarModule } from './config-tab-bar/config-tab-bar.module';
+import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
+import { ConfiguratorFormModule } from './form/configurator-form.module';
+import { ConfiguratorGroupMenuModule } from './group-menu/configurator-group-menu.module';
+import { ConfiguratorGroupTitleModule } from './group-title/configurator-group-title.module';
+import { ConfigurationMessageLoaderModule } from './message/configurator-message-loader.module';
+import { ConfiguratorMessageModule } from './message/configurator-message.module';
+import { ConfiguratorOverviewAttributeModule } from './overview-attribute/configurator-overview-attribute.module';
+import { ConfiguratorOverviewFormModule } from './overview-form/configurator-overview-form.module';
+import { ConfiguratorOverviewNotificationBannerModule } from './overview-notification-banner/configurator-overview-notification-banner.module';
+import { ConfiguratorPreviousNextButtonsModule } from './previous-next-buttons/configurator-previous-next-buttons.module';
+import { ConfiguratorPriceSummaryModule } from './price-summary/configurator-price-summary.module';
+import { ConfiguratorProductTitleModule } from './product-title/configurator-product-title.module';
+import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 
 @NgModule({
   imports: [
-    ConfigPriceSummaryModule,
-    ConfigAddToCartButtonModule,
-    ConfigGroupMenuModule,
-    ConfigProductTitleModule,
-    ConfigTabBarModule,
-    ConfigFormModule,
-    ConfigGroupTitleModule,
-    ConfigMessageModule,
+    ConfiguratorPriceSummaryModule,
+    ConfiguratorAddToCartButtonModule,
+    ConfiguratorGroupMenuModule,
+    ConfiguratorProductTitleModule,
+    ConfiguratorTabBarModule,
+    ConfiguratorFormModule,
+    ConfiguratorGroupTitleModule,
+    ConfiguratorMessageModule,
     ConfigurationMessageLoaderModule,
-    ConfigPreviousNextButtonsModule,
-    ConfigOverviewAttributeModule,
-    ConfigOverviewFormModule,
-    ConfigOverviewNotificationBannerModule,
+    ConfiguratorPreviousNextButtonsModule,
+    ConfiguratorOverviewAttributeModule,
+    ConfiguratorOverviewFormModule,
+    ConfiguratorOverviewNotificationBannerModule,
   ],
 })
 export class CommonConfiguratorComponentsModule {}

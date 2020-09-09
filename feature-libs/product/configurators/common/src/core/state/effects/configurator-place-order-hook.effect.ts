@@ -4,7 +4,7 @@ import {
   ActiveCartService,
   CheckoutActions,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -52,6 +52,6 @@ export class ConfiguratorPlaceOrderHookEffects {
   constructor(
     protected actions$: Actions,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService
   ) {}
 }

@@ -6,7 +6,7 @@ import {
   GROUP_ID_1,
   GROUP_ID_2,
   productConfiguration,
-} from '../../../shared/testing/configuration-test-data';
+} from '../../../shared/testing/configurator-test-data';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 
 const CONFIG_ID = '1234-56-7890';

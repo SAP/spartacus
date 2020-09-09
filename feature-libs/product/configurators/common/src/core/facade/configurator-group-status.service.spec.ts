@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { StateWithConfigurator } from '../state/configurator-state';
 import {
   GROUP_ID_1,
   GROUP_ID_3,
@@ -13,7 +12,8 @@ import {
   GROUP_ID_8,
   productConfiguration,
   productConfigurationWithConflicts,
-} from './../../shared/testing/configuration-test-data';
+} from '../../shared/testing/configurator-test-data';
+import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';

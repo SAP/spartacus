@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
+import { GenericConfiguratorUtilsService } from '../../generic/utils/generic-configurator-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
@@ -80,7 +80,7 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
 
 describe('ConfiguratorCommonsConnector', () => {
   let service: ConfiguratorCommonsConnector;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
 
   const GROUP_ID = 'GROUP1';
 
@@ -100,7 +100,7 @@ describe('ConfiguratorCommonsConnector', () => {
       ConfiguratorCommonsConnector as Type<ConfiguratorCommonsConnector>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
   });
