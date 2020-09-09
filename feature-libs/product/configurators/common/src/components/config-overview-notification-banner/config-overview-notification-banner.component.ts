@@ -1,12 +1,21 @@
 import { Component } from '@angular/core';
-import { Configurator, GenericConfigUtilsService } from '@spartacus/core';
+import {
+  Configurator,
+  GenericConfigurator,
+  GenericConfigUtilsService,
+} from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { distinctUntilKeyChanged, map, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilKeyChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { ConfiguratorCommonsService } from './../../core/facade/configurator-commons.service';
 
 @Component({
@@ -19,8 +28,13 @@ export class ConfigOverviewNotificationBannerComponent {
   > = this.configRouterExtractorService.extractRouterData();
 
   numberOfIssues$: Observable<number> = this.routerData$.pipe(
+    filter(
+      (routerData) =>
+        routerData.owner.type === GenericConfigurator.OwnerType.PRODUCT ||
+        routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+    ),
     switchMap((routerData) =>
-      this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
+      this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
     distinctUntilKeyChanged('configId'),
     map((configuration) => {
@@ -33,6 +47,7 @@ export class ConfigOverviewNotificationBannerComponent {
   );
 
   iconTypes = ICON_TYPE;
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
