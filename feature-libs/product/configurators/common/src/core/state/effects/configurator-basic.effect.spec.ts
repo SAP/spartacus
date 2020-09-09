@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ConfigComponentTestUtilsService } from '../../../shared/testing/config-component-test-utils.service';
+import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { ConfiguratorActions } from '../actions/index';
 import {
@@ -58,7 +58,7 @@ const productConfiguration: Configurator.Configuration = {
   },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
-ConfigComponentTestUtilsService.freezeProductConfiguration(
+ConfiguratorComponentTestUtilsService.freezeProductConfiguration(
   productConfiguration
 );
 

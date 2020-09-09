@@ -7,7 +7,7 @@ import {
   Configurator,
   ConfiguratorCommonsConnector,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -194,7 +194,7 @@ export class ConfiguratorCartEffects {
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
-    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>
   ) {}

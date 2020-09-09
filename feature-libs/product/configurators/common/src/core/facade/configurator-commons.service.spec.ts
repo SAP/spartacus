@@ -7,17 +7,17 @@ import {
   Cart,
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   StateUtils,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
 import {
   ConfiguratorState,
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../state/configurator-state';
-import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorActions } from './../state/actions/index';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
@@ -132,7 +132,7 @@ function callGetOrCreate(
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
   let configuratorUtilsService: ConfiguratorUtilsService;
   let store: Store<StateWithConfigurator>;
   let configuratorCartService: ConfiguratorCartService;
@@ -174,7 +174,7 @@ describe('ConfiguratorCommonsService', () => {
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
