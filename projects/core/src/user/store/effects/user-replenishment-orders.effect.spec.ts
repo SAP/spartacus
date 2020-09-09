@@ -42,7 +42,7 @@ describe('User Replenishment Orders effect', () => {
 
   describe('loadUserReplenishOrders$', () => {
     it('should load user Orders', () => {
-      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
+      spyOn(orderReplenishmentConnector, 'loadHistory').and.returnValue(
         of(mockUserReplenishmentOrders)
       );
       const action = new UserActions.LoadUserReplenishmentOrders({
@@ -63,7 +63,7 @@ describe('User Replenishment Orders effect', () => {
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
-      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
+      spyOn(orderReplenishmentConnector, 'loadHistory').and.returnValue(
         throwError('Error')
       );
 

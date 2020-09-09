@@ -22,7 +22,7 @@ export class UserReplenishmentOrdersEffect {
     map((action: UserActions.LoadUserReplenishmentOrders) => action.payload),
     switchMap((payload) => {
       return this.orderReplenishmentConnector
-        .getHistory(
+        .loadHistory(
           payload.userId,
           payload.pageSize,
           payload.currentPage,

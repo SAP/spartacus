@@ -161,9 +161,9 @@ describe('UserReplenishmentOrderConnector', () => {
     expect(connector).toBeTruthy();
   });
 
-  it('getHistory should call adapter', () => {
+  it('loadHistory should call adapter', () => {
     let result;
-    connector.getHistory('user3').subscribe((res) => (result = res));
+    connector.loadHistory('user3').subscribe((res) => (result = res));
     console.log(result);
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadHistory).toHaveBeenCalledWith(

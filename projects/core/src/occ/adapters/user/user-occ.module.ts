@@ -13,7 +13,6 @@ import { UserInterestsAdapter } from '../../../user/connectors/interests/user-in
 import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
 import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
-import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order/user-replenishment-order.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
@@ -29,7 +28,6 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
-import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 import { OccUserAdapter } from './occ-user.adapter';

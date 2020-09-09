@@ -38,7 +38,6 @@ describe('UserReplenishmentOrderService', () => {
   let authService: AuthService;
   let store: Store<StateWithUser | StateWithProcess<void>>;
 
-  let service: UserReplenishmentOrderService; //change
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,8 +62,6 @@ describe('UserReplenishmentOrderService', () => {
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
-
-    service = TestBed.inject(UserReplenishmentOrderService); //chagne
 
   });
 
@@ -265,7 +262,7 @@ describe('UserReplenishmentOrderService', () => {
       );
 
       let orderList: ReplenishmentOrderList;
-      service
+      userReplenishmentOrderService
         .getReplenishmentOrderHistoryList(1)
         .subscribe((data) => {
           orderList = data;
@@ -282,7 +279,7 @@ describe('UserReplenishmentOrderService', () => {
       store.dispatch(new UserActions.LoadUserReplenishmentOrdersSuccess({}));
 
       let orderListLoaded: boolean;
-      service
+      userReplenishmentOrderService
         .getReplenishmentOrderHistoryListLoaded()
         .subscribe((data) => {
           console.log('from loaded flag service', data);
@@ -293,7 +290,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should be able to load replenishment order list data', () => {
-      service.loadReplenishmentOrderList(10, 1, 'byDate');
+      userReplenishmentOrderService.loadReplenishmentOrderList(10, 1, 'byDate');
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.LoadUserReplenishmentOrders({
           userId: OCC_USER_ID_CURRENT,
@@ -305,7 +302,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should be able to clear replenishment order list', () => {
-      service.clearReplenishmentOrderList();
+      userReplenishmentOrderService.clearReplenishmentOrderList();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.ClearUserReplenishmentOrders()
       );
