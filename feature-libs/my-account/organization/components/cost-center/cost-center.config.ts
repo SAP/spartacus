@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -11,15 +12,14 @@ import {
 } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
-import { ActiveCostCenterGuard } from './active-cost-center.guard';
 import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
-import { ExistCostCenterGuard } from './exist-cost-center.guard';
+import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
+import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterListComponent } from './list/cost-center-list.component';
-import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;

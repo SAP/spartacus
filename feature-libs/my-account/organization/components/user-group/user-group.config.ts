@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -14,13 +15,12 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
-import { ExistUserGroupGuard } from './exist-user-group.guard';
+import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupListComponent } from './list/user-group-list.component';
 import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
 import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
-import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;

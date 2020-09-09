@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
+import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',

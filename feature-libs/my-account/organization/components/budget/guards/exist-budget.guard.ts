@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import {
-  B2BUser,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import {
-  B2BUserService,
-  Budget,
-} from '@spartacus/my-account/organization/core';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { ExistOrganizationItemGuard } from '../shared/exist-organization-item.guard';
+import { ROUTE_PARAMS } from '../../constants';
+import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
+export class ExistBudgetGuard extends ExistOrganizationItemGuard<Budget> {
+  protected code = ROUTE_PARAMS.budgetCode;
+
   constructor(
-    protected userService: B2BUserService,
+    protected budgetService: BudgetService,
     protected router: Router,
     protected semanticPathService: SemanticPathService,
     protected globalMessageService: GlobalMessageService
@@ -27,18 +26,18 @@ export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
   }
 
   protected getItem(code: string): Observable<Budget> {
-    return this.userService.get(code);
+    return this.budgetService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(this.semanticPathService.get('user'));
+    return this.router.parseUrl(this.semanticPathService.get('budget'));
   }
 
   protected showErrorMessage() {
     this.globalMessageService.add(
       {
         key: 'organization.notification.notExist',
-        params: { item: 'User' },
+        params: { item: 'Budget' },
       },
       GlobalMessageType.MSG_TYPE_WARNING
     );
