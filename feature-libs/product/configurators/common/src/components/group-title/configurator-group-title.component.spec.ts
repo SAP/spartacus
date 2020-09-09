@@ -13,7 +13,7 @@ import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =

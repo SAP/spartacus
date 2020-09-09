@@ -19,7 +19,7 @@ import {
   mockRouterState,
   productConfiguration,
   PRODUCT_CODE,
-} from '../../shared/testing/configuration-test-data';
+} from '../../shared/testing/configurator-test-data';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 let mockGroupVisited = false;

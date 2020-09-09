@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,6 +24,6 @@ export class ConfiguratorTabBarComponent {
   );
 
   constructor(
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 }

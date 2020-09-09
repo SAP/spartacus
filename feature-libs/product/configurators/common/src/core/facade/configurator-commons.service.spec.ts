@@ -12,12 +12,12 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
 import {
   ConfiguratorState,
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../state/configurator-state';
-import { productConfigurationWithConflicts } from './../../shared/testing/configuration-test-data';
 import { ConfiguratorActions } from './../state/actions/index';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';

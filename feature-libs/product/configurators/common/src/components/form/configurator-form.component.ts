@@ -5,8 +5,8 @@ import {
   LanguageService,
 } from '@spartacus/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class ConfiguratorFormComponent implements OnInit {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected languageService: LanguageService
   ) {}
 

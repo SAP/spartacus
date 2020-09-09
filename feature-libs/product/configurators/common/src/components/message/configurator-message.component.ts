@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConfigRouterExtractorService } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { interval, Observable } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -39,7 +39,7 @@ export class ConfiguratorMessageComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected config: MessageConfig
   ) {}
 }

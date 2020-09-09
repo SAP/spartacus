@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { ConfigRouterExtractorService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  ConfiguratorRouterExtractorService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -36,6 +39,6 @@ export class ConfiguratorGroupTitleComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 }

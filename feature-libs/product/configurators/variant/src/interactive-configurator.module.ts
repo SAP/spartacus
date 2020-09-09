@@ -84,4 +84,4 @@ import {
     }),
   ],
 })
-export class InteractiveConfigurationModule {}
+export class InteractiveConfiguratorModule {}

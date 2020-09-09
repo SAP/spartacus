@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '@spartacus/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
   HamburgerMenuService,
   ICON_TYPE,
 } from '@spartacus/storefront';
@@ -78,7 +78,7 @@ export class ConfiguratorGroupMenuComponent {
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
 

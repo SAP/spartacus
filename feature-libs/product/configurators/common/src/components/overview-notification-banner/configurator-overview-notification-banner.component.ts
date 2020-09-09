@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Configurator, GenericConfiguratorUtilsService } from '@spartacus/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   iconTypes = ICON_TYPE;
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected genericConfigUtilsService: GenericConfiguratorUtilsService
   ) {}
 

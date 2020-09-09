@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { MessageConfig } from '../config/message-config';
 import { ConfiguratorMessageComponent } from './configurator-message.component';
 

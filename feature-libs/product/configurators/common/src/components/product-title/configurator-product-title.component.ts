@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { GenericConfigurator, Product, ProductService } from '@spartacus/core';
-import { ConfigRouterExtractorService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  ConfiguratorRouterExtractorService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -32,7 +35,7 @@ export class ConfiguratorProductTitleComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService
   ) {}
 

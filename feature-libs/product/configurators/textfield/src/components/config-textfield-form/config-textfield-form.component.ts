@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GenericConfigurator } from '@spartacus/core';
-import { ConfigRouterExtractorService } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
@@ -30,7 +30,7 @@ export class ConfigTextfieldFormComponent {
 
   constructor(
     protected configuratorTextfieldService: ConfiguratorTextfieldService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 
   /**

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
-import { ConfigRouterExtractorService } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -26,7 +26,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
 

@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import * as ConfigurationTestData from '../../shared/testing/configuration-test-data';
+import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 

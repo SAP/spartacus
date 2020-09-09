@@ -8,8 +8,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ConfigurationRouter } from './config-router-data';
-import { ConfigRouterExtractorService } from './config-router-extractor.service';
+import { ConfigurationRouter } from './configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
@@ -26,7 +26,7 @@ class MockRoutingService {
 }
 
 describe('ConfigRouterExtractorService', () => {
-  let serviceUnderTest: ConfigRouterExtractorService;
+  let serviceUnderTest: ConfiguratorRouterExtractorService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +41,9 @@ describe('ConfigRouterExtractorService', () => {
   }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfigRouterExtractorService as Type<ConfigRouterExtractorService>
+      ConfiguratorRouterExtractorService as Type<
+        ConfiguratorRouterExtractorService
+      >
     );
 
     mockRouterState = {

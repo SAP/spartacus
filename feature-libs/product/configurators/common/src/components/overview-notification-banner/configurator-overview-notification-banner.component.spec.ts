@@ -2,16 +2,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import {
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
-} from '../../shared/testing/configuration-test-data';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+} from '../../shared/testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @Pipe({
@@ -79,7 +79,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       ],
       providers: [
         {
-          provide: ConfigRouterExtractorService,
+          provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,
         },
         {

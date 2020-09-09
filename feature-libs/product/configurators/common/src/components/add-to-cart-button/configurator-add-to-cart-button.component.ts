@@ -7,8 +7,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
-  ConfigRouterExtractorService,
   ConfigurationRouter,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -52,7 +52,7 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService
   ) {}
 

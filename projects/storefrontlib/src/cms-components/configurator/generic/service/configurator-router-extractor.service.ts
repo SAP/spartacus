@@ -7,13 +7,13 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ConfigurationRouter } from './config-router-data';
+import { ConfigurationRouter } from './configurator-router-data';
 
 /**
  * Service to extract the configuration owner key from the current route
  */
 @Injectable({ providedIn: 'root' })
-export class ConfigRouterExtractorService {
+export class ConfiguratorRouterExtractorService {
   protected readonly ROUTE_FRAGMENT_CONFIGURE = 'configure';
   protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
   constructor(

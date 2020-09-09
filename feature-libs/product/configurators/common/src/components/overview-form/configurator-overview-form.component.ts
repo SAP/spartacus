@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { ConfigRouterExtractorService } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -33,7 +33,7 @@ export class ConfiguratorOverviewFormComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {
     //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
     //we need to initialise the cart configuration
