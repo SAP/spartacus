@@ -2,4 +2,29 @@
 
 %cx-replenishment-order-details-order-history {
   @extend %cx-order-history;
+
+  .cx-order-history-header {
+    margin-top: 40px;
+    padding: 20px;
+
+    background-color: var(--cx-color-background);
+
+    h4 {
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  }
+
+  .cx-order-history-no-order {
+    display: flex;
+    justify-content: center;
+
+    padding: 40px 0 0 0;
+  }
+
+  .cx-order-history-body {
+    .cx-order-history-no-order {
+      min-height: 0;
+    }
+  }
 }
