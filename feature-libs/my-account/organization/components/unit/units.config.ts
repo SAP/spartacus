@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -22,10 +23,11 @@ import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.compo
 import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitEditComponent } from './edit/unit-edit.component';
+import { ActiveUnitGuard } from './guards/active-unit.guard';
+import { ExistUnitGuard } from './guards/exist-unit.guard';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
-import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -109,6 +111,7 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
+          canActivate: [ExistUnitGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -174,6 +177,7 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.unitCode}/edit`,
           component: UnitEditComponent,
+          canActivate: [ActiveUnitGuard],
         },
       ],
 

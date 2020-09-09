@@ -10,3 +10,4 @@ export * from './form/index';
 export * from './list/index';
 export * from './change-password/index';
 export * from './change-password-form/index';
+export * from './guards/index';
