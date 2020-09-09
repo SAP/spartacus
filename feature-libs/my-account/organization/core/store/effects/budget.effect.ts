@@ -74,7 +74,7 @@ export class BudgetEffects {
   createBudget$: Observable<
     | BudgetActions.CreateBudgetSuccess
     | BudgetActions.CreateBudgetFail
-    | BudgetActions.LoadBudgets
+    | BudgetActions.ClearBudgets
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
@@ -82,7 +82,7 @@ export class BudgetEffects {
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
         switchMap((data) => [
           new BudgetActions.CreateBudgetSuccess(data),
-          this.previousLoadBudgetsAction,
+          new BudgetActions.ClearBudgets(),
         ]),
         catchError((error: HttpErrorResponse) =>
           of(

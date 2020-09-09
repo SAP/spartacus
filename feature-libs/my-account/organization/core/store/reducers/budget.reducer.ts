@@ -31,6 +31,8 @@ export function budgetsListReducer(
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
       return action.payload.page;
+    case BudgetActions.CLEAR_BUDGETS:
+      return budgetInitialState;
   }
   return state;
 }
