@@ -21,7 +21,12 @@ const mockOrders: OrderHistoryList = {
       total: { formattedValue: '1' },
     },
   ],
-  pagination: { totalResults: 1, totalPages: 1 },
+  pagination: { totalResults: 1, totalPages: 2 },
+};
+
+const mockEmptyOrderList: OrderHistoryList = {
+  orders: [],
+  pagination: { totalResults: 0, totalPages: 1 },
 };
 
 const mockOrderHistoryList = new BehaviorSubject<OrderHistoryList>(mockOrders);
@@ -135,14 +140,29 @@ describe('ReplenishmentOrderDetailsOrderHistoryComponent', () => {
     });
   });
 
+  it('should display pagination', () => {
+    fixture.detectChanges();
+
+    const elements = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-pagination')
+    );
+
+    expect(elements.length).toEqual(2);
+  });
+
+  it('should NOT display pagination', () => {
+    mockOrderHistoryList.next(mockEmptyOrderList);
+
+    fixture.detectChanges();
+
+    const elements = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-pagination')
+    );
+
+    expect(elements.length).toEqual(0);
+  });
+
   it('should display no orders are found text when no orders', () => {
-    const emptyOrderList: OrderHistoryList = {
-      orders: [],
-      pagination: { totalResults: 0 },
-    };
-
-    mockOrderHistoryList.next(emptyOrderList);
-
     fixture.detectChanges();
 
     const element = fixture.debugElement.query(
