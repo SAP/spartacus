@@ -72,18 +72,21 @@ export class ConfiguratorRouterExtractorService {
     return owner;
   }
 
+  /**
+   * Compiles the configurator type from the semantic route
+   * @param semanticRoute Consists of a prefix that indicates if target is interactive configuration or overview and
+   *                      the commerce configurator type as postfix.
+   *                      Example: configureTEXTFIELD or configureOverviewCPQCONFIGURATOR
+   * @returns Configurator type
+   */
   protected getConfiguratorTypeFromSemanticRoute(
     semanticRoute: string
   ): string {
     let configuratorType: string;
-    if (semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)) {
-      configuratorType = semanticRoute
-        .split(this.ROUTE_FRAGMENT_OVERVIEW)[1]
-        .split('/')[0];
-    } else if (semanticRoute.includes(this.ROUTE_FRAGMENT_CONFIGURE)) {
-      configuratorType = semanticRoute
-        .split(this.ROUTE_FRAGMENT_CONFIGURE)[1]
-        .split('/')[0];
+    if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
+      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
+    } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
+      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
     }
     return configuratorType;
   }
