@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
@@ -42,9 +42,6 @@ export class BudgetEffects {
     | BudgetActions.LoadBudgetsFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
-    tap((action) => {
-      this.previousLoadBudgetsAction = action;
-    }),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
@@ -100,7 +97,7 @@ export class BudgetEffects {
   updateBudget$: Observable<
     | BudgetActions.UpdateBudgetSuccess
     | BudgetActions.UpdateBudgetFail
-    | BudgetActions.LoadBudgets
+    | BudgetActions.ClearBudgets
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
@@ -110,7 +107,7 @@ export class BudgetEffects {
         .pipe(
           switchMap((data) => [
             new BudgetActions.UpdateBudgetSuccess(data),
-            this.previousLoadBudgetsAction,
+            new BudgetActions.ClearBudgets(),
           ]),
           catchError((error: HttpErrorResponse) =>
             of(
@@ -123,8 +120,6 @@ export class BudgetEffects {
         )
     )
   );
-
-  previousLoadBudgetsAction: BudgetActions.LoadBudgets;
 
   constructor(
     private actions$: Actions,
