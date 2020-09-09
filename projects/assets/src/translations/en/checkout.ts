@@ -24,6 +24,14 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
+    replenishmentNumber: 'Replenishment #',
+    placedOn: 'Placed on',
+    status: 'Status',
+    active: 'Active',
+    cancelled: 'Cancelled',
+    frequency: 'Frequency',
+    nextOrderDate: 'Next order date',
+    orderNumber: 'Order Number',
   },
   checkoutReview: {
     review: 'Review',
@@ -39,7 +47,7 @@ export const checkout = {
     poNumber: 'Purchase Order Number',
     every: 'Every',
     startOn: 'Start on',
-    dayOfMonth: 'On this Day Of The Month',
+    dayOfMonth: 'On this day',
     repeatOnDays: 'Repeat on the following days',
     recurrencePeriodType_DAILY: 'Day(s)',
     recurrencePeriodType_WEEKLY: 'Week(s)',
@@ -60,6 +68,7 @@ export const checkout = {
     noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
+    placeholder: 'Enter P.O',
     availableLabel:
       "Shipping addresses available to you depend on the cost center's unit",
   },

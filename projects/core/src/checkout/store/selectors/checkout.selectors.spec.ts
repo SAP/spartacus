@@ -225,7 +225,7 @@ describe('Checkout Selectors', () => {
       };
 
       store
-        .pipe(select(CheckoutSelectors.getCheckoutReplenishmentOrderDetails))
+        .pipe(select(CheckoutSelectors.getCheckoutOrderDetails))
         .subscribe((value) => (result = value));
 
       expect(result).toEqual({});

@@ -8,7 +8,7 @@ export const initialState: OrderTypesState = {
 
 export function reducer(
   state = initialState,
-  action: CheckoutActions.OrderTypesActions
+  action: CheckoutActions.OrderTypesActions | CheckoutActions.CheckoutAction
 ): OrderTypesState {
   switch (action.type) {
     case CheckoutActions.SET_ORDER_TYPE: {
@@ -16,6 +16,10 @@ export function reducer(
         ...state,
         selected: action.payload,
       };
+    }
+
+    case CheckoutActions.CLEAR_CHECKOUT_DATA: {
+      return initialState;
     }
 
     default: {

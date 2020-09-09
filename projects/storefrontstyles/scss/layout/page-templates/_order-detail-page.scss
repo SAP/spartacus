@@ -15,6 +15,14 @@
       margin-left: 0;
       margin-right: 0;
 
+      &:not(:first-child) {
+        border-top: none;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+
       @include media-breakpoint-down(sm) {
         border: none;
         padding: 0;
@@ -84,33 +92,6 @@
 
     .cx-list-date {
       margin: 0.5rem 0 0;
-    }
-  }
-
-  cx-order-details-shipping {
-    .cx-summary {
-      margin-bottom: 48px;
-    }
-
-    .cx-account-summary {
-      background-color: var(--cx-color-background);
-
-      @include media-breakpoint-up(md) {
-        padding: 5px 18px 12px;
-      }
-
-      @include media-breakpoint-down(sm) {
-        margin: 0 -24px;
-      }
-
-      .cx-card-title {
-        @include type('4');
-        font-weight: bold;
-      }
-
-      .cx-card-label-bold {
-        font-weight: bold;
-      }
     }
   }
 
