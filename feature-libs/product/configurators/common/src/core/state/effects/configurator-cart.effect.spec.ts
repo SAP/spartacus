@@ -11,15 +11,15 @@ import {
   Configurator,
   ConfiguratorCommonsConnector,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
-import { ConfigComponentTestUtilsService } from './../../../shared/testing/config-component-test-utils.service';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
 import * as fromEffects from './configurator-cart.effect';
 
@@ -63,7 +63,7 @@ const productConfiguration: Configurator.Configuration = {
   },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
-ConfigComponentTestUtilsService.freezeProductConfiguration(
+ConfiguratorComponentTestUtilsService.freezeProductConfiguration(
   productConfiguration
 );
 
@@ -88,7 +88,7 @@ describe('ConfiguratorCartEffect', () => {
   let readConfigurationForCartEntryMock: jasmine.Spy;
   let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
 
   let actions$: Observable<any>;
 
@@ -140,7 +140,7 @@ describe('ConfiguratorCartEffect', () => {
       >
     );
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
 
     payloadInputUpdateConfiguration = {

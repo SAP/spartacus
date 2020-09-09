@@ -4,7 +4,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import {
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { ConfiguratorActions } from '../actions';
 import {
@@ -16,7 +16,7 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfigurator>;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner: GenericConfigurator.Owner = {};
   let configuration: Configurator.Configuration = {
@@ -48,7 +48,7 @@ describe('Configurator selectors', () => {
 
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     owner = {
       type: GenericConfigurator.OwnerType.PRODUCT,

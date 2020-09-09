@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GenericConfigUtilsService, OrderEntry } from '@spartacus/core';
+import { GenericConfiguratorUtilsService, OrderEntry } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({
@@ -13,7 +13,9 @@ export class ConfigureIssuesNotificationComponent {
   @Input() disabled: boolean;
   iconTypes = ICON_TYPE;
 
-  constructor(protected genericConfigUtilsService: GenericConfigUtilsService) {}
+  constructor(
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService
+  ) {}
 
   /**
    * Verifies whether the item has any issues.

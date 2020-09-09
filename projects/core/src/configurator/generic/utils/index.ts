@@ -1,1 +1,1 @@
-export * from './config-utils.service';
+export * from './generic-configurator-utils.service';

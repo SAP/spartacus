@@ -7,7 +7,7 @@ import {
   Cart,
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   StateUtils,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
@@ -132,7 +132,7 @@ function callGetOrCreate(
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
   let configuratorUtilsService: ConfiguratorUtilsService;
   let store: Store<StateWithConfigurator>;
   let configuratorCartService: ConfiguratorCartService;
@@ -174,7 +174,7 @@ describe('ConfiguratorCommonsService', () => {
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>

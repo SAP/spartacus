@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   CheckoutActions,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OrderEntry,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
@@ -66,7 +66,7 @@ class MockActiveCartService {
 describe('ConfiguratorPlaceOrderHookEffects', () => {
   let actions$: Observable<any>;
   let configPlaceOrderHookEffects: fromEffects.ConfiguratorPlaceOrderHookEffects;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
@@ -95,7 +95,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       >
     );
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     activeCartService = TestBed.inject(
       ActiveCartService as Type<ActiveCartService>

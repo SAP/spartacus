@@ -1,2 +1,2 @@
-export * from './config-ui-key-generator';
-export * from './config-utils.service';
+export * from './configurator-storefront-utils.service';
+export * from './configurator-ui-key-generator';

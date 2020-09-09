@@ -7,7 +7,7 @@ import {
   Cart,
   Configurator,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
@@ -76,7 +76,7 @@ class MockActiveCartService {
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
   let store: Store<StateWithConfigurator>;
-  let configuratorUtils: GenericConfigUtilsService;
+  let configuratorUtils: GenericConfiguratorUtilsService;
 
   beforeEach(async(() => {
     cartStateObs = of(cartState);
@@ -102,7 +102,7 @@ describe('ConfiguratorCartService', () => {
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     OWNER_CART_ENTRY = {
       id: '3',

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
+import { GenericConfiguratorUtilsService } from '../../generic/utils/generic-configurator-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 export class ConfiguratorCommonsConnector {
   constructor(
     protected adapter: ConfiguratorCommonsAdapter,
-    protected configUtilsService: GenericConfigUtilsService
+    protected configUtilsService: GenericConfiguratorUtilsService
   ) {}
 
   createConfiguration(

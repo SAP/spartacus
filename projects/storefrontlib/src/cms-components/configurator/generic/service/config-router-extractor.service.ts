@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -17,7 +17,7 @@ export class ConfigRouterExtractorService {
   protected readonly ROUTE_FRAGMENT_CONFIGURE = 'configure';
   protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
   constructor(
-    protected configUtilsService: GenericConfigUtilsService,
+    protected configUtilsService: GenericConfiguratorUtilsService,
     protected routingService: RoutingService
   ) {}
 
