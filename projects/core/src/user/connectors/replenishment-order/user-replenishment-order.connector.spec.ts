@@ -27,6 +27,7 @@ const mockOrderHistoryList: OrderHistoryList = {
 
 class MockUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
+
   loadHistory = createSpy(
     'UserReplenishmentOrderAdapter.loadHistory'
   ).and.callFake((userId) => of(`orderHistory-${userId}`));
@@ -60,7 +61,7 @@ describe('UserReplenishmentOrderConnector', () => {
   let adapter: UserReplenishmentOrderAdapter;
   let connector: UserReplenishmentOrderConnector;
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
       providers: [
         UserReplenishmentOrderConnector,

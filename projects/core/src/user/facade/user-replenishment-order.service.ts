@@ -26,7 +26,7 @@ export class UserReplenishmentOrderService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected authService: AuthService
-  ) {}
+  ) { }
 
   /**
    * Returns replenishment order details for a given 'current' user
@@ -142,8 +142,8 @@ export class UserReplenishmentOrderService {
   }
 
   /**
-   * Returns replenishment order history list
-   */
+ * Returns replenishment order history list
+ */
   getReplenishmentOrderHistoryList(
     pageSize: number
   ): Observable<ReplenishmentOrderList> {
@@ -197,9 +197,10 @@ export class UserReplenishmentOrderService {
   }
 
   /**
-   * Clear the replenishment order list
-   */
+  * Clear the replenishment order list
+  */
   clearReplenishmentOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserReplenishmentOrders());
   }
+
 }
