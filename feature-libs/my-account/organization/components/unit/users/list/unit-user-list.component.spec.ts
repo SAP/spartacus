@@ -8,8 +8,10 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import createSpy = jasmine.createSpy;
 import { TableModule } from '@spartacus/storefront';
-import { CurrentUnitService } from '../../current-unit.service';
-import { UnitUsersService } from '../../users/list/unit-users.service';
+import {
+  CurrentUnitService,
+  UnitUserListService,
+} from '@spartacus/my-account/organization/components';
 
 const code = 'code1';
 const customerId = 'customerId1';
@@ -37,7 +39,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-class MockUnitUsersService implements Partial<MockUnitUsersService> {
+class MockUnitUserListService implements Partial<MockUnitUserListService> {
   toggleAssign = createSpy('toggleAssign');
   load = of(mockUserList);
   viewPage = createSpy('viewPage').and.stub();
@@ -67,7 +69,7 @@ describe('UnitUsersComponent', () => {
       ],
       declarations: [UnitUserListComponent],
       providers: [
-        { provide: UnitUsersService, useClass: MockUnitUsersService },
+        { provide: UnitUserListService, useClass: MockUnitUserListService },
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
     }).compileComponents();
