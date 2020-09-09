@@ -58,7 +58,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   //   return unitModels;
   // }
 
-  private flat(
+  private flatten(
     array: B2BUnitNode[],
     children: B2BUnitNode[],
     level,
@@ -66,7 +66,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   ) {
     children.forEach((child) => {
       array.push(this.prepareUnit(child, level, pagination));
-      this.flat(array, child.children, level + 1, pagination);
+      this.flatten(array, child.children, level + 1, pagination);
     });
   }
 
@@ -89,7 +89,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       values: [this.prepareUnit(root, level, pagination)],
       pagination,
     };
-    this.flat(unitModels.values, root.children, level + 1, pagination);
+    this.flatten(unitModels.values, root.children, level + 1, pagination);
     return unitModels;
   }
 }
