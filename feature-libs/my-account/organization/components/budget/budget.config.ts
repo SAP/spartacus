@@ -11,13 +11,13 @@ import {
 } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationTableType } from '../shared/organization.model';
-import { ActiveBudgetGuard } from './active-budget.guard';
 import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
-import { ExistBudgetGuard } from './exist-budget.guard';
 import { BudgetListComponent } from './list/budget-list.component';
+import { ActiveBudgetGuard } from './guards/active-budget.guard';
+import { ExistBudgetGuard } from './guards/exist-budget.guard';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
