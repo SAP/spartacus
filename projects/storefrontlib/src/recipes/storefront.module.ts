@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
-  ConfiguratorCommonsModule,
   ExternalRoutesModule,
   OccModule,
   PersonalizationModule,
@@ -44,7 +43,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     ProductDetailsPageModule,
     ProductListingPageModule,
     ExternalRoutesModule.forRoot(),
-    ConfiguratorCommonsModule.forRoot(),
   ],
   exports: [MainModule, StorefrontFoundationModule],
 })

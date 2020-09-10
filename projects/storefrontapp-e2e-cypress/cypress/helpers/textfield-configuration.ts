@@ -7,15 +7,11 @@ const addToCartButtonSelector =
 /**
  * Navigates to the product configuration page.
  *
- * @param {string} configuratorType - Configuration type
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(
-  configuratorType: string,
-  productId: string
-): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+export function goToConfigurationPage(productId: string): Chainable<Window> {
+  const location = `/electronics-spa/en/USD/configure/textfield/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
   });

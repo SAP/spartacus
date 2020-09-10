@@ -2,7 +2,6 @@ import * as configuration from '../../helpers/product-configuration';
 import { formats } from '../../sample-data/viewports';
 
 const testProduct = 'CONF_CAMERA_SL';
-const configurator = 'CPQCONFIGURATOR';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -19,7 +18,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
-      configuration.goToConfigurationPage(configurator, testProduct);
+      configuration.goToConfigurationPage(testProduct);
       configuration.isHamburgerDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
 

@@ -7,15 +7,11 @@ const resolveIssuesLinkSelector =
 /**
  * Navigates to the configured product overview page.
  *
- * @param configuratorType - Configuration type
  * @param productId - Product ID
  * @return {Chainable<Window>} - New configuration overview window
  */
-export function goToConfigOverviewPage(
-  configuratorType,
-  productId
-): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`;
+export function goToConfigOverviewPage(productId): Chainable<Window> {
+  const location = `/electronics-spa/en/USD/configure-overview/vc/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');

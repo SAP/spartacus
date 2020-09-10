@@ -3,25 +3,25 @@ import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
   Configurator,
-  ConfiguratorActions,
-  ConfiguratorSelectors,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithConfiguration,
   StateWithMultiCart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
+import { ConfiguratorActions } from './../state/actions/index';
+import { ConfiguratorSelectors } from './../state/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
     protected cartStore: Store<StateWithMultiCart>,
-    protected store: Store<StateWithConfiguration>,
+    protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService
   ) {}
 
   /**

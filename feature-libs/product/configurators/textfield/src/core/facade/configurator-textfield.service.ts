@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
     protected activeCartService: ActiveCartService,
-    protected configuratorUtils: GenericConfigUtilsService
+    protected configuratorUtils: GenericConfiguratorUtilsService
   ) {}
 
   /**

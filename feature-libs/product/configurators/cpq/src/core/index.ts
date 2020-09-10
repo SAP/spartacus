@@ -1,1 +1,1 @@
-export * from './cpq-configurator-core.module';
+export { CpqConfiguratorCoreModule as ɵCpqConfiguratorCoreModule } from './cpq-configurator-core.module';
