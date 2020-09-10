@@ -123,7 +123,7 @@
     "i18next": "^19.3.4",
     "i18next-xhr-backend": "^3.2.2",
     "ngx-infinite-scroll": "^8.0.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.0",
     "ts-loader": "^6.0.4",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
@@ -158,7 +158,7 @@
     "git-raw-commits": "^2.0.0",
     "http-server": "^0.11.1",
     "i18n-lint": "^1.0.0",
-    "jasmine-core": "~3.5.0",
+    "jasmine-core": "~3.6.0",
     "jasmine-marbles": "^0.6.0",
     "json-server": "^0.15.0",
     "karma": "~5.0.0",
@@ -182,6 +182,6 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2",
-    "webpack-cli": "^3.3.7"
+    "webpack-cli": "^3.3.12"
   }
 }

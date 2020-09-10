@@ -30,7 +30,7 @@
     "@ngrx/store": "^10.0.0",
     "@spartacus/core": "2.1.0-next.1",
     "bootstrap": "4.2.1",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.0",
     "zone.js": "^0.10.2",
     "ngx-infinite-scroll": "^8.0.0"
   }
