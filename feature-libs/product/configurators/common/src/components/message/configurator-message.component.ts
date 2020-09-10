@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { interval, Observable } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { MessageConfig } from '../config/message-config';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-message',

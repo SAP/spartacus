@@ -1,10 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenericConfigurator } from '@spartacus/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
@@ -13,6 +9,8 @@ import {
   productConfigurationWithoutIssues,
 } from '../../shared/testing/configurator-test-data';
 import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @Pipe({
@@ -31,9 +29,9 @@ class MockUrlPipe implements PipeTransform {
 
 const configuratorType = 'cpqconfigurator';
 
-const routerData: ConfigurationRouter.Data = {
+const routerData: ConfiguratorRouter.Data = {
   configuratorType: configuratorType,
-  pageType: ConfigurationRouter.PageType.OVERVIEW,
+  pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
     type: GenericConfigurator.OwnerType.CART_ENTRY,

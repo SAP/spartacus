@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-  HamburgerMenuService,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -19,7 +16,7 @@ import { Configurator } from './../../core/model/configurator.model';
 })
 export class ConfiguratorGroupMenuComponent {
   routerData$: Observable<
-    ConfigurationRouter.Data
+    ConfiguratorRouter.Data
   > = this.configRouterExtractorService.extractRouterData();
 
   configuration$: Observable<

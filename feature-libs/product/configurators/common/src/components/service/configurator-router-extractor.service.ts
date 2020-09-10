@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ConfigurationRouter } from './configurator-router-data';
+import { ConfiguratorRouter } from './configurator-router-data';
 
 /**
  * Service to extract the configuration owner key from the current route
@@ -21,7 +21,7 @@ export class ConfiguratorRouterExtractorService {
     protected routingService: RoutingService
   ) {}
 
-  extractRouterData(): Observable<ConfigurationRouter.Data> {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return this.routingService.getRouterState().pipe(
       filter((routingData) => routingData.state.params.entityKey),
       //we don't need to cover the intermediate router states where a future route is already known.
@@ -31,7 +31,7 @@ export class ConfiguratorRouterExtractorService {
       map((routingData) => {
         const owner = this.createOwnerFromRouterState(routingData);
 
-        const routerData: ConfigurationRouter.Data = {
+        const routerData: ConfiguratorRouter.Data = {
           owner: owner,
           isOwnerCartEntry:
             owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
@@ -45,8 +45,8 @@ export class ConfiguratorRouterExtractorService {
           pageType: routingData.state.semanticRoute.includes(
             this.ROUTE_FRAGMENT_OVERVIEW
           )
-            ? ConfigurationRouter.PageType.OVERVIEW
-            : ConfigurationRouter.PageType.CONFIGURATION,
+            ? ConfiguratorRouter.PageType.OVERVIEW
+            : ConfiguratorRouter.PageType.CONFIGURATION,
         };
 
         return routerData;

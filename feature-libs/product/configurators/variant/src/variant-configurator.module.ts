@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { VariantConfiguratorCoreModule } from './core/variant-configurator-core.module';
 import { InteractiveConfiguratorModule } from './interactive-configurator.module';
 import { OverviewConfiguratorModule } from './overview-configurator.module';
 
@@ -9,6 +10,7 @@ import { OverviewConfiguratorModule } from './overview-configurator.module';
 @NgModule({
   imports: [
     CommonModule,
+    VariantConfiguratorCoreModule,
     InteractiveConfiguratorModule,
     OverviewConfiguratorModule,
   ],

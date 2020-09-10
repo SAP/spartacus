@@ -5,16 +5,14 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',
@@ -23,7 +21,7 @@ import { Configurator } from './../../core/model/configurator.model';
 })
 export class ConfiguratorAddToCartButtonComponent {
   container$: Observable<{
-    routerData: ConfigurationRouter.Data;
+    routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
     hasPendingChanges: boolean;
   }> = this.configRouterExtractorService.extractRouterData().pipe(
@@ -112,12 +110,12 @@ export class ConfiguratorAddToCartButtonComponent {
   /**
    * Decides on the resource key for the button. Depending on the business process (owner of the configuration) and the
    * need for a cart update, the text will differ
-   * @param {ConfigurationRouter.Data} routerData - Reflects the current router state
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
    * @param {Configurator.Configuration} configuration - Configuration
    * @returns {string} The resource key that controls the button description
    */
   getButtonResourceKey(
-    routerData: ConfigurationRouter.Data,
+    routerData: ConfiguratorRouter.Data,
     configuration: Configurator.Configuration
   ): string {
     if (
@@ -139,16 +137,16 @@ export class ConfiguratorAddToCartButtonComponent {
    * Triggers action and navigation, both depending on the context. Might result in an addToCart, updateCartEntry,
    * just a cart navigation or a browser back navigation
    * @param {Configurator.Configuration} configuration - Configuration
-   * @param {ConfigurationRouter.Data} routerData - Reflects the current router state
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
 
    */
   onAddToCart(
     configuration: Configurator.Configuration,
-    routerData: ConfigurationRouter.Data
+    routerData: ConfiguratorRouter.Data
   ): void {
     const pageType = routerData.pageType;
     const configuratorType = routerData.configuratorType;
-    const isOverview = pageType === ConfigurationRouter.PageType.OVERVIEW;
+    const isOverview = pageType === ConfiguratorRouter.PageType.OVERVIEW;
     const isOwnerCartEntry =
       routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;

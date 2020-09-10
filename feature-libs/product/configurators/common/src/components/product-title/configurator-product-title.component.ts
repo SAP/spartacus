@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { GenericConfigurator, Product, ProductService } from '@spartacus/core';
-import {
-  ConfiguratorRouterExtractorService,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-product-title',

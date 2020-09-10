@@ -8,7 +8,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ConfigurationRouter } from './configurator-router-data';
+import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -107,14 +107,14 @@ describe('ConfigRouterExtractorService', () => {
     });
 
     it('should determine configurator and page type from router state ', () => {
-      let routerData: ConfigurationRouter.Data;
+      let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => (routerData = data));
       expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(false);
       expect(routerData.pageType).toBe(
-        ConfigurationRouter.PageType.CONFIGURATION
+        ConfiguratorRouter.PageType.CONFIGURATION
       );
     });
 
@@ -123,20 +123,20 @@ describe('ConfigRouterExtractorService', () => {
         GenericConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
       mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
-      let routerData: ConfigurationRouter.Data;
+      let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => (routerData = data))
         .unsubscribe();
       expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(true);
-      expect(routerData.pageType).toBe(ConfigurationRouter.PageType.OVERVIEW);
+      expect(routerData.pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW);
       expect(routerData.forceReload).toBe(false);
     });
 
     it('should tell from the URL if we need to enforce a reload of a configuration', () => {
       mockRouterState.state.queryParams = { forceReload: 'true' };
-      let routerData: ConfigurationRouter.Data;
+      let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => (routerData = data))
@@ -147,7 +147,7 @@ describe('ConfigRouterExtractorService', () => {
 
     it('should tell from the URL if we need to resolve issues of a configuration', () => {
       mockRouterState.state.queryParams = { resolveIssues: 'true' };
-      let routerData: ConfigurationRouter.Data;
+      let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => (routerData = data))
