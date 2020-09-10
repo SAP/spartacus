@@ -75,6 +75,4 @@ export abstract class OrganizationItemService<T> {
       this.routingService.go({ cxRoute, params: item });
     }
   }
-
-  toggle(_item: T): void {}
 }
