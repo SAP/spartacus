@@ -7,8 +7,6 @@ import { OccConfigurator } from '../occ-configurator.models';
 export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration> {
-  constructor() {}
-
   convert(
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration

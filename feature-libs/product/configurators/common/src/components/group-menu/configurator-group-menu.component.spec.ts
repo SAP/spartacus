@@ -75,10 +75,6 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-}
-
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -124,7 +120,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: ConfiguratorStorefrontUtilsService,
         },
       ],
     });

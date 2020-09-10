@@ -100,7 +100,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (isPlatformBrowser(this.platformId)) {
       // we don't want to run this logic when doing SSR
       const element = document.querySelector(selector);
-      if (!this.isInViewport(element)) {
+      if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
     }

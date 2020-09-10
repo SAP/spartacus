@@ -33,6 +33,23 @@ const owner: GenericConfigurator.Owner = {
   key: 'product/CONF_LAPTOP',
 };
 
+const group: Configurator.Group = {
+  id: groupId,
+  attributes: [{ name: 'attrName' }],
+  subGroups: [],
+};
+
+const groupWithSubGroup: Configurator.Group = {
+  id: groupId,
+  attributes: [
+    {
+      name: 'attrName',
+      images: [{ url: 'imageAttr' }],
+      values: [{ name: 'val', images: [{ url: 'imageVal' }] }],
+    },
+  ],
+  subGroups: [group],
+};
 const productConfiguration: Configurator.Configuration = {
   configId: 'a',
   productCode: productCode,
@@ -53,7 +70,9 @@ const productConfiguration: Configurator.Configuration = {
       },
     ],
   },
-  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+  groups: [group, groupWithSubGroup],
+  flatGroups: [group],
+  priceSummary: {},
 };
 ConfiguratorComponentTestUtilsService.freezeProductConfiguration(
   productConfiguration

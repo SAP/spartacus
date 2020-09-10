@@ -10,8 +10,6 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccConfigurator.UpdateConfigurationForCartEntryParameters
     > {
-  constructor() {}
-
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccConfigurator.UpdateConfigurationForCartEntryParameters

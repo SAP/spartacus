@@ -96,6 +96,7 @@ export class ConfiguratorGroupMenuComponent {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
+
         this.configUtils.scrollToConfigurationElement(
           '.VariantConfigurationTemplate'
         );
