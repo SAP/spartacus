@@ -5,6 +5,11 @@ import {
   HostBinding,
   Output,
 } from '@angular/core';
+import {
+  OutletContextData,
+  TableDataOutletContext,
+} from '@spartacus/storefront';
+import { UnitListService } from '../../../unit/services/unit-list.service';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
@@ -36,6 +41,13 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   @Output() switch = new EventEmitter();
 
+  constructor(
+    protected outlet: OutletContextData<TableDataOutletContext>,
+    protected uls: UnitListService
+  ) {
+    super(outlet);
+  }
+
   get tabIndex() {
     return 1;
   }
@@ -53,8 +65,9 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   }
 
   toggleItem(event: Event) {
-    this.model.expanded = !this.model.expanded;
-    event.stopPropagation();
-    this.switch.emit(event);
+    this.uls.toggle(event);
+    // this.model.expanded = !this.model.expanded;
+    // event.stopPropagation();
+    // this.switch.emit(event);
   }
 }

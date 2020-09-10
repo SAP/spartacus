@@ -70,6 +70,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   toggle(_event: Event) {
+    // here's the place to update your local subject
     console.log(_event);
   }
 }
