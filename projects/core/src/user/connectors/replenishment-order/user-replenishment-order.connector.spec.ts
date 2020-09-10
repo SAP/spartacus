@@ -29,7 +29,7 @@ class MockUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
   loadHistory = createSpy(
     'UserReplenishmentOrderAdapter.loadHistory'
-  ).and.callFake((userId) => of(`orderHistory-${userId}`));
+  ).and.callFake((_userId) => of(`orderHistory-${userId}`));
 
   load(
     _userId: string,

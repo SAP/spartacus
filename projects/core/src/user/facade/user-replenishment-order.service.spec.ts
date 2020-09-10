@@ -248,8 +248,8 @@ describe('UserReplenishmentOrderService', () => {
   describe('Replenishment order list', () => {
     it('should UserOrderService is injected', inject(
       [UserReplenishmentOrderService],
-      (userReplenishmentOrderService: UserReplenishmentOrderService) => {
-        expect(userReplenishmentOrderService).toBeTruthy();
+      (replenishmentOrderService: UserReplenishmentOrderService) => {
+        expect(replenishmentOrderService).toBeTruthy();
       }
     ));
 
