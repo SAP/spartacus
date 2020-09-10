@@ -68,7 +68,7 @@ $space: 0.5rem;
     --cx-display: block;
     cx-link {
       display: block;
-      padding: 0 10px 0 0;
+      padding-inline-end: 10px;
     }
   }
 
@@ -80,7 +80,10 @@ $space: 0.5rem;
     margin: 14px auto;
 
     @include media-breakpoint-down(sm) {
-      margin: 4px 0 4px auto;
+      margin-top: 4px;
+      margin-inline-end: 0;
+      margin-bottom: 4px;
+      margin-inline-start: auto;
     }
   }
 
@@ -99,7 +102,7 @@ $space: 0.5rem;
 
   @include media-breakpoint-only(xs) {
     .SearchBox {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 
