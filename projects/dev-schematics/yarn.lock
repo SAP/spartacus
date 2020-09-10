@@ -248,7 +248,7 @@
 
 "@spartacus/schematics@^2.0.0":
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@spartacus/schematics/-/schematics-2.1.0.tgz#37b060aae479d4b184f833dc4ca49b6af6f076ce"
+  resolved "http://localhost:4873/@spartacus%2fschematics/-/schematics-2.1.0.tgz#37b060aae479d4b184f833dc4ca49b6af6f076ce"
   integrity sha512-KcDMm8x02suCCV6A71pZb9tzPJlXa4E1cSiAmCOwT2wtONCz6o/hdw/ZezKtFLzQMWaD2i3DFkCe4W1LCCu7CQ==
   dependencies:
     "@angular-devkit/core" "^9.1.7"
@@ -271,9 +271,9 @@
   integrity sha512-Fkgk536sHPqcOtd+Ow+WiUNuk0TSo/BntKkF8wSvcd6M2FvPjeXcUE6Oz/bwDZiUZEaXLslAgw00Q94Pnx6T4w==
 
 "@types/node@^12.11.1":
-  version "12.12.56"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.56.tgz#83591a89723d8ec3eaf722137e1784a7351edb6c"
-  integrity sha512-8OdIupOIZtmObR13fvGyTvpcuzKmMugkATeVcfNwCjGtHxhjEKmOvLqXwR8U9VOtNnZ4EXaSfNiLVsPinaCXkQ==
+  version "12.12.57"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.57.tgz#fa7bab1f5e5adc99df92d824ef75c3bbca929a22"
+  integrity sha512-Dg4fab0IP6ZtdJOkwTaMaOJA3PWw7bR6cUYh+nxkYe4+ZogiLBKhaEr9sHqVkCtREVLw92g3Fl1bt8++dHKavw==
 
 "@yarnpkg/lockfile@1.1.0":
   version "1.1.0"
