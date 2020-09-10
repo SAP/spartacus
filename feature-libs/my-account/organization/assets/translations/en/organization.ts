@@ -40,11 +40,9 @@ export const organization = {
     name: 'Name',
     code: 'Code',
 
-    back: '',
-    close: 'done',
+    done: 'done',
 
     cancel: 'Cancel',
-    ok: 'Ok',
 
     add: 'Add',
     create: 'Create {{name}}',
@@ -52,9 +50,7 @@ export const organization = {
     save: 'Save {{name}}',
     delete: 'Delete',
 
-    assign: 'Assign',
-
-    manage: 'Manage',
+    assign: 'Manage',
 
     active: 'Active',
     status: 'Status',
