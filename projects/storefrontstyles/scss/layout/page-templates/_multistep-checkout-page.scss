@@ -23,18 +23,19 @@
     }
 
     &.BodyContent {
-      flex: 0 68%;
+      flex: 0 63%;
     }
 
     &.SideContent {
-      flex: 0 0 30%;
+      flex: 0 0 35%;
       flex-direction: column;
       justify-content: flex-start;
 
       cx-checkout-order-summary {
         flex: unset;
       }
-      cx-place-order {
+      cx-place-order,
+      cx-schedule-replenishment-order {
         flex: unset;
         padding: 1rem 2.5rem 0;
       }
@@ -55,7 +56,6 @@
         cx-place-order {
           max-width: 50%;
           padding-bottom: 2rem;
-          padding-top: 0;
         }
       }
 

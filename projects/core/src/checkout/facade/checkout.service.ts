@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Order } from '../../model/order.model';
+import {
+  ORDER_TYPE,
+  ReplenishmentOrder,
+} from '../../model/replenishment-order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
@@ -96,9 +100,26 @@ export class CheckoutService {
   /**
    * Get order details
    */
-  getOrderDetails(): Observable<Order> {
+  getOrderDetails(): Observable<Order | ReplenishmentOrder> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutOrderDetails)
+    );
+  }
+
+  /**
+   * Set checkout order type
+   * @param orderType : an enum of types of order we are placing
+   */
+  setOrderType(orderType: ORDER_TYPE): void {
+    this.checkoutStore.dispatch(new CheckoutActions.SetOrderType(orderType));
+  }
+
+  /**
+   * Get current checkout order type
+   */
+  getCurrentOrderType(): Observable<ORDER_TYPE> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedOrderType)
     );
   }
 

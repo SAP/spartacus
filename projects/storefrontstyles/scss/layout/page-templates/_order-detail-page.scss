@@ -18,6 +18,14 @@
       margin-inline-start: 0;
       margin-inline-end: 0;
 
+      &:not(:first-child) {
+        border-top: none;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+
       @include media-breakpoint-down(sm) {
         border: none;
         padding: 0;

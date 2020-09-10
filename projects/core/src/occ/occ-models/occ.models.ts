@@ -4304,6 +4304,12 @@ export namespace Occ {
     customers?: B2BUser[];
     managers?: B2BUser[];
   }
+
+  export interface B2BPaymentType {
+    code?: string;
+    displayName?: string;
+  }
+
   export interface OrderApprovalPermissionType {
     code?: string;
     name?: string;
@@ -4336,5 +4342,80 @@ export namespace Occ {
     orderApprovalPermissions?: Permission[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
+  }
+  export interface ReplenishmentOrder {
+    active?: boolean;
+    appliedOrderPromotions?: PromotionResult[];
+    appliedProductPromotions?: PromotionResult[];
+    appliedVouchers?: Voucher[];
+    calculated?: boolean;
+    code?: string;
+    costCenter?: CostCenter;
+    deliveryAddress?: Address;
+    deliveryCost?: Price;
+    deliveryItemsQuantity?: number;
+    deliveryMode?: DeliveryMode;
+    deliveryOrderGroups?: DeliveryOrderEntryGroup[];
+    description?: string;
+    entries?: OrderEntry[];
+    expirationTime?: string;
+    firstDate?: string;
+    guid?: string;
+    name?: string;
+    net?: boolean;
+    orderDiscounts?: Price;
+    paymentInfo?: PaymentDetails;
+    paymentStatus?: string;
+    paymentType?: B2BPaymentType;
+    pickupItemsQuantity?: number;
+    pickupOrderGroups?: PickupOrderEntryGroup[];
+    potentialOrderPromotions?: PromotionResult[];
+    potentialProductPromotions?: PromotionResult[];
+    productDiscounts?: Price;
+    purchaseOrderNumber?: string;
+    replenishmentOrderCode?: string;
+    saveTime?: string;
+    savedBy?: Principal;
+    site?: string;
+    store?: string;
+    subTotal?: Price;
+    totalDiscounts?: Price;
+    totalItems?: number;
+    totalPrice?: Price;
+    totalPriceWithTax?: Price;
+    totalTax?: Price;
+    totalUnitCount?: number;
+    trigger?: Trigger;
+    user?: Principal;
+  }
+
+  export interface ReplenishmentOrderList {
+    pagination?: PaginationModel;
+    replenishmentOrders?: ReplenishmentOrder[];
+    sorts?: SortModel[];
+  }
+
+  export interface Trigger {
+    activationTime: string;
+    displayTimeTable: string;
+  }
+
+  export interface ScheduleReplenishmentForm {
+    daysOfWeek?: DaysOfWeek[];
+    nthDayOfMonth?: string;
+    numberOfDays?: string;
+    numberOfWeeks?: string;
+    recurrencePeriod?: string;
+    replenishmentStartDate?: string;
+  }
+
+  export enum DaysOfWeek {
+    MONDAY = 'MONDAY',
+    TUESDAY = 'TUESDAY',
+    WEDNESDAY = 'WEDNESDAY',
+    THURSDAY = 'THURSDAY',
+    FRIDAY = 'FRIDAY',
+    SATURDAY = 'SATURDAY',
+    SUNDAY = 'SUNDAY',
   }
 }
