@@ -1,6 +1,10 @@
 @import '../../../../theme';
 
 %cx-review-submit {
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
+
   .cx-review {
     padding: 0 0 1rem;
   }
@@ -13,6 +17,7 @@
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
+    padding: 15px 0;
 
     &-wrapper {
       display: flex;
@@ -30,13 +35,48 @@
       }
     }
 
+    .cx-review-payment-col {
+      @include media-breakpoint-up(lg) {
+        border-inline-end: 1px solid var(--cx-color-text);
+      }
+    }
+
     .cx-review-summary-card {
+      display: flex;
+      justify-content: space-between;
+
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
         min-height: auto;
+      }
+
+      &:not(:last-of-type) {
+        @include media-breakpoint-up(lg) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .cx-card-title {
+        @include type('4');
+        font-weight: bold;
+      }
+
+      .cx-card-paragraph-title {
+        font-style: italic;
+      }
+
+      .cx-review-summary-edit-step {
+        align-self: flex-start;
+        padding: 20px;
+        font-size: $h4-font-size;
+
+        a,
+        a:hover {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }
