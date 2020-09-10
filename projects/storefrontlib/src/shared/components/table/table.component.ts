@@ -69,6 +69,7 @@ export class TableComponent {
   @Input() currentItem: { value: any; property: string };
 
   @Output() launch = new EventEmitter();
+  @Output() toggle = new EventEmitter();
 
   constructor(protected rendererService: TableRendererService) {}
 
@@ -84,6 +85,11 @@ export class TableComponent {
 
   launchItem(item: any): void {
     this.launch.emit(item);
+  }
+
+  toggleItem(item: any): void {
+    console.log('table');
+    this.toggle.emit(item);
   }
 
   /**

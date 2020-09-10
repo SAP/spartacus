@@ -66,4 +66,8 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
   sort(pagination: P): void {
     this.service.sort(pagination);
   }
+
+  toggle(event: T): void {
+    this.organizationItemService.toggle(event);
+  }
 }

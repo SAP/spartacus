@@ -24,10 +24,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     super(tableService);
   }
 
-  protected load(): // structure?: TableStructure,
-  // _params?
-  Observable<EntitiesModel<B2BUnit>> {
-    // const paginationConfig = structure.options?.pagination;
+  protected load(): Observable<EntitiesModel<B2BUnit>> {
     return this.unitService
       .getTree()
       .pipe(map((raw) => this.convertUnits(raw)));
@@ -36,27 +33,6 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   key(): string {
     return 'uid';
   }
-
-  /**
-   * Populates budget data to a convenient table data model, so that we
-   * can skip specific conversion in the view logic where possible.
-   */
-  // protected convertUnits({
-  //   pagination,
-  //   sorts,
-  //   values,
-  // }: EntitiesModel<B2BUnit>): EntitiesModel<B2BUnit> {
-  //   const unitModels: EntitiesModel<B2BUnit> = {
-  //     pagination,
-  //     sorts,
-  //     values: values.map((value: any) => ({
-  //       ...value,
-  //       currency: value.currency?.isocode,
-  //       unit: value.orgUnit,
-  //     })),
-  //   };
-  //   return unitModels;
-  // }
 
   private flatten(
     array: B2BUnitNode[],
@@ -91,5 +67,9 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     };
     this.flatten(unitModels.values, root.children, level + 1, pagination);
     return unitModels;
+  }
+
+  toggle(_event: Event) {
+    console.log(_event);
   }
 }

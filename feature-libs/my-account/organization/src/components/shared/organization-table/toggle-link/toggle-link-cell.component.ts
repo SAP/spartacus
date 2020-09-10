@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Output,
+} from '@angular/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
@@ -8,10 +14,10 @@ import { OrganizationCellComponent } from '../organization-cell.component';
         <cx-icon
           *ngIf="expanded; else showExpand"
           type="CARET_RIGHT"
-          (click)="collapse($event)"
+          (click)="toggleItem($event)"
         ></cx-icon>
         <ng-template #showExpand>
-          <cx-icon type="CARET_DOWN" (click)="expand($event)"></cx-icon>
+          <cx-icon type="CARET_DOWN" (click)="toggleItem($event)"></cx-icon>
         </ng-template>
       </ng-container>
     </button>
@@ -27,6 +33,8 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 export class ToggleLinkCellComponent extends OrganizationCellComponent {
   @HostBinding('style.--cx-nest-level')
   nestLevel = this.model.level;
+
+  @Output() toggle = new EventEmitter();
 
   get tabIndex() {
     return 1;
@@ -44,13 +52,9 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     return this.model.count;
   }
 
-  collapse(event: Event) {
-    this.model.expanded = false;
+  toggleItem(event: Event) {
+    this.model.expanded = !this.model.expanded;
     event.stopPropagation();
-  }
-
-  expand(event: Event) {
-    this.model.expanded = true;
-    event.stopPropagation();
+    this.toggle.emit(event);
   }
 }
