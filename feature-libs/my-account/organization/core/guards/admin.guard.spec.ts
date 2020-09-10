@@ -93,7 +93,7 @@ describe('AdminGuard', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'organization' });
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'organization.error.noSufficientPermissions' },
+      { key: 'organization.notification.noSufficientPermissions' },
       GlobalMessageType.MSG_TYPE_WARNING
     );
     expect(result).toEqual(false);
