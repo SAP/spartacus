@@ -55,6 +55,11 @@ export interface OrderTypesState {
   selected: ORDER_TYPE;
 }
 
+export interface PaymentTypesState {
+  entities: { [code: string]: PaymentType };
+  selected: string;
+}
+
 export interface CheckoutState {
   steps: LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
