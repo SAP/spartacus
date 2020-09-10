@@ -48,7 +48,22 @@ export class OrganizationMessageComponent implements OnInit, OnDestroy {
       this.notificationRenderService.getInjector(msg.data, this.vcr.injector)
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
-    ref.instance.closeEvent.subscribe(() => ref.destroy());
+    this.subscription.add(
+      ref.instance.closeEvent.subscribe(() => this.terminate(ref))
+    );
+  }
+
+  /**
+   * Terminates the message component in 2 steps. It starts to toggle the terminate
+   * state of the component and shortly after destroys the component completely. The
+   * termination state allows the CSS layer to play an animation before destroying.
+   */
+  protected terminate(ref: ComponentRef<BaseMessageComponent>) {
+    ref.instance.terminated = true;
+    ref.injector.get(ChangeDetectorRef).markForCheck();
+    setTimeout(() => {
+      ref.destroy();
+    }, 500);
   }
 
   ngOnDestroy() {

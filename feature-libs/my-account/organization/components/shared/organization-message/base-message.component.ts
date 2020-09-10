@@ -5,6 +5,7 @@ import { MessageComponentData } from './message.model';
 
 export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class') type: string;
+  @HostBinding('class.terminated') terminated = false;
 
   @Output() closeEvent: EventEmitter<boolean> = new EventEmitter();
 
@@ -17,6 +18,12 @@ export abstract class BaseMessageComponent implements OnInit {
     this.message = this.messageData.message;
     this.icon = ICON_TYPE.INFO;
     this.type = this.resolveType();
+
+    if (this.messageData.timeout) {
+      setTimeout(() => {
+        this.close();
+      }, this.messageData.timeout);
+    }
   }
 
   close(): void {

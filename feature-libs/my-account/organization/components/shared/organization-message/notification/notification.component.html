@@ -1,5 +1,7 @@
-<cx-icon [type]="icon"></cx-icon>
-<p>{{ message | cxTranslate }}</p>
-<button class="close" (click)="close()">
-  <cx-icon [type]="closeIcon"></cx-icon>
-</button>
+<div class="inner">
+  <cx-icon [type]="icon"></cx-icon>
+  <p>{{ message | cxTranslate }}</p>
+  <button class="close" (click)="close()">
+    <cx-icon [type]="closeIcon"></cx-icon>
+  </button>
+</div>
