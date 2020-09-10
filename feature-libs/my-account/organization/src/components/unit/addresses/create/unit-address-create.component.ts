@@ -34,7 +34,7 @@ export class UnitAddressCreateComponent {
       this.code$.pipe(take(1)).subscribe((orgUnitId) => {
         this.orgUnitService.createAddress(orgUnitId, form.value);
         this.routingService.go({
-          cxRoute: 'orgUnitManageAddresses',
+          cxRoute: 'unitManageAddresses',
           params: { uid: orgUnitId },
         });
       });

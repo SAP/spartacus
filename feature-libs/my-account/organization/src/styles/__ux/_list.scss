@@ -265,6 +265,13 @@ cx-organization-edit {
       }
     }
 
+    td.name {
+      button.button.action {
+        align-self: center;
+        margin-left: calc(var(--cx-nest-level) * 1.5rem);
+      }
+    }
+
     td.actions {
       // table actions are
       button {

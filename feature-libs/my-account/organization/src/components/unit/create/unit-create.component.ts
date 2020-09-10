@@ -39,7 +39,7 @@ export class UnitCreateComponent {
       this.orgUnitService.create(form.value);
 
       this.routingService.go({
-        cxRoute: 'orgUnitDetails',
+        cxRoute: 'unitDetails',
         params: form.value,
       });
     }

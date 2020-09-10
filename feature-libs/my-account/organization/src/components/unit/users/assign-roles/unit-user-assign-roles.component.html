@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'orgUnitUsers', params: { uid: orgUnitCode } } | cxUrl
+        { cxRoute: 'unitUsers', params: { uid: orgUnitCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -41,7 +41,7 @@
       <a
         class="button secondary"
         [routerLink]="
-          { cxRoute: 'orgUnitUsers', params: { uid: orgUnitCode } } | cxUrl
+          { cxRoute: 'unitUsers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
         {{ 'unit.back' | cxTranslate }}

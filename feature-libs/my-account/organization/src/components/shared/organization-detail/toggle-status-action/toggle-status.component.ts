@@ -76,7 +76,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit {
     } else {
       item.active = !model.active;
     }
-    this.itemService.update(item.code, item);
+    this.itemService.update(item.code ?? item['uid'], item);
     this.confirmMessage(item);
   }
 

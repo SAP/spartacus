@@ -39,7 +39,7 @@ export class UnitEditComponent {
       this.orgUnitsService.update(orgUnitCode, form.value);
 
       this.routingService.go({
-        cxRoute: 'orgUnitDetails',
+        cxRoute: 'unitDetails',
         params: form.value,
       });
     }

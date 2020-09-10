@@ -85,7 +85,6 @@ export class TableComponent {
   launchItem(item: any): void {
     this.launch.emit(item);
   }
-
   /**
    * Indicates whether the given item is the current item.
    *

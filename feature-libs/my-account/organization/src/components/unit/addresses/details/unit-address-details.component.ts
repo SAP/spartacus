@@ -37,7 +37,7 @@ export class UnitAddressDetailsComponent {
     this.code$.pipe(take(1)).subscribe((code) => {
       this.orgUnitsService.deleteAddress(code, this.addressId);
       this.routingService.go({
-        cxRoute: 'orgUnitManageAddresses',
+        cxRoute: 'unitManageAddresses',
         params: { uid: code },
       });
     });
