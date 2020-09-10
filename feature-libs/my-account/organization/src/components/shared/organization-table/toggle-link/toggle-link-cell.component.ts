@@ -14,15 +14,11 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
   template: `
-    <button class="button action">
+    <button class="button action" (click)="toggleItem($event)">
       <ng-container *ngIf="count > 0">
-        <cx-icon
-          *ngIf="expanded; else showExpand"
-          type="CARET_RIGHT"
-          (click)="toggleItem($event)"
-        ></cx-icon>
+        <cx-icon *ngIf="expanded; else showExpand" type="CARET_RIGHT"></cx-icon>
         <ng-template #showExpand>
-          <cx-icon type="CARET_DOWN" (click)="toggleItem($event)"></cx-icon>
+          <cx-icon type="CARET_DOWN"></cx-icon>
         </ng-template>
       </ng-container>
     </button>
@@ -38,8 +34,6 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 export class ToggleLinkCellComponent extends OrganizationCellComponent {
   @HostBinding('style.--cx-nest-level')
   nestLevel = this.model.level;
-
-  @Output() switch = new EventEmitter();
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
@@ -65,9 +59,8 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   }
 
   toggleItem(event: Event) {
+    event.stopPropagation();
     this.uls.toggle(event);
     // this.model.expanded = !this.model.expanded;
-    // event.stopPropagation();
-    // this.switch.emit(event);
   }
 }

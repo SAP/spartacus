@@ -69,7 +69,6 @@ export class TableComponent {
   @Input() currentItem: { value: any; property: string };
 
   @Output() launch = new EventEmitter();
-  @Output() switch = new EventEmitter();
 
   constructor(protected rendererService: TableRendererService) {}
 
@@ -86,12 +85,6 @@ export class TableComponent {
   launchItem(item: any): void {
     this.launch.emit(item);
   }
-
-  toggleItem(item: any): void {
-    console.log('table');
-    this.switch.emit(item);
-  }
-
   /**
    * Indicates whether the given item is the current item.
    *

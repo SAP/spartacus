@@ -16,7 +16,6 @@
         </th>
         <td>
           <ng-template
-            (switch)="toggleItem($event)"
             [cxOutlet]="getDataOutletRef(cell)"
             [cxOutletContext]="getDataOutletContext(cell, item)"
           >
@@ -49,7 +48,6 @@
     >
       <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
         <ng-template
-          (switch)="toggleItem($event)"
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
@@ -75,7 +73,6 @@
         (click)="launchItem(item)"
       >
         <ng-template
-          (switch)="toggleItem($event)"
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
