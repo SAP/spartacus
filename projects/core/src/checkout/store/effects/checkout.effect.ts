@@ -8,6 +8,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
@@ -314,6 +315,7 @@ export class CheckoutEffects {
     | CheckoutActions.LoadCheckoutDetailsFail
   > = this.actions$.pipe(
     ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
+    tap(() => console.log('CHHI load checkout details effect')),
     map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
     mergeMap((payload) => {
       return this.checkoutConnector

@@ -94,6 +94,15 @@ export class CheckoutService {
   }
 
   /**
+   * Get status of checkout details in progress
+   */
+  getCheckoutDetailsInProgress(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getCheckoutDetailsInProgress)
+    );
+  }
+
+  /**
    * Get order details
    */
   getOrderDetails(): Observable<Order> {
