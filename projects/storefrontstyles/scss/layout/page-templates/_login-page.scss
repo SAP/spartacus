@@ -5,6 +5,9 @@
     margin: 40px 0 15px;
   }
   cx-page-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 1140px;
     padding-top: 3rem;
     padding-inline-end: 1.5rem;
@@ -14,6 +17,7 @@
 
     > * {
       max-width: var(--cx-max-width, 50%);
+      width: 100%;
     }
   }
 
