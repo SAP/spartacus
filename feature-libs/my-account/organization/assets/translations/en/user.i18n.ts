@@ -131,13 +131,13 @@ export const userAssignPermissions = {
 export const userUserGroups = {
   title: 'User groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group assigned successfully',
-  unassigned: 'User group unassigned successfully',
+  assigned: 'User group "{{item.name}}" assigned successfully',
+  unassigned: 'User group "{{item.name}}" unassigned successfully',
 };
 
 export const userAssignUserGroups = {
   title: 'Assigned User groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group assigned successfully',
-  unassigned: 'User group unassigned successfully',
+  assigned: 'User group "{{item.name}}" assigned successfully',
+  unassigned: 'User group "{{item.name}}" unassigned successfully',
 };
