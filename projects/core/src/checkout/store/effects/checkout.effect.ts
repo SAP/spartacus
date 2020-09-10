@@ -19,6 +19,7 @@ import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
+import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
@@ -152,11 +153,13 @@ export class CheckoutEffects {
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
+    | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
-      new CheckoutActions.CheckoutClearMiscsData(),
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
+      new CheckoutActions.ResetLoadPaymentTypesProcess(),
+      new CheckoutActions.CheckoutClearMiscsData(),
     ])
   );
 
@@ -412,10 +415,53 @@ export class CheckoutEffects {
     withdrawOn(this.contextChange$)
   );
 
+  @Effect()
+  setCostCenter$: Observable<
+    | CheckoutActions.SetCostCenterSuccess
+    | CheckoutActions.SetCostCenterFail
+    | CheckoutActions.ClearCheckoutDeliveryMode
+    | CheckoutActions.ClearCheckoutDeliveryAddress
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.SET_COST_CENTER),
+    map((action: CheckoutActions.SetCostCenter) => action.payload),
+    switchMap((payload) => {
+      return this.checkoutCostCenterConnector
+        .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
+        .pipe(
+          mergeMap((data) => [
+            new CartActions.LoadCartSuccess({
+              cart: data,
+              cartId: payload.cartId,
+              userId: payload.userId,
+            }),
+            new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
+            new CheckoutActions.ClearCheckoutDeliveryMode({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+            new CheckoutActions.ClearCheckoutDeliveryAddress({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+          ]),
+          catchError((error) =>
+            of(
+              new CheckoutActions.SetCostCenterFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  );
+
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
+    private checkoutCostCenterConnector: CheckoutCostCenterConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }
