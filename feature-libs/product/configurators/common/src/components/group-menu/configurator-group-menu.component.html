@@ -2,15 +2,13 @@
   <nav>
     <ul class="cx-config-menu">
       <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-        <li
-          tabindex="0"
-          (click)="navigateUp()"
-          (keyup)="navigateUpOnEnter($event)"
-          class="cx-config-menu-back"
-          *ngIf="parentGroup !== null"
-        >
+        <li class="cx-config-menu-back" *ngIf="parentGroup !== null">
           <!--TODO: "Back" text is still under discussion -->
-          <a role="link"
+          <a
+            role="link"
+            tabindex="0"
+            (click)="navigateUp()"
+            (keyup)="navigateUpOnEnter($event)"
             ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
             >{{ 'configurator.button.back' | cxTranslate }}</a
           >
@@ -21,19 +19,21 @@
         <ng-container *ngIf="currentGroup$ | async as currentGroup">
           <ng-container *ngFor="let group of groups">
             <li
-              (click)="click(group)"
-              (keyup)="clickOnEnter($event, group)"
               class="cx-config-menu-item {{
                 getGroupStatus(group, configuration) | async
               }}"
-              [cxFocus]="{ key: group.id }"
               [class.cx-config-menu-conflict]="
                 isConflictGroupType(group.groupType)
               "
               [class.WARNING]="isConflictGroupType(group.groupType)"
-              tabindex="0"
             >
-              <a [class.active]="currentGroup.id === group.id" role="link"
+              <a
+                [class.active]="currentGroup.id === group.id"
+                role="link"
+                tabindex="0"
+                (click)="click(group)"
+                (keyup)="clickOnEnter($event, group)"
+                [cxFocus]="{ key: group.id }"
                 >{{ group.description }}
                 <div class="groupIndicator">
                   <div class="conflictNumberIndicator">
