@@ -544,6 +544,32 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing PaymentType.
+   */
+  export interface PaymentType {
+    /**
+     * @member {string} [code]
+     */
+    code?: string;
+    /**
+     * @member {string} [displayName]
+     */
+    displayName?: string;
+  }
+
+  /**
+   *
+   * An interface representing PaymentTypeList.
+   */
+  export interface PaymentTypeList {
+    /**
+     * @member {PaymentType[]} [paymentTypes]
+     */
+    paymentTypes?: PaymentType[];
+  }
+
+  /**
+   *
    * An interface representing PromotionOrderEntryConsumed.
    */
   export interface PromotionOrderEntryConsumed {
@@ -4142,5 +4168,173 @@ export namespace Occ {
 
   export enum NotificationType {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
+  }
+
+  export interface Budget {
+    active?: boolean;
+    budget?: number;
+    code?: string;
+    currency?: Currency;
+    endDate?: string;
+    startDate?: string;
+    name?: string;
+    orgUnit?: B2BUnit;
+    costCenters?: CostCenter[];
+  }
+
+  export interface BudgetsList {
+    budgets?: Budget[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface CostCenter {
+    active?: string;
+    activeFlag?: boolean;
+    code?: string;
+    currency?: Currency;
+    name?: string;
+    originalCode?: string;
+    unit?: B2BUnit;
+  }
+
+  export interface CostCentersList {
+    costCenters: CostCenter[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserGroup {
+    members?: B2BUser[];
+    membersCoun?: number;
+    name?: string;
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    roles?: any;
+    selected?: boolean;
+    subGroups?: any;
+    uid?: string;
+  }
+
+  export interface OrgUnitUserGroupList {
+    orgUnitUserGroups: OrgUnitUserGroup[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface B2BAddress {
+    cellphone?: string;
+    companyName?: string;
+    country?: {
+      isocode?: string;
+      name?: string;
+    };
+    defaultAddress?: true;
+    district?: string;
+    email?: string;
+    firstName?: string;
+    formattedAddress?: string;
+    id?: string;
+    lastName?: string;
+    line1?: string;
+    line2?: string;
+    phone?: string;
+    postalCode?: string;
+    region?: {
+      countryIso?: string;
+      isocode?: string;
+      isocodeShort?: string;
+      name?: string;
+    };
+    shippingAddress?: true;
+    title?: string;
+    titleCode?: string;
+    town?: string;
+    visibleInAddressBook?: true;
+  }
+
+  export interface B2BAddressList {
+    addresses?: B2BAddress[];
+  }
+
+  export interface B2BUnitNode {
+    active?: boolean;
+    children?: B2BUnitNode[];
+    id?: string;
+    name?: string;
+    parent?: string;
+  }
+
+  export interface B2BUnitNodeList {
+    unitNodes?: B2BUnitNode[];
+  }
+
+  export interface B2BUser extends User {
+    active?: boolean;
+    approvers?: [];
+    orgUnit?: B2BUnit;
+    roles?: string[];
+    selected?: boolean;
+  }
+
+  export interface OrgUnitUserList {
+    users: B2BUser[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface B2BApprovalProcess {
+    code?: string;
+    name?: string;
+  }
+
+  export interface B2BApprovalProcessList {
+    approvalProcesses?: B2BApprovalProcess[];
+  }
+
+  export interface B2BUnit {
+    active?: boolean;
+    addresses?: B2BAddress[];
+    uid?: string;
+    name?: string;
+    parentOrgUnit?: string;
+    approvalProcess?: B2BApprovalProcess;
+    administrators?: B2BUser[];
+    approvers?: B2BUser[];
+    customers?: B2BUser[];
+    managers?: B2BUser[];
+  }
+  export interface OrderApprovalPermissionType {
+    code?: string;
+    name?: string;
+  }
+
+  export interface OrderApprovalPermissionTypeList {
+    orderApprovalPermissionTypes?: OrderApprovalPermissionType[];
+  }
+
+  export enum Period {
+    DAY = 'DAY',
+    WEEK = 'WEEK',
+    MONTH = 'MONTH',
+    QUARTER = 'QUARTER',
+    YEAR = 'YEAR',
+  }
+
+  export interface Permission {
+    active?: boolean;
+    code?: string;
+    currency?: Currency;
+    orderApprovalPermissionType?: OrderApprovalPermissionType;
+    orgUnit?: B2BUnitNode;
+    periodRange?: Period;
+    selected?: boolean;
+    treshold?: number;
+  }
+
+  export interface PermissionsList {
+    orderApprovalPermissions?: Permission[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 }
