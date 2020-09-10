@@ -62,7 +62,7 @@ export class ToggleStatusComponent<T extends BaseItem> {
 
   protected update(model: T): void {
     this.itemService.update(
-      model.code ?? model.customerId,
+      model.code ?? model.customerId ?? model['uid'],
       this.getPatchedModel(model)
     );
     this.confirmMessage(model);

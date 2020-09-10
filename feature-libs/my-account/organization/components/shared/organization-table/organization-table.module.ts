@@ -11,11 +11,13 @@ import { OrganizationCellComponent } from './organization-cell.component';
 import { RolesCellComponent } from './roles/roles-cell.component';
 import { StatusCellComponent } from './status/status-cell.component';
 import { UnitCellComponent } from './unit/unit-cell.component';
+import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
   declarations: [
     OrganizationCellComponent,
+    ToggleLinkCellComponent,
     ActiveLinkCellComponent,
     AmountCellComponent,
     DateRangeCellComponent,

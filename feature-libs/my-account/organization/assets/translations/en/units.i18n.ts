@@ -1,11 +1,12 @@
 export const unit = {
-  header: 'Units',
+  header: 'All units ({{count}})',
   unit: 'Unit',
   name: 'Name',
   uid: 'ID',
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
   back: 'Back',
+  active: 'Status',
   confirmDeactivation: {
     title: 'Disable Unit',
     message: 'Are you sure you want to disable this unit?',
@@ -23,7 +24,8 @@ export const unit = {
     upOneLevel: 'Up one level',
   },
   details: {
-    header: 'Details for {{code}}',
+    title: 'Unit Details',
+    subtitle: 'Unit: {{ item.name }}',
     children: 'Child Units',
     users: 'Users',
     approvers: 'Approvers',

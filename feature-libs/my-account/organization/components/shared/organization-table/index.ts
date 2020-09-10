@@ -1,4 +1,5 @@
 export * from './active-link/active-link-cell.component';
+export * from './toggle-link/toggle-link-cell.component';
 export * from './amount/amount-cell.component';
 export * from './date-range/date-range-cell.component';
 export * from './limit/limit-cell.component';
