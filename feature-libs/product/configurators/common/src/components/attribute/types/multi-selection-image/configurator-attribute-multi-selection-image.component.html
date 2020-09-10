@@ -1,17 +1,17 @@
-<ul id="{{ createAttributeIdForConfigurator(attribute) }}" class="row">
-  <li
+<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="row">
+  <button
     *ngFor="let value of attribute.values; let i = index"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    class="cx-config-select col-6 col-sm-3"
+    role="checkbox"
+    tabindex="0"
     (click)="onSelect(i)"
     (keyup)="onKeyUp($event, i)"
-    class="cx-config-select col-6 col-sm-3"
     [attr.aria-labelledby]="
       createValueUiKey('label', attribute.name, value.valueCode)
     "
-    role="checkbox"
     [attr.aria-checked]="attributeCheckBoxForms[i].value"
     [cxFocus]="{ key: attribute.name + '-' + value.name }"
-    tabindex="0"
   >
     <input
       id="{{
@@ -45,5 +45,5 @@
         >{{ value.valueDisplay }}</label
       >
     </div>
-  </li>
-</ul>
+  </button>
+</div>
