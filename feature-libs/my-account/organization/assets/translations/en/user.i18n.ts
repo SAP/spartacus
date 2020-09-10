@@ -13,6 +13,8 @@ export const user = {
   title: 'Title',
   assignAprover: 'Add to the approvers list',
 
+  actions: '',
+
   byName: 'Sort by name',
   byUnit: 'Sort by unit',
 

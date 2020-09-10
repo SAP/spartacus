@@ -5,6 +5,7 @@ export const userGroup = {
   name: 'Name',
   unit: 'Unit',
   orgUnit: 'Unit',
+  actions: '',
 
   byName: 'Sort by name',
   byUnitName: 'Sort by unit',

@@ -11,6 +11,7 @@ export const permission = {
   currency: 'Currency',
   orgUnit: 'Parent Unit',
   unit: 'Parent Unit',
+  actions: '',
 
   details: {
     title: 'Purchase limits details',
