@@ -5,8 +5,6 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
-import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { PaymentFormModule } from './payment-form/payment-form.module';
 import { PaymentMethodComponent } from './payment-method.component';
@@ -25,12 +23,7 @@ import { PaymentMethodComponent } from './payment-method.component';
       cmsComponents: {
         CheckoutPaymentDetails: {
           component: PaymentMethodComponent,
-          guards: [
-            CheckoutAuthGuard,
-            CartNotEmptyGuard,
-            ShippingAddressSetGuard,
-            DeliveryModeSetGuard,
-          ],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
