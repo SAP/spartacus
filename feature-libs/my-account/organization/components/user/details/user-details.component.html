@@ -7,14 +7,6 @@
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
-  <a
-    actions
-    class="link"
-    [class.disabled]="!model.active"
-    [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
-  >
-    {{ 'user.links.password' | cxTranslate }}
-  </a>
 
   <cx-toggle-status actions i18nRoot="user"></cx-toggle-status>
 
@@ -55,6 +47,15 @@
         "
       >
         {{ model.orgUnit?.name }}
+      </a>
+    </div>
+    <div class="property">
+      <a
+        class="link"
+        [class.disabled]="!model.active"
+        [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
+      >
+        {{ 'user.links.password' | cxTranslate }}
       </a>
     </div>
   </section>
