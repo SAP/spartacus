@@ -1,13 +1,18 @@
-import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '../../../../../layout/launch-dialog/index';
+import { take } from 'rxjs/operators';
+import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation',
@@ -15,14 +20,16 @@ import {
 })
 export class ReplenishmentOrderCancellationComponent
   implements OnInit, OnDestroy {
+  @ViewChild('element') element: ElementRef;
+
   private subscription = new Subscription();
 
   replenishmentOrderDetails: ReplenishmentOrder;
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected userReplenishmentOrderService: UserReplenishmentOrderService
+    protected userReplenishmentOrderService: UserReplenishmentOrderService,
+    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +41,14 @@ export class ReplenishmentOrderCancellationComponent
   }
 
   openDialog() {
-    this.launchDialogService.launch(
-      LAUNCH_CALLER.REPLENISHMENT_ORDER,
+    const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
+      this.element,
       this.vcr
     );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   ngOnDestroy(): void {

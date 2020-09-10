@@ -31,18 +31,33 @@ export class ReplenishmentOrderCancellationDialogComponent
   ngOnInit(): void {
     this.subscription.add(
       this.userReplenishmentOrderService
-        .getCancelReplenishmentOrderSuccess()
-        .subscribe((value) => this.onSuccess(value))
-    );
-
-    this.subscription.add(
-      this.userReplenishmentOrderService
         .getReplenishmentOrderDetails()
         .subscribe(
           (value) =>
             (this.replenishmentOrderCode = value.replenishmentOrderCode)
         )
     );
+
+    this.subscription.add(
+      this.userReplenishmentOrderService
+        .getCancelReplenishmentOrderSuccess()
+        .subscribe((value) => this.onSuccess(value))
+    );
+  }
+
+  onSuccess(value: boolean): void {
+    if (value) {
+      this.routingService.go({
+        cxRoute: 'replenishmentDetails',
+      });
+      this.globalMessageService.add(
+        {
+          key: 'orderDetails.cancelReplenishment.cancelSuccess',
+          params: { replenishmentOrderCode: this.replenishmentOrderCode },
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   close(reason: string): void {
@@ -53,19 +68,6 @@ export class ReplenishmentOrderCancellationDialogComponent
     this.userReplenishmentOrderService.cancelReplenishmentOrder(
       this.replenishmentOrderCode
     );
-  }
-
-  onSuccess(value: boolean): void {
-    if (value) {
-      this.globalMessageService.add(
-        {
-          key: 'orderDetails.cancelReplenishment.cancelSuccess',
-          params: { replenishmentOrderCode: this.replenishmentOrderCode },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      this.routingService.go({ cxRoute: 'replenishmentOrders' });
-    }
   }
 
   ngOnDestroy(): void {
