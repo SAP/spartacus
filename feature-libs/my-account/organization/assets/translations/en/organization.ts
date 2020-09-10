@@ -15,9 +15,12 @@ import {
 } from './user-group.i18n';
 import {
   user,
+  userApprovers,
   userAssignApprovers,
   userAssignPermissions,
   userAssignUserGroups,
+  userPermissions,
+  userUserGroups,
 } from './user.i18n';
 
 /**
@@ -84,9 +87,12 @@ export const organization = {
   userGroupAssignUsers,
   userGroupAssignPermissions,
   user,
-  userAssignApprovers,
-  userAssignPermissions,
+  userUserGroups,
   userAssignUserGroups,
+  userApprovers,
+  userAssignApprovers,
+  userPermissions,
+  userAssignPermissions,
   permission,
   orderApproval,
   orderApprovalList,

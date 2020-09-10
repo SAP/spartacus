@@ -4,6 +4,7 @@ import { CostCenterComponentsModule } from './cost-center/cost-center-components
 import { OrderApprovalComponentsModule } from './order-approval';
 import { PermissionComponentsModule } from './permission/permission-components.module';
 import { UserGroupComponentsModule } from './user-group';
+import { UserComponentsModule } from './user/user-components.module';
 
 @NgModule({
   imports: [
@@ -11,7 +12,7 @@ import { UserGroupComponentsModule } from './user-group';
     CostCenterComponentsModule,
     // UnitsComponentsModule,
     UserGroupComponentsModule,
-    // UserComponentsModule,
+    UserComponentsModule,
     PermissionComponentsModule,
     OrderApprovalComponentsModule,
   ],

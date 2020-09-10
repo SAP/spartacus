@@ -42,7 +42,7 @@ export class MockTableService {
   }
 }
 
-describe('CostCenterAssignBudgetListService', () => {
+describe('CostCenterBudgetListService', () => {
   let service: CostCenterBudgetListService;
 
   beforeEach(() => {

@@ -33,7 +33,7 @@ export class ToggleStatusComponent<T extends BaseItem> {
 
     if (item.active) {
       const prompt = new Subject<boolean>();
-      prompt.subscribe(() => {
+      prompt.pipe(first()).subscribe(() => {
         this.messageService.clear();
         this.update(item);
       });
@@ -43,7 +43,6 @@ export class ToggleStatusComponent<T extends BaseItem> {
           message: {
             key: this.i18nRoot + '.messages.deactivate',
           },
-          type: GlobalMessageType.MSG_TYPE_INFO,
           item: item,
           confirm: prompt,
         },
@@ -62,14 +61,26 @@ export class ToggleStatusComponent<T extends BaseItem> {
   }
 
   protected update(model: T): void {
-    const item: T = { ...model };
+    this.itemService.update(
+      model.code ?? model.customerId,
+      this.getPatchedModel(model)
+    );
+    this.confirmMessage(model);
+  }
+
+  protected getPatchedModel(model: T): T {
+    const patch: BaseItem = {};
     if ((model as any).type === 'b2BCostCenterWsDTO') {
-      (item as any).activeFlag = !model.active;
+      (patch as any).activeFlag = !model.active;
     } else {
-      item.active = !model.active;
+      patch.active = !model.active;
     }
-    this.itemService.update(item.code, item);
-    this.confirmMessage(item);
+    if ((model as any).type === 'userWsDTO') {
+      patch.customerId = model.customerId;
+    } else {
+      patch.code = model.code;
+    }
+    return patch as T;
   }
 
   protected confirmMessage(model: T): void {
@@ -80,8 +91,11 @@ export class ToggleStatusComponent<T extends BaseItem> {
         this.messageService.add<MessageComponentData>({
           message: {
             key: update.active
-              ? this.i18nRoot + '.messages.confirmEnabled'
-              : this.i18nRoot + '.messages.confirmDisabled',
+              ? this.i18nRoot + '.messages.confirmDisabled'
+              : this.i18nRoot + '.messages.confirmEnabled',
+            params: {
+              item: model,
+            },
           },
           type: GlobalMessageType.MSG_TYPE_INFO,
         });

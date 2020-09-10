@@ -21,21 +21,6 @@ export class UserGroupAssignedPermissionsListService extends UserGroupPermission
   ): Observable<EntitiesModel<Permission>> {
     return super
       .load(structure, code)
-      .pipe(map((users) => this.filterAssigned(users)));
-  }
-
-  /**
-   * As we can't filter with the backend API, we do this client side.
-   */
-  protected filterAssigned({
-    pagination,
-    sorts,
-    values,
-  }: EntitiesModel<Permission>): EntitiesModel<Permission> {
-    return {
-      pagination,
-      sorts,
-      values: values.filter((value) => value.selected),
-    };
+      .pipe(map((users) => this.filterSelected(users)));
   }
 }

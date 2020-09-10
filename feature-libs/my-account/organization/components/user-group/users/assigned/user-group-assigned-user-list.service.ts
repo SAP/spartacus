@@ -21,21 +21,6 @@ export class UserGroupAssignedUserListService extends UserGroupUserListService {
   ): Observable<EntitiesModel<B2BUser>> {
     return super
       .load(structure, code)
-      .pipe(map((users) => this.filterAssigned(users)));
-  }
-
-  /**
-   * As we can't filter with the backend API, we do this client side.
-   */
-  protected filterAssigned({
-    pagination,
-    sorts,
-    values,
-  }: EntitiesModel<B2BUser>): EntitiesModel<B2BUser> {
-    return {
-      pagination,
-      sorts,
-      values: values.filter((value) => value.selected),
-    };
+      .pipe(map((users) => this.filterSelected(users)));
   }
 }

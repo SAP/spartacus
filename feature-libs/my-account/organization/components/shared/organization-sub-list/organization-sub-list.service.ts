@@ -3,11 +3,13 @@ import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
+import { EntitiesModel } from 'projects/core/src/model/misc.model';
 import { OrganizationListService } from '../organization-list';
+import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class OrganizationSubListService<
-  T
+  T extends BaseItem
 > extends OrganizationListService<T> {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.
@@ -19,4 +21,19 @@ export abstract class OrganizationSubListService<
   // TODO: abstract
   assign(_key: string, _linkKey: string) {}
   unassign(_key: string, _linkKey: string) {}
+
+  /**
+   * As we can't filter with the backend API, we do this client side.
+   */
+  protected filterSelected({
+    pagination,
+    sorts,
+    values,
+  }: EntitiesModel<T>): EntitiesModel<T> {
+    return {
+      pagination,
+      sorts,
+      values: values.filter((value) => value.selected),
+    };
+  }
 }

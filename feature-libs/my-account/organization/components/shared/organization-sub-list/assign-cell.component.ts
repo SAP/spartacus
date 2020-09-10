@@ -38,8 +38,8 @@ export class AssignCellComponent<T> implements OnDestroy {
     this.organizationItemService.key$
       .subscribe((key) => {
         this.isAssigned
-          ? this.unassign(key, this.linkKey)
-          : this.assign(key, this.linkKey);
+          ? this.unassign(key, this.link)
+          : this.assign(key, this.link);
       })
       .unsubscribe();
   }
@@ -58,8 +58,20 @@ export class AssignCellComponent<T> implements OnDestroy {
     );
   }
 
-  protected get linkKey() {
-    return this.outlet.context.code || this.outlet.context.customerId;
+  /**
+   * Returns the key for the linked object.
+   *
+   * At the moment, we're using a generic approach to assign objects,
+   * but the object do not have a normalized shape. Therefor, we need
+   * to evaluate the context to return the right key for the associated
+   * item.
+   */
+  protected get link(): string {
+    return (
+      this.outlet.context.code ??
+      this.outlet.context.customerId ??
+      this.outlet.context.uid
+    );
   }
 
   ngOnDestroy() {

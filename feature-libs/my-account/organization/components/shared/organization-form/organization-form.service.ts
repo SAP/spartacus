@@ -17,9 +17,13 @@ export abstract class OrganizationFormService<T> {
     // while we should be able to reset with initial value, this doesn't always work
     // hence, we're patching afterwards.
     this.form.reset();
-    this.form.patchValue({ ...this.defaultValue, ...item });
     this.form.enable();
+    this.patchData(item);
     return this.form;
+  }
+
+  protected patchData(item?: T): void {
+    this.form.patchValue({ ...this.defaultValue, ...item });
   }
 
   /**

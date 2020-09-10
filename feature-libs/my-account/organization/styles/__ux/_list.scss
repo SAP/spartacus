@@ -134,7 +134,7 @@ cx-organization-form {
   // avoid the card list to be interactive
   cx-organization-sub-list cx-table.vertical {
     table {
-      table-layout: auto;
+      // table-layout: auto;
       thead {
         display: none;
       }
@@ -146,7 +146,7 @@ cx-organization-form {
           outline: none;
         }
         td {
-          width: 100%;
+          // width: 100%;
           &.actions {
             width: auto;
             &:last-child {

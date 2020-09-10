@@ -21,17 +21,4 @@ export class CostCenterAssignedBudgetListService extends CostCenterBudgetListSer
       .load(structure, code)
       .pipe(map((budgets) => this.filterSelected(budgets)));
   }
-
-  /**
-   * As we can't filter with the backend API, we do this client side.
-   */
-  protected filterSelected({
-    sorts,
-    values,
-  }: EntitiesModel<Budget>): EntitiesModel<Budget> {
-    return {
-      sorts,
-      values: values.filter((value) => value.selected),
-    };
-  }
 }

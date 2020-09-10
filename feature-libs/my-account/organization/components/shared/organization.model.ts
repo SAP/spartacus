@@ -36,6 +36,10 @@ export enum UnitRoleType {
 
 export type BaseItem = {
   code?: string;
+  selected?: boolean;
+  // tmp alternative "key"
+  customerId?: string;
+
   active?: boolean;
   orgUnit?: any;
 };

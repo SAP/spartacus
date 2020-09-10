@@ -15,7 +15,7 @@ export class CustomFormValidators {
   static emailValidator(control: AbstractControl): ValidationErrors | null {
     const email = control.value as string;
 
-    return !email.length || email.match(EMAIL_PATTERN)
+    return email && (!email.length || email.match(EMAIL_PATTERN))
       ? null
       : { cxInvalidEmail: true };
   }
@@ -33,7 +33,7 @@ export class CustomFormValidators {
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
 
-    return !password.length || password.match(PASSWORD_PATTERN)
+    return password && (!password.length || password.match(PASSWORD_PATTERN))
       ? null
       : { cxInvalidPassword: true };
   }
