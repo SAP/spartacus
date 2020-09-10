@@ -20,7 +20,8 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+// import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { getProjectTargets } from '../../../dev-schematics/src/shared/utils/package-utils';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,

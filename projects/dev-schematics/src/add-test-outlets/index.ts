@@ -13,7 +13,7 @@ import {
   SchematicsException,
 } from '@angular-devkit/schematics';
 import { Schema as DevSpartacusOptions } from '../ng-add/schema';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { getProjectTargets } from '../shared/utils/package-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   SPARTACUS_CORE,

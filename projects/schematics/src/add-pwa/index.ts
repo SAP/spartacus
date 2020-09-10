@@ -8,7 +8,8 @@ import {
 } from '@angular-devkit/schematics';
 import { branch } from '@angular-devkit/schematics/src/tree/static';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+// import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { getProjectTargets } from '../../../dev-schematics/src/shared/utils/package-utils';
 import { of } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getLineFromTSFile } from '../shared/utils/file-utils';
