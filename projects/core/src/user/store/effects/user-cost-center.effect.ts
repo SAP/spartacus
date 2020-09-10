@@ -18,6 +18,7 @@ export class UserCostCenterEffects {
     map((action: UserActions.LoadActiveCostCenters) => action.payload),
     switchMap((payload) =>
       this.userCostCenterConnector.getActiveList(payload).pipe(
+        // TODO(#8875): Should we use here serialize utils?
         map(
           (data: EntitiesModel<CostCenter>) =>
             new UserActions.LoadActiveCostCentersSuccess(data.values)

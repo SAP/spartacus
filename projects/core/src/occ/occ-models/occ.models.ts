@@ -4186,7 +4186,7 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  // TODO: What else can we remove here?
+  // TODO(#8878): Which models we can remove from here?
   export interface OrgUnitUserGroup {
     members?: B2BUser[];
     membersCoun?: number;

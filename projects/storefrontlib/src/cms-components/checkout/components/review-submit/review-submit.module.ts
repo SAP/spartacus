@@ -31,6 +31,7 @@ import { ReviewSubmitComponent } from './review-submit.component';
       cmsComponents: {
         CheckoutReviewOrder: {
           component: ReviewSubmitComponent,
+          // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

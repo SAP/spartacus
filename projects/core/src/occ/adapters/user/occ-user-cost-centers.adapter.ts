@@ -19,7 +19,7 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
-    // TODO: Configurable endpoints
+    // TODO(#8877): Use configurable endpoints
     const params = new HttpParams().set(
       'fields',
       'DEFAULT,unit(BASIC,addresses(DEFAULT))'

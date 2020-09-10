@@ -40,6 +40,7 @@ export interface User {
   uid?: string;
 }
 
+// TODO(#8875): Do we need it here?
 export interface EntitiesModel<T> {
   values: T[];
   pagination?: PaginationModel;

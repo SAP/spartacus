@@ -431,6 +431,7 @@ export class CheckoutEffects {
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(
           mergeMap((data) => [
+            // TODO(#8877): We should trigger load cart not already assign the data. We might have misconfiguration between this cart model and load cart model
             new CartActions.LoadCartSuccess({
               cart: data,
               cartId: payload.cartId,
