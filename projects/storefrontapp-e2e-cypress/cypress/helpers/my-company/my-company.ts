@@ -100,7 +100,8 @@ export function loginAsMyCompanyAdmin(): void {
 
 export function ngSelect(sortKey: string): void {
   cy.get('.ng-select').click();
-  cy.get('.ng-select .ng-dropdown-panel-items')
+  cy.wait(1000);
+  cy.get('ng-dropdown-panel .ng-dropdown-panel-items')
     .contains(new RegExp(`^${sortKey}$`, 'g'))
     .click({ force: true });
 }
