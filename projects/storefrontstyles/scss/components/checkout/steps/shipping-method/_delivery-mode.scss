@@ -13,7 +13,9 @@
 
     .cx-delivery-label {
       padding: 0;
-      margin: 0 auto 1.5rem 0.75rem;
+      margin-inline-start: 0.75rem;
+      margin-inline-end: auto;
+      margin-bottom: 1.5rem;
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -22,12 +24,12 @@
 
       .cx-delivery-mode {
         flex: auto;
-        text-align: left;
+        text-align: start;
       }
 
       .cx-delivery-price {
         flex: auto;
-        text-align: right;
+        text-align: end;
       }
 
       .cx-delivery-details {
