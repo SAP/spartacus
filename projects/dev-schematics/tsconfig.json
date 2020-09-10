@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": "tsconfig",
-    "lib": ["es2018", "dom"],
+    "lib": ["es2020", "dom"],
     "declaration": true,
-    "module": "commonjs",
+    "module": "es2020",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,

@@ -1,8 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SPARTACUS_CORE, UTF_8 } from '@spartacus/schematics';
-
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { WorkspaceProject, WorkspaceSchema, WorkspaceTargets, ProjectType } from '@schematics/angular/utility/workspace-models';
+
+import { SPARTACUS_CORE, UTF_8 } from '@spartacus/schematics';
 
 export function getSpartacusVersion(tree: Tree): string {
   const buffer = tree.read('package.json');
