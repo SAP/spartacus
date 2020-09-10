@@ -42,7 +42,7 @@ export const budget = {
   },
 };
 
-export const budgetCostCenters = {
+export const budgetAssignedCostCenters = {
   title: 'Cost centers',
   subtitle: 'Budget: {{ item.name }}',
 };

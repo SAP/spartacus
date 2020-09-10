@@ -6,11 +6,7 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import {
-  ActiveLinkCellComponent,
-  AssignCellComponent,
-  OrganizationCellComponent,
-} from '../shared';
+import { ActiveLinkCellComponent, AssignCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -128,7 +124,6 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP]: {
       cells: ['name', 'uid', 'unit'],
       options: {
-        dataComponent: OrganizationCellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
@@ -139,7 +134,7 @@ export const userGroupTableConfig: TableConfig = {
         },
       },
     },
-    [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: {
+    [OrganizationTableType.USER_GROUP_ASSIGNED_USERS]: {
       cells: ['uid', 'actions'],
       options: {
         cells: {
@@ -173,7 +168,7 @@ export const userGroupTableConfig: TableConfig = {
         },
       },
     },
-    [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: {
+    [OrganizationTableType.USER_GROUP_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
         cells: {

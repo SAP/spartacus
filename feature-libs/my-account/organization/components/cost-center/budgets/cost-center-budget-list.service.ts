@@ -15,7 +15,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export class CostCenterBudgetListService extends OrganizationSubListService<
   Budget
 > {
-  protected tableType = OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS;
+  protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
   protected domainType = OrganizationTableType.BUDGET;
 
   constructor(

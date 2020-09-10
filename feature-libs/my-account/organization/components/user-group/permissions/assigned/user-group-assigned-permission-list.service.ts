@@ -10,7 +10,7 @@ import { UserGroupPermissionListService } from '../user-group-permission-list.se
   providedIn: 'root',
 })
 export class UserGroupAssignedPermissionsListService extends UserGroupPermissionListService {
-  protected tableType = OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS;
+  protected tableType = OrganizationTableType.USER_GROUP_ASSIGNED_PERMISSIONS;
   /**
    * @override
    * Load all b2b users assigned to the given user group

@@ -10,7 +10,7 @@ import { UserApproverListService } from '../user-approver-list.service';
   providedIn: 'root',
 })
 export class UserAssignedApproverListService extends UserApproverListService {
-  protected tableType = OrganizationTableType.USER_ASSIGN_APPROVERS;
+  protected tableType = OrganizationTableType.USER_ASSIGNED_APPROVERS;
 
   protected load(
     structure: TableStructure,

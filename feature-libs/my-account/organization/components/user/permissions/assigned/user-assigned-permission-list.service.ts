@@ -10,7 +10,7 @@ import { UserPermissionListService } from '../user-permission-list.service';
   providedIn: 'root',
 })
 export class UserAssignedPermissionListService extends UserPermissionListService {
-  protected tableType = OrganizationTableType.USER_ASSIGN_PERMISSIONS;
+  protected tableType = OrganizationTableType.USER_ASSIGNED_PERMISSIONS;
 
   protected load(
     structure: TableStructure,

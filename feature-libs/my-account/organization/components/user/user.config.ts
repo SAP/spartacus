@@ -10,7 +10,6 @@ import { ActiveLinkCellComponent, AssignCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
@@ -168,7 +167,6 @@ export const userTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
         },
-        dataComponent: OrganizationCellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
@@ -191,7 +189,7 @@ export const userTableConfig: TableConfig = {
         cells,
       },
     },
-    [OrganizationTableType.USER_ASSIGN_APPROVERS]: {
+    [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
         cells,
@@ -204,7 +202,7 @@ export const userTableConfig: TableConfig = {
         cells,
       },
     },
-    [OrganizationTableType.USER_ASSIGN_USER_GROUPS]: {
+    [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
       cells: ['uid', 'actions'],
       options: {
         cells,
@@ -217,7 +215,7 @@ export const userTableConfig: TableConfig = {
         cells,
       },
     },
-    [OrganizationTableType.USER_ASSIGN_PERMISSIONS]: {
+    [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
         cells,

@@ -11,7 +11,7 @@ import { UserUserGroupListService } from '../user-user-group-list.service';
   providedIn: 'root',
 })
 export class UserAssignedUserGroupListService extends UserUserGroupListService {
-  protected tableType = OrganizationTableType.USER_ASSIGN_USER_GROUPS;
+  protected tableType = OrganizationTableType.USER_ASSIGNED_USER_GROUPS;
 
   protected load(
     structure: TableStructure,

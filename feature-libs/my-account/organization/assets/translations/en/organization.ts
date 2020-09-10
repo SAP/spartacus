@@ -1,24 +1,24 @@
-import { budget, budgetCostCenters } from './budget.i18n';
+import { budget, budgetAssignedCostCenters } from './budget.i18n';
 import {
   costCenter,
-  costCenterAssignBudgets,
+  costCenterAssignedBudgets,
   costCenterBudgets,
 } from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
-import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
+import { unit, unitAssignedApprovers, unitAssignedRoles } from './units.i18n';
 import {
   userGroup,
-  userGroupAssignPermissions,
-  userGroupAssignUsers,
+  userGroupAssignedPermissions,
+  userGroupAssignedUsers,
   userGroupUsers,
 } from './user-group.i18n';
 import {
   user,
   userApprovers,
-  userAssignApprovers,
-  userAssignPermissions,
-  userAssignUserGroups,
+  userAssignedApprovers,
+  userAssignedPermissions,
+  userAssignedUserGroups,
   userPermissions,
   userUserGroups,
 } from './user.i18n';
@@ -41,7 +41,7 @@ export const organization = {
     code: 'Code',
 
     back: '',
-    close: 'close',
+    close: 'done',
 
     cancel: 'Cancel',
     ok: 'Ok',
@@ -76,23 +76,23 @@ export const organization = {
   // sub feature labels are added below
   costCenter,
   costCenterBudgets,
-  costCenterAssignBudgets,
+  costCenterAssignedBudgets,
   budget,
-  budgetCostCenters,
+  budgetAssignedCostCenters,
   unit,
-  unitAssignRoles,
-  unitAssignApprovers,
+  unitAssignedRoles,
+  unitAssignedApprovers,
   userGroup,
   userGroupUsers,
-  userGroupAssignUsers,
-  userGroupAssignPermissions,
+  userGroupAssignedUsers,
+  userGroupAssignedPermissions,
   user,
   userUserGroups,
-  userAssignUserGroups,
+  userAssignedUserGroups,
   userApprovers,
-  userAssignApprovers,
+  userAssignedApprovers,
   userPermissions,
-  userAssignPermissions,
+  userAssignedPermissions,
   permission,
   orderApproval,
   orderApprovalList,

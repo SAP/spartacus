@@ -12,7 +12,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export class UserGroupPermissionListService extends OrganizationSubListService<
   Permission
 > {
-  protected tableType = OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS;
+  protected tableType = OrganizationTableType.USER_GROUP_PERMISSIONS;
   protected domainType = OrganizationTableType.USER;
 
   constructor(

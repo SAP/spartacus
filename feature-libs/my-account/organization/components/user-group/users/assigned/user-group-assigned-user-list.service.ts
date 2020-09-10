@@ -10,7 +10,7 @@ import { UserGroupUserListService } from '../user-group-user-list.service';
   providedIn: 'root',
 })
 export class UserGroupAssignedUserListService extends UserGroupUserListService {
-  protected tableType = OrganizationTableType.USER_GROUP_ASSIGN_USERS;
+  protected tableType = OrganizationTableType.USER_GROUP_ASSIGNED_USERS;
   /**
    * @override
    * Load all b2b users assigned to the given user group

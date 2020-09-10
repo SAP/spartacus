@@ -11,7 +11,6 @@ import { OrganizationListComponent } from '../shared/organization-list/organizat
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
@@ -105,7 +104,6 @@ export const costCenterTableConfig: TableConfig = {
     [OrganizationTableType.COST_CENTER]: {
       cells: ['name', 'active', 'currency', 'unit'],
       options: {
-        dataComponent: OrganizationCellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
@@ -119,7 +117,8 @@ export const costCenterTableConfig: TableConfig = {
         },
       },
     },
-    [OrganizationTableType.COST_CENTER_BUDGETS]: {
+
+    [OrganizationTableType.COST_CENTER_ASSIGNED_BUDGETS]: {
       cells: ['name', 'actions'],
       options: {
         cells: {
@@ -132,7 +131,8 @@ export const costCenterTableConfig: TableConfig = {
         },
       },
     },
-    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: {
+
+    [OrganizationTableType.COST_CENTER_BUDGETS]: {
       cells: ['name', 'actions'],
       options: {
         cells: {

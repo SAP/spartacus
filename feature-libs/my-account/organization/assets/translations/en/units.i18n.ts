@@ -102,7 +102,7 @@ export const unit = {
   },
 };
 
-export const unitAssignRoles = {
+export const unitAssignedRoles = {
   header: 'Manage roles in {{code}}',
   name: 'Name',
   email: 'Email',
@@ -113,7 +113,7 @@ export const unitAssignRoles = {
   roleAdministrator: 'Admin',
 };
 
-export const unitAssignApprovers = {
+export const unitAssignedApprovers = {
   name: 'Name',
   email: 'Email',
   roles: 'Roles',

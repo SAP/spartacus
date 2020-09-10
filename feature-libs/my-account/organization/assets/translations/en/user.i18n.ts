@@ -100,43 +100,42 @@ export const user = {
   },
 };
 
-export const userApprovers = {
+export const userAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Unit assigned successfully',
   unassigned: 'Unit unassigned successfully',
 };
-
-export const userAssignApprovers = {
-  title: 'Approvers',
+export const userApprovers = {
+  title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Unit assigned successfully',
   unassigned: 'Unit unassigned successfully',
 };
 
-export const userPermissions = {
+export const userAssignedPermissions = {
   title: 'Assigned permissions',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Permission assigned successfully',
   unassigned: 'Permission unassigned successfully',
 };
 
-export const userAssignPermissions = {
-  title: 'Permissions',
+export const userPermissions = {
+  title: 'Manage assigned permissions',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Permission assigned successfully',
   unassigned: 'Permission unassigned successfully',
 };
 
-export const userUserGroups = {
-  title: 'User groups',
+export const userAssignedUserGroups = {
+  title: 'Assigned User groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group "{{item.name}}" assigned successfully',
   unassigned: 'User group "{{item.name}}" unassigned successfully',
 };
 
-export const userAssignUserGroups = {
-  title: 'Assigned User groups',
+export const userUserGroups = {
+  title: 'Manage User groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group "{{item.name}}" assigned successfully',
   unassigned: 'User group "{{item.name}}" unassigned successfully',

@@ -45,15 +45,15 @@ export const costCenter = {
   },
 };
 
-export const costCenterBudgets = {
-  title: 'Assigned budgets',
+export const costCenterAssignedBudgets = {
+  title: 'Manage budgets',
   subtitle: 'Cost Center: {{ item.name }}',
   assigned: 'Budget assigned successfully',
   unassigned: 'Budget unassigned successfully',
 };
 
-export const costCenterAssignBudgets = {
-  title: 'Budgets',
+export const costCenterBudgets = {
+  title: 'Assigned budgets',
   subtitle: 'Cost Center: {{ item.name }}',
   assigned: 'Budget assigned successfully',
   unassigned: 'Budget unassigned successfully',

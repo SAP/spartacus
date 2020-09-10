@@ -61,30 +61,29 @@ export const userGroup = {
   },
 };
 
-export const userGroupUsers = {
-  title: 'Users',
-  subtitle: 'User group: {{ item.name }}',
-  assigned: 'User {{item.name}} assigned successfully',
-  unassigned: 'User {{item.name}} unassigned successfully',
-  unassignAll: 'Unassign All',
-};
-
-export const userGroupAssignUsers = {
+export const userGroupAssignedUsers = {
   title: 'Assigned users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const userGroupPermissions = {
-  title: 'Purchase limits',
+export const userGroupUsers = {
+  title: 'Manage users',
+  subtitle: 'User group: {{ item.name }}',
+  assigned: 'User {{item.name}} assigned successfully',
+  unassigned: 'User {{item.name}} unassigned successfully',
+  unassignAll: 'Unassign All',
+};
+export const userGroupAssignedPermissions = {
+  title: 'Assigned Purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',
 };
 
-export const userGroupAssignPermissions = {
-  title: 'Assigned Purchase limits',
+export const userGroupPermissions = {
+  title: 'Manage purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',

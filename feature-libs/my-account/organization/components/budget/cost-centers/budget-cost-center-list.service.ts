@@ -13,7 +13,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export class BudgetCostCenterListService extends OrganizationSubListService<
   Budget
 > {
-  protected tableType = OrganizationTableType.BUDGET_COST_CENTERS;
+  protected tableType = OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS;
   protected domainType = OrganizationTableType.COST_CENTER;
 
   constructor(

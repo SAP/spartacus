@@ -11,7 +11,7 @@ import { CostCenterBudgetListService } from '../cost-center-budget-list.service'
   providedIn: 'root',
 })
 export class CostCenterAssignedBudgetListService extends CostCenterBudgetListService {
-  protected tableType = OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS;
+  protected tableType = OrganizationTableType.COST_CENTER_ASSIGNED_BUDGETS;
 
   protected load(
     structure: TableStructure,
