@@ -4,16 +4,9 @@
 }
 
 .CompanyPageTemplate {
-  // cx-breadcrumb {
-  //   border-bottom: 1px solid var(--cx-color-light);
-  //   background: var(--cx-color-inverse);
-  // }
-  // main {
-  //   background-color: var(--cx-color-background);
-  // }
   cx-page-layout.CompanyPageTemplate {
     max-width: 1140px;
-    padding-bottom: max(calc((100vw - 1140px) / 2), var(--cx-spatial-md));
+    padding-bottom: 80px;
     margin: auto;
 
     @include media-breakpoint-down(sm) {

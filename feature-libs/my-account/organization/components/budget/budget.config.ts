@@ -78,14 +78,14 @@ export const budgetCmsConfig: CmsConfig = {
           component: BudgetDetailsComponent,
           children: [
             {
+              path: `edit`,
+              component: BudgetFormComponent,
+            },
+            {
               path: 'cost-centers',
               component: BudgetCostCenterListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.budgetCode}/edit`,
-          component: BudgetFormComponent,
         },
       ],
       guards: [AuthGuard],

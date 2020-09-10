@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -126,6 +126,9 @@ export const costCenterTableConfig: TableConfig = {
           actions: {
             dataComponent: AssignCellComponent,
           },
+        },
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
     },

@@ -2,20 +2,23 @@
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
 
-  <section main *ngIf="dataTable$ | async as dataTable">
-    <cx-table
-      *ngIf="dataTable.data?.length > 0; else emptyList"
-      [dataset]="dataTable"
-      [currentItem]="{ property: key, value: currentKey$ | async }"
-    >
-    </cx-table>
+  <ng-container main *ngIf="dataTable$ | async as dataTable">
+    <section>
+      <cx-table
+        *ngIf="dataTable.data?.length > 0; else emptyList"
+        [dataset]="dataTable"
+        [currentItem]="{ property: key, value: currentKey$ | async }"
+      >
+      </cx-table>
+    </section>
+
     <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
       <cx-pagination
         [pagination]="dataTable.pagination"
         (viewPageEvent)="browse(dataTable.pagination, $event)"
       ></cx-pagination>
     </div>
-  </section>
+  </ng-container>
 </cx-organization-card>
 
 <ng-template #emptyList>

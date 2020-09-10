@@ -7,10 +7,6 @@ import { map } from 'rxjs/operators';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
-/**
- * Service to populate Cost Center Budget data to `Table` data. The cost center
- * data is driven by the table configuration, using the `OrganizationTables.BUDGET_COST_CENTERS`.
- */
 @Injectable({
   providedIn: 'root',
 })
