@@ -1,7 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ReplenishmentOrder, ReplenishmentOrderList } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -38,7 +41,6 @@ describe('UserReplenishmentOrderService', () => {
   let authService: AuthService;
   let store: Store<StateWithUser | StateWithProcess<void>>;
 
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -62,7 +64,6 @@ describe('UserReplenishmentOrderService', () => {
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
-
   });
 
   it('should create', () => {
@@ -282,7 +283,6 @@ describe('UserReplenishmentOrderService', () => {
       userReplenishmentOrderService
         .getReplenishmentOrderHistoryListLoaded()
         .subscribe((data) => {
-          console.log('from loaded flag service', data);
           orderListLoaded = data;
         })
         .unsubscribe();

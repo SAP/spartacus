@@ -34,7 +34,6 @@ export class OrderHistoryComponent implements OnDestroy {
     })
   );
 
-
   isLoaded$: Observable<
     boolean
   > = this.userOrderService.getOrderHistoryListLoaded();
@@ -98,5 +97,4 @@ export class OrderHistoryComponent implements OnDestroy {
       event.sortCode
     );
   }
-
 }

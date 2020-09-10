@@ -27,7 +27,6 @@ const mockOrderHistoryList: OrderHistoryList = {
 
 class MockUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
-
   loadHistory = createSpy(
     'UserReplenishmentOrderAdapter.loadHistory'
   ).and.callFake((userId) => of(`orderHistory-${userId}`));
@@ -134,7 +133,6 @@ describe('UserReplenishmentOrderConnector', () => {
       replenishmentCode
     );
   });
-
 });
 
 describe('UserReplenishmentOrderConnector', () => {
@@ -154,7 +152,6 @@ describe('UserReplenishmentOrderConnector', () => {
     });
     adapter = TestBed.inject(UserReplenishmentOrderAdapter);
     connector = TestBed.inject(UserReplenishmentOrderConnector);
-
   }));
 
   it('should create', () => {
@@ -164,7 +161,6 @@ describe('UserReplenishmentOrderConnector', () => {
   it('loadHistory should call adapter', () => {
     let result;
     connector.loadHistory('user3').subscribe((res) => (result = res));
-    console.log(result);
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadHistory).toHaveBeenCalledWith(
       'user3',

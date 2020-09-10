@@ -111,5 +111,4 @@ export class OccUserReplenishmentOrderAdapter
       .get<Occ.ReplenishmentOrderList>(url)
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_HISTORY_NORMALIZER));
   }
-
 }

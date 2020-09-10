@@ -1,5 +1,9 @@
 import { Observable } from 'rxjs';
-import { OrderHistoryList, ReplenishmentOrder, ReplenishmentOrderList } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 
 export abstract class UserReplenishmentOrderAdapter {
   /**
@@ -50,9 +54,9 @@ export abstract class UserReplenishmentOrderAdapter {
    * @param sort Sorting method
    */
   abstract loadHistory(
-  userId: string,
-  pageSize?: number,
-  currentPage?: number,
-  sort?: string
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
   ): Observable<ReplenishmentOrderList>;
 }

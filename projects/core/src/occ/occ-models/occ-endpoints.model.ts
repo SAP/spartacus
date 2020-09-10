@@ -607,7 +607,7 @@ export interface OccEndpoints {
    * * @member {string}
    */
   replenishmentOrderHistory?: string | OccEndpoint;
-   /* Endpoint to get a replenishment order details
+  /* Endpoint to get a replenishment order details
    *
    * * @member {string}
    */

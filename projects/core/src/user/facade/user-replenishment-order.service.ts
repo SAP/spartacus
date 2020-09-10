@@ -3,7 +3,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ReplenishmentOrder, ReplenishmentOrderList } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -25,7 +28,7 @@ export class UserReplenishmentOrderService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected authService: AuthService
-  ) { }
+  ) {}
 
   /**
    * Returns replenishment order details for a given 'current' user
@@ -141,8 +144,8 @@ export class UserReplenishmentOrderService {
   }
 
   /**
-     * Returns replenishment order history list
-     */
+   * Returns replenishment order history list
+   */
   getReplenishmentOrderHistoryList(
     pageSize: number
   ): Observable<ReplenishmentOrderList> {
@@ -165,10 +168,6 @@ export class UserReplenishmentOrderService {
    * Returns a loaded flag for replenishment order history list
    */
   getReplenishmentOrderHistoryListLoaded(): Observable<boolean> {
-    console.log(
-      'from service ',
-      this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded))
-    );
     return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded));
   }
 
@@ -201,5 +200,4 @@ export class UserReplenishmentOrderService {
   clearReplenishmentOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserReplenishmentOrders());
   }
-
 }

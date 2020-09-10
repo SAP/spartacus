@@ -1,14 +1,17 @@
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderHistoryList, ReplenishmentOrder, ReplenishmentOrderList } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserReplenishmentOrderConnector {
-  constructor(protected adapter: UserReplenishmentOrderAdapter) { }
+  constructor(protected adapter: UserReplenishmentOrderAdapter) {}
 
   public load(
     userId: string,
