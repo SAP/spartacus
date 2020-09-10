@@ -7,6 +7,7 @@ import {
   I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
+  FeaturesConfigModule,
   UrlModule,
 } from '@spartacus/core';
 import { LoginFormComponent } from './login-form.component';
@@ -20,6 +21,7 @@ import { FormErrorsModule } from '../../../shared/index';
     RouterModule,
     UrlModule,
     I18nModule,
+    FeaturesConfigModule,
     FormErrorsModule,
   ],
   providers: [

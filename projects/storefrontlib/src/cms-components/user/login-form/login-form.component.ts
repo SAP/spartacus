@@ -43,6 +43,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
+    //TODO (#7785) Deprecated since 2.1
     if (this.checkoutConfigService.isGuestCheckout()) {
       this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
         'forced'

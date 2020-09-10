@@ -8,12 +8,14 @@ import { LoginFormModule } from './login-form/login-form.module';
 import { LoginModule } from './login/login.module';
 import { LogoutModule } from './logout/logout.module';
 import { RegisterComponentModule } from './register/register.module';
+import { LoginRegisterModule } from './login-register/login-register.module';
 
 @NgModule({
   imports: [
     CommonModule,
     LoginModule,
     LoginFormModule,
+    LoginRegisterModule,
     LogoutModule,
     CheckoutLoginModule,
     ReactiveFormsModule,
