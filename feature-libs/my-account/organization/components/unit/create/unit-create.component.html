@@ -1,0 +1,59 @@
+<cx-view #view>
+  <form
+    *ngIf="form$ | async as form"
+    [formGroup]="form"
+    (ngSubmit)="save($event, form)"
+  >
+    <h3>
+      <a
+        *ngIf="parentUnit$ | async as parentUnit; else orgUnitLink"
+        class="link"
+        [routerLink]="
+          { cxRoute: 'unitChildren', params: { uid: parentUnit } } | cxUrl
+        "
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+      </a>
+      <ng-template #orgUnitLink>
+        <a
+          class="link"
+          [routerLink]="{ cxRoute: 'unit' } | cxUrl"
+          (click)="view.toggle()"
+        >
+          <cx-icon type="CARET_LEFT"></cx-icon>
+        </a>
+      </ng-template>
+
+      <span>{{ 'unit.form.create' | cxTranslate }}</span>
+    </h3>
+
+    <section>
+      <cx-unit-form [form]="form"></cx-unit-form>
+      <div class="form-buttons">
+        <button class="button primary" type="submit">
+          {{ 'organization.save' | cxTranslate }}
+        </button>
+        <a
+          *ngIf="parentUnit$ | async as parentUnit; else orgUnitButton"
+          class="button secondary"
+          [routerLink]="
+            { cxRoute: 'unitChildren', params: { uid: parentUnit } } | cxUrl
+          "
+          (click)="view.toggle()"
+        >
+          {{ 'organization.cancel' | cxTranslate }}
+        </a>
+        <ng-template #orgUnitButton>
+          <a
+            class="button secondary"
+            [routerLink]="{ cxRoute: 'unit' } | cxUrl"
+            (click)="view.toggle()"
+          >
+            {{ 'organization.cancel' | cxTranslate }}
+          </a>
+        </ng-template>
+      </div>
+    </section>
+  </form>
+</cx-view>

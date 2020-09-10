@@ -9,7 +9,7 @@ export enum OrganizationTableType {
   UNIT_CHILDREN = 'unitChildren',
   UNIT_APPROVERS = 'unitApprovers',
   UNIT_ASSIGNED_APPROVERS = 'unitAssignedApprovers',
-  UNIT_ASSIGNED_ROLES = 'unitAssignRoles',
+  UNIT_ASSIGNED_ROLES = 'unitAssignedRoles',
   UNIT_MANAGE_ADDRESSES = 'unitManageAddresses',
   UNIT_COST_CENTERS = 'unitCostCenters',
   USER_GROUP = 'userGroup',

@@ -1,0 +1,104 @@
+<cx-organization-card *ngIf="model$ | async as model" i18nRoot="unit.details">
+  <a
+    actions
+    class="link"
+    [class.disabled]="!model.active"
+    [routerLink]="{ cxRoute: 'unitEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-toggle-status actions i18nRoot="unit"></cx-toggle-status>
+
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'unit.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'unit.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'unit.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'unit.approvalProcess' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.approvalProcess?.name }}
+      </span>
+    </div>
+
+    <div class="property" *ngIf="model.parentOrgUnit">
+      <label>{{ 'unit.parentUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'unitDetails',
+            params: model.parentOrgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.parentOrgUnit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <a
+      class="link"
+      routerLinkActive="is-current"
+      [routerLink]="{ cxRoute: 'unitChildren', params: model } | cxUrl"
+    >
+      {{ 'unit.details.children' | cxTranslate }}
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <a
+      class="link"
+      routerLinkActive="is-current"
+      [routerLink]="{ cxRoute: 'unitUsers', params: model } | cxUrl"
+    >
+      {{ 'unit.details.users' | cxTranslate }}
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <a
+      class="link"
+      routerLinkActive="is-current"
+      [routerLink]="{ cxRoute: 'unitApprovers', params: model } | cxUrl"
+    >
+      {{ 'unit.details.approvers' | cxTranslate }}
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <a
+      class="link"
+      routerLinkActive="is-current"
+      [routerLink]="{ cxRoute: 'unitManageAddresses', params: model } | cxUrl"
+    >
+      {{ 'unit.details.shippingAddresses' | cxTranslate }}
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <a
+      class="link"
+      routerLinkActive="is-current"
+      [routerLink]="{ cxRoute: 'unitCostCenters', params: model } | cxUrl"
+    >
+      {{ 'unit.details.costCenters' | cxTranslate }}
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+  </section>
+  <
+</cx-organization-card>

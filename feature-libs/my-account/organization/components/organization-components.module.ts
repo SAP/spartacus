@@ -5,12 +5,13 @@ import { OrderApprovalComponentsModule } from './order-approval';
 import { PermissionComponentsModule } from './permission/permission-components.module';
 import { UserGroupComponentsModule } from './user-group';
 import { UserComponentsModule } from './user/user-components.module';
+import { UnitsComponentsModule } from './unit/units-components.module';
 
 @NgModule({
   imports: [
     BudgetComponentsModule,
     CostCenterComponentsModule,
-    // UnitsComponentsModule,
+    UnitsComponentsModule,
     UserGroupComponentsModule,
     UserComponentsModule,
     PermissionComponentsModule,
