@@ -10,12 +10,15 @@ import {
   UserGroupService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExistUserGroupGuard extends ExistOrganizationItemGuard<UserGroup> {
+  protected code = ROUTE_PARAMS.userGroupCode;
+
   constructor(
     protected userGroupService: UserGroupService,
     protected router: Router,

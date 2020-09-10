@@ -11,6 +11,7 @@ import {
   PermissionService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
@@ -19,6 +20,8 @@ import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item
 export class ExistPermissionGuard extends ExistOrganizationItemGuard<
   Permission
 > {
+  protected code = ROUTE_PARAMS.permissionCode;
+
   constructor(
     protected permissionService: PermissionService,
     protected router: Router,
