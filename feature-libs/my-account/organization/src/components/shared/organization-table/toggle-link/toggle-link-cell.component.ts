@@ -34,7 +34,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   @HostBinding('style.--cx-nest-level')
   nestLevel = this.model.level;
 
-  @Output() toggle = new EventEmitter();
+  @Output() switch = new EventEmitter();
 
   get tabIndex() {
     return 1;
@@ -55,6 +55,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   toggleItem(event: Event) {
     this.model.expanded = !this.model.expanded;
     event.stopPropagation();
-    this.toggle.emit(event);
+    this.switch.emit(event);
   }
 }

@@ -14,8 +14,9 @@
             {{ cell }}
           </ng-template>
         </th>
-        <td (toggle)="toggleItem($event)">
+        <td>
           <ng-template
+            (switch)="toggleItem($event)"
             [cxOutlet]="getDataOutletRef(cell)"
             [cxOutletContext]="getDataOutletContext(cell, item)"
           >
@@ -46,12 +47,9 @@
       [class.is-current]="isCurrentItem(item)"
       (click)="launchItem(item)"
     >
-      <td
-        *ngFor="let cell of structure.cells; let i = index"
-        [class]="cell"
-        (toggle)="toggleItem(item)"
-      >
+      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
         <ng-template
+          (switch)="toggleItem($event)"
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
@@ -75,9 +73,9 @@
         *ngFor="let item of dataset.data; trackBy: trackData"
         [class.is-current]="isCurrentItem(item)"
         (click)="launchItem(item)"
-        (toggle)="toggleItem(item)"
       >
         <ng-template
+          (switch)="toggleItem($event)"
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
