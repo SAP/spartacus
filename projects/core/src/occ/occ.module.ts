@@ -14,6 +14,7 @@ import { SiteContextOccModule } from './adapters/site-context/site-context-occ.m
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
 import { provideDefaultConfig } from '../config/config-providers';
+import { OrganizationOccModule } from './adapters/organization/organization-occ.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { provideDefaultConfig } from '../config/config-providers';
     StoreFinderOccModule,
     UserOccModule,
     OccConfigLoaderModule.forRoot(),
+    OrganizationOccModule,
   ],
 })
 export class OccModule {
