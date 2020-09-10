@@ -79,6 +79,13 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
   api-extractor run --local --verbose
 )
 
+# @spartacus/setup
+cp "$CONFIG_PATH" ./dist/setup/api-extractor.json
+(
+  cd ./dist/setup && \
+  api-extractor run --local --verbose
+)
+
 # @spartacus/cdc
 # Disabled because of the issue with `import` https://github.com/microsoft/rushstack/issues/1029
 
