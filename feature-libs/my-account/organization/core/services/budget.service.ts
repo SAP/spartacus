@@ -76,7 +76,6 @@ export class BudgetService {
 
   getCostCenters(budgetCode: string): Observable<EntitiesModel<CostCenter>> {
     return this.get(budgetCode).pipe(
-      tap(console.log),
       map((budget) => ({
         values: budget.costCenters ?? [],
       }))
