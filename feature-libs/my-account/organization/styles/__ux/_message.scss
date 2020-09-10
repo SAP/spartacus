@@ -54,6 +54,7 @@
       cx-prompt {
         .inner {
           display: flex;
+          flex-wrap: wrap;
           padding: 20px 40px;
         }
       }

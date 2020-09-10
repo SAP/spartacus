@@ -28,6 +28,16 @@ export class UserFormService extends OrganizationFormService<B2BUser> {
     );
     form.setControl('roles', new FormArray([]));
     form.setControl('isAssignedToApprovers', new FormControl(false));
+
+    form.get('roles').valueChanges.subscribe((roles: string[]) => {
+      if (roles.includes('b2bapprovergroup')) {
+        form.get('isAssignedToApprovers').enable();
+      } else {
+        form.get('isAssignedToApprovers').disable();
+        form.get('isAssignedToApprovers').reset();
+      }
+    });
+
     this.form = form;
   }
 

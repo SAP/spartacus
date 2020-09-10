@@ -107,6 +107,15 @@ export const userCmsConfig: CmsConfig = {
           component: UserDetailsComponent,
           children: [
             {
+              path: `edit`,
+              component: UserFormComponent,
+            },
+            {
+              path: `change-password`,
+              component: ChangePasswordFormComponent,
+            },
+
+            {
               path: 'user-groups',
               component: UserAssignedUserGroupListComponent,
             },
@@ -131,14 +140,6 @@ export const userCmsConfig: CmsConfig = {
               component: UserPermissionListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.userCode}/edit`,
-          component: UserFormComponent,
-        },
-        {
-          path: `:${ROUTE_PARAMS.userCode}/change-password`,
-          component: ChangePasswordFormComponent,
         },
       ],
       guards: [AuthGuard],
