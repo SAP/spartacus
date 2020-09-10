@@ -2,7 +2,10 @@
 
 %cx-delivery-mode {
   @include checkout-media-style();
-  padding-top: 10px;
+
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
 
   .form-check {
     display: flex;

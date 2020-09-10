@@ -15,3 +15,4 @@ export * from './user-orders.selectors';
 export * from './customer-coupons.selectors';
 export * from './notification-preference.selectors';
 export * from './product-interests.selectors';
+export * from './user-cost-center.selectors';
