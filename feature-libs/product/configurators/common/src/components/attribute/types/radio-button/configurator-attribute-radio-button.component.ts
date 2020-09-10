@@ -30,7 +30,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
   onMouseDown(valueCode: string) {
     //event.preventDefault();
     console.log('submitMouse: ' + this.attribute.name + ':' + valueCode);
-    //this.submitValue(valueCode);
+    this.submitValue(valueCode);
   }
 
   onFocusOut(event: FocusEvent) {
@@ -41,7 +41,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
       const attributeToSubmit =
         this.attribute.name + ':' + this.attributeRadioButtonForm.value;
       console.log('submitFocus: ' + attributeToSubmit);
-      //this.submitValue(this.attributeRadioButtonForm.value);
+      this.submitValue(this.attributeRadioButtonForm.value);
     }
   }
 
@@ -54,9 +54,14 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
     let attributeLostFocus = false;
     const from: HTMLElement = event.target as HTMLElement;
     const to: HTMLElement = event.relatedTarget as HTMLElement;
+    // Avoid submit on round-trip (in this case event.relatedTarget is null)
+    if (to === null) {
+      return attributeLostFocus;
+    }
     if (this.getAttributeId(from?.id) !== this.getAttributeId(to?.id)) {
       attributeLostFocus = true;
     }
+
     return attributeLostFocus;
   }
 
