@@ -1,11 +1,11 @@
 export const unit = {
-  header: 'Units',
+  header: 'All units ({{count}})',
   unit: 'Unit',
   name: 'Name',
   uid: 'ID',
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
-
+  active: 'Status',
   details: {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',

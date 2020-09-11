@@ -31,12 +31,11 @@
     </div>
 
     <div class="property">
-      <label>{{ 'organization.active' | cxTranslate }}</label>
+      <label>{{ 'unit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate
-
         }}
       </span>
     </div>
