@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 
@@ -26,7 +26,7 @@ class MockRoutingConfigService {
     return MockRoutesConfig[routeName];
   }
 }
-class MockCheckoutConfigService {
+class MockCheckoutStepService {
   getCheckoutStep() {}
 }
 
@@ -35,7 +35,7 @@ describe(`DeliveryModeSetGuard`, () => {
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCheckoutConfigService: CheckoutConfigService;
+  let mockCheckoutStepService: CheckoutStepService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,7 +46,7 @@ describe(`DeliveryModeSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
       imports: [RouterTestingModule],
     });
@@ -55,7 +55,19 @@ describe(`DeliveryModeSetGuard`, () => {
     mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+  });
+
+  describe(`delivery mode step is disabled`, () => {
+    it(`should return true`, (done) => {
+      const step = MockCheckoutConfig.checkout.steps[0];
+      step.disabled = true;
+      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(step);
+      guard.canActivate().subscribe((result) => {
+        expect(result).toBeTruthy();
+        done();
+      });
+    });
   });
 
   it('should redirect to deliveryMode page when no modes selected', (done) => {
@@ -64,7 +76,7 @@ describe(`DeliveryModeSetGuard`, () => {
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(null));
 
-    spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
+    spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(
       MockCheckoutConfig.checkout.steps[1]
     );
 
