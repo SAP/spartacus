@@ -4,7 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -17,9 +17,8 @@ import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-app
 import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
 import { UnitChildrenComponent } from './children/unit-children.component';
 import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
-import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
-import { UnitEditComponent } from './edit/unit-edit.component';
+import { UnitFormComponent } from './form';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
@@ -112,62 +111,56 @@ export const unitsCmsConfig: CmsConfig = {
       childRoutes: [
         {
           path: 'create',
-          component: UnitCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: UnitFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
+            {
+              path: 'edit',
+              component: UnitFormComponent,
+            },
+
             {
               path: 'children',
               component: UnitChildrenComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
             {
               path: 'users',
               component: UnitUserListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'roles/assign',
                   component: UnitUserAssignRolesComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'approvers',
               component: UnitApproverListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
                   component: UnitAssignApproversComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'addresses',
               component: UnitAddressListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'create',
                   component: UnitAddressCreateComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
                 {
                   path: ':id',
                   component: UnitAddressDetailsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                   children: [
                     {
                       path: 'edit',
                       component: UnitAddressEditComponent,
-                      canDeactivate: [SplitViewDeactivateGuard],
                     },
                   ],
                 },
@@ -176,13 +169,8 @@ export const unitsCmsConfig: CmsConfig = {
             {
               path: 'cost-centers',
               component: UnitCostCentersComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.unitCode}/edit`,
-          component: UnitEditComponent,
         },
       ],
 

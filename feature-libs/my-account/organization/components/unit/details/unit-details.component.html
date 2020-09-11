@@ -8,8 +8,12 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <!-- [disabled]="orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active" -->
-  <cx-toggle-status actions i18nRoot="user"></cx-toggle-status>
+  <cx-toggle-status
+    actions
+    [disabled]="!model.parentOrgUnit?.active"
+    key="uid"
+    i18nRoot="unit"
+  ></cx-toggle-status>
 
   <section main class="details">
     <div class="property">
@@ -26,7 +30,7 @@
       </span>
     </div>
 
-    <div class="property">
+    <div class="property" *ngIf="model.approvalProcess?.name">
       <label>{{ 'unit.approvalProcess' | cxTranslate }}</label>
       <span class="value">
         {{ model.approvalProcess?.name }}

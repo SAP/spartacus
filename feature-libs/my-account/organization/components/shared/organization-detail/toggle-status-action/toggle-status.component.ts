@@ -15,7 +15,24 @@ import { MessagePromptData } from './prompt/prompt.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleStatusComponent<T extends BaseItem> {
-  @Input() i18nRoot;
+  /**
+   * The localization of messages is based on the i18n root. Messages are
+   * concatenated to the root, such as:
+   *
+   * `[i18nRoot].messages.deactivate`
+   */
+  @Input() i18nRoot: string;
+
+  /**
+   * While most _organization_ entities use the `code` key, we have some variations. The key input
+   * can be used to add a custom key.
+   */
+  @Input() key = 'code';
+
+  /**
+   * The disabled state is calculated by default but can be provided as well.
+   */
+  @Input() disabled: boolean;
 
   protected item: T;
 
@@ -57,14 +74,11 @@ export class ToggleStatusComponent<T extends BaseItem> {
    * Indicates whether the status can be toggled or not.
    */
   isDisabled(item): boolean {
-    return !(item.orgUnit || item.unit)?.active;
+    return this.disabled ?? !(item.orgUnit || item.unit)?.active;
   }
 
   protected update(model: T): void {
-    this.itemService.update(
-      model.code ?? model.customerId,
-      this.getPatchedModel(model)
-    );
+    this.itemService.update(model[this.key], this.getPatchedModel(model));
     this.confirmMessage(model);
   }
 
@@ -75,11 +89,7 @@ export class ToggleStatusComponent<T extends BaseItem> {
     } else {
       patch.active = !model.active;
     }
-    if ((model as any).type === 'userWsDTO') {
-      patch.customerId = model.customerId;
-    } else {
-      patch.code = model.code;
-    }
+    patch[this.key] = model[this.key];
     return patch as T;
   }
 
