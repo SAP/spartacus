@@ -1,11 +1,8 @@
 @mixin cx-config-attribute-image {
   margin-left: 20px;
-
   .cx-config-select {
     padding: 5px;
     cursor: pointer;
-    border-style: none;
-    background-color: var(--cx-color-inverse);
 
     .cx-config-attribute-value-img,
     .cx-config-attribute-value-img-dummy {
