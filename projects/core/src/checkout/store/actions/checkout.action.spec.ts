@@ -5,6 +5,7 @@ import {
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
+  SET_COST_CENTER_PROCESS_ID,
 } from '@spartacus/core';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -520,6 +521,70 @@ describe('Checkout Actions', () => {
       const action = new CheckoutActions.ClearSupportedDeliveryModes();
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
+      });
+    });
+  });
+
+  describe('SetCostCenter', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+        costCenterId: 'testId',
+      };
+
+      const action = new CheckoutActions.SetCostCenter(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.SET_COST_CENTER,
+        payload,
+        meta: StateUtils.entityLoadMeta(
+          PROCESS_FEATURE,
+          SET_COST_CENTER_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('SetCostCenterFail', () => {
+    it('should create the action', () => {
+      const error = 'anError';
+      const action = new CheckoutActions.SetCostCenterFail(error);
+
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.SET_COST_CENTER_FAIL,
+        payload: error,
+        meta: StateUtils.entityFailMeta(
+          PROCESS_FEATURE,
+          SET_COST_CENTER_PROCESS_ID,
+          error
+        ),
+      });
+    });
+  });
+
+  describe('SetCostCenterSuccess', () => {
+    it('should create the action', () => {
+      const action = new CheckoutActions.SetCostCenterSuccess('testId');
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.SET_COST_CENTER_SUCCESS,
+        payload: 'testId',
+        meta: StateUtils.entitySuccessMeta(
+          PROCESS_FEATURE,
+          SET_COST_CENTER_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetSetCostCenterProcess', () => {
+    it('should create the action', () => {
+      const action = new CheckoutActions.ResetSetCostCenterProcess();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.RESET_SET_COST_CENTER_PROCESS,
+        meta: StateUtils.entityResetMeta(
+          PROCESS_FEATURE,
+          SET_COST_CENTER_PROCESS_ID
+        ),
       });
     });
   });
