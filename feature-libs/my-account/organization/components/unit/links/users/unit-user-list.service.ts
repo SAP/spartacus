@@ -4,7 +4,8 @@ import {
   OrgUnitService,
   UserRole,
 } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableStructure } from '@spartacus/storefront';
+import { TableService } from 'projects/storefrontlib/src/shared/components/table/table.service';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
@@ -12,10 +13,8 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitApproverListService extends OrganizationSubListService<
-  B2BUser
-> {
-  protected tableType = OrganizationTableType.UNIT_APPROVERS;
+export class UnitUserListService extends OrganizationSubListService<B2BUser> {
+  protected tableType = OrganizationTableType.UNIT_USERS;
   protected domainType = OrganizationTableType.USER;
 
   constructor(
@@ -31,24 +30,8 @@ export class UnitApproverListService extends OrganizationSubListService<
   ): Observable<EntitiesModel<B2BUser>> {
     return this.unitService.getUsers(
       code,
-      UserRole.APPROVER,
+      UserRole.CUSTOMER,
       structure.options?.pagination
     );
-  }
-
-  /**
-   * @override
-   * Assign budget to the cost center.
-   */
-  assign(unitId: string, customerId: string) {
-    this.unitService.assignApprover(unitId, customerId, UserRole.APPROVER);
-  }
-
-  /**
-   * @override
-   * Unassign the budget from the cost center.
-   */
-  unassign(unitId: string, customerId: string) {
-    this.unitService.unassignApprover(unitId, customerId, UserRole.APPROVER);
   }
 }

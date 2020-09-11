@@ -11,7 +11,9 @@ import {
   unitApprovers,
   unitAssignedApprovers,
   unitAssignedRoles,
+  unitAssignedUsers,
   unitChildren,
+  unitUsers,
 } from './units.i18n';
 import {
   userGroup,
@@ -86,6 +88,8 @@ export const organization = {
   unitApprovers,
   unitAssignedApprovers,
   unitAssignedRoles,
+  unitUsers,
+  unitAssignedUsers,
   userGroup,
   userGroupUsers,
   userGroupAssignedUsers,

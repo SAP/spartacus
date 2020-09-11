@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { StatusCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -17,18 +17,15 @@ import { OrganizationTableType } from '../shared/organization.model';
 // import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
 // import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
-import { UnitFormComponent } from './form';
+import { UnitFormComponent } from './form/unit-form.component';
 import { UnitApproverListComponent } from './links/approvers';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
+import { ToggleUserRoleCellComponent } from './links/users/toggle-user-role/toggle-user-role.component';
+import { UnitUserListComponent } from './links/users/unit-user-list.component';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
-// import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
-// import { UnitUserListComponent } from './users/list/unit-user-list.component';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -62,10 +59,6 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       orgUnitUsers: {
         paths: [`${listPath}/users`],
-        paramsMapping,
-      },
-      orgUnitAssignRoles: {
-        paths: [`${listPath}/users/roles/assign`],
         paramsMapping,
       },
       orgUnitApprovers: {
@@ -146,16 +139,11 @@ export const unitsCmsConfig: CmsConfig = {
               path: 'approvers/assign',
               component: UnitApproverListComponent,
             },
-            // {
-            //   path: 'users',
-            //   component: UnitUserListComponent,
-            //   children: [
-            //     {
-            //       path: 'roles/assign',
-            //       component: UnitUserAssignRolesComponent,
-            //     },
-            //   ],
-            // },
+            {
+              path: 'users',
+              component: UnitUserListComponent,
+            },
+
             // {
             //   path: 'addresses',
             //   component: UnitAddressListComponent,
@@ -193,27 +181,18 @@ export function unitsTableConfigFactory(): TableConfig {
   return unitsTableConfig;
 }
 
-export const xlist = {
-  cells: ['name', 'actions'],
-  options: {
-    pagination: {
-      pageSize: MAX_OCC_INTEGER_VALUE,
-    },
-    cells: {
-      actions: {
-        dataComponent: AssignCellComponent,
-      },
-    },
-  },
-};
-
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT_USERS]: {
-      cells: ['summary', 'link'],
+      cells: ['name', 'roles'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          roles: {
+            dataComponent: ToggleUserRoleCellComponent,
+          },
         },
       },
     },
@@ -235,9 +214,6 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        pagination: {
-          sort: 'byName',
-        },
         cells: {
           actions: {
             dataComponent: AssignCellComponent,
@@ -250,7 +226,6 @@ export const unitsTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         pagination: {
-          sort: 'byName',
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
         cells: {

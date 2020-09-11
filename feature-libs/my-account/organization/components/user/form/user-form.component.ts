@@ -65,6 +65,7 @@ export class UserFormComponent implements OnInit {
         }
       });
     }
+    console.log(this.roles.value);
   }
 
   protected get isAssignedToApprovers(): FormControl {

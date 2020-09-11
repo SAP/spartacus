@@ -1,0 +1,36 @@
+<style>
+  .text {
+    display: flex;
+    position: relative;
+  }
+  input {
+    all: unset;
+    border: solid;
+    display: block;
+    width: 20px;
+    height: 20px;
+    appearance: auto;
+    margin: 27px 20px;
+    padding: 10px;
+  }
+
+  input::before {
+    content: '';
+    border-inline-start: solid 1px var(--cx-color-light);
+    height: 100%;
+    top: 0;
+    margin-left: -20px;
+
+    position: absolute;
+  }
+</style>
+<span class="text" [formGroup]="form">
+  <input
+    type="checkbox"
+    *ngFor="let role of availableRoles"
+    [formControlName]="role"
+    #f
+    (change)="save(f, role)"
+  />
+  <!-- {{ 'organization.userRoles.' + role | cxTranslate }} -->
+</span>

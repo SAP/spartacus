@@ -129,3 +129,13 @@ export const unitAssignedApprovers = {
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
+
+export const unitAssignedUsers = {
+  title: 'Assigned users',
+  subtitle: 'Unit: {{item.name}}',
+};
+
+export const unitUsers = {
+  title: 'Assigned users',
+  subtitle: 'Unit: {{item.name}}',
+};
