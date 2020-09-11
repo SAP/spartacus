@@ -22,10 +22,10 @@ import { OrderDetailItemsComponent } from '../order-details/order-detail-items/o
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
-import { ReplenishmentOrderDetailsOrderHistoryComponent } from './replenishment-order-details-order-history/replenishment-order-details-order-history.component';
+import { OrderHistoryComponent } from '../order-history/order-history.component';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
-const moduleComponents = [ReplenishmentOrderDetailsOrderHistoryComponent];
+const moduleComponents = [];
 
 @NgModule({
   imports: [
@@ -86,7 +86,7 @@ const moduleComponents = [ReplenishmentOrderDetailsOrderHistoryComponent];
           ],
         },
         ReplenishmentDetailOrderHistoryComponent: {
-          component: ReplenishmentOrderDetailsOrderHistoryComponent,
+          component: OrderHistoryComponent,
         },
       },
     }),

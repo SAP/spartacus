@@ -5,6 +5,7 @@ import {
   RoutingService,
   TranslationService,
   UserOrderService,
+  UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -18,7 +19,8 @@ export class OrderHistoryComponent implements OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected userOrderService: UserOrderService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected userReplenishmentOrderService: UserReplenishmentOrderService
   ) {}
 
   private PAGE_SIZE = 5;
@@ -33,6 +35,12 @@ export class OrderHistoryComponent implements OnDestroy {
       }
     })
   );
+
+  hasReplenishmentOrder$: Observable<
+    boolean
+  > = this.userReplenishmentOrderService
+    .getReplenishmentOrderDetails()
+    .pipe(map((order) => order && Object.keys(order).length !== 0));
 
   isLoaded$: Observable<
     boolean
