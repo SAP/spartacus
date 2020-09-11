@@ -134,7 +134,7 @@ cx-toggle-status {
         &.is-current {
           outline: solid 3px var(--cx-color-primary);
           outline-offset: -3px;
-          background: var(--cx-color-background-focus);
+          background-color: var(--cx-color-background-focus);
         }
       }
     }

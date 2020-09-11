@@ -29,33 +29,20 @@ cx-organization-form {
     @include media-breakpoint-up(lg) {
       padding-top: 40px;
 
-      &:not([active-view='1']) {
-        padding-inline-end: 40px;
-      }
-      &[active-view='2'] {
-        cx-view[position='0'] {
-          margin-inline-end: 40px;
-          padding-inline-end: 40px;
-        }
-      }
-
-      &[active-view='3'] {
-        cx-view[position='1'] {
-          margin-inline-end: 20px;
-        }
-        cx-view[position='2'] {
-          margin-inline-start: 20px;
-        }
-      }
       cx-view {
         &:not([position='0']) {
           display: flex;
         }
       }
 
-      cx-view[position='0'] {
-        border-inline-end: solid 0 var(--cx-color-light);
-        border-inline-end-width: calc(min(var(--cx-active-view) - 1, 1) * 1px);
+      &:not([active-view='1']) {
+        cx-view[position='0'] {
+          padding-inline-end: 40px;
+          border-inline-end: solid 0 var(--cx-color-light);
+          border-inline-end-width: calc(
+            min(var(--cx-active-view) - 1, 1) * 1px
+          );
+        }
       }
     }
   }
@@ -134,7 +121,7 @@ cx-organization-form {
   // avoid the card list to be interactive
   cx-organization-sub-list cx-table.vertical {
     table {
-      // table-layout: auto;
+      table-layout: auto;
       thead {
         display: none;
       }
@@ -148,7 +135,7 @@ cx-organization-form {
         td {
           // width: 100%;
           &.actions {
-            width: auto;
+            width: 1px;
             &:last-child {
               padding-inline-end: 30px;
               padding-inline-start: 5px;
@@ -161,7 +148,7 @@ cx-organization-form {
         }
         th:last-child,
         td:last-child {
-          width: auto;
+          width: 1px;
           background-image: none;
         }
       }
