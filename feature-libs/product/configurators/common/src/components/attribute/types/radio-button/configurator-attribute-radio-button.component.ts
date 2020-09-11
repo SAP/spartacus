@@ -17,6 +17,7 @@ import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key
 })
 export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
   attributeRadioButtonForm = new FormControl('');
+  changeTriggeredByKeyboard = false;
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
@@ -28,21 +29,21 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
   }
 
   onMouseDown(valueCode: string) {
-    //event.preventDefault();
-    console.log('submitMouse: ' + this.attribute.name + ':' + valueCode);
     this.submitValue(valueCode);
   }
 
   onFocusOut(event: FocusEvent) {
     if (
       this.attributeLostFocus(event) &&
-      this.attributeRadioButtonForm.value !== null
+      this.attributeRadioButtonForm.value !== null &&
+      this.changeTriggeredByKeyboard === true
     ) {
-      const attributeToSubmit =
-        this.attribute.name + ':' + this.attributeRadioButtonForm.value;
-      console.log('submitFocus: ' + attributeToSubmit);
       this.submitValue(this.attributeRadioButtonForm.value);
     }
+  }
+
+  onKeyUp() {
+    this.changeTriggeredByKeyboard = true;
   }
 
   /**
@@ -78,7 +79,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
    * Submits the value.
    */
   submitValue(valueCode: string): void {
-    console.log('the value to submit: ' + valueCode);
+    //console.log('the value to submit: ' + valueCode);
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
@@ -90,6 +91,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
+    this.changeTriggeredByKeyboard = false;
   }
   createAttributeValueIdForConfigurator(
     attribute: Configurator.Attribute,
