@@ -19,16 +19,27 @@
     }
 
     .cx-item {
+      display: flex;
+      justify-content: center;
+      flex: 1;
       color: var(--cx-color-text);
       padding: 0 0 1.375rem 0;
+      border-bottom: 2px solid var(--cx-color-text);
 
       ::after {
-        padding: 0 0.75rem 0 0;
-        content: '>';
-        color: var(--cx-color-text);
+        padding-inline-end: 0.75em;
+        content: '';
         @include media-breakpoint-only(lg) {
-          padding: 0 0.5rem 0 0;
+          padding-inline-end: 0.5rem;
         }
+      }
+
+      &.active {
+        border-color: var(--cx-color-primary);
+      }
+
+      &.disabled {
+        border-color: var(--cx-color-light);
       }
 
       &:first-child ::before {
@@ -48,6 +59,7 @@
     color: var(--cx-color-text);
     cursor: pointer;
     text-decoration: none;
+    text-align: start;
 
     &.disabled {
       color: var(--cx-color-light);
