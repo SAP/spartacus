@@ -30,7 +30,7 @@
     *ngFor="let role of availableRoles"
     [formControlName]="role"
     #f
-    (change)="save(f, role)"
+    (change)="save()"
   />
   <!-- {{ 'organization.userRoles.' + role | cxTranslate }} -->
 </span>

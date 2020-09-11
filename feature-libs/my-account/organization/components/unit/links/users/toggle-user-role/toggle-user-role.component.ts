@@ -44,15 +44,13 @@ export class ToggleUserRoleCellComponent extends OrganizationCellComponent
     this.availableRoles.forEach((role) =>
       this.form.addControl(role, new FormControl(this.roles.includes(role)))
     );
-    // this.subscription.add(this.form.valueChanges.subscribe(() => this.save()));
   }
 
   get roles(): string[] {
     return this.model.roles;
   }
 
-  save(el: HTMLInputElement, role) {
-    console.log(el.checked, role);
+  save() {
     this.notify = true;
     this.form.disable();
     const roles = [...this.availableRoles].filter(
@@ -65,7 +63,10 @@ export class ToggleUserRoleCellComponent extends OrganizationCellComponent
     if (this.notify) {
       this.messageService.add({
         message: {
-          raw: 'done!',
+          key: 'unitUsers.messages.rolesUpdated',
+          params: {
+            item: this.model,
+          },
         },
         timeout: 3000,
       });

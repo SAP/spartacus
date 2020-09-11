@@ -138,6 +138,9 @@ export const unitAssignedUsers = {
 export const unitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
+  messages: {
+    rolesUpdated: 'Roles successfully updated for {{item.name}}',
+  },
 };
 
 export const unitCostCenters = {

@@ -17,11 +17,6 @@ export class MessageService {
     if (!message.type) {
       message.type = GlobalMessageType.MSG_TYPE_INFO;
     }
-
-    // if (!message.timeout && message.type === GlobalMessageType.MSG_TYPE_INFO) {
-    //   message.timeout = DEFAULT_MESSAGE_TIMEOUT;
-    // }
-
     this.data$.next({
       data: message,
       component,
