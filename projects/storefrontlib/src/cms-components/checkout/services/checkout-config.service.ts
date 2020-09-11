@@ -22,18 +22,30 @@ export class CheckoutConfigService {
     private routingConfigService: RoutingConfigService
   ) {}
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
     return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
     return this.getCheckoutStep(currentStepType).routeName;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getFirstCheckoutStepRoute(): string {
     return this.steps[0].routeName;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
@@ -42,6 +54,9 @@ export class CheckoutConfigService {
       : null;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
@@ -50,6 +65,9 @@ export class CheckoutConfigService {
       : null;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
     const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
       activatedRoute
@@ -132,6 +150,9 @@ export class CheckoutConfigService {
     return this.guest;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   private getStepUrlFromActivatedRoute(
     activatedRoute: ActivatedRoute
   ): string | null {
@@ -142,10 +163,16 @@ export class CheckoutConfigService {
       : null;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   private getStepUrlFromStepRoute(stepRoute: string): string {
     return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
       ? this.steps.findIndex((step: CheckoutStep) => step[key].includes(value))
