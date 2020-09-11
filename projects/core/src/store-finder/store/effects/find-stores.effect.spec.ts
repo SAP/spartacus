@@ -4,8 +4,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { GeoPoint } from '../../../model/misc.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
-import { StoreFinderSearchConfig } from '../../model/search-config';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './find-stores.effect';
 import createSpy = jasmine.createSpy;
@@ -21,7 +21,7 @@ const mockStoreFinderConnector = {
 describe('FindStores Effects', () => {
   let actions$: Observable<any>;
   let effects: fromEffects.FindStoresEffect;
-  let searchConfig: StoreFinderSearchConfig;
+  let searchConfig: SearchConfig;
   const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
     latitude: 20.2,
