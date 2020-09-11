@@ -27,7 +27,6 @@
     </label>
 
     <label
-      *ngIf="approvalProcess$ | async as process"
       formGroupName="approvalProcess"
       class="full-width"
       aria-required="true"
@@ -38,7 +37,7 @@
       <ng-select
         formControlName="code"
         [searchable]="false"
-        [items]="process"
+        [items]="approvalProcess$ | async"
         bindLabel="name"
         bindValue="code"
         appendTo=".organization"
