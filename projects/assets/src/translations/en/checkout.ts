@@ -24,6 +24,9 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
+    placedOn: 'Placed on',
+    orderNumber: 'Order Number',
+    status: 'Status',
   },
   checkoutReview: {
     review: 'Review',
@@ -32,8 +35,7 @@ export const checkout = {
     placeOrder: 'Place Order',
     termsAndConditions: 'Terms & Conditions',
     editShippingAddress: 'Edit shipping address',
-    editShippingMethod: 'Edit shipping method',
-    editPaymentMethod: 'Edit payment method',
+    poNumber: 'Purchase Order Number',
   },
   checkoutShipping: {
     shippingMethod: 'Shipping Method',
@@ -42,11 +44,23 @@ export const checkout = {
   },
   checkout: {
     backToCart: 'Back to cart',
+    invalid: {
+      accountType: 'Your account does not allow you to checkout here.',
+    },
+  },
+  checkoutPO: {
+    noPoNumber: 'None',
+    poNumber: 'Purchase order number (optional)',
+    costCenter: 'Cost Center',
+    placeholder: 'Enter P.O',
+    availableLabel:
+      "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
+    methodOfPayment: 'Method of Payment',
     shippingAddress: 'Shipping Address',
-    deliveryMode: 'Delivery mode',
-    paymentDetails: 'Payment details',
-    reviewOrder: 'Review order',
+    deliveryMode: 'Delivery Mode',
+    paymentDetails: 'Payment Details',
+    reviewOrder: 'Review Order',
   },
 };
