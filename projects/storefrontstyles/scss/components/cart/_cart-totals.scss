@@ -1,8 +1,14 @@
 %cx-cart-totals {
-  padding: 2rem 0 2rem 3rem;
+  padding-top: 2rem;
+  padding-inline-end: 0;
+  padding-bottom: 2rem;
+  padding-inline-start: 3rem;
 
   @include media-breakpoint-down(md) {
-    padding: 2rem 3rem 2rem 0;
+    padding-top: 2rem;
+    padding-inline-end: 3rem;
+    padding-bottom: 2rem;
+    padding-inline-start: 0rem;
   }
 
   @include media-breakpoint-down(sm) {

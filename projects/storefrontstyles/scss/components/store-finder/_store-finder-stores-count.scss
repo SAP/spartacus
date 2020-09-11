@@ -25,7 +25,10 @@
 
   .cx-no-stores {
     display: block;
-    padding: 4rem 1.5rem 1.5rem 1.5rem;
+    padding-top: 4rem;
+    padding-inline-end: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-inline-start: 1.5rem;
     margin: 0 auto;
     @include type('4');
     color: var(--cx-color-secondary);
@@ -37,7 +40,7 @@
 
   .cx-name {
     @include type('4');
-    padding-right: 0.5rem;
+    padding-inline-end: 0.5rem;
   }
 
   .cx-country-count {
@@ -52,7 +55,7 @@
   .cx-region-directory {
     column-count: 1;
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0;
     @include media-breakpoint-up(md) {
       column-count: 4;
     }
@@ -64,7 +67,10 @@
   }
 
   .cx-item-link {
-    padding: 0 0.5rem 0.5rem 0.2rem;
+    padding-top: 0;
+    padding-inline-end: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-inline-start: 0.2rem;
     @include type('7');
     line-height: normal;
   }
