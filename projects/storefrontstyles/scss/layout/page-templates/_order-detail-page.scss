@@ -10,10 +10,13 @@
     .cx-header {
       border: 1px solid;
       border-color: var(--cx-color-light);
-      padding: 30px 30px 20px 30px;
+      padding-top: 30px;
+      padding-inline-end: 30px;
+      padding-bottom: 20px;
+      padding-inline-start: 30px;
       margin-bottom: 30px;
-      margin-left: 0;
-      margin-right: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
 
       @include media-breakpoint-down(sm) {
         border: none;
@@ -21,17 +24,17 @@
       }
 
       .cx-detail {
-        border-right: 1px solid var(--cx-color-light);
+        border-inline-end: 1px solid var(--cx-color-light);
 
         &:last-child {
           border: none;
         }
 
         @include media-breakpoint-up(md) {
-          padding-left: 47px;
+          padding-inline-start: 47px;
 
           &:first-child {
-            padding-left: 0;
+            padding-inline-start: 0;
           }
         }
 
@@ -69,8 +72,8 @@
 
     .cx-list {
       @include media-breakpoint-down(sm) {
-        margin-right: 0;
-        margin-left: 0;
+        margin-inline-end: 0;
+        margin-inline-start: 0;
       }
     }
 
@@ -88,28 +91,59 @@
   }
 
   cx-order-details-shipping {
-    .cx-summary {
-      margin-bottom: 48px;
-    }
-
     .cx-account-summary {
       background-color: var(--cx-color-background);
-
-      @include media-breakpoint-up(md) {
-        padding: 5px 18px 12px;
-      }
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
 
       @include media-breakpoint-down(sm) {
-        margin: 0 -24px;
+        background-color: var(--cx-color-inverse);
       }
 
-      .cx-card-title {
-        @include type('4');
-        font-weight: bold;
-      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px 0;
 
-      .cx-card-label-bold {
-        font-weight: bold;
+        @include media-breakpoint-down(md) {
+          max-width: 100%;
+          min-width: 100%;
+          padding: 0 1.25rem;
+        }
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding: 1.25rem;
+        }
+
+        .cx-summary-card {
+          flex: 1;
+          padding: 0 15px;
+
+          &:not(:last-of-type) {
+            @include media-breakpoint-up(lg) {
+              border-inline-end: 1px solid var(--cx-color-text);
+            }
+          }
+
+          @include media-breakpoint-down(md) {
+            flex: 0 0 33%;
+          }
+
+          @include media-breakpoint-down(sm) {
+            flex: 1;
+            background-color: var(--cx-color-inverse);
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--cx-color-light);
+            margin: 0.625rem 0;
+          }
+
+          .cx-card-title {
+            @include type('4');
+            font-weight: bold;
+          }
+        }
       }
     }
   }
