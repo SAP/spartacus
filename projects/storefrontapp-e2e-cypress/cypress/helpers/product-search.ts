@@ -256,7 +256,7 @@ export function createProductQuery(
 ): void {
   cy.route(
     'GET',
-    `${searchUrlPrefix}?fields=*&query=${queryId}&pageSize=${pageSize}${currentPage}&lang=en&curr=USD`
+    `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
   ).as(alias);
 }
 
