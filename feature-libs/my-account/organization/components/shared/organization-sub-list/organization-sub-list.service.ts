@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { EntitiesModel } from 'projects/core/src/model/misc.model';
 import { OrganizationListService } from '../organization-list';
 import { BaseItem } from '../organization.model';
 

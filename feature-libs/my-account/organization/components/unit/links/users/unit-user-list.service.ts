@@ -4,8 +4,7 @@ import {
   OrgUnitService,
   UserRole,
 } from '@spartacus/my-account/organization/core';
-import { TableStructure } from '@spartacus/storefront';
-import { TableService } from 'projects/storefrontlib/src/shared/components/table/table.service';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';

@@ -5,13 +5,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import {
+  B2BUserService,
+  UserRole,
+} from '@spartacus/my-account/organization/core';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { MessageService } from 'feature-libs/my-account/organization/components/shared';
-import { UserRole } from 'feature-libs/my-account/organization/core/model/user.model';
 import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
 
 @Component({
