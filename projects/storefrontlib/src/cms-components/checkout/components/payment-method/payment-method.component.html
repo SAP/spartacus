@@ -41,15 +41,15 @@
 
       <div class="row cx-checkout-btns">
         <div class="col-md-12 col-lg-6">
-          <button class="btn btn-block btn-action" (click)="goPrevious()">
-            {{ 'common.back' | cxTranslate }}
+          <button class="btn btn-block btn-action" (click)="back()">
+            {{ backBtnText | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-primary"
             [disabled]="!(selectedMethod$ | async)?.id"
-            (click)="goNext()"
+            (click)="next()"
           >
             {{ 'common.continue' | cxTranslate }}
           </button>
@@ -61,7 +61,7 @@
       <cx-payment-form
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
-        (goBack)="goPrevious()"
+        (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
         [setAsDefaultField]="!isGuestCheckout"
       ></cx-payment-form>
