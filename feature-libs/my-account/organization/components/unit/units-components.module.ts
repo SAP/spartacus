@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import { UnitDetailsModule } from './details/unit-details.module';
 import { UnitFormModule } from './form';
+import { UnitCostCenterListModule } from './links';
 import { UnitApproverListModule } from './links/approvers/unit-approver-list.module';
 import { UnitChildrenModule } from './links/children/unit-children.module';
 import { UnitUserListModule } from './links/users/unit-user-list.module';
@@ -25,6 +26,7 @@ import {
     UnitChildrenModule,
     UnitApproverListModule,
     UnitUserListModule,
+    UnitCostCenterListModule,
     // UnitUserAssignRolesModule,
     //
     // UnitApproverListModule,
@@ -33,7 +35,6 @@ import {
     // UnitAddressDetailsModule,
     // UnitAddressCreateModule,
     // UnitAddressEditModule,
-    // UnitCostCentersModule,
   ],
   providers: [
     provideDefaultConfig(unitsRoutingConfig),

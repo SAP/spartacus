@@ -15,9 +15,9 @@ import { OrganizationTableType } from '../shared/organization.model';
 // import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
 // import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
 // import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
-// import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
+import { UnitCostCenterListComponent } from './links';
 import { UnitApproverListComponent } from './links/approvers';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
@@ -143,6 +143,10 @@ export const unitsCmsConfig: CmsConfig = {
               path: 'users',
               component: UnitUserListComponent,
             },
+            {
+              path: 'cost-centers',
+              component: UnitCostCenterListComponent,
+            },
 
             // {
             //   path: 'addresses',
@@ -163,10 +167,6 @@ export const unitsCmsConfig: CmsConfig = {
             //       ],
             //     },
             //   ],
-            // },
-            // {
-            //   path: 'cost-centers',
-            //   component: UnitCostCentersComponent,
             // },
           ],
         },
@@ -236,25 +236,6 @@ export const unitsTableConfig: TableConfig = {
       },
     },
 
-    [OrganizationTableType.UNIT_ASSIGNED_ROLES]: {
-      cells: ['summary', 'link'],
-      options: {
-        pagination: {
-          sort: 'byName',
-        },
-      },
-      lg: {
-        cells: [
-          'name',
-          'email',
-          'roleCustomer',
-          'roleApprover',
-          'roleManager',
-          'roleAdministrator',
-        ],
-        options: {},
-      },
-    },
     [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: {
       cells: ['summary'],
       options: {
@@ -263,8 +244,9 @@ export const unitsTableConfig: TableConfig = {
         },
       },
     },
+
     [OrganizationTableType.UNIT_COST_CENTERS]: {
-      cells: ['summary', 'link'],
+      cells: ['name'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,

@@ -139,3 +139,8 @@ export const unitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
 };
+
+export const unitCostCenters = {
+  title: 'Assigned cost centers',
+  subtitle: 'Unit: {{item.name}}',
+};
