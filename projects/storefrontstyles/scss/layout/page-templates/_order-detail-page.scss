@@ -182,7 +182,6 @@
   cx-replenishment-order-cancellation-dialog {
     .cx-cancel-replenishment-btns {
       display: flex;
-      justify-content: center;
 
       .btn-action {
         @include media-breakpoint-down(sm) {
@@ -194,7 +193,8 @@
 
   cx-replenishment-order-cancellation {
     .cx-cancel-replenishment-btns {
-      padding-top: 3rem;
+      justify-content: flex-end;
+      margin: 2rem 0;
     }
   }
 
@@ -205,7 +205,6 @@
     .cx-cancel-replenishment-dialog-foreground {
       @extend .modal-dialog;
       @extend .modal-dialog-centered;
-      @extend .modal-lg;
 
       .cx-cancel-replenishment-dialog-content {
         @extend .modal-content;
@@ -221,6 +220,10 @@
 
           &-body {
             @extend .modal-body;
+
+            .cx-cancel-replenishment-btns {
+              justify-content: center;
+            }
           }
         }
       }
