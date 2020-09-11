@@ -1,16 +1,16 @@
-import { StoreFinderSearchConfig } from '../model/search-config';
 import { Observable } from 'rxjs';
-import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
+import { PointOfService } from '../../model/point-of-service.model';
 import {
-  StoreFinderSearchPage,
   StoreCount,
+  StoreFinderSearchPage,
 } from '../../model/store-finder.model';
+import { SearchConfig } from '../../product/model/search-config';
 
 export abstract class StoreFinderAdapter {
   abstract search(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable<StoreFinderSearchPage>;

@@ -32,13 +32,19 @@
 
         cx-add-to-cart {
           grid-column: 2;
-          padding: 20px 20px 0 20px;
+          padding-top: 20px;
+          padding-inline-end: 20px;
+          padding-bottom: 0px;
+          padding-inline-start: 20px;
         }
 
         cx-stock-notification {
           grid-column: 2;
           grid-row: 3 / 4;
-          padding: 20% 20px 20px 20px;
+          padding-top: 20%;
+          padding-inline-end: 20px;
+          padding-bottom: 20px;
+          padding-inline-start: 20px;
         }
 
         cx-stock-notification:empty {
