@@ -10,18 +10,18 @@
   }
 
   .cx-item-list-total {
-    text-align: right;
+    text-align: end;
 
     @include media-breakpoint-only(xl) {
-      text-align: right;
+      text-align: end;
     }
 
     @include media-breakpoint-down(lg) {
-      padding-right: 70px;
+      padding-inline-end: 70px;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
   }
 
@@ -38,7 +38,7 @@
       flex-direction: column;
 
       .cx-order-quantity-value {
-        text-align: left;
+        text-align: start;
       }
     }
   }
@@ -72,7 +72,7 @@
   .cx-label {
     @include type('8');
     overflow-wrap: break-word;
-    padding-right: 1rem;
+    padding-inline-end: 1rem;
 
     @include media-breakpoint-down(sm) {
       min-width: 5rem;
@@ -96,23 +96,23 @@
     @include type('5');
 
     @include media-breakpoint-down(lg) {
-      padding-right: 0;
-      padding-left: 45px;
+      padding-inline-end: 0;
+      padding-inline-start: 45px;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
-      padding-left: 15px;
+      padding-inline-start: 15px;
     }
 
     .cx-old {
       text-decoration: line-through;
       color: var(--cx-color-secondary);
-      padding: 0 1rem 0 0;
+      padding-inline-end: 1rem;
     }
 
     .cx-new {
@@ -150,11 +150,11 @@
     align-items: center;
 
     @include media-breakpoint-down(lg) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(sm) {
@@ -241,7 +241,7 @@
 
   @include media-breakpoint-down(sm) {
     .cx-item-list-items {
-      padding: 0 0 0 1rem;
+      padding-inline-start: 1rem;
     }
   }
 }
