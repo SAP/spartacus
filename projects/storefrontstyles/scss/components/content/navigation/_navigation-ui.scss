@@ -52,7 +52,7 @@
           text-transform: capitalize;
           justify-content: flex-start;
           cx-icon {
-            padding-right: 10px;
+            padding-inline-end: 10px;
           }
         }
       }
@@ -134,7 +134,10 @@
         // top level headings
         > h5 {
           margin-top: 3px;
-          padding: 20px 15px 25px 0;
+          padding-top: 20px;
+          padding-inline-end: 15px;
+          padding-bottom: 25px;
+          padding-inline-start: 0;
         }
         // first level headings will be bold in desktop
         nav > h5 {
@@ -155,7 +158,10 @@
 
 @include media-breakpoint-up(lg) {
   cx-navigation-ui > nav > cx-generic-link > a {
-    padding: 20px 15px 22px 0;
+    padding-top: 20px;
+    padding-inline-end: 15px;
+    padding-bottom: 22px;
+    padding-inline-start: 0;
   }
   nav > div > cx-generic-link {
     padding: 10px 0;
@@ -173,7 +179,7 @@
   }
   @include media-breakpoint-up(lg) {
     cx-icon {
-      padding: 0 0 0 7px;
+      padding-inline-start: 7px;
       &:before {
         font-size: 1rem;
       }
@@ -294,7 +300,7 @@
       > nav {
         > .wrapper {
           position: absolute;
-          margin-left: -10px;
+          margin-inline-start: -10px;
           border: 1px solid #ccc;
           @include hideWrapperDesktop();
         }
