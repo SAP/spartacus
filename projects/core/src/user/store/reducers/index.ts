@@ -17,6 +17,7 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
@@ -28,6 +29,7 @@ import {
   UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
+  USER_COST_CENTERS,
   USER_ORDERS,
   USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
@@ -48,6 +50,7 @@ import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
+import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 
@@ -98,6 +101,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     productInterests: loaderReducer<ProductInterestSearchResult>(
       PRODUCT_INTERESTS,
       fromInterestsReducer.reducer
+    ),
+    costCenters: loaderReducer<CostCenter[]>(
+      USER_COST_CENTERS,
+      fromCostCenterReducer.reducer
     ),
   };
 }
