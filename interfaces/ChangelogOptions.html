@@ -358,6 +358,7 @@ export default async function run(
     &#x27;@spartacus/my-account&#x27;: &#x27;feature-libs/my-account&#x27;,
     &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
     &#x27;@spartacus/cdc&#x27;: &#x27;integration-libs/cdc&#x27;,
+    &#x27;@spartacus/setup&#x27;: &#x27;core-libs/setup&#x27;,
   };
 
   const duplexUtil &#x3D; through(function (chunk, _, callback) {
@@ -584,6 +585,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;cdc&#x27;:
     case &#x27;@spartacus/cdc&#x27;:
       config.library &#x3D; &#x27;@spartacus/cdc&#x27;;
+      break;
+    case &#x27;setup&#x27;:
+    case &#x27;@spartacus/setup&#x27;:
+      config.library &#x3D; &#x27;@spartacus/setup&#x27;;
       break;
     default:
       config.library &#x3D; undefined;

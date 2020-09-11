@@ -127,7 +127,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
-import { CardType, PaymentDetails } from &#x27;../../model/cart.model&#x27;;
+import { CardType, PaymentDetails, PaymentType } from &#x27;../../model/cart.model&#x27;;
 import { Address, AddressValidation } from &#x27;../../model/address.model&#x27;;
 import { DeliveryMode, Order } from &#x27;../../model/order.model&#x27;;
 
@@ -139,6 +139,8 @@ export const SET_DELIVERY_MODE_PROCESS_ID &#x3D; &#x27;setDeliveryMode&#x27;;
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID &#x3D;
   &#x27;setSupportedDeliveryMode&#x27;;
 export const SET_PAYMENT_DETAILS_PROCESS_ID &#x3D; &#x27;setPaymentDetails&#x27;;
+export const GET_PAYMENT_TYPES_PROCESS_ID &#x3D; &#x27;getPaymentTypes&#x27;;
+export const SET_COST_CENTER_PROCESS_ID &#x3D; &#x27;setCostCenter&#x27;;
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -153,6 +155,10 @@ export interface CardTypesState {
 }
 
 export interface CheckoutStepsState {
+  poNumber: {
+    po: string;
+    costCenter: string;
+  };
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };
@@ -162,10 +168,16 @@ export interface CheckoutStepsState {
   orderDetails: Order;
 }
 
+export interface PaymentTypesState {
+  entities: { [code: string]: PaymentType };
+  selected: string;
+}
+
 export interface CheckoutState {
   steps: LoaderState&lt;CheckoutStepsState&gt;;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
+  paymentTypes: PaymentTypesState;
 }
 </code></pre>
     </div>

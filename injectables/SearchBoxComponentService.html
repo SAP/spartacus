@@ -124,7 +124,6 @@
                                 <a href="#hasResults">hasResults</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
                                 <a href="#launchSearchPage">launchSearchPage</a>
                             </li>
                             <li>
@@ -301,8 +300,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:210</a></div>
                 </td>
             </tr>
 
@@ -385,15 +384,15 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:163</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>whenever there is at least 1 product, we simulate
+                    <div class="io-description"><p>Whenever there is at least 1 product, we simulate
 a suggestion to provide easy access to the search result page</p>
 </div>
 
@@ -460,14 +459,17 @@ a suggestion to provide easy access to the search result page</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:124</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits product search results in case when the config property <code>displayProducts</code> is true.
+Otherwise it emits an empty object.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -532,8 +534,8 @@ a suggestion to provide easy access to the search result page</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:138</a></div>
                 </td>
             </tr>
 
@@ -681,14 +683,17 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:179</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits a &#39;no match&#39; message, in case the product search results and search suggestions are empty.
+Otherwise it emits null.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -823,14 +828,22 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:112</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>For search results model, it returns true when:</p>
+<ul>
+<li>there is any product OR</li>
+<li>the is any search suggestion OR</li>
+<li>there is a message.</li>
+</ul>
+<p>Otherwise it returns false.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -878,7 +891,6 @@ rules can be applied.</p>
                     <a name="launchSearchPage"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Public</span>
                             launchSearchPage
                         </b>
                         <a href="#launchSearchPage"><span class="icon ion-ios-link"></span></a>
@@ -887,16 +899,15 @@ rules can be applied.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>launchSearchPage(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>launchSearchPage(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:203</a></div>
                 </td>
             </tr>
 
@@ -1256,6 +1267,14 @@ export class SearchBoxComponentService {
     }
   }
 
+  /**
+   * For search results model, it returns true when:
+   * * there is any product OR
+   * * the is any search suggestion OR
+   * * there is a message.
+   *
+   * Otherwise it returns false.
+   */
   protected hasResults(results: SearchResults): boolean {
     return (
       (!!results.products &amp;&amp; results.products.length &gt; 0) ||
@@ -1264,6 +1283,10 @@ export class SearchBoxComponentService {
     );
   }
 
+  /**
+   * Emits product search results in case when the config property &#x60;displayProducts&#x60; is true.
+   * Otherwise it emits an empty object.
+   */
   protected getProductResults(
     config: SearchBoxConfig
   ): Observable&lt;ProductSearchPage&gt; {
@@ -1300,7 +1323,7 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * whenever there is at least 1 product, we simulate
+   * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
   protected getExactSuggestion(config: SearchBoxConfig): Observable&lt;string&gt; {
@@ -1315,6 +1338,10 @@ export class SearchBoxComponentService {
     );
   }
 
+  /**
+   * Emits a &#x27;no match&#x27; message, in case the product search results and search suggestions are empty.
+   * Otherwise it emits null.
+   */
   protected getSearchMessage(config: SearchBoxConfig): Observable&lt;string&gt; {
     return combineLatest([
       this.getProductResults(config),
@@ -1339,7 +1366,7 @@ export class SearchBoxComponentService {
   /**
    * Navigates to the search result page with a given query
    */
-  public launchSearchPage(query: string): void {
+  launchSearchPage(query: string): void {
     this.routingService.go({
       cxRoute: &#x27;search&#x27;,
       params: { query },

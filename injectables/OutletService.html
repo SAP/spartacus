@@ -866,14 +866,14 @@ depending on the <code>stacked</code> argument.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, TemplateRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ComponentFactory, Injectable, TemplateRef } from &#x27;@angular/core&#x27;;
 import { FeatureConfigService } from &#x27;@spartacus/core&#x27;;
 import { AVOID_STACKED_OUTLETS, OutletPosition } from &#x27;./outlet.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt;&gt; {
+export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt; | ComponentFactory&lt;any&gt;&gt; {
   /**
    * @deprecated since 2.1, see #8116
    */

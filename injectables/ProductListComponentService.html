@@ -1336,7 +1336,7 @@ export class ProductListComponentService {
   protected search(criteria: SearchCriteria): void {
     const currentPage &#x3D; criteria.currentPage;
     const pageSize &#x3D; criteria.pageSize;
-    const sortCode &#x3D; criteria.sortCode;
+    const sort &#x3D; criteria.sortCode;
 
     this.productSearchService.search(
       criteria.query,
@@ -1345,7 +1345,7 @@ export class ProductListComponentService {
         {},
         currentPage &amp;&amp; { currentPage },
         pageSize &amp;&amp; { pageSize },
-        sortCode &amp;&amp; { sortCode }
+        sort &amp;&amp; { sort }
       )
     );
   }

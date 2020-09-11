@@ -115,12 +115,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, expressCheckoutService: <a href="../injectables/ExpressCheckoutService.html">ExpressCheckoutService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, checkoutStepService: <a href="../injectables/CheckoutStepService.html">CheckoutStepService</a>, expressCheckoutService: <a href="../injectables/ExpressCheckoutService.html">ExpressCheckoutService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -166,6 +166,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/CheckoutConfigService.html" target="_self" >CheckoutConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkoutStepService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CheckoutStepService.html" target="_self" >CheckoutStepService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -233,8 +245,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -262,6 +274,7 @@ import { Observable, of } from &#x27;rxjs&#x27;;
 import { switchMap } from &#x27;rxjs/operators&#x27;;
 import { CheckoutStepType } from &#x27;../model/checkout-step.model&#x27;;
 import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
+import { CheckoutStepService } from &#x27;../services/checkout-step.service&#x27;;
 import { ExpressCheckoutService } from &#x27;../services/express-checkout.service&#x27;;
 
 @Injectable({
@@ -274,13 +287,14 @@ export class CheckoutGuard implements CanActivate {
     protected router: Router,
     protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
+    protected checkoutStepService: CheckoutStepService,
     protected expressCheckoutService: ExpressCheckoutService,
     protected activeCartService: ActiveCartService
   ) {
     this.firstStep$ &#x3D; of(
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
-          this.checkoutConfigService.getFirstCheckoutStepRoute()
+          this.checkoutStepService.getFirstCheckoutStepRoute()
         ).paths[0]
       )
     );
@@ -297,7 +311,7 @@ export class CheckoutGuard implements CanActivate {
             ? of(
                 this.router.parseUrl(
                   this.routingConfigService.getRouteConfig(
-                    this.checkoutConfigService.getCheckoutStepRoute(
+                    this.checkoutStepService.getCheckoutStepRoute(
                       CheckoutStepType.REVIEW_ORDER
                     )
                   ).paths[0]

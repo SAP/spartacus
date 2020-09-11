@@ -81,10 +81,17 @@ import { CheckoutDeliveryAdapter } from &#x27;../../../checkout/connectors/deliv
 import { OccCheckoutDeliveryAdapter } from &#x27;./occ-checkout-delivery.adapter&#x27;;
 import { CheckoutPaymentAdapter } from &#x27;../../../checkout/connectors/payment/checkout-payment.adapter&#x27;;
 import { OccCheckoutPaymentAdapter } from &#x27;./occ-checkout-payment.adapter&#x27;;
+import { PaymentTypeAdapter } from &#x27;../../../checkout/connectors/payment-type/payment-type.adapter&#x27;;
+import { OccCheckoutPaymentTypeAdapter } from &#x27;./occ-checkout-payment-type.adapter&#x27;;
+import { provideDefaultConfig } from &#x27;../../../config/config.module&#x27;;
+import { defaultOccCheckoutConfig } from &#x27;./default-occ-checkout-config&#x27;;
+import { CheckoutCostCenterAdapter } from &#x27;../../../checkout/connectors/cost-center/checkout-cost-center.adapter&#x27;;
+import { OccCheckoutCostCenterAdapter } from &#x27;./occ-checkout-cost-center.adapter&#x27;;
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
+    provideDefaultConfig(defaultOccCheckoutConfig),
     {
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,
@@ -97,6 +104,14 @@ import { OccCheckoutPaymentAdapter } from &#x27;./occ-checkout-payment.adapter&#
     {
       provide: CheckoutPaymentAdapter,
       useClass: OccCheckoutPaymentAdapter,
+    },
+    {
+      provide: PaymentTypeAdapter,
+      useClass: OccCheckoutPaymentTypeAdapter,
+    },
+    {
+      provide: CheckoutCostCenterAdapter,
+      useClass: OccCheckoutCostCenterAdapter,
     },
   ],
 })

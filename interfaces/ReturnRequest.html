@@ -550,9 +550,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Price, Product } from &#x27;./product.model&#x27;;
-import { PaginationModel, SortModel } from &#x27;./misc.model&#x27;;
-import { Address } from &#x27;./address.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address } from &#x27;./address.model&#x27;;
 import {
   DeliveryOrderEntryGroup,
   PaymentDetails,
@@ -560,7 +558,10 @@ import {
   PromotionResult,
   Voucher,
 } from &#x27;./cart.model&#x27;;
+import { PaginationModel, SortModel } from &#x27;./misc.model&#x27;;
+import { B2BUser, CostCenter } from &#x27;./org-unit.model&#x27;;
 import { PointOfService } from &#x27;./point-of-service.model&#x27;;
+import { Price, Product } from &#x27;./product.model&#x27;;
 
 export interface DeliveryMode {
   code?: string;
@@ -682,6 +683,7 @@ export interface Order {
   calculated?: boolean;
   code?: string;
   consignments?: Consignment[];
+  costCenter?: CostCenter;
   created?: Date;
   deliveryAddress?: Address;
   deliveryCost?: Price;
@@ -695,10 +697,12 @@ export interface Order {
   guid?: string;
   net?: boolean;
   orderDiscounts?: Price;
+  orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;
+  purchaseOrderNumber?: string;
   site?: string;
   status?: string;
   statusDisplay?: string;

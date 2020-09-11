@@ -99,7 +99,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutDetailsService: <a href="../injectables/CheckoutDetailsService.html">CheckoutDetailsService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(checkoutDetailsService: <a href="../injectables/CheckoutDetailsService.html">CheckoutDetailsService</a>, checkoutStepService: <a href="../injectables/CheckoutStepService.html">CheckoutStepService</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -134,10 +134,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>checkoutConfigService</td>
+                                                        <td>checkoutStepService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutConfigService.html" target="_self" >CheckoutConfigService</a></code>
+                                                                        <code><a href="../injectables/CheckoutStepService.html" target="_self" >CheckoutStepService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -230,10 +230,10 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
 import { RoutingConfigService } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { CheckoutStep, CheckoutStepType } from &#x27;../model/checkout-step.model&#x27;;
-import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
+import { CheckoutStepService } from &#x27;../services/checkout-step.service&#x27;;
 import { CheckoutDetailsService } from &#x27;../services/checkout-details.service&#x27;;
 
 @Injectable({
@@ -242,13 +242,13 @@ import { CheckoutDetailsService } from &#x27;../services/checkout-details.servic
 export class DeliveryModeSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutConfigService: CheckoutConfigService,
+    private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
     private router: Router
   ) {}
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
-    const checkoutStep: CheckoutStep &#x3D; this.checkoutConfigService.getCheckoutStep(
+    const checkoutStep: CheckoutStep &#x3D; this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.DELIVERY_MODE
     );
 
@@ -256,6 +256,10 @@ export class DeliveryModeSetGuard implements CanActivate {
       console.warn(
         &#x60;Missing step with type ${CheckoutStepType.DELIVERY_MODE} in checkout configuration.&#x60;
       );
+    }
+
+    if (checkoutStep &amp;&amp; checkoutStep.disabled) {
+      return of(true);
     }
 
     return this.checkoutDetailsService

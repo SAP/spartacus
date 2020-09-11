@@ -99,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, userService: <a href="../injectables/UserService.html">UserService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -181,6 +181,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -217,8 +241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -248,6 +272,11 @@ import {
   RoutingService,
   User,
   UserToken,
+  UserService,
+  B2BUser,
+  GlobalMessageService,
+  GlobalMessageType,
+  B2BUserGroup,
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
@@ -262,18 +291,21 @@ export class CheckoutAuthGuard implements CanActivate {
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   canActivate(): Observable&lt;boolean&gt; {
     return combineLatest([
       this.authService.getUserToken(),
       this.activeCartService.getAssignedUser(),
+      this.userService.get(),
     ]).pipe(
-      map(([token, user]: [UserToken, User]) &#x3D;&gt; {
+      map(([token, cartUser, user]: [UserToken, User, User | B2BUser]) &#x3D;&gt; {
         if (!token.access_token) {
           if (this.activeCartService.isGuestCart()) {
-            return Boolean(user);
+            return Boolean(cartUser);
           }
           if (this.checkoutConfigService.isGuestCheckout()) {
             this.routingService.go({ cxRoute: &#x27;login&#x27; }, { forced: true });
@@ -281,6 +313,17 @@ export class CheckoutAuthGuard implements CanActivate {
             this.routingService.go({ cxRoute: &#x27;login&#x27; });
           }
           this.authRedirectService.reportAuthGuard();
+        } else if (&#x27;roles&#x27; in user) {
+          const roles &#x3D; (&lt;B2BUser&gt;user).roles;
+          if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
+            return true;
+          } else {
+            this.globalMessageService.add(
+              { key: &#x27;checkout.invalid.accountType&#x27; },
+              GlobalMessageType.MSG_TYPE_WARNING
+            );
+            return false;
+          }
         }
         return !!token.access_token;
       })

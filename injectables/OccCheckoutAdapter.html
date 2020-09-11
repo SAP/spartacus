@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:67</a></div>
                 </td>
             </tr>
 
@@ -286,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:78</a></div>
                 </td>
             </tr>
 
@@ -370,8 +370,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:30</a></div>
                 </td>
             </tr>
 
@@ -452,8 +452,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:56</a></div>
                 </td>
             </tr>
 
@@ -536,8 +536,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:35</a></div>
                 </td>
             </tr>
 
@@ -621,7 +621,6 @@ import { OCC_USER_ID_ANONYMOUS } from &#x27;../../utils/occ-constants&#x27;;
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS &#x3D; &#x27;fields&#x3D;FULL&#x27;;
 const CHECKOUT_PARAMS &#x3D; &#x27;deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)&#x27;;
-const ORDERS_ENDPOINT &#x3D; &#x27;/orders&#x27;;
 const CARTS_ENDPOINT &#x3D; &#x27;/carts/&#x27;;
 
 @Injectable()
@@ -638,7 +637,6 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
   }
 
   public placeOrder(userId: string, cartId: string): Observable&lt;Order&gt; {
-    const url &#x3D; this.getEndpoint(userId, ORDERS_ENDPOINT);
     const params &#x3D; new HttpParams({
       fromString: &#x27;cartId&#x3D;&#x27; + cartId + &#x27;&amp;&#x27; + FULL_PARAMS,
     });
@@ -651,7 +649,11 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     }
 
     return this.http
-      .post&lt;Occ.Order&gt;(url, {}, { headers, params })
+      .post&lt;Occ.Order&gt;(
+        this.occEndpoints.getUrl(&#x27;placeOrder&#x27;, { userId }),
+        {},
+        { headers, params }
+      )
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 

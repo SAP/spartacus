@@ -274,7 +274,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -316,7 +316,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -371,16 +371,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StoreFinderSearchConfig } from &#x27;../model/search-config&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import { StoreFinderAdapter } from &#x27;./store-finder.adapter&#x27;;
-import { PointOfService } from &#x27;../../model/point-of-service.model&#x27;;
 import { GeoPoint } from &#x27;../../model/misc.model&#x27;;
+import { PointOfService } from &#x27;../../model/point-of-service.model&#x27;;
 import {
   StoreCount,
   StoreFinderSearchPage,
 } from &#x27;../../model/store-finder.model&#x27;;
+import { SearchConfig } from &#x27;../../product/model/search-config&#x27;;
+import { StoreFinderAdapter } from &#x27;./store-finder.adapter&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class StoreFinderConnector {
@@ -388,7 +388,7 @@ export class StoreFinderConnector {
 
   search(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt; {

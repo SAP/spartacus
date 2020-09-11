@@ -176,6 +176,7 @@ export interface Card {
   title?: string;
   textBold?: string;
   text?: Array&lt;string&gt;;
+  paragraphs?: Array&lt;{ title?: string; text?: Array&lt;string&gt; }&gt;;
   img?: string;
   actions?: Array&lt;CardAction | CardLinkAction&gt;;
   deleteMsg?: string;

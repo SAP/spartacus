@@ -107,6 +107,10 @@
                                 <a href="#getActiveModal">getActiveModal</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleModalRemoveEvents">handleModalRemoveEvents</a>
+                            </li>
+                            <li>
                                 <a href="#open">open</a>
                             </li>
                         </ul>
@@ -197,8 +201,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -267,8 +271,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -337,8 +341,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:32</a></div>
                 </td>
             </tr>
 
@@ -349,6 +353,78 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../classes/ModalRef.html" target="_self" >ModalRef</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleModalRemoveEvents"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            handleModalRemoveEvents
+                        </b>
+                        <a href="#handleModalRemoveEvents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleModalRemoveEvents(modal: <a href="../classes/ModalRef.html">ModalRef</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>modal</td>
+                                    <td>
+                                                <code><a href="../classes/ModalRef.html" target="_self" >ModalRef</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -483,8 +559,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { NgbModal } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
-import { ModalRef } from &#x27;./modal-ref&#x27;;
 import { ModalOptions } from &#x27;./modal-options&#x27;;
+import { ModalRef } from &#x27;./modal-ref&#x27;;
 
 /**
  * A service to handle modal
@@ -501,8 +577,15 @@ export class ModalService {
 
     activeModal &#x3D; this.ngbModalService.open(content, options);
     this.modals.push(activeModal);
+    this.handleModalRemoveEvents(activeModal);
 
     return activeModal;
+  }
+
+  protected handleModalRemoveEvents(modal: ModalRef): void {
+    modal.result.finally(() &#x3D;&gt; {
+      this.modals &#x3D; this.modals.filter((m) &#x3D;&gt; m !&#x3D;&#x3D; modal);
+    });
   }
 
   getActiveModal(): ModalRef {
@@ -515,7 +598,6 @@ export class ModalService {
 
     if (modal) {
       modal.dismiss(reason);
-      this.modals.pop();
     }
   }
 
@@ -524,7 +606,6 @@ export class ModalService {
 
     if (modal) {
       modal.close(reason);
-      this.modals.pop();
     }
   }
 }

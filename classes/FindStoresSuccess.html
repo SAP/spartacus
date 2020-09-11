@@ -222,8 +222,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { GeoPoint } from &#x27;../../../model/misc.model&#x27;;
+import { SearchConfig } from &#x27;../../../product/model/search-config&#x27;;
 import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { StoreFinderSearchConfig } from &#x27;../../model/search-config&#x27;;
 import { STORE_FINDER_DATA } from &#x27;../store-finder-state&#x27;;
 
 export const FIND_STORES_ON_HOLD &#x3D; &#x27;[StoreFinder] On Hold&#x27;;
@@ -248,7 +248,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
   constructor(
     public payload: {
       queryText: string;
-      searchConfig?: StoreFinderSearchConfig;
+      searchConfig?: SearchConfig;
       longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
       countryIsoCode?: string;
