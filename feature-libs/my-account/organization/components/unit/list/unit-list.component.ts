@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { B2BUnitNode, SemanticPathService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { NavigationNode } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { B2BUnitNode, SemanticPathService } from '@spartacus/core';
-import { NavigationNode } from '@spartacus/storefront';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
 
 const BASE_CLASS = 'organization';
 
@@ -29,7 +29,7 @@ export class UnitListComponent {
       title: node.name,
       children: node.children.map((children) => this.toNavigation(children)),
       url: this.semanticPathService.transform({
-        cxRoute: 'unitDetails',
+        cxRoute: 'orgUnitDetails',
         params: { uid: node.id },
       }),
     };

@@ -15,7 +15,7 @@
 @import './__ux/details';
 @import './__ux/message';
 
-cx-organization-list {
+.organization {
   @extend %organizationList !optional;
   @extend %organizationCard !optional;
   @extend %organizationItemDetails !optional;

@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'unitDetails', params: { uid: orgUnitCode } } | cxUrl
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -27,7 +27,7 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'unitAssignRoles',
+          cxRoute: 'orgUnitAssignRoles',
           params: { uid: orgUnitCode }
         } | cxUrl
       "

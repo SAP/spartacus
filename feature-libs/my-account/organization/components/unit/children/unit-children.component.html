@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'unitDetails', params: { uid: orgUnitCode } } | cxUrl
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -19,7 +19,7 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'unitCreate'
+          cxRoute: 'orgUnitCreate'
         } | cxUrl
       "
       [queryParams]="{ parentUnit: orgUnitCode }"
@@ -50,7 +50,7 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'unitDetails',
+          cxRoute: 'orgUnitDetails',
           params: { uid: model.id }
         } | cxUrl
       "

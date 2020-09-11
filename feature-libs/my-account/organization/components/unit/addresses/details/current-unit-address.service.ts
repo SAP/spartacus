@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { B2BAddress } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -9,7 +10,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { CurrentUnitService } from '../../current-unit.service';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 
 @Injectable()
 export class CurrentUnitAddressService {

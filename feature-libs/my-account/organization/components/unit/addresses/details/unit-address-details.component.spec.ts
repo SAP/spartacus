@@ -1,15 +1,15 @@
-import { of } from 'rxjs';
 import { TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService, B2BAddress } from '@spartacus/core';
-import { CurrentUnitAddressService } from './current-unit-address.service';
-import { UnitAddressDetailsComponent } from './unit-address-details.component';
-import { CurrentUnitService } from '../../current-unit.service';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { B2BAddress, I18nTestingModule, RoutingService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { ModalService } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
+import { CurrentUnitService } from '../../current-unit.service';
+import { CurrentUnitAddressService } from './current-unit-address.service';
+import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
 
 const code = 'b1';

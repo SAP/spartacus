@@ -1,36 +1,34 @@
 export const unit = {
-  header: 'All units ({{count}})',
+  header: 'Units',
   unit: 'Unit',
   name: 'Name',
   uid: 'ID',
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
-  back: 'Back',
-  active: 'Status',
-  confirmDeactivation: {
-    title: 'Disable Unit',
-    message: 'Are you sure you want to disable this unit?',
-  },
-  deactivated: 'Deactivated',
-  messages: {
-    enabled:
-      'When you disable this unit, the related data will be disabled as well. ',
-    disabled: 'You cannot edit a disabled unit.',
-    disabledParent: 'You cannot enable unit if parent is disabled.',
-  },
-  tree: {
-    expandAll: 'Expand all',
-    collapseAll: 'Collapse all',
-    upOneLevel: 'Up one level',
-  },
+
   details: {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',
-    children: 'Child Units',
+  },
+
+  messages: {
+    deactivate: 'Are you sure you want to disable this unit?',
+    confirmEnabled: 'Unit {{item.name}} enabled successfully',
+    confirmDisabled: 'Unit {{item.name}} disabled successfully',
+  },
+
+  links: {
+    units: 'Child Units',
     users: 'Users',
     approvers: 'Approvers',
     shippingAddresses: 'Shipping Addresses',
     costCenters: 'Cost Centers',
+  },
+
+  tree: {
+    expandAll: 'Expand all',
+    collapseAll: 'Collapse all',
+    upOneLevel: 'Up one level',
   },
   children: {
     header: 'Child Units in {{code}}',

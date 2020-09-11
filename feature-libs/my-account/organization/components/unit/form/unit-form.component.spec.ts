@@ -2,19 +2,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { of } from 'rxjs';
 import {
-  I18nTestingModule,
-  B2BUnitNode,
   B2BApprovalProcess,
   B2BUnit,
+  B2BUnitNode,
+  I18nTestingModule,
 } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
+import { CurrentUnitService } from '../current-unit.service';
 import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
-import { CurrentUnitService } from '@spartacus/my-account/organization';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },

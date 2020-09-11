@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { B2BAddress } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { B2BAddress } from '@spartacus/core';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
 

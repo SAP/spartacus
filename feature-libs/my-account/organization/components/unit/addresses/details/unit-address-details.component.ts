@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { ModalService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
 
@@ -37,7 +37,7 @@ export class UnitAddressDetailsComponent {
     this.code$.pipe(take(1)).subscribe((code) => {
       this.orgUnitsService.deleteAddress(code, this.addressId);
       this.routingService.go({
-        cxRoute: 'unitManageAddresses',
+        cxRoute: 'orgUnitManageAddresses',
         params: { uid: code },
       });
     });

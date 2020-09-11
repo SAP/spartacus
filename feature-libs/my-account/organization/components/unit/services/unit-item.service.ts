@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { RoutingService, B2BUnit } from '@spartacus/core';
+import { B2BUnit, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
-import { UnitFormService } from '../form/unit-form.service';
-import { CurrentUnitService } from '../current-unit.service';
 import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentUnitService } from '../current-unit.service';
+import { UnitFormService } from '../form/unit-form.service';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,6 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
    * Returns 'unitDetails'
    */
   protected getDetailsRoute(): string {
-    return 'unitDetails';
+    return 'orgUnitDetails';
   }
 }

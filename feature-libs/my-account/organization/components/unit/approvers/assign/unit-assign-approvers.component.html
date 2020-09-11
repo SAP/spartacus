@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'unitApprovers', params: { uid: orgUnitCode } } | cxUrl
+        { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -43,7 +43,7 @@
       <a
         class="button secondary"
         [routerLink]="
-          { cxRoute: 'unitApprovers', params: { uid: orgUnitCode } } | cxUrl
+          { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
         {{ 'unit.back' | cxTranslate }}
@@ -128,7 +128,7 @@
     <a
       [routerLink]="
         {
-          cxRoute: 'unitDetails',
+          cxRoute: 'orgUnitDetails',
           params: model.orgUnit
         } | cxUrl
       "

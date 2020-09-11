@@ -4,7 +4,7 @@
       <a
         class="link"
         [routerLink]="
-          { cxRoute: 'unitManageAddresses', params: { uid: orgUnitCode } }
+          { cxRoute: 'orgUnitManageAddresses', params: { uid: orgUnitCode } }
             | cxUrl
         "
         (click)="view.toggle()"
@@ -24,7 +24,7 @@
         class="link"
         [routerLink]="
           {
-            cxRoute: 'unitAddressEdit',
+            cxRoute: 'orgUnitAddressEdit',
             params: { uid: orgUnitCode, id: orgUnitAddress.id }
           } | cxUrl
         "
@@ -65,7 +65,7 @@
             <a
               [routerLink]="
                 {
-                  cxRoute: 'unitDetails',
+                  cxRoute: 'orgUnitDetails',
                   params: { uid: orgUnitCode }
                 } | cxUrl
               "

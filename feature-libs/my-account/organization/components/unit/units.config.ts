@@ -4,8 +4,10 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
 import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
@@ -15,18 +17,16 @@ import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-app
 import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
 import { UnitChildrenComponent } from './children/unit-children.component';
 import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
-import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
-import { UnitEditComponent } from './edit/unit-edit.component';
+import { UnitFormComponent } from './form';
+import { UnitItemService } from './services/unit-item.service';
+import { UnitListService } from './services/unit-list.service';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { UnitListService } from './services/unit-list.service';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { UnitItemService } from './services/unit-item.service';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+// import { UnitListComponent } from './list/unit-list.component';
+import { OrganizationListComponent } from '../shared/organization-list';
 import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -39,57 +39,57 @@ const paramsMapping: ParamsMapping = {
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      unit: {
+      orgUnits: {
         paths: ['organization/units'],
       },
-      unitCreate: {
+      orgUnitCreate: {
         paths: ['organization/units/create'],
       },
-      unitDetails: {
+      orgUnitDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      unitEdit: {
+      orgUnitEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      unitChildren: {
+      orgUnitChildren: {
         paths: [`${listPath}/children`],
         paramsMapping,
       },
-      unitUsers: {
+      orgUnitUsers: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
-      unitAssignRoles: {
+      orgUnitAssignRoles: {
         paths: [`${listPath}/users/roles/assign`],
         paramsMapping,
       },
-      unitApprovers: {
+      orgUnitApprovers: {
         paths: [`${listPath}/approvers`],
         paramsMapping,
       },
-      unitAssignApprovers: {
+      orgUnitAssignApprovers: {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      unitManageAddresses: {
+      orgUnitManageAddresses: {
         paths: [`${listPath}/addresses`],
         paramsMapping,
       },
-      unitAddressDetails: {
+      orgUnitAddressDetails: {
         paths: [`${listPath}/addresses/:id`],
         paramsMapping,
       },
-      unitAddressCreate: {
+      orgUnitAddressCreate: {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      unitAddressEdit: {
+      orgUnitAddressEdit: {
         paths: [`${listPath}/addresses/:id/edit`],
         paramsMapping,
       },
-      unitCostCenters: {
+      orgUnitCostCenters: {
         paths: [`${listPath}/cost-centers`],
         paramsMapping,
       },
@@ -114,62 +114,56 @@ export const unitsCmsConfig: CmsConfig = {
       childRoutes: [
         {
           path: 'create',
-          component: UnitCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: UnitFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
+            {
+              path: 'edit',
+              component: UnitFormComponent,
+            },
+
             {
               path: 'children',
               component: UnitChildrenComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
             {
               path: 'users',
               component: UnitUserListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'roles/assign',
                   component: UnitUserAssignRolesComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'approvers',
               component: UnitApproverListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'assign',
                   component: UnitAssignApproversComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'addresses',
               component: UnitAddressListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'create',
                   component: UnitAddressCreateComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                 },
                 {
                   path: ':id',
                   component: UnitAddressDetailsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
                   children: [
                     {
                       path: 'edit',
                       component: UnitAddressEditComponent,
-                      canDeactivate: [SplitViewDeactivateGuard],
                     },
                   ],
                 },
@@ -178,13 +172,8 @@ export const unitsCmsConfig: CmsConfig = {
             {
               path: 'cost-centers',
               component: UnitCostCentersComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.unitCode}/edit`,
-          component: UnitEditComponent,
         },
       ],
 
@@ -236,7 +225,7 @@ export const unitsTableConfig: TableConfig = {
         },
       },
     },
-    [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: {
+    [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
       cells: ['selected', 'summary', 'link'],
       options: {
         pagination: {

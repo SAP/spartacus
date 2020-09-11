@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
+import {
+  B2BUserService,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { B2BUserService } from '../../../../core/services/b2b-user.service';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import {
   OrganizationListService,
   OrganizationTableType,

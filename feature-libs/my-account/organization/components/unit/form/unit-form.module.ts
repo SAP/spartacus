@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
-import { UnitFormComponent } from './unit-form.component';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
+import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
+import { UnitFormComponent } from './unit-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
+    OrganizationFormModule,
     NgSelectModule,
     UrlModule,
     I18nModule,
@@ -20,8 +20,5 @@ import { OrgUnitService } from '../../../core/services/org-unit.service';
     FormErrorsModule,
   ],
   declarations: [UnitFormComponent],
-  exports: [UnitFormComponent],
-  providers: [CurrencyService, OrgUnitService],
-  entryComponents: [UnitFormComponent],
 })
 export class UnitFormModule {}

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { FormUtils } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { OrgUnitService } from '../../../../core/services/org-unit.service';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 
@@ -34,7 +34,7 @@ export class UnitAddressCreateComponent {
       this.code$.pipe(take(1)).subscribe((orgUnitId) => {
         this.orgUnitService.createAddress(orgUnitId, form.value);
         this.routingService.go({
-          cxRoute: 'unitManageAddresses',
+          cxRoute: 'orgUnitManageAddresses',
           params: { uid: orgUnitId },
         });
       });

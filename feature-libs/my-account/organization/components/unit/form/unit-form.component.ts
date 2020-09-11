@@ -1,55 +1,41 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BApprovalProcess, B2BUnitNode } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { B2BUnit, B2BUnitNode } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
-import { CurrentUnitService } from '../current-unit.service';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
-  selector: 'cx-unit-form',
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: UnitItemService,
+    },
+  ],
 })
-export class UnitFormComponent implements OnInit, OnDestroy {
-  @Input() form: FormGroup;
+export class UnitFormComponent implements OnInit {
+  form: FormGroup = this.itemService.getForm();
 
-  businessUnits$: Observable<B2BUnitNode[]>;
-  approvalProcesses$: Observable<B2BApprovalProcess[]>;
+  units$: Observable<B2BUnitNode[]> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      map((units) => units.filter((unit) => unit.id !== this.form?.value.uid))
+    );
 
-  subscription = new Subscription();
-  parentUnit$ = this.currentUnitService.b2bUnit$.pipe(filter(Boolean));
+  approvalProcess$ = this.unitService
+    .getApprovalProcesses()
+    .pipe(filter((items) => items.length > 0));
 
   constructor(
-    protected orgUnitService: OrgUnitService,
-    protected currentUnitService: CurrentUnitService
+    protected itemService: OrganizationItemService<B2BUnit>,
+    protected unitService: OrgUnitService
   ) {}
 
-  ngOnInit() {
-    this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
-    this.orgUnitService.loadList();
-
-    // filter out currently edited entity from list of possible parent units to assign
-    this.businessUnits$ = this.orgUnitService
-      .getActiveUnitList()
-      .pipe(
-        map((units) => units.filter((unit) => unit.id !== this.form?.value.uid))
-      );
-
-    this.subscription.add(
-      this.parentUnit$.subscribe(() => {
-        this.form.get('parentOrgUnit').disable();
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.unitService.loadList();
   }
 }
