@@ -19,8 +19,8 @@ export abstract class OrganizationSubListService<
   };
 
   // TODO: abstract
-  assign(_key: string, _linkKey: string) {}
-  unassign(_key: string, _linkKey: string) {}
+  assign(_key: string, ..._args: any) {}
+  unassign(_key: string, ..._args: any) {}
 
   /**
    * As we can't filter with the backend API, we do this client side.

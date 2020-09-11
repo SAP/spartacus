@@ -6,24 +6,26 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { StatusCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
-import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
-import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
-import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
-import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-approvers.component';
-import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
-import { UnitChildrenComponent } from './children/unit-children.component';
-import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
+// import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
+// import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
+// import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
+// import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
+// import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form';
+import { UnitApproverListComponent } from './links/approvers';
+import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
+import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitListComponent } from './list/unit-list.component';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
-import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
-import { UnitUserListComponent } from './users/list/unit-user-list.component';
+// import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
+// import { UnitUserListComponent } from './users/list/unit-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -52,6 +54,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       orgUnitChildren: {
         paths: [`${listPath}/children`],
+        paramsMapping,
+      },
+      orgUnitCreateChild: {
+        paths: [`${listPath}/children/create`],
         paramsMapping,
       },
       orgUnitUsers: {
@@ -125,51 +131,55 @@ export const unitsCmsConfig: CmsConfig = {
             {
               path: 'children',
               component: UnitChildrenComponent,
-            },
-            {
-              path: 'users',
-              component: UnitUserListComponent,
               children: [
                 {
-                  path: 'roles/assign',
-                  component: UnitUserAssignRolesComponent,
+                  path: 'create',
+                  component: UnitFormComponent,
                 },
               ],
             },
             {
               path: 'approvers',
+              component: UnitAssignedApproverListComponent,
+            },
+            {
+              path: 'approvers/assign',
               component: UnitApproverListComponent,
-              children: [
-                {
-                  path: 'assign',
-                  component: UnitAssignApproversComponent,
-                },
-              ],
             },
-            {
-              path: 'addresses',
-              component: UnitAddressListComponent,
-              children: [
-                {
-                  path: 'create',
-                  component: UnitAddressCreateComponent,
-                },
-                {
-                  path: ':id',
-                  component: UnitAddressDetailsComponent,
-                  children: [
-                    {
-                      path: 'edit',
-                      component: UnitAddressEditComponent,
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              path: 'cost-centers',
-              component: UnitCostCentersComponent,
-            },
+            // {
+            //   path: 'users',
+            //   component: UnitUserListComponent,
+            //   children: [
+            //     {
+            //       path: 'roles/assign',
+            //       component: UnitUserAssignRolesComponent,
+            //     },
+            //   ],
+            // },
+            // {
+            //   path: 'addresses',
+            //   component: UnitAddressListComponent,
+            //   children: [
+            //     {
+            //       path: 'create',
+            //       component: UnitAddressCreateComponent,
+            //     },
+            //     {
+            //       path: ':id',
+            //       component: UnitAddressDetailsComponent,
+            //       children: [
+            //         {
+            //           path: 'edit',
+            //           component: UnitAddressEditComponent,
+            //         },
+            //       ],
+            //     },
+            //   ],
+            // },
+            // {
+            //   path: 'cost-centers',
+            //   component: UnitCostCentersComponent,
+            // },
           ],
         },
       ],
@@ -183,6 +193,20 @@ export function unitsTableConfigFactory(): TableConfig {
   return unitsTableConfig;
 }
 
+export const xlist = {
+  cells: ['name', 'actions'],
+  options: {
+    pagination: {
+      pageSize: MAX_OCC_INTEGER_VALUE,
+    },
+    cells: {
+      actions: {
+        dataComponent: AssignCellComponent,
+      },
+    },
+  },
+};
+
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT_USERS]: {
@@ -193,34 +217,50 @@ export const unitsTableConfig: TableConfig = {
         },
       },
     },
+
     [OrganizationTableType.UNIT_CHILDREN]: {
-      cells: ['summary', 'link'],
+      cells: ['name', 'active'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
+        cells: {
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+        },
       },
     },
+
     [OrganizationTableType.UNIT_APPROVERS]: {
-      cells: ['summary', 'link', 'unassign'],
-      options: {
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    },
-    [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
-      cells: ['selected', 'summary', 'link'],
+      cells: ['name', 'actions'],
       options: {
         pagination: {
           sort: 'byName',
         },
-      },
-      lg: {
-        cells: ['name', 'email', 'roles', 'orgUnit'],
-        options: {},
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
       },
     },
+
+    [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
+      cells: ['name', 'actions'],
+      options: {
+        pagination: {
+          sort: 'byName',
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+
     [OrganizationTableType.UNIT_ASSIGNED_ROLES]: {
       cells: ['summary', 'link'],
       options: {

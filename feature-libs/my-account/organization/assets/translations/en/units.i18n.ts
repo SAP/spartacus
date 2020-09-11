@@ -102,6 +102,11 @@ export const unit = {
   },
 };
 
+export const unitChildren = {
+  title: 'Child units',
+  subtitle: 'Unit: {{item.name}}',
+};
+
 export const unitAssignedRoles = {
   header: 'Manage roles in {{code}}',
   name: 'Name',
@@ -113,9 +118,14 @@ export const unitAssignedRoles = {
   roleAdministrator: 'Admin',
 };
 
+export const unitApprovers = {
+  title: 'Manage approvers',
+  subtitle: 'Unit: {{item.name}}',
+};
+
 export const unitAssignedApprovers = {
-  name: 'Name',
-  email: 'Email',
-  roles: 'Roles',
-  orgUnit: 'Unit',
+  title: 'Assigned approvers',
+  subtitle: 'Unit: {{item.name}}',
+  assigned: 'User {{item.name}} assigned successfully',
+  unassigned: 'User {{item.name}} unassigned successfully',
 };
