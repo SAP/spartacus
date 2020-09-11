@@ -1,16 +1,16 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
+  CostCenterModule,
   provideConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  OrganizationModule,
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import {
   b2bLayoutConfig,
-  defaultB2bOccConfig,
   defaultB2bCheckoutConfig,
+  defaultB2bOccConfig,
   mediaConfig,
 } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
@@ -18,7 +18,7 @@ import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
-    OrganizationModule.forRoot(),
+    CostCenterModule.forRoot(),
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle

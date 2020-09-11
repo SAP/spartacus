@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CartActions } from '../../../cart/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { PaymentTypeConnector } from '../../connectors/payment-type/payment-type.connector';
 import { CheckoutActions } from '../actions/index';
 
@@ -23,9 +23,7 @@ export class PaymentTypesEffects {
         ),
         catchError((error) =>
           of(
-            new CheckoutActions.LoadPaymentTypesFail(
-              makeErrorSerializable(error)
-            )
+            new CheckoutActions.LoadPaymentTypesFail(normalizeHttpError(error))
           )
         )
       );
@@ -63,9 +61,7 @@ export class PaymentTypesEffects {
           }),
           catchError((error) =>
             of(
-              new CheckoutActions.SetPaymentTypeFail(
-                makeErrorSerializable(error)
-              )
+              new CheckoutActions.SetPaymentTypeFail(normalizeHttpError(error))
             )
           )
         );

@@ -1,5 +1,6 @@
 import { Currency, User } from './misc.model';
 
+// TODO(#8876): Should we simplify the models only for the fields required by the B2B checkout?
 export interface CostCenter {
   active?: string;
   activeFlag?: boolean;
@@ -8,14 +9,6 @@ export interface CostCenter {
   originalCode?: string;
   unit?: B2BUnit;
   currency?: Currency;
-}
-
-export interface B2BUnitNode {
-  active?: boolean;
-  children?: B2BUnitNode[];
-  id?: string;
-  name?: string;
-  parent?: string;
 }
 
 export interface B2BUnit {
