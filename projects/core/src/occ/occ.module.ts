@@ -7,12 +7,12 @@ import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
 import { CmsOccModule } from './adapters/cms/cms-occ.module';
 import { ConfiguratorVariantOccModule } from './adapters/configurator/variant/configurator-variant-occ.module';
+import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.module';
 import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
 import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
-import { OrganizationOccModule } from './adapters/organization/organization-occ.module';
 import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
@@ -29,7 +29,7 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials.inte
     UserOccModule,
     ConfiguratorVariantOccModule,
     OccConfigLoaderModule.forRoot(),
-    OrganizationOccModule,
+    CostCenterOccModule,
   ],
 })
 export class OccModule {
