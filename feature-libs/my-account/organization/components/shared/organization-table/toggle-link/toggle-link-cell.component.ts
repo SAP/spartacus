@@ -54,7 +54,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   toggleItem(event: Event) {
     event.stopPropagation();
-    this.uls.toggle(event);
-    // this.model.expanded = !this.model.expanded;
+    this.uls.toggle(this.model.uid);
   }
 }
