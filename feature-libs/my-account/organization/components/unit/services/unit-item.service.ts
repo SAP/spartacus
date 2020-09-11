@@ -43,6 +43,6 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
    * Returns 'orgUnitDetails'
    */
   protected getDetailsRoute(): string {
-    return 'unitDetails';
+    return 'orgUnitDetails';
   }
 }
