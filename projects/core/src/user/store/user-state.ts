@@ -9,6 +9,7 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../model/order.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { StateUtils } from '../../state';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model';
@@ -36,6 +37,7 @@ export const USER_ADDRESSES = '[User] User Addresses';
 export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
 export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
 export const USER_ORDER_DETAILS = '[User] User Order Details';
+export const USER_COST_CENTERS = '[User] User Cost Centers';
 export const REGIONS = '[User] Regions';
 
 export const CUSTOMER_COUPONS = '[User] Customer Coupons';
@@ -68,6 +70,7 @@ export interface UserState {
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
+  costCenters: StateUtils.LoaderState<CostCenter[]>;
 }
 
 export interface RegionsState {

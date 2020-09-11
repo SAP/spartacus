@@ -1,11 +1,11 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { ComponentFactory, Injectable, TemplateRef } from '@angular/core';
 import { FeatureConfigService } from '@spartacus/core';
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OutletService<T = TemplateRef<any>> {
+export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   /**
    * @deprecated since 2.1, see #8116
    */

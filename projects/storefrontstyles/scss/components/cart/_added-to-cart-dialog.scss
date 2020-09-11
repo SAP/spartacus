@@ -2,12 +2,17 @@
 
 %cx-added-to-cart-dialog {
   .cx-dialog-header {
-    padding: 2rem 1.75rem 0.85rem;
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.85rem;
+    padding-inline-start: 1.75rem;
     border-width: 0;
+    display: flex;
   }
 
   .cx-dialog-title {
     @include type('3');
+    align-self: flex-start;
   }
 
   .cx-dialog-body {
@@ -26,7 +31,11 @@
   .cx-dialog-row {
     margin: 0;
     display: flex;
-    padding: 0 0.875rem 2.875rem;
+    padding-top: 0;
+    padding-inline-end: 0.875rem;
+    padding-bottom: 0.85rem;
+    padding-inline-start: 2.875rem;
+
     max-width: 100%;
     flex-wrap: wrap;
 
@@ -41,7 +50,24 @@
       padding: 2rem;
     }
 
+    @include forVersion(2.1) {
+      .cx-image-container {
+        a {
+          padding: 0;
+          max-width: 65px;
+        }
+      }
+    }
+
     .cx-compact {
+      @include forVersion(2.1) {
+        .cx-info {
+          @include media-breakpoint-up(md) {
+            padding: 0 25px;
+          }
+        }
+      }
+
       .cx-price,
       .cx-quantity,
       .cx-total {
@@ -65,8 +91,10 @@
   .cx-dialog-actions {
     display: flex;
     flex-direction: column;
-    padding: 0 1rem 0 2.5rem;
-    border-width: 0 0 0 1px;
+    padding-inline-start: 2.5rem;
+    padding-inline-end: 1rem;
+    border-width: 0 0 0 0;
+    border-inline-start-width: 1px;
     border-style: solid;
     border-color: var(--cx-color-light);
 

@@ -6,6 +6,7 @@ import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connec
 import { provideDefaultConfig } from '../../../config/config.module';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
+import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user-cost-center.adapter';
 import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
@@ -22,6 +23,7 @@ import { defaultOccUserConfig } from './default-occ-user-config';
 import { OccAnonymousConsentTemplatesAdapter } from './occ-anonymous-consent-templates.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
@@ -50,6 +52,7 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserNotificationPreferenceAdapter,
     },
     { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
+    { provide: UserCostCenterAdapter, useClass: OccUserCostCenterAdapter },
     {
       provide: PRODUCT_INTERESTS_NORMALIZER,
       useExisting: OccUserInterestsNormalizer,
