@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 import { OccConfiguratorTextfieldNormalizer } from './occ-configurator-textfield-normalizer';
 

@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ConfigModule } from '@spartacus/core';
-import { ConfiguratorTextfieldAdapter } from '../connectors/configurator-textfield.adapter';
+import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_TEXTFIELD_NORMALIZER,
   CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
-} from '../connectors/converters';
+} from '../core/connectors/converters';
 import { OccConfiguratorTextfieldAddToCartSerializer } from './converters/occ-configurator-textfield-add-to-cart-serializer';
 import { OccConfiguratorTextfieldNormalizer } from './converters/occ-configurator-textfield-normalizer';
 import { OccConfiguratorTextfieldUpdateCartEntrySerializer } from './converters/occ-configurator-textfield-update-cart-entry-serializer';
@@ -44,4 +44,4 @@ import { OccConfiguratorTextfieldAdapter } from './occ-configurator-textfield.ad
     },
   ],
 })
-export class ConfiguratorTextfieldOccModule {}
+export class TextfieldConfiguratorOccModule {}

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfieldUpdateCartEntrySerializer } from './occ-configurator-textfield-update-cart-entry-serializer';
 
 describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {

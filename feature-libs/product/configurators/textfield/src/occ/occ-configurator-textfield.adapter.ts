@@ -9,13 +9,13 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfiguratorTextfieldAdapter } from '../connectors/configurator-textfield.adapter';
+import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_TEXTFIELD_NORMALIZER,
   CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
-} from '../connectors/converters';
-import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
+} from '../core/connectors/converters';
+import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';
 
 @Injectable()

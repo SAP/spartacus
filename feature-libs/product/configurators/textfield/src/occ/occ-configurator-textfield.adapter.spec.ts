@@ -11,8 +11,8 @@ import {
 } from '@spartacus/core';
 import { GenericConfigurator } from 'projects/core/src/model';
 import { OccConfiguratorTextfieldAdapter } from '.';
-import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../connectors/converters';
-import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
+import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
+import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {

@@ -63,4 +63,4 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
     },
   ],
 })
-export class ConfiguratorVariantOccModule {}
+export class VariantConfiguratorOccModule {}

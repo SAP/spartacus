@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 
 @Injectable({ providedIn: 'root' })

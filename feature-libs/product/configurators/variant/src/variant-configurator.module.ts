@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { VariantConfiguratorCoreModule } from './core/variant-configurator-core.module';
 import { InteractiveConfiguratorModule } from './interactive-configurator.module';
+import { VariantConfiguratorOccModule } from './occ/variant-configurator-occ.module';
 import { OverviewConfiguratorModule } from './overview-configurator.module';
 
 /**
@@ -11,6 +12,7 @@ import { OverviewConfiguratorModule } from './overview-configurator.module';
   imports: [
     CommonModule,
     VariantConfiguratorCoreModule,
+    VariantConfiguratorOccModule,
     InteractiveConfiguratorModule,
     OverviewConfiguratorModule,
   ],
