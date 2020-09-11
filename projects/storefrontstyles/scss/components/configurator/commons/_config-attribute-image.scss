@@ -2,7 +2,6 @@
   margin-left: 20px;
   .cx-config-select {
     padding: 5px;
-    cursor: pointer;
 
     .cx-config-attribute-value-img,
     .cx-config-attribute-value-img-dummy {
@@ -33,6 +32,7 @@
     }
 
     .cx-config-attribute-value-label {
+      cursor: pointer;
       text-align: center;
     }
   }
