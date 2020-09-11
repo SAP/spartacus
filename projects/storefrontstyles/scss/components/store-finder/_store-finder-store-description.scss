@@ -4,7 +4,7 @@
   }
 
   .cx-store {
-    text-align: left;
+    text-align: start;
   }
 
   .cx-store-description-address {
@@ -35,7 +35,7 @@
   }
 
   .cx-hours {
-    text-align: right;
+    text-align: end;
     &.closed {
       color: var(--cx-color-primary);
     }
@@ -46,7 +46,7 @@
   }
 
   .cx-features-header {
-    text-align: left;
+    text-align: start;
   }
 
   .cx-feature-value {
@@ -54,7 +54,7 @@
   }
 
   .cx-feature-item {
-    text-align: left;
+    text-align: start;
   }
   .cx-storeMap {
     height: 70vh;
