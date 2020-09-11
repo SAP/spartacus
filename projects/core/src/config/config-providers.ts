@@ -1,5 +1,5 @@
 import { FactoryProvider, ValueProvider } from '@angular/core';
-import { ConfigChunk, DefaultConfigChunk } from './config-injectors';
+import { ConfigChunk, DefaultConfigChunk } from './config-tokens';
 
 /**
  * Helper function to provide configuration chunk using ConfigChunk token

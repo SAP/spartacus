@@ -4,7 +4,7 @@ import { META_REDUCERS } from '@ngrx/store';
 import { WindowRef } from '../../window/window-ref';
 import { getStorageSyncReducer } from './storage-sync.reducer';
 import { getTransferStateReducer } from './transfer-state.reducer';
-import { Config } from '../../config/config-injectors';
+import { Config } from '../../config/config-tokens';
 
 export { getStateSlice } from '../utils/get-state-slice';
 export { getStorageSyncReducer } from './storage-sync.reducer';

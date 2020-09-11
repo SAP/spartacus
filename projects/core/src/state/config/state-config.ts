@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../../config/config-injectors';
+import { Config } from '../../config/config-tokens';
 
 export enum StorageSyncType {
   NO_STORAGE = 'NO_STORAGE',

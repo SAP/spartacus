@@ -7,7 +7,7 @@ import {
   RootConfig,
 } from '@spartacus/core';
 
-describe('Config Injectors', () => {
+describe('Config Injector Tokens', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

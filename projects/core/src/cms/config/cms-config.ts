@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Config } from '../../config/config-injectors';
+import { Config } from '../../config/config-tokens';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;

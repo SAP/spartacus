@@ -10,7 +10,7 @@ import {
   DefaultConfig,
   DefaultConfigChunk,
   RootConfig,
-} from '../config-injectors';
+} from '../config-tokens';
 
 @Injectable({
   providedIn: 'root',

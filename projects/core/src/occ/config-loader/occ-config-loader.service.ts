@@ -20,7 +20,7 @@ import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
-import { Config } from '../../config/config-injectors';
+import { Config } from '../../config/config-tokens';
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
   string

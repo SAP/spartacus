@@ -8,4 +8,4 @@ export {
 } from './test-config.module';
 export * from './utils/deep-merge';
 export * from './config-providers';
-export * from './config-injectors';
+export * from './config-tokens';

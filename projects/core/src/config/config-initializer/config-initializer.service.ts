@@ -6,7 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
-import { Config, RootConfig } from '../config-injectors';
+import { Config, RootConfig } from '../config-tokens';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
