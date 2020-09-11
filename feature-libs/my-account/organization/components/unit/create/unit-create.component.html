@@ -9,7 +9,7 @@
         *ngIf="parentUnit$ | async as parentUnit; else orgUnitLink"
         class="link"
         [routerLink]="
-          { cxRoute: 'unitChildren', params: { uid: parentUnit } } | cxUrl
+          { cxRoute: 'orgUnitChildren', params: { uid: parentUnit } } | cxUrl
         "
         (click)="view.toggle()"
       >
@@ -18,7 +18,7 @@
       <ng-template #orgUnitLink>
         <a
           class="link"
-          [routerLink]="{ cxRoute: 'unit' } | cxUrl"
+          [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
           (click)="view.toggle()"
         >
           <cx-icon type="CARET_LEFT"></cx-icon>
@@ -38,7 +38,7 @@
           *ngIf="parentUnit$ | async as parentUnit; else orgUnitButton"
           class="button secondary"
           [routerLink]="
-            { cxRoute: 'unitChildren', params: { uid: parentUnit } } | cxUrl
+            { cxRoute: 'orgUnitChildren', params: { uid: parentUnit } } | cxUrl
           "
           (click)="view.toggle()"
         >
@@ -47,7 +47,7 @@
         <ng-template #orgUnitButton>
           <a
             class="button secondary"
-            [routerLink]="{ cxRoute: 'unit' } | cxUrl"
+            [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
             (click)="view.toggle()"
           >
             {{ 'organization.cancel' | cxTranslate }}

@@ -40,9 +40,9 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
 
   /**
    * @override
-   * Returns 'unitDetails'
+   * Returns 'orgUnitDetailss'
    */
   protected getDetailsRoute(): string {
-    return 'orgUnitDetails';
+    return 'unitDetails';
   }
 }
