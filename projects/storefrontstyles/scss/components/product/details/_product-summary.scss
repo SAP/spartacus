@@ -8,7 +8,10 @@
   }
 
   @include media-breakpoint-up(lg) {
-    padding: 20px 20px 0 20px;
+    padding-top: 20px;
+    padding-inline-end: 20px;
+    padding-bottom: 0px;
+    padding-inline-start: 20px;
   }
 
   .price {
@@ -25,7 +28,10 @@
 
     .info {
       @include type('7');
-      margin: 0 15px 0 15px;
+      margin-top: 0;
+      margin-inline-end: 15px;
+      margin-bottom: 0;
+      margin-inline-start: 15px;
       color: var(--cx-color-secondary);
     }
   }
