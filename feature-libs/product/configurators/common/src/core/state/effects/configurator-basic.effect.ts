@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
-  Configurator,
-  ConfiguratorCommonsConnector,
   GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -21,6 +19,8 @@ import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
+import { Configurator } from './../../model/configurator.model';
 
 @Injectable()
 /**

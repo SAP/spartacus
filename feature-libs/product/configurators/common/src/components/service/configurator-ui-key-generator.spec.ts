@@ -1,4 +1,4 @@
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorUIKeyGenerator } from './configurator-ui-key-generator';
 
 describe('ConfigUIKeyGeneratorService', () => {

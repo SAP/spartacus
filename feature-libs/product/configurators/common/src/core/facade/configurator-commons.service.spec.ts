@@ -5,7 +5,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   StateUtils,
@@ -18,6 +17,7 @@ import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';

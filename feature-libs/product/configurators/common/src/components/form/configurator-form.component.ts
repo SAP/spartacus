@@ -1,17 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  Configurator,
-  GenericConfigurator,
-  LanguageService,
-} from '@spartacus/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/storefront';
+import { GenericConfigurator, LanguageService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 import { ConfigFormUpdateEvent } from './configurator-form.event';
 
 @Component({
@@ -25,7 +20,7 @@ export class ConfiguratorFormComponent implements OnInit {
   > = this.configRouterExtractorService.extractRouterData().pipe(
     filter(
       (routerData) =>
-        routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
+        routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
     ),
     switchMap((routerData) => {
       return this.configuratorCommonsService.getOrCreateConfiguration(

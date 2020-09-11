@@ -4,8 +4,6 @@ import { select, Store } from '@ngrx/store';
 import {
   CartActions,
   CartModification,
-  Configurator,
-  ConfiguratorCommonsConnector,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   normalizeHttpError,
@@ -16,6 +14,8 @@ import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
+import { Configurator } from './../../model/configurator.model';
 
 @Injectable()
 /**

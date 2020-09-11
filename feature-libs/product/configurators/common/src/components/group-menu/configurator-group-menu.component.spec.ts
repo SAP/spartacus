@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfiguratorUtilsService,
   I18nTestingModule,
   RoutingService,
@@ -20,6 +19,7 @@ import {
   productConfiguration,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 let mockGroupVisited = false;
@@ -75,10 +75,6 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-}
-
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -124,7 +120,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: ConfiguratorStorefrontUtilsService,
         },
       ],
     });

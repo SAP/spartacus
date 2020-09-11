@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-overview-attribute',

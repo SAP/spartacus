@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Configurator } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -9,6 +7,8 @@ import {
   take,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-overview-form',

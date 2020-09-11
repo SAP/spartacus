@@ -8,7 +8,6 @@ export * from './src/cart/index';
 export * from './src/checkout/index';
 export * from './src/cms/index';
 export * from './src/config/index';
-export * from './src/configurator/commons/index';
 export * from './src/configurator/generic/index';
 export * from './src/event/index';
 export * from './src/features-config/index';
@@ -32,7 +31,7 @@ export * from './src/util/index';
 export * from './src/window/index';
 
 /** AUGMENTABLE_TYPES_START */
-export { Product } from './src/model/product.model';
-export { ProductSearchPage, Facet } from './src/model/product-search.model';
 export { Cart } from './src/model/cart.model';
+export { Facet, ProductSearchPage } from './src/model/product-search.model';
+export { Product } from './src/model/product.model';
 /** AUGMENTABLE_TYPES_END */

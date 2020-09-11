@@ -7,9 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-attribute-input-field',

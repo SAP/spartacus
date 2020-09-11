@@ -8,8 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import {
   CartActions,
   CartModification,
-  Configurator,
-  ConfiguratorCommonsConnector,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   normalizeHttpError,
@@ -20,7 +18,9 @@ import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/c
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
+import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
 import { ConfiguratorUtilsService } from './../../facade/utils/configurator-utils.service';
+import { Configurator } from './../../model/configurator.model';
 import * as fromEffects from './configurator-cart.effect';
 
 const productCode = 'CONF_LAPTOP';
