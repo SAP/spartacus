@@ -49,6 +49,11 @@ const groupsWithoutIssues: Configurator.Group = {
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  totalNumberOfIssues: 0,
+  owner: {
+    id: PRODUCT_CODE,
+    type: GenericConfigurator.OwnerType.PRODUCT,
+  },
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
 };
@@ -237,6 +242,7 @@ export const productConfiguration: Configurator.Configuration = {
 export const productConfigurationWithConflicts: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  totalNumberOfIssues: 3,
   groups: [
     {
       id: GROUP_ID_CONFLICT_HEADER,
