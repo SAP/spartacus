@@ -80,13 +80,13 @@ export class ConfiguratorGroupMenuComponent {
   ) {}
 
   /**
-   * Executes a click event to the given group.
+   * Fired on key board events, checks for 'enter' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
-    if (event.which === 13) {
+    if (event.code === 'Enter') {
       this.click(group);
     }
   }
@@ -110,12 +110,12 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Navigates to the subgroup.
+   * Fired on key board events, checks for 'enter' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.which === 13) {
+    if (event.code === 'Enter') {
       this.navigateUp();
     }
   }

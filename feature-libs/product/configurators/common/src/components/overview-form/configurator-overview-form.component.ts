@@ -20,7 +20,7 @@ export class ConfiguratorOverviewFormComponent {
     Configurator.Configuration
   > = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
+      this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
     ),
     distinctUntilKeyChanged('configId'),
     switchMap((configuration) =>
