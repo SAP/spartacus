@@ -103,8 +103,9 @@ export class AsmAuthService extends AuthService {
       // TODO: For csagent target store emulated token
 
       this.cxOAuthService.tryLogin().then((result) => {
-        console.log(result);
-        if (result) {
+        const token = this.authStorageService.getItem('access_token');
+        // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
+        if (result && token) {
           if (tokenTarget === TokenTarget.User) {
             this.userIdService.setUserId(OCC_USER_ID_CURRENT);
             this.store.dispatch(new AuthActions.Login());
