@@ -3,7 +3,12 @@ import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 
 import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
-import { WorkspaceProject, WorkspaceSchema, WorkspaceTargets, ProjectType } from '@schematics/angular/utility/workspace-models';
+import {
+  WorkspaceProject,
+  WorkspaceSchema,
+  WorkspaceTargets,
+  ProjectType,
+} from '@schematics/angular/utility/workspace-models';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
@@ -97,11 +102,11 @@ export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
 export function getProjectTargets(
   workspaceOrHost: WorkspaceSchema | Tree,
-  projectName: string,
+  projectName: string
 ): WorkspaceTargets;
 export function getProjectTargets(
   projectOrHost: WorkspaceProject | Tree | WorkspaceSchema,
-  projectName = '',
+  projectName = ''
 ): WorkspaceTargets {
   const project = isWorkspaceProject(projectOrHost)
     ? projectOrHost
@@ -124,14 +129,17 @@ export function buildDefaultPath(project: WorkspaceProject): string {
     ? `/${project.sourceRoot}/`
     : `/${project.root}/src/`;
 
-  const projectDirName = project.projectType === ProjectType.Application ? 'app' : 'lib';
+  const projectDirName =
+    project.projectType === ProjectType.Application ? 'app' : 'lib';
 
   return `${root}${projectDirName}`;
 }
 
-export function getProject<TProjectType extends ProjectType = ProjectType.Application>(
+export function getProject<
+  TProjectType extends ProjectType = ProjectType.Application
+>(
   workspaceOrHost: WorkspaceSchema | Tree,
-  projectName: string,
+  projectName: string
 ): WorkspaceProject<TProjectType> {
   const workspace = isWorkspaceSchema(workspaceOrHost)
     ? workspaceOrHost
@@ -142,7 +150,9 @@ export function getProject<TProjectType extends ProjectType = ProjectType.Applic
 
 // TODO(hans): change this any to unknown when google3 supports TypeScript 3.0.
 // tslint:disable-next-line:no-any
-export function isWorkspaceSchema(workspace: any): workspace is WorkspaceSchema {
+export function isWorkspaceSchema(
+  workspace: any
+): workspace is WorkspaceSchema {
   return !!(workspace && (workspace as WorkspaceSchema).projects);
 }
 
