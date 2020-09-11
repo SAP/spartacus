@@ -57,9 +57,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       {},
       {
         query,
-        pageSize: searchConfig.pageSize,
-        currentPage: searchConfig.currentPage,
-        sort: searchConfig.sortCode,
+        ...searchConfig,
       }
     );
   }

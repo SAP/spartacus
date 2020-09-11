@@ -15,7 +15,7 @@ $gutterSize: 15px;
     margin: 0 -#{$gutterSize} 40px -#{$gutterSize};
 
     button {
-      margin: 0 0 0 auto;
+      margin-inline-start: auto;
     }
     .rating {
       flex-basis: 100%;
@@ -59,7 +59,7 @@ $gutterSize: 15px;
     }
     .name,
     .date {
-      text-align: left;
+      text-align: start;
     }
   }
 

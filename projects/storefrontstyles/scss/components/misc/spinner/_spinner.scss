@@ -14,7 +14,10 @@
 %cx-spinner {
   .loader-container {
     position: relative;
-    margin: 30px auto;
+    margin-top: 30px;
+    margin-inline-end: auto;
+    margin-bottom: 30px;
+    margin-inline-start: auto;
     width: var(--cx-spinner-radius);
     height: var(--cx-spinner-radius);
   }
