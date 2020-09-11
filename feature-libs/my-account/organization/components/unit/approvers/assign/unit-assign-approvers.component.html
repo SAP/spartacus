@@ -1,0 +1,140 @@
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+      {{ 'organization.back' | cxTranslate }}
+    </a>
+    <span>{{
+      'unit.assignApprovers.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
+
+  <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+    <section>
+      <cx-table
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+      >
+      </cx-table>
+      <cx-pagination
+        *ngIf="dataTable.pagination"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </section>
+    <div class="instructions">
+      <ul>
+        <li>
+          {{ 'unit.assignApprovers.instructions.check' | cxTranslate }}
+        </li>
+        <li>
+          {{ 'unit.assignApprovers.instructions.uncheck' | cxTranslate }}
+        </li>
+        <li>
+          {{ 'unit.assignApprovers.instructions.changes' | cxTranslate }}
+        </li>
+      </ul>
+      <a
+        class="button secondary"
+        [routerLink]="
+          { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
+        "
+      >
+        {{ 'unit.back' | cxTranslate }}
+      </a>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.selected" let-model>
+    <label>
+      <input
+        type="checkbox"
+        [checked]="model.selected"
+        (change)="toggleAssign(orgUnitCode, model.code, $event.target.checked)"
+      />
+    </label>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small>
+      {{ model.email
+      }}<span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}</span
+      >
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.name" let-model>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="model.selected"
+          (change)="
+            toggleAssign(orgUnitCode, model.customerId, $event.target.checked)
+          "
+        />
+      </label>
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'userDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.name }}
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.roles" let-model>
+    <small>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignApprovers.data.orgUnit" let-model>
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitDetails',
+          params: model.orgUnit
+        } | cxUrl
+      "
+    >
+      {{ model.orgUnit.name }}
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>

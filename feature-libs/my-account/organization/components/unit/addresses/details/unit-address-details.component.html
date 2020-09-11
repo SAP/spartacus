@@ -1,0 +1,93 @@
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <ng-container *ngIf="address$ | async as orgUnitAddress">
+    <h3>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'orgUnitManageAddresses', params: { uid: orgUnitCode } }
+            | cxUrl
+        "
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.close' | cxTranslate }}
+      </a>
+      <span>{{
+        'unit.addressDetails.header'
+          | cxTranslate
+            : { name: orgUnitAddress.firstName + ' ' + orgUnitAddress.lastName }
+      }}</span>
+    </h3>
+
+    <div class="actions">
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitAddressEdit',
+            params: { uid: orgUnitCode, id: orgUnitAddress.id }
+          } | cxUrl
+        "
+      >
+        {{ 'organization.edit' | cxTranslate }}
+      </a>
+      <button
+        class="link"
+        (click)="openModal(orgUnitAddress, confirmDeleteAddress)"
+      >
+        {{ 'organization.delete' | cxTranslate }}
+      </button>
+    </div>
+
+    <section>
+      <div class="details">
+        <div class="property">
+          <label>{{ 'unit.uid' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnitAddress.id }}
+          </span>
+        </div>
+        <div class="property">
+          <label>{{ 'unit.name' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnitAddress.firstName }} {{ orgUnitAddress.lastName }}
+          </span>
+        </div>
+        <div class="property">
+          <label>{{ 'organization.details' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnitAddress.formattedAddress }}
+          </span>
+        </div>
+        <div class="property">
+          <label>{{ 'unit.unit' | cxTranslate }}</label>
+          <span class="value">
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orgUnitDetails',
+                  params: { uid: orgUnitCode }
+                } | cxUrl
+              "
+            >
+              {{ (unit$ | async).name }}
+              <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+            </a>
+          </span>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</cx-view>
+
+<router-outlet></router-outlet>
+
+<ng-template #confirmDeleteAddress>
+  <cx-confirm-modal
+    [title]="'unit.manageAddresses.confirmDeleteAddress.title' | cxTranslate"
+    [message]="
+      'unit.manageAddresses.confirmDeleteAddress.message' | cxTranslate
+    "
+    (confirm)="deleteAddress()"
+  ></cx-confirm-modal>
+</ng-template>

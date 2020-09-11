@@ -1,0 +1,67 @@
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+    </a>
+    <span>{{
+      'unit.costCenters.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
+
+  <div class="actions">
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'costCenterCreate'
+        } | cxUrl
+      "
+      [queryParams]="{ parentUnit: orgUnitCode }"
+    >
+      {{ 'unit.costCenters.new' | cxTranslate }}
+    </a>
+  </div>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitCostCenters.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small>
+      {{ model.code }}
+      <span *ngIf="model.currency">• {{ model.currency.isocode }}</span>
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitCostCenters.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'costCenterDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>
+
+<router-outlet></router-outlet>
