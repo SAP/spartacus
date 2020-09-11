@@ -1,5 +1,8 @@
 %cx-return-request-totals {
-  padding: 2rem 2.5rem 0;
+  padding-top: 2rem;
+  padding-inline-end: 2.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 2.5rem;
 
   h4 {
     text-transform: uppercase;
@@ -27,8 +30,14 @@
   }
   .cx-coupon-code-pill {
     background: var(--cx-g-color-light);
-    padding: 7px 15px 7px 13px;
-    margin: 10px 10px 5px 0;
+    padding-top: 7px;
+    padding-inline-end: 15px;
+    padding-bottom: 7px;
+    padding-inline-start: 13px;
+    margin-top: 10px;
+    margin-inline-end: 10px;
+    margin-bottom: 5px;
+    margin-inline-start: 0;
     display: inline-flex;
     align-items: flex-start;
     border-radius: 4px;

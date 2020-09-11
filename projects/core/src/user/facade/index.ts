@@ -8,3 +8,4 @@ export * from './order-return-request.service';
 export * from './user.service';
 export * from './user-notification-preference.service';
 export * from './user-interests.service';
+export * from './user-cost-center.service';
