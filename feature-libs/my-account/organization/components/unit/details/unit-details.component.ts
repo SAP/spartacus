@@ -1,30 +1,18 @@
-import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { ModalService } from '@spartacus/storefront';
-import { CurrentUnitService } from '../current-unit.service';
+import { Observable } from 'rxjs';
+import { shareReplay, switchMap } from 'rxjs/operators';
+import { OrganizationItemService } from '../../shared/organization-item.service';
 
 @Component({
-  selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitDetailsComponent {
-  orgUnit$ = this.currentUnitService.item$;
+  model$: Observable<B2BUnit> = this.itemService.key$.pipe(
+    switchMap((code) => this.itemService.load(code)),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
 
-  constructor(
-    protected orgUnitsService: OrgUnitService,
-    protected modalService: ModalService,
-    protected currentUnitService: CurrentUnitService
-  ) {}
-
-  update(orgUnit: B2BUnit) {
-    this.orgUnitsService.update(orgUnit.uid, orgUnit);
-  }
-
-  openModal(template: TemplateRef<any>): void {
-    this.modalService.open(template, {
-      centered: true,
-    });
-  }
+  constructor(protected itemService: OrganizationItemService<B2BUnit>) {}
 }

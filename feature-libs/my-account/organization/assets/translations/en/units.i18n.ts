@@ -5,7 +5,20 @@ export const unit = {
   uid: 'ID',
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
-  back: 'Back',
+
+  details: {
+    title: 'Unit Details',
+    subtitle: 'Unit: {{ item.name }}',
+  },
+
+  links: {
+    units: 'Child Units',
+    users: 'Users',
+    approvers: 'Approvers',
+    shippingAddresses: 'Shipping Addresses',
+    costCenters: 'Cost Centers',
+  },
+
   confirmDeactivation: {
     title: 'Disable Unit',
     message: 'Are you sure you want to disable this unit?',
@@ -21,14 +34,6 @@ export const unit = {
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
     upOneLevel: 'Up one level',
-  },
-  details: {
-    header: 'Details for {{code}}',
-    children: 'Child Units',
-    users: 'Users',
-    approvers: 'Approvers',
-    shippingAddresses: 'Shipping Addresses',
-    costCenters: 'Cost Centers',
   },
   children: {
     header: 'Child Units in {{code}}',

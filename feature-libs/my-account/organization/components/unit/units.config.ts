@@ -6,6 +6,8 @@ import {
 } from '@spartacus/core';
 import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
 import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
@@ -19,6 +21,8 @@ import { UnitCreateComponent } from './create/unit-create.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitEditComponent } from './edit/unit-edit.component';
 import { UnitListComponent } from './list/unit-list.component';
+import { UnitItemService } from './services/unit-item.service';
+import { UnitListService } from './services/unit-list.service';
 import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
 import { UnitUserListComponent } from './users/list/unit-user-list.component';
 
@@ -95,6 +99,16 @@ export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
       component: UnitListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UnitListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: UnitItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
