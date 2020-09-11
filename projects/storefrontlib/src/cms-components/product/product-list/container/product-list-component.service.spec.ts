@@ -216,7 +216,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ sortCode: 'name-asc' })
+          jasmine.objectContaining({ sort: 'name-asc' })
         );
       });
     });

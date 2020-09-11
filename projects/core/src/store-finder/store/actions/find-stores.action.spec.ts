@@ -1,6 +1,6 @@
 import { GeoPoint } from '../../../model/misc.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import { StateUtils } from '../../../state/utils/index';
-import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';
 
@@ -17,7 +17,7 @@ describe('Find Stores Actions', () => {
 
   describe('FindStores', () => {
     it('should create FindStores action', () => {
-      const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
+      const searchConfig: SearchConfig = { pageSize: 10 };
       const longitudeLatitude: GeoPoint = {
         longitude: 10.1,
         latitude: 20.2,
