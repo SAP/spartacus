@@ -47,7 +47,7 @@
 
       <div class="footer">
         <cx-pagination
-          *ngIf="dataTable.pagination"
+          *ngIf="dataTable.pagination?.currentPage"
           [pagination]="dataTable.pagination"
           (viewPageEvent)="browse(dataTable.pagination, $event)"
         ></cx-pagination>
