@@ -30,7 +30,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 })
 export class ToggleLinkCellComponent extends OrganizationCellComponent {
   @HostBinding('style.--cx-nest-level')
-  nestLevel = this.model.level;
+  nestLevel = this.model.depthLevel;
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,

@@ -8,8 +8,8 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { OrganizationTableType } from '../../shared/organization.model';
 
 interface TreeAction {
-  prepareUnit(child, level): any;
-  next(array: B2BUnitNode[], child, level, pagination): void;
+  prepareUnit(child, depthLevel): any;
+  next(array: B2BUnitNode[], child, depthLevel, pagination): void;
 }
 
 // toggle?: string;
@@ -19,9 +19,9 @@ interface TreeAction {
 class ToggleAction implements TreeAction {
   constructor(private id: string, private unitListService: UnitListService) {}
 
-  prepareUnit(child, level) {
+  prepareUnit(child, depthLevel) {
     return this.unitListService.prepareUnit(child, {
-      level,
+      depthLevel,
       expanded:
         child.id === this.id
           ? !this.unitListService.isExpandedNodeMap[child.id]
@@ -30,43 +30,43 @@ class ToggleAction implements TreeAction {
     });
   }
 
-  next(array: B2BUnitNode[], child, level, pagination) {
+  next(array: B2BUnitNode[], child, depthLevel, pagination) {
     this.unitListService.flatten(
       array,
       child.children,
-      level + 1,
+      depthLevel,
       pagination,
       child.id === this.id && !this.unitListService.isExpandedNodeMap[child.id]
-        ? new CollapseFromAction(level, this.unitListService)
+        ? new CollapseFromLevelAction(depthLevel, this.unitListService)
         : this
     );
   }
 }
 
-class CollapseFromAction implements TreeAction {
+class CollapseFromLevelAction implements TreeAction {
   constructor(
-    private level: number,
+    private depthLevel: number,
     private unitListService: UnitListService
   ) {}
 
-  prepareUnit(child, level) {
+  prepareUnit(child, depthLevel) {
     return this.unitListService.prepareUnit(child, {
-      level,
+      depthLevel,
       expanded:
-        this.level > level
+        this.depthLevel > depthLevel
           ? this.unitListService.isExpandedNodeMap[child.id]
           : false,
-      visible: this.level > level,
+      visible: this.depthLevel > depthLevel,
     });
   }
 
-  next(array: B2BUnitNode[], child, level, pagination) {
+  next(array: B2BUnitNode[], child, depthLevel, pagination) {
     this.unitListService.flatten(
       array,
       child.children,
-      level + 1,
+      depthLevel,
       pagination,
-      new CollapseFromAction(level + 1, this.unitListService)
+      new CollapseFromLevelAction(depthLevel, this.unitListService)
     );
   }
 }
@@ -80,7 +80,7 @@ class CollapseFromAction implements TreeAction {
 export class UnitListService extends OrganizationListService<B2BUnit> {
   protected tableType = OrganizationTableType.UNIT;
   protected treeAction$ = new BehaviorSubject<TreeAction>(
-    new CollapseFromAction(2, this)
+    new CollapseFromLevelAction(2, this)
   );
   constructor(
     protected tableService: TableService,
@@ -105,29 +105,30 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   public flatten(
     array: B2BUnitNode[],
     children: B2BUnitNode[],
-    level,
+    depthLevel,
     pagination,
     action: TreeAction
   ) {
     children.forEach((child) => {
       array.push(
-        action.prepareUnit(child, level)
-        // this.prepareUnit(child, { level, expanded: true, visible: true })
+        action.prepareUnit(child, depthLevel)
+        // this.prepareUnit(child, { depthLevel, expanded: true, visible: true })
       );
       pagination.totalResults++;
-      action.next(array, child, level, pagination);
-      // this.flatten(array, child.children, level + 1, pagination, action);
+      depthLevel++;
+      action.next(array, child, depthLevel, pagination);
+      // this.flatten(array, child.children, depthLevel + 1, pagination, action);
     });
   }
 
-  public prepareUnit(unit: B2BUnitNode, { level, expanded, visible }) {
+  public prepareUnit(unit: B2BUnitNode, { depthLevel, expanded, visible }) {
     this.isExpandedNodeMap[unit.id] = expanded;
     return {
       uid: unit.id,
       name: unit.name,
       active: unit.active,
       count: unit.children?.length ?? 0,
-      level,
+      depthLevel,
       expanded,
       visible,
     };
@@ -137,11 +138,11 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     root: B2BUnitNode,
     action: TreeAction
   ): EntitiesModel<B2BUnit> {
-    const level = 0,
+    const depthLevel = 0,
       pagination = { totalResults: 0 },
       units = [];
 
-    this.flatten(units, [root], level, pagination, action);
+    this.flatten(units, [root], depthLevel, pagination, action);
     return {
       // values: units.filter((unit) => unit.visible),
       values: units,
