@@ -101,21 +101,31 @@ export class GoogleMapRendererService {
           this.storeDataService.getStoreLongitude(element)
         ),
         label: index + 1 + '',
+        ...this.getExtendedMarkerOptions(element, index),
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.addListener('mouseover', function () {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-      });
-      marker.addListener('mouseout', function () {
-        marker.setAnimation(null);
-      });
+      if (this.config.googleMaps.animate) {
+        marker.addListener('mouseover', function () {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        });
+        marker.addListener('mouseout', function () {
+          marker.setAnimation(null);
+        });
+      }
       if (selectMarkerHandler) {
         marker.addListener('click', function () {
           selectMarkerHandler(index);
         });
       }
     });
+  }
+
+  private getExtendedMarkerOptions(element, index): google.maps.MarkerOptions {
+    if (this.config.googleMaps.markerConfig) {
+      return this.config.googleMaps.markerConfig(element, index);
+    }
+    return {};
   }
 
   /**

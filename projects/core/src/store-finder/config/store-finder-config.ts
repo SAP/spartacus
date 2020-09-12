@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config.module';
 
@@ -12,5 +13,7 @@ export abstract class StoreFinderConfig {
     scale?: number;
     selectedMarkerScale?: number;
     radius?: number;
+    animate?: boolean;
+    markerConfig?: (element: any, index: number) => google.maps.MarkerOptions;
   };
 }
