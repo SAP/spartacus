@@ -21,6 +21,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
       [tabIndex]="tabIndex"
     >
       <span class="text">{{ property }} ({{ count }})</span>
+      _{{ visible }}_
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +43,11 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   get expanded() {
     return this.model.expanded;
+  }
+
+  //todo temporary
+  get visible() {
+    return this.model.visible;
   }
 
   get level() {
