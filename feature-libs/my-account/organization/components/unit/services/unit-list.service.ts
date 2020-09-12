@@ -98,12 +98,6 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     );
   }
 
-  // protected load(): Observable<EntitiesModel<B2BUnit>> {
-  //   return this.unitService
-  //     .getTree()
-  //     .pipe(map((raw) => this.convertUnits(raw)));
-  // }
-
   key(): string {
     return 'uid';
   }
@@ -144,12 +138,10 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     action: TreeAction
   ): EntitiesModel<B2BUnit> {
     const level = 0,
-      pagination = { totalResults: 0 };
-    const units = [action.prepareUnit(root, level)];
-    // action.prepareUnit(root, level)
+      pagination = { totalResults: 0 },
+      units = [];
 
-    // this.flatten(units, [root], level, pagination, action);
-    action.next(units, root, level, pagination);
+    this.flatten(units, [root], level, pagination, action);
     return {
       // values: units.filter((unit) => unit.visible),
       values: units,

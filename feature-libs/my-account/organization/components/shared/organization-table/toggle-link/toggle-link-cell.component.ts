@@ -20,7 +20,9 @@ import { OrganizationCellComponent } from '../organization-cell.component';
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [tabIndex]="tabIndex"
     >
-      <span class="text">{{ property }} ({{ count }})</span>
+      <span class="text" [ngStyle]="{ color: visible ? 'initial' : 'grey' }"
+        >{{ property }} ({{ count }})</span
+      >
       _{{ visible }}_
     </a>
   `,
