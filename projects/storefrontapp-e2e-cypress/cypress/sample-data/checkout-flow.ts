@@ -26,6 +26,32 @@ export interface SampleUser {
   };
 }
 
+export interface SimpleUser {
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  password?: string;
+  email?: string;
+  phone?: string;
+  address?: {
+    city?: string;
+    line1?: string;
+    line2?: string;
+    country?: string;
+    state?: string;
+    postal?: string;
+  };
+  payment?: {
+    card?: string;
+    number?: string;
+    expires?: {
+      month?: string;
+      year?: string;
+    };
+    cvv?: string;
+  };
+}
+
 export interface SampleProduct {
   name: string;
   code: string;
