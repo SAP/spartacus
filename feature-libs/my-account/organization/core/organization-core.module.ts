@@ -8,7 +8,6 @@ import { PermissionService } from './services/permission.service';
 import { OrgUnitService } from './services/org-unit.service';
 import { UserGroupService } from './services/user-group.service';
 import { OrganizationStoreModule } from './store/organization-store.module';
-
 @NgModule({
   imports: [OrganizationPageMetaModule, OrganizationStoreModule],
 })

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserGroup } from '@spartacus/my-account/organization/core';
+import { CustomFormValidators } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,13 @@ export class UserGroupFormService {
   }
 
   protected build(form: FormGroup) {
-    form.setControl('uid', new FormControl('', Validators.required));
+    form.setControl(
+      'uid',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.noSpecialCharacters,
+      ])
+    );
     form.setControl('name', new FormControl('', Validators.required));
     form.setControl(
       'orgUnit',

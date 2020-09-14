@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -14,6 +15,8 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionCreateComponent } from './create/permission-create.component';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
+import { ActivePermissionGuard } from './guards/active-permission.guard';
+import { ExistPermissionGuard } from './guards/exist-permission.guard';
 import { PermissionListComponent } from './list/permission-list.component';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
@@ -56,14 +59,16 @@ export const permissionCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
+          canActivate: [ExistPermissionGuard],
           canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: `:${ROUTE_PARAMS.permissionCode}/edit`,
           component: PermissionEditComponent,
+          canActivate: [ActivePermissionGuard],
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

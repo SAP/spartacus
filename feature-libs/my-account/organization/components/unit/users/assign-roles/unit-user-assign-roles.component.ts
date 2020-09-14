@@ -3,9 +3,9 @@ import { B2BUser, PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
 import { UnitUserAssignRolesService } from './unit-user-assign-roles.service';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-unit-user-assign-roles',
@@ -13,8 +13,8 @@ import { UnitUserAssignRolesService } from './unit-user-assign-roles.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitUserAssignRolesComponent {
-  readonly rolesMap = UnitRoleType;
-  protected readonly B2B_CUSTOMER_ROLE_ID = UnitRoleType.CUSTOMER;
+  readonly rolesMap = UserRole;
+  protected readonly B2B_CUSTOMER_ROLE_ID = UserRole.CUSTOMER;
 
   code$ = this.currentUnitService.key$;
 

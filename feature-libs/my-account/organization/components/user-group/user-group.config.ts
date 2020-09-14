@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -14,6 +15,7 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
+import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupListComponent } from './list/user-group-list.component';
 import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
@@ -79,6 +81,7 @@ export const userGroupCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
+          canActivate: [ExistUserGroupGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -112,7 +115,7 @@ export const userGroupCmsConfig: CmsConfig = {
           component: UserGroupEditComponent,
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };
