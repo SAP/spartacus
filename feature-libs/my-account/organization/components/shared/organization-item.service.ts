@@ -22,23 +22,26 @@ export abstract class OrganizationItemService<T> {
 
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
-  unit$ = this.currentItemService.b2bUnit$;
+  unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
   save(form: FormGroup, key?: string) {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
     } else {
-      form.disable();
+      console.log('before', form.value, form.getRawValue());
+      const formValue = form.value;
+      // form.disable();
+      console.log('after', form.value, form.getRawValue());
       if (key) {
-        this.update(key, form.value);
+        this.update(key, formValue);
       } else {
-        this.create(form.value);
+        this.create(formValue);
       }
       // this potentially fails when creating/saving takes time:
       // - the new item might not yet exists and therefor will fail with a 404 in case of routing
       // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
-      this.launchDetails(form.value);
+      this.launchDetails(formValue);
     }
   }
 

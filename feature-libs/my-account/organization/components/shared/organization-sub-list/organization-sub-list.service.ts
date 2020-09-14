@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { EntitiesModel } from 'projects/core/src/model/misc.model';
 import { OrganizationListService } from '../organization-list';
 import { BaseItem } from '../organization.model';
 
@@ -19,8 +19,8 @@ export abstract class OrganizationSubListService<
   };
 
   // TODO: abstract
-  assign(_key: string, _linkKey: string) {}
-  unassign(_key: string, _linkKey: string) {}
+  assign(_key: string, ..._args: any) {}
+  unassign(_key: string, ..._args: any) {}
 
   /**
    * As we can't filter with the backend API, we do this client side.

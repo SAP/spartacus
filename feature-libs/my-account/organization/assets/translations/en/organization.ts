@@ -6,7 +6,17 @@ import {
 } from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
-import { unit, unitAssignedApprovers, unitAssignedRoles } from './units.i18n';
+import {
+  unit,
+  unitAddress,
+  unitApprovers,
+  unitAssignedApprovers,
+  unitAssignedRoles,
+  unitAssignedUsers,
+  unitChildren,
+  unitCostCenters,
+  unitUsers,
+} from './units.i18n';
 import {
   userGroup,
   userGroupAssignedPermissions,
@@ -76,8 +86,15 @@ export const organization = {
   budget,
   budgetAssignedCostCenters,
   unit,
-  unitAssignedRoles,
+  unitChildren,
+  unitApprovers,
   unitAssignedApprovers,
+  unitAssignedRoles,
+  unitUsers,
+  unitAssignedUsers,
+  unitCostCenters,
+  unitAddress,
+
   userGroup,
   userGroupUsers,
   userGroupAssignedUsers,

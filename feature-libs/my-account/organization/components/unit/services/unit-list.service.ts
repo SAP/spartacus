@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { OrgUnitService } from '../../../core/services/org-unit.service';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 

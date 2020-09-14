@@ -6,6 +6,7 @@ export const ROUTE_PARAMS = {
   userCode: 'userCode',
   userGroupCode: 'userGroupCode',
   permissionCode: 'permissionCode',
+  addressCode: 'addressId',
 };
 export const QUERY_PARAMS = {
   parentUnit: 'parentUnit',

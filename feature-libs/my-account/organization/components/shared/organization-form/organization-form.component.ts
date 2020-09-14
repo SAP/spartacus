@@ -26,8 +26,8 @@ export class OrganizationFormComponent<T> {
   i18n: string;
 
   form$: Observable<FormGroup> = this.itemService.unit$.pipe(
-    switchMap((unitUid) => {
-      return this.itemService.current$.pipe(
+    switchMap((unitUid) =>
+      this.itemService.current$.pipe(
         map((item) => {
           this.setI18nRoot(item);
           if (!item && unitUid) {
@@ -36,8 +36,8 @@ export class OrganizationFormComponent<T> {
           }
           return this.itemService.getForm(item);
         })
-      );
-    })
+      )
+    )
   );
 
   constructor(protected itemService: OrganizationItemService<T>) {}

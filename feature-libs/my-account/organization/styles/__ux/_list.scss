@@ -127,7 +127,7 @@ cx-organization-form {
       }
       tr {
         :hover {
-          background: none;
+          // background: none;
         }
         &:focus-within {
           outline: none;
@@ -149,7 +149,8 @@ cx-organization-form {
         th:last-child,
         td:last-child {
           width: 1px;
-          background-image: none;
+          // padding-inline-end: 20px;
+          // background-image: none;
         }
       }
     }

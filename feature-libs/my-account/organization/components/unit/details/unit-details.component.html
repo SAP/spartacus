@@ -87,9 +87,7 @@
     </a>
     <a
       class="link"
-      [routerLink]="
-        { cxRoute: 'orgUnitManageAddresses', params: model } | cxUrl
-      "
+      [routerLink]="{ cxRoute: 'unitAddressList', params: model } | cxUrl"
       routerLinkActive="is-current"
     >
       {{ 'unit.links.shippingAddresses' | cxTranslate }}

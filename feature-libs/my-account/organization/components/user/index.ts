@@ -1,10 +1,9 @@
+export * from './approvers/index';
 export * from './change-password-form/index';
-export * from './change-password/index';
 export * from './details/index';
 export * from './form/index';
-// export * from './permissions/assign/index';
-// export * from './permissions/list/index';
+export * from './permissions/index';
 export * from './services/index';
 export * from './user-components.module';
-// export * from './user-groups/assign/index';
-// export * from './user-groups/list/index';
+export * from './user-groups/index';
+export * from './user.config';
