@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,13 +7,23 @@ import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
+
 describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeInputFieldComponent],
+      declarations: [
+        ConfiguratorAttributeInputFieldComponent,
+        MockFocusDirective,
+      ],
       imports: [ReactiveFormsModule],
       providers: [ConfiguratorUIKeyGenerator],
     })

@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -104,6 +104,14 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
@@ -113,7 +121,7 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorProductTitleComponent],
+      declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
       providers: [
         {
           provide: Router,

@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -43,7 +43,11 @@ class MockMessageConfig {
     waitingTime: waitingTime,
   };
 }
-
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockCxSpinnerComponent {}
 describe('ConfigurationMessageComponent', () => {
   let component: ConfiguratorMessageComponent;
   let configuratorUtils: GenericConfiguratorUtilsService;
@@ -54,7 +58,7 @@ describe('ConfigurationMessageComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorMessageComponent],
+      declarations: [ConfiguratorMessageComponent, MockCxSpinnerComponent],
       providers: [
         {
           provide: RoutingService,

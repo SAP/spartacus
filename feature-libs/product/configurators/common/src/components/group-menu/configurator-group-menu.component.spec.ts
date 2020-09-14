@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -66,6 +66,12 @@ class MockConfiguratorCommonsService {
     return productConfigurationObservable;
   }
 }
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
 
 @Component({
   selector: 'cx-icon',
@@ -98,7 +104,11 @@ describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorGroupMenuComponent, MockCxIconComponent],
+      declarations: [
+        ConfiguratorGroupMenuComponent,
+        MockCxIconComponent,
+        MockFocusDirective,
+      ],
       providers: [
         HamburgerMenuService,
         {
