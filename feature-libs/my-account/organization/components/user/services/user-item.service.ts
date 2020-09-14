@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Permission, RoutingService } from '@spartacus/core';
+import { B2BUser, Permission, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
@@ -27,7 +27,8 @@ export class UserItemService extends OrganizationItemService<Permission> {
     return this.userService.get(code);
   }
 
-  update(code, value: Budget) {
+  update(code, value: B2BUser) {
+    delete value.approvers;
     this.userService.update(code, value);
   }
 

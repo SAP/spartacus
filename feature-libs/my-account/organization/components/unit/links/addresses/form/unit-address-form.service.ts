@@ -75,8 +75,7 @@ export class UnitAddressFormService extends OrganizationFormService<
 
   getRegions(): Observable<Region[]> {
     return this.getForm()
-      .get('country')
-      .get('isocode')
+      .get('country.isocode')
       .valueChanges.pipe(
         filter((countryIsoCode) => Boolean(countryIsoCode)),
         switchMap((countryIsoCode) =>
