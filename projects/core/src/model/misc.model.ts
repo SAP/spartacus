@@ -40,12 +40,7 @@ export interface User {
   uid?: string;
 }
 
-export interface ListModel {
-  ids: string[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
+// TODO(#8875): Do we need it here?
 export interface EntitiesModel<T> {
   values: T[];
   pagination?: PaginationModel;
