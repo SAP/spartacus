@@ -4,7 +4,7 @@ import { ConfiguratorTextfieldService } from '../../core/facade/configurator-tex
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
-  selector: 'cx-config-textfield-add-to-cart-button',
+  selector: 'cx-configurator-textfield-add-to-cart-button',
   templateUrl: './configurator-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

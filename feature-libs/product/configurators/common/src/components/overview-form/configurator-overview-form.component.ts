@@ -11,7 +11,7 @@ import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-overview-form',
+  selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

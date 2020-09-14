@@ -6,7 +6,7 @@ import { Configurator } from './../../core/model/configurator.model';
 
 export class ConfiguratorUIKeyGenerator {
   private static SEPERATOR = '--';
-  private static PREFIX = 'cx-config';
+  private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';

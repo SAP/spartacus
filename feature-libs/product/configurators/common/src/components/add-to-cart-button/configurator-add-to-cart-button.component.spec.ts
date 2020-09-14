@@ -223,7 +223,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     initialize();
     expect(
       htmlElem
-        .querySelector('.cx-config-add-to-cart-btn')
+        .querySelector('.cx-configurator-add-to-cart-btn')
         .innerHTML.includes('disabled')
     ).toBe(false);
   });
@@ -233,7 +233,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     initialize();
     expect(
       htmlElem
-        .querySelector('.cx-config-add-to-cart-btn')
+        .querySelector('.cx-configurator-add-to-cart-btn')
         .innerHTML.includes('disabled')
     ).toBe(true);
   });

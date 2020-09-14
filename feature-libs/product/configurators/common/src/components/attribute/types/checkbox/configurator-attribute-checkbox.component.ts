@@ -12,7 +12,7 @@ import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key
 import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-attribute-checkbox',
+  selector: 'cx-configurator-attribute-checkbox',
   templateUrl: './configurator-attribute-checkbox.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

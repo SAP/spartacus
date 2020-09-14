@@ -8,7 +8,7 @@ import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-group-title',
+  selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
 })
 export class ConfiguratorGroupTitleComponent {

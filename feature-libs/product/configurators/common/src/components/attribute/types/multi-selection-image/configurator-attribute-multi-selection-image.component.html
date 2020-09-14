@@ -4,7 +4,7 @@
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (click)="onSelect(i)"
     (keyup)="onKeyUp($event, i)"
-    class="cx-config-select col-6 col-sm-3"
+    class="cx-configurator-select col-6 col-sm-3"
     [attr.aria-labelledby]="
       createValueUiKey('label', attribute.name, value.valueCode)
     "
@@ -27,22 +27,22 @@
 
     <img
       *ngIf="value.images[0]"
-      class="cx-config-attribute-value-img"
+      class="cx-configurator-attribute-value-img"
       src="{{ value.images[0].url }}"
       alt="{{ value.images[0].altText }}"
     />
     <div
       *ngIf="!value.images[0]"
-      class="cx-config-attribute-value-img-dummy"
+      class="cx-configurator-attribute-value-img-dummy"
     ></div>
 
-    <div class="cx-config-attribute-value-label-container">
+    <div class="cx-configurator-attribute-value-label-container">
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
           createAttributeValueIdForConfigurator(attribute, value.valueCode)
         }}"
-        class="cx-config-attribute-value-label form-check-label"
+        class="cx-configurator-attribute-value-label form-check-label"
         >{{ value.valueDisplay }}</label
       >
     </div>

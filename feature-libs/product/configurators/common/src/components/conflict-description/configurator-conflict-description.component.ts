@@ -3,7 +3,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-conflict-description',
+  selector: 'cx-configurator-conflict-description',
   templateUrl: './configurator-conflict-description.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

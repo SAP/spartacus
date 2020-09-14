@@ -1,6 +1,6 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="form-check" *ngFor="let value of attribute.values; let i = index">
-    <div class="cx-config-select-line">
+    <div class="cx-configurator-select-line">
       <input
         id="{{
           createAttributeValueIdForConfigurator(attribute, value.valueCode)
@@ -14,13 +14,13 @@
         name="{{ createAttributeIdForConfigurator(attribute) }}"
       />
     </div>
-    <div class="cx-config-attribute-value-label-container">
+    <div class="cx-configurator-attribute-value-label-container">
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
           createAttributeValueIdForConfigurator(attribute, value.valueCode)
         }}"
-        class="cx-config-attribute-value-label form-check-label"
+        class="cx-configurator-attribute-value-label form-check-label"
         >{{ value.valueDisplay }}</label
       >
     </div>
