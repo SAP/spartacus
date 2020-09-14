@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import {
   BREAKPOINT,
   SplitViewDeactivateGuard,
@@ -16,6 +17,8 @@ import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
+import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
+import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
@@ -69,6 +72,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
+          canActivate: [ExistCostCenterGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -88,9 +92,10 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.costCenterCode}/edit`,
           component: CostCenterEditComponent,
+          canActivate: [ActiveCostCenterGuard],
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

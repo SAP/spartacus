@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UnitRoleType } from '../../../shared/organization.model';
 import { CurrentUnitService } from '../../current-unit.service';
-import { UnitUsersService } from './unit-users.service';
+import { UnitUserListService } from './unit-user-list.service';
+import { UserRole } from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-unit-user-list',
@@ -16,12 +16,12 @@ export class UnitUserListComponent {
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitUsersService.getTable(code, UnitRoleType.CUSTOMER)
+      this.unitUserListService.getTable(code, UserRole.CUSTOMER)
     )
   );
 
   constructor(
-    protected unitUsersService: UnitUsersService,
+    protected unitUserListService: UnitUserListService,
     protected currentUnitService: CurrentUnitService
   ) {}
 }
