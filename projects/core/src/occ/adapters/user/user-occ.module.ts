@@ -16,7 +16,6 @@ import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adap
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
-import { OccCostCenterAdapter } from '../organization/occ-cost-center.adapter';
 import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
 import { AnonymousConsentNormalizer } from './converters/anonymous-consents-normalizer';
 import { OccReturnRequestNormalizer } from './converters/occ-return-request-normalizer';
