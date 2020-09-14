@@ -1,17 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { StateUtils } from '../../../state/utils/index';
 import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-
-const mockEmptyReplenishmentOrderList: ReplenishmentOrderList = {
-  replenishmentOrders: [],
-  pagination: {},
-  sorts: [],
-};
 
 const mockReplenishmentOrderList: ReplenishmentOrderList = {
   replenishmentOrders: [],
@@ -22,7 +16,7 @@ const mockReplenishmentOrderList: ReplenishmentOrderList = {
   sorts: [{ code: 'byPage' }],
 };
 
-fdescribe('User Replenishment Orders Selectors', () => {
+describe('UserReplenishmentOrdersSelectors', () => {
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -39,7 +33,13 @@ fdescribe('User Replenishment Orders Selectors', () => {
 
   describe('getReplenishmentOrdersState', () => {
     it('should return Replenishment Orders state', () => {
-      let result: LoaderState<ReplenishmentOrderList>;
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
+
+      let result: StateUtils.LoaderState<ReplenishmentOrderList>;
 
       store
         .pipe(select(UsersSelectors.getReplenishmentOrdersState))
@@ -49,14 +49,20 @@ fdescribe('User Replenishment Orders Selectors', () => {
       expect(result).toEqual({
         loading: false,
         error: false,
-        success: false,
-        value: mockEmptyReplenishmentOrderList,
+        success: true,
+        value: mockReplenishmentOrderList,
       });
     });
   });
 
   describe('getReplenishmentOrders', () => {
     it('should return a user Replenishment Orders', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
+
       let result: ReplenishmentOrderList;
 
       store
@@ -64,13 +70,6 @@ fdescribe('User Replenishment Orders Selectors', () => {
         .subscribe((value) => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(mockEmptyReplenishmentOrderList);
-
-      store.dispatch(
-        new UserActions.LoadUserReplenishmentOrdersSuccess(
-          mockReplenishmentOrderList
-        )
-      );
       expect(result).toEqual(mockReplenishmentOrderList);
     });
   });
@@ -96,20 +95,20 @@ fdescribe('User Replenishment Orders Selectors', () => {
 
   describe('getReplenishmentOrdersSuccess', () => {
     it('should return success flag of Replenishment Orders state', () => {
-      let result: boolean;
-      store
-        .pipe(select(UsersSelectors.getReplenishmentOrdersSuccess))
-        .subscribe((value) => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-
       store.dispatch(
         new UserActions.LoadUserReplenishmentOrdersSuccess(
           mockReplenishmentOrderList
         )
       );
-      expect(result).toEqual(true);
+
+      let result: boolean;
+
+      store
+        .pipe(select(UsersSelectors.getReplenishmentOrdersSuccess))
+        .subscribe((value) => (result = value))
+        .unsubscribe();
+
+      expect(result).toBe(true);
     });
   });
 });
