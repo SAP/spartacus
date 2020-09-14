@@ -4170,24 +4170,6 @@ export namespace Occ {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 
-  export interface Budget {
-    active?: boolean;
-    budget?: number;
-    code?: string;
-    currency?: Currency;
-    endDate?: string;
-    startDate?: string;
-    name?: string;
-    orgUnit?: B2BUnit;
-    costCenters?: CostCenter[];
-  }
-
-  export interface BudgetsList {
-    budgets?: Budget[];
-    pagination?: PaginationModel;
-    sorts?: SortModel[];
-  }
-
   export interface CostCenter {
     active?: string;
     activeFlag?: boolean;
@@ -4204,6 +4186,7 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
+  // TODO(#8878): Which models we can remove from here?
   export interface OrgUnitUserGroup {
     members?: B2BUser[];
     membersCoun?: number;

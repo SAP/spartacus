@@ -16,6 +16,7 @@ import { GlobalMessageActions } from '../../../global-message/store/actions/inde
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
@@ -430,6 +431,7 @@ export class CheckoutEffects {
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(
           mergeMap((data) => [
+            // TODO(#8877): We should trigger load cart not already assign the data. We might have misconfiguration between this cart model and load cart model
             new CartActions.LoadCartSuccess({
               cart: data,
               cartId: payload.cartId,
@@ -446,11 +448,7 @@ export class CheckoutEffects {
             }),
           ]),
           catchError((error) =>
-            of(
-              new CheckoutActions.SetCostCenterFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new CheckoutActions.SetCostCenterFail(normalizeHttpError(error)))
           )
         );
     }),
