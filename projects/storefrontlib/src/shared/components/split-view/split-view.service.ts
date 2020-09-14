@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { SplitViewState } from './split/split-view.model';
@@ -8,14 +8,14 @@ import { SplitViewState } from './split/split-view.model';
  * is maintained for a single split view.
  */
 @Injectable()
-export class SplitViewService {
+export class SplitViewService implements OnDestroy {
   /**
    * Newly added views are hidden by default, unless it is the first view of the split view.
    * The default hide mode can be overridden.
    */
   defaultHideMode = true;
 
-  protected _splitViewCount = 2;
+  protected splitViewCount = 1;
 
   protected _views$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
@@ -33,6 +33,18 @@ export class SplitViewService {
       this.views[position] = state;
       this.updateState(position, state.hidden);
       this._views$.next(this.views);
+    }
+  }
+
+  /**
+   * The split view is based on a number of views that can be used next to each other.
+   * When the number changes (i.e. if the screen goes from wide to small), the visiblity state
+   * of the views should be updated.
+   */
+  updateSplitView(splitViewCount: number) {
+    if (splitViewCount !== this.splitViewCount) {
+      this.splitViewCount = splitViewCount;
+      this.updateState();
     }
   }
 
@@ -115,25 +127,27 @@ export class SplitViewService {
   /**
    * Updates the hidden state of all the views.
    */
-  protected updateState(position: number, hide?: boolean) {
+  protected updateState(position?: number, hide?: boolean) {
     const views = [...this.views];
-    if (views[position]) {
+    if (hide !== undefined && views[position]) {
       views[position].hidden = hide;
     }
     let lastVisible =
       views.length - [...views].reverse().findIndex((view) => !view.hidden) - 1;
-
     if (lastVisible === views.length) {
-      // When there's only 1 view (mobile), we might not find any active
-      // if the user navigates back.
-      lastVisible = position - 1;
+      if (position) {
+        // When there's only 1 view (mobile), we might not find any active
+        // if the user navigates back.
+        lastVisible = position - 1;
+      } else {
+        lastVisible = views.length - 1;
+      }
     }
-
     views.forEach((view, pos) => {
       if (view && pos !== position) {
         // hide other views that are outside the split view
         view.hidden =
-          pos > lastVisible || pos < lastVisible - (this._splitViewCount - 1);
+          pos > lastVisible || pos < lastVisible - (this.splitViewCount - 1);
       }
     });
 
@@ -157,14 +171,18 @@ export class SplitViewService {
    *
    * Defaults to 2.
    */
-  set splitViewCount(count: number) {
-    this._splitViewCount = count;
-  }
+  // set splitViewCount(count: number) {
+  //   this._splitViewCount = count;
+  // }
 
   /**
    * Utility method that resolves all views from the subject.
    */
   protected get views(): SplitViewState[] {
     return this._views$.value;
+  }
+
+  ngOnDestroy() {
+    console.log('destroy split view service');
   }
 }
