@@ -80,6 +80,7 @@ export function verifyProductSearch(
 export function searchResult() {
   cy.server();
   createCameraQuery(QUERY_ALIAS.CAMERA);
+  cy.get('cx-searchbox input').type('camera{enter}');
   cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((xhr) => {
     const cameraResults = xhr.response.body.pagination.totalResults;
 
@@ -256,7 +257,7 @@ export function createProductQuery(
 ): void {
   cy.route(
     'GET',
-    `${searchUrlPrefix}?fields=*&query=${queryId}&pageSize=${pageSize}${currentPage}&lang=en&curr=USD`
+    `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
   ).as(alias);
 }
 
