@@ -1,17 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { B2BUnitNode, B2BUser, UserService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  UserRole,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared';
 import { UserItemService } from '../services/user-item.service';
-
-const ROLES = [
-  'b2bcustomergroup',
-  'b2bmanagergroup',
-  'b2bapprovergroup',
-  'b2badmingroup',
-];
 
 @Component({
   templateUrl: './user-form.component.html',
@@ -29,7 +25,12 @@ export class UserFormComponent implements OnInit {
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   titles$ = this.userService.getTitles();
 
-  availableRoles = ROLES;
+  availableRoles = [
+    UserRole.CUSTOMER,
+    UserRole.MANAGER,
+    UserRole.ADMIN,
+    UserRole.APPROVER,
+  ];
 
   constructor(
     protected itemService: OrganizationItemService<B2BUser>,
@@ -41,31 +42,18 @@ export class UserFormComponent implements OnInit {
     this.unitService.loadList();
   }
 
-  get roles(): FormArray {
-    return this.form.get('roles') as FormArray;
-  }
-
-  onRoleChange(event) {
-    const { value, checked } = event.target;
-    const approver = value === 'b2bapprovergroup';
+  updateRoles(event: MouseEvent) {
+    const { value, checked } = event.target as HTMLInputElement;
     if (checked) {
       this.roles.push(new FormControl(value));
-      if (approver) {
-        this.isAssignedToApprovers.setValue(true);
-      }
-      return;
     } else {
-      this.roles.controls.forEach((ctrl: FormControl, index) => {
-        if (ctrl.value === event.target.value) {
-          this.roles.removeAt(index);
-          if (approver) {
-            this.isAssignedToApprovers.setValue(false);
-          }
-          return;
-        }
-      });
+      this.roles.removeAt(this.roles.value.indexOf(value));
     }
     console.log(this.roles.value);
+  }
+
+  get roles(): FormArray {
+    return this.form.get('roles') as FormArray;
   }
 
   protected get isAssignedToApprovers(): FormControl {

@@ -58,41 +58,43 @@
       <cx-form-errors [control]="form.get('email')"></cx-form-errors>
     </label>
 
-    <div class="full-width">
-      <label aria-required="true">
-        <div formArrayName="roles">
-          <span class="label-content required">
-            {{ 'user.roles' | cxTranslate }}
-          </span>
+    <label aria-required="true" class="full-width" formArrayName="roles">
+      <span class="label-content required">
+        {{ 'user.roles' | cxTranslate }}
+      </span>
 
-          <label
-            class="form-check"
-            *ngFor="let role of availableRoles; let i = index"
-          >
-            <input
-              type="checkbox"
-              class="form-check-input"
-              [value]="role"
-              [checked]="roles.value?.includes(role)"
-              (change)="onRoleChange($event)"
-            />
-            <span class="form-check-label">
-              {{ 'organization.userRoles.' + role | cxTranslate }}
-            </span>
-          </label>
-        </div>
-        <label class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            formControlName="isAssignedToApprovers"
-          />
-          <span class="form-check-label">{{
-            'user.assignApprover' | cxTranslate
-          }}</span>
-        </label>
+      <label
+        class="form-check"
+        *ngFor="let role of availableRoles; let i = index"
+      >
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [value]="role"
+          [checked]="roles.value?.includes(role)"
+          (change)="updateRoles($event)"
+        />
+        <span class="form-check-label">
+          {{ 'organization.userRoles.' + role | cxTranslate }}
+        </span>
       </label>
-    </div>
+    </label>
+
+    <label class="full-width">
+      <span class="label-content required">
+        {{ 'user.unitApprover' | cxTranslate }}
+      </span>
+      <label class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          formControlName="isAssignedToApprovers"
+        />
+        <span class="form-check-label">{{
+          'user.assignApprover' | cxTranslate
+        }}</span>
+      </label>
+    </label>
 
     <label aria-required="true" [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{

@@ -18,19 +18,6 @@ import { OrganizationFormService } from '../../../../shared/organization-form';
 export class UnitAddressFormService extends OrganizationFormService<
   B2BAddress
 > {
-  // TODO: DROP this is for testing only
-  protected get defaultValue(): B2BAddress {
-    return {
-      country: { isocode: 'NL' },
-      titleCode: 'mr',
-      firstName: 'John',
-      lastName: 'Doe',
-      town: 'Amsterdam',
-      line1: 'Church Street 1',
-      postalCode: 'AABB 01',
-    };
-  }
-
   constructor(
     protected userAddressService: UserAddressService,
     protected userService: UserService
@@ -88,8 +75,7 @@ export class UnitAddressFormService extends OrganizationFormService<
 
   getRegions(): Observable<Region[]> {
     return this.getForm()
-      .get('country')
-      .get('isocode')
+      .get('country.isocode')
       .valueChanges.pipe(
         filter((countryIsoCode) => Boolean(countryIsoCode)),
         switchMap((countryIsoCode) =>

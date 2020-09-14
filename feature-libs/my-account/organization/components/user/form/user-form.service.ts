@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
+import { UserRole } from '@spartacus/my-account/organization/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
@@ -10,6 +11,7 @@ import { OrganizationFormService } from '../../shared/organization-form/organiza
 export class UserFormService extends OrganizationFormService<B2BUser> {
   protected build() {
     const form = new FormGroup({});
+    form.setControl('customerId', new FormControl(''));
     form.setControl('titleCode', new FormControl(''));
     form.setControl('firstName', new FormControl('', Validators.required));
     form.setControl('lastName', new FormControl('', Validators.required));
@@ -30,7 +32,7 @@ export class UserFormService extends OrganizationFormService<B2BUser> {
     form.setControl('isAssignedToApprovers', new FormControl(false));
 
     form.get('roles').valueChanges.subscribe((roles: string[]) => {
-      if (roles.includes('b2bapprovergroup')) {
+      if (roles.includes(UserRole.APPROVER)) {
         form.get('isAssignedToApprovers').enable();
       } else {
         form.get('isAssignedToApprovers').disable();
@@ -46,7 +48,9 @@ export class UserFormService extends OrganizationFormService<B2BUser> {
     if (item) {
       const roles = this.form.get('roles') as FormArray;
       item.roles?.forEach((role) => {
-        roles.push(new FormControl(role));
+        if (!(roles.value as string[]).includes(role)) {
+          roles.push(new FormControl(role));
+        }
       });
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { SplitViewState } from './split/split-view.model';
@@ -8,7 +8,7 @@ import { SplitViewState } from './split/split-view.model';
  * is maintained for a single split view.
  */
 @Injectable()
-export class SplitViewService implements OnDestroy {
+export class SplitViewService {
   /**
    * Newly added views are hidden by default, unless it is the first view of the split view.
    * The default hide mode can be overridden.
@@ -167,22 +167,9 @@ export class SplitViewService implements OnDestroy {
   }
 
   /**
-   * Sets the view count for the split view.
-   *
-   * Defaults to 2.
-   */
-  // set splitViewCount(count: number) {
-  //   this._splitViewCount = count;
-  // }
-
-  /**
    * Utility method that resolves all views from the subject.
    */
   protected get views(): SplitViewState[] {
     return this._views$.value;
-  }
-
-  ngOnDestroy() {
-    console.log('destroy split view service');
   }
 }
