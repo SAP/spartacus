@@ -31,18 +31,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   }
 
   /**
-   * Fired on key board events, checks for 'enter' and 'space' and delegates to onClick.
-   *
-   * @param event
-   * @param index Index of selected value
-   */
-  onKeyUp(event: KeyboardEvent, index: number): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
-      this.onClick(index);
-    }
-  }
-
-  /**
    * Fired when value was selected
    * @param index Index of selected value
    */

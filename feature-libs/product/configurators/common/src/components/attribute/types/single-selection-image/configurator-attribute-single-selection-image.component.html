@@ -3,21 +3,6 @@
     *ngFor="let value of attribute.values; let i = index"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     class="cx-config-select col-6 col-sm-3"
-    (click)="onClick(i)"
-    (keyup)="onKeyUp($event, i)"
-    [attr.required]="attribute.required"
-    [attr.aria-labelledby]="
-      createValueUiKey('label', attribute.name, value.valueCode)
-    "
-    role="radio"
-    [attr.aria-checked]="
-      attributeRadioButtonForm.value === value.valueCode ? true : false
-    "
-    [attr.checked]="
-      attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
-    "
-    tabindex="0"
-    [cxFocus]="{ key: attribute.name + '-' + value.name }"
   >
     <input
       id="{{
@@ -29,12 +14,25 @@
       [value]="value.valueCode"
       [formControl]="attributeRadioButtonForm"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
+      (click)="onClick(i)"
+      [attr.required]="attribute.required"
+      [attr.aria-labelledby]="
+        createValueUiKey('label', attribute.name, value.valueCode)
+      "
+      [attr.aria-checked]="
+        attributeRadioButtonForm.value === value.valueCode ? true : false
+      "
+      [attr.checked]="
+        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+      "
+      [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
     <div class="cx-config-attribute-value-label-container">
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+            '-input'
         }}"
         class="cx-config-attribute-value-label form-check-label form-radio-label"
       >

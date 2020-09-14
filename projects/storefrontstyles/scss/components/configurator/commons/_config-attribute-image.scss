@@ -18,7 +18,7 @@
       height: 75%;
     }
 
-    &[aria-checked='true'] {
+    input[aria-checked='true'] + .cx-config-attribute-value-label-container {
       .cx-config-attribute-value-img,
       .cx-config-attribute-value-img-dummy {
         border: var(--cx-color-primary) 3px solid;
@@ -26,9 +26,12 @@
     }
 
     input.form-input {
-      -webkit-appearance: none;
-      visibility: hidden;
-      left: 25px;
+      opacity: 0;
+      position: absolute;
+
+      &:focus + .cx-config-attribute-value-label-container {
+        @include visible-focus();
+      }
     }
 
     .cx-config-attribute-value-label {
