@@ -8,6 +8,7 @@ import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import {
   unit,
+  unitAddress,
   unitApprovers,
   unitAssignedApprovers,
   unitAssignedRoles,
@@ -92,6 +93,8 @@ export const organization = {
   unitUsers,
   unitAssignedUsers,
   unitCostCenters,
+  unitAddress,
+
   userGroup,
   userGroupUsers,
   userGroupAssignedUsers,

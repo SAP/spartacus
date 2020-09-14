@@ -10,6 +10,14 @@ export const unit = {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',
   },
+  edit: {
+    title: 'Edit unit',
+    subtitle: 'Unit: {{ item.name }}',
+  },
+  create: {
+    title: 'Create unit',
+    subtitle: '',
+  },
 
   messages: {
     deactivate: 'Are you sure you want to disable this unit?',
@@ -64,42 +72,10 @@ export const unit = {
       changes: 'Changes are saved automatically.',
     },
   },
-  manageAddresses: {
-    header: 'Manage addresses in {{code}}',
-    create: 'Create new Address',
-    confirmDeleteAddress: {
-      title: 'Confirm address delete',
-      message: 'Are you sure you want to delete this address?',
-    },
-  },
-  addressCreate: {
-    header: 'New shipping address for {{code}}',
-  },
-  addressForm: {
-    country: 'Country',
-    title: 'Title',
-    firstName: 'First name',
-    lastName: 'Last name',
-    address1: 'Address 1',
-    address2: 'Address 2 (optional)',
-    city: 'City',
-    state: 'State',
-    zipCode: 'Zip code',
-    phoneNumber: 'Phone number (optional)',
-    streetAddress: 'Street Address',
-    aptSuite: 'Apt, Suite',
-    selectOne: 'Select One...',
-  },
-  addressDetails: {
-    header: 'Details for {{name}}',
-  },
-  addressEdit: {
-    header: 'Edit shipping address for {{code}}',
-  },
-  costCenters: {
-    header: 'Cost centers in {{code}}',
-    new: 'New cost center',
-  },
+  // costCenters: {
+  //   header: 'Cost centers in {{code}}',
+  //   new: 'New cost center',
+  // },
 };
 
 export const unitChildren = {
@@ -147,3 +123,55 @@ export const unitCostCenters = {
   title: 'Assigned cost centers',
   subtitle: 'Unit: {{item.name}}',
 };
+
+export const unitAddress = {
+  title: 'Shipping addresses',
+  subtitle: 'Unit: {{item.name}}',
+
+  country: 'Country',
+  titles: 'Title',
+  firstName: 'First name',
+  lastName: 'Last name',
+  address1: 'Address',
+  address2: '2nd address (optional)',
+  city: 'City',
+  state: 'State',
+  zipCode: 'Zip code',
+  phoneNumber: 'Phone number (optional)',
+  streetAddress: 'Street Address',
+  aptSuite: 'Apt, Suite',
+  selectOne: 'Select One...',
+
+  details: {
+    title: 'Address details',
+    subtitle: 'Unit {{item.name}}',
+  },
+  edit: {
+    title: 'Edit Address',
+    subtitle: 'Unit: {{ item.name }} (TODO)',
+  },
+  create: {
+    title: 'Create Address',
+    subtitle: 'Unit: {{ item.name }} (TODO)',
+  },
+
+  formattedAddress: 'Address',
+
+  // confirmDeleteAddress: {
+  //   title: 'Confirm address delete',
+  //   message: 'Are you sure you want to delete this address?',
+  // },
+};
+
+// addressCreate: {
+//   header: 'New shipping address for {{code}}',
+// },
+// addressForm: {
+// },
+// addressDetails: {
+//   header: 'Details for {{name}}',
+// },
+// addressEdit: {
+//   header: 'Edit shipping address for {{code}}',
+// },
+// }

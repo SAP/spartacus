@@ -10,7 +10,7 @@ export enum OrganizationTableType {
   UNIT_APPROVERS = 'unitApprovers',
   UNIT_ASSIGNED_APPROVERS = 'unitAssignedApprovers',
   UNIT_ASSIGNED_ROLES = 'unitAssignRoles',
-  UNIT_MANAGE_ADDRESSES = 'unitManageAddresses',
+  UNIT_ADDRESS = 'unitAddress',
   UNIT_COST_CENTERS = 'unitCostCenters',
   USER_GROUP = 'userGroup',
   USER_GROUP_USERS = 'userGroupUsers',
@@ -40,6 +40,7 @@ export type BaseItem = {
   selected?: boolean;
   // tmp alternative "key"
   customerId?: string;
+  id?: string;
 
   active?: boolean;
   orgUnit?: any;

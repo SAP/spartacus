@@ -7,6 +7,7 @@ import {
 import { UnitDetailsModule } from './details/unit-details.module';
 import { UnitFormModule } from './form';
 import { UnitCostCenterListModule } from './links';
+import { UnitAddressModule } from './links/addresses/unit-address.module';
 import { UnitApproverListModule } from './links/approvers/unit-approver-list.module';
 import { UnitChildrenModule } from './links/children/unit-children.module';
 import { UnitUserListModule } from './links/users/unit-user-list.module';
@@ -27,14 +28,7 @@ import {
     UnitApproverListModule,
     UnitUserListModule,
     UnitCostCenterListModule,
-    // UnitUserAssignRolesModule,
-    //
-    // UnitApproverListModule,
-    // UnitAssignApproversModule,
-    // UnitAddressListModule,
-    // UnitAddressDetailsModule,
-    // UnitAddressCreateModule,
-    // UnitAddressEditModule,
+    UnitAddressModule,
   ],
   providers: [
     provideDefaultConfig(unitsRoutingConfig),

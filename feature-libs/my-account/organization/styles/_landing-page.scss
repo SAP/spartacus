@@ -8,8 +8,10 @@ cx-page-layout.CompanyPageTemplate {
   // technique to manipulate the primary color. This is not automatically driven
   // by the same css variable, but a reasonable approach.
   // filters can be generated at: https://codepen.io/sosuke/pen/Pjoqqp
-  --cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)
-    brightness(110%) contrast(99%);
+  cx-banner cx-media {
+    --cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)
+      brightness(110%) contrast(99%);
+  }
 
   .BodyContent {
     justify-content: space-between;

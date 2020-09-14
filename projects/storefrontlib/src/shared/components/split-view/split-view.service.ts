@@ -120,11 +120,18 @@ export class SplitViewService {
     if (views[position]) {
       views[position].hidden = hide;
     }
-    const lastVisible =
+    let lastVisible =
       views.length - [...views].reverse().findIndex((view) => !view.hidden) - 1;
 
+    if (lastVisible === views.length) {
+      // When there's only 1 view (mobile), we might not find any active
+      // if the user navigates back.
+      lastVisible = position - 1;
+    }
+
     views.forEach((view, pos) => {
-      if (view) {
+      if (view && pos !== position) {
+        // hide other views that are outside the split view
         view.hidden =
           pos > lastVisible || pos < lastVisible - (this._splitViewCount - 1);
       }

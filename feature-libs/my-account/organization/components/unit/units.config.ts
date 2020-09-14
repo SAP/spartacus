@@ -11,13 +11,15 @@ import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-// import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
-// import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
-// import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
-// import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
-import { UnitCostCenterListComponent } from './links';
+import {
+  UnitAddressDetailsComponent,
+  UnitAddressListComponent,
+  UnitCostCenterListComponent,
+} from './links';
+import { UnitAddressFormComponent } from './links/addresses/form';
+import { LinkCellComponent } from './links/addresses/list/link-cell.component';
 import { UnitApproverListComponent } from './links/approvers';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
@@ -30,6 +32,7 @@ import { UnitListService } from './services/unit-list.service';
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
   unitCode: 'uid',
+  addressId: 'id',
 };
 
 export const unitsRoutingConfig: RoutingConfig = {
@@ -69,20 +72,21 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      orgUnitManageAddresses: {
+
+      unitAddressList: {
         paths: [`${listPath}/addresses`],
-        paramsMapping,
-      },
-      orgUnitAddressDetails: {
-        paths: [`${listPath}/addresses/:id`],
         paramsMapping,
       },
       orgUnitAddressCreate: {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      orgUnitAddressEdit: {
-        paths: [`${listPath}/addresses/:id/edit`],
+      unitAddressDetails: {
+        paths: [`${listPath}/addresses/:addressId`],
+        paramsMapping,
+      },
+      unitAddressEdit: {
+        paths: [`${listPath}/addresses/:addressId/edit`],
         paramsMapping,
       },
       orgUnitCostCenters: {
@@ -147,27 +151,24 @@ export const unitsCmsConfig: CmsConfig = {
               path: 'cost-centers',
               component: UnitCostCenterListComponent,
             },
-
-            // {
-            //   path: 'addresses',
-            //   component: UnitAddressListComponent,
-            //   children: [
-            //     {
-            //       path: 'create',
-            //       component: UnitAddressCreateComponent,
-            //     },
-            //     {
-            //       path: ':id',
-            //       component: UnitAddressDetailsComponent,
-            //       children: [
-            //         {
-            //           path: 'edit',
-            //           component: UnitAddressEditComponent,
-            //         },
-            //       ],
-            //     },
-            //   ],
-            // },
+            {
+              path: 'addresses',
+              component: UnitAddressListComponent,
+              children: [
+                {
+                  path: 'create',
+                  component: UnitAddressFormComponent,
+                },
+                {
+                  path: ':addressId',
+                  component: UnitAddressDetailsComponent,
+                },
+                {
+                  path: ':addressId/edit',
+                  component: UnitAddressFormComponent,
+                },
+              ],
+            },
           ],
         },
       ],
@@ -236,8 +237,8 @@ export const unitsTableConfig: TableConfig = {
       },
     },
 
-    [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: {
-      cells: ['summary'],
+    [OrganizationTableType.UNIT_COST_CENTERS]: {
+      cells: ['name'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -245,11 +246,16 @@ export const unitsTableConfig: TableConfig = {
       },
     },
 
-    [OrganizationTableType.UNIT_COST_CENTERS]: {
-      cells: ['name'],
+    [OrganizationTableType.UNIT_ADDRESS]: {
+      cells: ['formattedAddress'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          formattedAddress: {
+            dataComponent: LinkCellComponent,
+          },
         },
       },
     },
