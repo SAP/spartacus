@@ -38,7 +38,7 @@ describe('RolesCellComponent', () => {
   });
 
   it('should render roles', () => {
-    const el = fixture.debugElement.queryAll(By.css('span.text span'));
+    const el = fixture.debugElement.queryAll(By.css('ul.text li'));
     expect(el.length).toEqual(2);
 
     expect((el[0].nativeElement as HTMLElement).innerText).toEqual(

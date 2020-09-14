@@ -61,17 +61,17 @@ describe('ChangePasswordFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render form groups', () => {
+  it('should render the form', () => {
     spyOn(formService, 'getForm').and.returnValue(mockForm);
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBeGreaterThan(0);
+    const form = fixture.debugElement.queryAll(By.css('form input'));
+    expect(form.length).toEqual(2);
   });
 
   it('should not render any form groups if the form is falsy', () => {
     spyOn(formService, 'getForm').and.returnValue(undefined);
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBe(0);
+    const form = fixture.debugElement.query(By.css('form'));
+    expect(form).toBeNull();
   });
 });
