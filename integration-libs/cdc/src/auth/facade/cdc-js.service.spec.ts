@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
   AuthRedirectService,
-  AuthToken,
   BaseSiteService,
   ExternalJsFileLoader,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
-  OCC_USER_ID_CURRENT,
   User,
   UserService,
   WindowRef,
@@ -27,12 +25,6 @@ const sampleCdcConfig: CdcConfig = {
     },
   ],
 };
-
-const mockToken = {
-  userId: 'user@sap.com',
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as AuthToken;
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
@@ -62,7 +54,7 @@ class ExternalJsFileLoaderMock {
 class MockCdcAuthService {
   authorizeWithCustomCdcFlow(): void {}
 
-  getUserToken(): Observable<AuthToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
@@ -241,8 +233,7 @@ describe('CdcJsService', () => {
       spyOn(authRedirectService, 'redirect');
       spyOn(globalMessageService, 'remove');
 
-      const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-      spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
+      spyOn(auth, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(service as any, 'addCdcEventHandlers').and.stub();
 
       service.loadCdcJavascript();

@@ -1,18 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthService, StateWithAuth, WindowRef } from '@spartacus/core';
+import {
+  AuthActions,
+  AuthService,
+  AuthStorageService,
+  AuthToken,
+  OCC_USER_ID_CURRENT,
+  UserIdService,
+  WindowRef,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { CdcAuthActions } from '../store/actions';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CdcAuthService extends AuthService {
+export class CdcAuthService {
   constructor(
-    protected store: Store<StateWithAuth>,
-    protected winRef: WindowRef
-  ) {
-    super(store);
-  }
+    protected authService: AuthService,
+    protected winRef: WindowRef,
+    protected store: Store,
+    protected authStorageService: AuthStorageService,
+    protected userIdService: UserIdService
+  ) {}
 
   /**
    * Loads a new user token using custom oauth flow
@@ -23,7 +33,7 @@ export class CdcAuthService extends AuthService {
    * @param idToken
    * @param baseSite
    */
-  authorizeWithCustomCdcFlow(
+  public authorizeWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,
@@ -41,11 +51,50 @@ export class CdcAuthService extends AuthService {
     );
   }
 
+  // TODO: Consider consequences with ASM
+  public loginWithToken(token: Partial<AuthToken>): void {
+    // Code mostly based on auth lib we use and the way it handles token properties
+    this.authStorageService.setItem('access_token', token.access_token);
+
+    if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
+      this.authStorageService.setItem(
+        'granted_scopes',
+        JSON.stringify(token.granted_scopes)
+      );
+    }
+
+    this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
+
+    const date = new Date();
+    date.setSeconds(date.getSeconds() + token.expires_in);
+    token.expiration_time = date.toJSON();
+
+    if (token.expires_in) {
+      const expiresInMilliseconds = token.expires_in * 1000;
+      const now = new Date();
+      const expiresAt = now.getTime() + expiresInMilliseconds;
+      this.authStorageService.setItem('expires_at', '' + expiresAt);
+    }
+
+    if (token.refresh_token) {
+      this.authStorageService.setItem('refresh_token', token.refresh_token);
+    }
+
+    // OCC specific code
+    this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+    this.store.dispatch(new AuthActions.Login());
+  }
+
+  public isUserLoggedIn(): Observable<boolean> {
+    return this.authService.isUserLoggedIn();
+  }
+
   /**
    * Logout a storefront customer
    */
-  logout(): void {
-    super.logout();
+  public logout(): void {
+    this.authService.logout();
     // trigger logout from CDC
     this.logoutFromCdc();
   }
@@ -53,7 +102,7 @@ export class CdcAuthService extends AuthService {
   /**
    * Logout user from CDC
    */
-  logoutFromCdc(): void {
+  protected logoutFromCdc(): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
   }
 }
