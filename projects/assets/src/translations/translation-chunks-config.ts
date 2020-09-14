@@ -68,18 +68,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'TabPanelContainer',
   ],
 
-  configurator: [
-    'configurator.header',
-    'configurator.tabBar',
-    'configurator.attribute',
-    'configurator.button',
-    'configurator.priceSummary',
-    'configurator.addToCart',
-    'configurator.overviewForm',
-    'configurator.group',
-    'configurator.conflict',
-  ],
-
   configuratorTextfield: ['configuratorTextfield.addToCart'],
 
   user: [
