@@ -3,36 +3,27 @@ import { StateUtils } from '../../../state/utils/index';
 import { USER_REPLENISHMENT_ORDERS } from '../user-state';
 import { UserActions } from './index';
 
-const mockUserReplenishmentOrder: {
-  userId: string;
-  pageSize: number;
-  currentPage: number;
-  sort: string;
-} = {
-  userId: 'test@sap.com',
-  pageSize: 5,
-  currentPage: 1,
-  sort: 'byDate',
-};
-
-const mockUserReplenishmentOrders: ReplenishmentOrderList = {
-  replenishmentOrders: [{ code: '01' }, { code: '02' }],
-  pagination: {
-    totalPages: 13,
-  },
-  sorts: [{ selected: true }, { selected: false }],
-};
-
 describe('User Replenishment Orders Actions', () => {
   describe('LoadUserReplenishmentOrders Actions', () => {
     it('should create the action', () => {
+      const mockUserReplenishmentOrderPayload: {
+        userId: string;
+        pageSize: number;
+        currentPage: number;
+        sort: string;
+      } = {
+        userId: 'test@sap.com',
+        pageSize: 5,
+        currentPage: 1,
+        sort: 'byDate',
+      };
       const action = new UserActions.LoadUserReplenishmentOrders(
-        mockUserReplenishmentOrder
+        mockUserReplenishmentOrderPayload
       );
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_REPLENISHMENT_ORDERS,
-        payload: mockUserReplenishmentOrder,
+        payload: mockUserReplenishmentOrderPayload,
         meta: StateUtils.loadMeta(USER_REPLENISHMENT_ORDERS),
       });
     });
@@ -52,6 +43,13 @@ describe('User Replenishment Orders Actions', () => {
   });
 
   describe('LoadUserReplenishmentOrdersSuccess Action', () => {
+    const mockUserReplenishmentOrders: ReplenishmentOrderList = {
+      replenishmentOrders: [{ code: '01' }, { code: '02' }],
+      pagination: {
+        totalPages: 13,
+      },
+      sorts: [{ selected: true }, { selected: false }],
+    };
     it('should create the action', () => {
       const action = new UserActions.LoadUserReplenishmentOrdersSuccess(
         mockUserReplenishmentOrders

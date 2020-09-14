@@ -165,37 +165,41 @@ export class UserReplenishmentOrderService {
   }
 
   /**
-   * Returns a loaded flag for replenishment order history list
+   * Returns a success flag for replenishment order history list
    */
-  getReplenishmentOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersLoaded));
+  getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersSuccess)
+    );
   }
 
   /**
-   * Retrieves an replenishment order list
+   * Retrieves a replenishment order list
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
   loadReplenishmentOrderList(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
     sort?: string
   ): void {
     this.authService.invokeWithUserId((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadUserReplenishmentOrders({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(
+          new UserActions.LoadUserReplenishmentOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      }
     });
   }
 
   /**
-   * Cleaning order list
+   * Cleaning replenishment order list
    */
   clearReplenishmentOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserReplenishmentOrders());

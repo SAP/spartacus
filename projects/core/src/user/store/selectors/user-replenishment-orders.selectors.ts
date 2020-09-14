@@ -13,15 +13,6 @@ export const getReplenishmentOrdersState: MemoizedSelector<
   (state: UserState) => state.replenishmentOrders
 );
 
-export const getReplenishmentOrdersLoaded: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(
-  getReplenishmentOrdersState,
-  (state: LoaderState<ReplenishmentOrderList>) =>
-    StateUtils.loaderSuccessSelector(state)
-);
-
 export const getReplenishmentOrders: MemoizedSelector<
   StateWithUser,
   ReplenishmentOrderList
@@ -29,4 +20,22 @@ export const getReplenishmentOrders: MemoizedSelector<
   getReplenishmentOrdersState,
   (state: LoaderState<ReplenishmentOrderList>) =>
     StateUtils.loaderValueSelector(state)
+);
+
+export const getReplenishmentOrdersError: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getReplenishmentOrdersState,
+  (state: LoaderState<ReplenishmentOrderList>) =>
+    StateUtils.loaderErrorSelector(state)
+);
+
+export const getReplenishmentOrdersSuccess: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getReplenishmentOrdersState,
+  (state: LoaderState<ReplenishmentOrderList>) =>
+    StateUtils.loaderSuccessSelector(state)
 );

@@ -9,19 +9,14 @@ import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-
 
 @Injectable()
 export class UserReplenishmentOrdersEffect {
-  constructor(
-    private actions$: Actions,
-    private orderReplenishmentConnector: UserReplenishmentOrderConnector
-  ) {}
-
   @Effect()
-  loadUserReplenishOrders$: Observable<
+  loadUserReplenishmentOrders$: Observable<
     UserActions.UserReplenishmentOrdersAction
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
     map((action: UserActions.LoadUserReplenishmentOrders) => action.payload),
     switchMap((payload) => {
-      return this.orderReplenishmentConnector
+      return this.replenishmentOrderConnector
         .loadHistory(
           payload.userId,
           payload.pageSize,
@@ -42,4 +37,9 @@ export class UserReplenishmentOrdersEffect {
         );
     })
   );
+
+  constructor(
+    private actions$: Actions,
+    private replenishmentOrderConnector: UserReplenishmentOrderConnector
+  ) {}
 }

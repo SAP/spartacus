@@ -3,9 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { REPLENISHMENT_ORDER_NORMALIZER } from '../../../checkout/connectors/replenishment-order/converters';
-import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 import { ConverterService } from '../../../util/converter.service';
@@ -19,12 +23,21 @@ import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order
 
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
+const PAGE_SIZE = 5;
+const CURRENT_PAGE = 1;
+const SORT = 'test-sort';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
   purchaseOrderNumber: 'test-po',
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
+const mockReplenishmentOrderList: ReplenishmentOrderList = {
+  replenishmentOrders: [mockReplenishmentOrder],
+  pagination: { totalPages: 3 },
+  sorts: [{ selected: true }],
 };
 
 const mockOrderHistoryList: OrderHistoryList = {
@@ -109,10 +122,6 @@ describe('OccUserReplenishmentOrderAdapter', () => {
 
   describe('loadReplenishmentDetailsHistory', () => {
     it('should load replenishment order history for a specific replnishment order details', () => {
-      const PAGE_SIZE = 5;
-      const CURRENT_PAGE = 1;
-      const SORT = 'test-sort';
-
       occAdapter
         .loadReplenishmentDetailsHistory(
           mockUserId,
@@ -211,33 +220,18 @@ describe('OccUserReplenishmentOrderAdapter', () => {
     });
   });
 
-  describe('getUserReplineshmentOrders', () => {
-    it('should fetch user Replineshment Orders with default options', async(() => {
-      const PAGE_SIZE = 5;
-      occAdapter.loadHistory(mockUserId, PAGE_SIZE).subscribe();
-      httpMock.expectOne((req: HttpRequest<any>) => {
-        return req.method === 'GET';
-      }, `GET method and url`);
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
-        'replenishmentOrderHistory',
-        {
-          userId: mockUserId,
-        },
-        { pageSize: PAGE_SIZE.toString() }
-      );
-    }));
-
-    it('should fetch user Replineshment Orders with defined options', async(() => {
-      const PAGE_SIZE = 5;
-      const currentPage = 1;
-      const sort = 'byDate';
-
+  describe('loadHistory', () => {
+    it('should fetch user Replenishment Orders with defined options', () => {
       occAdapter
-        .loadHistory(mockUserId, PAGE_SIZE, currentPage, sort)
-        .subscribe();
-      httpMock.expectOne((req: HttpRequest<any>) => {
-        return req.method === 'GET';
-      }, `GET method`);
+        .loadHistory(mockUserId, PAGE_SIZE, CURRENT_PAGE, SORT)
+        .subscribe((data) => {
+          expect(data).toEqual(mockReplenishmentOrderList);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === '/replenishmentOrderHistory';
+      });
+
       expect(occEndpointService.getUrl).toHaveBeenCalledWith(
         'replenishmentOrderHistory',
         {
@@ -245,19 +239,25 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         },
         {
           pageSize: PAGE_SIZE.toString(),
-          currentPage: currentPage.toString(),
-          sort,
+          currentPage: CURRENT_PAGE.toString(),
+          sort: SORT,
         }
       );
-    }));
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockReplenishmentOrderList);
+    });
 
     it('should use converter', () => {
       occAdapter.loadHistory(mockUserId).subscribe();
+
       httpMock
         .expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET method`)
         .flush({});
+
       expect(converter.pipeable).toHaveBeenCalledWith(
         REPLENISHMENT_ORDER_HISTORY_NORMALIZER
       );

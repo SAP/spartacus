@@ -1,9 +1,12 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 import { UserReplenishmentOrderConnector } from './user-replenishment-order.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'test-user-id';
 const replenishmentCode = 'test-order-id';
@@ -27,10 +30,6 @@ const mockOrderHistoryList: OrderHistoryList = {
 
 class MockUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
-  loadHistory = createSpy(
-    'UserReplenishmentOrderAdapter.loadHistory'
-  ).and.callFake((_userId) => of(`orderHistory-${userId}`));
-
   load(
     _userId: string,
     _replenishmentOrderCode: string
@@ -52,6 +51,10 @@ class MockUserReplenishmentOrderAdapter
     _userId: string,
     _replenishmentOrderCode: string
   ): Observable<ReplenishmentOrder> {
+    return of({});
+  }
+
+  loadHistory(_userId: string): Observable<ReplenishmentOrderList> {
     return of({});
   }
 }
@@ -133,35 +136,15 @@ describe('UserReplenishmentOrderConnector', () => {
       replenishmentCode
     );
   });
-});
-
-describe('UserReplenishmentOrderConnector', () => {
-  let adapter: UserReplenishmentOrderAdapter;
-  let connector: UserReplenishmentOrderConnector;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        UserReplenishmentOrderConnector,
-        UserReplenishmentOrderConnector,
-        {
-          provide: UserReplenishmentOrderAdapter,
-          useClass: MockUserReplenishmentOrderAdapter,
-        },
-      ],
-    });
-    adapter = TestBed.inject(UserReplenishmentOrderAdapter);
-    connector = TestBed.inject(UserReplenishmentOrderConnector);
-  }));
-
-  it('should create', () => {
-    expect(connector).toBeTruthy();
-  });
 
   it('loadHistory should call adapter', () => {
-    let result;
-    connector.loadHistory('user3').subscribe((res) => (result = res));
-    expect(result).toBe('orderHistory-test-user-id');
+    spyOn(adapter, 'loadHistory').and.returnValue(of(mockOrderHistoryList));
+    let result: ReplenishmentOrderList;
+    connector
+      .loadHistory('user3')
+      .subscribe((res) => (result = res))
+      .unsubscribe();
+    expect(result).toBe(mockOrderHistoryList);
     expect(adapter.loadHistory).toHaveBeenCalledWith(
       'user3',
       undefined,

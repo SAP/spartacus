@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
 import {
@@ -28,6 +28,12 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   purchaseOrderNumber: 'test-po',
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
+const mockReplenishmentOrderList: ReplenishmentOrderList = {
+  replenishmentOrders: [mockReplenishmentOrder],
+  pagination: { totalPages: 3 },
+  sorts: [{ selected: true }],
 };
 
 class MockAuthService {
@@ -246,13 +252,6 @@ describe('UserReplenishmentOrderService', () => {
   });
 
   describe('Replenishment order list', () => {
-    it('should UserOrderService is injected', inject(
-      [UserReplenishmentOrderService],
-      (replenishmentOrderService: UserReplenishmentOrderService) => {
-        expect(replenishmentOrderService).toBeTruthy();
-      }
-    ));
-
     it('should be able to get replenishment order history list', () => {
       store.dispatch(
         new UserActions.LoadUserReplenishmentOrdersSuccess({
@@ -276,12 +275,16 @@ describe('UserReplenishmentOrderService', () => {
       });
     });
 
-    it('should be able to get replenishment order list loaded flag', () => {
-      store.dispatch(new UserActions.LoadUserReplenishmentOrdersSuccess({}));
+    it('should be able to get replenishment order list loaded success flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
 
       let orderListLoaded: boolean;
       userReplenishmentOrderService
-        .getReplenishmentOrderHistoryListLoaded()
+        .getReplenishmentOrderHistoryListSuccess()
         .subscribe((data) => {
           orderListLoaded = data;
         })
@@ -293,7 +296,7 @@ describe('UserReplenishmentOrderService', () => {
       userReplenishmentOrderService.loadReplenishmentOrderList(10, 1, 'byDate');
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.LoadUserReplenishmentOrders({
-          userId: OCC_USER_ID_CURRENT,
+          userId: mockUserId,
           pageSize: 10,
           currentPage: 1,
           sort: 'byDate',

@@ -48,10 +48,6 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
-    {
-      provide: UserReplenishmentOrderAdapter,
-      useClass: OccUserReplenishmentOrderAdapter,
-    },
     { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
     {
       provide: UserNotificationPreferenceAdapter,

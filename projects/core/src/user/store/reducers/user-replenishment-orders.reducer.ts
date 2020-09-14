@@ -15,9 +15,6 @@ export function reducer(
     case UserActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
-    case UserActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL: {
-      return initialState;
-    }
   }
   return state;
 }
