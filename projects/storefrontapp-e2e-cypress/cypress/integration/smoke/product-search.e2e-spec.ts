@@ -7,7 +7,6 @@ function enterProduct() {
 context('Product search', () => {
   before(() => {
     cy.visit('/');
-    enterProduct();
   });
 
   describe('Search results', () => {
