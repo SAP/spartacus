@@ -8,12 +8,15 @@ import {
 } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExistUnitGuard extends ExistOrganizationItemGuard<B2BUnit> {
+  protected code = ROUTE_PARAMS.unitCode;
+
   constructor(
     protected unitService: OrgUnitService,
     protected router: Router,

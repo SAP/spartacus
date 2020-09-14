@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
@@ -16,6 +17,8 @@ import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item
 export class ExistCostCenterGuard extends ExistOrganizationItemGuard<
   CostCenter
 > {
+  protected code = ROUTE_PARAMS.costCenterCode;
+
   constructor(
     protected costCenterService: CostCenterService,
     protected router: Router,

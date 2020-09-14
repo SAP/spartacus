@@ -11,12 +11,15 @@ import {
   Budget,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
+  protected code = ROUTE_PARAMS.userCode;
+
   constructor(
     protected userService: B2BUserService,
     protected router: Router,
