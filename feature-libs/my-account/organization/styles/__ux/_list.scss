@@ -119,38 +119,48 @@ cx-organization-form {
 // generic table styles for both vertical and stacked tables
 %table {
   // avoid the card list to be interactive
-  cx-organization-sub-list cx-table.vertical {
-    table {
-      table-layout: auto;
-      thead {
-        display: none;
-      }
-      tr {
-        :hover {
-          // background: none;
-        }
-        &:focus-within {
-          outline: none;
-        }
-        td {
-          // width: 100%;
-          &.actions {
-            width: 1px;
-            &:last-child {
-              padding-inline-end: 30px;
-              padding-inline-start: 5px;
-            }
-          }
-          a {
-            text-decoration: none;
-            color: var(--cx-color-text);
-          }
-        }
+
+  cx-organization-sub-list {
+    &:not(.has-nested-view) {
+      cx-table.vertical,
+      table {
         th:last-child,
         td:last-child {
-          width: 1px;
-          // padding-inline-end: 20px;
-          // background-image: none;
+          background-image: none;
+        }
+      }
+    }
+    cx-table.vertical {
+      table {
+        table-layout: auto;
+        thead {
+          display: none;
+        }
+        tr {
+          :hover {
+            // background: none;
+          }
+          &:focus-within {
+            outline: none;
+          }
+          td {
+            // width: 100%;
+            &.actions {
+              width: 1px;
+              &:last-child {
+                padding-inline-end: 30px;
+                padding-inline-start: 5px;
+              }
+            }
+            a {
+              text-decoration: none;
+              color: var(--cx-color-text);
+            }
+          }
+          th:last-child,
+          td:last-child {
+            width: 1px;
+          }
         }
       }
     }
