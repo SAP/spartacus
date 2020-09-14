@@ -1,4 +1,4 @@
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../core/model/configurator.model';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator

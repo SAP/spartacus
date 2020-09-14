@@ -9,9 +9,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Component({

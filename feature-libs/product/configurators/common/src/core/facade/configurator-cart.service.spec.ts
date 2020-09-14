@@ -5,7 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
-  Configurator,
+  CheckoutService,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   OCC_USER_ID_ANONYMOUS,
@@ -19,6 +19,7 @@ import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
@@ -64,12 +65,19 @@ const cartState: StateUtils.ProcessesLoaderState<Cart> = {
 };
 let cartStateObs = null;
 let isStableObs = null;
+let checkoutStableObs = null;
 class MockActiveCartService {
   requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return cartStateObs;
   }
   isStable(): Observable<boolean> {
     return isStableObs;
+  }
+}
+
+class MockCheckoutService {
+  getCheckoutDetailsStable(): Observable<boolean> {
+    return checkoutStableObs;
   }
 }
 
@@ -81,6 +89,7 @@ describe('ConfiguratorCartService', () => {
   beforeEach(async(() => {
     cartStateObs = of(cartState);
     isStableObs = of(true);
+    checkoutStableObs = of(true);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -92,6 +101,10 @@ describe('ConfiguratorCartService', () => {
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
+        },
+        {
+          provide: CheckoutService,
+          useClass: MockCheckoutService,
         },
       ],
     }).compileComponents();
@@ -166,8 +179,34 @@ describe('ConfiguratorCartService', () => {
         new ConfiguratorActions.ReadCartEntryConfiguration(params)
       );
     });
+
     it('should only proceed when cart is ready', () => {
       isStableObs = cold('x-xx-y', {
+        x: false,
+        y: true,
+      });
+      checkoutStableObs = cold('a', {
+        a: true,
+      });
+
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        value: { configId: '' },
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
+
+      expect(
+        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+      ).toBeObservable(cold('-----|', {}));
+    });
+
+    it('should only proceed when checkout data has been loaded', () => {
+      isStableObs = cold('a', {
+        a: true,
+      });
+      checkoutStableObs = cold('xxy', {
         x: false,
         y: true,
       });
@@ -182,7 +221,7 @@ describe('ConfiguratorCartService', () => {
 
       expect(
         serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
-      ).toBeObservable(cold('-----|', {}));
+      ).toBeObservable(cold('--|'));
     });
   });
 

@@ -8,13 +8,13 @@ import {
   StoreCount,
   StoreFinderSearchPage,
 } from '../../../model/store-finder.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '../../../store-finder/connectors';
 import { StoreFinderAdapter } from '../../../store-finder/connectors/store-finder.adapter';
-import { StoreFinderSearchConfig } from '../../../store-finder/model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -29,7 +29,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   search(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable<StoreFinderSearchPage> {
@@ -62,7 +62,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable<Occ.StoreFinderSearchPage> {

@@ -1,15 +1,21 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Configurator } from 'projects/core/src/model/configurator.model';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -17,7 +23,10 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeCheckBoxListComponent],
+      declarations: [
+        ConfiguratorAttributeCheckBoxListComponent,
+        MockFocusDirective,
+      ],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [
         ConfiguratorUIKeyGenerator,

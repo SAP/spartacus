@@ -2,13 +2,13 @@ import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorSelectors } from './../state/selectors/index';
 import { ConfiguratorCartService } from './configurator-cart.service';

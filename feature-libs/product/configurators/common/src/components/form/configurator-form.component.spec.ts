@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   I18nTestingModule,
@@ -27,6 +26,7 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from '../attribute/
 import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/radio-button/configurator-attribute-radio-button.component';
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

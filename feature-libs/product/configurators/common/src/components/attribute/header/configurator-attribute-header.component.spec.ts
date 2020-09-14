@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  Configurator,
-  GenericConfigurator,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { GenericConfigurator, I18nTestingModule } from '@spartacus/core';
 import {
   IconLoaderService,
   IconModule,
@@ -13,6 +9,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { Configurator } from './../../../core/model/configurator.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 export class MockIconFontLoaderService {

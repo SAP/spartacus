@@ -4,8 +4,8 @@ import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
-  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';

@@ -7,10 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
   selector: 'cx-config-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',

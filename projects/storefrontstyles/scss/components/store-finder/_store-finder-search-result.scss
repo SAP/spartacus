@@ -11,7 +11,10 @@
 
   .cx-no-stores {
     display: block;
-    padding: 4rem 1.5rem 1.5rem 1.5rem;
+    padding-top: 4rem;
+    padding-inline-end: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-inline-start: 1.5rem;
     margin: 0 auto;
     @include type('4');
     color: var(--cx-color-secondary);

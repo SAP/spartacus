@@ -54,17 +54,15 @@ import {
           },
 
           navigation: {
-            xs: {
-              slots: [
-                'SiteLogin',
-                'SiteContext',
-                'SiteLinks',
-                'VariantConfigMenu',
-              ],
-            },
+            slots: [
+              'SiteLogin',
+              'SiteContext',
+              'SiteLinks',
+              'VariantConfigMenu',
+            ],
           },
 
-          md: {
+          lg: {
             slots: [
               'VariantConfigHeader',
               'VariantConfigMenu',
@@ -72,13 +70,12 @@ import {
               'VariantConfigBottombar',
             ],
           },
-          xs: {
-            slots: [
-              'VariantConfigHeader',
-              'VariantConfigContent',
-              'VariantConfigBottombar',
-            ],
-          },
+
+          slots: [
+            'VariantConfigHeader',
+            'VariantConfigContent',
+            'VariantConfigBottombar',
+          ],
         },
       },
     }),

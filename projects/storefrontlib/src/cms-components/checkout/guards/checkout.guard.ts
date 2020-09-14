@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 
 @Injectable({
@@ -17,13 +18,14 @@ export class CheckoutGuard implements CanActivate {
     protected router: Router,
     protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
+    protected checkoutStepService: CheckoutStepService,
     protected expressCheckoutService: ExpressCheckoutService,
     protected activeCartService: ActiveCartService
   ) {
     this.firstStep$ = of(
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
-          this.checkoutConfigService.getFirstCheckoutStepRoute()
+          this.checkoutStepService.getFirstCheckoutStepRoute()
         ).paths[0]
       )
     );
@@ -40,7 +42,7 @@ export class CheckoutGuard implements CanActivate {
             ? of(
                 this.router.parseUrl(
                   this.routingConfigService.getRouteConfig(
-                    this.checkoutConfigService.getCheckoutStepRoute(
+                    this.checkoutStepService.getCheckoutStepRoute(
                       CheckoutStepType.REVIEW_ORDER
                     )
                   ).paths[0]

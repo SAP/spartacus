@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import {
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
 } from '@spartacus/core';
@@ -12,6 +11,7 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import * as fromReducers from '../reducers/index';
+import { Configurator } from './../../model/configurator.model';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {

@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Configurator } from '@spartacus/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-  HamburgerMenuService,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -19,7 +16,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 })
 export class ConfiguratorGroupMenuComponent {
   routerData$: Observable<
-    ConfigurationRouter.Data
+    ConfiguratorRouter.Data
   > = this.configRouterExtractorService.extractRouterData();
 
   configuration$: Observable<
@@ -83,13 +80,13 @@ export class ConfiguratorGroupMenuComponent {
   ) {}
 
   /**
-   * Executes a click event to the given group.
+   * Fired on key board events, checks for 'enter' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
-    if (event.which === 13) {
+    if (event.code === 'Enter') {
       this.click(group);
     }
   }
@@ -99,6 +96,7 @@ export class ConfiguratorGroupMenuComponent {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
+
         this.configUtils.scrollToConfigurationElement(
           '.VariantConfigurationTemplate'
         );
@@ -112,12 +110,12 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Navigates to the subgroup.
+   * Fired on key board events, checks for 'enter' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.which === 13) {
+    if (event.code === 'Enter') {
       this.navigateUp();
     }
   }

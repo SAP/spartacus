@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfiguratorUtilsService,
   I18nTestingModule,
   RoutingService,
@@ -14,6 +13,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =

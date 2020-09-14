@@ -1,5 +1,6 @@
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ConfiguratorActions } from '../actions/index';
+import { Configurator } from './../../model/configurator.model';
 import * as StateReduce from './configurator.reducer';
 
 const productCode = 'CONF_LAPTOP';

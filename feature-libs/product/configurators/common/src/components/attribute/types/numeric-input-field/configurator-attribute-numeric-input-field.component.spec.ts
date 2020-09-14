@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Configurator, LanguageService } from '@spartacus/core';
+import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @Pipe({
@@ -11,6 +18,13 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
 }
 
 function checkForValidationMessage(
@@ -47,6 +61,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       declarations: [
         ConfiguratorAttributeNumericInputFieldComponent,
         MockTranslateUrlPipe,
+        MockFocusDirective,
       ],
       imports: [ReactiveFormsModule],
       providers: [

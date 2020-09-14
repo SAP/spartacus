@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
-  Configurator,
+  CheckoutService,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
@@ -12,6 +12,7 @@ import {
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorActions } from './../state/actions/index';
 import { ConfiguratorSelectors } from './../state/selectors/index';
 
@@ -21,7 +22,8 @@ export class ConfiguratorCartService {
     protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -42,6 +44,11 @@ export class ConfiguratorCartService {
       //in parallel, this can lead to cache issues with promotions
       delayWhen(() =>
         this.activeCartService.isStable().pipe(filter((stable) => stable))
+      ),
+      delayWhen(() =>
+        this.checkoutService
+          .getCheckoutDetailsStable()
+          .pipe(filter((loaded) => loaded))
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {

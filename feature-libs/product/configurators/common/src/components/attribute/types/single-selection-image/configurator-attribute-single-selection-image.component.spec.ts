@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Configurator } from '@spartacus/core';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
@@ -14,7 +20,10 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeSingleSelectionImageComponent],
+      declarations: [
+        ConfiguratorAttributeSingleSelectionImageComponent,
+        MockFocusDirective,
+      ],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [ConfiguratorUIKeyGenerator],
     })

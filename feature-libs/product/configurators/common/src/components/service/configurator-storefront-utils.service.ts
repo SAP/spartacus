@@ -1,10 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from './../../core/model/configurator.model';
 
 @Injectable({
   providedIn: 'root',
@@ -99,7 +100,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (isPlatformBrowser(this.platformId)) {
       // we don't want to run this logic when doing SSR
       const element = document.querySelector(selector);
-      if (!this.isInViewport(element)) {
+      if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
     }

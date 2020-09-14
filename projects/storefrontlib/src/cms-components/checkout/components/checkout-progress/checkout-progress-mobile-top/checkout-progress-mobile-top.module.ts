@@ -11,6 +11,7 @@ import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
 import { CheckoutAuthGuard } from '../../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../../cms-components/cart/cart-not-empty.guard';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
+import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
@@ -20,7 +21,7 @@ import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-t
       cmsComponents: {
         CheckoutProgressMobileTop: {
           component: CheckoutProgressMobileTopComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutStepsSetGuard],
         },
       },
     }),

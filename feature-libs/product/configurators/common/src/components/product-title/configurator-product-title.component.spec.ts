@@ -1,10 +1,9 @@
-import { Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
   I18nTestingModule,
@@ -16,6 +15,7 @@ import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -104,6 +104,14 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
@@ -113,7 +121,7 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorProductTitleComponent],
+      declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
       providers: [
         {
           provide: Router,

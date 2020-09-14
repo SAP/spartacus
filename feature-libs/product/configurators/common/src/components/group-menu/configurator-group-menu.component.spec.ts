@@ -1,10 +1,9 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   GenericConfiguratorUtilsService,
   I18nTestingModule,
   RoutingService,
@@ -20,6 +19,7 @@ import {
   productConfiguration,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 let mockGroupVisited = false;
@@ -66,6 +66,12 @@ class MockConfiguratorCommonsService {
     return productConfigurationObservable;
   }
 }
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
 
 @Component({
   selector: 'cx-icon',
@@ -73,10 +79,6 @@ class MockConfiguratorCommonsService {
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
-}
-
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
 }
 
 let component: ConfiguratorGroupMenuComponent;
@@ -102,7 +104,11 @@ describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorGroupMenuComponent, MockCxIconComponent],
+      declarations: [
+        ConfiguratorGroupMenuComponent,
+        MockCxIconComponent,
+        MockFocusDirective,
+      ],
       providers: [
         HamburgerMenuService,
         {
@@ -124,7 +130,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: ConfiguratorStorefrontUtilsService,
         },
       ],
     });
