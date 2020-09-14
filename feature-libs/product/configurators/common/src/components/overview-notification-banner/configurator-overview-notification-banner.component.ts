@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
 import {
-  Configurator,
   GenericConfigurator,
   GenericConfiguratorUtilsService,
 } from '@spartacus/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -17,6 +12,9 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from './../../core/model/configurator.model';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-overview-notification-banner',
@@ -24,7 +22,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<
-    ConfigurationRouter.Data
+    ConfiguratorRouter.Data
   > = this.configRouterExtractorService.extractRouterData();
 
   numberOfIssues$: Observable<number> = this.routerData$.pipe(

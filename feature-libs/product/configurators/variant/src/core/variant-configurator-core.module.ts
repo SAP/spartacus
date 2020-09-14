@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+
 /**
  * Exposes the variant configurator core entities
  */
-@NgModule({})
+@NgModule()
 export class VariantConfiguratorCoreModule {}

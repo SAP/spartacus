@@ -2,7 +2,7 @@
  * Configurator component test utils service provides helper functions for the component tests.
  */
 
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../core/model/configurator.model';
 
 export class ConfiguratorComponentTestUtilsService {
   /**
@@ -103,7 +103,7 @@ export class ConfiguratorComponentTestUtilsService {
     value.images?.forEach((image) => Object.freeze(image));
   }
 
-  protected static freezeOverview(overview: Configurator.Overview) {
+  static freezeOverview(overview: Configurator.Overview) {
     if (overview) {
       Object.freeze(overview);
       this.freezePriceSummary(overview.priceSummary);

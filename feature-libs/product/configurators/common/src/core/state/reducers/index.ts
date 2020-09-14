@@ -1,7 +1,8 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
-import { Configurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
+import { Configurator } from './../../model/configurator.model';
 import { configuratorReducer } from './configurator.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {

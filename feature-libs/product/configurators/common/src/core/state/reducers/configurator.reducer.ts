@@ -1,5 +1,6 @@
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ConfiguratorActions } from '../actions/index';
+import { Configurator } from './../../model/configurator.model';
 
 export const initialState: Configurator.Configuration = {
   configId: '',

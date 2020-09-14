@@ -4,11 +4,12 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { Configurator } from './../../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-config-attribute-footer',

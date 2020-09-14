@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/core';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorConflictSuggestionComponent } from './configurator-conflict-suggestion.component';
 
 describe('ConfigurationConflictSuggestionComponent', () => {

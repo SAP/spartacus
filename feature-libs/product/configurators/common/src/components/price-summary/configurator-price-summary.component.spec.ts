@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Configurator,
   GenericConfigurator,
   I18nTestingModule,
   RouterState,
@@ -9,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

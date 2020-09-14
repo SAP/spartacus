@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
+import { DELIVERY_MODE_NORMALIZER } from '@spartacus/core';
 import { Address } from '../../../model/address.model';
 import { Cart } from '../../../model/cart.model';
 import {
@@ -12,6 +12,7 @@ import {
 } from '../../../user/connectors/address/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 
 const userId = '123';
@@ -21,41 +22,41 @@ const cartData: Cart = {
   guid: '1212121',
 };
 
-const usersEndpoint = '/users';
+const usersEndpoint = 'users';
 const cartsEndpoint = '/carts/';
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-  context: {
-    baseSite: [''],
-  },
-};
+class MockOccEndpointsService {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpoint);
+  }
+  getEndpoint(url: string) {
+    return url;
+  }
+}
 
 describe('OccCheckoutDeliveryAdapter', () => {
   let service: OccCheckoutDeliveryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEndpointService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccCheckoutDeliveryAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
     service = TestBed.inject(OccCheckoutDeliveryAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
+    occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
+    spyOn(occEndpointService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -109,18 +110,16 @@ describe('OccCheckoutDeliveryAdapter', () => {
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'PUT' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/addresses/' +
-              'delivery'
-        );
+        return req.method === 'PUT' && req.url === 'setDeliveryAddress';
       });
 
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+        'setDeliveryAddress',
+        {
+          userId,
+          cartId,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);

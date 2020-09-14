@@ -114,3 +114,19 @@ export const getCheckoutDetailsInProgress: MemoizedSelector<
   getCheckoutStepsState,
   (state) => !StateUtils.loaderLoadingSelector(state)
 );
+
+export const getPoNumer: MemoizedSelector<
+  StateWithCheckout,
+  string
+> = createSelector(
+  getCheckoutSteps,
+  (state: CheckoutStepsState) => state.poNumber.po
+);
+
+export const getCostCenter: MemoizedSelector<
+  StateWithCheckout,
+  string
+> = createSelector(
+  getCheckoutSteps,
+  (state: CheckoutStepsState) => state.poNumber.costCenter
+);

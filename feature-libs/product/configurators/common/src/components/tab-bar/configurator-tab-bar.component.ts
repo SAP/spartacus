@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  ConfigurationRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/storefront';
+import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfiguratorRouter } from './../service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
   selector: 'cx-config-tab-bar',
@@ -13,13 +12,13 @@ import { map } from 'rxjs/operators';
 })
 export class ConfiguratorTabBarComponent {
   routerData$: Observable<
-    ConfigurationRouter.Data
+    ConfiguratorRouter.Data
   > = this.configRouterExtractorService.extractRouterData();
 
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(
       (routerData) =>
-        routerData.pageType === ConfigurationRouter.PageType.OVERVIEW
+        routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW
     )
   );
 

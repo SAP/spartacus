@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';

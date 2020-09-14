@@ -1,4 +1,5 @@
-import { Configurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { Configurator } from './../model/configurator.model';
 
 export const CONFIGURATOR_FEATURE = 'productConfigurator';
 export const CONFIGURATOR_DATA = '[Configurator] Configuration Data';
