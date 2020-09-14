@@ -6,10 +6,10 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { StatusCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';

@@ -6,7 +6,7 @@ import {
   UserRole,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared';
+import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({

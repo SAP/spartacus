@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationListService } from 'feature-libs/my-account/organization/components/shared';
+import { OrganizationListService } from '../../../../shared/organization-list/organization-list.service';
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
 
 @Component({

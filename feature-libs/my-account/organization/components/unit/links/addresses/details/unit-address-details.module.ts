@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { OrganizationCardModule } from 'feature-libs/my-account/organization/components/shared';
+import { OrganizationCardModule } from '../../../../shared/organization-card/organization-card.module';
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
 
 @NgModule({
