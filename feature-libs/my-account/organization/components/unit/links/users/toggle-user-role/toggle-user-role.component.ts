@@ -27,8 +27,8 @@ export class ToggleUserRoleCellComponent extends OrganizationCellComponent
 
   availableRoles = [
     UserRole.CUSTOMER,
-    UserRole.APPROVER,
     UserRole.MANAGER,
+    UserRole.APPROVER,
     UserRole.ADMIN,
   ];
 

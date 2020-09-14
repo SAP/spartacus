@@ -6,10 +6,12 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { ActiveLinkCellComponent, AssignCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
@@ -173,6 +175,9 @@ export const userTableConfig: TableConfig = {
           },
           active: {
             dataComponent: StatusCellComponent,
+          },
+          uid: {
+            dataComponent: OrganizationCellComponent,
           },
           roles: {
             dataComponent: RolesCellComponent,

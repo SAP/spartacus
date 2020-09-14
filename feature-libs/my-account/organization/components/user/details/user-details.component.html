@@ -27,12 +27,13 @@
 
     <div class="property">
       <label>{{ 'user.roles' | cxTranslate }}</label>
-      <span class="value">
-        <ng-container *ngFor="let role of model.roles; let isLast = last">
-          {{ 'organization.userRoles.' + role | cxTranslate
-          }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </span>
+      <ul class="value">
+        <li
+          *ngFor="let role of model.roles; let isLast = last"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
     </div>
 
     <div class="property">

@@ -30,5 +30,16 @@
         color: var(--cx-color-success);
       }
     }
+    ul.value {
+      margin: 0;
+      padding: 0;
+      li {
+        display: inline;
+        white-space: pre-wrap;
+        &:not(:last-child):after {
+          content: ', ';
+        }
+      }
+    }
   }
 }

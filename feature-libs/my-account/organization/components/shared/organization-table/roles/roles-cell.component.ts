@@ -7,11 +7,14 @@ import { OrganizationCellComponent } from '../organization-cell.component';
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [tabindex]="tabIndex"
     >
-      <span class="text">
-        <span *ngFor="let role of model.roles" class="li">{{
-          'organization.userRoles.' + role | cxTranslate
-        }}</span>
-      </span>
+      <ul class="text">
+        <li
+          *ngFor="let role of model.roles"
+          class="li"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

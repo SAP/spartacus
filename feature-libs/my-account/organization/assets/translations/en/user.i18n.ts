@@ -13,7 +13,7 @@ export const user = {
   title: 'Title',
 
   unitApprover: `Unit approver`,
-  assignApprover: 'Add the user to the list of approvers',
+  assignApprover: 'Add the user to approvers for the unit',
 
   actions: '',
 
