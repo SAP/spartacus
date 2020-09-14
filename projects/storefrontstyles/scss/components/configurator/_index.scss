@@ -1,18 +1,5 @@
-@import 'commons/index';
 @import 'textfield/index';
 
-$configurator-components-whitelist: cx-config-attribute-header, cx-config-form,
-  cx-configure-product, cx-config-attribute-radio-button,
-  cx-config-attribute-footer, cx-config-attribute-drop-down,
-  cx-config-attribute-read-only, cx-config-previous-next-buttons,
+$configurator-components-whitelist: cx-configure-product,
   cx-config-textfield-input-field, cx-config-textfield-form,
-  cx-config-overview-form, cx-config-overview-attribute, cx-config-group-menu,
-  cx-config-price-summary, cx-config-add-to-cart-button,
-  cx-config-attribute-input-field, cx-config-attribute-numeric-input-field,
-  cx-config-tab-bar, cx-config-textfield-add-to-cart-button,
-  cx-config-group-title, cx-config-attribute-checkbox-list,
-  cx-config-attribute-multi-selection-image,
-  cx-config-attribute-single-selection-image, cx-config-message,
-  cx-config-product-title, cx-config-conflict-suggestion,
-  cx-config-conflict-description, cx-configure-issues-notification,
-  cx-config-overview-notification-banner, cx-configure-cart-entry !default;
+  cx-config-textfield-add-to-cart-button, cx-configure-cart-entry !default;
