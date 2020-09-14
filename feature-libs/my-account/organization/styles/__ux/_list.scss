@@ -37,7 +37,7 @@ cx-organization-form {
 
       &:not([active-view='1']) {
         cx-view[position='0'] {
-          padding-inline-end: 40px;
+          padding-inline-end: var(--cx-split-gutter);
           border-inline-end: solid 0 var(--cx-color-light);
           border-inline-end-width: calc(
             min(var(--cx-active-view) - 1, 1) * 1px
