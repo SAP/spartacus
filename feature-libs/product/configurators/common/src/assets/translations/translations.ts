@@ -7,7 +7,7 @@ export const configuratorTranslations: TranslationResources = {
 };
 
 // expose all translation chunk mapping for configurator sub features
-export const configurationTranslationChunksConfig: TranslationChunksConfig = {
+export const configuratorTranslationChunksConfig: TranslationChunksConfig = {
   configurator: [
     'configurator.header',
     'configurator.tabBar',

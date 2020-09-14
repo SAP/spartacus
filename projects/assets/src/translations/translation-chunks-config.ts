@@ -67,9 +67,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'stockNotification',
     'TabPanelContainer',
   ],
-
-  configuratorTextfield: ['configuratorTextfield.addToCart'],
-
   user: [
     'anonymousConsents',
     'forgottenPassword',
