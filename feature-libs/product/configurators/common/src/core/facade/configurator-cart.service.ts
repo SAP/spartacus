@@ -47,7 +47,7 @@ export class ConfiguratorCartService {
       ),
       delayWhen(() =>
         this.checkoutService
-          .getCheckoutDetailsInProgress()
+          .getCheckoutDetailsStable()
           .pipe(filter((loaded) => loaded))
       ),
       tap((configurationState) => {

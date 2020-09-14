@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenericConfigurator } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -79,6 +79,13 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type;
+}
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async(() => {
@@ -87,6 +94,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         ConfiguratorOverviewNotificationBannerComponent,
         MockTranslatePipe,
         MockUrlPipe,
+        MockCxIconComponent,
       ],
       providers: [
         {

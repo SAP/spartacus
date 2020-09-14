@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -52,6 +52,13 @@ class MockConfigUtilsService {
   scrollToConfigurationElement(): void {}
 }
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
+
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -62,7 +69,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfiguratorPreviousNextButtonsComponent],
+      declarations: [
+        ConfiguratorPreviousNextButtonsComponent,
+        MockFocusDirective,
+      ],
       providers: [
         {
           provide: RoutingService,

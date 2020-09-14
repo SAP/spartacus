@@ -94,11 +94,11 @@ export class CheckoutService {
   }
 
   /**
-   * Get status of checkout details in progress
+   * Check if checkout details are stable (no longer loading)
    */
-  getCheckoutDetailsInProgress(): Observable<boolean> {
+  getCheckoutDetailsStable(): Observable<boolean> {
     return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCheckoutDetailsInProgress)
+      select(CheckoutSelectors.getCheckoutDetailsStable)
     );
   }
 

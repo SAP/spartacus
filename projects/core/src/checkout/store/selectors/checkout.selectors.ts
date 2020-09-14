@@ -107,7 +107,7 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
     !StateUtils.loaderLoadingSelector(state)
 );
 
-export const getCheckoutDetailsInProgress: MemoizedSelector<
+export const getCheckoutDetailsStable: MemoizedSelector<
   StateWithCheckout,
   boolean
 > = createSelector(
