@@ -4,7 +4,6 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig } from '../../user-auth/config/auth-config';
 import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 import { ClientToken } from '../models/client-token.model';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
@@ -18,16 +17,15 @@ const token: ClientToken = {
 
 const tokenEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthConfig: AuthConfig = {
-  authentication: {
-    client_id: '',
-    client_secret: '',
-  },
-};
-
 class AuthConfigServiceMock {
   getTokenEndpoint() {
     return tokenEndpoint;
+  }
+  getClientId() {
+    return 'test_id';
+  }
+  getClientSecret() {
+    return 'test_secret';
   }
 }
 
@@ -41,7 +39,6 @@ describe('ClientAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig },
         { provide: AuthConfigService, useClass: AuthConfigServiceMock },
       ],
     });
