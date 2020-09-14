@@ -75,7 +75,7 @@ export class BudgetEffects {
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
-        switchMap((data) => [new BudgetActions.CreateBudgetSuccess(data)]),
+        map((data) => new BudgetActions.CreateBudgetSuccess(data)),
         catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.CreateBudgetFail({
@@ -98,7 +98,7 @@ export class BudgetEffects {
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
-          switchMap((data) => [new BudgetActions.UpdateBudgetSuccess(data)]),
+          map((data) => new BudgetActions.UpdateBudgetSuccess(data)),
           catchError((error: HttpErrorResponse) =>
             of(
               new BudgetActions.UpdateBudgetFail({
@@ -112,11 +112,7 @@ export class BudgetEffects {
   );
 
   @Effect()
-  clearBudgets$: Observable<
-    | BudgetActions.CreateBudgetSuccess
-    | BudgetActions.UpdateBudgetSuccess
-    | BudgetActions.ClearBudgets
-  > = this.actions$.pipe(
+  clearBudgets$: Observable<BudgetActions.ClearBudgets> = this.actions$.pipe(
     ofType(
       BudgetActions.CREATE_BUDGET_SUCCESS,
       BudgetActions.UPDATE_BUDGET_SUCCESS
