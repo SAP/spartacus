@@ -83,7 +83,7 @@ export class SplitViewService {
     const activePosition = this.getActive(this.views);
     this._views$.next(this.views.splice(0, position));
     if (activePosition >= position) {
-      this.updateState(position - 1);
+      this.updateState(position);
     }
   }
 
@@ -121,7 +121,7 @@ export class SplitViewService {
       position--;
     }
 
-    this.updateState(position, forceHide);
+    this.updateState(position, forceHide === true);
   }
 
   /**
@@ -134,6 +134,7 @@ export class SplitViewService {
     }
     let lastVisible =
       views.length - [...views].reverse().findIndex((view) => !view.hidden) - 1;
+
     if (lastVisible === views.length) {
       if (position) {
         // When there's only 1 view (mobile), we might not find any active
@@ -143,6 +144,7 @@ export class SplitViewService {
         lastVisible = views.length - 1;
       }
     }
+
     views.forEach((view, pos) => {
       if (view && pos !== position) {
         // hide other views that are outside the split view

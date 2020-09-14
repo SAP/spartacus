@@ -1,29 +1,46 @@
 import { ChangeDetectionStrategy, Injectable } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import {
+  BREAKPOINT,
+  BreakpointService,
+} from 'projects/storefrontlib/src/layout';
+import { Observable, of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
+import createSpy = jasmine.createSpy;
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 class MockSplitViewService {
+  updateSplitView = createSpy('updateSplitView');
   getActiveView() {
     return of(5);
+  }
+}
+
+class MockBreakpointService {
+  get breakpoint$(): Observable<BREAKPOINT> {
+    return of();
   }
 }
 
 describe('SplitViewComponent', () => {
   let component: SplitViewComponent;
   let fixture: ComponentFixture<SplitViewComponent>;
+  let breakpointService: BreakpointService;
+  let splitViewService: SplitViewService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SplitViewComponent],
+      providers: [
+        { provide: BreakpointService, useClass: MockBreakpointService },
+      ],
     })
       .overrideComponent(SplitViewComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
           providers: [
-            { provide: SplitViewService, useExisting: MockSplitViewService },
+            { provide: SplitViewService, useClass: MockSplitViewService },
           ],
         },
       })
@@ -33,6 +50,9 @@ describe('SplitViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SplitViewComponent);
     component = fixture.componentInstance;
+    breakpointService = TestBed.inject(BreakpointService);
+
+    splitViewService = fixture.debugElement.injector.get(SplitViewService);
   });
 
   it('should create', () => {
@@ -48,5 +68,13 @@ describe('SplitViewComponent', () => {
     fixture.detectChanges();
     const el: HTMLElement = fixture.debugElement.nativeElement;
     expect(el.style.getPropertyValue('--cx-active-view')).toEqual('6');
+  });
+
+  it('should update splitViewService when screen changes to xs', () => {
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      of(BREAKPOINT.xs)
+    );
+    fixture.detectChanges();
+    expect(splitViewService.updateSplitView).toHaveBeenCalledWith(1);
   });
 });
