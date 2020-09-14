@@ -69,18 +69,13 @@ export class BudgetEffects {
 
   @Effect()
   createBudget$: Observable<
-    | BudgetActions.CreateBudgetSuccess
-    | BudgetActions.CreateBudgetFail
-    | BudgetActions.ClearBudgets
+    BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
-        switchMap((data) => [
-          new BudgetActions.CreateBudgetSuccess(data),
-          new BudgetActions.ClearBudgets(),
-        ]),
+        switchMap((data) => [new BudgetActions.CreateBudgetSuccess(data)]),
         catchError((error: HttpErrorResponse) =>
           of(
             new BudgetActions.CreateBudgetFail({
@@ -95,9 +90,7 @@ export class BudgetEffects {
 
   @Effect()
   updateBudget$: Observable<
-    | BudgetActions.UpdateBudgetSuccess
-    | BudgetActions.UpdateBudgetFail
-    | BudgetActions.ClearBudgets
+    BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
@@ -105,10 +98,7 @@ export class BudgetEffects {
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
-          switchMap((data) => [
-            new BudgetActions.UpdateBudgetSuccess(data),
-            new BudgetActions.ClearBudgets(),
-          ]),
+          switchMap((data) => [new BudgetActions.UpdateBudgetSuccess(data)]),
           catchError((error: HttpErrorResponse) =>
             of(
               new BudgetActions.UpdateBudgetFail({
@@ -119,6 +109,19 @@ export class BudgetEffects {
           )
         )
     )
+  );
+
+  @Effect()
+  clearBudgets$: Observable<
+    | BudgetActions.CreateBudgetSuccess
+    | BudgetActions.UpdateBudgetSuccess
+    | BudgetActions.ClearBudgets
+  > = this.actions$.pipe(
+    ofType(
+      BudgetActions.CREATE_BUDGET_SUCCESS,
+      BudgetActions.UPDATE_BUDGET_SUCCESS
+    ),
+    map(() => new BudgetActions.ClearBudgets())
   );
 
   constructor(

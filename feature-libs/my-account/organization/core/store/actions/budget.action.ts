@@ -3,7 +3,6 @@ import { serializeB2BSearchConfig } from '../../utils/serializer';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { B2BSearchConfig } from '../../model/search-config';
 import { Budget } from '../../model/budget.model';
-import { Action } from '@ngrx/store';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -122,8 +121,11 @@ export class UpdateBudgetSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ClearBudgets implements Action {
+export class ClearBudgets extends StateUtils.EntityRemoveAllAction {
   readonly type = CLEAR_BUDGETS;
+  constructor() {
+    super(BUDGET_LIST);
+  }
 }
 
 export type BudgetAction =

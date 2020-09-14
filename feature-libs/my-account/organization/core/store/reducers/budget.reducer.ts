@@ -20,6 +20,8 @@ export function budgetsEntitiesReducer(
         ...state,
         ...action.payload,
       };
+    case BudgetActions.CLEAR_BUDGETS:
+      return budgetInitialState;
   }
   return state;
 }
@@ -32,7 +34,7 @@ export function budgetsListReducer(
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
       return action.payload.page;
     case BudgetActions.CLEAR_BUDGETS:
-      return budgetInitialState;
+      return budgetsInitialState;
   }
   return state;
 }
