@@ -38,14 +38,7 @@
     <div class="property">
       <label>{{ 'budget.amount' | cxTranslate }}</label>
       <span class="value">
-        {{ model.budget }}
-      </span>
-    </div>
-
-    <div class="property">
-      <label>{{ 'budget.currency' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.currency?.isocode }}
+        {{ model.budget }} {{ model.currency?.isocode }}
       </span>
     </div>
 
