@@ -264,6 +264,7 @@ cx-schedule-replenishment-order {
       &.cx-repeat-days-container {
         flex-direction: unset;
         flex-wrap: wrap;
+        max-width: 280px;
 
         .cx-repeat-days {
           flex: 0 100%;
