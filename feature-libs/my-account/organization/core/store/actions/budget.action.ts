@@ -131,5 +131,4 @@ export type BudgetAction =
   | CreateBudgetSuccess
   | UpdateBudget
   | UpdateBudgetFail
-  | UpdateBudgetSuccess
-  | ClearBudgets;
+  | UpdateBudgetSuccess;
