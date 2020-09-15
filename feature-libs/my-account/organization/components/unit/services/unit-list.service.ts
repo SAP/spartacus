@@ -20,24 +20,26 @@ class ToggleAction implements TreeAction {
   constructor(private id: string, private unitListService: UnitListService) {}
 
   prepareUnit(child, depthLevel) {
+    console.log('ToggleAction prepareUnit', child, this.id, depthLevel);
     return this.unitListService.prepareUnit(child, {
       depthLevel,
       expanded:
         child.id === this.id
           ? !this.unitListService.isExpandedNodeMap[child.id]
-          : this.unitListService.isExpandedNodeMap[child.id],
+          : this.unitListService.isExpandedNodeMap[child.id] ?? true,
       visible: true,
     });
   }
 
   next(array: B2BUnitNode[], child, depthLevel, pagination) {
+    console.log('ToggleAction next', child, this.id, depthLevel);
     this.unitListService.flatten(
       array,
       child.children,
       depthLevel + 1,
       pagination,
       child.id === this.id && !this.unitListService.isExpandedNodeMap[child.id]
-        ? new CollapseFromLevelAction(depthLevel + 1, this.unitListService)
+        ? new CollapseFromLevelAction(depthLevel, this.unitListService)
         : this
     );
   }
@@ -50,23 +52,35 @@ class CollapseFromLevelAction implements TreeAction {
   ) {}
 
   prepareUnit(child, depthLevel) {
+    console.log(
+      'CollapseFromLevelAction prepareUnit',
+      child,
+      this.depthLevel,
+      depthLevel
+    );
     return this.unitListService.prepareUnit(child, {
       depthLevel,
       expanded:
         this.depthLevel > depthLevel
-          ? this.unitListService.isExpandedNodeMap[child.id]
+          ? this.unitListService.isExpandedNodeMap[child.id] ?? true
           : false,
-      visible: this.depthLevel > depthLevel,
+      visible: this.depthLevel >= depthLevel,
     });
   }
 
   next(array: B2BUnitNode[], child, depthLevel, pagination) {
+    console.log(
+      'CollapseFromLevelAction next',
+      child,
+      this.depthLevel,
+      depthLevel
+    );
     this.unitListService.flatten(
       array,
       child.children,
       depthLevel + 1,
       pagination,
-      new CollapseFromLevelAction(depthLevel + 1, this.unitListService)
+      new CollapseFromLevelAction(this.depthLevel, this.unitListService)
     );
   }
 }
@@ -80,7 +94,7 @@ class CollapseFromLevelAction implements TreeAction {
 export class UnitListService extends OrganizationListService<B2BUnit> {
   protected tableType = OrganizationTableType.UNIT;
   protected treeAction$ = new BehaviorSubject<TreeAction>(
-    new CollapseFromLevelAction(2, this)
+    new CollapseFromLevelAction(1, this)
   );
   constructor(
     protected tableService: TableService,
@@ -93,8 +107,9 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
 
   protected load(): Observable<EntitiesModel<B2BUnit>> {
     return combineLatest([this.unitService.getTree(), this.treeAction$]).pipe(
+      tap((data) => console.log('before', data)),
       map(([raw, action]) => this.convertUnits(raw, action)),
-      tap(console.log)
+      tap((data) => console.log('after', data))
     );
   }
 
