@@ -91,10 +91,12 @@ export class LoadUserGroupFail extends StateUtils.EntityFailAction {
 
 export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_SUCCESS;
-  constructor(public payload: UserGroup[]) {
+  constructor(public payload: UserGroup | UserGroup[]) {
     super(
       USER_GROUP_ENTITIES,
-      payload.map((userGroup) => userGroup.uid)
+      Array.isArray(payload)
+        ? payload.map((userGroup) => userGroup?.uid)
+        : payload?.uid
     );
   }
 }
