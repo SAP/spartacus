@@ -73,11 +73,17 @@ export const costCenterCmsConfig: CmsConfig = {
           path: 'create',
           component: CostCenterFormComponent,
         },
+
         {
           path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
           canActivate: [ExistCostCenterGuard],
           children: [
+            {
+              path: 'edit',
+              component: CostCenterFormComponent,
+              canActivate: [ActiveCostCenterGuard],
+            },
             {
               path: 'budgets',
               component: CostCenterAssignedBudgetListComponent,
@@ -87,11 +93,6 @@ export const costCenterCmsConfig: CmsConfig = {
               component: CostCenterBudgetListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.costCenterCode}/edit`,
-          component: CostCenterFormComponent,
-          canActivate: [ActiveCostCenterGuard],
         },
       ],
       guards: [AuthGuard],

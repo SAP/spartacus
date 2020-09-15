@@ -70,11 +70,13 @@ export const permissionCmsConfig: CmsConfig = {
           path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
           canActivate: [ExistPermissionGuard],
-        },
-        {
-          path: `:${ROUTE_PARAMS.permissionCode}/edit`,
-          component: PermissionFormComponent,
-          canActivate: [ActivePermissionGuard],
+          children: [
+            {
+              path: 'edit',
+              component: PermissionFormComponent,
+              canActivate: [ActivePermissionGuard],
+            },
+          ],
         },
       ],
       guards: [AuthGuard],

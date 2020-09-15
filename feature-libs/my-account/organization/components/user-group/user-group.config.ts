@@ -91,6 +91,10 @@ export const userGroupCmsConfig: CmsConfig = {
           canActivate: [ExistUserGroupGuard],
           children: [
             {
+              path: 'edit',
+              component: UserGroupFormComponent,
+            },
+            {
               path: 'users',
               component: UserGroupAssignedUserListComponent,
             },
@@ -107,10 +111,6 @@ export const userGroupCmsConfig: CmsConfig = {
               component: UserGroupPermissionListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.userGroupCode}/edit`,
-          component: UserGroupFormComponent,
         },
       ],
       guards: [AuthGuard],
