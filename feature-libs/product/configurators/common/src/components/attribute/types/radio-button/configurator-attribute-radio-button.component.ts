@@ -10,6 +10,8 @@ import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
   templateUrl: './configurator-attribute-radio-button.component.html',
@@ -24,7 +26,9 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  ngOnInit() {
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+
+  ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
@@ -34,7 +38,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
 
   onFocusOut(event: FocusEvent) {
     if (
-      this.attributeLostFocus(event) &&
+      this.configUtils.attributeLostFocus(event) &&
       this.attributeRadioButtonForm.value !== null &&
       this.changeTriggeredByKeyboard === true
     ) {
@@ -47,39 +51,11 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
   }
 
   /**
-   * Returns true if the focus changed from one attribute to any other element.
-   * Returns false if the focus change occured inside the same attribute (i.e. from one value to another of the same attribute)
-   * @param event FocusEvent to be checked
-   */
-  attributeLostFocus(event: FocusEvent): boolean {
-    let attributeLostFocus = false;
-    const from: HTMLElement = event.target as HTMLElement;
-    const to: HTMLElement = event.relatedTarget as HTMLElement;
-    // Avoid submit on round-trip (in this case event.relatedTarget is null)
-    if (to === null) {
-      return attributeLostFocus;
-    }
-    if (this.getAttributeId(from?.id) !== this.getAttributeId(to?.id)) {
-      attributeLostFocus = true;
-    }
-
-    return attributeLostFocus;
-  }
-
-  /**
-   * Removes the value Id from the element id to get the attribute id.
-   * @param id HTMLElment id
-   */
-  getAttributeId(id: string): string {
-    const index = id?.lastIndexOf('--');
-    return id?.substring(0, index);
-  }
-
-  /**
    * Submits the value.
+   *
+   * @param {string} valueCode - Selected value
    */
   submitValue(valueCode: string): void {
-    //console.log('the value to submit: ' + valueCode);
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {

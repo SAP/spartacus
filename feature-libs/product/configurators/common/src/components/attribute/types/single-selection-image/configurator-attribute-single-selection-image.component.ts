@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -19,6 +20,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeSingleSelectionImageComponent
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
+  changeTriggeredByKeyboard = false;
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -26,26 +28,48 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  ngOnInit() {
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+
+  ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
+  onMouseDown(valueCode: string) {
+    this.submitValue(valueCode);
+  }
+
+  onFocusOut(event: FocusEvent) {
+    if (
+      this.configUtils.attributeLostFocus(event) &&
+      this.attributeRadioButtonForm.value !== null &&
+      this.changeTriggeredByKeyboard === true
+    ) {
+      this.submitValue(this.attributeRadioButtonForm.value);
+    }
+  }
+
+  onKeyUp() {
+    this.changeTriggeredByKeyboard = true;
+  }
+
   /**
-   * Fired when value was selected
-   * @param index Index of selected value
+   * Submits the value.
+   *
+   * @param {string} value - Selected value
    */
-  onClick(index: number): void {
+  submitValue(value: string): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
-        selectedSingleValue: this.attribute.values[index].valueCode,
+        selectedSingleValue: value,
         uiType: this.attribute.uiType,
         groupId: this.attribute.groupId,
       },
     };
 
     this.selectionChange.emit(event);
+    this.changeTriggeredByKeyboard = false;
   }
 
   createAttributeValueIdForConfigurator(

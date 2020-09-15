@@ -6,6 +6,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+
+class MockGroupService {}
 @Directive({
   selector: '[cxFocus]',
 })
@@ -25,7 +29,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         MockFocusDirective,
       ],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfiguratorUIKeyGenerator],
+      providers: [
+        ConfiguratorUIKeyGenerator,
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+      ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
         set: {
