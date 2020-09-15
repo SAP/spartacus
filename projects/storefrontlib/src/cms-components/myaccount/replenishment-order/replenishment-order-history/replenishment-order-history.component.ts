@@ -19,8 +19,8 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
-  
-  // repelnishmet order
+
+  // repelnishmet orders
   replenishmentOrders$: Observable<
     ReplenishmentOrderList
   > = this.userReplenishmentOrderService
@@ -35,7 +35,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   isLoaded$: Observable<
     boolean
-  > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListLoaded();
+  > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
 
   // private fetchOrders(event: { sortCode: string; currentPage: number }): void {
   //     this.userReplenishmentOrderService.loadReplenishmentOrderList(
