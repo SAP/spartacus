@@ -1,0 +1,9 @@
+%cx-configurator-textfield-input-field {
+  .cx-configurator-textfield-label {
+    @include type('5');
+    padding-top: 10px;
+    padding-right: 6px;
+    display: block;
+    max-width: 66%;
+  }
+}

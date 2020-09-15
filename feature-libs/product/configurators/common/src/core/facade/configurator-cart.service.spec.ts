@@ -2,23 +2,26 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromReducers from '@spartacus/core';
 import {
   ActiveCartService,
   Cart,
-  CONFIGURATION_FEATURE,
-  Configurator,
-  ConfiguratorActions,
+  CheckoutService,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
   StateUtils,
-  StateWithConfiguration,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import {
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
+import { ConfiguratorActions } from './../state/actions/index';
+import { getConfiguratorReducers } from './../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
@@ -62,6 +65,7 @@ const cartState: StateUtils.ProcessesLoaderState<Cart> = {
 };
 let cartStateObs = null;
 let isStableObs = null;
+let checkoutStableObs = null;
 class MockActiveCartService {
   requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return cartStateObs;
@@ -71,21 +75,25 @@ class MockActiveCartService {
   }
 }
 
+class MockCheckoutService {
+  getCheckoutDetailsStable(): Observable<boolean> {
+    return checkoutStableObs;
+  }
+}
+
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
-  let store: Store<StateWithConfiguration>;
-  let configuratorUtils: GenericConfigUtilsService;
+  let store: Store<StateWithConfigurator>;
+  let configuratorUtils: GenericConfiguratorUtilsService;
 
   beforeEach(async(() => {
     cartStateObs = of(cartState);
     isStableObs = of(true);
+    checkoutStableObs = of(true);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
       providers: [
         ConfiguratorCartService,
@@ -94,6 +102,10 @@ describe('ConfiguratorCartService', () => {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
         },
+        {
+          provide: CheckoutService,
+          useClass: MockCheckoutService,
+        },
       ],
     }).compileComponents();
   }));
@@ -101,9 +113,9 @@ describe('ConfiguratorCartService', () => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
     OWNER_CART_ENTRY = {
       id: '3',
@@ -167,8 +179,34 @@ describe('ConfiguratorCartService', () => {
         new ConfiguratorActions.ReadCartEntryConfiguration(params)
       );
     });
+
     it('should only proceed when cart is ready', () => {
       isStableObs = cold('x-xx-y', {
+        x: false,
+        y: true,
+      });
+      checkoutStableObs = cold('a', {
+        a: true,
+      });
+
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        value: { configId: '' },
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
+
+      expect(
+        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+      ).toBeObservable(cold('-----|', {}));
+    });
+
+    it('should only proceed when checkout data has been loaded', () => {
+      isStableObs = cold('a', {
+        a: true,
+      });
+      checkoutStableObs = cold('xxy', {
         x: false,
         y: true,
       });
@@ -183,7 +221,7 @@ describe('ConfiguratorCartService', () => {
 
       expect(
         serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
-      ).toBeObservable(cold('-----|', {}));
+      ).toBeObservable(cold('--|'));
     });
   });
 

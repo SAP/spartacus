@@ -1,21 +1,18 @@
 import Chainable = Cypress.Chainable;
 
-const continueToCartButtonSelector = 'cx-config-add-to-cart-button button';
+const continueToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button';
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
 /**
  * Navigates to the configured product overview page.
  *
- * @param configuratorType - Configuration type
  * @param productId - Product ID
  * @return {Chainable<Window>} - New configuration overview window
  */
-export function goToConfigOverviewPage(
-  configuratorType,
-  productId
-): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${productId}`;
+export function goToConfigOverviewPage(productId): Chainable<Window> {
+  const location = `/electronics-spa/en/USD/configure-overview/vc/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
@@ -29,7 +26,7 @@ export function goToConfigOverviewPage(
  * @return - 'True' if the configuration overview page is visible, otherwise 'false'
  */
 export function isConfigOverviewPageDisplayed() {
-  cy.get('cx-config-overview-form').should('be.visible');
+  cy.get('cx-configurator-overview-form').should('be.visible');
 }
 
 /**
@@ -38,7 +35,7 @@ export function isConfigOverviewPageDisplayed() {
  * @return - 'True' if the button is visible, otherwise 'false'
  */
 export function isContinueToCartBtnDisplayed() {
-  cy.get('.cx-config-add-to-cart-btn button.btn-primary')
+  cy.get('.cx-configurator-add-to-cart-btn button.btn-primary')
     .contains('Continue to Cart')
     .should('be.visible');
 }
@@ -47,7 +44,7 @@ export function isContinueToCartBtnDisplayed() {
  * Navigates to the configuration page via configuration tab.
  */
 export function navigateToConfigurationPage(): void {
-  cy.get('cx-config-tab-bar div div:first a').click({
+  cy.get('cx-configurator-tab-bar div div:first a').click({
     force: true,
   });
 }

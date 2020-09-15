@@ -2,26 +2,28 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
-  Configurator,
-  ConfiguratorActions,
-  ConfiguratorSelectors,
+  CheckoutService,
   GenericConfigurator,
-  GenericConfigUtilsService,
+  GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithConfiguration,
   StateWithMultiCart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
+import { ConfiguratorActions } from './../state/actions/index';
+import { ConfiguratorSelectors } from './../state/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
     protected cartStore: Store<StateWithMultiCart>,
-    protected store: Store<StateWithConfiguration>,
+    protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -42,6 +44,11 @@ export class ConfiguratorCartService {
       //in parallel, this can lead to cache issues with promotions
       delayWhen(() =>
         this.activeCartService.isStable().pipe(filter((stable) => stable))
+      ),
+      delayWhen(() =>
+        this.checkoutService
+          .getCheckoutDetailsStable()
+          .pipe(filter((loaded) => loaded))
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {

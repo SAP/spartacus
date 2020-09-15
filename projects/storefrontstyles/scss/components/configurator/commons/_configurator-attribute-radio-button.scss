@@ -1,0 +1,10 @@
+%cx-configurator-attribute-radio-button {
+  .cx-configurator-select-line {
+    display: flex;
+  }
+  .form-check {
+    &:last-child {
+      margin-bottom: 9px;
+    }
+  }
+}

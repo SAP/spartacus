@@ -1,0 +1,17 @@
+%cx-configurator-conflict-suggestion {
+  .cx-configurator-conflict-suggestion {
+    padding: 15px;
+    background-color: mix(#ffffff, theme-color('light'), 90%);
+    margin: 0 -20px 15px -20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    border-radius: 2px;
+    display: flex;
+
+    .bold {
+      font-weight: bold;
+      padding-right: 5px;
+    }
+  }
+}

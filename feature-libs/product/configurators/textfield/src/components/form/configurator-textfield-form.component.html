@@ -1,0 +1,18 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <div
+    class="cx-item-list-row cx-configurator-textfield-attribute"
+    *ngFor="let attribute of configuration.configurationInfos"
+  >
+    <div
+      class="cx-configurator-attribute-value cx-configurator-attribute-value-multi col-xs-12"
+    >
+      <cx-configurator-textfield-input-field
+        [attribute]="attribute"
+        (inputChange)="updateConfiguration($event)"
+      ></cx-configurator-textfield-input-field>
+    </div>
+  </div>
+  <cx-configurator-textfield-add-to-cart-button
+    [configuration]="configuration"
+  ></cx-configurator-textfield-add-to-cart-button>
+</ng-container>

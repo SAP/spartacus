@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { ConfigTextfieldFormComponent } from './components/config-textfield-form/config-textfield-form.component';
+import { ConfiguratorTextfieldFormComponent } from './components/form/configurator-textfield-form.component';
 import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
 import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-core.module';
+import { TextfieldConfiguratorOccModule } from './occ/textfield-configurator-occ.module';
 
 /**
  * Exposes the textfield configurator, a small configurator that only provides 3 attributes at product level without any dependencies between them,
@@ -15,6 +16,7 @@ import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-c
   imports: [
     TextfieldConfiguratorCoreModule,
     TextfieldConfiguratorComponentsModule,
+    TextfieldConfiguratorOccModule,
     CommonModule,
     RouterModule.forChild([
       {
@@ -32,7 +34,7 @@ import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-c
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         TextfieldConfigurationForm: {
-          component: ConfigTextfieldFormComponent,
+          component: ConfiguratorTextfieldFormComponent,
         },
       },
       layoutSlots: {

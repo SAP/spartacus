@@ -1,0 +1,40 @@
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <div class="form-check">
+    <div class="cx-configurator-select-line">
+      <input
+        id="{{
+          createAttributeValueIdForConfigurator(
+            attribute,
+            attribute.values[0].valueCode
+          )
+        }}"
+        type="checkbox"
+        class="form-check-input"
+        [value]="attribute.values[0].valueCode"
+        [cxFocus]="{ key: attribute.name + '-' + attribute.values[0].name }"
+        (change)="onSelect()"
+        [formControl]="attributeCheckBoxForm"
+        name="{{ createAttributeIdForConfigurator(attribute) }}"
+      />
+    </div>
+    <div class="cx-configurator-attribute-value-label-container">
+      <label
+        id="{{
+          createValueUiKey(
+            'label',
+            attribute.name,
+            attribute.values[0].valueCode
+          )
+        }}"
+        for="{{
+          createAttributeValueIdForConfigurator(
+            attribute,
+            attribute.values[0].valueCode
+          )
+        }}"
+        class="cx-configurator-attribute-value-label form-check-label"
+        >{{ attribute.values[0].valueDisplay }}</label
+      >
+    </div>
+  </div>
+</div>

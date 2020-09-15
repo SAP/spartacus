@@ -1,12 +1,13 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
   GROUP_ID_2,
   productConfiguration,
-} from '../../../shared/testing/configuration-test-data';
+} from '../../../shared/testing/configurator-test-data';
+import { Configurator } from './../../model/configurator.model';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 
 const CONFIG_ID = '1234-56-7890';

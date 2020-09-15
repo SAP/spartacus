@@ -1,0 +1,16 @@
+<div
+  *ngIf="displayConflictSuggestion(currentGroup)"
+  class="cx-configurator-conflict-suggestion"
+  tabindex="0"
+>
+  <div class="bold">
+    {{
+      'configurator.conflict.suggestionTitle'
+        | cxTranslate: { number: suggestionNumber + 1 }
+    }}
+  </div>
+  {{
+    'configurator.conflict.suggestionText'
+      | cxTranslate: { attribute: attribute.label }
+  }}
+</div>

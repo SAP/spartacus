@@ -1,0 +1,22 @@
+%cx-configurator-add-to-cart-button {
+  padding: 15px;
+  margin-top: 15px;
+  justify-content: flex-end;
+  max-width: 1140px;
+
+  @include media-breakpoint-down(sm) {
+    padding: 20px;
+  }
+
+  .cx-configurator-add-to-cart-btn {
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      clear: both;
+    }
+
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 400px;
+    float: right;
+  }
+}

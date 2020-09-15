@@ -1,0 +1,66 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <nav>
+    <ul class="cx-configurator-menu">
+      <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
+        <li class="cx-configurator-menu-back" *ngIf="parentGroup !== null">
+          <!--TODO: "Back" text is still under discussion -->
+          <a
+            role="link"
+            tabindex="0"
+            (click)="navigateUp()"
+            (keyup)="navigateUpOnEnter($event)"
+            ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
+            >{{ 'configurator.button.back' | cxTranslate }}</a
+          >
+        </li>
+      </ng-container>
+
+      <ng-container *ngIf="displayedGroups$ | async as groups">
+        <ng-container *ngIf="currentGroup$ | async as currentGroup">
+          <ng-container *ngFor="let group of groups">
+            <li
+              class="cx-configurator-menu-item {{
+                getGroupStatus(group, configuration) | async
+              }}"
+              [class.cx-configurator-menu-conflict]="
+                isConflictGroupType(group.groupType)
+              "
+              [class.WARNING]="isConflictGroupType(group.groupType)"
+            >
+              <a
+                [class.active]="currentGroup.id === group.id"
+                role="link"
+                tabindex="0"
+                (click)="click(group)"
+                (keyup)="clickOnEnter($event, group)"
+                [cxFocus]="{ key: group.id }"
+                >{{ group.description }}
+                <div class="groupIndicator">
+                  <div class="conflictNumberIndicator">
+                    {{ getConflictNumber(group) }}
+                  </div>
+                  <div class="groupStatusIndicator">
+                    <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                    <cx-icon
+                      class="WARNING"
+                      [type]="iconTypes.WARNING"
+                    ></cx-icon>
+                    <cx-icon
+                      class="COMPLETE"
+                      [type]="iconTypes.SUCCESS"
+                    ></cx-icon>
+                  </div>
+                  <div class="subGroupIndicator">
+                    <cx-icon
+                      *ngIf="hasSubGroups(group)"
+                      [type]="iconTypes.CARET_RIGHT"
+                    ></cx-icon>
+                  </div></div
+              ></a>
+            </li>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </nav>
+</ng-container>

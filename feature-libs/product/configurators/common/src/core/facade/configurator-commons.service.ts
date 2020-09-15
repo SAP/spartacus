@@ -2,23 +2,23 @@ import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
-  Configurator,
-  ConfiguratorActions,
-  ConfiguratorSelectors,
   GenericConfigurator,
-  GenericConfigUtilsService,
-  StateWithConfiguration,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
+import { ConfiguratorActions } from './../state/actions/index';
+import { ConfiguratorSelectors } from './../state/selectors/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   constructor(
-    protected store: Store<StateWithConfiguration>,
-    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected store: Store<StateWithConfigurator>,
+    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartService,
     protected configuratorUtils: ConfiguratorUtilsService

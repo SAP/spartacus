@@ -1,0 +1,121 @@
+%cx-configurator-group-menu {
+  .cx-configurator-menu {
+    list-style-type: none;
+    padding: 0;
+    background-color: #ffffff;
+    margin: 0 25px 0 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    border-radius: 2px;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-background);
+      margin: 0 0 0 0;
+    }
+
+    .cx-configurator-menu-item {
+      line-height: var(--cx-line-height, 1.6);
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+
+      &:last-child {
+        border-width: 0;
+      }
+
+      a {
+        padding: 15px;
+        display: flow-root;
+        text-decoration: none;
+        color: var(--cx-color-text);
+
+        &:hover {
+          cursor: pointer;
+          color: var(--cx-color-primary);
+        }
+
+        &.active {
+          color: var(--cx-color-primary);
+        }
+
+        .groupIndicator {
+          float: right;
+          width: 75px;
+          display: flex;
+
+          .groupStatusIndicator {
+            width: 25px;
+            cx-icon.ERROR,
+            cx-icon.WARNING,
+            cx-icon.COMPLETE {
+              display: none;
+            }
+
+            cx-icon.ERROR {
+              color: var(--cx-color-danger);
+            }
+            cx-icon.WARNING {
+              color: theme-color('warning');
+            }
+
+            cx-icon.COMPLETE {
+              color: var(--cx-color-text) !important;
+            }
+          }
+
+          .subGroupIndicator {
+            width: 25px;
+            cx-icon {
+              margin-left: 5px;
+            }
+          }
+
+          .conflictNumberIndicator {
+            width: 25px;
+          }
+        }
+      }
+
+      &.ERROR cx-icon.ERROR,
+      &.WARNING cx-icon.WARNING,
+      &.COMPLETE cx-icon.COMPLETE {
+        display: inline-block !important;
+      }
+
+      &.cx-configurator-menu-conflict {
+        background-color: mix(#ffffff, theme-color('warning'), 78%);
+      }
+    }
+  }
+
+  .cx-configurator-menu-back {
+    line-height: var(--cx-line-height, 1.6);
+    padding: 15px;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    background-color: var(--cx-color-background);
+
+    &:hover {
+      cursor: pointer;
+      color: var(--cx-color-primary);
+    }
+
+    a {
+      color: var(--cx-color-text);
+      display: block;
+
+      &:hover {
+        cursor: pointer;
+        color: var(--cx-color-primary);
+      }
+
+      cx-icon {
+        margin-top: 5px;
+        margin-right: 5px;
+        float: left;
+      }
+    }
+  }
+}

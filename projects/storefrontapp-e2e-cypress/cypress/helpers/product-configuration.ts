@@ -1,17 +1,19 @@
 import * as authentication from './auth-forms';
 import Chainable = Cypress.Chainable;
 
-const nextBtnSelector = 'cx-config-previous-next-buttons div div:last button';
+const nextBtnSelector =
+  'cx-configurator-previous-next-buttons div div:last button';
 const previousBtnSelector =
-  'cx-config-previous-next-buttons div div:first button';
-const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
+  'cx-configurator-previous-next-buttons div div:first button';
+const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
 const email = 'cpq02@sap.com';
 const password = 'welcome';
 
-const conflictDetectedMsgSelector = '.cx-config-attribute-conflict-container';
+const conflictDetectedMsgSelector =
+  '.cx-configurator-attribute-conflict-container';
 const conflictHeaderGroupSelector =
-  'cx-config-group-menu li.cx-config-menu-conflict';
+  'cx-configurator-group-menu li.cx-configurator-menu-conflict';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -19,15 +21,11 @@ const resolveIssuesLinkSelector =
 /**
  * Navigates to the product configuration page.
  *
- * @param {string} configuratorType - Configuration type
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(
-  configuratorType: string,
-  productId: string
-): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+export function goToConfigurationPage(productId: string): Chainable<Window> {
+  const location = `/electronics-spa/en/USD/configure/vc/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     this.isConfigPageDisplayed();
@@ -49,7 +47,7 @@ export function isGlobalMessageNotDisplayed() {
  * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
 export function isUpdatingMessageNotDisplayed() {
-  cy.get('div#cx-config-update-message').should('not.be.visible');
+  cy.get('div#cx-configurator-update-message').should('not.be.visible');
 }
 
 /**
@@ -108,7 +106,7 @@ export function checkFocus(
  */
 function isCurrentGroupActive(currentGroup: string) {
   cy.get(
-    'cx-config-group-title .cx-config-group-title:contains(' +
+    'cx-configurator-group-title .cx-configurator-group-title:contains(' +
       `${currentGroup}` +
       ')'
   ).should('be.visible');
@@ -178,7 +176,7 @@ export function isConfigPageDisplayed() {
  * @return - 'True' if the product title is visible, otherwise 'false'
  */
 export function isProductTitleDisplayed() {
-  cy.get('cx-config-product-title').should('be.visible');
+  cy.get('cx-configurator-product-title').should('be.visible');
 }
 
 /**
@@ -196,7 +194,7 @@ export function isShowMoreLinkAtProductTitleDisplayed() {
  * @return - 'True' if the product title is visible, otherwise 'false'
  */
 function isConfigTabBarDisplayed() {
-  cy.get('cx-config-tab-bar').should('be.visible');
+  cy.get('cx-configurator-tab-bar').should('be.visible');
 }
 
 /**
@@ -245,7 +243,7 @@ export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
     '.' +
       `${'ERROR'}` +
-      '.cx-config-menu-item>a:contains(' +
+      '.cx-configurator-menu-item>a:contains(' +
       `${groupName}` +
       ')'
   ).should('not.exist');
@@ -253,7 +251,7 @@ export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
     '.' +
       `${'COMPLETE'}` +
-      '.cx-config-menu-item>a:contains(' +
+      '.cx-configurator-menu-item>a:contains(' +
       `${groupName}` +
       ')'
   ).should('not.exist');
@@ -270,7 +268,7 @@ export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
     '.' +
       `${status}` +
-      '.cx-config-menu-item>a:contains(' +
+      '.cx-configurator-menu-item>a:contains(' +
       `${groupName}` +
       ')'
   ).should('exist');
@@ -344,7 +342,7 @@ export function isAttributeValueNotDisplayed(
  * @return {string} - Attribute ID
  */
 export function getAttributeId(attributeName: string, uiType: string): string {
-  return `cx-config--${uiType}--${attributeName}`;
+  return `cx-configurator--${uiType}--${attributeName}`;
 }
 
 /**
@@ -354,7 +352,7 @@ export function getAttributeId(attributeName: string, uiType: string): string {
  * @return {string} - Attribute label ID
  */
 export function getAttributeLabelId(attributeName: string): string {
-  return `cx-config--label--${attributeName}`;
+  return `cx-configurator--label--${attributeName}`;
 }
 
 /**
@@ -474,7 +472,7 @@ export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
  * @return - 'True' if the expected conflict description equals the actual one, otherwise 'false'
  */
 export function isConflictDescriptionDisplayed(description: string) {
-  cy.get('.cx-config-conflict-description').should(($div) => {
+  cy.get('.cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
   });
 }
@@ -503,7 +501,7 @@ function isConflictHeaderGroupNotDisplayed() {
  * @param {number} numberOfConflicts - Expected number of conflicts
  */
 function verifyNumberOfConflicts(numberOfConflicts: number): void {
-  cy.get('cx-config-group-menu .conflictNumberIndicator').contains(
+  cy.get('cx-configurator-group-menu .conflictNumberIndicator').contains(
     '(' + numberOfConflicts.toString() + ')'
   );
 }
@@ -620,7 +618,7 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
  * @return - 'True' if the group menu is visible, otherwise 'false'
  */
 export function isGroupMenuDisplayed() {
-  cy.get('cx-config-group-menu').should('be.visible');
+  cy.get('cx-configurator-group-menu').should('be.visible');
 }
 
 /**
@@ -629,7 +627,7 @@ export function isGroupMenuDisplayed() {
  * @return - 'True' if the group title is visible, otherwise 'false'
  */
 function isGroupTitleDisplayed() {
-  cy.get('cx-config-group-title').should('be.visible');
+  cy.get('cx-configurator-group-title').should('be.visible');
 }
 
 /**
@@ -638,7 +636,7 @@ function isGroupTitleDisplayed() {
  * @return - 'True' if the group form is visible, otherwise 'false'
  */
 function isGroupFormDisplayed() {
-  cy.get('cx-config-form').should('be.visible');
+  cy.get('cx-configurator-form').should('be.visible');
 }
 
 /**
@@ -647,7 +645,7 @@ function isGroupFormDisplayed() {
  * @return - 'True' if the 'previous' and 'next' buttons are visible, otherwise 'false'
  */
 function isPreviousAndNextBtnsDispalyed() {
-  cy.get('cx-config-previous-next-buttons').should('be.visible');
+  cy.get('cx-configurator-previous-next-buttons').should('be.visible');
 }
 
 /**
@@ -656,7 +654,7 @@ function isPreviousAndNextBtnsDispalyed() {
  * @return - 'True' if the price summary is visible, otherwise 'false'
  */
 function isPriceSummaryDisplayed() {
-  cy.get('cx-config-price-summary').should('be.visible');
+  cy.get('cx-configurator-price-summary').should('be.visible');
 }
 
 /**
@@ -665,7 +663,7 @@ function isPriceSummaryDisplayed() {
  * @return - 'True' if the 'add to cart' button is visible, otherwise 'false'
  */
 function isAddToCartBtnDisplayed() {
-  cy.get('cx-config-add-to-cart-button').should('be.visible');
+  cy.get('cx-configurator-add-to-cart-button').should('be.visible');
 }
 
 /**
@@ -681,14 +679,14 @@ export function isConfigProductTitleDisplayed() {
  * Verifies whether the Add To Cart Button component is displayed.
  */
 export function isConfigAddToCartButtonDisplayed() {
-  cy.get('.cx-config-add-to-cart-btn').should('be.visible');
+  cy.get('.cx-configurator-add-to-cart-btn').should('be.visible');
 }
 
 /**
  * Verifies whether the overview content is displayed.
  */
 export function isOverviewContentDisplayed() {
-  cy.get('.cx-config-group-attribute').should('be.visible');
+  cy.get('.cx-configurator-group-attribute').should('be.visible');
 }
 
 /**
@@ -725,7 +723,7 @@ export function isTotalPrice(formattedPrice: string) {
  * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage(): void {
-  cy.get('cx-config-tab-bar div div:last a').click({
+  cy.get('cx-configurator-tab-bar div div:last a').click({
     force: true,
   });
 }
@@ -736,7 +734,7 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  cy.get('.cx-config-menu>li')
+  cy.get('.cx-configurator-menu>li')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
@@ -855,7 +853,7 @@ export function navigateToOrderDetails(): void {
     .first()
     .click()
     .then(() => {
-      cy.get('cx-config-overview-form').should('be.visible');
+      cy.get('cx-configurator-overview-form').should('be.visible');
     });
 }
 

@@ -1,0 +1,40 @@
+%cx-configurator-overview-notification-banner {
+  margin-right: 15px;
+  margin-left: 15px;
+
+  .cx-error-container {
+    background-color: rgba(245, 206, 206, 1);
+    padding: 5px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    width: 100%;
+
+    .cx-error-icon-container {
+      padding: 5px 15px 5px 15px;
+    }
+
+    .cx-error-msg-container {
+      padding-top: 10px;
+    }
+
+    button.link {
+      color: var(--cx-color-text);
+      border-width: 0;
+      background-color: transparent;
+      text-decoration: none;
+      font-size: inherit;
+      width: max-content;
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: none;
+      }
+    }
+
+    .cx-error-icon {
+      color: var(--cx-color-danger);
+      font-size: 30px;
+    }
+  }
+}

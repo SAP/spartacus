@@ -17,7 +17,6 @@ import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
-const ORDERS_ENDPOINT = '/orders';
 const CARTS_ENDPOINT = '/carts/';
 
 @Injectable()
@@ -34,7 +33,6 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
   }
 
   public placeOrder(userId: string, cartId: string): Observable<Order> {
-    const url = this.getEndpoint(userId, ORDERS_ENDPOINT);
     const params = new HttpParams({
       fromString: 'cartId=' + cartId + '&' + FULL_PARAMS,
     });
@@ -47,7 +45,11 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     }
 
     return this.http
-      .post<Occ.Order>(url, {}, { headers, params })
+      .post<Occ.Order>(
+        this.occEndpoints.getUrl('placeOrder', { userId }),
+        {},
+        { headers, params }
+      )
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 

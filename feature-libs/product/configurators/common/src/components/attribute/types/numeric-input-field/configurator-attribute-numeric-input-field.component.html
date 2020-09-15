@@ -1,0 +1,30 @@
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <div class="row">
+    <div class="col-md-9 col-lg-9">
+      <div class="form-group">
+        <input
+          [formControl]="attributeInputForm"
+          [required]="attribute.required"
+          class="form-control"
+          attr.role="{{ attribute.dataType }}"
+          attr.aria-required="{{ attribute.required }}"
+          (change)="onChange()"
+          [cxFocus]="{ key: attribute.name }"
+          maxlength="{{ attribute.maxlength }}"
+          attr.aria-labelledby="{{
+            createAriaLabelledBy('label', attribute.name)
+          }}"
+        />
+        <div
+          class="cx-configurator-attribute-numeric-input-validation-message"
+          *ngIf="mustDisplayValidationMessage()"
+        >
+          {{
+            'configurator.attribute.wrongNumericFormat'
+              | cxTranslate: { pattern: numericFormatPattern }
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

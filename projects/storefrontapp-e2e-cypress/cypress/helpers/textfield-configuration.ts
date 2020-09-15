@@ -2,20 +2,16 @@ import * as cart from './cart';
 import Chainable = Cypress.Chainable;
 
 const addToCartButtonSelector =
-  '.cx-config-textfield-add-to-cart-btn div button';
+  '.cx-configurator-textfield-add-to-cart-btn div button';
 
 /**
  * Navigates to the product configuration page.
  *
- * @param {string} configuratorType - Configuration type
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(
-  configuratorType: string,
-  productId: string
-): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${productId}`;
+export function goToConfigurationPage(productId: string): Chainable<Window> {
+  const location = `/electronics-spa/en/USD/configure/textfield/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
   });
@@ -60,7 +56,7 @@ export function clickOnEditConfigurationBtn(): void {
  * @return - 'True' if the configuration page is visible, otherwise 'false'
  */
 export function isConfigurationPageIsDisplayed() {
-  cy.get('cx-config-textfield-form').should('be.visible');
+  cy.get('cx-configurator-textfield-form').should('be.visible');
 }
 
 /**
@@ -82,7 +78,7 @@ export function isAttributeDisplayed(attributeName: string) {
  */
 export function getAttributeId(attributeName: string): string {
   const trimmedName = attributeName.replace(/\s/g, '');
-  return `cx-config-textfield${trimmedName}`;
+  return `cx-configurator-textfield${trimmedName}`;
 }
 
 /**
