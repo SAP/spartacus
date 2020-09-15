@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-state';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { AuthRedirectService } from '../../auth/user-auth/guards/auth-redirect.service';
+import { BasicAuthService } from '../../auth/user-auth/services/basic-auth.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -17,7 +17,7 @@ import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthService extends AuthService {
+export class AsmAuthService extends BasicAuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,

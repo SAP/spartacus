@@ -6,4 +6,5 @@ export * from './facade/user-id.service';
 export * from './guards/index';
 export * from './models/auth-token.model';
 export * from './services/auth-config.service';
+export * from './services/basic-auth.service';
 export * from './store/actions';

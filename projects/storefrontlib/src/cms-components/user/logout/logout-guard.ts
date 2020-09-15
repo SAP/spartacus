@@ -34,7 +34,7 @@ export class LogoutGuard implements CanActivate {
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
      */
-    return from(this.auth.logout()).pipe(
+    return from(this.logout()).pipe(
       switchMap(() => {
         return this.cms
           .hasPage({
@@ -51,6 +51,10 @@ export class LogoutGuard implements CanActivate {
           );
       })
     );
+  }
+
+  protected logout(): Promise<any> {
+    return this.auth.logout();
   }
 
   /**

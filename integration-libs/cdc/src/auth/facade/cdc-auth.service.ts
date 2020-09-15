@@ -5,24 +5,26 @@ import {
   AuthService,
   AuthStorageService,
   AuthToken,
+  BasicAuthService,
   OCC_USER_ID_CURRENT,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { CdcAuthActions } from '../store/actions';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CdcAuthService {
+export class CdcAuthService extends AuthService {
   constructor(
-    protected authService: AuthService,
     protected winRef: WindowRef,
     protected store: Store,
     protected authStorageService: AuthStorageService,
-    protected userIdService: UserIdService
-  ) {}
+    protected userIdService: UserIdService,
+    protected basicAuthService: BasicAuthService
+  ) {
+    super(basicAuthService);
+  }
 
   /**
    * Loads a new user token using custom oauth flow
@@ -86,17 +88,15 @@ export class CdcAuthService {
     this.store.dispatch(new AuthActions.Login());
   }
 
-  public isUserLoggedIn(): Observable<boolean> {
-    return this.authService.isUserLoggedIn();
-  }
-
   /**
    * Logout a storefront customer
    */
-  public logout(): void {
-    this.authService.logout();
-    // trigger logout from CDC
-    this.logoutFromCdc();
+  public logout(): Promise<any> {
+    return Promise.all([
+      super.logout(),
+      // trigger logout from CDC
+      this.logoutFromCdc(),
+    ]);
   }
 
   /**

@@ -27,32 +27,33 @@ export class AuthConfigService {
   }
 
   public getTokenEndpoint(): string {
-    const tokenEndpoint = this.authConfig.authentication.tokenEndpoint;
+    const tokenEndpoint = this.authConfig.authentication.tokenEndpoint ?? '';
     return this.prefixEndpoint(tokenEndpoint);
   }
 
   public getLoginEndpoint(): string {
-    const loginEndpoint = this.authConfig.authentication.loginEndpoint;
+    const loginEndpoint = this.authConfig.authentication.loginEndpoint ?? '';
     return this.prefixEndpoint(loginEndpoint);
   }
 
   public getRevokeEndpoint(): string {
-    const revokeEndpoint = this.authConfig.authentication.revokeEndpoint;
+    const revokeEndpoint = this.authConfig.authentication.revokeEndpoint ?? '';
     return this.prefixEndpoint(revokeEndpoint);
   }
 
   public getLogoutUrl(): string {
-    const logoutUrl = this.authConfig.authentication.logoutUrl;
+    const logoutUrl = this.authConfig.authentication.logoutUrl ?? '';
     return this.prefixEndpoint(logoutUrl);
   }
 
   public getUserinfoEndpoint(): string {
-    const userinfoEndpoint = this.authConfig.authentication.userinfoEndpoint;
+    const userinfoEndpoint =
+      this.authConfig.authentication.userinfoEndpoint ?? '';
     return this.prefixEndpoint(userinfoEndpoint);
   }
 
   public getOAuthLibConfig(): AuthLibConfig {
-    return this.authConfig.authentication?.OAuthLibConfig;
+    return this.authConfig.authentication?.OAuthLibConfig ?? {};
   }
 
   protected prefixEndpoint(endpoint: string): string {
