@@ -1,11 +1,11 @@
-%cx-config-attribute-multi-selection-image {
+%cx-configurator-attribute-multi-selection-image {
   margin-left: 20px;
-  .cx-config-select {
+  .cx-configurator-select {
     padding: 5px;
     cursor: pointer;
 
-    .cx-config-attribute-value-img,
-    .cx-config-attribute-value-img-dummy {
+    .cx-configurator-attribute-value-img,
+    .cx-configurator-attribute-value-img-dummy {
       padding: 3px;
       display: block;
       margin-left: auto;
@@ -15,13 +15,13 @@
       border: transparent 3px solid;
     }
 
-    .cx-config-attribute-value-img-dummy {
+    .cx-configurator-attribute-value-img-dummy {
       height: 75%;
     }
 
     &[aria-checked='true'] {
-      .cx-config-attribute-value-img,
-      .cx-config-attribute-value-img-dummy {
+      .cx-configurator-attribute-value-img,
+      .cx-configurator-attribute-value-img-dummy {
         border: var(--cx-color-primary) 3px solid;
       }
     }
@@ -32,7 +32,7 @@
       left: 25px;
     }
 
-    .cx-config-attribute-value-label {
+    .cx-configurator-attribute-value-label {
       text-align: center;
     }
   }

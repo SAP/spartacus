@@ -12,7 +12,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-attribute-footer',
+  selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

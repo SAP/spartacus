@@ -10,12 +10,12 @@ import { FormControl } from '@angular/forms';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
-  selector: 'cx-config-textfield-input-field',
+  selector: 'cx-configurator-textfield-input-field',
   templateUrl: './configurator-textfield-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
-  PREFIX_TEXTFIELD = 'cx-config-textfield';
+  PREFIX_TEXTFIELD = 'cx-configurator-textfield';
   attributeInputForm = new FormControl('');
 
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;

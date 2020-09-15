@@ -172,24 +172,24 @@ describe('ConfigProductTitleComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-product-title'
+      '.cx-configurator-product-title'
     );
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-product-title',
+      '.cx-configurator-product-title',
       PRODUCT_NAME
     );
 
     ConfiguratorComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-config-product-title-details.open'
+      '.cx-configurator-product-title-details.open'
     );
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-toogle-details-link-text',
+      '.cx-configurator-toogle-details-link-text',
       'configurator.header.showMore' //Check translation key, because translation module is not available
     );
   });
@@ -202,13 +202,13 @@ describe('ConfigProductTitleComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-product-title-details.open'
+      '.cx-configurator-product-title-details.open'
     );
 
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-toogle-details-link-text',
+      '.cx-configurator-toogle-details-link-text',
       'configurator.header.showLess' //Check translation key, because translation module is not available
     );
   });
@@ -218,12 +218,12 @@ describe('ConfigProductTitleComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-product-title'
+      '.cx-configurator-product-title'
     );
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-product-title',
+      '.cx-configurator-product-title',
       PRODUCT_NAME
     );
   });

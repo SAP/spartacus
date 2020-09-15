@@ -13,7 +13,7 @@ import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key
 import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-attribute-input-field',
+  selector: 'cx-configurator-attribute-input-field',
   templateUrl: './configurator-attribute-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

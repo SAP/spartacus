@@ -15,7 +15,7 @@ import { ConfiguratorRouter } from './../service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-add-to-cart-button',
+  selector: 'cx-configurator-add-to-cart-button',
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

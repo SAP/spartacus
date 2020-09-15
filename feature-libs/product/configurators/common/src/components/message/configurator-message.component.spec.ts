@@ -95,7 +95,8 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should contain d-none class
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+        .length
     ).toBe(0);
   });
 
@@ -106,18 +107,20 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+        .length
     ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+          .length
       ).toBe(1);
 
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message').length
       ).toBe(1);
       done();
     }, 2000);
@@ -130,18 +133,20 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+        .length
     ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+          .length
       ).toBe(1);
 
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message').length
       ).toBe(1);
       done();
     }, 2000);
@@ -154,18 +159,20 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+        .length
     ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+          .length
       ).toBe(1);
 
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message').length
       ).toBe(1);
       done();
     }, 2000);
@@ -179,18 +186,20 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+        .length
     ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
+          .length
       ).toBe(1);
 
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message').length
+        htmlElem.querySelectorAll('#cx-configurator-update-message').length
       ).toBe(1);
       done();
     }, 2000);

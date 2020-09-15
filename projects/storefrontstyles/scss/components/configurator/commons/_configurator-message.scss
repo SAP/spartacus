@@ -1,4 +1,4 @@
-%cx-config-message {
+%cx-configurator-message {
   .wrapper {
     position: absolute;
     height: 100%;
@@ -6,7 +6,7 @@
     pointer-events: none;
     z-index: 99;
 
-    div#cx-config-update-message {
+    div#cx-configurator-update-message {
       pointer-events: auto;
       position: sticky;
       top: 0;

@@ -14,19 +14,19 @@ describe('ConfigUIKeyGeneratorService', () => {
         'attributeId',
         'valueId'
       )
-    ).toBe('cx-config--prefix--attributeId--valueId');
+    ).toBe('cx-configurator--prefix--attributeId--valueId');
   });
 
   it('should generate attribute key', () => {
     expect(
       ConfiguratorUIKeyGenerator.createAttributeUiKey('prefix', 'attributeId')
-    ).toBe('cx-config--prefix--attributeId');
+    ).toBe('cx-configurator--prefix--attributeId');
   });
 
   it('should return only attribute id for aria-labelledby', () => {
     expect(
       ConfiguratorUIKeyGenerator.createAriaLabelledBy('prefix', 'attributeId')
-    ).toEqual('cx-config--label--attributeId');
+    ).toEqual('cx-configurator--label--attributeId');
   });
 
   it("should return only attribute id for aria-labelledby because value id is 'undefined'", () => {
@@ -36,7 +36,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         'attributeId',
         undefined
       )
-    ).toEqual('cx-config--label--attributeId');
+    ).toEqual('cx-configurator--label--attributeId');
   });
 
   it("should return only attribute id for aria-labelledby because value id is 'null'", () => {
@@ -46,7 +46,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         'attributeId',
         null
       )
-    ).toEqual('cx-config--label--attributeId');
+    ).toEqual('cx-configurator--label--attributeId');
   });
 
   it('should return attribute id, value id  and without quantity for aria-labelledby', () => {
@@ -57,7 +57,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         'valueId'
       )
     ).toEqual(
-      'cx-config--label--attributeId cx-config--prefix--attributeId--valueId cx-config--price--optionsPriceValue--attributeId--valueId'
+      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
     );
   });
 
@@ -70,7 +70,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         undefined
       )
     ).toEqual(
-      'cx-config--label--attributeId cx-config--prefix--attributeId--valueId cx-config--price--optionsPriceValue--attributeId--valueId'
+      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
     );
   });
 
@@ -83,7 +83,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         null
       )
     ).toEqual(
-      'cx-config--label--attributeId cx-config--prefix--attributeId--valueId cx-config--price--optionsPriceValue--attributeId--valueId'
+      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
     );
   });
 
@@ -96,7 +96,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         true
       )
     ).toEqual(
-      'cx-config--label--attributeId cx-config--prefix--attributeId--valueId cx-config--price--optionsPriceValue--attributeId--valueId'
+      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
     );
   });
 
@@ -109,7 +109,7 @@ describe('ConfigUIKeyGeneratorService', () => {
         false
       )
     ).toEqual(
-      'cx-config--label--attributeId cx-config--prefix--attributeId--valueId cx-config--option--price--attributeId--valueId'
+      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--option--price--attributeId--valueId'
     );
   });
 
@@ -118,7 +118,7 @@ describe('ConfigUIKeyGeneratorService', () => {
       ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
         currentAttribute
       )
-    ).toBe('cx-config--radioGroup--attributeId');
+    ).toBe('cx-configurator--radioGroup--attributeId');
   });
 
   it('should generate value id for configurator', () => {
@@ -127,6 +127,6 @@ describe('ConfigUIKeyGeneratorService', () => {
         currentAttribute,
         'valueId'
       )
-    ).toBe('cx-config--radioGroup--attributeId--valueId');
+    ).toBe('cx-configurator--radioGroup--attributeId--valueId');
   });
 });

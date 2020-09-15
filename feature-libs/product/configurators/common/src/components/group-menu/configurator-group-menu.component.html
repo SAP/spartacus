@@ -1,8 +1,8 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <nav>
-    <ul class="cx-config-menu">
+    <ul class="cx-configurator-menu">
       <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-        <li class="cx-config-menu-back" *ngIf="parentGroup !== null">
+        <li class="cx-configurator-menu-back" *ngIf="parentGroup !== null">
           <!--TODO: "Back" text is still under discussion -->
           <a
             role="link"
@@ -19,10 +19,10 @@
         <ng-container *ngIf="currentGroup$ | async as currentGroup">
           <ng-container *ngFor="let group of groups">
             <li
-              class="cx-config-menu-item {{
+              class="cx-configurator-menu-item {{
                 getGroupStatus(group, configuration) | async
               }}"
-              [class.cx-config-menu-conflict]="
+              [class.cx-configurator-menu-conflict]="
                 isConflictGroupType(group.groupType)
               "
               [class.WARNING]="isConflictGroupType(group.groupType)"

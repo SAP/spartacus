@@ -17,7 +17,7 @@ import { ConfiguratorRouter } from './../service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-overview-notification-banner',
+  selector: 'cx-configurator-overview-notification-banner',
   templateUrl: './configurator-overview-notification-banner.component.html',
 })
 export class ConfiguratorOverviewNotificationBannerComponent {

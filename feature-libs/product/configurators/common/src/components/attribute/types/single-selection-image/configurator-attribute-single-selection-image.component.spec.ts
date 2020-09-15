@@ -92,7 +92,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     fixture.detectChanges();
 
     expect(
-      htmlElem.querySelectorAll('.cx-config-attribute-value-img').length
+      htmlElem.querySelectorAll('.cx-configurator-attribute-value-img').length
     ).toBe(3);
   });
 
@@ -105,7 +105,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   it('should select another single selection image value', () => {
     const singleSelectionImageId =
-      '#cx-config--single_selection_image--' +
+      '#cx-configurator--single_selection_image--' +
       component.attribute.name +
       '--' +
       component.attribute.values[1].valueCode +
