@@ -218,13 +218,12 @@ export function clearOrganizationState(
   reducer: ActionReducer<OrganizationState, Action>
 ): ActionReducer<OrganizationState, Action> {
   return function (state, action) {
-    const allowedActions = [
+    const allowedActionsForClear = [
       BudgetActions.CREATE_BUDGET,
       BudgetActions.UPDATE_BUDGET,
     ];
-    if (allowedActions.includes(action.type)) {
+    if (allowedActionsForClear.includes(action.type)) {
       state = undefined;
-      console.log('clear');
     }
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
