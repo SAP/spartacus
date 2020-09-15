@@ -2,14 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthActions,
-  AuthService,
   AuthStorageService,
+  BasicAuthService,
   OCC_USER_ID_CURRENT,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CdcAuthActions } from '../store';
 import { CdcAuthService } from './cdc-auth.service';
 
@@ -25,11 +23,9 @@ const mockedWindowRef = {
   },
 };
 
-class MockAuthService {
+class MockBasicAuthService {
+  initImplicit() {}
   logout() {}
-  isUserLoggedIn() {
-    of();
-  }
 }
 
 class MockAuthStorageService {
@@ -44,7 +40,7 @@ describe('CdcAuthService', () => {
   let service: CdcAuthService;
   let store: Store;
   let winRef: WindowRef;
-  let authService: AuthService;
+  let basicAuthService: BasicAuthService;
   let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
 
@@ -53,7 +49,7 @@ describe('CdcAuthService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         CdcAuthService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: BasicAuthService, useClass: MockBasicAuthService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: WindowRef, useValue: mockedWindowRef },
@@ -63,7 +59,7 @@ describe('CdcAuthService', () => {
     service = TestBed.inject(CdcAuthService);
     winRef = TestBed.inject(WindowRef);
     store = TestBed.inject(Store);
-    authService = TestBed.inject(AuthService);
+    basicAuthService = TestBed.inject(BasicAuthService);
     authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
   });
@@ -95,11 +91,11 @@ describe('CdcAuthService', () => {
 
   it('should dispatch proper actions for logout standard customer', () => {
     spyOn(service as any, 'logoutFromCdc').and.stub();
-    spyOn(authService, 'logout').and.callThrough();
+    spyOn(basicAuthService, 'logout').and.callThrough();
 
     service.logout();
     expect(service['logoutFromCdc']).toHaveBeenCalled();
-    expect(authService.logout).toHaveBeenCalled();
+    expect(basicAuthService.logout).toHaveBeenCalled();
   });
 
   it('should logout user from CDC', () => {
@@ -110,18 +106,6 @@ describe('CdcAuthService', () => {
     service['logoutFromCdc']();
 
     expect(cdcLogout).toHaveBeenCalled();
-  });
-
-  it('isUserLoggedIn should pass the data from AuthService', () => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true, false));
-
-    const results = [];
-    service
-      .isUserLoggedIn()
-      .pipe(take(2))
-      .subscribe((loggedIn) => results.push(loggedIn));
-
-    expect(results).toEqual([true, false]);
   });
 
   it('should allow to login with token data', () => {
