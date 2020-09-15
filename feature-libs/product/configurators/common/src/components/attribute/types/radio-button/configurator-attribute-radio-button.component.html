@@ -27,7 +27,9 @@
               ? 'checked'
               : null
           "
-          (change)="onSelect()"
+          (mousedown)="onMouseDown(value.valueCode)"
+          (focusout)="onFocusOut($event)"
+          (keyup)="onKeyUp()"
         />
         <div class="cx-configurator-attribute-value-label-container">
           <label
