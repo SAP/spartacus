@@ -103,6 +103,13 @@ export interface TableFieldOptions {
   label?: string | TableHeader;
 
   /**
+   * Indicates wether the cell is linkable.
+   *
+   * If the cells is linkable, an anchor link can be generated in the table data element.
+   */
+  linkable?: boolean;
+
+  /**
    * Component to render table header _content_ (`<th>...</th>`) for the table field.
    *
    * If no component is configured, the global table component for the header will be used

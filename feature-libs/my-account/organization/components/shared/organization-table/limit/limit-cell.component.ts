@@ -1,21 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Permission } from '@spartacus/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
-  template: `
-    <a
-      [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-      [tabindex]="tabIndex"
-    >
-      <span class="text" *ngIf="model.threshold; else type"
-        >{{ model.threshold }} {{ model.currency?.symbol }}
-        {{ 'permission.per.' + model.periodRange | cxTranslate }}
-      </span>
-      <ng-template #type>
-        <span class="text">{{ model.orderApprovalPermissionType.name }}</span>
-      </ng-template>
-    </a>
-  `,
+  templateUrl: './limit-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LimitCellComponent extends OrganizationCellComponent {}
+export class LimitCellComponent extends OrganizationCellComponent {
+  get isTimeSpanThreshold(): boolean {
+    return (
+      (this.model as Permission).orderApprovalPermissionType.code ===
+      'B2BOrderThresholdTimespanPermission'
+    );
+  }
+
+  get isOrderThreshold(): boolean {
+    return (
+      (this.model as Permission).orderApprovalPermissionType.code ===
+      'B2BOrderThresholdPermission'
+    );
+  }
+
+  get isExceedPermission(): boolean {
+    return (
+      (this.model as Permission).orderApprovalPermissionType.code ===
+      'B2BBudgetExceededPermission'
+    );
+  }
+}

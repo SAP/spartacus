@@ -207,6 +207,7 @@ export const unitsTableConfig: TableConfig = {
         cells: {
           active: {
             dataComponent: StatusCellComponent,
+            linkable: false,
           },
         },
       },
