@@ -24,7 +24,7 @@ import {
 } from '@spartacus/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 
-import { getProjectTargets } from '../../../schematics/src/shared/utils/workspace-utils';
+import { getProjectTargets } from '@spartacus/schematics';
 
 function provideTestOutletsModuleImports(options: DevSpartacusOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
