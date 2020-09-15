@@ -3,13 +3,13 @@ import { interval, Observable } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { MessageConfig } from '../config/message-config';
-import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
+import { ConfiguratorRouterExtractorService } from '../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-configurator-message',
-  templateUrl: './configurator-message.component.html',
+  selector: 'cx-configurator-update-message',
+  templateUrl: './configurator-update-message.component.html',
 })
-export class ConfiguratorMessageComponent {
+export class ConfiguratorUpdateMessageComponent {
   protected hasPendingChanges$: Observable<
     boolean
   > = this.configRouterExtractorService
