@@ -1,10 +1,6 @@
-import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from '@spartacus/assets';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import {
-  configuratorTranslationChunksConfig,
-  configuratorTranslations,
-} from './assets/translations/translations';
+import { StorefrontConfig } from '@spartacus/storefront';
 import { CommonConfiguratorComponentsModule } from './components/common-configurator-components.module';
 import { ConfigurationMessageLoaderModule } from './components/message/configurator-message-loader.module';
 import { CommonConfiguratorCoreModule } from './core/common-configurator-core.module';
@@ -15,20 +11,14 @@ import { CommonConfiguratorCoreModule } from './core/common-configurator-core.mo
     CommonConfiguratorComponentsModule,
     ConfigurationMessageLoaderModule,
   ],
-  providers: [
-    provideConfig({
-      i18n: {
-        resources: {
-          en: { ...translations.en, ...configuratorTranslations.en },
-        },
-        chunks: {
-          ...translationChunksConfig,
-          ...configuratorTranslationChunksConfig,
-        },
-
-        fallbackLang: 'en',
-      },
-    }),
-  ],
 })
-export class CommonConfiguratorModule {}
+export class CommonConfiguratorModule {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<CommonConfiguratorModule> {
+    return {
+      ngModule: CommonConfiguratorModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
