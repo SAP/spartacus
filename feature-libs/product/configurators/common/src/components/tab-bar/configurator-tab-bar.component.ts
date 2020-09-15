@@ -6,7 +6,7 @@ import { ConfiguratorRouter } from './../service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-tab-bar',
+  selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

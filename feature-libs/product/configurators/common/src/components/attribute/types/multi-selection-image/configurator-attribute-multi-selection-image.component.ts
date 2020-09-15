@@ -12,7 +12,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
-  selector: 'cx-config-attribute-multi-selection-image',
+  selector: 'cx-configurator-attribute-multi-selection-image',
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

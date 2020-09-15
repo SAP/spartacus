@@ -103,7 +103,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
 
     expect(
-      htmlElem.querySelectorAll('.cx-config-attribute-value-img').length
+      htmlElem.querySelectorAll('.cx-configurator-attribute-value-img').length
     ).toBe(4);
   });
 
@@ -116,7 +116,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
 
   it('should select a new value and deselect it again', () => {
     const singleSelectionImageId =
-      '#cx-config--multi_selection_image--' +
+      '#cx-configurator--multi_selection_image--' +
       component.attribute.name +
       '--' +
       component.attribute.values[0].valueCode +

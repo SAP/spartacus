@@ -1,11 +1,11 @@
-@mixin cx-config-attribute-image {
+@mixin cx-configurator-attribute-selection-image {
   margin-left: 20px;
 
-  .cx-config-select {
+  .cx-configurator-select {
     padding: 5px;
 
-    .cx-config-attribute-value-img,
-    .cx-config-attribute-value-img-dummy {
+    .cx-configurator-attribute-value-img,
+    .cx-configurator-attribute-value-img-dummy {
       padding: 3px;
       display: block;
       margin-left: auto;
@@ -15,7 +15,7 @@
       border: transparent 3px solid;
     }
 
-    .cx-config-attribute-value-img-dummy {
+    .cx-configurator-attribute-value-img-dummy {
       height: 75%;
     }
 
@@ -24,19 +24,19 @@
       opacity: 0;
       position: absolute;
 
-      &:focus + .cx-config-attribute-value-label-container {
+      &:focus + .cx-configurator-attribute-value-label-container {
         @include visible-focus();
       }
     }
 
-    input[aria-checked='true'] + .cx-config-attribute-value-label-container {
-      .cx-config-attribute-value-img,
-      .cx-config-attribute-value-img-dummy {
+    input[aria-checked='true'] + .cx-configurator-attribute-value-label-container {
+      .cx-configurator-attribute-value-img,
+      .cx-configurator-attribute-value-img-dummy {
         border: var(--cx-color-primary) 3px solid;
       }
     }
 
-    .cx-config-attribute-value-label {
+    .cx-configurator-attribute-value-label {
       cursor: pointer;
       text-align: center;
     }

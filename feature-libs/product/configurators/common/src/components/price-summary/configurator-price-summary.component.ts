@@ -6,7 +6,7 @@ import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-price-summary',
+  selector: 'cx-configurator-price-summary',
   templateUrl: './configurator-price-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

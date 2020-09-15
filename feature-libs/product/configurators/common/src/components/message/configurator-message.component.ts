@@ -6,7 +6,7 @@ import { MessageConfig } from '../config/message-config';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-message',
+  selector: 'cx-configurator-message',
   templateUrl: './configurator-message.component.html',
 })
 export class ConfiguratorMessageComponent {

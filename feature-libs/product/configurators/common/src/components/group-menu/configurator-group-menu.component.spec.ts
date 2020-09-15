@@ -176,7 +176,9 @@ describe('ConfigurationGroupMenuComponent', () => {
   it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
+    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
+      5
+    );
   });
 
   it('should render no groups if configuration is not consistent and issue navigation has not been done', () => {
@@ -192,7 +194,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     };
     productConfigurationObservable = of(incompleteConfig);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
+      0
+    );
   });
 
   it('should render no groups if configuration is not consistent and issue navigation has not been done', () => {
@@ -208,7 +212,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     };
     productConfigurationObservable = of(incompleteConfig);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
+      0
+    );
   });
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
@@ -224,7 +230,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     };
     productConfigurationObservable = of(incompleteConfig);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(5);
+    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
+      5
+    );
   });
 
   it('should return 5 groups after groups have been compiled', () => {

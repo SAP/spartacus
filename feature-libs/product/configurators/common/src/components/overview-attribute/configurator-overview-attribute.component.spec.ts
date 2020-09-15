@@ -32,7 +32,8 @@ describe('ConfigurationOverviewAttributeComponent', () => {
 
   it('should show attribute value', () => {
     expect(
-      htmlElem.querySelectorAll('.cx-config-overview-attribute-value').length
+      htmlElem.querySelectorAll('.cx-configurator-overview-attribute-value')
+        .length
     ).toBe(1);
   });
 });

@@ -8,7 +8,7 @@
     <ng-container *ngFor="let value of attribute.values">
       <div
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        class="cx-config-attribute-value-label-read-only"
+        class="cx-configurator-attribute-value-label-read-only"
         *ngIf="value.selected"
         tabindex="0"
       >
@@ -26,7 +26,7 @@
             attribute.selectedSingleValue
           )
         }}"
-        class="cx-config-attribute-value-label-read-only"
+        class="cx-configurator-attribute-value-label-read-only"
         tabindex="0"
       >
         {{ attribute.selectedSingleValue }}
@@ -37,7 +37,7 @@
         id="{{
           createValueUiKey('label', attribute.name, attribute.userInput)
         }}"
-        class="cx-config-attribute-value-label-read-only"
+        class="cx-configurator-attribute-value-label-read-only"
         tabindex="0"
       >
         {{ attribute.userInput }}

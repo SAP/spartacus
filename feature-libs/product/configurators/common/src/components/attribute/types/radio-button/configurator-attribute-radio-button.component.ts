@@ -11,7 +11,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
-  selector: 'cx-config-attribute-radio-button',
+  selector: 'cx-configurator-attribute-radio-button',
   templateUrl: './configurator-attribute-radio-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
