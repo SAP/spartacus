@@ -8,7 +8,7 @@ import { ReplenishmentOrderList } from '../../../model/replenishment-order.model
 import { UserReplenishmentOrderAdapter } from '../../connectors/replenishment-order/user-replenishment-order.adapter';
 import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
 import { UserActions } from '../actions/index';
-import * as fromUserOrdersEffect from './user-replenishment-orders.effect';
+import * as fromEffect from './user-replenishment-orders.effect';
 
 const mockUserReplenishmentOrders: ReplenishmentOrderList = {
   replenishmentOrders: [],
@@ -17,15 +17,15 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
 };
 
 describe('User Replenishment Orders effect', () => {
-  let userReplenishmentOrdersEffect: fromUserOrdersEffect.UserReplenishmentOrdersEffect;
-  let orderReplenishmentConnector: UserReplenishmentOrderConnector;
-  let actions$: Observable<any>;
+  let userReplenishmentOrdersEffect: fromEffect.UserReplenishmentOrdersEffect;
+  let replenishmentOrderConnector: UserReplenishmentOrderConnector;
+  let actions$: Observable<Actions>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        fromUserOrdersEffect.UserReplenishmentOrdersEffect,
+        fromEffect.UserReplenishmentOrdersEffect,
         { provide: UserReplenishmentOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
@@ -33,16 +33,16 @@ describe('User Replenishment Orders effect', () => {
 
     actions$ = TestBed.inject(Actions);
     userReplenishmentOrdersEffect = TestBed.inject(
-      fromUserOrdersEffect.UserReplenishmentOrdersEffect
+      fromEffect.UserReplenishmentOrdersEffect
     );
-    orderReplenishmentConnector = TestBed.inject(
+    replenishmentOrderConnector = TestBed.inject(
       UserReplenishmentOrderConnector
     );
   });
 
-  describe('loadUserReplenishOrders$', () => {
-    it('should load user Orders', () => {
-      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
+  describe('loadUserReplenishmentOrders$', () => {
+    it('should load User Replenishment Orders', () => {
+      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
         of(mockUserReplenishmentOrders)
       );
       const action = new UserActions.LoadUserReplenishmentOrders({
@@ -58,12 +58,12 @@ describe('User Replenishment Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
       ).toBeObservable(expected);
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
-      spyOn(orderReplenishmentConnector, 'getHistory').and.returnValue(
+      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
         throwError('Error')
       );
 
@@ -80,7 +80,7 @@ describe('User Replenishment Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
       ).toBeObservable(expected);
     });
   });

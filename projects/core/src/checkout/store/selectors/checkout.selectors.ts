@@ -24,9 +24,6 @@ const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
 const getOrderDetailsSelector = (state: CheckoutStepsState) =>
   state.orderDetails;
 
-const getReplenishmentOrderDetailsSelector = (state: CheckoutStepsState) =>
-  state.replenishmentOrderDetails;
-
 export const getCheckoutState: MemoizedSelector<
   StateWithCheckout,
   CheckoutState
@@ -98,7 +95,7 @@ export const getPaymentDetails: MemoizedSelector<
 
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,
-  Order
+  Order | ReplenishmentOrder
 > = createSelector(getCheckoutSteps, getOrderDetailsSelector);
 
 export const getCheckoutDetailsLoaded: MemoizedSelector<
@@ -126,8 +123,3 @@ export const getCostCenter: MemoizedSelector<
   getCheckoutSteps,
   (state: CheckoutStepsState) => state.poNumber.costCenter
 );
-
-export const getCheckoutReplenishmentOrderDetails: MemoizedSelector<
-  StateWithCheckout,
-  ReplenishmentOrder
-> = createSelector(getCheckoutSteps, getReplenishmentOrderDetailsSelector);

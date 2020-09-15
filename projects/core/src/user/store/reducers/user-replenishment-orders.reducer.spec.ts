@@ -1,6 +1,8 @@
 import { PaginationModel, SortModel } from '../../../model/misc.model';
-import { OrderHistory } from '../../../model/order.model';
-import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/replenishment-order.model';
 import { UserActions } from '../actions/index';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
@@ -19,8 +21,8 @@ describe('User Orders Replenishment Reducer', () => {
   });
 
   describe('LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS action', () => {
-    it('should populate the user Orders state entities', () => {
-      const replenishmentOrders: OrderHistory[] = [
+    it('should populate the User Replenishment Orders state entities', () => {
+      const replenishmentOrders: ReplenishmentOrder[] = [
         { code: '01' },
         { code: '02' },
       ];
@@ -30,7 +32,7 @@ describe('User Orders Replenishment Reducer', () => {
         pageSize: 5,
       };
       const sorts: SortModel[] = [{ code: 'byDate' }];
-      const mockUserOrders: ReplenishmentOrderList = {
+      const mockUserReplenishmentOrders: ReplenishmentOrderList = {
         replenishmentOrders,
         pagination,
         sorts,
@@ -38,14 +40,14 @@ describe('User Orders Replenishment Reducer', () => {
 
       const { initialState } = fromUserReplenishmentOrdersReducer;
       const action = new UserActions.LoadUserReplenishmentOrdersSuccess(
-        mockUserOrders
+        mockUserReplenishmentOrders
       );
       const state = fromUserReplenishmentOrdersReducer.reducer(
         initialState,
         action
       );
 
-      expect(state).toEqual(mockUserOrders);
+      expect(state).toEqual(mockUserReplenishmentOrders);
     });
   });
 

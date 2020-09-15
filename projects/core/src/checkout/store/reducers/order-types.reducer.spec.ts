@@ -13,5 +13,14 @@ describe('Order types reducer', () => {
       const state = fromReducer.reducer(initialState, action);
       expect(state.selected).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
     });
+
+    it('should reset order type to default state', () => {
+      const { initialState } = fromReducer;
+
+      const action = new CheckoutActions.ClearCheckoutData();
+
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.selected).toEqual(ORDER_TYPE.PLACE_ORDER);
+    });
   });
 });

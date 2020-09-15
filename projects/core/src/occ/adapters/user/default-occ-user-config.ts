@@ -40,7 +40,6 @@ export const defaultOccUserConfig: OccConfig = {
         orderReturnDetail:
           'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
-        replenishmentOrderHistory: 'users/${userId}/replenishmentOrders',
         // tslint:enable
       },
     },

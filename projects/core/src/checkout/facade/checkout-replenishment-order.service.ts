@@ -4,10 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
-import {
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from '../../model/replenishment-order.model';
+import { ScheduleReplenishmentForm } from '../../model/replenishment-order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -20,7 +17,6 @@ import {
   SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID,
   StateWithCheckout,
 } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -62,15 +58,6 @@ export class CheckoutReplenishmentOrderService {
         );
       }
     });
-  }
-
-  /**
-   * Get replenishment order details
-   */
-  getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
-    return this.store.pipe(
-      select(CheckoutSelectors.getCheckoutReplenishmentOrderDetails)
-    );
   }
 
   /**
