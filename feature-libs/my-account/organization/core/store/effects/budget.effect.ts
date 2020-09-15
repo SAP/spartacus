@@ -111,15 +111,6 @@ export class BudgetEffects {
     )
   );
 
-  @Effect()
-  clearBudgets$: Observable<BudgetActions.ClearBudgets> = this.actions$.pipe(
-    ofType(
-      BudgetActions.CREATE_BUDGET_SUCCESS,
-      BudgetActions.UPDATE_BUDGET_SUCCESS
-    ),
-    map(() => new BudgetActions.ClearBudgets())
-  );
-
   constructor(
     private actions$: Actions,
     private budgetConnector: BudgetConnector

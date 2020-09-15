@@ -20,8 +20,6 @@ export const UPDATE_BUDGET = '[Budget] Update Budget';
 export const UPDATE_BUDGET_FAIL = '[Budget] Update Budget Fail';
 export const UPDATE_BUDGET_SUCCESS = '[Budget] Update Budget Success';
 
-export const CLEAR_BUDGETS = '[Budget] Clear Budget Data';
-
 export class LoadBudget extends StateUtils.EntityLoadAction {
   readonly type = LOAD_BUDGET;
   constructor(public payload: { userId: string; budgetCode: string }) {
@@ -118,13 +116,6 @@ export class UpdateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_BUDGET_SUCCESS;
   constructor(public payload: Budget) {
     super(BUDGET_ENTITIES, payload.code, payload);
-  }
-}
-
-export class ClearBudgets extends StateUtils.EntityRemoveAllAction {
-  readonly type = CLEAR_BUDGETS;
-  constructor() {
-    super(BUDGET_LIST);
   }
 }
 

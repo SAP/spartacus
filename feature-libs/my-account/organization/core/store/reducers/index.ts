@@ -89,6 +89,7 @@ import {
 } from './user-group.reducer';
 import { Budget } from '../../model/budget.model';
 import { UserGroup } from '../../model/user-group.model';
+import { BudgetActions } from '../actions';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -217,6 +218,14 @@ export function clearOrganizationState(
   reducer: ActionReducer<OrganizationState, Action>
 ): ActionReducer<OrganizationState, Action> {
   return function (state, action) {
+    const allowedActions = [
+      BudgetActions.CREATE_BUDGET,
+      BudgetActions.UPDATE_BUDGET,
+    ];
+    if (allowedActions.includes(action.type)) {
+      state = undefined;
+      console.log('clear');
+    }
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }
