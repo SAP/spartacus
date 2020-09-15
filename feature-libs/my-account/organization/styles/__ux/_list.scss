@@ -95,7 +95,7 @@ cx-organization-form {
   .footer {
     display: flex;
     justify-content: flex-end;
-    padding: 0 40px 40px;
+    padding: 40px;
   }
   cx-pagination {
     @include media-breakpoint-down(md) {
