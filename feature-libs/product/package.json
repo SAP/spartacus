@@ -19,7 +19,6 @@
     "@angular/core": "^9.0.0",
     "rxjs": "^6.5.4",
     "@spartacus/core": "2.1.0-dev.0",
-    "@spartacus/assets": "2.1.0-dev.0",
     "@spartacus/storefront": "2.1.0-dev.0"
   }
 }

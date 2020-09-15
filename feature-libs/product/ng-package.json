@@ -5,7 +5,6 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@spartacus/assets": "assets",
       "@spartacus/storefront": "storefront",
       "rxjs": "rxjs"
     }
