@@ -1,5 +1,6 @@
 @mixin cx-config-attribute-image {
   margin-left: 20px;
+
   .cx-config-select {
     padding: 5px;
 
@@ -18,19 +19,20 @@
       height: 75%;
     }
 
-    input[aria-checked='true'] + .cx-config-attribute-value-label-container {
-      .cx-config-attribute-value-img,
-      .cx-config-attribute-value-img-dummy {
-        border: var(--cx-color-primary) 3px solid;
-      }
-    }
-
-    input.form-input {
+    input[type='checkbox'].form-input,
+    input[type='radio'].form-input {
       opacity: 0;
       position: absolute;
 
       &:focus + .cx-config-attribute-value-label-container {
         @include visible-focus();
+      }
+    }
+
+    input[aria-checked='true'] + .cx-config-attribute-value-label-container {
+      .cx-config-attribute-value-img,
+      .cx-config-attribute-value-img-dummy {
+        border: var(--cx-color-primary) 3px solid;
       }
     }
 

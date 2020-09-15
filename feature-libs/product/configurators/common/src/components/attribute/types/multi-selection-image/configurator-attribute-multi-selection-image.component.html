@@ -25,7 +25,8 @@
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+            '-input'
         }}"
         class="cx-config-attribute-value-label form-check-label"
       >
