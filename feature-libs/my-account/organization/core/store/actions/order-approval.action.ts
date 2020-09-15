@@ -49,10 +49,12 @@ export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
 
 export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORDER_APPROVAL_SUCCESS;
-  constructor(public payload: OrderApproval[]) {
+  constructor(public payload: OrderApproval | OrderApproval[]) {
     super(
       ORDER_APPROVAL_ENTITIES,
-      payload.map((orderApproval) => orderApproval.code)
+      Array.isArray(payload)
+        ? payload.map((orderApproval) => orderApproval.code)
+        : payload.code
     );
   }
 }
