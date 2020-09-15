@@ -6,6 +6,8 @@ export const unit = {
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
 
+  active: 'Status',
+
   details: {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',
