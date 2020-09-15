@@ -15,7 +15,7 @@ export abstract class ExistOrganizationItemGuard<T> implements CanActivate {
     const urlParams = {
       code:
         activatedRoute.params[this.code] ??
-        activatedRoute.parent.params[this.code],
+        activatedRoute.parent?.params[this.code],
     };
 
     return this.getItem(urlParams.code).pipe(
