@@ -29,7 +29,8 @@
       }
     }
 
-    input[aria-checked='true'] + .cx-configurator-attribute-value-label-container {
+    input[aria-checked='true']
+      + .cx-configurator-attribute-value-label-container {
       .cx-configurator-attribute-value-img,
       .cx-configurator-attribute-value-img-dummy {
         border: var(--cx-color-primary) 3px solid;

@@ -17,22 +17,22 @@
       (click)="onClick(i)"
       [attr.required]="attribute.required"
       [attr.aria-labelledby]="
-      createValueUiKey('label', attribute.name, value.valueCode)
-    "
+        createValueUiKey('label', attribute.name, value.valueCode)
+      "
       [attr.aria-checked]="
-      attributeRadioButtonForm.value === value.valueCode ? true : false
-    "
+        attributeRadioButtonForm.value === value.valueCode ? true : false
+      "
       [attr.checked]="
-      attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
-    "
+        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+      "
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
     <div class="cx-configurator-attribute-value-label-container">
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)+
-          '-input'
+          createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+            '-input'
         }}"
         class="cx-configurator-attribute-value-label form-check-label form-radio-label"
       >
