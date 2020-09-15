@@ -350,7 +350,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
   cy.get('.cx-order-summary .container').within(() => {
-    cy.get('.summary-card:nth-child(1)').within(() => {
+    cy.get('.cx-summary-card:nth-child(1)').within(() => {
       cy.get('cx-card:nth-child(1)').within(() => {
         cy.get('.cx-card-title').should('contain', 'Order Number');
         cy.get('.cx-card-label').should('not.be.empty');
@@ -364,12 +364,12 @@ export function verifyOrderConfirmationPageWithCheapProduct(
         cy.get('.cx-card-label').should('not.be.empty');
       });
     });
-    cy.get('.summary-card:nth-child(2) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
       cy.contains('Standard Delivery');
     });
-    cy.get('.summary-card:nth-child(3) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
     });
