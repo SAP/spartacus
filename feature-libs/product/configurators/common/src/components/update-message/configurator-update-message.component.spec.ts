@@ -48,7 +48,7 @@ class MockMessageConfig {
   template: '',
 })
 class MockCxSpinnerComponent {}
-describe('ConfigurationMessageComponent', () => {
+describe('ConfigurationUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: GenericConfiguratorUtilsService;
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
