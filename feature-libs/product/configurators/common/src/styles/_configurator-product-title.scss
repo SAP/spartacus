@@ -1,16 +1,16 @@
-%cx-config-product-title {
-  .cx-config-container {
+%cx-configurator-product-title {
+  .cx-configurator-container {
     padding: 15px;
     background-color: var(--cx-color-background);
     margin-bottom: 15px;
     border-width: 1px;
 
-    .cx-config-product-title {
+    .cx-configurator-product-title {
       font-weight: bold;
       text-align: center;
     }
 
-    .cx-config-product-title-details {
+    .cx-configurator-product-title-details {
       width: 100%;
       max-height: 0;
       overflow: hidden;
@@ -28,34 +28,34 @@
         max-height: 400px;
       }
 
-      .cx-config-product-title-details-image {
+      .cx-configurator-product-title-details-image {
         margin-top: 15px;
         max-width: 100px;
       }
 
-      .cx-config-product-title-details-content {
+      .cx-configurator-product-title-details-content {
         margin: 15px 0 0 15px;
         max-width: 600px;
 
-        .cx-config-product-detail-title,
-        .cx-config-product-price {
+        .cx-configurator-product-detail-title,
+        .cx-configurator-product-price {
           font-weight: bold;
         }
 
-        .cx-config-product-code {
+        .cx-configurator-product-code {
           color: var(--cx-color-secondary);
         }
       }
     }
 
-    .cx-config-product-title {
+    .cx-configurator-product-title {
       padding: 0 120px 0 120px;
       @include media-breakpoint-down(xs) {
         padding: 0 20px 0 20px;
       }
     }
 
-    a.cx-config-toogle-details-link {
+    a.cx-configurator-toogle-details-link {
       float: right;
       cursor: pointer;
       display: inline-flex;
@@ -76,7 +76,7 @@
         margin-top: -20px;
       }
 
-      .cx-config-toogle-details-link-text {
+      .cx-configurator-toogle-details-link-text {
         text-decoration: underline;
         @include media-breakpoint-down(xs) {
           display: none;

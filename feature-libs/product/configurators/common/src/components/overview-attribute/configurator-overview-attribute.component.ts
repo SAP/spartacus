@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-overview-attribute',
+  selector: 'cx-configurator-overview-attribute',
   templateUrl: './configurator-overview-attribute.component.html',
 })
 export class ConfiguratorOverviewAttributeComponent {

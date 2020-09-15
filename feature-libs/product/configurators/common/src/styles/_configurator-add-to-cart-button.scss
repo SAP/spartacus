@@ -1,4 +1,4 @@
-%cx-config-add-to-cart-button {
+%cx-configurator-add-to-cart-button {
   padding: 15px;
   margin-top: 15px;
   justify-content: flex-end;
@@ -8,7 +8,7 @@
     padding: 20px;
   }
 
-  .cx-config-add-to-cart-btn {
+  .cx-configurator-add-to-cart-btn {
     @include media-breakpoint-down(sm) {
       width: 100%;
       clear: both;

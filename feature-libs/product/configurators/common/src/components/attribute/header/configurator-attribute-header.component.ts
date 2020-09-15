@@ -13,7 +13,7 @@ import { ConfiguratorUIKeyGenerator } from '../../service/configurator-ui-key-ge
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-attribute-header',
+  selector: 'cx-configurator-attribute-header',
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,5 +1,5 @@
-%cx-config-attribute-header {
-  .cx-config-attribute-label {
+%cx-configurator-attribute-header {
+  .cx-configurator-attribute-label {
     @include type('5');
     padding-top: 10px;
     padding-right: 6px;
@@ -7,7 +7,7 @@
     max-width: 66%;
   }
 
-  .cx-config-attribute-label-required-icon {
+  .cx-configurator-attribute-label-required-icon {
     display: inline-block;
 
     &:after {
@@ -16,23 +16,23 @@
     }
   }
 
-  .cx-config-attribute-label-required-error-msg {
+  .cx-configurator-attribute-label-required-error-msg {
     color: var(--cx-color-danger);
     font-size: 14px;
   }
 
-  .cx-config-attribute-conflict-container {
+  .cx-configurator-attribute-conflict-container {
     display: flex;
 
-    .cx-config-attribute-conflict-icon-container {
+    .cx-configurator-attribute-conflict-icon-container {
       padding-right: 15px;
-      .cx-config-attribute-conflict-icon {
+      .cx-configurator-attribute-conflict-icon {
         color: var(--cx-color-warning);
         font-size: 20px;
       }
     }
 
-    .cx-config-attribute-label-conflict-msg {
+    .cx-configurator-attribute-label-conflict-msg {
       color: var(--cx-color-text);
       font-size: 14px;
     }

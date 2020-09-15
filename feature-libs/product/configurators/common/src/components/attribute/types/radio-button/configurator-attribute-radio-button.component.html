@@ -2,7 +2,7 @@
   <legend style="display: none;">{{ attribute.label }}</legend>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
     <div class="form-check" *ngFor="let value of attribute.values">
-      <div class="cx-config-select-line">
+      <div class="cx-configurator-select-line">
         <input
           id="{{
             createAttributeValueIdForConfigurator(attribute, value.valueCode)
@@ -27,9 +27,11 @@
               ? 'checked'
               : null
           "
-          (change)="onSelect()"
+          (mousedown)="onMouseDown(value.valueCode)"
+          (focusout)="onFocusOut($event)"
+          (keyup)="onKeyUp()"
         />
-        <div class="cx-config-attribute-value-label-container">
+        <div class="cx-configurator-attribute-value-label-container">
           <label
             id="{{
               createValueUiKey('label', attribute.name, value.valueCode)
@@ -37,7 +39,7 @@
             for="{{
               createAttributeValueIdForConfigurator(attribute, value.valueCode)
             }}"
-            class="cx-config-attribute-value-label form-check-label form-radio-label"
+            class="cx-configurator-attribute-value-label form-check-label form-radio-label"
             >{{ value.valueDisplay }}</label
           >
         </div>

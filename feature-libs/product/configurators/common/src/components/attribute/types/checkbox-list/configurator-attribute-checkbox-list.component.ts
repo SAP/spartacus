@@ -12,7 +12,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
-  selector: 'cx-config-attribute-checkbox-list',
+  selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

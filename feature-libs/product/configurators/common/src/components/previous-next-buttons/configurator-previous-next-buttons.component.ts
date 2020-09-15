@@ -9,7 +9,7 @@ import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-previous-next-buttons',
+  selector: 'cx-configurator-previous-next-buttons',
   templateUrl: './configurator-previous-next-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

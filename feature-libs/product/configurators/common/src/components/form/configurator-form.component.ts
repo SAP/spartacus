@@ -10,7 +10,7 @@ import { ConfiguratorRouterExtractorService } from './../service/configurator-ro
 import { ConfigFormUpdateEvent } from './configurator-form.event';
 
 @Component({
-  selector: 'cx-config-form',
+  selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

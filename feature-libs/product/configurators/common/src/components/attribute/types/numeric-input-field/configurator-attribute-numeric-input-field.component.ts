@@ -15,7 +15,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Component({
-  selector: 'cx-config-attribute-numeric-input-field',
+  selector: 'cx-configurator-attribute-numeric-input-field',
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

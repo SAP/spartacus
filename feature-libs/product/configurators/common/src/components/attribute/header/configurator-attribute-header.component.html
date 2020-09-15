@@ -1,8 +1,8 @@
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
-  class="cx-config-attribute-label"
-  [class.cx-config-attribute-label-required-icon]="attribute.required"
-  [class.cx-config-attribute-label-required-error]="
+  class="cx-configurator-attribute-label"
+  [class.cx-configurator-attribute-label-required-icon]="attribute.required"
+  [class.cx-configurator-attribute-label-required-error]="
     showRequiredMessageForDomainAttribute$ | async
   "
   [attr.aria-label]="
@@ -15,33 +15,33 @@
 >
 <div
   *ngIf="attribute.hasConflicts"
-  class="cx-config-attribute-conflict-container"
+  class="cx-configurator-attribute-conflict-container"
 >
   <div
     *ngIf="isAttributeGroup(groupType)"
-    class="cx-config-attribute-conflict-icon-container"
+    class="cx-configurator-attribute-conflict-icon-container"
   >
     <cx-icon
-      class="cx-config-attribute-conflict-icon"
+      class="cx-configurator-attribute-conflict-icon"
       [type]="iconTypes.WARNING"
     ></cx-icon>
   </div>
-  <div class="cx-config-attribute-conflict-msg-container">
-    <div class="cx-config-attribute-label-conflict-msg">
+  <div class="cx-configurator-attribute-conflict-msg-container">
+    <div class="cx-configurator-attribute-label-conflict-msg">
       {{ getConflictMessageKey(groupType) | cxTranslate }}
     </div>
   </div>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
-  class="cx-config-attribute-label-required-error-msg"
+  class="cx-configurator-attribute-label-required-error-msg"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img
   *ngIf="attribute.images[0]"
-  class="cx-config-attribute-img"
+  class="cx-configurator-attribute-img"
   src="{{ attribute.images[0].url }}"
   alt="{{ attribute.images[0].altText }}"
 />

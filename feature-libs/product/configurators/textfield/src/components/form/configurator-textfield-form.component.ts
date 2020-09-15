@@ -7,7 +7,7 @@ import { ConfiguratorTextfieldService } from '../../core/facade/configurator-tex
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
-  selector: 'cx-config-textfield-form',
+  selector: 'cx-configurator-textfield-form',
   templateUrl: './configurator-textfield-form.component.html',
 })
 export class ConfiguratorTextfieldFormComponent {

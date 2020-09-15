@@ -1,6 +1,6 @@
 <ng-container *ngIf="container$ | async as container">
   <ng-container *ngIf="!container.routerData.displayOnly">
-    <div class="cx-config-add-to-cart-btn">
+    <div class="cx-configurator-add-to-cart-btn">
       <button
         class="cx-btn btn btn-block btn-primary"
         (click)="onAddToCart(container.configuration, container.routerData)"

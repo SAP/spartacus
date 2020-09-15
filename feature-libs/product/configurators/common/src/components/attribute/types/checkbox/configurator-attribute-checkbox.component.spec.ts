@@ -69,7 +69,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   it('should select and deselect a checkbox value', () => {
     const checkboxId =
-      '#cx-config--checkBox--' +
+      '#cx-configurator--checkBox--' +
       component.attribute.name +
       '--' +
       component.attribute.values[0].valueCode;

@@ -7,7 +7,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-product-title',
+  selector: 'cx-configurator-product-title',
   templateUrl: './configurator-product-title.component.html',
 })
 export class ConfiguratorProductTitleComponent {

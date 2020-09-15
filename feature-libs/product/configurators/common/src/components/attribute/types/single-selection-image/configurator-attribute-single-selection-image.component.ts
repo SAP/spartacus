@@ -12,7 +12,7 @@ import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key
 import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
-  selector: 'cx-config-attribute-single-selection-image',
+  selector: 'cx-configurator-attribute-single-selection-image',
   templateUrl: './configurator-attribute-single-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -10,7 +10,7 @@ import { ConfiguratorRouter } from './../service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-group-menu',
+  selector: 'cx-configurator-group-menu',
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -144,12 +144,12 @@ describe('ConfigurationOverviewFormComponent', () => {
     defaultConfigObservable = of(configCreate2);
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
-      2
-    );
+    expect(
+      htmlElem.querySelectorAll('.cx-configurator-overview-group').length
+    ).toBe(2);
 
     expect(
-      htmlElem.querySelectorAll('cx-config-overview-attribute').length
+      htmlElem.querySelectorAll('cx-configurator-overview-attribute').length
     ).toBe(3);
   });
 
@@ -157,12 +157,12 @@ describe('ConfigurationOverviewFormComponent', () => {
     defaultConfigObservable = of(configInitial);
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
-      0
-    );
+    expect(
+      htmlElem.querySelectorAll('.cx-configurator-overview-group').length
+    ).toBe(0);
 
     expect(
-      htmlElem.querySelectorAll('cx-config-overview-attribute').length
+      htmlElem.querySelectorAll('cx-configurator-overview-attribute').length
     ).toBe(0);
   });
 

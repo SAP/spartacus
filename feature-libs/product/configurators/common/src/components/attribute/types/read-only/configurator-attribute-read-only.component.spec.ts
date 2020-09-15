@@ -59,12 +59,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-attribute-value-label-read-only'
+      '.cx-configurator-attribute-value-label-read-only'
     );
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-attribute-value-label-read-only',
+      '.cx-configurator-attribute-value-label-read-only',
       'selectedValue'
     );
   });
@@ -76,12 +76,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-attribute-value-label-read-only'
+      '.cx-configurator-attribute-value-label-read-only'
     );
     ConfiguratorComponentTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-config-attribute-value-label-read-only',
+      '.cx-configurator-attribute-value-label-read-only',
       'Value 2'
     );
   });
@@ -93,11 +93,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-attribute-value-label-read-only'
+      '.cx-configurator-attribute-value-label-read-only'
     );
     expect(
-      htmlElem.querySelectorAll('.cx-config-attribute-value-label-read-only')
-        .length
+      htmlElem.querySelectorAll(
+        '.cx-configurator-attribute-value-label-read-only'
+      ).length
     ).toBe(2);
   });
 });

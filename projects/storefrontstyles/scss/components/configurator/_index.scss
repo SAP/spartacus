@@ -1,5 +1,5 @@
 @import 'textfield/index';
 
 $configurator-components-whitelist: cx-configure-product,
-  cx-config-textfield-input-field, cx-config-textfield-form,
-  cx-config-textfield-add-to-cart-button, cx-configure-cart-entry !default;
+  cx-configurator-textfield-input-field, cx-configurator-textfield-form,
+  cx-configurator-textfield-add-to-cart-button !default;
