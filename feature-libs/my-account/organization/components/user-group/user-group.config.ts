@@ -15,6 +15,7 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupFormComponent } from './form';
+import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupPermissionListComponent } from './permissions';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
 import { UserGroupListService } from './services';
@@ -87,6 +88,7 @@ export const userGroupCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
+          canActivate: [ExistUserGroupGuard],
           children: [
             {
               path: 'users',

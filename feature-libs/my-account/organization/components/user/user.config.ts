@@ -23,6 +23,8 @@ import {
 import { ChangePasswordFormComponent } from './change-password-form';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form';
+import { ActiveUserGuard } from './guards/active-user.guard';
+import { ExistUserGuard } from './guards/exist-user.guard';
 import { UserAssignedPermissionListComponent } from './permissions';
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
@@ -106,10 +108,12 @@ export const userCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.userCode}`,
           component: UserDetailsComponent,
+          canActivate: [ExistUserGuard],
           children: [
             {
               path: `edit`,
               component: UserFormComponent,
+              canActivate: [ActiveUserGuard],
             },
             {
               path: `change-password`,

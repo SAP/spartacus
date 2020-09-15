@@ -18,6 +18,8 @@ import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetFormComponent } from './form/budget-form.component';
+import { ActiveBudgetGuard } from './guards/active-budget.guard';
+import { ExistBudgetGuard } from './guards/exist-budget.guard';
 import { BudgetItemService } from './services/budget-item.service';
 import { BudgetListService } from './services/budget-list.service';
 
@@ -73,10 +75,12 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
+          canActivate: [ExistBudgetGuard],
           children: [
             {
               path: `edit`,
               component: BudgetFormComponent,
+              canActivate: [ActiveBudgetGuard],
             },
             {
               path: 'cost-centers',

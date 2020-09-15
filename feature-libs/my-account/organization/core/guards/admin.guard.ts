@@ -32,7 +32,7 @@ export class AdminGuard implements CanActivate {
           this.routingService.go({ cxRoute: 'organization' });
 
           this.globalMessageService.add(
-            { key: 'organization.error.noSufficientPermissions' },
+            { key: 'organization.notification.noSufficientPermissions' },
             GlobalMessageType.MSG_TYPE_WARNING
           );
         }

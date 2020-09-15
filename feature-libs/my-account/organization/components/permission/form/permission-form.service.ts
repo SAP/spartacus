@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Permission } from '@spartacus/core';
+import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
@@ -24,7 +25,13 @@ export class PermissionFormService extends OrganizationFormService<Permission>
    */
   protected build() {
     const form = new FormGroup({});
-    form.setControl('code', new FormControl('', Validators.required));
+    form.setControl(
+      'code',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.noSpecialCharacters,
+      ])
+    );
     form.setControl(
       'orgUnit',
       new FormGroup({

@@ -77,6 +77,12 @@ export const organization = {
     },
 
     breadcrumb: 'Organization',
+
+    notification: {
+      noSufficientPermissions: 'No sufficient permissions to access this page',
+      notExist: 'This {{item}} does not exist',
+      disabled: 'You cannot edit a disabled {{item}}',
+    },
   },
 
   // sub feature labels are added below

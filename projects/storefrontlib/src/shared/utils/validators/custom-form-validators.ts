@@ -118,6 +118,28 @@ export class CustomFormValidators {
 
     return amount >= 0 ? null : { cxNegativeAmount: true };
   }
+
+  /**
+   * Checks if control's value does not contain any special characters
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxContainsSpecialCharacters' validator error
+   * @memberof CustomFormValidators
+   */
+  static noSpecialCharacters(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const forbiddenChars = ['/'];
+    const str = String(control.value);
+    const containsSpecialChars = forbiddenChars.some((char) =>
+      str.includes(char)
+    );
+
+    return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
+  }
 }
 
 /**

@@ -13,6 +13,8 @@ import { StatusCellComponent } from '../shared/organization-table/status/status-
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
+import { ActiveUnitGuard } from './guards/active-unit.guard';
+import { ExistUnitGuard } from './guards/exist-unit.guard';
 import {
   UnitAddressDetailsComponent,
   UnitAddressListComponent,
@@ -119,12 +121,13 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
+          canActivate: [ExistUnitGuard],
           children: [
             {
               path: 'edit',
               component: UnitFormComponent,
+              canActivate: [ActiveUnitGuard],
             },
-
             {
               path: 'children',
               component: UnitChildrenComponent,
