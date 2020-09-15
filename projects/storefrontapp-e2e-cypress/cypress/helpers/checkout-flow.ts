@@ -349,7 +349,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .container').within(() => {
+  cy.get('.cx-order-summary .container').within(() => {
     cy.get('.summary-card:nth-child(1)').within(() => {
       cy.get('cx-card:nth-child(1)').within(() => {
         cy.get('.cx-card-title').should('contain', 'Order Number');
