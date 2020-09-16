@@ -7,9 +7,7 @@
     <!-- HEADER -->
     <div class="cx-order-history-header">
       <h3>
-        {{
-          'replenishmentOrderHistory.replenishmentOrderHistory' | cxTranslate
-        }}
+        {{ 'orderHistory.replenishmentOrderHistory' | cxTranslate }}
       </h3>
     </div>
 
@@ -42,24 +40,22 @@
         <table class="table cx-order-history-table">
           <thead class="cx-order-history-thead-mobile">
             <th scope="col">
-              {{
-                'replenishmentOrderHistory.replenishmentOrderId' | cxTranslate
-              }}
+              {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'replenishmentOrderHistory.po' | cxTranslate }}
+              {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'replenishmentOrderHistory.startOn' | cxTranslate }}
+              {{ 'orderHistory.startOn' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'replenishmentOrderHistory.frequency' | cxTranslate }}
+              {{ 'orderHistory.frequency' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'replenishmentOrderHistory.nextOrderDate' | cxTranslate }}
+              {{ 'orderHistory.nextOrderDate' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'replenishmentOrderHistory.estTotal' | cxTranslate }}
+              {{ 'orderHistory.estTotal' | cxTranslate }}
             </th>
             <th scope="col"></th>
           </thead>
@@ -70,10 +66,7 @@
             >
               <td class="cx-order-history-code">
                 <div class="d-md-none cx-order-history-label">
-                  {{
-                    'replenishmentOrderHistory.replenishmentOrderId'
-                      | cxTranslate
-                  }}
+                  {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -89,7 +82,7 @@
               </td>
               <td class="cx-order-history-placed">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'replenishmentOrderHistory.po' | cxTranslate }}
+                  {{ 'orderHistory.po' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -104,7 +97,7 @@
               </td>
               <td class="cx-order-history-status">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'replenishmentOrderHistory.startOn' | cxTranslate }}
+                  {{ 'orderHistory.startOn' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -120,7 +113,7 @@
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'replenishmentOrderHistory.frequency' | cxTranslate }}
+                  {{ 'orderHistory.frequency' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -136,7 +129,7 @@
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'replenishmentOrderHistory.nextOrderDate' | cxTranslate }}
+                  {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -152,7 +145,7 @@
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'replenishmentOrderHistory.estTotal' | cxTranslate }}
+                  {{ 'orderHistory.estTotal' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -176,7 +169,7 @@
                   "
                   class="cx-order-history-value"
                 >
-                  {{ 'replenishmentOrderHistory.cancel' | cxTranslate }}
+                  {{ 'orderHistory.cancel' | cxTranslate }}
                 </a>
               </td>
             </tr>

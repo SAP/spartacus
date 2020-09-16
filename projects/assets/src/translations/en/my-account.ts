@@ -77,11 +77,9 @@ export const myAccount = {
     noOrders: 'We have no order records for this account.',
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
-  },
-  replenishmentOrderHistory: {
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
-    po: 'PO #',
+    purchaseOrderNumber: 'PO #',
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
