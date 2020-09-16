@@ -233,12 +233,12 @@ export function verifyAndPlaceOrder() {
 export function displaySummaryPage() {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .container').within(() => {
-    cy.get('.summary-card:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.summary-card:nth-child(2) .cx-card').within(() => {
+  cy.get('.cx-order-summary .container').within(() => {
+    cy.get('.cx-summary-card:nth-child(1) .cx-card').should('not.be.empty');
+    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains('Standard Delivery');
     });
-    cy.get('.summary-card:nth-child(3) .cx-card').should('not.be.empty');
+    cy.get('.cx-summary-card:nth-child(3) .cx-card').should('not.be.empty');
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
