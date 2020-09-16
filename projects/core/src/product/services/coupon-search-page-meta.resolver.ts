@@ -24,7 +24,8 @@ import { SemanticPathService } from '../../routing/configurable-routes/url-trans
 @Injectable({
   providedIn: 'root',
 })
-export class CouponSearchPageResolver extends PageMetaResolver
+export class CouponSearchPageResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   protected total$: Observable<
     number
