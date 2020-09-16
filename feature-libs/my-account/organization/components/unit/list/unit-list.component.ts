@@ -29,7 +29,7 @@ export class UnitListComponent {
       title: node.name,
       children: node.children.map((children) => this.toNavigation(children)),
       url: this.semanticPathService.transform({
-        cxRoute: 'orgUnitDetails',
+        cxRoute: 'unitDetails',
         params: { uid: node.id },
       }),
     };

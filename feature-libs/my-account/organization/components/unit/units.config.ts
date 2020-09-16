@@ -45,10 +45,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       orgUnits: {
         paths: ['organization/units'],
       },
-      orgUnitCreate: {
+      unitCreate: {
         paths: ['organization/units/create'],
       },
-      orgUnitDetails: {
+      unitDetails: {
         paths: [listPath],
         paramsMapping,
       },
