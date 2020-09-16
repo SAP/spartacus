@@ -1,15 +1,14 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
+import { TextfieldConfiguratorModule } from '@spartacus/product/configurators/textfield';
+import { VariantConfiguratorModule } from '@spartacus/product/configurators/variant';
 import {
   configuratorTranslationChunksConfig,
   configuratorTranslations,
-} from '@spartacus/product/configurators/common/assets';
-import { TextfieldConfiguratorModule } from '@spartacus/product/configurators/textfield';
-import { VariantConfiguratorModule } from '@spartacus/product/configurators/variant';
+} from 'feature-libs/product/configurators/common/assets/public_api';
 import { FeatureEnvironment } from '../models/feature.model';
 export const productConfigFeature: FeatureEnvironment = {
   imports: [
-    { ngModule: TextfieldConfiguratorModule },
     CommonConfiguratorModule.withConfig({
       i18n: {
         resources: {
@@ -24,5 +23,6 @@ export const productConfigFeature: FeatureEnvironment = {
       },
     }),
     { ngModule: VariantConfiguratorModule },
+    { ngModule: TextfieldConfiguratorModule },
   ],
 };
