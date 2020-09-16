@@ -1,12 +1,12 @@
 @import './styles/index';
 
-$configurator-components: cx-configurator-attribute-header, cx-configurator-form,
-  cx-configurator-attribute-radio-button, cx-configurator-attribute-footer,
-  cx-configurator-attribute-drop-down, cx-configurator-attribute-read-only,
-  cx-configurator-previous-next-buttons, cx-configurator-overview-form,
-  cx-configurator-overview-attribute, cx-configurator-group-menu,
-  cx-configurator-price-summary, cx-configurator-add-to-cart-button,
-  cx-configurator-attribute-input-field,
+$configurator-common-components: cx-configurator-attribute-header,
+  cx-configurator-form, cx-configurator-attribute-radio-button,
+  cx-configurator-attribute-footer, cx-configurator-attribute-drop-down,
+  cx-configurator-attribute-read-only, cx-configurator-previous-next-buttons,
+  cx-configurator-overview-form, cx-configurator-overview-attribute,
+  cx-configurator-group-menu, cx-configurator-price-summary,
+  cx-configurator-add-to-cart-button, cx-configurator-attribute-input-field,
   cx-configurator-attribute-numeric-input-field, cx-configurator-tab-bar,
   cx-configurator-textfield-add-to-cart-button, cx-configurator-group-title,
   cx-configurator-attribute-checkbox-list,
@@ -17,10 +17,10 @@ $configurator-components: cx-configurator-attribute-header, cx-configurator-form
   cx-configurator-overview-notification-banner, cx-configure-product,
   cx-configure-cart-entry, cx-configurator-issues-notification !default;
 
-$configurator-pages: VariantConfigurationTemplate,
+$configurator-common-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate !default;
 
-@each $selector in $configurator-components {
+@each $selector in $configurator-common-components {
   #{$selector} {
     @extend %#{$selector} !optional;
   }
@@ -28,12 +28,12 @@ $configurator-pages: VariantConfigurationTemplate,
 
 // add body specific selectors
 body {
-  @each $selector in $configurator-components {
+  @each $selector in $configurator-common-components {
     @extend %#{$selector}__body !optional;
   }
 }
 
-@each $selector in $configurator-pages {
+@each $selector in $configurator-common-pages {
   cx-page-layout.#{$selector} {
     @extend %#{$selector} !optional;
   }
