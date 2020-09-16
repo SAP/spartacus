@@ -112,7 +112,7 @@ Use the following template:
 ```json
 {
   "name": "@spartacus/TODO:",
-  "version": "2.1.0-dev.0",
+  "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -127,11 +127,11 @@ Use the following template:
   },
   "repository": "https://github.com/SAP/spartacus",
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "rxjs": "^6.5.4",
-    "@spartacus/core": "2.1.0-dev.0",
-    "@spartacus/storefront": "2.1.0-dev.0"
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.0",
+    "@spartacus/storefront": "3.0.0-next.0"
   }
 }
 ```
@@ -153,7 +153,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
