@@ -11,7 +11,7 @@ import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/che
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
-import { provideDefaultConfig } from '../../../config/config.module';
+import { provideDefaultConfig } from '../../../config/config-providers';
 import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
 import { CheckoutCostCenterAdapter } from '../../../checkout/connectors/cost-center/checkout-cost-center.adapter';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
