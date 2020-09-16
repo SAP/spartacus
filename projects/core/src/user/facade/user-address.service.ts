@@ -155,17 +155,17 @@ export class UserAddressService {
       map(({ regions, country, loading, loaded }) => {
         if (!countryIsoCode && (loading || loaded)) {
           this.clearRegions();
-          return null;
+          return [];
         } else if (loading && !loaded) {
           // don't interrupt loading
-          return null;
+          return [];
         } else if (!loading && countryIsoCode !== country && countryIsoCode) {
           // country changed - clear store and load new regions
           if (country) {
             this.clearRegions();
           }
           this.loadRegions(countryIsoCode);
-          return null;
+          return [];
         }
         return regions;
       })
