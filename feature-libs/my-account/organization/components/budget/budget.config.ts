@@ -16,6 +16,8 @@ import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
+import { ActiveBudgetGuard } from './guards/active-budget.guard';
+import { ExistBudgetGuard } from './guards/exist-budget.guard';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
@@ -65,6 +67,7 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
+          canActivate: [ExistBudgetGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
@@ -77,6 +80,7 @@ export const budgetCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.budgetCode}/edit`,
           component: BudgetEditComponent,
+          canActivate: [ActiveBudgetGuard],
         },
       ],
       guards: [AuthGuard, AdminGuard],
