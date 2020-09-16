@@ -20,7 +20,6 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-// import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getProjectTargets } from '../shared/utils/workspace-utils';
 import {
   ANGULAR_LOCALIZE,

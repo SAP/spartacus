@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "tsconfig",
+    "baseUrl": ".",
     "lib": ["es2020", "dom"],
     "declaration": true,
     "module": "es2020",
@@ -18,7 +18,10 @@
     "target": "es6",
     "types": ["jasmine", "node"],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@spartacus/schematics": ["../schematics/src/public_api"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["src/*/files/**/*"]

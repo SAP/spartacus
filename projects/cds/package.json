@@ -26,7 +26,6 @@
     "@angular/router": "^10.1.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0",
-    "rxjs": "^6.6.0",
-    "trim-right": "^1.0.1"
+    "rxjs": "^6.6.0"
   }
 }
