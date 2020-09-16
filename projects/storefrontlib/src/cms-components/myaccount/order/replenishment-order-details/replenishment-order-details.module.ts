@@ -13,6 +13,7 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import {
   CardModule,
+  ListNavigationModule,
   ReplenishmentOrderCancellationDialogModule,
   SpinnerModule,
 } from '../../../../shared/index';
@@ -23,6 +24,7 @@ import { OrderDetailItemsComponent } from '../order-details/order-detail-items/o
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
+import { OrderHistoryComponent } from '../order-history/order-history.component';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from './default-replenishment-order-cancellation-layout.config';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation/replenishment-order-cancellation.component';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
@@ -39,6 +41,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     UrlModule,
     ReplenishmentOrderCancellationDialogModule,
     SpinnerModule,
+    ListNavigationModule,
     RouterModule.forChild([
       {
         path: null,
@@ -90,6 +93,9 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
         },
         ReplenishmentDetailActionsComponent: {
           component: ReplenishmentOrderCancellationComponent,
+        },
+        ReplenishmentDetailOrderHistoryComponent: {
+          component: OrderHistoryComponent,
         },
       },
     }),

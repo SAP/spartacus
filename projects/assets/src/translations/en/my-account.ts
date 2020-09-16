@@ -85,6 +85,8 @@ export const myAccount = {
     noOrders: 'We have no order records for this account.',
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
+    replenishmentHistory: 'Replenishment History',
+    notFound: 'No Orders Found',
   },
   closeAccount: {
     confirmAccountClosure: 'Confirm Account Closure',
