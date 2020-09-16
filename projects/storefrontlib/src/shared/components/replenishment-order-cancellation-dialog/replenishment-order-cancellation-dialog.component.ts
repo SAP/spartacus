@@ -9,7 +9,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   ReplenishmentOrder,
-  RoutingService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -36,7 +35,6 @@ export class ReplenishmentOrderCancellationDialogComponent
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
   ) {}
@@ -57,16 +55,8 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   onSuccess(value: boolean): void {
     if (value) {
-      this.routingService.go(
-        {
-          cxRoute: 'replenishmentDetails',
-          params: this.replenishmentOrder,
-        },
-        { forced: true }
-      );
-
       this.launchDialogService.closeDialog(
-        'Succesffully cancelled replenishment'
+        'Successffully cancelled replenishment'
       );
 
       this.globalMessageService.add(
