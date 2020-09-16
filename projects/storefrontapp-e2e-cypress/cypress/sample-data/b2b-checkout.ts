@@ -2,7 +2,7 @@ import { AccountData } from '../support/require-logged-in.commands';
 import {
   SampleCartProduct,
   SampleProduct,
-  SimpleUser,
+  SampleUser,
   user,
 } from './checkout-flow';
 
@@ -22,7 +22,7 @@ export const cartWithB2bProduct: SampleCartProduct = {
   totalAndShipping: '$44.99',
 };
 
-export const b2bAccountShipToUser: SimpleUser = {
+export const b2bAccountShipToUser: SampleUser = {
   fullName: 'PunchOut Customer',
   address: {
     city: 'Chicago',

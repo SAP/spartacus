@@ -12,12 +12,13 @@ import {
 import {
   SampleCartProduct,
   SampleProduct,
-  SimpleUser,
+  SampleUser,
   user,
 } from '../../sample-data/checkout-flow';
 import {
   addCheapProductToCart,
   verifyReviewOrderPage,
+  visitHomePage,
   waitForPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
@@ -25,7 +26,7 @@ import { generateMail, randomString } from '../user';
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(b2bUser);
-  cy.visit('/');
+  visitHomePage();
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
@@ -126,7 +127,7 @@ export function selectAccountDeliveryMode(
 }
 
 export function placeAccountOrder(
-  sampleUser: SimpleUser = b2bAccountShipToUser,
+  sampleUser: SampleUser = b2bAccountShipToUser,
   cartData: SampleCartProduct
 ) {
   verifyReviewOrderPage();
@@ -189,7 +190,7 @@ export function placeAccountOrder(
 }
 
 export function reviewB2bOrderConfirmation(
-  sampleUser: SimpleUser = b2bAccountShipToUser,
+  sampleUser: SampleUser = b2bAccountShipToUser,
   sampleProduct: SampleProduct = b2bProduct,
   cartData: SampleCartProduct,
   isAccount: boolean = true

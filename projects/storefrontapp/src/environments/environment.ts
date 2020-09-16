@@ -13,7 +13,7 @@ export const environment: Environment = {
     // 'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com' ||
     build.process.env.SPARTACUS_BASE_URL,
   occApiPrefix: '/occ/v2/',
-  b2b: false,
+  b2b: true,
   cds: false,
   cdc: false,
 };
