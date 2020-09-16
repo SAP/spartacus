@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
@@ -176,7 +177,7 @@ export const unitsCmsConfig: CmsConfig = {
         },
       ],
 
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

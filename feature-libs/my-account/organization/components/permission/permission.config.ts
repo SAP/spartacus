@@ -4,6 +4,7 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
 import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
@@ -79,7 +80,7 @@ export const permissionCmsConfig: CmsConfig = {
           ],
         },
       ],
-      guards: [AuthGuard],
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };
