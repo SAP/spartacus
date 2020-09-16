@@ -4,6 +4,7 @@
   }
 
   label {
+    max-width: 100%;
     @include media-breakpoint-up(md) {
       flex: 50%;
     }
