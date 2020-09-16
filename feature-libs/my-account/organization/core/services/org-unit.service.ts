@@ -80,184 +80,185 @@ const mockedTree1 = {
   id: 'Rustic',
   name: 'Rustic',
 };
-const mockedTree2 = {
-  active: true,
-  children: [
-    {
-      active: true,
-      children: [
-        {
-          active: true,
-          children: [
-            {
-              active: true,
-              children: [],
-              id: 'GC_TEST_UNIT',
-              name: 'GC Test Unit',
-              parent: 'Test Name',
-            },
-          ],
-          id: 'Test Name',
-          name: 'Test name',
-          parent: 'T/T/T',
-        },
-      ],
-      id: 'T/T/T',
-      name: 'Test / Test / Test',
-      parent: 'Rustic',
-    },
-    {
-      active: true,
-      children: [
-        {
-          active: false,
-          children: [
-            {
-              active: false,
-              children: [
-                {
-                  active: false,
-                  children: [],
-                  id: 'bill',
-                  name: 'bill',
-                  parent: 'KParentUnitz',
-                },
-                {
-                  active: false,
-                  children: [],
-                  id: 'KChildUnit',
-                  name: 'K Child Unit',
-                  parent: 'KParentUnitz',
-                },
-              ],
-              id: 'KParentUnitz',
-              name: 'Very looong unit name',
-              parent: 'Rustic Servicesidzzzzxzzzzz',
-            },
-            {
-              active: false,
-              children: [
-                {
-                  active: false,
-                  children: [],
-                  id: 'hhhh',
-                  name: 'hhhhh',
-                  parent: 'aaaaa',
-                },
-              ],
-              id: 'aaaaa',
-              name: 'aaaaaaa',
-              parent: 'Rustic Servicesidzzzzxzzzzz',
-            },
-            {
-              active: false,
-              children: [],
-              id: 'Services West',
-              name: 'Services West',
-              parent: 'Rustic Servicesidzzzzxzzzzz',
-            },
-            {
-              active: false,
-              children: [],
-              id: 'RSUN',
-              name: 'Rust Serv Unit Name',
-              parent: 'Rustic Servicesidzzzzxzzzzz',
-            },
-            {
-              active: false,
-              children: [],
-              id: 'Services East',
-              name: 'Services East',
-              parent: 'Rustic Servicesidzzzzxzzzzz',
-            },
-          ],
-          id: 'Rustic Servicesidzzzzxzzzzz',
-          name: 'Rustic Servicesz',
-          parent: 'Rustic Retail',
-        },
-        {
-          active: false,
-          children: [
-            {
-              active: false,
-              children: [],
-              id: 'UR01',
-              name: 'UnitRole',
-              parent: 'Custom Retail',
-            },
-          ],
-          id: 'Custom Retail',
-          name: 'Custom Retail',
-          parent: 'Rustic Retail',
-        },
-        {
-          active: false,
-          children: [],
-          id: '112233',
-          name: 'Testing refresh',
-          parent: 'Rustic Retail',
-        },
-      ],
-      id: 'Rustic Retail',
-      name: 'Rustic Retail',
-      parent: 'Rustic',
-    },
-    {
-      active: false,
-      children: [],
-      id: 'Rustic_Custom_8',
-      name: 'Rustic Custom 8',
-      parent: 'Rustic',
-    },
-    {
-      active: true,
-      children: [],
-      id: 'PROU',
-      name: 'Pro unit',
-      parent: 'Rustic',
-    },
-    {
-      active: false,
-      children: [],
-      id: 'tobber',
-      name: 'Tobber',
-      parent: 'Rustic',
-    },
-    {
-      active: false,
-      children: [
-        {
-          active: false,
-          children: [],
-          id: 'TU',
-          name: 'Test Unit',
-          parent: 'Unit ID',
-        },
-      ],
-      id: 'Unit ID',
-      name: 'Name',
-      parent: 'Rustic',
-    },
-    {
-      active: true,
-      children: [
-        { active: true, children: [], id: 'eeee', name: 'eeee', parent: 'NU' },
-      ],
-      id: 'NU',
-      name: 'Normal unit edited',
-      parent: 'Rustic',
-    },
-    {
-      active: false,
-      children: [],
-      id: 'PUz',
-      name: "Patryk's Unitz",
-      parent: 'Rustic',
-    },
-  ],
-  id: 'Rustic',
-  name: 'Rustic',
-};
+
+// const mockedTree2 = {
+//   active: true,
+//   children: [
+//     {
+//       active: true,
+//       children: [
+//         {
+//           active: true,
+//           children: [
+//             {
+//               active: true,
+//               children: [],
+//               id: 'GC_TEST_UNIT',
+//               name: 'GC Test Unit',
+//               parent: 'Test Name',
+//             },
+//           ],
+//           id: 'Test Name',
+//           name: 'Test name',
+//           parent: 'T/T/T',
+//         },
+//       ],
+//       id: 'T/T/T',
+//       name: 'Test / Test / Test',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: true,
+//       children: [
+//         {
+//           active: false,
+//           children: [
+//             {
+//               active: false,
+//               children: [
+//                 {
+//                   active: false,
+//                   children: [],
+//                   id: 'bill',
+//                   name: 'bill',
+//                   parent: 'KParentUnitz',
+//                 },
+//                 {
+//                   active: false,
+//                   children: [],
+//                   id: 'KChildUnit',
+//                   name: 'K Child Unit',
+//                   parent: 'KParentUnitz',
+//                 },
+//               ],
+//               id: 'KParentUnitz',
+//               name: 'Very looong unit name',
+//               parent: 'Rustic Servicesidzzzzxzzzzz',
+//             },
+//             {
+//               active: false,
+//               children: [
+//                 {
+//                   active: false,
+//                   children: [],
+//                   id: 'hhhh',
+//                   name: 'hhhhh',
+//                   parent: 'aaaaa',
+//                 },
+//               ],
+//               id: 'aaaaa',
+//               name: 'aaaaaaa',
+//               parent: 'Rustic Servicesidzzzzxzzzzz',
+//             },
+//             {
+//               active: false,
+//               children: [],
+//               id: 'Services West',
+//               name: 'Services West',
+//               parent: 'Rustic Servicesidzzzzxzzzzz',
+//             },
+//             {
+//               active: false,
+//               children: [],
+//               id: 'RSUN',
+//               name: 'Rust Serv Unit Name',
+//               parent: 'Rustic Servicesidzzzzxzzzzz',
+//             },
+//             {
+//               active: false,
+//               children: [],
+//               id: 'Services East',
+//               name: 'Services East',
+//               parent: 'Rustic Servicesidzzzzxzzzzz',
+//             },
+//           ],
+//           id: 'Rustic Servicesidzzzzxzzzzz',
+//           name: 'Rustic Servicesz',
+//           parent: 'Rustic Retail',
+//         },
+//         {
+//           active: false,
+//           children: [
+//             {
+//               active: false,
+//               children: [],
+//               id: 'UR01',
+//               name: 'UnitRole',
+//               parent: 'Custom Retail',
+//             },
+//           ],
+//           id: 'Custom Retail',
+//           name: 'Custom Retail',
+//           parent: 'Rustic Retail',
+//         },
+//         {
+//           active: false,
+//           children: [],
+//           id: '112233',
+//           name: 'Testing refresh',
+//           parent: 'Rustic Retail',
+//         },
+//       ],
+//       id: 'Rustic Retail',
+//       name: 'Rustic Retail',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: false,
+//       children: [],
+//       id: 'Rustic_Custom_8',
+//       name: 'Rustic Custom 8',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: true,
+//       children: [],
+//       id: 'PROU',
+//       name: 'Pro unit',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: false,
+//       children: [],
+//       id: 'tobber',
+//       name: 'Tobber',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: false,
+//       children: [
+//         {
+//           active: false,
+//           children: [],
+//           id: 'TU',
+//           name: 'Test Unit',
+//           parent: 'Unit ID',
+//         },
+//       ],
+//       id: 'Unit ID',
+//       name: 'Name',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: true,
+//       children: [
+//         { active: true, children: [], id: 'eeee', name: 'eeee', parent: 'NU' },
+//       ],
+//       id: 'NU',
+//       name: 'Normal unit edited',
+//       parent: 'Rustic',
+//     },
+//     {
+//       active: false,
+//       children: [],
+//       id: 'PUz',
+//       name: "Patryk's Unitz",
+//       parent: 'Rustic',
+//     },
+//   ],
+//   id: 'Rustic',
+//   name: 'Rustic',
+// };
 
 @Injectable()
 export class OrgUnitService {

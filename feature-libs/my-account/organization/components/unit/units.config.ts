@@ -31,7 +31,6 @@ import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
 import { OrganizationListComponent } from '../shared/organization-list';
 import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
