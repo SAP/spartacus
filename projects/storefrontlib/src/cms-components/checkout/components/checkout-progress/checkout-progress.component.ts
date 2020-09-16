@@ -1,43 +1,49 @@
-import { RoutingService, RoutingConfigService } from '@spartacus/core';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CheckoutConfig } from '../../config/checkout-config';
-import { CheckoutStep } from '../../model/checkout-step.model';
-import { Observable } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CheckoutStep } from '../../model/checkout-step.model';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutProgressComponent implements OnInit {
+export class CheckoutProgressComponent implements OnInit, OnDestroy {
   constructor(
-    protected config: CheckoutConfig,
-    protected routingService: RoutingService,
-    protected routingConfigService: RoutingConfigService
+    protected checkoutStepService: CheckoutStepService,
+    protected cdr: ChangeDetectorRef
   ) {}
 
-  steps: Array<CheckoutStep>;
-  routerState$: Observable<any>;
+  steps: CheckoutStep[];
+
   activeStepIndex: number;
-  activeStepUrl: string;
+  activeStepIndex$: Observable<
+    number
+  > = this.checkoutStepService.activeStepIndex$.pipe(
+    tap((index) => (this.activeStepIndex = index))
+  );
+
+  subscription: Subscription;
 
   ngOnInit(): void {
-    this.steps = this.config.checkout.steps;
-    this.routerState$ = this.routingService.getRouterState().pipe(
-      tap((router) => {
-        this.activeStepUrl = router.state.context.id;
+    this.subscription = this.checkoutStepService.steps$.subscribe((steps) => {
+      this.steps = steps;
+      // TODO(#8879): Couldn't we use observables here instead?
+      this.cdr.detectChanges();
+    });
+  }
 
-        this.steps.forEach((step, index) => {
-          const routeUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
-          }`;
-          if (routeUrl === this.activeStepUrl) {
-            this.activeStepIndex = index;
-          }
-        });
-      })
-    );
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   getTabIndex(stepIndex: number): number {

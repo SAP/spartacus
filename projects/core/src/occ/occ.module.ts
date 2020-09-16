@@ -10,6 +10,7 @@ import { AsmOccModule } from './adapters/asm/asm-occ.module';
 import { CmsOccModule } from './adapters/cms/cms-occ.module';
 import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
+import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.module';
 import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
@@ -26,6 +27,7 @@ import { UserOccModule } from './adapters/user/user-occ.module';
     StoreFinderOccModule,
     UserOccModule,
     OccConfigLoaderModule.forRoot(),
+    CostCenterOccModule,
   ],
 })
 export class OccModule {

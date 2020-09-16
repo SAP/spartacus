@@ -1,4 +1,8 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { B2bStorefrontModule } from '@spartacus/storefront';
+import { environment } from '../environment';
+import { FeatureEnvironment } from '../models/feature.model';
+import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
@@ -15,10 +19,6 @@ export const b2bFeature: FeatureEnvironment = {
         occ: {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
-          endpoints: {
-            addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
-            user: 'orgUsers/${userId}',
-          },
         },
       },
       context: {
@@ -35,15 +35,17 @@ export const b2bFeature: FeatureEnvironment = {
         },
       },
       // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: {
-          en: { ...translations.en, ...organizationTranslations.en },
-        },
-        chunks: {
-          ...translationChunksConfig,
-          ...organizationTranslationChunksConfig,
-        },
+      i18n: { {
+      resources: {
+        en: { ...translations.en, ...organizationTranslations.en },
+      },
+      chunks: {
+        ...translationChunksConfig,
+        ...organizationTranslationChunksConfig,
+      },
 
+      resources: translations,
+        chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
 

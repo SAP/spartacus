@@ -28,8 +28,10 @@
     }
 
     border-radius: 4px;
-
-    margin: 0 10px 10px 0;
+    margin-top: 0;
+    margin-inline-end: 10px;
+    margin-bottom: 10px;
+    margin-inline-start: 0;
 
     > span {
       margin-inline-start: 10px;

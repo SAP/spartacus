@@ -1,15 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginRegisterComponent } from './login-register.component';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CheckoutConfigService } from '@spartacus/storefront';
 import { ActivatedRoute } from '@angular/router';
+import { I18nTestingModule } from '@spartacus/core';
+import { CheckoutConfigService } from '@spartacus/storefront';
+import { LoginRegisterComponent } from './login-register.component';
 
 describe('LoginRegisterComponent', () => {
   let component: LoginRegisterComponent;
@@ -39,17 +34,11 @@ describe('LoginRegisterComponent', () => {
   }
 
   const testBedDefaults = {
-    imports: [I18nTestingModule, FeaturesConfigModule],
+    imports: [I18nTestingModule],
     declarations: [LoginRegisterComponent, MockUrlPipe],
     providers: [
       { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       { provide: ActivatedRoute, useClass: MockActivatedRoute },
-      {
-        provide: FeaturesConfig,
-        useValue: {
-          features: { level: '2.1' },
-        },
-      },
     ],
   };
 
@@ -82,26 +71,6 @@ describe('LoginRegisterComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('2.0 Feature level', () => {
-    it('Should not render component with feature level 2.0', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
-      TestBed.overrideProvider(FeaturesConfig, {
-        useValue: {
-          features: { level: '2.0' },
-        },
-      });
-      TestBed.compileComponents();
-
-      createComponent();
-      callNgInit();
-
-      const registerContainer = fixture.debugElement.query(By.css('.register'));
-
-      expect(registerContainer).toBeFalsy();
-    });
   });
 
   describe('Register/Guest checkout', () => {
