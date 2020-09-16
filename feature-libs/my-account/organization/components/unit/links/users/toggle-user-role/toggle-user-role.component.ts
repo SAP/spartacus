@@ -13,7 +13,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { MessageService } from 'feature-libs/my-account/organization/components/shared';
+import { MessageService } from '../../../../shared/organization-message/services';
 import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
 
 @Component({
@@ -27,8 +27,8 @@ export class ToggleUserRoleCellComponent extends OrganizationCellComponent
 
   availableRoles = [
     UserRole.CUSTOMER,
-    UserRole.APPROVER,
     UserRole.MANAGER,
+    UserRole.APPROVER,
     UserRole.ADMIN,
   ];
 

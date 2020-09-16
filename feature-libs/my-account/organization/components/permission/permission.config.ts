@@ -16,6 +16,8 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionFormComponent } from './form/permission-form.component';
+import { ActivePermissionGuard } from './guards/active-permission.guard';
+import { ExistPermissionGuard } from './guards/exist-permission.guard';
 import { PermissionItemService } from './services/permission-item.service';
 import { PermissionListService } from './services/permission-list.service';
 
@@ -67,10 +69,14 @@ export const permissionCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
-        },
-        {
-          path: `:${ROUTE_PARAMS.permissionCode}/edit`,
-          component: PermissionFormComponent,
+          canActivate: [ExistPermissionGuard],
+          children: [
+            {
+              path: 'edit',
+              component: PermissionFormComponent,
+              canActivate: [ActivePermissionGuard],
+            },
+          ],
         },
       ],
       guards: [AuthGuard],

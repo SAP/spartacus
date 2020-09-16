@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { B2BAddress, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { ROUTE_PARAMS } from 'feature-libs/my-account/organization/components/constants';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
+import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';

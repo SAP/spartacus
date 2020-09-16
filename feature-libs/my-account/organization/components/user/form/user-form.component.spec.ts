@@ -91,18 +91,18 @@ describe('UserFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render form groups', () => {
+  it('should render form controls', () => {
     component.form = mockForm;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBeGreaterThan(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBeGreaterThan(0);
   });
 
-  it('should not render any form groups if the form is falsy', () => {
+  it('should not render any form controls if the form is falsy', () => {
     component.form = undefined;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBe(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBe(0);
   });
 
   it('should get active b2bUnits from service', () => {

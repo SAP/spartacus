@@ -95,7 +95,7 @@ cx-organization-form {
   .footer {
     display: flex;
     justify-content: flex-end;
-    padding: 0 40px 40px;
+    padding: 40px;
   }
   cx-pagination {
     @include media-breakpoint-down(md) {
@@ -192,6 +192,11 @@ cx-organization-form {
   cx-table {
     width: 100%;
 
+    &.vertical td .content-wrapper {
+      align-items: center;
+      height: 74px;
+      padding-inline-start: 20px;
+    }
     &.vertical tr td:last-child,
     &.vertical-stacked tbody {
       // <?xml version="1.0" encoding="utf-8"?>
@@ -233,15 +238,23 @@ cx-organization-form {
       font-size: 16px;
 
       .content-wrapper {
-        height: 74px;
-        align-items: center;
-        padding-inline-start: 30px;
       }
 
       .text {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      ul.text {
+        margin: 0;
+        padding: 0;
+        li {
+          display: inline;
+          white-space: pre-wrap;
+          &:not(:last-child):after {
+            content: ', ';
+          }
+        }
       }
       a {
         color: inherit;

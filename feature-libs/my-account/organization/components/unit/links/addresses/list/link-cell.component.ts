@@ -4,7 +4,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationItemService } from 'feature-libs/my-account/organization/components/shared';
+import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
 
 @Component({

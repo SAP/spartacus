@@ -18,6 +18,8 @@ import { CostCenterBudgetListComponent } from './budgets';
 import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterFormComponent } from './form/cost-center-form.component';
+import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
+import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 
@@ -71,10 +73,17 @@ export const costCenterCmsConfig: CmsConfig = {
           path: 'create',
           component: CostCenterFormComponent,
         },
+
         {
           path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
+          canActivate: [ExistCostCenterGuard],
           children: [
+            {
+              path: 'edit',
+              component: CostCenterFormComponent,
+              canActivate: [ActiveCostCenterGuard],
+            },
             {
               path: 'budgets',
               component: CostCenterAssignedBudgetListComponent,
@@ -84,10 +93,6 @@ export const costCenterCmsConfig: CmsConfig = {
               component: CostCenterBudgetListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.costCenterCode}/edit`,
-          component: CostCenterFormComponent,
         },
       ],
       guards: [AuthGuard],

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { B2BAddress, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
-import { OrganizationSubListService } from 'feature-libs/my-account/organization/components/shared';
-import { OrganizationTableType } from 'feature-libs/my-account/organization/components/shared/organization.model';
 import { Observable } from 'rxjs';
+import { OrganizationSubListService } from '../../../../shared/organization-sub-list/organization-sub-list.service';
+import { OrganizationTableType } from '../../../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',

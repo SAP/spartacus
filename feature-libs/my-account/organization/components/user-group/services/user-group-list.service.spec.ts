@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EntitiesModel } from '@spartacus/core';
+import {
+  UserGroup,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroup } from '../../../core/model/user-group.model';
-import { UserGroupService } from '../../../core/services/user-group.service';
 import { UserGroupListService } from './user-group-list.service';
 const uid = 'userGroup';
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {

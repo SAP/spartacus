@@ -1,99 +1,39 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, EntitiesModel, I18nTestingModule } from '@spartacus/core';
-import { TableModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import { OrganizationSubListTestingModule } from 'feature-libs/my-account/organization/components/shared/organization-sub-list/organization-sub-list.testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { of } from 'rxjs';
-import { CurrentUnitService } from '../../../current-unit.service';
-import { UnitApproverListComponent } from './unit-assigned-approver-list.component';
-import { UnitApproverListService } from './unit-assigned-approver-list.service';
-import createSpy = jasmine.createSpy;
+import { UnitAssignedApproverListComponent } from './unit-assigned-approver-list.component';
+import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
 
-const code = 'unitCode';
-const customerId = 'customerId1';
+class MockUnitAssignedApproverListService {}
 
-const mockUserList: EntitiesModel<B2BUser> = {
-  values: [
-    {
-      name: 'b1',
-      uid: 'aaa@bbb',
-      customerId,
-      selected: true,
-      orgUnit: { uid: 'orgUid', name: 'orgName' },
-      roles: [],
-    },
-    {
-      name: 'b2',
-      uid: 'aaa2@bbb',
-      customerId: 'customerId2',
-      selected: false,
-      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
-      roles: [],
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
-
-class MockUnitApproverListService {
-  unassign = createSpy('unassign').and.stub();
-  load = of(mockUserList);
-  getTable = function () {
-    return of({});
-  };
-}
-
-class MockCurrentUnitService {
-  key$ = of(code);
-}
-
-describe('UnitApproverListComponent', () => {
-  let component: UnitApproverListComponent;
-  let fixture: ComponentFixture<UnitApproverListComponent>;
-  let unitApproverListService: UnitApproverListService;
+describe('UnitAssignedApproverListComponent', () => {
+  let component: UnitAssignedApproverListComponent;
+  let fixture: ComponentFixture<UnitAssignedApproverListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        I18nTestingModule,
+        OrganizationSubListTestingModule,
         UrlTestingModule,
-        TableModule,
-        FormsModule,
-        SplitViewTestingModule,
-        IconTestingModule,
+        I18nTestingModule,
       ],
-      declarations: [UnitApproverListComponent],
       providers: [
         {
-          provide: UnitApproverListService,
-          useClass: MockUnitApproverListService,
+          provide: UnitAssignedApproverListService,
+          useClass: MockUnitAssignedApproverListService,
         },
-        { provide: CurrentUnitService, useClass: MockCurrentUnitService },
       ],
+      declarations: [UnitAssignedApproverListComponent],
     }).compileComponents();
-
-    unitApproverListService = TestBed.inject(UnitApproverListService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitApproverListComponent);
+    fixture = TestBed.createComponent(UnitAssignedApproverListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should unassign user from given role', () => {
-    component.unassign(mockUserList.values[0]);
-    expect(unitApproverListService.unassign).toHaveBeenCalledWith(
-      code,
-      mockUserList.values[0].customerId
-    );
   });
 });

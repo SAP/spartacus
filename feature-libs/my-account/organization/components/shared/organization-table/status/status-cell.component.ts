@@ -2,19 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
-  template: `
-    <a
-      [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-      [class.is-active]="isActive"
-      [tabindex]="tabIndex"
-    >
-      <span class="text"> {{ property | cxTranslate }}</span>
-    </a>
-  `,
+  templateUrl: './status-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusCellComponent extends OrganizationCellComponent {
-  get property() {
+  get label() {
     return this.isActive ? 'organization.enabled' : 'organization.disabled';
   }
 

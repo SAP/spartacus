@@ -34,4 +34,11 @@ export const permission = {
     confirmEnabled: 'Purchase Limit enabled successfully',
     confirmDisabled: 'Purchase Limit disabled successfully',
   },
+
+  per: {
+    DAY: 'per day',
+    WEEK: 'per week',
+    MONTH: 'per month',
+    QUARTER: 'per quarter',
+  },
 };

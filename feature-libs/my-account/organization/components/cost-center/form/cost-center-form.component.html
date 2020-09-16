@@ -28,7 +28,7 @@
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
     </label>
 
-    <label aria-required="true">
+    <label aria-required="true" formGroupName="currency">
       <span class="label-content required">{{
         'costCenter.currency' | cxTranslate
       }}</span>

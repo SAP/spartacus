@@ -97,6 +97,8 @@ export const unitAssignedRoles = {
 export const unitApprovers = {
   title: 'Manage approvers',
   subtitle: 'Unit: {{item.name}}',
+  assigned: 'User {{item.name}} assigned successfully',
+  unassigned: 'User {{item.name}} unassigned successfully',
 };
 
 export const unitAssignedApprovers = {

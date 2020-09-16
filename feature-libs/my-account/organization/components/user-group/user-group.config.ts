@@ -6,14 +6,16 @@ import {
 } from '@spartacus/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { ActiveLinkCellComponent, AssignCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupFormComponent } from './form';
+import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupPermissionListComponent } from './permissions';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
 import { UserGroupListService } from './services';
@@ -86,7 +88,12 @@ export const userGroupCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
+          canActivate: [ExistUserGroupGuard],
           children: [
+            {
+              path: 'edit',
+              component: UserGroupFormComponent,
+            },
             {
               path: 'users',
               component: UserGroupAssignedUserListComponent,
@@ -104,10 +111,6 @@ export const userGroupCmsConfig: CmsConfig = {
               component: UserGroupPermissionListComponent,
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.userGroupCode}/edit`,
-          component: UserGroupFormComponent,
         },
       ],
       guards: [AuthGuard],

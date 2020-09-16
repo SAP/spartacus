@@ -3,7 +3,7 @@ import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { UserGroupService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../shared';
+import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({

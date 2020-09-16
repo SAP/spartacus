@@ -9,9 +9,12 @@ import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
+import { ActiveUnitGuard } from './guards/active-unit.guard';
+import { ExistUnitGuard } from './guards/exist-unit.guard';
 import {
   UnitAddressDetailsComponent,
   UnitAddressListComponent,
@@ -120,12 +123,13 @@ export const unitsCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
+          canActivate: [ExistUnitGuard],
           children: [
             {
               path: 'edit',
               component: UnitFormComponent,
+              canActivate: [ActiveUnitGuard],
             },
-
             {
               path: 'children',
               component: UnitChildrenComponent,
@@ -221,6 +225,7 @@ export const unitsTableConfig: TableConfig = {
         cells: {
           active: {
             dataComponent: StatusCellComponent,
+            linkable: false,
           },
         },
       },

@@ -8,6 +8,7 @@ import { ActiveLinkCellComponent } from '..';
 const mockContext = {
   _field: 'name',
   _type: 'myType',
+  _options: {},
   name: 'my name',
   code: 'my code',
 };
@@ -32,6 +33,7 @@ describe('ActiveLinkCellComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ActiveLinkCellComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

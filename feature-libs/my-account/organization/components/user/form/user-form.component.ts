@@ -6,7 +6,7 @@ import {
   UserRole,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared';
+import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -28,8 +28,8 @@ export class UserFormComponent implements OnInit {
   availableRoles = [
     UserRole.CUSTOMER,
     UserRole.MANAGER,
-    UserRole.ADMIN,
     UserRole.APPROVER,
+    UserRole.ADMIN,
   ];
 
   constructor(
@@ -43,13 +43,12 @@ export class UserFormComponent implements OnInit {
   }
 
   updateRoles(event: MouseEvent) {
-    const { value, checked } = event.target as HTMLInputElement;
+    const { checked, value } = event.target as HTMLInputElement;
     if (checked) {
       this.roles.push(new FormControl(value));
     } else {
       this.roles.removeAt(this.roles.value.indexOf(value));
     }
-    console.log(this.roles.value);
   }
 
   get roles(): FormArray {
