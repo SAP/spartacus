@@ -12,7 +12,7 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
@@ -23,9 +23,13 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
+const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
+  mockReplenishmentOrder
+);
+
 class MockUserReplenishmentOrderService {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
-    return of(mockReplenishmentOrder);
+    return mockReplenishmentOrder$.asObservable();
   }
 }
 
@@ -103,5 +107,21 @@ describe('ReplenishmentOrderCancellationComponent', () => {
     expect(
       replenishmentOrderCancellationLaunchDialogService.openDialog
     ).toHaveBeenCalledWith(component.element, component['vcr']);
+  });
+
+  it('should show two action button', () => {
+    const button = el.queryAll(By.css('.btn'));
+
+    expect(button.length).toEqual(2);
+  });
+
+  it('should show one action button', () => {
+    mockReplenishmentOrder$.next({ active: false });
+
+    fixture.detectChanges();
+
+    const button = el.queryAll(By.css('.btn'));
+
+    expect(button.length).toEqual(1);
   });
 });

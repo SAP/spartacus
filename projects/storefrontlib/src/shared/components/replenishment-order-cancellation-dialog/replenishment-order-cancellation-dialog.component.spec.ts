@@ -20,6 +20,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
+
 class MockUserReplenishmentOrderService {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return of(mockReplenishmentOrder);
@@ -106,10 +107,11 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     expect(result).toEqual(mockReplenishmentOrder);
   });
 
-  it('should redirect and add global message on successful cancellation ', () => {
+  it('should redirect to same page and add global message on successful cancellation ', () => {
     spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
+    spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
     component.onSuccess(true);
 
@@ -122,19 +124,29 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'replenishmentDetails',
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'replenishmentDetails',
+        params: mockReplenishmentOrder,
+      },
+      { forced: true }
+    );
+
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Succesffully cancelled replenishment'
+    );
   });
 
   it('should be able to call the close dialog', () => {
     spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
-    const mockData = 'test-close';
+    const mockCloseReason = 'test-close';
 
-    component.close(mockData);
+    component.close(mockCloseReason);
 
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(mockData);
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      mockCloseReason
+    );
   });
 
   it('should be able to call the cancel replenishment', () => {

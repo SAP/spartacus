@@ -1,12 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  ReplenishmentOrder,
   RoutingService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
@@ -17,25 +23,29 @@ export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  replenishmentOrderCode: string;
+  replenishmentOrder: ReplenishmentOrder;
 
-  iconTypes = ICON_TYPE;
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
 
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
       this.userReplenishmentOrderService
         .getReplenishmentOrderDetails()
-        .subscribe(
-          (value) =>
-            (this.replenishmentOrderCode = value.replenishmentOrderCode)
-        )
+        .subscribe((value) => (this.replenishmentOrder = value))
     );
 
     this.subscription.add(
@@ -47,13 +57,25 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   onSuccess(value: boolean): void {
     if (value) {
-      this.routingService.go({
-        cxRoute: 'replenishmentDetails',
-      });
+      this.routingService.go(
+        {
+          cxRoute: 'replenishmentDetails',
+          params: this.replenishmentOrder,
+        },
+        { forced: true }
+      );
+
+      this.launchDialogService.closeDialog(
+        'Succesffully cancelled replenishment'
+      );
+
       this.globalMessageService.add(
         {
           key: 'orderDetails.cancelReplenishment.cancelSuccess',
-          params: { replenishmentOrderCode: this.replenishmentOrderCode },
+          params: {
+            replenishmentOrderCode: this.replenishmentOrder
+              .replenishmentOrderCode,
+          },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
@@ -66,7 +88,7 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   cancelReplenishment(): void {
     this.userReplenishmentOrderService.cancelReplenishmentOrder(
-      this.replenishmentOrderCode
+      this.replenishmentOrder.replenishmentOrderCode
     );
   }
 
