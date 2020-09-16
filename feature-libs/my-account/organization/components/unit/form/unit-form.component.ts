@@ -18,7 +18,8 @@ import { CurrentUnitService } from '../current-unit.service';
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitFormComponent extends AbstractFormComponent
+export class UnitFormComponent
+  extends AbstractFormComponent
   implements OnInit, OnDestroy {
   @Input() form: FormGroup;
 
