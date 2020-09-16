@@ -112,7 +112,7 @@ Use the following template:
 ```json
 {
   "name": "@spartacus/TODO:",
-  "version": "2.1.0-dev.0",
+  "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -130,8 +130,8 @@ Use the following template:
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
     "rxjs": "^6.5.4",
-    "@spartacus/core": "2.1.0-dev.0",
-    "@spartacus/storefront": "2.1.0-dev.0"
+    "@spartacus/core": "3.0.0-next.0",
+    "@spartacus/storefront": "3.0.0-next.0"
   }
 }
 ```
