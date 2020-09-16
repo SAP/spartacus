@@ -2,7 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
+import {
+  ProjectType,
+  WorkspaceProject,
+} from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
 import {
   buildDefaultPath,
