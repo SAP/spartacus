@@ -26,6 +26,7 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'userGroup',
     'userGroupUsers',
     'userGroupAssignedUsers',
+    'userGroupPermissions',
     'userGroupAssignedPermissions',
     'user',
     'userApprovers',
