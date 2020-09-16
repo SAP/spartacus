@@ -63,6 +63,12 @@
 
 
 
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
 
 
 <section>
@@ -121,10 +127,28 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#cart$">cart$</a>
+                            </li>
+                            <li>
                                 <a href="#checkoutStepType">checkoutStepType</a>
                             </li>
                             <li>
-                                <a href="#iconTypes">iconTypes</a>
+                                <a href="#countryName$">countryName$</a>
+                            </li>
+                            <li>
+                                <a href="#deliveryAddress$">deliveryAddress$</a>
+                            </li>
+                            <li>
+                                <a href="#deliveryMode$">deliveryMode$</a>
+                            </li>
+                            <li>
+                                <a href="#entries$">entries$</a>
+                            </li>
+                            <li>
+                                <a href="#orderPromotions$">orderPromotions$</a>
+                            </li>
+                            <li>
+                                <a href="#paymentDetails$">paymentDetails$</a>
                             </li>
                             <li>
                                 <a href="#promotionLocation">promotionLocation</a>
@@ -145,28 +169,16 @@
                                 <a href="#getCheckoutStepUrl">getCheckoutStepUrl</a>
                             </li>
                             <li>
-                                <a href="#getCostCenterCard">getCostCenterCard</a>
-                            </li>
-                            <li>
                                 <a href="#getDeliveryModeCard">getDeliveryModeCard</a>
                             </li>
                             <li>
                                 <a href="#getPaymentMethodCard">getPaymentMethodCard</a>
                             </li>
                             <li>
-                                <a href="#getPaymentTypeCard">getPaymentTypeCard</a>
-                            </li>
-                            <li>
-                                <a href="#getPoNumberCard">getPoNumberCard</a>
-                            </li>
-                            <li>
                                 <a href="#getShippingAddressCard">getShippingAddressCard</a>
                             </li>
                             <li>
-                                <a href="#paymentSteps">paymentSteps</a>
-                            </li>
-                            <li>
-                                <a href="#shippingSteps">shippingSteps</a>
+                                <a href="#ngOnInit">ngOnInit</a>
                             </li>
                         </ul>
                     </td>
@@ -176,53 +188,6 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#cart$">cart$</a>
-                                </li>
-                                <li>
-                                    <a href="#entries$">entries$</a>
-                                </li>
-                                <li>
-                                    <a href="#steps$">steps$</a>
-                                </li>
-                                <li>
-                                    <a href="#deliveryAddress$">deliveryAddress$</a>
-                                </li>
-                                <li>
-                                    <a href="#deliveryMode$">deliveryMode$</a>
-                                </li>
-                                <li>
-                                    <a href="#paymentDetails$">paymentDetails$</a>
-                                </li>
-                                <li>
-                                    <a href="#orderPromotions$">orderPromotions$</a>
-                                </li>
-                                <li>
-                                    <a href="#countryName$">countryName$</a>
-                                </li>
-                                <li>
-                                    <a href="#poNumber$">poNumber$</a>
-                                </li>
-                                <li>
-                                    <a href="#paymentType$">paymentType$</a>
-                                </li>
-                                <li>
-                                    <a href="#isAccountPayment$">isAccountPayment$</a>
-                                </li>
-                                <li>
-                                    <a href="#costCenter$">costCenter$</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
         </tbody>
     </table>
 </section>
@@ -233,12 +198,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, checkoutStepService: <a href="../injectables/CheckoutStepService.html">CheckoutStepService</a>, promotionService: <a href="../injectables/PromotionService.html">PromotionService</a>, paymentTypeService: <a href="../injectables/PaymentTypeService.html">PaymentTypeService</a>, checkoutCostCenterService: <a href="../injectables/CheckoutCostCenterService.html">CheckoutCostCenterService</a>, userCostCenterService: <a href="../injectables/UserCostCenterService.html">UserCostCenterService</a>)</code>
+<code>constructor(checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, promotionService: <a href="../injectables/PromotionService.html">PromotionService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -316,10 +281,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>checkoutStepService</td>
+                                                        <td>checkoutConfigService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutStepService.html" target="_self" >CheckoutStepService</a></code>
+                                                                        <code><a href="../injectables/CheckoutConfigService.html" target="_self" >CheckoutConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -332,42 +297,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/PromotionService.html" target="_self" >PromotionService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>paymentTypeService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/PaymentTypeService.html" target="_self" >PaymentTypeService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>checkoutCostCenterService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CheckoutCostCenterService.html" target="_self" >CheckoutCostCenterService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>userCostCenterService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/UserCostCenterService.html" target="_self" >UserCostCenterService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -415,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="267"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:267</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:146</a></div>
                 </td>
             </tr>
 
@@ -467,76 +396,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCostCenterCard"></a>
-                    <span class="name">
-                        <b>
-                            getCostCenterCard
-                        </b>
-                        <a href="#getCostCenterCard"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getCostCenterCard(costCenter: <a href="../interfaces/CostCenter.html">CostCenter</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:166</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>costCenter</td>
-                                    <td>
-                                                <code><a href="../interfaces/CostCenter.html" target="_self" >CostCenter</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getDeliveryModeCard"></a>
                     <span class="name">
                         <b>
@@ -555,8 +414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="180"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:180</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -625,8 +484,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="199"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:199</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:128</a></div>
                 </td>
             </tr>
 
@@ -677,146 +536,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getPaymentTypeCard"></a>
-                    <span class="name">
-                        <b>
-                            getPaymentTypeCard
-                        </b>
-                        <a href="#getPaymentTypeCard"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPaymentTypeCard(paymentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="251"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:251</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>paymentType</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPoNumberCard"></a>
-                    <span class="name">
-                        <b>
-                            getPoNumberCard
-                        </b>
-                        <a href="#getPoNumberCard"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPoNumberCard(poNumber: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="237"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:237</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>poNumber</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getShippingAddressCard"></a>
                     <span class="name">
                         <b>
@@ -835,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:82</a></div>
                 </td>
             </tr>
 
@@ -899,96 +618,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="paymentSteps"></a>
+                    <a name="ngOnInit"></a>
                     <span class="name">
                         <b>
-                            paymentSteps
+                            ngOnInit
                         </b>
-                        <a href="#paymentSteps"><span class="icon ion-ios-link"></span></a>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>paymentSteps(steps: <a href="../interfaces/CheckoutStep.html">CheckoutStep[]</a>)</code>
+<code>ngOnInit()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="276"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:276</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>steps</td>
-                                    <td>
-                                                <code><a href="../interfaces/CheckoutStep.html" target="_self" >CheckoutStep[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/CheckoutStep.html" target="_self" >CheckoutStep[]</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="shippingSteps"></a>
-                    <span class="name">
-                        <b>
-                            shippingSteps
-                        </b>
-                        <a href="#shippingSteps"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>shippingSteps(steps: <a href="../interfaces/CheckoutStep.html">CheckoutStep[]</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="272"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:272</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:50</a></div>
                 </td>
             </tr>
 
@@ -997,39 +646,8 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>steps</td>
-                                    <td>
-                                                <code><a href="../interfaces/CheckoutStep.html" target="_self" >CheckoutStep[]</a></code>
-                                    </td>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/CheckoutStep.html" target="_self" >CheckoutStep[]</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -1041,6 +659,33 @@
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cart$"></a>
+                        <span class="name">
+                            <b>
+                            cart$</b>
+                            <a href="#cart$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;Cart&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -1060,7 +705,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -1071,22 +716,158 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="iconTypes"></a>
+                        <a name="countryName$"></a>
                         <span class="name">
                             <b>
-                            iconTypes</b>
-                            <a href="#iconTypes"><span class="icon ion-ios-link"></span></a>
+                            countryName$</b>
+                            <a href="#countryName$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>ICON_TYPE</code>
+                            <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deliveryAddress$"></a>
+                        <span class="name">
+                            <b>
+                            deliveryAddress$</b>
+                            <a href="#deliveryAddress$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;Address&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deliveryMode$"></a>
+                        <span class="name">
+                            <b>
+                            deliveryMode$</b>
+                            <a href="#deliveryMode$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;DeliveryMode&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entries$"></a>
+                        <span class="name">
+                            <b>
+                            entries$</b>
+                            <a href="#entries$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;OrderEntry[]&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orderPromotions$"></a>
+                        <span class="name">
+                            <b>
+                            orderPromotions$</b>
+                            <a href="#orderPromotions$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;PromotionResult[]&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="paymentDetails$"></a>
+                        <span class="name">
+                            <b>
+                            paymentDetails$</b>
+                            <a href="#paymentDetails$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;PaymentDetails&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -1118,7 +899,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -1127,320 +908,47 @@
         </table>
 </section>
 
-    <section>
-    <h3 id="accessors">
-        Accessors
-    </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="cart$"></a>
-                        <span class="name"><b>cart$</b><a href="#cart$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>cart$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:57</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="entries$"></a>
-                        <span class="name"><b>entries$</b><a href="#entries$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>entries$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:61</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="steps$"></a>
-                        <span class="name"><b>steps$</b><a href="#steps$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>steps$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:65</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="deliveryAddress$"></a>
-                        <span class="name"><b>deliveryAddress$</b><a href="#deliveryAddress$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>deliveryAddress$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:69</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="deliveryMode$"></a>
-                        <span class="name"><b>deliveryMode$</b><a href="#deliveryMode$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>deliveryMode$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:73</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="paymentDetails$"></a>
-                        <span class="name"><b>paymentDetails$</b><a href="#paymentDetails$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>paymentDetails$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:83</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="orderPromotions$"></a>
-                        <span class="name"><b>orderPromotions$</b><a href="#orderPromotions$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>orderPromotions$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:87</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="countryName$"></a>
-                        <span class="name"><b>countryName$</b><a href="#countryName$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>countryName$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:91</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="poNumber$"></a>
-                        <span class="name"><b>poNumber$</b><a href="#poNumber$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>poNumber$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:105</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="paymentType$"></a>
-                        <span class="name"><b>paymentType$</b><a href="#paymentType$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>paymentType$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:109</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isAccountPayment$"></a>
-                        <span class="name"><b>isAccountPayment$</b><a href="#isAccountPayment$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>isAccountPayment$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:113</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="costCenter$"></a>
-                        <span class="name"><b>costCenter$</b><a href="#costCenter$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>costCenter$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:117</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-</section>
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, Component } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, Component, OnInit } from &#x27;@angular/core&#x27;;
 import {
-  ActiveCartService,
   Address,
   Cart,
-  CheckoutCostCenterService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
-  CostCenter,
   Country,
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
-  PaymentTypeService,
-  PromotionLocation,
-  PromotionResult,
   TranslationService,
   UserAddressService,
-  UserCostCenterService,
+  PromotionResult,
+  PromotionLocation,
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
-import { filter, map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import { map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
 import { Card } from &#x27;../../../../shared/components/card/card.component&#x27;;
-import { PromotionService } from &#x27;../../../../shared/services/promotion/promotion.service&#x27;;
-import { ICON_TYPE } from &#x27;../../../misc/icon/icon.model&#x27;;
-import {
-  checkoutPaymentSteps,
-  checkoutShippingSteps,
-  CheckoutStep,
-} from &#x27;../../model/checkout-step.model&#x27;;
 import { CheckoutStepType } from &#x27;../../model/index&#x27;;
-import { CheckoutStepService } from &#x27;../../services/index&#x27;;
+import { CheckoutConfigService } from &#x27;../../services/index&#x27;;
+import { PromotionService } from &#x27;../../../../shared/services/promotion/promotion.service&#x27;;
 
 @Component({
   selector: &#x27;cx-review-submit&#x27;,
   templateUrl: &#x27;./review-submit.component.html&#x27;,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReviewSubmitComponent {
-  iconTypes &#x3D; ICON_TYPE;
+export class ReviewSubmitComponent implements OnInit {
   checkoutStepType &#x3D; CheckoutStepType;
+  entries$: Observable&lt;OrderEntry[]&gt;;
+  cart$: Observable&lt;Cart&gt;;
+  deliveryMode$: Observable&lt;DeliveryMode&gt;;
+  countryName$: Observable&lt;string&gt;;
+  deliveryAddress$: Observable&lt;Address&gt;;
+  paymentDetails$: Observable&lt;PaymentDetails&gt;;
+  orderPromotions$: Observable&lt;PromotionResult[]&gt;;
   promotionLocation: PromotionLocation &#x3D; PromotionLocation.ActiveCart;
 
   constructor(
@@ -1449,51 +957,32 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected promotionService: PromotionService,
-    protected paymentTypeService: PaymentTypeService,
-    protected checkoutCostCenterService: CheckoutCostCenterService,
-    protected userCostCenterService: UserCostCenterService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected promotionService: PromotionService
   ) {}
 
-  get cart$(): Observable&lt;Cart&gt; {
-    return this.activeCartService.getActive();
-  }
-
-  get entries$(): Observable&lt;OrderEntry[]&gt; {
-    return this.activeCartService.getEntries();
-  }
-
-  get steps$(): Observable&lt;CheckoutStep[]&gt; {
-    return this.checkoutStepService.steps$;
-  }
-
-  get deliveryAddress$(): Observable&lt;Address&gt; {
-    return this.checkoutDeliveryService.getDeliveryAddress();
-  }
-
-  get deliveryMode$(): Observable&lt;DeliveryMode&gt; {
-    return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
-      tap((selected: DeliveryMode) &#x3D;&gt; {
-        if (selected &#x3D;&#x3D;&#x3D; null) {
-          this.checkoutDeliveryService.loadSupportedDeliveryModes();
-        }
-      })
+  ngOnInit() {
+    this.cart$ &#x3D; this.activeCartService.getActive();
+    this.entries$ &#x3D; this.activeCartService.getEntries();
+    this.deliveryAddress$ &#x3D; this.checkoutDeliveryService.getDeliveryAddress();
+    this.paymentDetails$ &#x3D; this.checkoutPaymentService.getPaymentDetails();
+    this.orderPromotions$ &#x3D; this.promotionService.getOrderPromotions(
+      this.promotionLocation
     );
-  }
 
-  get paymentDetails$(): Observable&lt;PaymentDetails&gt; {
-    return this.checkoutPaymentService.getPaymentDetails();
-  }
+    this.deliveryMode$ &#x3D; this.checkoutDeliveryService
+      .getSelectedDeliveryMode()
+      .pipe(
+        tap((selected: DeliveryMode) &#x3D;&gt; {
+          if (selected &#x3D;&#x3D;&#x3D; null) {
+            this.checkoutDeliveryService.loadSupportedDeliveryModes();
+          }
+        })
+      );
 
-  get orderPromotions$(): Observable&lt;PromotionResult[]&gt; {
-    return this.promotionService.getOrderPromotions(this.promotionLocation);
-  }
-
-  get countryName$(): Observable&lt;string&gt; {
-    return this.deliveryAddress$.pipe(
+    this.countryName$ &#x3D; this.deliveryAddress$.pipe(
       switchMap((address: Address) &#x3D;&gt;
-        this.userAddressService.getCountry(address?.country?.isocode)
+        this.userAddressService.getCountry(address.country.isocode)
       ),
       tap((country: Country) &#x3D;&gt; {
         if (country &#x3D;&#x3D;&#x3D; null) {
@@ -1501,31 +990,6 @@ export class ReviewSubmitComponent {
         }
       }),
       map((country: Country) &#x3D;&gt; country &amp;&amp; country.name)
-    );
-  }
-
-  get poNumber$(): Observable&lt;string&gt; {
-    return this.paymentTypeService.getPoNumber();
-  }
-
-  get paymentType$(): Observable&lt;string&gt; {
-    return this.paymentTypeService.getSelectedPaymentType();
-  }
-
-  get isAccountPayment$(): Observable&lt;boolean&gt; {
-    return this.paymentTypeService.isAccountPayment();
-  }
-
-  get costCenter$(): Observable&lt;CostCenter&gt; {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) &#x3D;&gt; Boolean(costCenters)),
-      switchMap((costCenters) &#x3D;&gt; {
-        return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((code) &#x3D;&gt; {
-            return costCenters.find((cc) &#x3D;&gt; cc.code &#x3D;&#x3D;&#x3D; code);
-          })
-        );
-      })
     );
   }
 
@@ -1538,15 +1002,11 @@ export class ReviewSubmitComponent {
     ]).pipe(
       map(([textTitle]) &#x3D;&gt; {
         if (!countryName) {
-          countryName &#x3D; deliveryAddress?.country?.isocode;
+          countryName &#x3D; deliveryAddress.country.isocode;
         }
 
         let region &#x3D; &#x27;&#x27;;
-        if (
-          deliveryAddress &amp;&amp;
-          deliveryAddress.region &amp;&amp;
-          deliveryAddress.region.isocode
-        ) {
+        if (deliveryAddress.region &amp;&amp; deliveryAddress.region.isocode) {
           region &#x3D; deliveryAddress.region.isocode + &#x27;, &#x27;;
         }
 
@@ -1565,20 +1025,6 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getCostCenterCard(costCenter: CostCenter): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutPO.costCenter&#x27;),
-    ]).pipe(
-      map(([textTitle]) &#x3D;&gt; {
-        return {
-          title: textTitle,
-          textBold: costCenter?.name,
-          text: [&#x27;(&#x27; + costCenter?.unit.name + &#x27;)&#x27;],
-        };
-      })
-    );
-  }
-
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable&lt;Card&gt; {
     return combineLatest([
       this.translation.translate(&#x27;checkoutShipping.shippingMethod&#x27;),
@@ -1587,12 +1033,7 @@ export class ReviewSubmitComponent {
         return {
           title: textTitle,
           textBold: deliveryMode.name,
-          text: [
-            deliveryMode.description,
-            deliveryMode.deliveryCost?.formattedValue
-              ? deliveryMode.deliveryCost?.formattedValue
-              : &#x27;&#x27;,
-          ],
+          text: [deliveryMode.description],
         };
       })
     );
@@ -1605,78 +1046,20 @@ export class ReviewSubmitComponent {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
-      this.translation.translate(&#x27;paymentForm.billingAddress&#x27;),
     ]).pipe(
-      map(([textTitle, textExpires, billingAddress]) &#x3D;&gt; {
-        const region &#x3D; paymentDetails.billingAddress?.region?.isocode
-          ? paymentDetails.billingAddress?.region?.isocode + &#x27;, &#x27;
-          : &#x27;&#x27;;
+      map(([textTitle, textExpires]) &#x3D;&gt; {
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
           text: [paymentDetails.cardNumber, textExpires],
-          paragraphs: [
-            {
-              title: billingAddress + &#x27;:&#x27;,
-              text: [
-                paymentDetails.billingAddress?.firstName +
-                  &#x27; &#x27; +
-                  paymentDetails.billingAddress?.lastName,
-                paymentDetails.billingAddress?.line1,
-                paymentDetails.billingAddress?.town +
-                  &#x27;, &#x27; +
-                  region +
-                  paymentDetails.billingAddress?.country?.isocode,
-                paymentDetails.billingAddress?.postalCode,
-              ],
-            },
-          ],
-        };
-      })
-    );
-  }
-
-  getPoNumberCard(poNumber: string): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutReview.poNumber&#x27;),
-      this.translation.translate(&#x27;checkoutPO.noPoNumber&#x27;),
-    ]).pipe(
-      map(([textTitle, noneTextTitle]) &#x3D;&gt; {
-        return {
-          title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
-        };
-      })
-    );
-  }
-
-  getPaymentTypeCard(paymentType: string): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutProgress.methodOfPayment&#x27;),
-      this.translation.translate(&#x27;paymentTypes.paymentType&#x27;, {
-        context: paymentType,
-      }),
-    ]).pipe(
-      map(([textTitle, paymentTypeTranslation]) &#x3D;&gt; {
-        return {
-          title: textTitle,
-          textBold: paymentTypeTranslation,
         };
       })
     );
   }
 
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
-    const step &#x3D; this.checkoutStepService.getCheckoutStep(stepType);
+    const step &#x3D; this.checkoutConfigService.getCheckoutStep(stepType);
     return step &amp;&amp; step.routeName;
-  }
-
-  shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) &#x3D;&gt; checkoutShippingSteps.includes(step.type[0]));
-  }
-
-  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) &#x3D;&gt; checkoutPaymentSteps.includes(step.type[0]));
   }
 }
 </code></pre>
@@ -1688,162 +1071,74 @@ export class ReviewSubmitComponent {
   &lt;h3 class&#x3D;&quot;cx-review-title d-none d-lg-block d-xl-block&quot;&gt;
     {{ &#x27;checkoutReview.review&#x27; | cxTranslate }}
   &lt;/h3&gt;
-
   &lt;div class&#x3D;&quot;cx-review-summary row&quot;&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;(steps$ | async).slice(0, -1) as steps&quot;&gt;
-      &lt;div class&#x3D;&quot;col-md-12 col-lg-6 col-xl-6 cx-review-payment-col&quot;&gt;
-        &lt;ng-container *ngFor&#x3D;&quot;let step of paymentSteps(steps)&quot;&gt;
-          &lt;ng-container [ngSwitch]&#x3D;&quot;step.type[0]&quot;&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.PAYMENT_TYPE&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;poNumber&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.PAYMENT_TYPE&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;paymentType&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.PAYMENT_DETAILS&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;paymentMethod&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.SHIPPING_ADDRESS&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;costCenter&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-          &lt;/ng-container&gt;
-        &lt;/ng-container&gt;
-      &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col&quot;&gt;
-        &lt;ng-container *ngFor&#x3D;&quot;let step of shippingSteps(steps)&quot;&gt;
-          &lt;ng-container [ngSwitch]&#x3D;&quot;step.type[0]&quot;&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.SHIPPING_ADDRESS&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;shippingAddress&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-            &lt;ng-container *ngSwitchCase&#x3D;&quot;checkoutStepType.DELIVERY_MODE&quot;&gt;
-              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;deliveryMode&quot;&gt;&lt;/ng-container&gt;
-            &lt;/ng-container&gt;
-          &lt;/ng-container&gt;
-        &lt;/ng-container&gt;
-      &lt;/div&gt;
-    &lt;/ng-container&gt;
-  &lt;/div&gt;
-
-  &lt;!-- PO NUMBER SECTION --&gt;
-  &lt;ng-template #poNumber&gt;
-    &lt;div class&#x3D;&quot;cx-review-summary-card&quot;&gt;
-      &lt;cx-card [content]&#x3D;&quot;getPoNumberCard(poNumber$ | async) | async&quot;&gt;&lt;/cx-card&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
-        &lt;a
-          [routerLink]&#x3D;&quot;
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
-            } | cxUrl
-          &quot;
-          &gt;&lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon
-        &gt;&lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/ng-template&gt;
-
-  &lt;!-- PAYMENT TYPE SECTION --&gt;
-  &lt;ng-template #paymentType&gt;
-    &lt;div class&#x3D;&quot;cx-review-summary-card&quot;&gt;
-      &lt;cx-card
-        [content]&#x3D;&quot;getPaymentTypeCard(paymentType$ | async) | async&quot;
-      &gt;&lt;/cx-card&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
-        &lt;a
-          [routerLink]&#x3D;&quot;
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
-            } | cxUrl
-          &quot;
-          &gt;&lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon
-        &gt;&lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/ng-template&gt;
-
-  &lt;!-- COST CENTER SECTION --&gt;
-  &lt;ng-template #costCenter&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;isAccountPayment$ | async&quot;&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-card&quot;&gt;
-        &lt;cx-card
-          [content]&#x3D;&quot;getCostCenterCard(costCenter$ | async) | async&quot;
-        &gt;&lt;/cx-card&gt;
-        &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
+    &lt;!-- SHIPPING ADDRESS SECTION --&gt;
+    &lt;div class&#x3D;&quot;col-md-12 col-lg-6 col-xl-4&quot;&gt;
+      &lt;div class&#x3D;&quot;cx-review-summary-wrapper&quot;&gt;
+        &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-address&quot;&gt;
+          &lt;cx-card
+            [content]&#x3D;&quot;
+              getShippingAddressCard(
+                deliveryAddress$ | async,
+                countryName$ | async
+              ) | async
+            &quot;
+          &gt;&lt;/cx-card&gt;
+        &lt;/div&gt;
+        &lt;div *cxFeatureLevel&#x3D;&quot;&#x27;1.1&#x27;&quot; class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
           &lt;a
             [routerLink]&#x3D;&quot;
               {
                 cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
               } | cxUrl
             &quot;
-            &gt;&lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon
-          &gt;&lt;/a&gt;
+            &gt;{{ &#x27;checkoutReview.editShippingAddress&#x27; | cxTranslate }}&lt;/a
+          &gt;
         &lt;/div&gt;
       &lt;/div&gt;
-    &lt;/ng-container&gt;
-  &lt;/ng-template&gt;
+    &lt;/div&gt;
 
-  &lt;!-- SHIPPING ADDRESS SECTION --&gt;
-  &lt;ng-template #shippingAddress&gt;
-    &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-address&quot;&gt;
-      &lt;cx-card
-        *ngIf&#x3D;&quot;deliveryAddress$ | async as deliveryAddress&quot;
-        [content]&#x3D;&quot;
-          getShippingAddressCard(deliveryAddress, countryName$ | async) | async
-        &quot;
-      &gt;&lt;/cx-card&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
-        &lt;a
-          [routerLink]&#x3D;&quot;
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
-            } | cxUrl
-          &quot;
-          &gt;&lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon
-        &gt;&lt;/a&gt;
+    &lt;!-- DELIVERY MODE SECTION --&gt;
+    &lt;div class&#x3D;&quot;col-md-12 col-lg-6 col-xl-4&quot;&gt;
+      &lt;div class&#x3D;&quot;cx-review-summary-wrapper&quot;&gt;
+        &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-shipping&quot;&gt;
+          &lt;cx-card
+            *ngIf&#x3D;&quot;deliveryMode$ | async as deliveryMode&quot;
+            [content]&#x3D;&quot;getDeliveryModeCard(deliveryMode) | async&quot;
+          &gt;&lt;/cx-card&gt;
+        &lt;/div&gt;
+        &lt;div *cxFeatureLevel&#x3D;&quot;&#x27;1.1&#x27;&quot; class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
+          &lt;a
+            [routerLink]&#x3D;&quot;
+              { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
+                | cxUrl
+            &quot;
+            &gt;{{ &#x27;checkoutReview.editShippingMethod&#x27; | cxTranslate }}&lt;/a
+          &gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-  &lt;/ng-template&gt;
 
-  &lt;!-- DELIVERY MODE SECTION --&gt;
-  &lt;ng-template #deliveryMode&gt;
-    &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-shipping&quot;&gt;
-      &lt;cx-card
-        *ngIf&#x3D;&quot;deliveryMode$ | async as deliveryMode&quot;
-        [content]&#x3D;&quot;getDeliveryModeCard(deliveryMode) | async&quot;
-      &gt;&lt;/cx-card&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
-        &lt;a
-          [routerLink]&#x3D;&quot;
-            { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
-              | cxUrl
-          &quot;
-        &gt;
-          &lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon&gt;
-        &lt;/a&gt;
+    &lt;!-- PAYMENT METHOD SECTION --&gt;
+    &lt;div class&#x3D;&quot;col-md-12 col-lg-6 col-xl-4&quot;&gt;
+      &lt;div class&#x3D;&quot;cx-review-summary-wrapper&quot;&gt;
+        &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-payment&quot;&gt;
+          &lt;cx-card
+            [content]&#x3D;&quot;getPaymentMethodCard(paymentDetails$ | async) | async&quot;
+          &gt;&lt;/cx-card&gt;
+        &lt;/div&gt;
+        &lt;div *cxFeatureLevel&#x3D;&quot;&#x27;1.1&#x27;&quot; class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
+          &lt;a
+            [routerLink]&#x3D;&quot;
+              { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
+                | cxUrl
+            &quot;
+            &gt;{{ &#x27;checkoutReview.editPaymentMethod&#x27; | cxTranslate }}&lt;/a
+          &gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-  &lt;/ng-template&gt;
-
-  &lt;!-- PAYMENT METHOD SECTION --&gt;
-  &lt;ng-template #paymentMethod&gt;
-    &lt;div class&#x3D;&quot;cx-review-summary-card cx-review-card-payment&quot;&gt;
-      &lt;div&gt;
-        &lt;cx-card
-          *ngIf&#x3D;&quot;paymentDetails$ | async as paymentDetails&quot;
-          [content]&#x3D;&quot;getPaymentMethodCard(paymentDetails) | async&quot;
-        &gt;&lt;/cx-card&gt;
-      &lt;/div&gt;
-      &lt;div class&#x3D;&quot;cx-review-summary-edit-step&quot;&gt;
-        &lt;a
-          [routerLink]&#x3D;&quot;
-            { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
-              | cxUrl
-          &quot;
-        &gt;
-          &lt;cx-icon [type]&#x3D;&quot;iconTypes.PENCIL&quot;&gt;&lt;/cx-icon&gt;
-        &lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/ng-template&gt;
+  &lt;/div&gt;
 
   &lt;!-- CART ITEM SECTION --&gt;
   &lt;ng-container *ngIf&#x3D;&quot;cart$ | async as cart&quot;&gt;
@@ -1902,8 +1197,8 @@ export class ReviewSubmitComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="cx-review">  <!-- TITLE -->  <h3 class="cx-review-title d-none d-lg-block d-xl-block">    {{ \'checkoutReview.review\' | cxTranslate }}  </h3>  <div class="cx-review-summary row">    <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">        <ng-container *ngFor="let step of paymentSteps(steps)">          <ng-container [ngSwitch]="step.type[0]">            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">              <ng-container *ngTemplateOutlet="poNumber"></ng-container>            </ng-container>            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">              <ng-container *ngTemplateOutlet="paymentType"></ng-container>            </ng-container>            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">              <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>            </ng-container>            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">              <ng-container *ngTemplateOutlet="costCenter"></ng-container>            </ng-container>          </ng-container>        </ng-container>      </div>      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">        <ng-container *ngFor="let step of shippingSteps(steps)">          <ng-container [ngSwitch]="step.type[0]">            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">              <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>            </ng-container>            <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>            </ng-container>          </ng-container>        </ng-container>      </div>    </ng-container>  </div>  <!-- PO NUMBER SECTION -->  <ng-template #poNumber>    <div class="cx-review-summary-card">      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>      <div class="cx-review-summary-edit-step">        <a          [routerLink]="            {              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)            } | cxUrl          "          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon        ></a>      </div>    </div>  </ng-template>  <!-- PAYMENT TYPE SECTION -->  <ng-template #paymentType>    <div class="cx-review-summary-card">      <cx-card        [content]="getPaymentTypeCard(paymentType$ | async) | async"      ></cx-card>      <div class="cx-review-summary-edit-step">        <a          [routerLink]="            {              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)            } | cxUrl          "          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon        ></a>      </div>    </div>  </ng-template>  <!-- COST CENTER SECTION -->  <ng-template #costCenter>    <ng-container *ngIf="isAccountPayment$ | async">      <div class="cx-review-summary-card">        <cx-card          [content]="getCostCenterCard(costCenter$ | async) | async"        ></cx-card>        <div class="cx-review-summary-edit-step">          <a            [routerLink]="              {                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)              } | cxUrl            "            ><cx-icon [type]="iconTypes.PENCIL"></cx-icon          ></a>        </div>      </div>    </ng-container>  </ng-template>  <!-- SHIPPING ADDRESS SECTION -->  <ng-template #shippingAddress>    <div class="cx-review-summary-card cx-review-card-address">      <cx-card        *ngIf="deliveryAddress$ | async as deliveryAddress"        [content]="          getShippingAddressCard(deliveryAddress, countryName$ | async) | async        "      ></cx-card>      <div class="cx-review-summary-edit-step">        <a          [routerLink]="            {              cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)            } | cxUrl          "          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon        ></a>      </div>    </div>  </ng-template>  <!-- DELIVERY MODE SECTION -->  <ng-template #deliveryMode>    <div class="cx-review-summary-card cx-review-card-shipping">      <cx-card        *ngIf="deliveryMode$ | async as deliveryMode"        [content]="getDeliveryModeCard(deliveryMode) | async"      ></cx-card>      <div class="cx-review-summary-edit-step">        <a          [routerLink]="            { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }              | cxUrl          "        >          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>        </a>      </div>    </div>  </ng-template>  <!-- PAYMENT METHOD SECTION -->  <ng-template #paymentMethod>    <div class="cx-review-summary-card cx-review-card-payment">      <div>        <cx-card          *ngIf="paymentDetails$ | async as paymentDetails"          [content]="getPaymentMethodCard(paymentDetails) | async"        ></cx-card>      </div>      <div class="cx-review-summary-edit-step">        <a          [routerLink]="            { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }              | cxUrl          "        >          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>        </a>      </div>    </div>  </ng-template>  <!-- CART ITEM SECTION -->  <ng-container *ngIf="cart$ | async as cart">    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">      {{        \'cartItems.cartTotal\'          | cxTranslate: { count: cart.deliveryItemsQuantity }      }}:      {{ cart.totalPrice?.formattedValue }}    </div>    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">      {{ \'checkoutReview.placeOrder\' | cxTranslate }}    </h4>    <div      class="cx-review-cart-item col-md-12"      *ngIf="entries$ | async as entries"    >      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">        <cx-promotions [promotions]="orderPromotions"></cx-promotions>      </ng-container>      <cx-cart-item-list        [items]="entries"        [readonly]="true"        [promotionLocation]="promotionLocation"      ></cx-cart-item-list>    </div>  </ng-container></div></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><div class="cx-review">  <!-- TITLE -->  <h3 class="cx-review-title d-none d-lg-block d-xl-block">    {{ \'checkoutReview.review\' | cxTranslate }}  </h3>  <div class="cx-review-summary row">    <!-- SHIPPING ADDRESS SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-address">          <cx-card            [content]="              getShippingAddressCard(                deliveryAddress$ | async,                countryName$ | async              ) | async            "          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              {                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)              } | cxUrl            "            >{{ \'checkoutReview.editShippingAddress\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- DELIVERY MODE SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-shipping">          <cx-card            *ngIf="deliveryMode$ | async as deliveryMode"            [content]="getDeliveryModeCard(deliveryMode) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }                | cxUrl            "            >{{ \'checkoutReview.editShippingMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- PAYMENT METHOD SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-payment">          <cx-card            [content]="getPaymentMethodCard(paymentDetails$ | async) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }                | cxUrl            "            >{{ \'checkoutReview.editPaymentMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>  </div>  <!-- CART ITEM SECTION -->  <ng-container *ngIf="cart$ | async as cart">    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">      {{        \'cartItems.cartTotal\'          | cxTranslate: { count: cart.deliveryItemsQuantity }      }}:      {{ cart.totalPrice?.formattedValue }}    </div>    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">      {{ \'checkoutReview.placeOrder\' | cxTranslate }}    </h4>    <div      class="cx-review-cart-item col-md-12"      *ngIf="entries$ | async as entries"    >      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">        <cx-promotions [promotions]="orderPromotions"></cx-promotions>      </ng-container>      <cx-cart-item-list        [items]="entries"        [readonly]="true"        [promotionLocation]="promotionLocation"      ></cx-cart-item-list>    </div>  </ng-container></div></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'ReviewSubmitComponent'};
 </script>

@@ -169,7 +169,6 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from &#x27;../../model/order.model&#x27;;
-import { CostCenter } from &#x27;../../model/org-unit.model&#x27;;
 import { StateUtils } from &#x27;../../state&#x27;;
 import { CustomerCouponSearchResult } from &#x27;../../model/customer-coupon.model&#x27;;
 import { NotificationPreference } from &#x27;../../model&#x27;;
@@ -197,7 +196,6 @@ export const USER_ADDRESSES &#x3D; &#x27;[User] User Addresses&#x27;;
 export const USER_RETURN_REQUESTS &#x3D; &#x27;[User] Order Return Requests&#x27;;
 export const USER_RETURN_REQUEST_DETAILS &#x3D; &#x27;[User] Return Request Details&#x27;;
 export const USER_ORDER_DETAILS &#x3D; &#x27;[User] User Order Details&#x27;;
-export const USER_COST_CENTERS &#x3D; &#x27;[User] User Cost Centers&#x27;;
 export const REGIONS &#x3D; &#x27;[User] Regions&#x27;;
 
 export const CUSTOMER_COUPONS &#x3D; &#x27;[User] Customer Coupons&#x27;;
@@ -230,7 +228,6 @@ export interface UserState {
   customerCoupons: StateUtils.LoaderState&lt;CustomerCouponSearchResult&gt;;
   notificationPreferences: StateUtils.LoaderState&lt;NotificationPreference[]&gt;;
   productInterests: StateUtils.LoaderState&lt;ProductInterestSearchResult&gt;;
-  costCenters: StateUtils.LoaderState&lt;CostCenter[]&gt;;
 }
 
 export interface RegionsState {

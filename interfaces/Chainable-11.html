@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-shipping-method-selected.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-shipping-address-added.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireShippingMethodSelected">requireShippingMethodSelected</a>
+                                        <a href="#requireShippingAddressAdded">requireShippingAddressAdded</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireShippingMethodSelected"></a>
-                                        <span class="name"><b>requireShippingMethodSelected</b><a href="#requireShippingMethodSelected"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requireShippingAddressAdded"></a>
+                                        <span class="name"><b>requireShippingAddressAdded</b><a href="#requireShippingAddressAdded"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireShippingMethodSelected:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requireShippingAddressAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Make sure you have shipping method selected. Returns shipping method object.</p>
+                                    <div class="io-description"><p>Make sure you have shipping address added. Returns address object.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,36 +132,54 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { delivery } from &#x27;../sample-data/checkout-flow&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have shipping method selected. Returns shipping method object.
+       * Make sure you have shipping address added. Returns address object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireShippingMethodSelected(auth);
+        cy.requireShippingAddressAdded(auth, address);
         &#x60;&#x60;&#x60;
        */
-      requireShippingMethodSelected: (auth: {}) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requireShippingAddressAdded: (
+        address: {},
+        auth: {}
+      ) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
     }
   }
 }
-Cypress.Commands.add(&#x27;requireShippingMethodSelected&#x27;, (auth) &#x3D;&gt; {
-  function setShippingMethod() {
+
+Cypress.Commands.add(&#x27;requireShippingAddressAdded&#x27;, (address, auth) &#x3D;&gt; {
+  // format the request body
+  const _address &#x3D; {
+    ...address,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    town: address.city,
+    postalCode: address.postal,
+    titleCode: &#x27;mr&#x27;,
+    country: {
+      isocode: &#x27;US&#x27;,
+      name: user.address.country,
+    },
+    defaultAddress: false,
+  };
+
+  function addAddress() {
     return cy.request({
-      method: &#x27;PUT&#x27;,
+      method: &#x27;POST&#x27;,
       url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
         &#x27;OCC_PREFIX&#x27;
       )}/${Cypress.env(
         &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/current/deliverymode?deliveryModeId&#x3D;${
-        delivery.mode
-      }&#x60;,
+      )}/users/current/carts/current/addresses/delivery&#x60;,
+      body: _address,
       form: false,
       headers: {
         Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
@@ -170,7 +188,7 @@ Cypress.Commands.add(&#x27;requireShippingMethodSelected&#x27;, (auth) &#x3D;&gt
   }
 
   cy.server();
-  setShippingMethod().then((resp) &#x3D;&gt; cy.wrap(resp));
+  addAddress().then((resp) &#x3D;&gt; cy.wrap(resp));
 });
 </code></pre>
     </div>

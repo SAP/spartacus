@@ -222,6 +222,7 @@ import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
 import { CmsConfig, I18nModule, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { SpinnerModule } from &#x27;../../../../shared/components/spinner/spinner.module&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
+import { ShippingAddressSetGuard } from &#x27;../../guards/shipping-address-set.guard&#x27;;
 import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { DeliveryModeComponent } from &#x27;./delivery-mode.component&#x27;;
 
@@ -232,8 +233,11 @@ import { DeliveryModeComponent } from &#x27;./delivery-mode.component&#x27;;
       cmsComponents: {
         CheckoutDeliveryMode: {
           component: DeliveryModeComponent,
-          // TODO(#8880): Shouldn&#x27;t we keep ShippingAddressSetGuard here?
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [
+            CheckoutAuthGuard,
+            CartNotEmptyGuard,
+            ShippingAddressSetGuard,
+          ],
         },
       },
     }),

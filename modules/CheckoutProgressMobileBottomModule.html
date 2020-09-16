@@ -229,7 +229,6 @@ import { defaultCheckoutConfig } from &#x27;../../../config/default-checkout-con
 import { CheckoutAuthGuard } from &#x27;../../../guards/checkout-auth.guard&#x27;;
 import { CartNotEmptyGuard } from &#x27;./../../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { CheckoutProgressMobileBottomComponent } from &#x27;./checkout-progress-mobile-bottom.component&#x27;;
-import { CheckoutStepsSetGuard } from &#x27;../../../guards/checkout-steps-set.guard&#x27;;
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
@@ -239,7 +238,7 @@ import { CheckoutStepsSetGuard } from &#x27;../../../guards/checkout-steps-set.g
       cmsComponents: {
         CheckoutProgressMobileBottom: {
           component: CheckoutProgressMobileBottomComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutStepsSetGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

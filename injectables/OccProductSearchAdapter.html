@@ -287,8 +287,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-search.adapter.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-search.adapter.ts:67</a></div>
                 </td>
             </tr>
 
@@ -588,7 +588,9 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       {},
       {
         query,
-        ...searchConfig,
+        pageSize: searchConfig.pageSize,
+        currentPage: searchConfig.currentPage,
+        sort: searchConfig.sortCode,
       }
     );
   }

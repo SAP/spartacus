@@ -144,32 +144,10 @@
                                 <a href="#getBillingAddressCardContent">getBillingAddressCardContent</a>
                             </li>
                             <li>
-                                <a href="#getCostCenterCardContent">getCostCenterCardContent</a>
+                                <a href="#getPaymentCardContent">getPaymentCardContent</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getDate">getDate</a>
-                            </li>
-                            <li>
-                                <a href="#getDeliveryModeCardContent">getDeliveryModeCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getMethodOfPaymentCardContent">getMethodOfPaymentCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getOrderCodeCardContent">getOrderCodeCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getOrderCurrentDateCardContent">getOrderCurrentDateCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getOrderStatusCardContent">getOrderStatusCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getPaymentInfoCardContent">getPaymentInfoCardContent</a>
-                            </li>
-                            <li>
-                                <a href="#getPurchaseOrderNumber">getPurchaseOrderNumber</a>
+                                <a href="#getShippingMethodCardContent">getShippingMethodCardContent</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
@@ -197,7 +175,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -271,15 +249,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getAddressCardContent(deliveryAddress: <a href="../interfaces/Address.html">Address</a>)</code>
+<code>getAddressCardContent(address: <a href="../interfaces/Address.html">Address</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:30</a></div>
                 </td>
             </tr>
 
@@ -299,7 +277,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>deliveryAddress</td>
+                                    <td>address</td>
                                     <td>
                                                 <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
                                     </td>
@@ -348,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:49</a></div>
                 </td>
             </tr>
 
@@ -400,518 +378,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCostCenterCardContent"></a>
+                    <a name="getPaymentCardContent"></a>
                     <span class="name">
                         <b>
-                            getCostCenterCardContent
+                            getPaymentCardContent
                         </b>
-                        <a href="#getCostCenterCardContent"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getPaymentCardContent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getCostCenterCardContent(costCenter: <a href="../interfaces/CostCenter.html">CostCenter</a>)</code>
+<code>getPaymentCardContent(payment: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:99</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>costCenter</td>
-                                    <td>
-                                                <code><a href="../interfaces/CostCenter.html" target="_self" >CostCenter</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getDate"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getDate
-                        </b>
-                        <a href="#getDate"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getDate(givenDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:165</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>givenDate</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getDeliveryModeCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getDeliveryModeCardContent
-                        </b>
-                        <a href="#getDeliveryModeCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getDeliveryModeCardContent(deliveryMode: <a href="../interfaces/DeliveryMode.html">DeliveryMode</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:121</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>deliveryMode</td>
-                                    <td>
-                                                <code><a href="../interfaces/DeliveryMode.html" target="_self" >DeliveryMode</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getMethodOfPaymentCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getMethodOfPaymentCardContent
-                        </b>
-                        <a href="#getMethodOfPaymentCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getMethodOfPaymentCardContent(hasPaymentInfo: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:84</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>hasPaymentInfo</td>
-                                    <td>
-                                                <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getOrderCodeCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getOrderCodeCardContent
-                        </b>
-                        <a href="#getOrderCodeCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getOrderCodeCardContent(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:31</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>orderCode</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getOrderCurrentDateCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getOrderCurrentDateCardContent
-                        </b>
-                        <a href="#getOrderCurrentDateCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getOrderCurrentDateCardContent(isoDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:43</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>isoDate</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getOrderStatusCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getOrderStatusCardContent
-                        </b>
-                        <a href="#getOrderStatusCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getOrderStatusCardContent(status: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:58</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>status</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPaymentInfoCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getPaymentInfoCardContent
-                        </b>
-                        <a href="#getPaymentInfoCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPaymentInfoCardContent(payment: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:68</a></div>
                 </td>
             </tr>
 
@@ -962,26 +448,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getPurchaseOrderNumber"></a>
+                    <a name="getShippingMethodCardContent"></a>
                     <span class="name">
                         <b>
-                            getPurchaseOrderNumber
+                            getShippingMethodCardContent
                         </b>
-                        <a href="#getPurchaseOrderNumber"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getShippingMethodCardContent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getPurchaseOrderNumber(poNumber: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getShippingMethodCardContent(shipping: <a href="../interfaces/DeliveryMode.html">DeliveryMode</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:86</a></div>
                 </td>
             </tr>
 
@@ -1001,9 +487,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>poNumber</td>
+                                    <td>shipping</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="../interfaces/DeliveryMode.html" target="_self" >DeliveryMode</a></code>
                                     </td>
 
                                     <td>
@@ -1050,8 +536,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:26</a></div>
                 </td>
             </tr>
 
@@ -1093,7 +579,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -1109,16 +595,15 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
 import {
   Address,
-  CostCenter,
   DeliveryMode,
   Order,
   PaymentDetails,
   TranslationService,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable } from &#x27;rxjs&#x27;;
-import { filter, map } from &#x27;rxjs/operators&#x27;;
+import { Observable, combineLatest } from &#x27;rxjs&#x27;;
 import { Card } from &#x27;../../../../../shared/components/card/card.component&#x27;;
 import { OrderDetailsService } from &#x27;../order-details.service&#x27;;
+import { map } from &#x27;rxjs/operators&#x27;;
 
 @Component({
   selector: &#x27;cx-order-details-shipping&#x27;,
@@ -1136,148 +621,74 @@ export class OrderDetailShippingComponent implements OnInit {
     this.order$ &#x3D; this.orderDetailsService.getOrderDetails();
   }
 
-  getOrderCodeCardContent(orderCode: string): Observable&lt;Card&gt; {
-    return this.translation
-      .translate(&#x27;checkoutOrderConfirmation.orderNumber&#x27;)
-      .pipe(
-        filter(() &#x3D;&gt; Boolean(orderCode)),
-        map((textTitle) &#x3D;&gt; ({
+  getAddressCardContent(address: Address): Observable&lt;Card&gt; {
+    return combineLatest([
+      this.translation.translate(&#x27;addressCard.shipTo&#x27;),
+    ]).pipe(
+      map(([textTitle]) &#x3D;&gt; {
+        return {
           title: textTitle,
-          text: [orderCode],
-        }))
-      );
-  }
-
-  getOrderCurrentDateCardContent(isoDate: string): Observable&lt;Card&gt; {
-    return this.translation
-      .translate(&#x27;checkoutOrderConfirmation.placedOn&#x27;)
-      .pipe(
-        map((textTitle) &#x3D;&gt; {
-          const date &#x3D; this.getDate(new Date(isoDate));
-
-          return {
-            title: textTitle,
-            text: [date],
-          };
-        })
-      );
-  }
-
-  getOrderStatusCardContent(status: string): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutOrderConfirmation.status&#x27;),
-      this.translation.translate(&#x27;orderDetails.statusDisplay&#x27;, {
-        context: status,
-      }),
-    ]).pipe(
-      map(([textTitle, textStatus]) &#x3D;&gt; ({
-        title: textTitle,
-        text: [textStatus],
-      }))
-    );
-  }
-
-  getPurchaseOrderNumber(poNumber: string): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutReview.poNumber&#x27;),
-      this.translation.translate(&#x27;checkoutPO.noPoNumber&#x27;),
-    ]).pipe(
-      map(([textTitle, noneTextTitle]) &#x3D;&gt; ({
-        title: textTitle,
-        text: [poNumber ? poNumber : noneTextTitle],
-      }))
-    );
-  }
-
-  getMethodOfPaymentCardContent(
-    hasPaymentInfo: PaymentDetails
-  ): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;checkoutProgress.methodOfPayment&#x27;),
-      this.translation.translate(&#x27;paymentTypes.paymentType_ACCOUNT&#x27;),
-      this.translation.translate(&#x27;paymentTypes.paymentType_CARD&#x27;),
-    ]).pipe(
-      map(([textTitle, textAccount, textCard]) &#x3D;&gt; ({
-        title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
-      }))
-    );
-  }
-
-  getCostCenterCardContent(costCenter: CostCenter): Observable&lt;Card&gt; {
-    return this.translation.translate(&#x27;checkoutPO.costCenter&#x27;).pipe(
-      filter(() &#x3D;&gt; Boolean(costCenter)),
-      map((textTitle) &#x3D;&gt; ({
-        title: textTitle,
-        textBold: costCenter?.name,
-        text: [&#x27;(&#x27; + costCenter?.unit?.name + &#x27;)&#x27;],
-      }))
-    );
-  }
-
-  getAddressCardContent(deliveryAddress: Address): Observable&lt;Card&gt; {
-    return this.translation.translate(&#x27;addressCard.shipTo&#x27;).pipe(
-      filter(() &#x3D;&gt; Boolean(deliveryAddress)),
-      map((textTitle) &#x3D;&gt; ({
-        title: textTitle,
-        textBold: &#x60;${deliveryAddress.firstName} ${deliveryAddress.lastName}&#x60;,
-        text: [deliveryAddress.formattedAddress, deliveryAddress.country.name],
-      }))
-    );
-  }
-
-  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable&lt;Card&gt; {
-    return this.translation.translate(&#x27;checkoutShipping.shippingMethod&#x27;).pipe(
-      filter(() &#x3D;&gt; Boolean(deliveryMode)),
-      map((textTitle) &#x3D;&gt; ({
-        title: textTitle,
-        textBold: deliveryMode.name,
-        text: [
-          deliveryMode.description,
-          deliveryMode.deliveryCost?.formattedValue
-            ? deliveryMode.deliveryCost?.formattedValue
-            : &#x27;&#x27;,
-        ],
-      }))
-    );
-  }
-
-  getPaymentInfoCardContent(payment: PaymentDetails): Observable&lt;Card&gt; {
-    return combineLatest([
-      this.translation.translate(&#x27;paymentForm.payment&#x27;),
-      this.translation.translate(&#x27;paymentCard.expires&#x27;, {
-        month: Boolean(payment) ? payment.expiryMonth : &#x27;&#x27;,
-        year: Boolean(payment) ? payment.expiryYear : &#x27;&#x27;,
-      }),
-    ]).pipe(
-      filter(() &#x3D;&gt; Boolean(payment)),
-      map(([textTitle, textExpires]) &#x3D;&gt; ({
-        title: textTitle,
-        textBold: payment.accountHolderName,
-        text: [payment.cardNumber, textExpires],
-      }))
+          textBold: &#x60;${address.firstName} ${address.lastName}&#x60;,
+          text: [
+            address.line1,
+            address.line2,
+            &#x60;${address.town}, ${address.country.isocode}, ${address.postalCode}&#x60;,
+            address.phone,
+          ],
+        };
+      })
     );
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable&lt;Card&gt; {
-    return this.translation.translate(&#x27;paymentForm.billingAddress&#x27;).pipe(
-      filter(() &#x3D;&gt; Boolean(billingAddress)),
-      map((textTitle) &#x3D;&gt; ({
-        title: textTitle,
-        textBold: &#x60;${billingAddress.firstName} ${billingAddress.lastName}&#x60;,
-        text: [billingAddress.formattedAddress, billingAddress.country.name],
-      }))
+    return combineLatest([
+      this.translation.translate(&#x27;addressCard.billTo&#x27;),
+    ]).pipe(
+      map(([textTitle]) &#x3D;&gt; {
+        return {
+          title: textTitle,
+          textBold: &#x60;${billingAddress.firstName} ${billingAddress.lastName}&#x60;,
+          text: [
+            billingAddress.line1,
+            billingAddress.line2,
+            &#x60;${billingAddress.town}, ${billingAddress.country.isocode}, ${billingAddress.postalCode}&#x60;,
+            billingAddress.phone,
+          ],
+        };
+      })
     );
   }
 
-  private getDate(givenDate: Date): string {
-    const date &#x3D; givenDate.toDateString().split(&#x27; &#x27;);
+  getPaymentCardContent(payment: PaymentDetails): Observable&lt;Card&gt; {
+    return combineLatest([
+      this.translation.translate(&#x27;paymentForm.payment&#x27;),
+      this.translation.translate(&#x27;paymentCard.expires&#x27;, {
+        month: payment.expiryMonth,
+        year: payment.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) &#x3D;&gt; {
+        return {
+          title: textTitle,
+          textBold: payment.accountHolderName,
+          text: [payment.cardType.name, payment.cardNumber, textExpires],
+        };
+      })
+    );
+  }
 
-    const month &#x3D; date[1];
-    const day &#x3D; date[2];
-    const year &#x3D; date[3];
-
-    return month + &#x27; &#x27; + day + &#x27; &#x27; + year;
+  getShippingMethodCardContent(shipping: DeliveryMode): Observable&lt;Card&gt; {
+    return combineLatest([
+      this.translation.translate(&#x27;checkoutShipping.shippingMethod&#x27;),
+    ]).pipe(
+      map(([textTitle]) &#x3D;&gt; {
+        return {
+          title: textTitle,
+          textBold: shipping.name,
+          text: [shipping.description],
+        };
+      })
+    );
   }
 }
 </code></pre>
@@ -1285,72 +696,34 @@ export class OrderDetailShippingComponent implements OnInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;order$ | async as order&quot;&gt;
-  &lt;div class&#x3D;&quot;cx-account-summary&quot;&gt;
-    &lt;div class&#x3D;&quot;container&quot;&gt;
-      &lt;div class&#x3D;&quot;cx-summary-card&quot;&gt;
-        &lt;cx-card
-          [content]&#x3D;&quot;getOrderCodeCardContent(order?.code) | async&quot;
-        &gt;&lt;/cx-card&gt;
-
-        &lt;cx-card
-          [content]&#x3D;&quot;getOrderCurrentDateCardContent(order?.created) | async&quot;
-        &gt;&lt;/cx-card&gt;
-
-        &lt;cx-card
-          [content]&#x3D;&quot;getOrderStatusCardContent(order.statusDisplay) | async&quot;
-        &gt;&lt;/cx-card&gt;
-      &lt;/div&gt;
-
-      &lt;ng-container
-        *ngIf&#x3D;&quot;order.purchaseOrderNumber || order.purchaseOrderNumber &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;
-      &gt;
-        &lt;div class&#x3D;&quot;cx-summary-card&quot;&gt;
-          &lt;cx-card
-            [content]&#x3D;&quot;
-              getPurchaseOrderNumber(order?.purchaseOrderNumber) | async
-            &quot;
-          &gt;&lt;/cx-card&gt;
-
-          &lt;cx-card
-            [content]&#x3D;&quot;getMethodOfPaymentCardContent(order.paymentInfo) | async&quot;
-          &gt;&lt;/cx-card&gt;
-
-          &lt;ng-container *ngIf&#x3D;&quot;order.costCenter&quot;&gt;
-            &lt;cx-card
-              [content]&#x3D;&quot;getCostCenterCardContent(order?.costCenter) | async&quot;
-            &gt;&lt;/cx-card&gt;
-          &lt;/ng-container&gt;
-        &lt;/div&gt;
-      &lt;/ng-container&gt;
-
-      &lt;div class&#x3D;&quot;cx-summary-card&quot;&gt;
-        &lt;ng-container *ngIf&#x3D;&quot;order.deliveryAddress&quot;&gt;
-          &lt;cx-card
-            [content]&#x3D;&quot;getAddressCardContent(order?.deliveryAddress) | async&quot;
-          &gt;&lt;/cx-card&gt;
-        &lt;/ng-container&gt;
-
-        &lt;ng-container *ngIf&#x3D;&quot;order.deliveryMode&quot;&gt;
-          &lt;cx-card
-            [content]&#x3D;&quot;getDeliveryModeCardContent(order?.deliveryMode) | async&quot;
-          &gt;&lt;/cx-card&gt;
-        &lt;/ng-container&gt;
-      &lt;/div&gt;
-
-      &lt;ng-container *ngIf&#x3D;&quot;order.paymentInfo&quot;&gt;
-        &lt;div class&#x3D;&quot;cx-summary-card&quot;&gt;
-          &lt;cx-card
-            [content]&#x3D;&quot;getPaymentInfoCardContent(order?.paymentInfo) | async&quot;
-          &gt;&lt;/cx-card&gt;
-
-          &lt;cx-card
-            [content]&#x3D;&quot;
-              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                | async
-            &quot;
-          &gt;&lt;/cx-card&gt;
-        &lt;/div&gt;
-      &lt;/ng-container&gt;
+  &lt;div class&#x3D;&quot;cx-account-summary row&quot;&gt;
+    &lt;div
+      *ngIf&#x3D;&quot;order.deliveryAddress&quot;
+      class&#x3D;&quot;cx-summary-card col-sm-12 col-md-4&quot;
+    &gt;
+      &lt;cx-card
+        [content]&#x3D;&quot;getAddressCardContent(order.deliveryAddress) | async&quot;
+      &gt;&lt;/cx-card&gt;
+    &lt;/div&gt;
+    &lt;div
+      *ngIf&#x3D;&quot;order.paymentInfo?.billingAddress&quot;
+      class&#x3D;&quot;cx-summary-card col-sm-12 col-md-4&quot;
+    &gt;
+      &lt;cx-card
+        [content]&#x3D;&quot;
+          getBillingAddressCardContent(order.paymentInfo.billingAddress) | async
+        &quot;
+      &gt;&lt;/cx-card&gt;
+    &lt;/div&gt;
+    &lt;div *ngIf&#x3D;&quot;order.paymentInfo&quot; class&#x3D;&quot;cx-summary-card col-sm-12 col-md-4&quot;&gt;
+      &lt;cx-card
+        [content]&#x3D;&quot;getPaymentCardContent(order.paymentInfo) | async&quot;
+      &gt;&lt;/cx-card&gt;
+    &lt;/div&gt;
+    &lt;div *ngIf&#x3D;&quot;order.deliveryMode&quot; class&#x3D;&quot;cx-summary-card col-sm-12 col-md-4&quot;&gt;
+      &lt;cx-card
+        [content]&#x3D;&quot;getShippingMethodCardContent(order.deliveryMode) | async&quot;
+      &gt;&lt;/cx-card&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/ng-container&gt;
@@ -1383,8 +756,8 @@ export class OrderDetailShippingComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="order$ | async as order">  <div class="cx-account-summary">    <div class="container">      <div class="cx-summary-card">        <cx-card          [content]="getOrderCodeCardContent(order?.code) | async"        ></cx-card>        <cx-card          [content]="getOrderCurrentDateCardContent(order?.created) | async"        ></cx-card>        <cx-card          [content]="getOrderStatusCardContent(order.statusDisplay) | async"        ></cx-card>      </div>      <ng-container        *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === \'\'"      >        <div class="cx-summary-card">          <cx-card            [content]="              getPurchaseOrderNumber(order?.purchaseOrderNumber) | async            "          ></cx-card>          <cx-card            [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"          ></cx-card>          <ng-container *ngIf="order.costCenter">            <cx-card              [content]="getCostCenterCardContent(order?.costCenter) | async"            ></cx-card>          </ng-container>        </div>      </ng-container>      <div class="cx-summary-card">        <ng-container *ngIf="order.deliveryAddress">          <cx-card            [content]="getAddressCardContent(order?.deliveryAddress) | async"          ></cx-card>        </ng-container>        <ng-container *ngIf="order.deliveryMode">          <cx-card            [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"          ></cx-card>        </ng-container>      </div>      <ng-container *ngIf="order.paymentInfo">        <div class="cx-summary-card">          <cx-card            [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"          ></cx-card>          <cx-card            [content]="              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)                | async            "          ></cx-card>        </div>      </ng-container>    </div>  </div></ng-container></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="order$ | async as order">  <div class="cx-account-summary row">    <div      *ngIf="order.deliveryAddress"      class="cx-summary-card col-sm-12 col-md-4"    >      <cx-card        [content]="getAddressCardContent(order.deliveryAddress) | async"      ></cx-card>    </div>    <div      *ngIf="order.paymentInfo?.billingAddress"      class="cx-summary-card col-sm-12 col-md-4"    >      <cx-card        [content]="          getBillingAddressCardContent(order.paymentInfo.billingAddress) | async        "      ></cx-card>    </div>    <div *ngIf="order.paymentInfo" class="cx-summary-card col-sm-12 col-md-4">      <cx-card        [content]="getPaymentCardContent(order.paymentInfo) | async"      ></cx-card>    </div>    <div *ngIf="order.deliveryMode" class="cx-summary-card col-sm-12 col-md-4">      <cx-card        [content]="getShippingMethodCardContent(order.deliveryMode) | async"      ></cx-card>    </div>  </div></ng-container></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'OrderDetailShippingComponent'};
 </script>

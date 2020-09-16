@@ -195,7 +195,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -237,7 +237,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -410,7 +410,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -452,7 +452,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -517,13 +517,13 @@ import {
   StoreCount,
   StoreFinderSearchPage,
 } from &#x27;../../../model/store-finder.model&#x27;;
-import { SearchConfig } from &#x27;../../../product/model/search-config&#x27;;
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from &#x27;../../../store-finder/connectors&#x27;;
 import { StoreFinderAdapter } from &#x27;../../../store-finder/connectors/store-finder.adapter&#x27;;
+import { StoreFinderSearchConfig } from &#x27;../../../store-finder/model&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
@@ -538,7 +538,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   search(
     query: string,
-    searchConfig: SearchConfig,
+    searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt; {
@@ -571,7 +571,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: SearchConfig,
+    searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;Occ.StoreFinderSearchPage&gt; {

@@ -253,6 +253,8 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from &#x27;@spartacus/cor
 import { CardModule } from &#x27;../../../../shared/components/card/card.module&#x27;;
 import { SpinnerModule } from &#x27;../../../../shared/components/spinner/spinner.module&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
+import { DeliveryModeSetGuard } from &#x27;../../guards/delivery-mode-set.guard&#x27;;
+import { ShippingAddressSetGuard } from &#x27;../../guards/shipping-address-set.guard&#x27;;
 import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { PaymentFormModule } from &#x27;./payment-form/payment-form.module&#x27;;
 import { PaymentMethodComponent } from &#x27;./payment-method.component&#x27;;
@@ -271,8 +273,12 @@ import { PaymentMethodComponent } from &#x27;./payment-method.component&#x27;;
       cmsComponents: {
         CheckoutPaymentDetails: {
           component: PaymentMethodComponent,
-          // TODO(#8880): Shouldn&#x27;t we keep ShippingAddressSetGuard and others here?
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [
+            CheckoutAuthGuard,
+            CartNotEmptyGuard,
+            ShippingAddressSetGuard,
+            DeliveryModeSetGuard,
+          ],
         },
       },
     }),

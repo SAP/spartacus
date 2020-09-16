@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/order-placed.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/cart.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#waitForOrderToBePlacedRequest">waitForOrderToBePlacedRequest</a>
+                                        <a href="#addToCart">addToCart</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="waitForOrderToBePlacedRequest"></a>
-                                        <span class="name"><b>waitForOrderToBePlacedRequest</b><a href="#waitForOrderToBePlacedRequest"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="addToCart"></a>
+                                        <span class="name"><b>addToCart</b><a href="#addToCart"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>waitForOrderToBePlacedRequest:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>addToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Wait for backend to create order after completing checkout.</p>
+                                    <div class="io-description"><p>Creates a new cart and adds items to it</p>
 </div>
                                 </td>
                             </tr>
@@ -132,34 +132,35 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { waitForOrderToBePlacedRequest } from &#x27;./utils/order-placed&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { createCart, addToCart } from &#x27;./utils/cart&#x27;;
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Wait for backend to create order after completing checkout.
-       *
+declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Creates a new cart and adds items to it
        * @memberof Cypress.Chainable
-       *
        * @example
         &#x60;&#x60;&#x60;
-        cy.waitForOrderToBePlacedRequest(contentCatalog, currency, orderNumber);
+        cy.addToCart(productCode, quantity, accessToken)
         &#x60;&#x60;&#x60;
        */
-      waitForOrderToBePlacedRequest: (
-        contentCatalog?: string,
-        currency?: string,
-        orderNumber?: string
-      ) &#x3D;&gt; void;
-    }
+    addToCart: (itemId: string, quantity: string, accessToken: string) &#x3D;&gt; void;
   }
 }
 
 Cypress.Commands.add(
-  &#x27;waitForOrderToBePlacedRequest&#x27;,
-  (contentCatalog &#x3D; &#x27;electronics-spa&#x27;, currency &#x3D; &#x27;USD&#x27;, orderNumber) &#x3D;&gt; {
-    waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
+  &#x27;addToCart&#x27;,
+  (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
+    cy.server();
+
+    createCart(accessToken).then((response) &#x3D;&gt; {
+      cy.log(&#x60;Create cart ${JSON.stringify(response.body)}&#x60;);
+      const cartId &#x3D; response.body.code;
+      addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {
+        cy.log(&#x60;Add to cart ${cartId}&#x60;);
+        cy.wrap(cartId);
+      });
+    });
   }
 );
 </code></pre>

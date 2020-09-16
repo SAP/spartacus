@@ -304,7 +304,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findStoresAction(queryText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig?: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, countryIsoCode?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, useMyLocation?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>findStoresAction(queryText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig?: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, countryIsoCode?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, useMyLocation?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -353,7 +353,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -776,13 +776,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Action, select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from &#x27;../../global-message/index&#x27;;
 import { GeoPoint } from &#x27;../../model/misc.model&#x27;;
-import { SearchConfig } from &#x27;../../product/model/search-config&#x27;;
-import { RoutingService } from &#x27;../../routing/index&#x27;;
 import { WindowRef } from &#x27;../../window/window-ref&#x27;;
 import { StoreFinderActions } from &#x27;../store/actions/index&#x27;;
 import { StoreFinderSelectors } from &#x27;../store/selectors/index&#x27;;
@@ -791,6 +785,12 @@ import {
   StateWithStoreFinder,
   ViewAllStoresState,
 } from &#x27;../store/store-finder-state&#x27;;
+import { StoreFinderSearchConfig } from &#x27;./../model/search-config&#x27;;
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from &#x27;../../global-message/index&#x27;;
+import { RoutingService } from &#x27;../../routing/index&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -848,7 +848,7 @@ export class StoreFinderService {
    */
   findStoresAction(
     queryText: string,
-    searchConfig?: SearchConfig,
+    searchConfig?: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
     useMyLocation?: boolean,

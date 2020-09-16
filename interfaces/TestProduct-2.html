@@ -318,7 +318,7 @@ export function addToWishListAnonymous(product: TestProduct) {
 
   cy.get(&#x27;cx-breadcrumb &gt; h1&#x27;).should(&#x27;contain&#x27;, &#x27;Login&#x27;);
 
-  cy.get(&#x27;cx-login-register .btn-register&#x27;).click({ force: true });
+  cy.get(&#x27;cx-login-form .btn-register&#x27;).click({ force: true });
 
   registerWishListUser();
 

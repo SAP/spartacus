@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:155</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:156</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:149</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:155</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -239,7 +239,6 @@ import {
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
-  SET_COST_CENTER_PROCESS_ID,
 } from &#x27;../checkout-state&#x27;;
 
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS &#x3D;
@@ -320,12 +319,6 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS &#x3D;
 
 export const CHECKOUT_CLEAR_MISCS_DATA &#x3D; &#x27;[Checkout] Clear Miscs Data&#x27;;
 export const PAYMENT_PROCESS_SUCCESS &#x3D; &#x27;[Checkout] Payment Process Success&#x27;;
-
-export const SET_COST_CENTER &#x3D; &#x27;[Checkout] Set Cost Center&#x27;;
-export const SET_COST_CENTER_FAIL &#x3D; &#x27;[Checkout] Set Cost Center Fail&#x27;;
-export const SET_COST_CENTER_SUCCESS &#x3D; &#x27;[Checkout] Set Cost Center Success&#x27;;
-export const RESET_SET_COST_CENTER_PROCESS &#x3D;
-  &#x27;[Checkout] Reset Set Cost Center Process&#x27;;
 
 export class AddDeliveryAddress implements Action {
   readonly type &#x3D; ADD_DELIVERY_ADDRESS;
@@ -587,36 +580,6 @@ export class ClearCheckoutDeliveryModeFail extends EntityProcessesDecrementActio
   }
 }
 
-export class SetCostCenter extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; SET_COST_CENTER;
-  constructor(
-    public payload: { userId: string; cartId: string; costCenterId: string }
-  ) {
-    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
-  }
-}
-
-export class SetCostCenterFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; SET_COST_CENTER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID, payload);
-  }
-}
-
-export class SetCostCenterSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_COST_CENTER_SUCCESS;
-  constructor(public payload: string) {
-    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
-  }
-}
-
-export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type &#x3D; RESET_SET_COST_CENTER_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
-  }
-}
-
 export type CheckoutAction &#x3D;
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -654,11 +617,7 @@ export type CheckoutAction &#x3D;
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
   | LoadCheckoutDetailsSuccess
-  | CheckoutClearMiscsData
-  | SetCostCenter
-  | SetCostCenterFail
-  | SetCostCenterSuccess
-  | ResetSetCostCenterProcess;
+  | CheckoutClearMiscsData;
 </code></pre>
     </div>
 </div>

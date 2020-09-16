@@ -100,10 +100,6 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#costCenter">costCenter</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
                                         <a href="#deliveryAddress">deliveryAddress</a>
                                 </li>
                                 <li>
@@ -156,10 +152,6 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#paymentType">paymentType</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
                                         <a href="#pickupItemsQuantity">pickupItemsQuantity</a>
                                 </li>
                                 <li>
@@ -177,10 +169,6 @@
                                 <li>
                                             <span class="modifier">Optional</span>
                                         <a href="#productDiscounts">productDiscounts</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#purchaseOrderNumber">purchaseOrderNumber</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
@@ -396,40 +384,6 @@
                                     <tr>
                                         <td class="col-md-4">
                                             <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="costCenter"></a>
-                                        <span class="name"><b>costCenter</b><a href="#costCenter"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>costCenter:         <code><a href="../interfaces/CostCenter.html" target="_self" >CostCenter</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/CostCenter.html" target="_self" >CostCenter</a></code>
 
                                         </td>
                                     </tr>
@@ -891,40 +845,6 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="paymentType"></a>
-                                        <span class="name"><b>paymentType</b><a href="#paymentType"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>paymentType:         <code><a href="../interfaces/PaymentType.html" target="_self" >PaymentType</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/PaymentType.html" target="_self" >PaymentType</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
                                         <a name="pickupItemsQuantity"></a>
                                         <span class="name"><b>pickupItemsQuantity</b><a href="#pickupItemsQuantity"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -1076,40 +996,6 @@
                                     <tr>
                                         <td class="col-md-4">
                                             <i>Type : </i>        <code><a href="../interfaces/Price.html" target="_self" >Price</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="purchaseOrderNumber"></a>
-                                        <span class="name"><b>purchaseOrderNumber</b><a href="#purchaseOrderNumber"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>purchaseOrderNumber:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                                         </td>
                                     </tr>
@@ -1546,7 +1432,6 @@ import {
   PickupOrderEntryGroup,
   PromotionOrderEntryConsumed,
 } from &#x27;./order.model&#x27;;
-import { CostCenter } from &#x27;./org-unit.model&#x27;;
 import { Price, Promotion } from &#x27;./product.model&#x27;;
 
 export interface PromotionResult {
@@ -1559,11 +1444,6 @@ export enum PromotionLocation {
   ActiveCart &#x3D; &#x27;CART&#x27;,
   Checkout &#x3D; &#x27;CHECKOUT&#x27;,
   Order &#x3D; &#x27;ORDER&#x27;,
-}
-
-export enum B2BPaymentTypeEnum {
-  ACCOUNT_PAYMENT &#x3D; &#x27;ACCOUNT&#x27;,
-  CARD_PAYMENT &#x3D; &#x27;CARD&#x27;,
 }
 
 export interface Voucher {
@@ -1596,11 +1476,6 @@ export interface CardType {
   name?: string;
 }
 
-export interface PaymentType {
-  code?: string;
-  displayName?: string;
-}
-
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;
@@ -1628,7 +1503,6 @@ export interface Cart {
   appliedVouchers?: Voucher[];
   calculated?: boolean;
   code?: string;
-  costCenter?: CostCenter;
   deliveryAddress?: Address;
   deliveryCost?: Price;
   deliveryItemsQuantity?: number;
@@ -1642,13 +1516,11 @@ export interface Cart {
   net?: boolean;
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
-  paymentType?: PaymentType;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];
   potentialProductPromotions?: PromotionResult[];
   productDiscounts?: Price;
-  purchaseOrderNumber?: string;
   saveTime?: Date;
   savedBy?: Principal;
   site?: string;
