@@ -78,6 +78,16 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
+  replenishmentOrderHistory: {
+    replenishmentOrderHistory: 'Replenishment Order History',
+    replenishmentOrderId: 'Replenishment #',
+    po: 'PO #',
+    startOn: 'Start On',
+    frequency: 'Frequency',
+    nextOrderDate: 'Next Order Date',
+    estTotal: 'Est Total',
+    cancel: 'CANCEL',
+  },
   closeAccount: {
     confirmAccountClosure: 'Confirm Account Closure',
     confirmAccountClosureMessage:

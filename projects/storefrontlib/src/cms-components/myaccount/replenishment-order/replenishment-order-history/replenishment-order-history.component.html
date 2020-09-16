@@ -1,2 +1,223 @@
-<pre>{{ replenishmentOrders$ | async | json }}
+<pre>
+  <!-- {{ replenishmentOrders$ | async | json }} -->
 </pre>
+
+<ng-container *ngIf="replenishmentOrders$ | async as replenishmentOrders">
+  <div class="container">
+    <!-- HEADER -->
+    <div class="cx-order-history-header">
+      <h3>
+        {{
+          'replenishmentOrderHistory.replenishmentOrderHistory' | cxTranslate
+        }}
+      </h3>
+    </div>
+
+    <!-- BODY -->
+    <div class="cx-order-history-body">
+      <ng-container
+        *ngIf="replenishmentOrders.pagination.totalResults > 0; else noOrder"
+      >
+        <!-- Select Form and Pagination Top -->
+        <div class="cx-order-history-sort top row">
+          <div
+            class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="replenishmentOrders.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="replenishmentOrders.pagination.sort"
+              placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
+            ></cx-sorting>
+          </div>
+          <div class="cx-order-history-pagination">
+            <cx-pagination
+              [pagination]="replenishmentOrders.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+        <!-- TABLE -->
+        <table class="table cx-order-history-table">
+          <thead class="cx-order-history-thead-mobile">
+            <th scope="col">
+              {{
+                'replenishmentOrderHistory.replenishmentOrderId' | cxTranslate
+              }}
+            </th>
+            <th scope="col">
+              {{ 'replenishmentOrderHistory.po' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'replenishmentOrderHistory.startOn' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'replenishmentOrderHistory.frequency' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'replenishmentOrderHistory.nextOrderDate' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'replenishmentOrderHistory.estTotal' | cxTranslate }}
+            </th>
+            <th scope="col"></th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let order of replenishmentOrders.replenishmentOrders"
+              (click)="goToOrderDetail(order)"
+            >
+              <td class="cx-order-history-code">
+                <div class="d-md-none cx-order-history-label">
+                  {{
+                    'replenishmentOrderHistory.replenishmentOrderId'
+                      | cxTranslate
+                  }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ order?.replenishmentOrderCode }}</a
+                >
+              </td>
+              <td class="cx-order-history-placed">
+                <div class="d-md-none cx-order-history-label">
+                  {{ 'replenishmentOrderHistory.po' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                  >{{ order?.purchaseOrderNumber }}</a
+                >
+              </td>
+              <td class="cx-order-history-status">
+                <div class="d-md-none cx-order-history-label">
+                  {{ 'replenishmentOrderHistory.startOn' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ order?.firstDate | cxDate }}</a
+                >
+              </td>
+              <td class="cx-order-history-total">
+                <div class="d-md-none cx-order-history-label">
+                  {{ 'replenishmentOrderHistory.frequency' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ order?.trigger.displayTimeTable }}
+                </a>
+              </td>
+              <td class="cx-order-history-total">
+                <div class="d-md-none cx-order-history-label">
+                  {{ 'replenishmentOrderHistory.nextOrderDate' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ order?.trigger.activationTime | cxDate }}
+                </a>
+              </td>
+              <td class="cx-order-history-total">
+                <div class="d-md-none cx-order-history-label">
+                  {{ 'replenishmentOrderHistory.estTotal' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ order?.subTotal.formattedValue }}</a
+                >
+              </td>
+              <td>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'orderDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-order-history-value"
+                >
+                  {{ 'replenishmentOrderHistory.cancel' | cxTranslate }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-order-history-sort bottom row">
+          <div
+            class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="replenishmentOrders.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="replenishmentOrders.pagination.sort"
+              placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
+            ></cx-sorting>
+          </div>
+          <div class="cx-order-history-pagination">
+            <cx-pagination
+              [pagination]="replenishmentOrders.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noOrder>
+        <div class="cx-order-history-no-order row" *ngIf="isLoaded$ | async">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
+            <a
+              [routerLink]="{ cxRoute: 'home' } | cxUrl"
+              routerLinkActive="active"
+              class="btn btn-primary btn-block"
+              >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+            >
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

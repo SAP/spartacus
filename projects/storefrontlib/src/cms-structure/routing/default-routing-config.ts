@@ -74,7 +74,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { couponCode: 'code' },
   },
   replenishmentOrders: {
-    paths: ['my-account/replenishment-orders'],
+    paths: ['my-account/my-replenishment'],
   },
   replenishmentDetails: {
     paths: ['my-account/my-replenishment/:replenishmentOrderCode'],

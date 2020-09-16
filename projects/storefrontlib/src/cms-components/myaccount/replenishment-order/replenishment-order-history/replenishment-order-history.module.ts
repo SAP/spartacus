@@ -8,6 +8,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+
+import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
@@ -24,6 +26,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
       },
     ]),
     RouterModule,
+    ListNavigationModule,
     UrlModule,
     I18nModule,
   ],
@@ -32,7 +35,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        AccountReplenishmentOrderHistoryComponent: {
+        AccountReplenishmentHistoryComponent: {
           component: ReplenishmentOrderHistoryComponent,
           guards: [AuthGuard],
         },

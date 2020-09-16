@@ -1,11 +1,13 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
-  // ReplenishmentOrder,
+  ReplenishmentOrder,
   ReplenishmentOrderList,
+  RoutingService,
+  TranslationService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-replenishment-order-history',
@@ -14,13 +16,15 @@ import { tap } from 'rxjs/operators';
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   constructor(
-    private userReplenishmentOrderService: UserReplenishmentOrderService
+    private routing: RoutingService,
+    private userReplenishmentOrderService: UserReplenishmentOrderService,
+    private translation: TranslationService
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
 
-  // repelnishmet orders
+  // repelnishment orders
   replenishmentOrders$: Observable<
     ReplenishmentOrderList
   > = this.userReplenishmentOrderService
@@ -37,15 +41,62 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     boolean
   > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
 
-  // private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-  //     this.userReplenishmentOrderService.loadReplenishmentOrderList(
-  //         this.PAGE_SIZE,
-  //         event.currentPage,
-  //         event.sortCode
-  //     );
-  // }
-
   ngOnDestroy(): void {
     this.userReplenishmentOrderService.clearReplenishmentOrderList();
+  }
+
+  changeSortCode(sortCode: string): void {
+    const event: { sortCode: string; currentPage: number } = {
+      sortCode,
+      currentPage: 0,
+    };
+    this.sortType = sortCode;
+    this.fetchReplenishmentOrders(event);
+  }
+
+  pageChange(page: number): void {
+    const event: { sortCode: string; currentPage: number } = {
+      sortCode: this.sortType,
+      currentPage: page,
+    };
+    this.fetchReplenishmentOrders(event);
+  }
+
+  goToOrderDetail(order: ReplenishmentOrder): void {
+    this.routing.go({
+      cxRoute: 'replenishmentOrderDetails',
+      params: order,
+    });
+  }
+
+  getSortLabels(): Observable<{
+    byDate: string;
+    byReplenishmentNumber: string;
+    byNextOrderDate: string;
+  }> {
+    return combineLatest([
+      this.translation.translate('sorting.date'),
+      this.translation.translate('sorting.replenishmentNumber'),
+      this.translation.translate('sorting.nextOrderDate'),
+    ]).pipe(
+      map(([textByDate, textByOrderNumber, textbyNextOrderDate]) => {
+        return {
+          byDate: textByDate,
+          byReplenishmentNumber: textByOrderNumber,
+          byNextOrderDate: textbyNextOrderDate,
+        };
+      })
+    );
+  }
+
+  private fetchReplenishmentOrders(event: {
+    sortCode: string;
+    currentPage: number;
+  }): void {
+    this.userReplenishmentOrderService.loadReplenishmentOrderList(
+      this.PAGE_SIZE,
+      event.currentPage,
+      event.sortCode
+    );
   }
 }
