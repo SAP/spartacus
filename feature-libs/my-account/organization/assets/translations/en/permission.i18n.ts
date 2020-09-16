@@ -40,5 +40,6 @@ export const permission = {
     WEEK: 'per week',
     MONTH: 'per month',
     QUARTER: 'per quarter',
+    YEAR: 'per year',
   },
 };
