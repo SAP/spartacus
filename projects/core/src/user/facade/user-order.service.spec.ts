@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import {
@@ -8,10 +9,19 @@ import {
 } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserOrderService } from './user-order.service';
+
+const mockReplenishmentOrderCode = 'test-repl-code';
+
+class MockRoutingService {
+  getRouterState(): Observable<any> {
+    return of();
+  }
+}
 
 class MockAuthService {
   invokeWithUserId(cb) {
@@ -22,6 +32,7 @@ class MockAuthService {
 describe('UserOrderService', () => {
   let userOrderService: UserOrderService;
   let authService: AuthService;
+  let routingService: RoutingService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -37,11 +48,13 @@ describe('UserOrderService', () => {
       providers: [
         UserOrderService,
         { provide: AuthService, useClass: MockAuthService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
     userOrderService = TestBed.inject(UserOrderService);
     authService = TestBed.inject(AuthService);
+    routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -122,15 +135,40 @@ describe('UserOrderService', () => {
     expect(orderListLoaded).toEqual(true);
   });
 
-  it('should be able to load order list data', () => {
-    userOrderService.loadOrderList(10, 1, 'byDate', 'test-repl-code');
+  it('should be able to load order list data when replenishment order code is NOT defined', () => {
+    userOrderService.loadOrderList(10, 1, 'byDate');
+
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
-        replenishmentOrderCode: 'test-repl-code',
+        replenishmentOrderCode: undefined,
+      })
+    );
+  });
+
+  it('should be able to load order list data when replenishment order code is defined', () => {
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({
+        state: {
+          params: {
+            replenishmentOrderCode: mockReplenishmentOrderCode,
+          },
+        },
+      } as any)
+    );
+
+    userOrderService.loadOrderList(10, 1, 'byDate');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadUserOrders({
+        userId: OCC_USER_ID_CURRENT,
+        pageSize: 10,
+        currentPage: 1,
+        sort: 'byDate',
+        replenishmentOrderCode: mockReplenishmentOrderCode,
       })
     );
   });
