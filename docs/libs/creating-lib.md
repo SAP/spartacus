@@ -127,9 +127,9 @@ Use the following template:
   },
   "repository": "https://github.com/SAP/spartacus",
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "rxjs": "^6.5.4",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0"
   }
