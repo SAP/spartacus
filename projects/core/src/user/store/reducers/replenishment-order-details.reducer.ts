@@ -8,7 +8,8 @@ export function reducer(
   action: UserActions.ReplenishmentOrderDetailsAction
 ): ReplenishmentOrder {
   switch (action.type) {
-    case UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS: {
+    case UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS:
+    case UserActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
 

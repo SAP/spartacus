@@ -21,4 +21,16 @@ describe('ReplenishmentOrderDetailsReducer', () => {
       expect(state).toEqual(mockReplenishmentOrder);
     });
   });
+
+  describe('CANCEL_REPLENISHMENT_ORDER_SUCCESS action', () => {
+    it('should update replenishment order details', () => {
+      const { initialState } = fromReducer;
+
+      const action = new UserActions.CancelReplenishmentOrderSuccess(
+        mockReplenishmentOrder
+      );
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toEqual(mockReplenishmentOrder);
+    });
+  });
 });
