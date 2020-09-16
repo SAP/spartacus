@@ -7,7 +7,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -89,7 +89,7 @@ class MockRoutingService {
 fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  // let userService: UserReplenishmentOrderService | MockUserOrderService;
+  let userService: UserReplenishmentOrderService | MockUserOrderService;
   // let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -110,7 +110,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
       ],
     }).compileComponents();
 
-    // userService = TestBed.inject(UserReplenishmentOrderService);
+    userService = TestBed.inject(UserReplenishmentOrderService);
     // routingService = TestBed.inject(RoutingService);
   }));
 
@@ -119,7 +119,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
@@ -144,51 +144,57 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
 
   //   expect(routingService.go).toHaveBeenCalledWith({
   //     cxRoute: 'orderDetails',
-  //     params: mockOrders.orders[1],
+  //     params: mockReplenishmentOrders.replenishmentOrders[1],
   //   });
   // });
 
-  // it('should display No orders found page if no orders are found', () => {
-  //   const emptyOrderList: OrderHistoryList = {
-  //     orders: [],
-  //     pagination: { totalResults: 0, sort: 'byDate' },
-  //     sorts: [{ code: 'byDate', selected: true }],
-  //   };
+  it('should display No orders found page if no orders are found', () => {
+    const emptyReplenishmentOrderList: ReplenishmentOrderList = {
+      replenishmentOrders: [],
+      pagination: { totalResults: 0, sort: 'byDate' },
+      sorts: [{ code: 'byDate', selected: true }],
+    };
 
-  //   (userService as MockUserOrderService).orderHistroy.next(emptyOrderList);
-  //   fixture.detectChanges();
+    (userService as MockUserOrderService).replenishmentOrderHistroy.next(
+      emptyReplenishmentOrderList
+    );
+    fixture.detectChanges();
 
-  //   expect(
-  //     fixture.debugElement.query(By.css('.cx-order-history-no-order'))
-  //   ).not.toBeNull();
-  // });
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+    ).not.toBeNull();
+  });
 
-  // it('should set correctly sort code', () => {
-  //   spyOn(userService, 'loadOrderList').and.stub();
+  it('should set correctly sort code', () => {
+    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
 
-  //   component.changeSortCode('byOrderNumber');
+    component.changeSortCode('byReplenishmentNumber');
 
-  //   expect(component.sortType).toBe('byOrderNumber');
-  //   expect(userService.loadOrderList).toHaveBeenCalledWith(
-  //     5,
-  //     0,
-  //     'byOrderNumber'
-  //   );
-  // });
+    expect(component.sortType).toBe('byReplenishmentNumber');
+    expect(userService.loadReplenishmentOrderList).toHaveBeenCalledWith(
+      5,
+      0,
+      'byReplenishmentNumber'
+    );
+  });
 
-  // it('should set correctly page', () => {
-  //   spyOn(userService, 'loadOrderList').and.stub();
+  it('should set correctly page', () => {
+    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
 
-  //   component.sortType = 'byDate';
-  //   component.pageChange(1);
+    component.sortType = 'byDate';
+    component.pageChange(1);
 
-  //   expect(userService.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
-  // });
+    expect(userService.loadReplenishmentOrderList).toHaveBeenCalledWith(
+      5,
+      1,
+      'byDate'
+    );
+  });
 
-  // it('should clear order history data when component destroy', () => {
-  //   spyOn(userService, 'clearOrderList').and.stub();
+  it('should clear order history data when component destroy', () => {
+    spyOn(userService, 'clearReplenishmentOrderList').and.stub();
 
-  //   component.ngOnDestroy();
-  //   expect(userService.clearOrderList).toHaveBeenCalledWith();
-  // });
+    component.ngOnDestroy();
+    expect(userService.clearReplenishmentOrderList).toHaveBeenCalledWith();
+  });
 });
