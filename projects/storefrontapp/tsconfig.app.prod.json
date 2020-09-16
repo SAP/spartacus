@@ -14,7 +14,7 @@
         "dist/product/configurators/common"
       ],
       "@spartacus/product/configurators/common/assets": [
-        "dist/product/configurators/common/src/assets"
+        "dist/product/configurators/common/assets"
       ],
       "@spartacus/product/configurators/cpq": [
         "dist/product/configurators/cpq"

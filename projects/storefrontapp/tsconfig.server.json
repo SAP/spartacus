@@ -20,7 +20,7 @@
         "../../feature-libs/product/configurators/common/public_api"
       ],
       "@spartacus/product/configurators/common/assets": [
-        "../../feature-libs/product/configurators/common/src/assets/public_api"
+        "../../feature-libs/product/configurators/common/assets/public_api"
       ],
       "@spartacus/product/configurators/cpq": [
         "../../feature-libs/product/configurators/cpq/public_api"
