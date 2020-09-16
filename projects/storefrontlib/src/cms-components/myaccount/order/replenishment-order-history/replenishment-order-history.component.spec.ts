@@ -89,8 +89,8 @@ class MockRoutingService {
 fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  let userService: UserReplenishmentOrderService | MockUserOrderService;
-  let routingService: RoutingService;
+  // let userService: UserReplenishmentOrderService | MockUserOrderService;
+  // let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -110,8 +110,8 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
       ],
     }).compileComponents();
 
-    userService = TestBed.inject(UserReplenishmentOrderService);
-    routingService = TestBed.inject(RoutingService);
+    // userService = TestBed.inject(UserReplenishmentOrderService);
+    // routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -123,7 +123,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should read order list', () => {
+  it('should read replenishment order list', () => {
     let replenishmentOrders: ReplenishmentOrderList;
     component.replenishmentOrders$
       .subscribe((value) => {
