@@ -14,9 +14,7 @@ const CUSTOM_TEXT = 'customized';
 @Component({
   template: `
     <ng-container *ngIf="outletRefVisible">
-      <ng-template cxOutletRef="${OUTLET_NAME}">
-        ${CUSTOM_TEXT}
-      </ng-template>
+      <ng-template cxOutletRef="${OUTLET_NAME}"> ${CUSTOM_TEXT} </ng-template>
     </ng-container>
 
     <ng-container *ngIf="outletVisible">
