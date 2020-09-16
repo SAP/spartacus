@@ -585,7 +585,7 @@ export function verifyNotificationBannerInCart(
   const element = cy
     .get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
-    .find('cx-configure-issues-notification');
+    .find('cx-configurator-issues-notification');
 
   if (numberOfIssues) {
     checkNotificationBanner(element, numberOfIssues);
@@ -602,7 +602,7 @@ export function verifyNotificationBannerInCart(
 export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
-    .find('cx-configure-issues-notification')
+    .find('cx-configurator-issues-notification')
     .within(() => {
       cy.get(resolveIssuesLinkSelector)
         .click()

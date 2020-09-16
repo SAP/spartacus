@@ -13,9 +13,9 @@ $configurator-components: cx-configurator-attribute-header, cx-configurator-form
   cx-configurator-attribute-multi-selection-image,
   cx-configurator-attribute-single-selection-image, cx-configurator-message,
   cx-configurator-product-title, cx-configurator-conflict-suggestion,
-  cx-configurator-conflict-description, cx-configureurator-issues-notification,
+  cx-configurator-conflict-description, cx-configurator-issues-notification,
   cx-configurator-overview-notification-banner, cx-configure-product,
-  cx-configure-cart-entry, cx-configure-issues-notification !default;
+  cx-configure-cart-entry, cx-configurator-issues-notification !default;
 
 $configurator-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate !default;

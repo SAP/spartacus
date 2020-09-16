@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderEntryStatus } from '@spartacus/core';
 import { ConfigComponentTestUtilsService } from '../service/configurator-component-test-utils.service';
-import { ConfigureIssuesNotificationComponent } from './configure-issues-notification.component';
+import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @Pipe({
   name: 'cxTranslate',
@@ -12,18 +12,21 @@ class MockTranslatePipe implements PipeTransform {
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
-  let component: ConfigureIssuesNotificationComponent;
-  let fixture: ComponentFixture<ConfigureIssuesNotificationComponent>;
+  let component: ConfiguratorIssuesNotificationComponent;
+  let fixture: ComponentFixture<ConfiguratorIssuesNotificationComponent>;
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfigureIssuesNotificationComponent, MockTranslatePipe],
+      declarations: [
+        ConfiguratorIssuesNotificationComponent,
+        MockTranslatePipe,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigureIssuesNotificationComponent);
+    fixture = TestBed.createComponent(ConfiguratorIssuesNotificationComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     component.item = {

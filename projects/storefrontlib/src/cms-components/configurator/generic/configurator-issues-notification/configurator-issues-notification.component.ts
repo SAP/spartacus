@@ -3,10 +3,10 @@ import { GenericConfiguratorUtilsService, OrderEntry } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({
-  selector: 'cx-configure-issues-notification',
-  templateUrl: './configure-issues-notification.component.html',
+  selector: 'cx-configurator-issues-notification',
+  templateUrl: './configurator-issues-notification.component.html',
 })
-export class ConfigureIssuesNotificationComponent {
+export class ConfiguratorIssuesNotificationComponent {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;

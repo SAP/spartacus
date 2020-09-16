@@ -8,9 +8,9 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification/configurator-issues-notification.component';
 import { ConfigureCartEntryComponent } from './configure-cart-entry/configure-cart-entry.component';
 import { ConfigureProductComponent } from './configure-product/configure-product.component';
-import { ConfigureIssuesNotificationComponent } from './configure-issues-notification/configure-issues-notification.component';
 
 @NgModule({
   imports: [
@@ -30,13 +30,13 @@ import { ConfigureIssuesNotificationComponent } from './configure-issues-notific
   declarations: [
     ConfigureProductComponent,
     ConfigureCartEntryComponent,
-    ConfigureIssuesNotificationComponent,
+    ConfiguratorIssuesNotificationComponent,
   ],
   entryComponents: [ConfigureProductComponent, ConfigureCartEntryComponent],
   exports: [
     ConfigureProductComponent,
     ConfigureCartEntryComponent,
-    ConfigureIssuesNotificationComponent,
+    ConfiguratorIssuesNotificationComponent,
   ],
 })
 export class GenericConfiguratorModule {}
