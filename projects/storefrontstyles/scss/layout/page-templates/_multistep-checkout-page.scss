@@ -2,7 +2,10 @@
   // @extend %pageBody !optional;
 
   max-width: 1140px;
-  padding: 2rem 1.5rem 0 1.5rem;
+  padding-top: 2rem;
+  padding-inline-end: 1.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.5rem;
   margin: auto;
   display: flex;
   flex-direction: row;

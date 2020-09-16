@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalRef } from './modal-ref';
 import { ModalOptions } from './modal-options';
+import { ModalRef } from './modal-ref';
 
 /**
  * A service to handle modal
@@ -18,8 +18,15 @@ export class ModalService {
 
     activeModal = this.ngbModalService.open(content, options);
     this.modals.push(activeModal);
+    this.handleModalRemoveEvents(activeModal);
 
     return activeModal;
+  }
+
+  protected handleModalRemoveEvents(modal: ModalRef): void {
+    modal.result.finally(() => {
+      this.modals = this.modals.filter((m) => m !== modal);
+    });
   }
 
   getActiveModal(): ModalRef {
@@ -32,7 +39,6 @@ export class ModalService {
 
     if (modal) {
       modal.dismiss(reason);
-      this.modals.pop();
     }
   }
 
@@ -41,7 +47,6 @@ export class ModalService {
 
     if (modal) {
       modal.close(reason);
-      this.modals.pop();
     }
   }
 }

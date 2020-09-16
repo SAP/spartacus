@@ -16,7 +16,6 @@ import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adap
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
-import { OccCostCenterAdapter } from '../organization/occ-cost-center.adapter';
 import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
 import { AnonymousConsentNormalizer } from './converters/anonymous-consents-normalizer';
 import { OccReturnRequestNormalizer } from './converters/occ-return-request-normalizer';
@@ -25,6 +24,7 @@ import { defaultOccUserConfig } from './default-occ-user-config';
 import { OccAnonymousConsentTemplatesAdapter } from './occ-anonymous-consent-templates.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
@@ -54,7 +54,7 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserNotificationPreferenceAdapter,
     },
     { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
-    { provide: UserCostCenterAdapter, useClass: OccCostCenterAdapter },
+    { provide: UserCostCenterAdapter, useClass: OccUserCostCenterAdapter },
     {
       provide: PRODUCT_INTERESTS_NORMALIZER,
       useExisting: OccUserInterestsNormalizer,

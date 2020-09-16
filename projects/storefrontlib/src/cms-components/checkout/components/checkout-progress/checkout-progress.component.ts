@@ -35,6 +35,7 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.checkoutStepService.steps$.subscribe((steps) => {
       this.steps = steps;
+      // TODO(#8879): Couldn't we use observables here instead?
       this.cdr.detectChanges();
     });
   }

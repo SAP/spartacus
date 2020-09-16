@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { CostCenter } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { UserActions } from '../actions/index';
+import { CostCenter } from '../../../model/org-unit.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserCostCenterConnector } from '../../connectors/cost-center/user-cost-center.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserCostCenterEffects {
@@ -18,15 +18,14 @@ export class UserCostCenterEffects {
     map((action: UserActions.LoadActiveCostCenters) => action.payload),
     switchMap((payload) =>
       this.userCostCenterConnector.getActiveList(payload).pipe(
+        // TODO(#8875): Should we use here serialize utils?
         map(
           (data: EntitiesModel<CostCenter>) =>
             new UserActions.LoadActiveCostCentersSuccess(data.values)
         ),
         catchError((error) =>
           of(
-            new UserActions.LoadActiveCostCentersFail(
-              makeErrorSerializable(error)
-            )
+            new UserActions.LoadActiveCostCentersFail(normalizeHttpError(error))
           )
         )
       )

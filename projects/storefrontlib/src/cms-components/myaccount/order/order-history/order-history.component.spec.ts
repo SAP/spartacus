@@ -12,8 +12,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   OrderHistoryList,
+  ReplenishmentOrder,
   RoutingService,
+  TranslationService,
   UserOrderService,
+  UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
@@ -33,9 +36,26 @@ const mockOrders: OrderHistoryList = {
       total: { formattedValue: '2' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byDate' },
+  pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }],
 };
+
+const mockEmptyOrderList: OrderHistoryList = {
+  orders: [],
+  pagination: { totalResults: 0, totalPages: 1 },
+};
+
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
+const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(mockOrders);
+const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
+  mockReplenishmentOrder
+);
 
 @Component({
   template: '',
@@ -65,10 +85,8 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockUserOrderService {
-  orderHistroy = new BehaviorSubject(mockOrders);
-
   getOrderHistoryList(): Observable<OrderHistoryList> {
-    return this.orderHistroy;
+    return mockOrderHistoryList$.asObservable();
   }
   getOrderHistoryListLoaded(): Observable<boolean> {
     return of(true);
@@ -84,6 +102,18 @@ class MockUserOrderService {
 
 class MockRoutingService {
   go() {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of();
+  }
+}
+
+class MockUserReplenishmentOrderService {
+  getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
+    return mockReplenishmentOrder$.asObservable();
+  }
 }
 
 describe('OrderHistoryComponent', () => {
@@ -104,6 +134,11 @@ describe('OrderHistoryComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserOrderService, useClass: MockUserOrderService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: UserReplenishmentOrderService,
+          useClass: MockUserReplenishmentOrderService,
+        },
       ],
     }).compileComponents();
 
@@ -145,21 +180,6 @@ describe('OrderHistoryComponent', () => {
     });
   });
 
-  it('should display No orders found page if no orders are found', () => {
-    const emptyOrderList: OrderHistoryList = {
-      orders: [],
-      pagination: { totalResults: 0, sort: 'byDate' },
-      sorts: [{ code: 'byDate', selected: true }],
-    };
-
-    (userService as MockUserOrderService).orderHistroy.next(emptyOrderList);
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.query(By.css('.cx-order-history-no-order'))
-    ).not.toBeNull();
-  });
-
   it('should set correctly sort code', () => {
     spyOn(userService, 'loadOrderList').and.stub();
 
@@ -182,10 +202,104 @@ describe('OrderHistoryComponent', () => {
     expect(userService.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
   });
 
+  it('should display pagination', () => {
+    mockOrderHistoryList$.next(mockOrders);
+    fixture.detectChanges();
+
+    const elements = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-pagination')
+    );
+
+    expect(elements.length).toEqual(2);
+  });
+
+  it('should NOT display pagination', () => {
+    mockOrderHistoryList$.next(mockEmptyOrderList);
+    fixture.detectChanges();
+
+    const elements = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-pagination')
+    );
+
+    expect(elements.length).toEqual(0);
+  });
+
   it('should clear order history data when component destroy', () => {
     spyOn(userService, 'clearOrderList').and.stub();
 
     component.ngOnDestroy();
     expect(userService.clearOrderList).toHaveBeenCalledWith();
+  });
+
+  describe('when replenishment does NOT exist', () => {
+    beforeEach(() => {
+      mockReplenishmentOrder$.next({});
+    });
+
+    it('should display history title', () => {
+      fixture.detectChanges();
+
+      const element = fixture.debugElement.query(
+        By.css('.cx-order-history-header')
+      );
+
+      expect(element.nativeElement.textContent).toContain(
+        'orderHistory.orderHistory'
+      );
+
+      expect(element.nativeElement.textContent).not.toContain(
+        'orderHistory.replenishmentHistory'
+      );
+    });
+
+    it('should display no orders found page if no orders are found', () => {
+      mockOrderHistoryList$.next(mockEmptyOrderList);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+      ).not.toBeNull();
+      expect(
+        fixture.debugElement.query(
+          By.css('.cx-replenishment-details-order-history-no-order')
+        )
+      ).toBeNull();
+    });
+  });
+
+  describe('when replenishment does exist', () => {
+    beforeEach(() => {
+      mockReplenishmentOrder$.next(mockReplenishmentOrder);
+    });
+
+    it('should display replenishment details history title', () => {
+      fixture.detectChanges();
+
+      const element = fixture.debugElement.query(
+        By.css('.cx-replenishment-details-order-history-header')
+      );
+
+      expect(element.nativeElement.textContent).toContain(
+        'orderHistory.replenishmentHistory'
+      );
+
+      expect(element.nativeElement.textContent).not.toContain(
+        'orderHistory.orderHistory'
+      );
+    });
+
+    it('should display no orders found page if no orders are found', () => {
+      mockOrderHistoryList$.next(mockEmptyOrderList);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+      ).toBeNull();
+      expect(
+        fixture.debugElement.query(
+          By.css('.cx-replenishment-details-order-history-no-order')
+        )
+      ).not.toBeNull();
+    });
   });
 });
