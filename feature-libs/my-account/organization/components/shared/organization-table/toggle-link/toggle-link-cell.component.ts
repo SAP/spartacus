@@ -20,10 +20,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [tabIndex]="tabIndex"
     >
-      <span class="text" [ngStyle]="{ color: visible ? 'initial' : 'grey' }"
-        >{{ property }} ({{ count }})</span
-      >
-      _{{ visible }}_
+      <span class="text">{{ property }} ({{ count }})</span>
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,11 +42,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   get expanded() {
     return this.model.expanded;
-  }
-
-  //todo temporary
-  get visible() {
-    return this.model.visible;
   }
 
   get level() {

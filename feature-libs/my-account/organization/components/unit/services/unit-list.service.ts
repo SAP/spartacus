@@ -3,7 +3,7 @@ import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -12,15 +12,10 @@ interface TreeAction {
   next(array: B2BUnitNode[], child, depthLevel, pagination): void;
 }
 
-// toggle?: string;
-// expandFromLevel?: number;
-// collapseFromLevel?: number;
-
 class ToggleAction implements TreeAction {
   constructor(private id: string, private unitListService: UnitListService) {}
 
   prepareUnit(child, depthLevel) {
-    console.log('ToggleAction prepareUnit', child, this.id, depthLevel);
     return this.unitListService.prepareUnit(child, {
       depthLevel,
       expanded:
@@ -32,7 +27,6 @@ class ToggleAction implements TreeAction {
   }
 
   next(array: B2BUnitNode[], child, depthLevel, pagination) {
-    console.log('ToggleAction next', child, this.id, depthLevel);
     this.unitListService.flatten(
       array,
       child.children,
@@ -40,7 +34,7 @@ class ToggleAction implements TreeAction {
       pagination,
       child.id === this.id && this.unitListService.isExpandedNodeMap[child.id]
         ? new CollapseFromLevelAction(depthLevel + 1, this.unitListService)
-        : this
+        : new ToggleAction(this.id, this.unitListService)
     );
   }
 }
@@ -52,12 +46,6 @@ class CollapseFromLevelAction implements TreeAction {
   ) {}
 
   prepareUnit(child, depthLevel) {
-    console.log(
-      'CollapseFromLevelAction prepareUnit',
-      child,
-      this.depthLevel,
-      depthLevel
-    );
     return this.unitListService.prepareUnit(child, {
       depthLevel,
       expanded:
@@ -69,12 +57,6 @@ class CollapseFromLevelAction implements TreeAction {
   }
 
   next(array: B2BUnitNode[], child, depthLevel, pagination) {
-    console.log(
-      'CollapseFromLevelAction next',
-      child,
-      this.depthLevel,
-      depthLevel
-    );
     this.unitListService.flatten(
       array,
       child.children,
@@ -107,9 +89,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
 
   protected load(): Observable<EntitiesModel<B2BUnit>> {
     return combineLatest([this.unitService.getTree(), this.treeAction$]).pipe(
-      tap((data) => console.log('before', data)),
-      map(([raw, action]) => this.convertUnits(raw, action)),
-      tap((data) => console.log('after', data))
+      map(([raw, action]) => this.convertUnits(raw, action))
     );
   }
 
@@ -127,7 +107,6 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     children.forEach((child) => {
       array.push(action.prepareUnit(child, depthLevel));
       pagination.totalResults++;
-      console.log(this.isExpandedNodeMap);
       action.next(array, child, depthLevel, pagination);
     });
   }
@@ -155,30 +134,12 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
 
     this.flatten(units, [root], depthLevel, pagination, action);
     return {
-      // values: units.filter((unit) => unit.visible),
-      values: units,
+      values: units.filter((unit) => unit.visible),
       pagination,
     };
   }
 
   toggle(_event: string) {
-    // here's the place to update your local subject
-    console.log(_event);
     this.treeAction$.next(new ToggleAction(_event, this));
   }
-
-  // toggleAriaExpandedForNode(code: string): void {
-  //   this.isExpandedNodeMap[code] = !this.isExpandedNodeMap[code];
-  //   if (!this.isExpandedNodeMap[code]) {
-  //     this.hideElementChildren(code);
-  //   }
-  // }
-  //
-  // hideElementChildren(code: string): void {
-  //   Object.keys(this.isExpandedNodeMap)
-  //     .filter((s) => s.indexOf(code) !== -1)
-  //     .forEach((p) => {
-  //       this.isExpandedNodeMap[p] = false;
-  //     });
-  // }
 }
