@@ -277,7 +277,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
     map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .assignApprover(
           payload.userId,
@@ -313,7 +313,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .unassignApprover(
           payload.userId,
@@ -349,7 +349,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .assignPermission(
           payload.userId,
@@ -384,7 +384,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .unassignPermission(
           payload.userId,
@@ -419,7 +419,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .assignUserGroup(
           payload.userId,
@@ -454,7 +454,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.b2bUserConnector
         .unassignUserGroup(
           payload.userId,

@@ -339,33 +339,36 @@ export interface OccEndpoints {
    * @member {string}
    */
   getProductInterests?: string | OccEndpoint;
-
   /**
    * Endpoint for cancel an order
    */
   cancelOrder?: string | OccEndpoint;
-
   /**
    * Endpoint for creating order return request
    */
   returnOrder?: string | OccEndpoint;
-
   /**
    * Endpoint for user's order return requests
    */
   orderReturns?: string | OccEndpoint;
-
   /**
    * Endpoint for order return request details
    */
   orderReturnDetail?: string | OccEndpoint;
-
   /**
    * Endpoint for cancelling return request
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for budget
+   * Endpoint for set delivery address to cart
+   */
+  setDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for place order
+   */
+  placeOrder?: string | OccEndpoint;
+  /**
+   * Endpoint for userGroupOrderApprovalPermission
    *
    * @member {string}
    */

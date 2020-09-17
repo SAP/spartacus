@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["esnext", "dom"],
+    "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -55,7 +55,8 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
-      "@spartacus/cdc": ["integration-libs/cdc/public_api"]
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/setup": ["core-libs/setup/public_api"]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]

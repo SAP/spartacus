@@ -11,6 +11,7 @@ import {
 import * as fromAddressVerification from './address-verification.reducer';
 import * as fromCardTypes from './card-types.reducer';
 import * as fromCheckout from './checkout.reducer';
+import * as fromPaymentTypes from './payment-types.reducer';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
@@ -21,6 +22,7 @@ export function getReducers(): ActionReducerMap<CheckoutState> {
     ),
     cardTypes: fromCardTypes.reducer,
     addressVerification: fromAddressVerification.reducer,
+    paymentTypes: fromPaymentTypes.reducer,
   };
 }
 
