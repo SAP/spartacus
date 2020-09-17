@@ -33,6 +33,7 @@ import { UnitUserListComponent } from './links/users/unit-user-list.component';
 // import { OrganizationListComponent } from '../shared/organization-list';
 import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
 import { UnitListComponent } from './list/unit-list.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -200,6 +201,9 @@ export const unitsTableConfig: TableConfig = {
           },
           active: {
             dataComponent: StatusCellComponent,
+          },
+          uid: {
+            dataComponent: OrganizationCellComponent,
           },
         },
       },
