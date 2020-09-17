@@ -32,8 +32,8 @@ class ToggleAction implements TreeAction {
       child.children,
       depthLevel + 1,
       pagination,
-      child.id === this.id && this.unitListService.isExpandedNodeMap[child.id]
-        ? new CollapseFromLevelAction(depthLevel + 1, this.unitListService)
+      child.id === this.id && !this.unitListService.isExpandedNodeMap[child.id]
+        ? new CollapseFromLevelAction(depthLevel, this.unitListService)
         : new ToggleAction(this.id, this.unitListService)
     );
   }
