@@ -7,8 +7,8 @@ import {
 import { AdminGuard } from '@spartacus/my-account/organization/core';
 import { TableConfig, BREAKPOINT } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-// import { OrganizationItemService } from '../shared/organization-item.service';
-// import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
@@ -30,6 +30,8 @@ import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.
 import { UnitListComponent } from './list/unit-list.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
+import { UnitListService } from './services/unit-list.service';
+import { UnitItemService } from './services/unit-item.service';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -108,16 +110,16 @@ export const unitsCmsConfig: CmsConfig = {
     ManageUnitsListComponent: {
       component: UnitListComponent,
       // component: OrganizationListComponent,
-      // providers: [
-      //   {
-      //     provide: OrganizationListService,
-      //     useExisting: UnitListService,
-      //   },
-      //   {
-      //     provide: OrganizationItemService,
-      //     useExisting: UnitItemService,
-      //   },
-      // ],
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UnitListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: UnitItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
