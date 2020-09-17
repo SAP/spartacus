@@ -226,6 +226,7 @@ cx-schedule-replenishment-order {
       display: flex;
       flex-direction: row;
       margin-top: 20px;
+      flex-wrap: wrap;
 
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -240,6 +241,7 @@ cx-schedule-replenishment-order {
       .form-data-label {
         align-self: center;
         padding-inline-end: 10px;
+        width: 100%;
       }
 
       .form-data-input {
@@ -266,9 +268,14 @@ cx-schedule-replenishment-order {
         flex-wrap: wrap;
         max-width: 280px;
 
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
+
         .cx-repeat-days {
           flex: 0 100%;
           margin-bottom: 14px;
+          align-self: start;
         }
 
         .form-check {

@@ -33,6 +33,17 @@
 
       cx-checkout-order-summary {
         flex: unset;
+
+        cx-order-summary {
+          padding-top: 1rem;
+          padding-inline-start: 2.5rem;
+          padding-bottom: 0;
+          padding-inline-end: 0;
+
+          @include media-breakpoint-down(md) {
+            padding: 1rem 0 0 0;
+          }
+        }
       }
 
       cx-schedule-replenishment-order {
@@ -47,7 +58,10 @@
       cx-place-order,
       cx-schedule-replenishment-order {
         flex: unset;
-        padding: 1rem 2.5rem 0;
+        padding-top: 1rem;
+        padding-inline-start: 2.5rem;
+        padding-bottom: 0;
+        padding-inline-end: 0;
 
         @include media-breakpoint-down(md) {
           padding: 1rem 0 0 0;
