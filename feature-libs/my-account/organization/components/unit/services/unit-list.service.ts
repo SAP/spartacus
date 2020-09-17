@@ -8,13 +8,26 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
 
-interface TreeAction {
-  prepareUnit(child, depthLevel): any;
-  next(array: B2BUnitNode[], child, depthLevel, pagination): void;
+abstract class TreeAction {
+  constructor(protected unitListService: UnitListService) {}
+
+  abstract prepareUnit(child, depthLevel): any;
+
+  next(array: B2BUnitNode[], child, depthLevel, pagination) {
+    this.unitListService.flatten(
+      array,
+      child.children,
+      depthLevel + 1,
+      pagination,
+      this
+    );
+  }
 }
 
-class ToggleAction implements TreeAction {
-  constructor(private id: string, private unitListService: UnitListService) {}
+class ToggleAction extends TreeAction {
+  constructor(private id: string, protected unitListService: UnitListService) {
+    super(unitListService);
+  }
 
   prepareUnit(child, depthLevel) {
     return this.unitListService.prepareUnit(child, {
@@ -40,11 +53,13 @@ class ToggleAction implements TreeAction {
   }
 }
 
-class CollapseFromLevelAction implements TreeAction {
+class CollapseFromLevelAction extends TreeAction {
   constructor(
     private depthLevel: number,
-    private unitListService: UnitListService
-  ) {}
+    protected unitListService: UnitListService
+  ) {
+    super(unitListService);
+  }
 
   prepareUnit(child, depthLevel) {
     return this.unitListService.prepareUnit(child, {
@@ -56,20 +71,12 @@ class CollapseFromLevelAction implements TreeAction {
       visible: this.depthLevel >= depthLevel,
     });
   }
-
-  next(array: B2BUnitNode[], child, depthLevel, pagination) {
-    this.unitListService.flatten(
-      array,
-      child.children,
-      depthLevel + 1,
-      pagination,
-      this
-    );
-  }
 }
 
-class ExpandAllAction implements TreeAction {
-  constructor(private unitListService: UnitListService) {}
+class ExpandAllAction extends TreeAction {
+  constructor(protected unitListService: UnitListService) {
+    super(unitListService);
+  }
 
   prepareUnit(child, depthLevel) {
     return this.unitListService.prepareUnit(child, {
@@ -78,20 +85,12 @@ class ExpandAllAction implements TreeAction {
       visible: true,
     });
   }
-
-  next(array: B2BUnitNode[], child, depthLevel, pagination) {
-    this.unitListService.flatten(
-      array,
-      child.children,
-      depthLevel + 1,
-      pagination,
-      this
-    );
-  }
 }
 
-class ExpandBranchAction implements TreeAction {
-  constructor(private id: string, private unitListService: UnitListService) {}
+class ExpandBranchAction extends TreeAction {
+  constructor(private id: string, protected unitListService: UnitListService) {
+    super(unitListService);
+  }
 
   prepareUnit(child, depthLevel) {
     const properBranch = this.findInTree(this.id, child).length > 0;
@@ -102,20 +101,10 @@ class ExpandBranchAction implements TreeAction {
     });
   }
 
-  next(array: B2BUnitNode[], child, depthLevel, pagination) {
-    this.unitListService.flatten(
-      array,
-      child.children,
-      depthLevel + 1,
-      pagination,
-      this
-    );
-  }
-
-  private findInTree(orginitId, unit: B2BUnitNode): B2BUnitNode[] {
-    return unit.id === orginitId
+  private findInTree(id, unit: B2BUnitNode): B2BUnitNode[] {
+    return unit.id === id
       ? [unit]
-      : unit.children.flatMap((child) => this.findInTree(orginitId, child));
+      : unit.children.flatMap((child) => this.findInTree(id, child));
   }
 }
 /**
