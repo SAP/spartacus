@@ -386,3 +386,26 @@ cx-organization-form {
 //   }
 
 // }
+cx-unit-list {
+  @include media-breakpoint-down(md) {
+    th {
+      width: 0;
+      opacity: 0;
+      > ng-component {
+        width: 0;
+        opacity: 0;
+      }
+    }
+
+    tr.name {
+      a {
+        align-self: center;
+      }
+
+      button.button.action {
+        align-self: center;
+        margin-left: calc(var(--cx-nest-level) * 1.5rem);
+      }
+    }
+  }
+}
