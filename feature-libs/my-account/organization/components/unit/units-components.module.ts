@@ -5,8 +5,8 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { UnitDetailsModule } from './details/unit-details.module';
-import { UnitFormModule } from './form';
-import { UnitCostCenterListModule } from './links';
+import { UnitFormModule } from './form/unit-form.module';
+import { UnitCostCenterListModule } from './links/cost-centers/unit-cost-centers.module';
 import { UnitAddressModule } from './links/addresses/unit-address.module';
 import { UnitApproverListModule } from './links/approvers/unit-approver-list.module';
 import { UnitChildrenModule } from './links/children/unit-children.module';

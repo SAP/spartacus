@@ -1,12 +1,12 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { environment } from '../environment';
+import { FeatureEnvironment } from '../models/feature.model';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
 } from '@spartacus/my-account/organization/assets';
 import { OrganizationModule } from '@spartacus/my-account/organization';
 import { B2bStorefrontModule } from '@spartacus/my-account';
-import { environment } from '../environment';
-import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
@@ -15,10 +15,6 @@ export const b2bFeature: FeatureEnvironment = {
         occ: {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
-          endpoints: {
-            addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
-            user: 'orgUsers/${userId}',
-          },
         },
       },
       context: {
@@ -43,7 +39,6 @@ export const b2bFeature: FeatureEnvironment = {
           ...translationChunksConfig,
           ...organizationTranslationChunksConfig,
         },
-
         fallbackLang: 'en',
       },
 

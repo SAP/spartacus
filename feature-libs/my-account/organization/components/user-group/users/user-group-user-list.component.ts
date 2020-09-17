@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UserGroupService } from '@spartacus/my-account/organization/core';
 import { first } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
-import { CurrentUserGroupService } from '../services';
+import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
 
 @Component({

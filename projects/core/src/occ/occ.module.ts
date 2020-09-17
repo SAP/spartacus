@@ -1,7 +1,6 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
-import { provideDefaultConfig } from '../config/config.module';
 import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
 import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
@@ -14,6 +13,8 @@ import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
+import { provideDefaultConfig } from '../config/config-providers';
+import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { UserOccModule } from './adapters/user/user-occ.module';
     StoreFinderOccModule,
     UserOccModule,
     OccConfigLoaderModule.forRoot(),
+    CostCenterOccModule,
   ],
 })
 export class OccModule {

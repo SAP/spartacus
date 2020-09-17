@@ -2,6 +2,7 @@ export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
     purchaseOrderId: 'Purchase Order #',
+    emptyPurchaseOrderId: 'None',
     none: 'None {{value}}',
     placed: 'Placed',
     placedBy: 'Placed By',

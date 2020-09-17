@@ -18,7 +18,7 @@
   width: var(--cx-spinner-size);
   height: var(--cx-spinner-size);
   margin-top: calc(-1 * (var(--cx-spinner-size) / 2));
-  margin-left: calc(-1 * (var(--cx-spinner-size) / 2));
+  margin-inline-start: calc(-1 * (var(--cx-spinner-size) / 2));
   border-radius: 50%;
   border: 2px solid var(--cx-color-light);
   border-top-color: var(--cx-color-primary);
