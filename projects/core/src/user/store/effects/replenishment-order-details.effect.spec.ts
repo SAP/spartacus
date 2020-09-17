@@ -121,7 +121,9 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
-      const completion = new UserActions.CancelReplenishmentOrderSuccess();
+      const completion = new UserActions.CancelReplenishmentOrderSuccess(
+        mockReplenishmentOrder
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
