@@ -96,7 +96,9 @@ class ExpandBranchAction extends TreeAction {
     const properBranch = this.findInTree(this.id, child).length > 0;
     return this.unitListService.prepareUnit(child, {
       depthLevel,
-      expanded: child.id !== this.id && properBranch,
+      expanded:
+        (child.id !== this.id && properBranch) ||
+        (depthLevel === 0 && child.id === this.id),
       visible: this.unitListService.isExpandedNodeMap[child.parent] ?? true,
     });
   }
