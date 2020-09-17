@@ -3,9 +3,10 @@ import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { UnitItemService } from './unit-item.service';
 
 interface TreeAction {
   prepareUnit(child, depthLevel): any;
@@ -88,6 +89,35 @@ class ExpandAllAction implements TreeAction {
     );
   }
 }
+
+class ExpandBranchAction implements TreeAction {
+  constructor(private id: string, private unitListService: UnitListService) {}
+
+  prepareUnit(child, depthLevel) {
+    const properBranch = this.findInTree(this.id, child).length > 0;
+    return this.unitListService.prepareUnit(child, {
+      depthLevel,
+      expanded: child.id !== this.id && properBranch,
+      visible: this.unitListService.isExpandedNodeMap[child.parent] ?? true,
+    });
+  }
+
+  next(array: B2BUnitNode[], child, depthLevel, pagination) {
+    this.unitListService.flatten(
+      array,
+      child.children,
+      depthLevel + 1,
+      pagination,
+      this
+    );
+  }
+
+  private findInTree(orginitId, unit: B2BUnitNode): B2BUnitNode[] {
+    return unit.id === orginitId
+      ? [unit]
+      : unit.children.flatMap((child) => this.findInTree(orginitId, child));
+  }
+}
 /**
  * Service to populate Budget data to `Table` data. Budget
  * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
@@ -102,9 +132,18 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   );
   constructor(
     protected tableService: TableService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected unitItemService: UnitItemService
   ) {
     super(tableService);
+    this.unitItemService.key$
+      .pipe(
+        take(1),
+        filter((key) => Boolean(key))
+      )
+      .subscribe(
+        (id) => id && this.treeAction$.next(new ExpandBranchAction(id, this))
+      );
   }
 
   isExpandedNodeMap = {};
@@ -119,7 +158,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     return 'uid';
   }
 
-  public flatten(
+  flatten(
     array: B2BUnitNode[],
     children: B2BUnitNode[],
     depthLevel,
@@ -133,7 +172,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     });
   }
 
-  public prepareUnit(unit: B2BUnitNode, { depthLevel, expanded, visible }) {
+  prepareUnit(unit: B2BUnitNode, { depthLevel, expanded, visible }) {
     this.isExpandedNodeMap[unit.id] = expanded;
     return {
       uid: unit.id,
