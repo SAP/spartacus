@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
-import { UnitAddressDetailsModule } from './details';
-import { UnitAddressListModule } from './list';
+import { UnitAddressDetailsModule } from './details/unit-address-details.module';
+import { UnitAddressListModule } from './list/unit-address-list.module';
+import { UnitAddressFormModule } from './form/unit-address-form.module';
 
 @NgModule({
-  imports: [UnitAddressListModule, UnitAddressDetailsModule],
+  imports: [
+    UnitAddressListModule,
+    UnitAddressDetailsModule,
+    UnitAddressFormModule,
+  ],
 })
 export class UnitAddressModule {}

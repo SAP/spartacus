@@ -14,7 +14,8 @@ export enum PermissionType {
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionFormService extends OrganizationFormService<Permission>
+export class PermissionFormService
+  extends OrganizationFormService<Permission>
   implements OnDestroy {
   protected subscription = new Subscription();
 

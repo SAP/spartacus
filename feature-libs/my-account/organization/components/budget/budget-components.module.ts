@@ -10,7 +10,7 @@ import {
   budgetTableConfigFactory,
 } from './budget.config';
 import { BudgetCostCenterListModule } from './cost-centers/budget-cost-center-list.module';
-import { BudgetDetailsModule } from './details';
+import { BudgetDetailsModule } from './details/budget-details.module';
 import { BudgetFormModule } from './form/budget-form.module';
 
 @NgModule({

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { OrganizationSubListModule } from '../../shared/organization-sub-list/organization-sub-list.module';
-import { UserGroupAssignedPermissionListComponent } from './assigned';
+import { UserGroupAssignedPermissionListComponent } from './assigned/user-group-assigned-permission-list.component';
 import { UserGroupPermissionListComponent } from './user-group-permission-list.component';
 
 @NgModule({

@@ -1,8 +1,16 @@
-import { EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  HostBinding,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { MessageComponentData } from './message.model';
 
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class') type: string;
   @HostBinding('class.terminated') terminated = false;
