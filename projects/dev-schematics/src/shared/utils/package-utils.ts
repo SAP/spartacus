@@ -1,4 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
+
 import { SPARTACUS_CORE, UTF_8 } from '@spartacus/schematics';
 
 export function getSpartacusVersion(tree: Tree): string {
