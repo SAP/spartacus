@@ -6,7 +6,6 @@
 .CompanyPageTemplate {
   cx-page-layout.CompanyPageTemplate {
     max-width: 1140px;
-    padding-bottom: 80px;
     margin: auto;
 
     @include media-breakpoint-down(sm) {

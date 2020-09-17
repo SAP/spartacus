@@ -314,7 +314,7 @@ cx-organization-form {
         text-transform: var(--case);
         margin: 0 0 23px 0;
       }
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         padding: 20px;
       }
 
