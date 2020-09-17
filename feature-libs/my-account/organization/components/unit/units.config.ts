@@ -16,29 +16,26 @@ import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
 import { ActiveUnitGuard } from './guards/active-unit.guard';
 import { ExistUnitGuard } from './guards/exist-unit.guard';
-import {
-  UnitAddressDetailsComponent,
-  UnitAddressListComponent,
-  UnitCostCenterListComponent,
-} from './links';
+import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
 import { UnitAddressFormComponent } from './links/addresses/form';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
+import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
 import { UnitApproverListComponent } from './links/approvers';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
-import { ToggleUserRoleCellComponent } from './links/users/toggle-user-role/toggle-user-role.component';
-import { UnitUserListComponent } from './links/users/unit-user-list.component';
-// import { UnitItemService } from './services/unit-item.service';
-// import { UnitListService } from './services/unit-list.service';
-// import { OrganizationListComponent } from '../shared/organization-list';
-import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
+import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
+import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
+import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
+import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
 import { UnitListComponent } from './list/unit-list.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
   unitCode: 'uid',
   addressId: 'id',
+  userCode: 'customerId',
 };
 
 export const unitsRoutingConfig: RoutingConfig = {
@@ -66,8 +63,12 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/children/create`],
         paramsMapping,
       },
-      orgUnitUsers: {
+      unitUserList: {
         paths: [`${listPath}/users`],
+        paramsMapping,
+      },
+      unitUserRoles: {
+        paths: [`${listPath}/users/:userCode/roles`],
         paramsMapping,
       },
       orgUnitApprovers: {
@@ -78,7 +79,6 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-
       unitAddressList: {
         paths: [`${listPath}/addresses`],
         paramsMapping,
@@ -154,6 +154,12 @@ export const unitsCmsConfig: CmsConfig = {
             {
               path: 'users',
               component: UnitUserListComponent,
+              children: [
+                {
+                  path: ':userCode/roles',
+                  component: UnitUserRolesFormComponent,
+                },
+              ],
             },
             {
               path: 'cost-centers',
@@ -219,7 +225,7 @@ export const unitsTableConfig: TableConfig = {
         },
         cells: {
           roles: {
-            dataComponent: ToggleUserRoleCellComponent,
+            dataComponent: UnitUserRolesCellComponent,
           },
         },
       },

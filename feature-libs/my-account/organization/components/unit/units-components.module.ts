@@ -10,7 +10,7 @@ import { UnitCostCenterListModule } from './links';
 import { UnitAddressModule } from './links/addresses/unit-address.module';
 import { UnitApproverListModule } from './links/approvers/unit-approver-list.module';
 import { UnitChildrenModule } from './links/children/unit-children.module';
-import { UnitUserListModule } from './links/users/unit-user-list.module';
+import { UnitUsersModule } from './links/users/unit-user-list.module';
 import { UnitListModule } from './list/unit-list.module';
 import {
   unitsCmsConfig,
@@ -26,7 +26,7 @@ import {
     UnitFormModule,
     UnitChildrenModule,
     UnitApproverListModule,
-    UnitUserListModule,
+    UnitUsersModule,
     UnitCostCenterListModule,
     UnitAddressModule,
   ],

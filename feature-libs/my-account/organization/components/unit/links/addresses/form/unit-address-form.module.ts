@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { OrganizationFormModule } from '../../../../shared/organization-form';
 import { UnitAddressFormComponent } from './unit-address-form.component';
@@ -19,8 +18,5 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
     FormErrorsModule,
   ],
   declarations: [UnitAddressFormComponent],
-  exports: [UnitAddressFormComponent],
-  providers: [CurrencyService, OrgUnitService],
-  entryComponents: [UnitAddressFormComponent],
 })
 export class UnitAddressFormModule {}
