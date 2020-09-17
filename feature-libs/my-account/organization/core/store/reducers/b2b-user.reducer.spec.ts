@@ -1,5 +1,5 @@
 import { B2BUser } from '@spartacus/core';
-import { UserGroup } from '../../model';
+import { UserGroup } from '../../model/index';
 import {
   B2BUserActions,
   OrgUnitActions,
