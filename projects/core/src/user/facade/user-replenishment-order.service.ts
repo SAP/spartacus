@@ -165,6 +165,22 @@ export class UserReplenishmentOrderService {
   }
 
   /**
+   * Returns a loading flag for replenishment order history list
+   */
+  getReplenishmentOrderHistoryListLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersLoading)
+    );
+  }
+
+  /**
+   * Returns a error flag for replenishment order history list
+   */
+  getReplenishmentOrderHistoryListError(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersError));
+  }
+
+  /**
    * Returns a success flag for replenishment order history list
    */
   getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {

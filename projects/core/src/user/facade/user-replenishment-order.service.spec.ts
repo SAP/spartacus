@@ -255,7 +255,7 @@ describe('UserReplenishmentOrderService', () => {
     });
   });
 
-  describe('Replenishment order list', () => {
+  describe('Replenishment Order List', () => {
     it('should be able to get replenishment order history list', () => {
       store.dispatch(
         new UserActions.LoadUserReplenishmentOrdersSuccess({
@@ -265,35 +265,67 @@ describe('UserReplenishmentOrderService', () => {
         })
       );
 
-      let orderList: ReplenishmentOrderList;
+      let result: ReplenishmentOrderList;
       userReplenishmentOrderService
         .getReplenishmentOrderHistoryList(1)
         .subscribe((data) => {
-          orderList = data;
+          result = data;
         })
         .unsubscribe();
-      expect(orderList).toEqual({
+      expect(result).toEqual({
         replenishmentOrders: [],
         pagination: {},
         sorts: [],
       });
     });
 
-    it('should be able to get replenishment order list loaded success flag', () => {
+    it('should return the loading flag', () => {
       store.dispatch(
         new UserActions.LoadUserReplenishmentOrdersSuccess(
           mockReplenishmentOrderList
         )
       );
 
-      let orderListLoaded: boolean;
+      let result: boolean;
+
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryListLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
+
+      let result: boolean;
+
       userReplenishmentOrderService
         .getReplenishmentOrderHistoryListSuccess()
-        .subscribe((data) => {
-          orderListLoaded = data;
-        })
+        .subscribe((data) => (result = data))
         .unsubscribe();
-      expect(orderListLoaded).toEqual(true);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersFail(mockError)
+      );
+
+      let result: boolean;
+
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryListError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toBe(true);
     });
 
     it('should be able to load replenishment order list data', () => {
