@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { interval, Observable } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { MessageConfig } from '../config/message-config';
 import { ConfiguratorRouterExtractorService } from '../service/configurator-router-extractor.service';
@@ -12,27 +12,33 @@ import { ConfiguratorRouterExtractorService } from '../service/configurator-rout
 export class ConfiguratorUpdateMessageComponent {
   protected hasPendingChanges$: Observable<
     boolean
-  > = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService
-          .hasPendingChanges(routerData.owner)
-          .pipe(
-            switchMap((hasPendingChanges) =>
-              this.configuratorCommonsService
-                .isConfigurationLoading(routerData.owner)
-                .pipe(map((isLoading) => hasPendingChanges || isLoading))
-            )
+  > = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService
+        .hasPendingChanges(routerData.owner)
+        .pipe(
+          switchMap((hasPendingChanges) =>
+            this.configuratorCommonsService
+              .isConfigurationLoading(routerData.owner)
+              .pipe(map((isLoading) => hasPendingChanges || isLoading))
           )
-      )
-    );
+        )
+    ),
+    distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
+    switchMap(
+      (isLoading) =>
+        isLoading
+          ? of(isLoading).pipe(
+              delay(
+                this.config?.updateConfigurationMessage?.waitingTime || 1000
+              )
+            ) // delay information if its loading
+          : of(isLoading) // inform immediately if it's not loading anymore
+    )
+  );
 
-  visibleClass$: Observable<string> = interval(
-    this.config?.updateConfigurationMessage?.waitingTime || 1000
-  ).pipe(
-    withLatestFrom(this.hasPendingChanges$),
-    map(([_, hasPendingChangesOrIsLoading]) =>
+  visibleClass$: Observable<string> = this.hasPendingChanges$.pipe(
+    map((hasPendingChangesOrIsLoading) =>
       hasPendingChangesOrIsLoading ? 'visible' : ''
     )
   );

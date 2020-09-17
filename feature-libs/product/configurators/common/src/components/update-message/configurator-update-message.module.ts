@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  Config,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MessageConfig } from '../config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 @NgModule({
@@ -14,6 +20,7 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
         },
       },
     }),
+    { provide: MessageConfig, useExisting: Config },
   ],
   declarations: [ConfiguratorUpdateMessageComponent],
   exports: [ConfiguratorUpdateMessageComponent],
