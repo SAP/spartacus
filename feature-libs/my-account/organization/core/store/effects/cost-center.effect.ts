@@ -162,7 +162,7 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
-    switchMap(({ userId, costCenterCode, budgetCode }) =>
+    mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .assignBudget(userId, costCenterCode, budgetCode)
         .pipe(
@@ -192,7 +192,7 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
-    switchMap(({ userId, costCenterCode, budgetCode }) =>
+    mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .unassignBudget(userId, costCenterCode, budgetCode)
         .pipe(

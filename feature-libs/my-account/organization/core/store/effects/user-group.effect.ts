@@ -245,7 +245,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .assignOrderApprovalPermission(
           payload.userId,
@@ -279,7 +279,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .assignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
@@ -309,7 +309,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .unassignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
@@ -340,7 +340,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .unassignOrderApprovalPermission(
           payload.userId,
