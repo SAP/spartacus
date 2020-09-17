@@ -237,9 +237,6 @@ cx-organization-form {
     td {
       font-size: 16px;
 
-      .content-wrapper {
-      }
-
       .text {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -249,7 +246,8 @@ cx-organization-form {
         margin: 0;
         padding: 0;
         li {
-          display: inline;
+          display: inline-block;
+          // ensure we're seeing the space before comma
           white-space: pre-wrap;
           &:not(:last-child):after {
             content: ', ';
