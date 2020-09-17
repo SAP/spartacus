@@ -8,14 +8,17 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
   template: `
-    <button class="button action" (click)="toggleItem($event)">
-      <ng-container *ngIf="count > 0">
+    <ng-container *ngIf="count > 0 && nestLevel > 0; else noExpandable">
+      <button class="button action" (click)="toggleItem($event)">
         <cx-icon *ngIf="expanded; else showExpand" type="CARET_RIGHT"></cx-icon>
         <ng-template #showExpand>
           <cx-icon type="CARET_DOWN"></cx-icon>
         </ng-template>
-      </ng-container>
-    </button>
+      </button>
+    </ng-container>
+    <ng-template #noExpandable>
+      <button class="button action"></button>
+    </ng-template>
     <a
       [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
       [tabIndex]="tabIndex"
