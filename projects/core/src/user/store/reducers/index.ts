@@ -17,6 +17,7 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
+import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
@@ -37,6 +38,7 @@ import {
   USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
+  USER_REPLENISHMENT_ORDERS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -56,6 +58,7 @@ import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -82,6 +85,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     order: loaderReducer<Order>(
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
+    ),
+    replenishmentOrders: loaderReducer<ReplenishmentOrderList>(
+      USER_REPLENISHMENT_ORDERS,
+      fromUserReplenishmentOrdersReducer.reducer
     ),
     orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
     orderReturnList: loaderReducer<ReturnRequestList>(

@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -137,5 +141,83 @@ export class UserReplenishmentOrderService {
    */
   clearReplenishmentOrderProcessState(): void {
     this.store.dispatch(new UserActions.ClearReplenishmentOrder());
+  }
+
+  /**
+   * Returns replenishment order history list
+   */
+  getReplenishmentOrderHistoryList(
+    pageSize: number
+  ): Observable<ReplenishmentOrderList> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersState),
+      tap((replenishmentOrderListState) => {
+        const attemptedLoad =
+          replenishmentOrderListState.loading ||
+          replenishmentOrderListState.success ||
+          replenishmentOrderListState.error;
+        if (!attemptedLoad) {
+          this.loadReplenishmentOrderList(pageSize);
+        }
+      }),
+      map((replenishmentOrderListState) => replenishmentOrderListState.value)
+    );
+  }
+
+  /**
+   * Returns a loading flag for replenishment order history list
+   */
+  getReplenishmentOrderHistoryListLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersLoading)
+    );
+  }
+
+  /**
+   * Returns a error flag for replenishment order history list
+   */
+  getReplenishmentOrderHistoryListError(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersError));
+  }
+
+  /**
+   * Returns a success flag for replenishment order history list
+   */
+  getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getReplenishmentOrdersSuccess)
+    );
+  }
+
+  /**
+   * Retrieves a replenishment order list
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   */
+  loadReplenishmentOrderList(
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
+    this.authService.invokeWithUserId((userId) => {
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(
+          new UserActions.LoadUserReplenishmentOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      }
+    });
+  }
+
+  /**
+   * Cleaning replenishment order list
+   */
+  clearReplenishmentOrderList(): void {
+    this.store.dispatch(new UserActions.ClearUserReplenishmentOrders());
   }
 }

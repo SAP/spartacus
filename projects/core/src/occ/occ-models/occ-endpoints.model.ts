@@ -380,7 +380,12 @@ export interface OccEndpoints {
    */
   scheduleReplenishmentOrder?: string | OccEndpoint;
   /**
-   * Endpoint to get a replenishment order details
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
+  /* Endpoint to get a replenishment order details
    *
    * * @member {string}
    */

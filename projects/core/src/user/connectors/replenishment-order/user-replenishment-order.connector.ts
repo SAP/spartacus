@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 
 @Injectable({
@@ -40,5 +44,14 @@ export class UserReplenishmentOrderConnector {
       userId,
       replenishmentOrderCode
     );
+  }
+
+  public loadHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<ReplenishmentOrderList> {
+    return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
   }
 }

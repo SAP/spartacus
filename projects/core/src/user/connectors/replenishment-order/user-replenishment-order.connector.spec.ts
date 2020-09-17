@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 import { UserReplenishmentOrderConnector } from './user-replenishment-order.connector';
 
@@ -47,6 +51,10 @@ class MockUserReplenishmentOrderAdapter
     _userId: string,
     _replenishmentOrderCode: string
   ): Observable<ReplenishmentOrder> {
+    return of({});
+  }
+
+  loadHistory(_userId: string): Observable<ReplenishmentOrderList> {
     return of({});
   }
 }
@@ -126,6 +134,22 @@ describe('UserReplenishmentOrderConnector', () => {
     expect(adapter.cancelReplenishmentOrder).toHaveBeenCalledWith(
       userId,
       replenishmentCode
+    );
+  });
+
+  it('loadHistory should call adapter', () => {
+    spyOn(adapter, 'loadHistory').and.returnValue(of(mockOrderHistoryList));
+    let result: ReplenishmentOrderList;
+    connector
+      .loadHistory('user3')
+      .subscribe((res) => (result = res))
+      .unsubscribe();
+    expect(result).toBe(mockOrderHistoryList);
+    expect(adapter.loadHistory).toHaveBeenCalledWith(
+      'user3',
+      undefined,
+      undefined,
+      undefined
     );
   });
 });

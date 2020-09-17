@@ -17,6 +17,7 @@ export const defaultB2bOccConfig: OccConfig = {
           'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
         cancelReplenishmentOrder:
           'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderHistory: 'users/${userId}/replenishmentOrders',
       },
     },
   },

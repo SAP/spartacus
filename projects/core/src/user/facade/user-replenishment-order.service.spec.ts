@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -25,6 +28,12 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   purchaseOrderNumber: 'test-po',
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
+const mockReplenishmentOrderList: ReplenishmentOrderList = {
+  replenishmentOrders: [mockReplenishmentOrder],
+  pagination: { totalPages: 3 },
+  sorts: [{ selected: true }],
 };
 
 class MockAuthService {
@@ -242,6 +251,99 @@ describe('UserReplenishmentOrderService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.ClearReplenishmentOrder()
+      );
+    });
+  });
+
+  describe('Replenishment Order List', () => {
+    it('should be able to get replenishment order history list', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess({
+          replenishmentOrders: [],
+          pagination: {},
+          sorts: [],
+        })
+      );
+
+      let result: ReplenishmentOrderList;
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryList(1)
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
+      expect(result).toEqual({
+        replenishmentOrders: [],
+        pagination: {},
+        sorts: [],
+      });
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
+
+      let result: boolean;
+
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryListLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersSuccess(
+          mockReplenishmentOrderList
+        )
+      );
+
+      let result: boolean;
+
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryListSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersFail(mockError)
+      );
+
+      let result: boolean;
+
+      userReplenishmentOrderService
+        .getReplenishmentOrderHistoryListError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toBe(true);
+    });
+
+    it('should be able to load replenishment order list data', () => {
+      userReplenishmentOrderService.loadReplenishmentOrderList(10, 1, 'byDate');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.LoadUserReplenishmentOrders({
+          userId: mockUserId,
+          pageSize: 10,
+          currentPage: 1,
+          sort: 'byDate',
+        })
+      );
+    });
+
+    it('should be able to clear replenishment order list', () => {
+      userReplenishmentOrderService.clearReplenishmentOrderList();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.ClearUserReplenishmentOrders()
       );
     });
   });

@@ -17,3 +17,4 @@ export * from './user-consents.selectors';
 export * from './user-cost-center.selectors';
 export * from './user-details.selectors';
 export * from './user-orders.selectors';
+export * from './user-replenishment-orders.selectors';
