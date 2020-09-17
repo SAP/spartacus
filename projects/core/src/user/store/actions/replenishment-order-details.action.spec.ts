@@ -11,6 +11,13 @@ const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
 const mockError = 'test-error';
 
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
 describe('ReplenishmentOrderActions', () => {
   describe('Load replenishment order details actions', () => {
     describe('LoadReplenishmentOrderDetails action', () => {
@@ -35,13 +42,6 @@ describe('ReplenishmentOrderActions', () => {
 
     describe('LoadReplenishmentOrderDetailsSuccess action', () => {
       it('should create an action', () => {
-        const mockReplenishmentOrder: ReplenishmentOrder = {
-          active: true,
-          purchaseOrderNumber: 'test-po',
-          replenishmentOrderCode: 'test-repl-order',
-          entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
-        };
-
         const payload: ReplenishmentOrder = mockReplenishmentOrder;
         const action = new UserActions.LoadReplenishmentOrderDetailsSuccess(
           payload
@@ -49,7 +49,7 @@ describe('ReplenishmentOrderActions', () => {
 
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS,
-          payload: payload,
+          payload,
           meta: StateUtils.successMeta(USER_REPLENISHMENT_ORDER_DETAILS),
         });
       });
@@ -107,11 +107,12 @@ describe('ReplenishmentOrderActions', () => {
 
     describe('CancelReplenishmentOrderSuccess action', () => {
       it('should create an action', () => {
-        const action = new UserActions.CancelReplenishmentOrderSuccess();
+        const payload: ReplenishmentOrder = mockReplenishmentOrder;
+        const action = new UserActions.CancelReplenishmentOrderSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: UserActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS,
-          payload: undefined,
+          payload,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
