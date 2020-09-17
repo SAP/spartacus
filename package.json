@@ -96,7 +96,12 @@
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../..",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev3.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:cdc": "ng build cdc --prod",
-    "release:cdc:with-changelog": "cd integration-libs/cdc && release-it && cd ../.."
+    "release:cdc:with-changelog": "cd integration-libs/cdc && release-it && cd ../..",
+    "build:b2b": "cross-env SPARTACUS_B2B=true ng build storefrontapp --prod",
+    "e2e:cy:run:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:b2b",
+    "e2e:cy:run:b2b:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:b2b:ci",
+    "e2e:cy:b2b:start-run-ci:2005": "start-server-and-test start:ci:b2b http-get://localhost:4200 e2e:cy:run:b2b",
+    "start:ci:b2b": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true yarn start:prod"
   },
   "private": false,
   "dependencies": {
