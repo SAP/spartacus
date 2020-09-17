@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -19,7 +20,7 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
 describe('User Replenishment Orders effect', () => {
   let userReplenishmentOrdersEffect: fromEffect.UserReplenishmentOrdersEffect;
   let replenishmentOrderConnector: UserReplenishmentOrderConnector;
-  let actions$: Observable<Actions>;
+  let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

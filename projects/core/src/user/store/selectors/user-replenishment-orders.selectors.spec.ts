@@ -74,18 +74,18 @@ describe('UserReplenishmentOrdersSelectors', () => {
     });
   });
 
-  describe('getReplenishmentOrdersError', () => {
-    it('should return success flag of Replenishment Orders state', () => {
-      const mockError = 'test-error';
-
+  describe('getReplenishmentOrdersLoading', () => {
+    it('should return the boolean value from the loader state loading', () => {
       store.dispatch(
-        new UserActions.LoadUserReplenishmentOrdersFail(mockError)
+        new UserActions.LoadUserReplenishmentOrders({
+          userId: 'test-user-id',
+        })
       );
 
       let result: boolean;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrdersError))
+        .pipe(select(UsersSelectors.getReplenishmentOrdersLoading))
         .subscribe((value) => (result = value))
         .unsubscribe();
 
@@ -94,7 +94,7 @@ describe('UserReplenishmentOrdersSelectors', () => {
   });
 
   describe('getReplenishmentOrdersSuccess', () => {
-    it('should return success flag of Replenishment Orders state', () => {
+    it('should return the boolean value from the loader state success', () => {
       store.dispatch(
         new UserActions.LoadUserReplenishmentOrdersSuccess(
           mockReplenishmentOrderList
@@ -109,6 +109,25 @@ describe('UserReplenishmentOrdersSelectors', () => {
         .unsubscribe();
 
       expect(result).toBe(true);
+    });
+  });
+
+  describe('getReplenishmentOrdersError', () => {
+    it('should return the boolean value from the loader state error', () => {
+      const mockError = 'test-error';
+
+      store.dispatch(
+        new UserActions.LoadUserReplenishmentOrdersFail(mockError)
+      );
+
+      let result: boolean;
+
+      store
+        .pipe(select(UsersSelectors.getReplenishmentOrdersError))
+        .subscribe((value) => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
     });
   });
 });

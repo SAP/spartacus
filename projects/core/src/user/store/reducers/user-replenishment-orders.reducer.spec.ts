@@ -50,16 +50,4 @@ describe('User Orders Replenishment Reducer', () => {
       expect(state).toEqual(mockUserReplenishmentOrders);
     });
   });
-
-  describe('LOAD_USER_REPLENISHMENT_ORDERS_FAIL action', () => {
-    it('should return the initial state', () => {
-      const { initialState } = fromUserReplenishmentOrdersReducer;
-      const action = new UserActions.LoadUserReplenishmentOrdersFail('error');
-      const state = fromUserReplenishmentOrdersReducer.reducer(
-        initialState,
-        action
-      );
-      expect(state).toEqual(initialState);
-    });
-  });
 });

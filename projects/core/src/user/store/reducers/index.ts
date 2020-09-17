@@ -90,7 +90,6 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_REPLENISHMENT_ORDERS,
       fromUserReplenishmentOrdersReducer.reducer
     ),
-
     orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
     orderReturnList: loaderReducer<ReturnRequestList>(
       USER_RETURN_REQUESTS,
