@@ -61,7 +61,6 @@ export class UnitUserRolesFormComponent {
   }
 
   protected notify(item: B2BUser) {
-    console.log('notify!', item);
     this.messageService.notify({
       key: 'unitUserRoles.messages.rolesUpdated',
       params: { item: item },
