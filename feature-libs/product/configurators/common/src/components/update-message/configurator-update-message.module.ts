@@ -7,7 +7,8 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MessageConfig } from '../config';
+import { DefaultMessageConfig } from '../config/default-message-config';
+import { MessageConfig } from '../config/message-config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
         },
       },
     }),
+    provideDefaultConfig(DefaultMessageConfig),
     { provide: MessageConfig, useExisting: Config },
   ],
   declarations: [ConfiguratorUpdateMessageComponent],
