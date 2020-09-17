@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
@@ -21,14 +26,21 @@ export class OrganizationCardComponent<T extends BaseItem> {
     tap((item) => this.refreshMessages(item))
   );
 
+  @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
+
   constructor(
     protected itemService: OrganizationItemService<T>,
     protected messageService: MessageService
   ) {}
 
-  closeView(view: ViewComponent, event: MouseEvent) {
+  /**
+   * The views are router based, which means if we close a view, the router outlet is
+   * cleaned immediately. To prevent this, we're closing the view manually, before
+   * navigating back.
+   */
+  closeView(event: MouseEvent) {
     event.stopPropagation();
-    view.toggle(true);
+    this.view.toggle(true);
 
     setTimeout(() => {
       (event.target as HTMLElement)?.parentElement.click();

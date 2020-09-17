@@ -18,7 +18,7 @@
       <cx-icon
         *ngIf="previous === true; else prevLabel"
         type="CLOSE"
-        (click)="closeView(view, $event)"
+        (click)="closeView($event)"
       ></cx-icon>
       <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
     </a>
