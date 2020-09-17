@@ -42,6 +42,7 @@
         [dataset]="dataTable"
         [currentItem]="{ property: key, value: currentKey$ | async }"
         (launch)="launchItem($event)"
+        [cxFocus]="{ trap: 'start' }"
       >
       </cx-table>
 
