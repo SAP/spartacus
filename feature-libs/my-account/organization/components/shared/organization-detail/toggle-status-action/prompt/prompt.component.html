@@ -1,9 +1,9 @@
-<div class="inner">
+<div class="inner" [cxFocus]="{ focusOnEscape: true }" (esc)="close()">
   <div class="message">
     <cx-icon [type]="icon"></cx-icon>
     <p>{{ message | cxTranslate }}</p>
   </div>
-  <div class="actions">
+  <div class="actions" [cxFocus]="{ autofocus: 'button.primary' }">
     <button class="button" (click)="close()">cancel</button
     ><button class="button primary" (click)="confirm()">confirm</button>
   </div>

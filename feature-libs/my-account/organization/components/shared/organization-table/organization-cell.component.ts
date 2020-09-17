@@ -40,7 +40,9 @@ export class OrganizationCellComponent {
    * Helper method to access the cell options.
    */
   get cellOptions(): TableFieldOptions {
-    return this.outlet.context?._options?.cells?.[this.property] || {};
+    return (
+      this.outlet.context?._options?.cells?.[this.outlet.context?._field] ?? {}
+    );
   }
 
   /**

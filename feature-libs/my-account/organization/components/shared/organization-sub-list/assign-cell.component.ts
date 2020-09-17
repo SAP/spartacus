@@ -79,16 +79,13 @@ export class AssignCellComponent<T> implements OnDestroy {
     // any updated assignments. Moreover, as soon as an item is unassigned, it might not
     // be available anymore. This is why we add the message when this action is destroyed.
     if (this.notify) {
-      this.messageService.add({
-        message: {
-          key: this.outlet.context.selected
-            ? this.organizationSubListService.viewType + '.unassigned'
-            : this.organizationSubListService.viewType + '.assigned',
-          params: {
-            item: this.outlet.context,
-          },
+      this.messageService.notify({
+        key: this.outlet.context.selected
+          ? this.organizationSubListService.viewType + '.unassigned'
+          : this.organizationSubListService.viewType + '.assigned',
+        params: {
+          item: this.outlet.context,
         },
-        timeout: 3000,
       });
     }
   }

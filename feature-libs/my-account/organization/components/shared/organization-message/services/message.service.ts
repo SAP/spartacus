@@ -1,9 +1,9 @@
 import { Injectable, Type } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { Observable, Subject } from 'rxjs';
 import { Message, MessageComponentData } from '../message.model';
 
-// const DEFAULT_MESSAGE_TIMEOUT = 3000;
+const DEFAULT_NOTIFY_TIMEOUT = 3000;
 
 @Injectable()
 export class MessageService {
@@ -20,6 +20,17 @@ export class MessageService {
     this.data$.next({
       data: message,
       component,
+    });
+  }
+
+  notify(message: Translatable) {
+    const data: MessageComponentData = {
+      message,
+      timeout: DEFAULT_NOTIFY_TIMEOUT,
+      type: GlobalMessageType.MSG_TYPE_INFO,
+    };
+    this.data$.next({
+      data,
     });
   }
 

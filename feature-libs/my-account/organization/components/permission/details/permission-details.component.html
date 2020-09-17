@@ -5,7 +5,7 @@
   <a
     actions
     class="link"
-    [class.disabled]="!model.active"
+    [class.disabled]="!model.active || !model.orgUnit.active"
     [routerLink]="{ cxRoute: 'permissionEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}

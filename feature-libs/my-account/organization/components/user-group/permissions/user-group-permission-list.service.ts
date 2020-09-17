@@ -13,7 +13,7 @@ export class UserGroupPermissionListService extends OrganizationSubListService<
   Permission
 > {
   protected tableType = OrganizationTableType.USER_GROUP_PERMISSIONS;
-  protected domainType = OrganizationTableType.USER;
+  protected domainType = OrganizationTableType.PERMISSION;
 
   constructor(
     protected tableService: TableService,

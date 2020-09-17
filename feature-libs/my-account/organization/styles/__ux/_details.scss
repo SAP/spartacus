@@ -29,10 +29,13 @@
       &.is-active {
         color: var(--cx-color-success);
       }
+
+      padding-inline-end: 20px;
     }
     ul.value {
       margin: 0;
       padding: 0;
+      padding-inline-end: 20px;
       li {
         display: inline;
         white-space: pre-wrap;
