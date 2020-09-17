@@ -20,6 +20,7 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'unitAssignedApprovers',
     'unitCostCenters',
     'unitUsers',
+    'unitUserRoles',
     'unitAssignedUsers',
     'unitAddress',
 

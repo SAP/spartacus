@@ -15,12 +15,14 @@ import {
   unitAssignedUsers,
   unitChildren,
   unitCostCenters,
+  unitUserRoles,
   unitUsers,
 } from './units.i18n';
 import {
   userGroup,
   userGroupAssignedPermissions,
   userGroupAssignedUsers,
+  userGroupPermissions,
   userGroupUsers,
 } from './user-group.i18n';
 import {
@@ -97,6 +99,7 @@ export const organization = {
   unitAssignedApprovers,
   unitAssignedRoles,
   unitUsers,
+  unitUserRoles,
   unitAssignedUsers,
   unitCostCenters,
   unitAddress,
@@ -104,6 +107,7 @@ export const organization = {
   userGroup,
   userGroupUsers,
   userGroupAssignedUsers,
+  userGroupPermissions,
   userGroupAssignedPermissions,
   user,
   userUserGroups,

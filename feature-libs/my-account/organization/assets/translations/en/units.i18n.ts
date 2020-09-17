@@ -118,6 +118,11 @@ export const unitAssignedUsers = {
 export const unitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
+};
+
+export const unitUserRoles = {
+  title: 'User roles',
+  subtitle: 'User: {{item.orgUnit.name}}',
   messages: {
     rolesUpdated: 'Roles successfully updated for {{item.name}}',
   },
