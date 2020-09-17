@@ -7,8 +7,8 @@ import {
 import { AdminGuard } from '@spartacus/my-account/organization/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+// import { OrganizationItemService } from '../shared/organization-item.service';
+// import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
@@ -28,10 +28,11 @@ import { UnitAssignedApproverListComponent } from './links/approvers/assigned';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { ToggleUserRoleCellComponent } from './links/users/toggle-user-role/toggle-user-role.component';
 import { UnitUserListComponent } from './links/users/unit-user-list.component';
-import { UnitItemService } from './services/unit-item.service';
-import { UnitListService } from './services/unit-list.service';
-import { OrganizationListComponent } from '../shared/organization-list';
+// import { UnitItemService } from './services/unit-item.service';
+// import { UnitListService } from './services/unit-list.service';
+// import { OrganizationListComponent } from '../shared/organization-list';
 import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
+import { UnitListComponent } from './list/unit-list.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -104,17 +105,18 @@ export const unitsRoutingConfig: RoutingConfig = {
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
-      component: OrganizationListComponent,
-      providers: [
-        {
-          provide: OrganizationListService,
-          useExisting: UnitListService,
-        },
-        {
-          provide: OrganizationItemService,
-          useExisting: UnitItemService,
-        },
-      ],
+      component: UnitListComponent,
+      // component: OrganizationListComponent,
+      // providers: [
+      //   {
+      //     provide: OrganizationListService,
+      //     useExisting: UnitListService,
+      //   },
+      //   {
+      //     provide: OrganizationItemService,
+      //     useExisting: UnitItemService,
+      //   },
+      // ],
       childRoutes: [
         {
           path: 'create',

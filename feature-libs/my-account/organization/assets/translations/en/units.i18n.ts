@@ -36,7 +36,6 @@ export const unit = {
   tree: {
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
-    upOneLevel: 'Up one level',
   },
   children: {
     header: 'Child Units in {{code}}',
