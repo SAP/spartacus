@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { OrganizationSubListTestingModule } from 'feature-libs/my-account/organization/components/shared/organization-sub-list/organization-sub-list.testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
+import { UnitUserListService } from '../services/unit-user-list.service';
 import { UnitUserListComponent } from './unit-user-list.component';
-import { UnitUserListService } from './unit-user-list.service';
 
 class MockUnitUserListService {}
 
