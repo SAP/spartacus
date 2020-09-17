@@ -4,21 +4,6 @@
   .cx-configurator-select {
     padding: 5px;
 
-    .cx-configurator-attribute-value-img,
-    .cx-configurator-attribute-value-img-dummy {
-      padding: 3px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 75%;
-      border-radius: 2px;
-      border: transparent 3px solid;
-    }
-
-    .cx-configurator-attribute-value-img-dummy {
-      height: 75%;
-    }
-
     input[type='checkbox'].form-input,
     input[type='radio'].form-input {
       opacity: 0;
@@ -37,9 +22,30 @@
       }
     }
 
-    .cx-configurator-attribute-value-label {
-      cursor: pointer;
-      text-align: center;
+    .cx-configurator-attribute-value-label-container {
+      &:focus {
+        outline: none;
+      }
+
+      .cx-configurator-attribute-value-label {
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .cx-configurator-attribute-value-img,
+      .cx-configurator-attribute-value-img-dummy {
+        padding: 3px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 75%;
+        border-radius: 2px;
+        border: transparent 3px solid;
+      }
+
+      .cx-configurator-attribute-value-img-dummy {
+        height: 75%;
+      }
     }
   }
 }
