@@ -20,7 +20,8 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
   templateUrl: './toggle-user-role.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleUserRoleCellComponent extends OrganizationCellComponent
+export class ToggleUserRoleCellComponent
+  extends OrganizationCellComponent
   implements OnInit, OnDestroy {
   notify: boolean;
   form: FormGroup = new FormGroup({});
