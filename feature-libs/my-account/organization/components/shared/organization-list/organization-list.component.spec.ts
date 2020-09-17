@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,6 +9,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
@@ -75,13 +76,13 @@ class MockListComponent extends OrganizationListComponent<Mock> {
   }
 }
 
-describe('OrganizationListComponent', () => {
+describe('OrganizationListComponent?', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
   let service: OrganizationListService<Mock>;
   let itemService: OrganizationItemService<any>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -93,6 +94,7 @@ describe('OrganizationListComponent', () => {
         IconTestingModule,
         NgSelectModule,
         FormsModule,
+        KeyboardFocusTestingModule,
       ],
       declarations: [MockListComponent, MockTableComponent],
       providers: [
@@ -109,7 +111,7 @@ describe('OrganizationListComponent', () => {
 
     service = TestBed.inject(OrganizationListService);
     itemService = TestBed.inject(OrganizationItemService);
-  }));
+  });
 
   describe('with table data', () => {
     beforeEach(() => {
