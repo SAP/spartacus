@@ -5,7 +5,7 @@ import {
   budgetsEntitiesReducer,
   budgetsListReducer,
 } from './budget.reducer';
-import { Budget } from '../../model';
+import { Budget } from '../../model/index';
 
 const payloadBudget: Budget = {
   code: 'testCode',
