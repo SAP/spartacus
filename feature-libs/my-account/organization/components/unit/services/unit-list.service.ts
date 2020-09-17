@@ -34,7 +34,7 @@ class ToggleAction implements TreeAction {
       pagination,
       child.id === this.id && !this.unitListService.isExpandedNodeMap[child.id]
         ? new CollapseFromLevelAction(depthLevel, this.unitListService)
-        : new ToggleAction(this.id, this.unitListService)
+        : this
     );
   }
 }
@@ -62,7 +62,29 @@ class CollapseFromLevelAction implements TreeAction {
       child.children,
       depthLevel + 1,
       pagination,
-      new CollapseFromLevelAction(this.depthLevel, this.unitListService)
+      this
+    );
+  }
+}
+
+class ExpandAllAction implements TreeAction {
+  constructor(private unitListService: UnitListService) {}
+
+  prepareUnit(child, depthLevel) {
+    return this.unitListService.prepareUnit(child, {
+      depthLevel,
+      expanded: true,
+      visible: true,
+    });
+  }
+
+  next(array: B2BUnitNode[], child, depthLevel, pagination) {
+    this.unitListService.flatten(
+      array,
+      child.children,
+      depthLevel + 1,
+      pagination,
+      this
     );
   }
 }
@@ -141,5 +163,13 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
 
   toggle(_event: string) {
     this.treeAction$.next(new ToggleAction(_event, this));
+  }
+
+  collapseAll() {
+    this.treeAction$.next(new CollapseFromLevelAction(1, this));
+  }
+
+  expandAll() {
+    this.treeAction$.next(new ExpandAllAction(this));
   }
 }
