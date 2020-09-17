@@ -141,8 +141,8 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
         take(1),
         filter((key) => Boolean(key))
       )
-      .subscribe(
-        (id) => id && this.treeAction$.next(new ExpandBranchAction(id, this))
+      .subscribe((id) =>
+        this.treeAction$.next(new ExpandBranchAction(id, this))
       );
   }
 
