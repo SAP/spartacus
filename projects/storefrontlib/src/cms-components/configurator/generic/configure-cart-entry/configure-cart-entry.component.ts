@@ -52,6 +52,10 @@ export class ConfigureCartEntryComponent {
     return this.readOnly;
   }
 
+  public isDisabled() {
+    return this.readOnly ? false : this.disabled;
+  }
+
   getReason(): string {
     if (this.readOnly) {
       return 'Display Configuration';

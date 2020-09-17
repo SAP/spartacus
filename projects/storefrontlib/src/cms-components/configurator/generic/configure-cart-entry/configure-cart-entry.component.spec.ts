@@ -101,6 +101,17 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getDisplayOnly()).toBe(true);
   });
 
+  it("should return 'false' for disabled when readOnly true", () => {
+    component.readOnly = true;
+    expect(component.isDisabled()).toBe(false);
+  });
+
+  it('should return disabled value when readOnly false', () => {
+    component.readOnly = false;
+    component.disabled = true;
+    expect(component.isDisabled()).toBe(component.disabled);
+  });
+
   describe('display corresponding link', () => {
     it("should display 'Display Configuration' link", () => {
       component.readOnly = true;
