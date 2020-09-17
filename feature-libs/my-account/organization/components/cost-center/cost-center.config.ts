@@ -7,6 +7,7 @@ import {
 import { AdminGuard } from '@spartacus/my-account/organization/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { OrganizationCellComponent } from '../shared';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -117,6 +118,9 @@ export const costCenterTableConfig: TableConfig = {
           active: {
             dataComponent: StatusCellComponent,
           },
+          currency: {
+            dataComponent: OrganizationCellComponent,
+          },
           unit: {
             dataComponent: UnitCellComponent,
           },
@@ -128,6 +132,9 @@ export const costCenterTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            linkable: false,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },

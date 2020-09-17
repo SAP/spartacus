@@ -12,6 +12,11 @@ cx-organization-form {
 }
 
 %organizationList {
+  .is-empty {
+    margin: 0;
+    padding: 20px;
+  }
+
   @include media-breakpoint-up(md) {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
@@ -97,6 +102,10 @@ cx-organization-form {
     justify-content: flex-end;
     padding: 40px;
   }
+  section + .footer {
+    padding-top: 0;
+  }
+
   cx-pagination {
     @include media-breakpoint-down(md) {
       margin: 0 var(--cx-spatial-md);
