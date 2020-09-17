@@ -1,8 +1,8 @@
 import { Address } from './address.model';
 import {
-  B2BPaymentType,
   DeliveryOrderEntryGroup,
   PaymentDetails,
+  PaymentType,
   Principal,
   PromotionResult,
   Voucher,
@@ -35,7 +35,7 @@ export interface ReplenishmentOrder {
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
   paymentStatus?: string;
-  paymentType?: B2BPaymentType;
+  paymentType?: PaymentType;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];

@@ -67,6 +67,14 @@ export const myAccount = {
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
+    cancelReplenishment: {
+      title: 'Cancel Replenishment',
+      description: 'Cancel any future replenishment order?',
+      accept: 'Yes',
+      reject: 'No',
+      cancelSuccess:
+        'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',
@@ -85,6 +93,8 @@ export const myAccount = {
     nextOrderDate: 'Next Order Date',
     estTotal: 'Est Total',
     cancel: 'CANCEL',
+    replenishmentHistory: 'Replenishment History',
+    notFound: 'No Orders Found',
   },
   closeAccount: {
     confirmAccountClosure: 'Confirm Account Closure',

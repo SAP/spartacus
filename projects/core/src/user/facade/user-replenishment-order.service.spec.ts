@@ -204,7 +204,9 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new UserActions.CancelReplenishmentOrderSuccess());
+      store.dispatch(
+        new UserActions.CancelReplenishmentOrderSuccess(mockReplenishmentOrder)
+      );
 
       let result: boolean;
 
@@ -217,7 +219,9 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new UserActions.CancelReplenishmentOrderSuccess());
+      store.dispatch(
+        new UserActions.CancelReplenishmentOrderSuccess(mockReplenishmentOrder)
+      );
 
       let result: boolean;
 

@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom, takeWhile } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -43,6 +43,16 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
+
+    // Reload delivery modes on error
+    this.checkoutDeliveryService
+      .getLoadSupportedDeliveryModeProcess()
+      .pipe(takeWhile((state) => state?.success === false))
+      .subscribe((state) => {
+        if (state.error && !state.loading) {
+          this.checkoutDeliveryService.loadSupportedDeliveryModes();
+        }
+      });
 
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(

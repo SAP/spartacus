@@ -69,7 +69,7 @@ export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
 
 export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_SUCCESS;
-  constructor() {
+  constructor(public payload: ReplenishmentOrder) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
   }
 }

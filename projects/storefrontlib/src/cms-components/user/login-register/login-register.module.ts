@@ -2,20 +2,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  CheckoutModule,
   CmsConfig,
   I18nModule,
-  FeaturesConfigModule,
+  NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
-  NotAuthGuard,
-  CheckoutModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
   imports: [
-    FeaturesConfigModule,
     CommonModule,
     RouterModule,
     UrlModule,

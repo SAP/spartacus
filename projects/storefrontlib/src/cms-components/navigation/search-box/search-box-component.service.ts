@@ -101,6 +101,14 @@ export class SearchBoxComponentService {
     }
   }
 
+  /**
+   * For search results model, it returns true when:
+   * * there is any product OR
+   * * the is any search suggestion OR
+   * * there is a message.
+   *
+   * Otherwise it returns false.
+   */
   protected hasResults(results: SearchResults): boolean {
     return (
       (!!results.products && results.products.length > 0) ||
@@ -109,6 +117,10 @@ export class SearchBoxComponentService {
     );
   }
 
+  /**
+   * Emits product search results in case when the config property `displayProducts` is true.
+   * Otherwise it emits an empty object.
+   */
   protected getProductResults(
     config: SearchBoxConfig
   ): Observable<ProductSearchPage> {
@@ -145,7 +157,7 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * whenever there is at least 1 product, we simulate
+   * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
   protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
@@ -160,6 +172,10 @@ export class SearchBoxComponentService {
     );
   }
 
+  /**
+   * Emits a 'no match' message, in case the product search results and search suggestions are empty.
+   * Otherwise it emits null.
+   */
   protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
     return combineLatest([
       this.getProductResults(config),
@@ -184,7 +200,7 @@ export class SearchBoxComponentService {
   /**
    * Navigates to the search result page with a given query
    */
-  public launchSearchPage(query: string): void {
+  launchSearchPage(query: string): void {
     this.routingService.go({
       cxRoute: 'search',
       params: { query },

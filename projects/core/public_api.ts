@@ -14,7 +14,7 @@ export * from './src/global-message/index';
 export * from './src/i18n/index';
 export * from './src/kyma/index';
 export * from './src/model/index';
-export * from './src/organization/index';
+export * from './src/cost-center/index';
 export * from './src/occ/index';
 export * from './src/personalization/index';
 export * from './src/process/index';
@@ -32,4 +32,5 @@ export * from './src/window/index';
 /** AUGMENTABLE_TYPES_START */
 export { Product } from './src/model/product.model';
 export { ProductSearchPage, Facet } from './src/model/product-search.model';
+export { Cart } from './src/model/cart.model';
 /** AUGMENTABLE_TYPES_END */
