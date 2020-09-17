@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-import { TableConfig } from '@spartacus/storefront';
+import { TableConfig, BREAKPOINT } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 // import { OrganizationItemService } from '../shared/organization-item.service';
 // import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -192,7 +192,7 @@ export function unitsTableConfigFactory(): TableConfig {
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT]: {
-      cells: ['name', 'active', 'uid'],
+      cells: ['name'],
       options: {
         cells: {
           name: {
@@ -202,6 +202,9 @@ export const unitsTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
         },
+      },
+      [BREAKPOINT.lg]: {
+        cells: ['name', 'active', 'uid'],
       },
     },
     [OrganizationTableType.UNIT_USERS]: {
