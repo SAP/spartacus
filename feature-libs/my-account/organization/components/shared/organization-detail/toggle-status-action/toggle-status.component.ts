@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
 import { MessageService } from '../../organization-message';
-import { MessageComponentData } from '../../organization-message/message.model';
 import { BaseItem } from '../../organization.model';
 import { PromptMessageComponent } from './prompt/prompt.component';
 import { MessagePromptData } from './prompt/prompt.model';
@@ -98,16 +96,13 @@ export class ToggleStatusComponent<T extends BaseItem> {
     this.current$
       .pipe(first((update) => update.active === model.active))
       .subscribe((update) => {
-        this.messageService.add<MessageComponentData>({
-          message: {
-            key: update.active
-              ? this.i18nRoot + '.messages.confirmDisabled'
-              : this.i18nRoot + '.messages.confirmEnabled',
-            params: {
-              item: model,
-            },
+        this.messageService.notify({
+          key: update.active
+            ? this.i18nRoot + '.messages.confirmDisabled'
+            : this.i18nRoot + '.messages.confirmEnabled',
+          params: {
+            item: model,
           },
-          type: GlobalMessageType.MSG_TYPE_INFO,
         });
       });
   }
