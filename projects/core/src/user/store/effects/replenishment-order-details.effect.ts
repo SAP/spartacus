@@ -52,7 +52,12 @@ export class ReplenishmentOrderDetailsEffect {
           payload.replenishmentOrderCode
         )
         .pipe(
-          map((_) => new UserActions.CancelReplenishmentOrderSuccess()),
+          map(
+            (replenishmentOrder: ReplenishmentOrder) =>
+              new UserActions.CancelReplenishmentOrderSuccess(
+                replenishmentOrder
+              )
+          ),
           catchError((error) => {
             error?.error?.errors.forEach((err) =>
               this.globalMessageService.add(
