@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -16,10 +15,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressComponent implements OnInit, OnDestroy {
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected cdr: ChangeDetectorRef
-  ) {}
+  constructor(protected checkoutStepService: CheckoutStepService) {}
 
   steps: CheckoutStep[];
 
@@ -35,8 +31,6 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.checkoutStepService.steps$.subscribe((steps) => {
       this.steps = steps;
-      // TODO(#8879): Couldn't we use observables here instead?
-      this.cdr.detectChanges();
     });
   }
 
