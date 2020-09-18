@@ -53,6 +53,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       attrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
       selectedSingleValue: 'selectedValue',
+      groupId: 'testGroup',
       quantity: 1,
     };
     fixture.detectChanges();

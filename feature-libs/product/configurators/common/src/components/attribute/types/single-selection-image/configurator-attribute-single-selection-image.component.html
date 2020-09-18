@@ -19,7 +19,7 @@
       attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
       [attr.required]="attribute.required"
       [attr.aria-labelledby]="
-        createValueUiKey('label', attribute.name, value.valueCode)
+        createAriaLabelledBy('label', attribute.name, value.valueCode)
       "
       [attr.aria-checked]="
         attributeRadioButtonForm.value === value.valueCode ? true : false
