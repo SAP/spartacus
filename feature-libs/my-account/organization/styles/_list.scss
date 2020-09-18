@@ -400,7 +400,7 @@ cx-organization-form {
     tr.name {
       ng-component {
         margin-inline-start: -1.5rem;
-        padding-inline-start: calc(-1rem + var(--cx-nest-level) * 1.5rem);
+        padding-inline-start: calc(var(--cx-nest-level) * 1.5rem);
         a {
           align-self: center;
         }
