@@ -3,11 +3,17 @@ import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
 import { NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  BrowserTransferStateModule,
+} from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
-import { JsonLdBuilderModule, StorefrontComponent } from '@spartacus/storefront';
+import {
+  JsonLdBuilderModule,
+  StorefrontComponent,
+} from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdcFeature } from '../environments/cdc/cdc.feature';
@@ -52,7 +58,7 @@ if (environment.cdc) {
           prefix: environment.occApiPrefix,
         },
       },
-      
+
       // custom routing configuration for e2e testing
       routing: {
         routes: {
@@ -68,7 +74,7 @@ if (environment.cdc) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-      
+
       features: {
         level: '2.1',
       },
@@ -76,7 +82,7 @@ if (environment.cdc) {
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-    
+
     ...devImports,
   ],
 
