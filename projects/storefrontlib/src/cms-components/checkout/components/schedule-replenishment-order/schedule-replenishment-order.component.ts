@@ -145,7 +145,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       this.scheduleReplenishmentFormData.recurrencePeriod ===
       recurrencePeriod.WEEKLY;
 
-    this.currentDaysOfWeek = this.scheduleReplenishmentFormData.daysOfWeek;
+    this.currentDaysOfWeek = [...this.scheduleReplenishmentFormData.daysOfWeek];
 
     this.numberOfDays = this.isMonthly
       ? this.createNumberStringArray(31)
