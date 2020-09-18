@@ -254,16 +254,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
-    const incompleteConfig: Configurator.Configuration = {
-      configId: mockProductConfiguration.configId,
-      groups: mockProductConfiguration.groups,
-      flatGroups: mockProductConfiguration.flatGroups,
-      consistent: true,
-      complete: false,
-      interactionState: {
-        issueNavigationDone: true,
-      },
-    };
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
