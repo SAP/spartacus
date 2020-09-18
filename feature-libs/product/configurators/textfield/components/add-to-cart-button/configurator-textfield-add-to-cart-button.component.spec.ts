@@ -121,13 +121,13 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should display addToCart text because router points to owner product initially', () => {
-    checkButtonText(' configuratorTextfield.addToCart.button ');
+    checkButtonText(' configurator.addToCart.button ');
   });
 
   it('should display "done" text in case router points to cart entry', () => {
     classUnderTest.configuration.owner.type =
       GenericConfigurator.OwnerType.CART_ENTRY;
-    checkButtonText(' configuratorTextfield.addToCart.buttonUpdateCart ');
+    checkButtonText(' configurator.addToCart.buttonUpdateCart ');
   });
 
   it('should navigate to cart and call addToCart on core service when onAddToCart was triggered ', () => {
