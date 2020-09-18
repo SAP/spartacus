@@ -13,7 +13,6 @@ import {
   SchematicsException,
 } from '@angular-devkit/schematics';
 import { Schema as DevSpartacusOptions } from '../ng-add/schema';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   SPARTACUS_CORE,
@@ -24,6 +23,8 @@ import {
   addToModuleImportsAndCommitChanges,
 } from '@spartacus/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
+
+import { getProjectTargets } from '@spartacus/schematics';
 
 function provideTestOutletsModuleImports(options: DevSpartacusOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
