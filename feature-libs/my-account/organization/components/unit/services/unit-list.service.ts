@@ -121,12 +121,17 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   protected treeAction$ = new BehaviorSubject<TreeAction>(
     new CollapseFromLevelAction(1, this)
   );
+  protected expandedNodeMap = {};
   constructor(
     protected tableService: TableService,
     protected unitService: OrgUnitService,
     protected unitItemService: UnitItemService
   ) {
     super(tableService);
+    this.waitForKey();
+  }
+
+  protected waitForKey() {
     this.unitItemService.key$
       .pipe(first((key) => Boolean(key)))
       .subscribe((id) =>
@@ -134,16 +139,29 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       );
   }
 
-  private expandedNodeMap = {};
-
-  isExpandedNodeMap(id) {
-    return this.expandedNodeMap[id];
-  }
-
   protected load(): Observable<EntitiesModel<B2BUnit>> {
     return combineLatest([this.unitService.getTree(), this.treeAction$]).pipe(
       map(([raw, action]) => this.convertUnits(raw, action))
     );
+  }
+
+  protected convertUnits(
+    root: B2BUnitNode,
+    action: TreeAction
+  ): EntitiesModel<B2BUnit> {
+    const depthLevel = 0,
+      pagination = { totalResults: 0 },
+      units = [];
+
+    this.flatten(units, [root], depthLevel, pagination, action);
+    return {
+      values: units.filter((unit) => unit.visible),
+      pagination,
+    };
+  }
+
+  isExpandedNodeMap(id) {
+    return this.expandedNodeMap[id];
   }
 
   key(): string {
@@ -177,23 +195,8 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     };
   }
 
-  protected convertUnits(
-    root: B2BUnitNode,
-    action: TreeAction
-  ): EntitiesModel<B2BUnit> {
-    const depthLevel = 0,
-      pagination = { totalResults: 0 },
-      units = [];
-
-    this.flatten(units, [root], depthLevel, pagination, action);
-    return {
-      values: units.filter((unit) => unit.visible),
-      pagination,
-    };
-  }
-
-  toggle(_event: string) {
-    this.treeAction$.next(new ToggleAction(_event, this));
+  toggle(id: string) {
+    this.treeAction$.next(new ToggleAction(id, this));
   }
 
   collapseAll() {
