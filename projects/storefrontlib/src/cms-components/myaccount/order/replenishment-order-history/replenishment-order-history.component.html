@@ -60,18 +60,18 @@
             <th scope="col"></th>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let order of replenishmentOrders.replenishmentOrders"
-              (click)="goToOrderDetail(order)"
-            >
-              <td class="cx-order-history-code">
+            <tr *ngFor="let order of replenishmentOrders.replenishmentOrders">
+              <td
+                class="cx-order-history-code"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
                   {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -80,14 +80,17 @@
                   {{ order?.replenishmentOrderCode }}</a
                 >
               </td>
-              <td class="cx-order-history-placed">
+              <td
+                class="cx-order-history-placed"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory.po' | cxTranslate }}
+                  {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -95,14 +98,17 @@
                   >{{ order?.purchaseOrderNumber }}</a
                 >
               </td>
-              <td class="cx-order-history-status">
+              <td
+                class="cx-order-history-status"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
                   {{ 'orderHistory.startOn' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -111,14 +117,17 @@
                   {{ order?.firstDate | cxDate }}</a
                 >
               </td>
-              <td class="cx-order-history-total">
+              <td
+                class="cx-order-history-total"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
                   {{ 'orderHistory.frequency' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -127,14 +136,17 @@
                   {{ order?.trigger.displayTimeTable }}
                 </a>
               </td>
-              <td class="cx-order-history-total">
+              <td
+                class="cx-order-history-total"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
                   {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -143,14 +155,17 @@
                   {{ order?.trigger.activationTime | cxDate }}
                 </a>
               </td>
-              <td class="cx-order-history-total">
+              <td
+                class="cx-order-history-total"
+                (click)="goToOrderDetail(order)"
+              >
                 <div class="d-md-none cx-order-history-label">
                   {{ 'orderHistory.estTotal' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
                     {
-                      cxRoute: 'orderDetails',
+                      cxRoute: 'replenishmentDetails',
                       params: order
                     } | cxUrl
                   "
@@ -159,15 +174,10 @@
                   {{ order?.subTotal.formattedValue }}</a
                 >
               </td>
-              <td>
+              <td (click)="openDialog()">
                 <a
-                  [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: order
-                    } | cxUrl
-                  "
-                  class="cx-order-history-value"
+                  (click)="openDialog()"
+                  class="cx-order-history-value btn btn-link"
                 >
                   {{ 'orderHistory.cancel' | cxTranslate }}
                 </a>

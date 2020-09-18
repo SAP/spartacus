@@ -90,7 +90,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService | MockUserOrderService;
-  // let routingService: RoutingService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -111,7 +111,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
     }).compileComponents();
 
     userService = TestBed.inject(UserReplenishmentOrderService);
-    // routingService = TestBed.inject(RoutingService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -133,20 +133,20 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
     expect(replenishmentOrders).toEqual(mockReplenishmentOrders);
   });
 
-  // it('should redirect when clicking on order id', () => {
-  //   spyOn(routingService, 'go').and.stub();
+  it('should redirect when clicking on order id', () => {
+    spyOn(routingService, 'go').and.stub();
 
-  //   fixture.detectChanges();
-  //   const rows = fixture.debugElement.queryAll(
-  //     By.css('.cx-order-history-table tbody tr')
-  //   );
-  //   rows[1].triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const rows = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-table tbody tr')
+    );
+    rows[1].triggerEventHandler('click', null);
 
-  //   expect(routingService.go).toHaveBeenCalledWith({
-  //     cxRoute: 'orderDetails',
-  //     params: mockReplenishmentOrders.replenishmentOrders[1],
-  //   });
-  // });
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: mockReplenishmentOrders.replenishmentOrders[1],
+    });
+  });
 
   it('should display No orders found page if no orders are found', () => {
     const emptyReplenishmentOrderList: ReplenishmentOrderList = {

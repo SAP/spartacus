@@ -5,6 +5,7 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -13,6 +14,7 @@ import { ListNavigationModule } from '../../../../shared/components/list-navigat
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
+import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishment-order-details/default-replenishment-order-cancellation-layout.config';
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
   declarations: [ReplenishmentOrderHistoryComponent],
   exports: [ReplenishmentOrderHistoryComponent],
   providers: [
+    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountReplenishmentHistoryComponent: {

@@ -1,4 +1,11 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ElementRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
@@ -6,8 +13,9 @@ import {
   TranslationService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-replenishment-order-history',
@@ -15,10 +23,16 @@ import { map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
+  @ViewChild('element') element: ElementRef;
+
+  private subscription = new Subscription();
+
   constructor(
     private routing: RoutingService,
     private userReplenishmentOrderService: UserReplenishmentOrderService,
-    private translation: TranslationService
+    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
+    private translation: TranslationService,
+    protected vcr: ViewContainerRef
   ) {}
 
   private PAGE_SIZE = 5;
@@ -64,7 +78,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   goToOrderDetail(order: ReplenishmentOrder): void {
     this.routing.go({
-      cxRoute: 'replenishmentOrderDetails',
+      cxRoute: 'replenishmentDetails',
       params: order,
     });
   }
@@ -87,6 +101,17 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
         };
       })
     );
+  }
+
+  openDialog() {
+    const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
+      this.element,
+      this.vcr
+    );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   private fetchReplenishmentOrders(event: {
