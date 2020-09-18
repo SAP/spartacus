@@ -34,9 +34,9 @@ class ToggleAction extends TreeAction {
       depthLevel,
       expanded:
         child.id === this.id
-          ? !this.unitListService.isExpandedNodeMap[child.id]
-          : this.unitListService.isExpandedNodeMap[child.id] ?? true,
-      visible: this.unitListService.isExpandedNodeMap[child.parent] ?? true,
+          ? !this.unitListService.isExpandedNodeMap(child.id)
+          : this.unitListService.isExpandedNodeMap(child.id) ?? true,
+      visible: this.unitListService.isExpandedNodeMap(child.parent) ?? true,
     });
   }
 
@@ -46,7 +46,7 @@ class ToggleAction extends TreeAction {
       child.children,
       depthLevel + 1,
       pagination,
-      child.id === this.id && !this.unitListService.isExpandedNodeMap[child.id]
+      child.id === this.id && !this.unitListService.isExpandedNodeMap(child.id)
         ? new CollapseFromLevelAction(depthLevel, this.unitListService)
         : this
     );
@@ -66,7 +66,7 @@ class CollapseFromLevelAction extends TreeAction {
       depthLevel,
       expanded:
         this.depthLevel > depthLevel
-          ? this.unitListService.isExpandedNodeMap[child.id] ?? true
+          ? this.unitListService.isExpandedNodeMap(child.id) ?? true
           : false,
       visible: this.depthLevel >= depthLevel,
     });
@@ -99,7 +99,7 @@ class ExpandBranchAction extends TreeAction {
       expanded:
         (child.id !== this.id && properBranch) ||
         (depthLevel === 0 && child.id === this.id),
-      visible: this.unitListService.isExpandedNodeMap[child.parent] ?? true,
+      visible: this.unitListService.isExpandedNodeMap(child.parent) ?? true,
     });
   }
 
@@ -134,7 +134,11 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       );
   }
 
-  isExpandedNodeMap = {};
+  private expandedNodeMap = {};
+
+  isExpandedNodeMap(id) {
+    return this.expandedNodeMap[id];
+  }
 
   protected load(): Observable<EntitiesModel<B2BUnit>> {
     return combineLatest([this.unitService.getTree(), this.treeAction$]).pipe(
@@ -161,7 +165,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   prepareUnit(unit: B2BUnitNode, { depthLevel, expanded, visible }) {
-    this.isExpandedNodeMap[unit.id] = expanded;
+    this.expandedNodeMap[unit.id] = expanded;
     return {
       uid: unit.id,
       name: unit.name,
