@@ -36,6 +36,10 @@ export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_SUCCESS = '[Cart] Delete Cart Success';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
+export const CREATE_BUNDLE = '[Cart] Create Bundle';
+export const CREATE_BUNDLE_SUCCESS = '[Cart] Create Bundle Success';
+export const CREATE_BUNDLE_FAIL = '[Cart] Create Bundle Fail';
+
 interface CreateCartPayload {
   userId: string;
   /** Used as a unique key in ngrx carts store (we don't know cartId at that time) */
@@ -217,6 +221,23 @@ export class DeleteCartFail implements Action {
   constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }
 
+export class CreateBundle implements Action {
+  readonly type = CREATE_BUNDLE;
+  constructor(public payload: { userId: string; cartId: string }) {}
+}
+
+export class CreateBundleSuccess extends EntityRemoveAction {
+  readonly type = CREATE_BUNDLE_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class CreateBundleFail implements Action {
+  readonly type = CREATE_BUNDLE_FAIL;
+  constructor(public payload: { userId: string; cartId: string; error: any }) {}
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -233,4 +254,7 @@ export type CartAction =
   | DeleteCart
   | DeleteCartSuccess
   | DeleteCartFail
-  | RemoveCart;
+  | RemoveCart
+  | CreateBundle
+  | CreateBundleSuccess
+  | CreateBundleFail;

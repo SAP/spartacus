@@ -595,4 +595,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   b2bUserPermission?: string | OccEndpoint;
+  /**
+   * Start a cart bundle with a given identifier
+   *
+   * @member {string} [cart]
+   */
+  startBundle?: string | OccEndpoint;
 }
