@@ -5,21 +5,21 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from './organization-list.service';
 
-const BASE_CLASS = 'organization';
-
 @Component({
   selector: 'cx-organization-list',
   templateUrl: './organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationListComponent<T = any, P = PaginationModel> {
-  @HostBinding('class') hostClass = BASE_CLASS;
+  // temp as long as unit tree is not merged
+  @HostBinding('class.organization') orgCls = true;
 
   constructor(
     protected service: OrganizationListService<T, P>,
     protected organizationItemService: OrganizationItemService<T>
   ) {}
 
+  @HostBinding('class')
   get viewType() {
     return this.service.viewType;
   }
