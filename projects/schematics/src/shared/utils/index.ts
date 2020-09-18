@@ -5,3 +5,4 @@ export {
   addToModuleImports,
   addToMetadata,
 } from './module-file-utils';
+export { getProjectTargets } from './workspace-utils';
