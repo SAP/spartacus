@@ -5,6 +5,7 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitListComponent } from './unit-list.component';
 import { IconModule } from '@spartacus/storefront';
 import { OrganizationListModule } from '../../shared/organization-list/organization-list.module';
+import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { OrganizationListModule } from '../../shared/organization-list/organizat
     IconModule,
     OrganizationListModule,
   ],
-  declarations: [UnitListComponent],
+  declarations: [UnitListComponent, ToggleLinkCellComponent],
 })
 export class UnitListModule {}

@@ -3,7 +3,7 @@ import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
@@ -128,10 +128,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   ) {
     super(tableService);
     this.unitItemService.key$
-      .pipe(
-        take(1),
-        filter((key) => Boolean(key))
-      )
+      .pipe(first((key) => Boolean(key)))
       .subscribe((id) =>
         this.treeAction$.next(new ExpandBranchAction(id, this))
       );

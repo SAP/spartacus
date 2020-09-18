@@ -1,14 +1,14 @@
 <button
-  *ngIf="count > 0 && nestLevel > 0; else noExpandable"
+  *ngIf="count > 0 && nestLevel > 0"
   class="button tree-item-toggle"
   type="button"
   (click)="toggleItem($event)"
 >
   <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>
 </button>
-<ng-template #noExpandable>
-  <button class="button tree-item-toggle"></button>
-</ng-template>
+<!--<ng-template #noExpandable>-->
+<!--  <button class="button tree-item-toggle"></button>-->
+<!--</ng-template>-->
 <a
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
   [tabIndex]="tabIndex"

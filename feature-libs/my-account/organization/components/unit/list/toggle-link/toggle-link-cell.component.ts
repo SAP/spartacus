@@ -3,8 +3,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { UnitListService } from '../../../unit/services/unit-list.service';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { UnitListService } from '../../services/unit-list.service';
+import { OrganizationCellComponent } from '../../../shared/organization-table/organization-cell.component';
 
 @Component({
   templateUrl: './toggle-link-cell.component.html',

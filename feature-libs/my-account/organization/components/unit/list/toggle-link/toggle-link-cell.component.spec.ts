@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ToggleLinkCellComponent } from '..';
+import { ToggleLinkCellComponent } from '../../../shared/organization-table/index';
 
 const mockContext = {
   _field: 'name',

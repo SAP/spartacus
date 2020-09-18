@@ -29,7 +29,7 @@ import { UnitUserListComponent } from './links/users/list/unit-user-list.compone
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
 import { UnitListComponent } from './list/unit-list.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { ToggleLinkCellComponent } from '../shared/organization-table/toggle-link/toggle-link-cell.component';
+import { ToggleLinkCellComponent } from './list/toggle-link/toggle-link-cell.component';
 import { UnitListService } from './services/unit-list.service';
 import { UnitItemService } from './services/unit-item.service';
 
