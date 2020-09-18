@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { OrganizationCoreModule } from '@spartacus/my-account/organization/core';
 import { OrganizationOccModule } from '@spartacus/my-account/organization/occ';
-import { OrganizationComponentsModule } from './components/organization-components.module';
+import { OrganizationComponentsModule } from '@spartacus/my-account/organization/components';
 
 @NgModule({
   imports: [

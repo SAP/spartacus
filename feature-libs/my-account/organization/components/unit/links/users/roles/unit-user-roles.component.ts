@@ -5,7 +5,7 @@ import {
   B2BUserService,
   UserRole,
 } from '@spartacus/my-account/organization/core';
-import { MessageService } from 'feature-libs/my-account/organization/components/shared';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';

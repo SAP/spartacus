@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
-import { MessageService } from '../../organization-message';
+import { MessageService } from '../../organization-message/services/message.service';
 import { BaseItem } from '../../organization.model';
 import { PromptMessageComponent } from './prompt/prompt.component';
 import { MessagePromptData } from './prompt/prompt.model';

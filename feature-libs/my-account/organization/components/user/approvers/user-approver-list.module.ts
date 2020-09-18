@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { OrganizationListModule } from '../../shared/organization-list/organization-list.module';
 import { OrganizationSubListModule } from '../../shared/organization-sub-list/organization-sub-list.module';
-import { UserAssignedApproverListComponent } from './assigned';
+import { UserAssignedApproverListComponent } from './assigned/user-assigned-approver-list.component';
 import { UserApproverListComponent } from './user-approver-list.component';
 
 @NgModule({
