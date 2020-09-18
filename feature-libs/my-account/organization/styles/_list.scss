@@ -311,13 +311,6 @@ cx-organization-form {
       }
     }
 
-    td.name {
-      button.tree-item-toggle {
-        align-self: center;
-        margin-inline-start: calc(var(--cx-nest-level) * 1.5rem);
-      }
-    }
-
     td.actions {
       // table actions are
       button {
@@ -384,6 +377,16 @@ cx-organization-form {
 }
 
 .unit {
+  .name {
+    ng-component {
+      padding-inline-start: calc(1.3rem + var(--cx-nest-level) * 1.5rem);
+      button.tree-item-toggle {
+        align-self: center;
+        margin-inline-start: -40px;
+      }
+    }
+  }
+
   @include media-breakpoint-down(md) {
     th {
       width: 0;
@@ -395,13 +398,12 @@ cx-organization-form {
     }
 
     tr.name {
-      a {
-        align-self: center;
-      }
-
-      button.tree-item-toggle {
-        align-self: center;
-        margin-inline-start: calc(var(--cx-nest-level) * 1.5rem);
+      ng-component {
+        margin-inline-start: -1.5rem;
+        padding-inline-start: calc(-1rem + var(--cx-nest-level) * 1.5rem);
+        a {
+          align-self: center;
+        }
       }
     }
   }
