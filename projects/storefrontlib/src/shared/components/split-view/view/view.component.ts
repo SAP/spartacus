@@ -68,8 +68,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.splitService.splitViewCount = this.splitViewCount;
-
     const hidden = this._hidden ? { hidden: this._hidden } : {};
     this.splitService.add(this.viewPosition, hidden);
 
@@ -123,18 +121,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     } else {
       return 300;
     }
-  }
-
-  /**
-   * Returns the maximum number of views per split-view. The number is based on the CSS custom property
-   * `--cx-max-views`. Defaults to `2`
-   */
-  protected get splitViewCount(): number {
-    return Number(
-      getComputedStyle(this.elementRef.nativeElement)
-        .getPropertyValue('--cx-max-views')
-        .trim() || 2
-    );
   }
 
   /**

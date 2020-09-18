@@ -1,82 +1,47 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import {
-  UserGroup,
-  UserGroupService,
-} from '@spartacus/my-account/organization/core';
-import { CurrentUserGroupService } from '../current-user-group.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
 
-const userGroupCode = 'b1';
+const mockCode = 'b1';
 
-const mockUserGroup: UserGroup = {
-  uid: userGroupCode,
-  name: 'userGroup1',
-  orgUnit: { name: 'orgName', uid: 'orgCode' },
-};
-
-class MockCurrentUserGroupService implements Partial<CurrentUserGroupService> {
-  key$ = of(userGroupCode);
+class MockUserGroupItemService
+  implements Partial<OrganizationItemService<Budget>> {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
 }
-
-class MockUserGroupService implements Partial<UserGroupService> {
-  load = createSpy('load');
-  update = createSpy('update');
-  get = createSpy('get').and.returnValue(of(mockUserGroup));
-}
-
-class MockModalService {
-  open() {}
-}
-
-@Component({
-  selector: 'cx-user-group-user-list',
-  template: '',
-})
-export class MockUserGroupUserListComponent {}
 
 describe('UserGroupDetailsComponent', () => {
   let component: UserGroupDetailsComponent;
   let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let userGroupsService: UserGroupService;
+  let itemService: OrganizationItemService<Budget>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
       ],
-      declarations: [UserGroupDetailsComponent, MockUserGroupUserListComponent],
+      declarations: [UserGroupDetailsComponent],
       providers: [
-        { provide: UserGroupService, useClass: MockUserGroupService },
-        { provide: ModalService, useClass: MockModalService },
-      ],
-    })
-      .overrideComponent(UserGroupDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentUserGroupService,
-              useClass: MockCurrentUserGroupService,
-            },
-          ],
+        {
+          provide: OrganizationItemService,
+          useClass: MockUserGroupItemService,
         },
-      })
-      .compileComponents();
+      ],
+    }).compileComponents();
 
-    userGroupsService = TestBed.inject(UserGroupService);
+    itemService = TestBed.inject(OrganizationItemService);
   }));
 
   beforeEach(() => {
@@ -89,22 +54,7 @@ describe('UserGroupDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update userGroup', () => {
-    component.update(mockUserGroup);
-    expect(userGroupsService.update).toHaveBeenCalledWith(
-      mockUserGroup.uid,
-      mockUserGroup
-    );
-  });
-  it('should trigger reload of cost center model on each code change', () => {
-    expect(userGroupsService.load).toHaveBeenCalledWith(mockUserGroup.uid);
-  });
-
-  describe('costCenter$', () => {
-    it('should emit current cost center model', () => {
-      let result;
-      component.userGroup$.subscribe((r) => (result = r)).unsubscribe();
-      expect(result).toBe(mockUserGroup);
-    });
+  it('should trigger reload of model on each code change', () => {
+    expect(itemService.load).toHaveBeenCalledWith(mockCode);
   });
 });

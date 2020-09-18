@@ -3,14 +3,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CurrencyService, I18nTestingModule } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
+import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
 
 const mockForm = new FormGroup({
   name: new FormControl(),
@@ -23,6 +25,7 @@ const mockForm = new FormGroup({
   orgUnit: new FormGroup({
     uid: new FormControl(),
   }),
+  budget: new FormControl(),
 });
 
 class MockOrgUnitService {
@@ -34,6 +37,10 @@ class MockOrgUnitService {
 
 class MockCurrencyService {
   getAll() {}
+}
+
+class MockOrganizationItemService {
+  getForm() {}
 }
 
 describe('BudgetFormComponent', () => {
@@ -50,11 +57,13 @@ describe('BudgetFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         DateTimePickerModule,
+        OrganizationFormTestingModule,
       ],
       declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: BudgetItemService, useClass: MockOrganizationItemService },
       ],
     }).compileComponents();
 
@@ -72,26 +81,22 @@ describe('BudgetFormComponent', () => {
     component.ngOnInit();
   });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render form groups', () => {
+  it('should render form controls', () => {
     component.form = mockForm;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBeGreaterThan(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBeGreaterThan(0);
   });
 
-  it('should not render any form groups if the form is falsy', () => {
+  it('should not render any form controls if the form is falsy', () => {
     component.form = undefined;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBe(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBe(0);
   });
 
   it('should get currencies from service', () => {
@@ -104,8 +109,9 @@ describe('BudgetFormComponent', () => {
     expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 
-  it('should load list of b2bUnits on subscription', () => {
+  it('should load list of b2bUnits on init', () => {
     component.form = mockForm;
+    component.ngOnInit();
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });

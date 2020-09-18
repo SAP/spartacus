@@ -4,25 +4,25 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
-import { OrganizationTableType } from '../shared/organization.model';
-import { UserGroupCreateComponent } from './create/user-group-create.component';
-import { UserGroupDetailsComponent } from './details/user-group-details.component';
-import { UserGroupEditComponent } from './edit/user-group-edit.component';
-import { UserGroupListComponent } from './list/user-group-list.component';
-import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
-import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
-import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
-import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
+import { TableConfig } from '@spartacus/storefront';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { UserGroupDetailsComponent } from './details/user-group-details.component';
+import { UserGroupFormComponent } from './form';
+import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
+import { UserGroupPermissionListComponent } from './permissions';
+import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
+import { UserGroupListService } from './services';
+import { UserGroupItemService } from './services/user-group-item.service';
+import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
+import { UserGroupUserListComponent } from './users/user-group-user-list.component';
 
 const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
 const paramsMapping: ParamsMapping = {
@@ -70,47 +70,48 @@ export const userGroupRoutingConfig: RoutingConfig = {
 export const userGroupCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUserGroupsListComponent: {
-      component: UserGroupListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UserGroupListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: UserGroupItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
-          component: UserGroupCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: UserGroupFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.userGroupCode}`,
           component: UserGroupDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          canActivate: [ExistUserGroupGuard],
           children: [
             {
+              path: 'edit',
+              component: UserGroupFormComponent,
+            },
+            {
               path: 'users',
+              component: UserGroupAssignedUserListComponent,
+            },
+            {
+              path: 'users/assign',
               component: UserGroupUserListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-              children: [
-                {
-                  path: 'assign',
-                  component: UserGroupAssignUsersComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
             },
             {
               path: 'purchase-limits',
+              component: UserGroupAssignedPermissionListComponent,
+            },
+            {
+              path: 'purchase-limits/assign',
               component: UserGroupPermissionListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-              children: [
-                {
-                  path: 'assign',
-                  component: UserGroupAssignPermissionsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.userGroupCode}/edit`,
-          component: UserGroupEditComponent,
         },
       ],
       guards: [AuthGuard, AdminGuard],
@@ -124,85 +125,65 @@ export function userGroupTableConfigFactory(): TableConfig {
 
 export const userGroupTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.USER_GROUP]: [
-      {
-        headers: [{ key: 'name' }],
-        pagination: {
-          sort: 'byName',
+    [OrganizationTableType.USER_GROUP]: {
+      cells: ['name', 'uid', 'unit'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
+    },
+    [OrganizationTableType.USER_GROUP_ASSIGNED_USERS]: {
+      cells: ['uid', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
       },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'uid', sortCode: 'byGroupID' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
+    },
 
-    [OrganizationTableType.USER_GROUP_USERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
-        hideHeader: true,
+    [OrganizationTableType.USER_GROUP_USERS]: {
+      cells: ['uid', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+    [OrganizationTableType.USER_GROUP_PERMISSIONS]: {
+      cells: ['code', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+    [OrganizationTableType.USER_GROUP_ASSIGNED_PERMISSIONS]: {
+      cells: ['code', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: [
-      {
-        pagination: {
-          sort: 'byName',
-        },
-      },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'uid' },
-          { key: 'roles' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
-    [OrganizationTableType.USER_GROUP_PERMISSIONS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    ],
-    [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: [
-      {
-        pagination: {
-          sort: 'byCode',
-        },
-      },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byCode' },
-          { key: 'limit' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
+    },
   },
 };

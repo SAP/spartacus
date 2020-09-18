@@ -1,26 +1,22 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { SharedOrganizationModule } from '../shared/shared-organization.module';
+import { PermissionDetailsModule } from './details/permission-details.module';
+import { PermissionFormModule } from './form/permission-form.module';
 import {
-  permissionRoutingConfig,
   permissionCmsConfig,
+  permissionRoutingConfig,
   permissionTableConfigFactory,
 } from './permission.config';
-import { PermissionListModule } from './list/permission-list.module';
-import { PermissionCreateModule } from './create/permission-create.module';
-import { PermissionEditModule } from './edit/permission-edit.module';
-import { PermissionDetailsModule } from './details/permission-details.module';
 
 @NgModule({
   imports: [
-    RouterModule,
-    PermissionListModule,
-    PermissionCreateModule,
-    PermissionEditModule,
+    SharedOrganizationModule,
     PermissionDetailsModule,
+    PermissionFormModule,
   ],
   providers: [
     provideDefaultConfig(permissionRoutingConfig),

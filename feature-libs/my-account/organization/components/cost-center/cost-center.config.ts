@@ -4,36 +4,35 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
-import { OrganizationTableType } from '../shared/organization.model';
-import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
-import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
-import { CostCenterCreateComponent } from './create/cost-center-create.component';
-import { CostCenterDetailsComponent } from './details/cost-center-details.component';
-import { CostCenterEditComponent } from './edit/cost-center-edit.component';
-import { CostCenterListComponent } from './list/cost-center-list.component';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
+import { TableConfig } from '@spartacus/storefront';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { OrganizationCellComponent } from '../shared';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { CostCenterBudgetListComponent } from './budgets';
+import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
+import { CostCenterDetailsComponent } from './details/cost-center-details.component';
+import { CostCenterFormComponent } from './form/cost-center-form.component';
+import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
+import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
+import { CostCenterItemService } from './services/cost-center-item.service';
+import { CostCenterListService } from './services/cost-center-list.service';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
   costCenterCode: 'code',
 };
 
-// TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      costCenter: {
-        paths: ['organization/cost-centers'],
-      },
       costCenterCreate: {
         paths: ['organization/cost-centers/create'],
       },
@@ -60,35 +59,42 @@ export const costCenterRoutingConfig: RoutingConfig = {
 export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
-      component: CostCenterListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: CostCenterListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: CostCenterItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
-          component: CostCenterCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: CostCenterFormComponent,
         },
+
         {
           path: `:${ROUTE_PARAMS.costCenterCode}`,
           component: CostCenterDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          canActivate: [ExistCostCenterGuard],
           children: [
             {
+              path: 'edit',
+              component: CostCenterFormComponent,
+              canActivate: [ActiveCostCenterGuard],
+            },
+            {
               path: 'budgets',
+              component: CostCenterAssignedBudgetListComponent,
+            },
+            {
+              path: 'budgets/assign',
               component: CostCenterBudgetListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-              children: [
-                {
-                  path: 'assign',
-                  component: CostCenterAssignBudgetsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.costCenterCode}/edit`,
-          component: CostCenterEditComponent,
         },
       ],
       guards: [AuthGuard, AdminGuard],
@@ -102,57 +108,52 @@ export function costCenterTableConfigFactory(): TableConfig {
 
 export const costCenterTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.COST_CENTER]: [
-      {
-        headers: [{ key: 'name' }],
-        pagination: {
-          sort: 'byName',
+    [OrganizationTableType.COST_CENTER]: {
+      cells: ['name', 'active', 'currency', 'unit'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          currency: {
+            dataComponent: OrganizationCellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'currency' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-    ],
+    },
 
-    [OrganizationTableType.COST_CENTER_BUDGETS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
-        hideHeader: true,
+    [OrganizationTableType.COST_CENTER_ASSIGNED_BUDGETS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          name: {
+            linkable: false,
+          },
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGETS]: [
-      {
-        pagination: {
-          sort: 'byName',
+    },
+
+    [OrganizationTableType.COST_CENTER_BUDGETS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
-          { key: 'dateRange' },
-        ],
-      },
-    ],
+    },
   },
 };

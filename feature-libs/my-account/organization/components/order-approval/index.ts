@@ -1,2 +1,3 @@
-export * from './details/order-approval-details.module';
-export * from './list/order-approval-list.module';
+export * from './details/index';
+export * from './list/index';
+export * from './order-approval-components.module';

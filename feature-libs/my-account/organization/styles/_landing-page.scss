@@ -8,33 +8,39 @@ cx-page-layout.CompanyPageTemplate {
   // technique to manipulate the primary color. This is not automatically driven
   // by the same css variable, but a reasonable approach.
   // filters can be generated at: https://codepen.io/sosuke/pen/Pjoqqp
-  --cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)
-    brightness(110%) contrast(99%);
+  cx-banner cx-media {
+    --cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)
+      brightness(110%) contrast(99%);
+  }
 
   .BodyContent {
     justify-content: space-between;
-    @include media-breakpoint-down(md) {
-      margin: 0 30px;
-    }
+    margin: 0 10px;
   }
 
   // the current rotating banner styles are very opinionated
-  cx-banner,
-  p {
+  cx-banner p {
     all: unset;
   }
 
   cx-banner {
-    margin: 30px 0 0 0;
+    flex: 100%;
+
+    margin-top: 20px;
+
     @include media-breakpoint-up(md) {
-      flex: 0 0 calc(33% - 15px);
+      flex: 0 0 calc(33% - 10px);
     }
     @include media-breakpoint-down(md) {
-      flex: 0 0 calc(50% - 15px);
+      flex: calc(50% - 40px);
+      margin-inline-start: 10px;
+      margin-inline-end: 10px;
     }
 
     @include media-breakpoint-down(sm) {
-      flex: 0 0 calc(100%);
+      flex: 100%;
+      margin-inline-start: 20px;
+      margin-inline-end: 20px;
     }
 
     cx-generic-link,

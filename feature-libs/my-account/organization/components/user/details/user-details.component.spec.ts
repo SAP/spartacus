@@ -1,89 +1,45 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, I18nTestingModule } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
-import { CurrentUserService } from '../current-user.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
 import { UserDetailsComponent } from './user-details.component';
-
 import createSpy = jasmine.createSpy;
 
-const customerId = 'b1';
+const mockCode = 'c1';
 
-const mockUser: B2BUser = {
-  customerId,
-  uid: 'userCode',
-  name: 'user1',
-  orgUnit: { name: 'orgName', uid: 'orgCode' },
-};
-
-class MockCurrentUserService implements Partial<CurrentUserService> {
-  key$ = of(customerId);
-  item$ = of(mockUser);
+class MockUserItemService implements Partial<OrganizationItemService<Budget>> {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
 }
-
-class MockB2BUserService implements Partial<B2BUserService> {
-  load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockUser));
-  update = createSpy('update');
-}
-
-class MockActivatedRoute {
-  params = of({ code: customerId });
-
-  snapshot = {};
-}
-
-class MockModalService {
-  open() {}
-}
-
-@Component({
-  selector: 'cx-user-user-list',
-  template: '',
-})
-export class MockUserUserListComponent {}
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
-  let usersService: B2BUserService;
+  let itemService: OrganizationItemService<Budget>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
+        OrganizationMessageTestingModule,
       ],
-      declarations: [UserDetailsComponent, MockUserUserListComponent],
+      declarations: [UserDetailsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: B2BUserService, useClass: MockB2BUserService },
-        { provide: ModalService, useClass: MockModalService },
+        { provide: OrganizationItemService, useClass: MockUserItemService },
       ],
-    })
-      .overrideComponent(UserDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentUserService,
-              useClass: MockCurrentUserService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
-    usersService = TestBed.inject(B2BUserService);
+    }).compileComponents();
+
+    itemService = TestBed.inject(OrganizationItemService);
   }));
 
   beforeEach(() => {
@@ -96,8 +52,7 @@ describe('UserDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update user', () => {
-    component.update(mockUser);
-    expect(usersService.update).toHaveBeenCalledWith(customerId, mockUser);
+  it('should trigger reload of model on each code change', () => {
+    expect(itemService.load).toHaveBeenCalledWith(mockCode);
   });
 });

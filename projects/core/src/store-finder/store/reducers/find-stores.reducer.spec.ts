@@ -1,4 +1,4 @@
-import { StoreFinderSearchConfig } from '../../model/search-config';
+import { SearchConfig } from '../../../product/model/search-config';
 import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from './find-stores.reducer';
 
@@ -15,7 +15,7 @@ describe('Find Stores Reducer', () => {
 
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
+      const searchConfig: SearchConfig = { pageSize: 10 };
       const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new StoreFinderActions.FindStores({

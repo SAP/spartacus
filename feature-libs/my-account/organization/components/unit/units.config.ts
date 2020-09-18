@@ -4,35 +4,38 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
-import { OrganizationTableType } from '../shared/organization.model';
-import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
-import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
-import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
-import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
-import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-approvers.component';
-import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
-import { UnitChildrenComponent } from './children/unit-children.component';
-import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
-import { UnitCreateComponent } from './create/unit-create.component';
-import { UnitDetailsComponent } from './details/unit-details.component';
-import { UnitEditComponent } from './edit/unit-edit.component';
-import { UnitListComponent } from './list/unit-list.component';
-import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
-import { UnitUserListComponent } from './users/list/unit-user-list.component';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
+import { TableConfig } from '@spartacus/storefront';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { UnitDetailsComponent } from './details/unit-details.component';
+import { UnitFormComponent } from './form/unit-form.component';
+import { ActiveUnitGuard } from './guards/active-unit.guard';
+import { ExistUnitGuard } from './guards/exist-unit.guard';
+import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
+import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
+import { LinkCellComponent } from './links/addresses/list/link-cell.component';
+import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
+import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
+import { UnitAssignedApproverListComponent } from './links/approvers/assigned/unit-assigned-approver-list.component';
+import { UnitChildrenComponent } from './links/children/unit-children.component';
+import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
+import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
+import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
+import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
+import { UnitListComponent } from './list/unit-list.component';
+import { UnitItemService } from './services/unit-item.service';
+import { UnitListService } from './services/unit-list.service';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
   unitCode: 'uid',
+  addressId: 'id',
+  userCode: 'customerId',
 };
 
 export const unitsRoutingConfig: RoutingConfig = {
@@ -56,12 +59,16 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/children`],
         paramsMapping,
       },
-      orgUnitUsers: {
+      orgUnitCreateChild: {
+        paths: [`${listPath}/children/create`],
+        paramsMapping,
+      },
+      unitUserList: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
-      orgUnitAssignRoles: {
-        paths: [`${listPath}/users/roles/assign`],
+      unitUserRoles: {
+        paths: [`${listPath}/users/:userCode/roles`],
         paramsMapping,
       },
       orgUnitApprovers: {
@@ -72,20 +79,20 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      orgUnitManageAddresses: {
+      unitAddressList: {
         paths: [`${listPath}/addresses`],
-        paramsMapping,
-      },
-      orgUnitAddressDetails: {
-        paths: [`${listPath}/addresses/:id`],
         paramsMapping,
       },
       orgUnitAddressCreate: {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      orgUnitAddressEdit: {
-        paths: [`${listPath}/addresses/:id/edit`],
+      unitAddressDetails: {
+        paths: [`${listPath}/addresses/:addressId`],
+        paramsMapping,
+      },
+      unitAddressEdit: {
+        paths: [`${listPath}/addresses/:addressId/edit`],
         paramsMapping,
       },
       orgUnitCostCenters: {
@@ -100,80 +107,82 @@ export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
       component: UnitListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: UnitListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: UnitItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
-          component: UnitCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: UnitFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.unitCode}`,
           component: UnitDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          canActivate: [ExistUnitGuard],
           children: [
+            {
+              path: 'edit',
+              component: UnitFormComponent,
+              canActivate: [ActiveUnitGuard],
+            },
             {
               path: 'children',
               component: UnitChildrenComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
-              path: 'users',
-              component: UnitUserListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
-                  path: 'roles/assign',
-                  component: UnitUserAssignRolesComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
+                  path: 'create',
+                  component: UnitFormComponent,
                 },
               ],
             },
             {
               path: 'approvers',
-              component: UnitApproverListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
-              children: [
-                {
-                  path: 'assign',
-                  component: UnitAssignApproversComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
+              component: UnitAssignedApproverListComponent,
             },
             {
-              path: 'addresses',
-              component: UnitAddressListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
+              path: 'approvers/assign',
+              component: UnitApproverListComponent,
+            },
+            {
+              path: 'users',
+              component: UnitUserListComponent,
               children: [
                 {
-                  path: 'create',
-                  component: UnitAddressCreateComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-                {
-                  path: ':id',
-                  component: UnitAddressDetailsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                  children: [
-                    {
-                      path: 'edit',
-                      component: UnitAddressEditComponent,
-                      canDeactivate: [SplitViewDeactivateGuard],
-                    },
-                  ],
+                  path: ':userCode/roles',
+                  component: UnitUserRolesFormComponent,
                 },
               ],
             },
             {
               path: 'cost-centers',
-              component: UnitCostCentersComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
+              component: UnitCostCenterListComponent,
+            },
+            {
+              path: 'addresses',
+              component: UnitAddressListComponent,
+              children: [
+                {
+                  path: 'create',
+                  component: UnitAddressFormComponent,
+                },
+                {
+                  path: ':addressId',
+                  component: UnitAddressDetailsComponent,
+                },
+                {
+                  path: ':addressId/edit',
+                  component: UnitAddressFormComponent,
+                },
+              ],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.unitCode}/edit`,
-          component: UnitEditComponent,
         },
       ],
 
@@ -188,94 +197,81 @@ export function unitsTableConfigFactory(): TableConfig {
 
 export const unitsTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.UNIT_USERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+    [OrganizationTableType.UNIT_USERS]: {
+      cells: ['name', 'roles'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          roles: {
+            dataComponent: UnitUserRolesCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_CHILDREN]: {
+      cells: ['name', 'active'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          active: {
+            dataComponent: StatusCellComponent,
+            linkable: false,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_APPROVERS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
+      cells: ['name', 'actions'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_COST_CENTERS]: {
+      cells: ['name'],
+      options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
-    [OrganizationTableType.UNIT_CHILDREN]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+    },
+
+    [OrganizationTableType.UNIT_ADDRESS]: {
+      cells: ['formattedAddress'],
+      options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
-      },
-    ],
-    [OrganizationTableType.UNIT_APPROVERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
+        cells: {
+          formattedAddress: {
+            dataComponent: LinkCellComponent,
+          },
         },
       },
-    ],
-    [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: [
-      {
-        pagination: {
-          sort: 'byName',
-        },
-      },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'email', sortCode: 'byEmail' },
-          { key: 'roles' },
-          { key: 'orgUnit' },
-        ],
-      },
-    ],
-    [OrganizationTableType.UNIT_ASSIGN_ROLES]: [
-      {
-        pagination: {
-          sort: 'byName',
-        },
-      },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'email', sortCode: 'byEmail' },
-          { key: 'roleCustomer' },
-          { key: 'roleApprover' },
-          { key: 'roleManager' },
-          { key: 'roleAdministrator' },
-        ],
-      },
-    ],
-    [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: [
-      {
-        headers: [{ key: 'summary' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    ],
-    [OrganizationTableType.UNIT_COST_CENTERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    ],
+    },
   },
 };

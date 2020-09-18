@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
+import { UserRole } from '@spartacus/my-account/organization/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserFormService {
-  getForm(model?: B2BUser): FormGroup {
+export class UserFormService extends OrganizationFormService<B2BUser> {
+  protected build() {
     const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      form.patchValue(model);
-      this.pathRoles(form, model);
-    }
-    return form;
-  }
-
-  protected build(form: FormGroup) {
+    form.setControl('customerId', new FormControl(''));
     form.setControl('titleCode', new FormControl(''));
+    form.setControl('firstName', new FormControl('', Validators.required));
+    form.setControl('lastName', new FormControl('', Validators.required));
     form.setControl(
       'email',
       new FormControl('', [
@@ -26,8 +22,6 @@ export class UserFormService {
         CustomFormValidators.emailValidator,
       ])
     );
-    form.setControl('firstName', new FormControl('', Validators.required));
-    form.setControl('lastName', new FormControl('', Validators.required));
     form.setControl(
       'orgUnit',
       new FormGroup({
@@ -36,12 +30,28 @@ export class UserFormService {
     );
     form.setControl('roles', new FormArray([]));
     form.setControl('isAssignedToApprovers', new FormControl(false));
+
+    form.get('roles').valueChanges.subscribe((roles: string[]) => {
+      if (roles.includes(UserRole.APPROVER)) {
+        form.get('isAssignedToApprovers').enable();
+      } else {
+        form.get('isAssignedToApprovers').disable();
+        form.get('isAssignedToApprovers').reset();
+      }
+    });
+
+    this.form = form;
   }
 
-  protected pathRoles(form, model) {
-    const roles = form.get('roles') as FormArray;
-    model.roles?.forEach((role) => {
-      roles.push(new FormControl(role));
-    });
+  protected patchData(item: B2BUser) {
+    super.patchData(item);
+    if (item) {
+      const roles = this.form.get('roles') as FormArray;
+      item.roles?.forEach((role) => {
+        if (!(roles.value as string[]).includes(role)) {
+          roles.push(new FormControl(role));
+        }
+      });
+    }
   }
 }

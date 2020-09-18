@@ -184,6 +184,7 @@ describe('SplitViewService', () => {
 
     it('should remove all subsequential views', () => {
       let result: number;
+      service.updateSplitView(2);
 
       service.add(0);
       service.add(1);
@@ -200,7 +201,7 @@ describe('SplitViewService', () => {
       expect(result).toEqual(2);
     });
 
-    it('should change the active view if the view is removed  the same active when a the removed view does not effect the view', () => {
+    it('should change the active view if the view is removed the same active when a the removed view does not effect the view', () => {
       let result: number;
 
       service.add(0);
@@ -247,7 +248,7 @@ describe('SplitViewService', () => {
     });
 
     it('should change activeView after toggling', () => {
-      let result: number;
+      let activeView: number;
       service.add(0);
       service.add(1);
       service.add(2);
@@ -255,10 +256,10 @@ describe('SplitViewService', () => {
       service.toggle(2);
       service
         .getActiveView()
-        .subscribe((visible) => (result = visible))
+        .subscribe((visible) => (activeView = visible))
         .unsubscribe();
 
-      expect(result).toEqual(2);
+      expect(activeView).toEqual(2);
     });
 
     it('should drop activeView for the position if it was already active', () => {

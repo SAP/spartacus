@@ -4,25 +4,29 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
-import { OrganizationTableType } from '../shared/organization.model';
-import { PermissionCreateComponent } from './create/permission-create.component';
-import { PermissionDetailsComponent } from './details/permission-details.component';
-import { PermissionEditComponent } from './edit';
-import { PermissionListComponent } from './list/permission-list.component';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
+import { TableConfig } from '@spartacus/storefront';
+import { ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
+import { LimitCellComponent } from '../shared/organization-table/limit/limit-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { PermissionDetailsComponent } from './details/permission-details.component';
+import { PermissionFormComponent } from './form/permission-form.component';
+import { ActivePermissionGuard } from './guards/active-permission.guard';
+import { ExistPermissionGuard } from './guards/exist-permission.guard';
+import { PermissionItemService } from './services/permission-item.service';
+import { PermissionListService } from './services/permission-list.service';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
 const paramsMapping: ParamsMapping = {
   permissionCode: 'code',
 };
 
-// TODO: this doesn't work with lazy loaded feature
 export const permissionRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
@@ -47,21 +51,33 @@ export const permissionRoutingConfig: RoutingConfig = {
 export const permissionCmsConfig: CmsConfig = {
   cmsComponents: {
     ManagePermissionsListComponent: {
-      component: PermissionListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: PermissionListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: PermissionItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
-          component: PermissionCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: PermissionFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.permissionCode}`,
           component: PermissionDetailsComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
-        },
-        {
-          path: `:${ROUTE_PARAMS.permissionCode}/edit`,
-          component: PermissionEditComponent,
+          canActivate: [ExistPermissionGuard],
+          children: [
+            {
+              path: 'edit',
+              component: PermissionFormComponent,
+              canActivate: [ActivePermissionGuard],
+            },
+          ],
         },
       ],
       guards: [AuthGuard, AdminGuard],
@@ -75,25 +91,24 @@ export function permissionTableConfigFactory(): TableConfig {
 
 export const permissionTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.PERMISSION]: [
-      {
-        pagination: {
-          sort: 'byCode',
+    [OrganizationTableType.PERMISSION]: {
+      cells: ['code', 'active', 'limit', 'unit'],
+      options: {
+        cells: {
+          code: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
+          limit: {
+            dataComponent: LimitCellComponent,
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'name' }],
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byCode' },
-          { key: 'limit' },
-          { key: 'orgUnit', sortCode: 'byUnitName' },
-        ],
-      },
-    ],
+    },
   },
 };
