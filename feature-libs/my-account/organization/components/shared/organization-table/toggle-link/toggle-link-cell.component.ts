@@ -7,30 +7,14 @@ import { UnitListService } from '../../../unit/services/unit-list.service';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
-  template: `
-    <ng-container *ngIf="count > 0 && nestLevel > 0; else noExpandable">
-      <button class="button action" (click)="toggleItem($event)">
-        <cx-icon *ngIf="expanded; else showExpand" type="CARET_DOWN"></cx-icon>
-        <ng-template #showExpand>
-          <cx-icon type="CARET_RIGHT"></cx-icon>
-        </ng-template>
-      </button>
-    </ng-container>
-    <ng-template #noExpandable>
-      <button class="button action"></button>
-    </ng-template>
-    <a
-      [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-      [tabIndex]="tabIndex"
-    >
-      <span class="text">{{ property }} ({{ count }})</span>
-    </a>
-  `,
+  templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleLinkCellComponent extends OrganizationCellComponent {
   @HostBinding('style.--cx-nest-level')
-  nestLevel = this.model.depthLevel;
+  get nestLevel() {
+    return this.model.depthLevel;
+  }
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,

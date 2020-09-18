@@ -7,8 +7,7 @@ form,
 cx-organization-view,
 cx-organization-card,
 cx-organization-card-list,
-cx-organization-form,
-cx-unit-list {
+cx-organization-form {
   display: contents;
 }
 
@@ -313,9 +312,9 @@ cx-unit-list {
     }
 
     td.name {
-      button.button.action {
+      button.tree-item-toggle {
         align-self: center;
-        margin-left: calc(var(--cx-nest-level) * 1.5rem);
+        margin-inline-start: calc(var(--cx-nest-level) * 1.5rem);
       }
     }
 
@@ -384,7 +383,7 @@ cx-unit-list {
   }
 }
 
-cx-unit-list {
+.unit {
   @include media-breakpoint-down(md) {
     th {
       width: 0;
@@ -400,9 +399,9 @@ cx-unit-list {
         align-self: center;
       }
 
-      button.button.action {
+      button.tree-item-toggle {
         align-self: center;
-        margin-left: calc(var(--cx-nest-level) * 1.5rem);
+        margin-inline-start: calc(var(--cx-nest-level) * 1.5rem);
       }
     }
   }
