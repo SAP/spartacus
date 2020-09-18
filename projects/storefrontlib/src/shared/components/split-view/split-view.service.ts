@@ -38,7 +38,7 @@ export class SplitViewService {
 
   /**
    * The split view is based on a number of views that can be used next to each other.
-   * When the number changes (i.e. if the screen goes from wide to small), the visiblity state
+   * When the number changes (i.e. if the screen goes from wide to small), the visibility state
    * of the views should be updated.
    */
   updateSplitView(splitViewCount: number) {

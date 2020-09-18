@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Injectable } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -13,7 +13,7 @@ import createSpy = jasmine.createSpy;
 class MockSplitViewService {
   updateSplitView = createSpy('updateSplitView');
   getActiveView() {
-    return of(5);
+    return of();
   }
 }
 
@@ -29,7 +29,7 @@ describe('SplitViewComponent', () => {
   let breakpointService: BreakpointService;
   let splitViewService: SplitViewService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SplitViewComponent],
       providers: [
@@ -45,7 +45,7 @@ describe('SplitViewComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SplitViewComponent);
@@ -60,14 +60,16 @@ describe('SplitViewComponent', () => {
   });
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
+    spyOn(splitViewService, 'getActiveView').and.returnValue(of(5));
     fixture.detectChanges();
     expect(component.lastVisibleView).toEqual(6);
   });
 
   it('should bind lastVisibleView to --cx-active-view CSS property', () => {
+    spyOn(splitViewService, 'getActiveView').and.returnValue(of(3));
     fixture.detectChanges();
     const el: HTMLElement = fixture.debugElement.nativeElement;
-    expect(el.style.getPropertyValue('--cx-active-view')).toEqual('6');
+    expect(el.style.getPropertyValue('--cx-active-view')).toEqual('4');
   });
 
   it('should update splitViewService when screen changes to xs', () => {

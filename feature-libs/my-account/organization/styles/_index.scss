@@ -1,24 +1,26 @@
-@import './organization-page';
-@import './landing-page';
-@import './list';
-@import './section';
-@import './form';
 @import './buttons';
-@import './main_list';
-@import './unit';
-@import './order-approval/order-approval-list';
-@import './order-approval/order-approval-detail-form';
+@import './message';
 
-@import './__ux/list';
-@import './__ux/card';
-@import './__ux/form';
-@import './__ux/details';
-@import './__ux/message';
+@import './company-page-template';
 
-.organization {
+@import './list';
+@import './card';
+@import './details';
+@import './form';
+
+.CompanyPageTemplate {
+  @extend %CompanyPageTemplate !optional;
+}
+
+.organization, // tmp selector for as long as unit tree is not merged
+cx-organization-list {
+  @extend %buttons !optional;
+  @extend %organizationMessage !optional;
+
   @extend %organizationList !optional;
   @extend %organizationCard !optional;
   @extend %organizationItemDetails !optional;
   @extend %organizationItemForm !optional;
-  @extend %organizationMessage !optional;
 }
+
+@import './order-approval/index';
