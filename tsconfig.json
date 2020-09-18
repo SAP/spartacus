@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["esnext", "dom"],
+    "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -31,6 +31,10 @@
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
       ],
+      "@spartacus/product/configurators/common/assets": [
+        "feature-libs/product/configurators/common/assets/public_api"
+      ],
+
       "@spartacus/product/configurators/cpq": [
         "feature-libs/product/configurators/cpq/public_api"
       ],

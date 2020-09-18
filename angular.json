@@ -30,7 +30,11 @@
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects",
+                "./projects/storefrontstyles/scss",
+                "./feature-libs"
+              ]
             },
             "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
@@ -540,9 +544,7 @@
               "core-libs/setup/tsconfig.lib.json",
               "core-libs/setup/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
