@@ -7,8 +7,9 @@ const previousBtnSelector =
   'cx-configurator-previous-next-buttons div div:first button';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
-const email = 'cpq02@sap.com';
-const password = 'welcome';
+const email = 'test-user-for-variant-configuration@ydev.hybris.com';
+const password = 'Password123.';
+const user = 'Variant Configuration';
 
 const conflictDetectedMsgSelector =
   '.cx-configurator-attribute-conflict-container';
@@ -840,7 +841,6 @@ export function login(): void {
   authentication.login(email, password);
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
-  const user = email.split('@')[0];
   cy.get('.cx-login-greet').should('contain', user);
 }
 
