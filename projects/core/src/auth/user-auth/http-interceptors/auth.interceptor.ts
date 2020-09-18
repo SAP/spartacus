@@ -8,16 +8,14 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CxOAuthService } from '../facade/cx-oauth-service';
+import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHeaderService } from '../services/auth-header.service';
-
-const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    protected cxOAuthService: CxOAuthService,
-    protected authHeaderService: AuthHeaderService
+    protected authHeaderService: AuthHeaderService,
+    protected authConfigService: AuthConfigService
   ) {}
 
   intercept(
@@ -41,7 +39,9 @@ export class AuthInterceptor implements HttpInterceptor {
               } else if (
                 // Refresh expired token
                 // Check that the OAUTH endpoint was called and the error is for refresh token is expired
-                errResponse.url.includes(OAUTH_ENDPOINT) &&
+                errResponse.url.includes(
+                  this.authConfigService.getTokenEndpoint()
+                ) &&
                 errResponse.error.error === 'invalid_token'
               ) {
                 this.authHeaderService.handleExpiredRefreshToken();
@@ -51,11 +51,12 @@ export class AuthInterceptor implements HttpInterceptor {
               break;
             case 400: // Bad Request
               if (
-                errResponse.url.includes(OAUTH_ENDPOINT) &&
+                errResponse.url.includes(
+                  this.authConfigService.getTokenEndpoint()
+                ) &&
                 errResponse.error.error === 'invalid_grant'
               ) {
                 if (request.body.get('grant_type') === 'refresh_token') {
-                  // refresh token fail, force user logout
                   this.authHeaderService.handleExpiredRefreshToken();
                 }
               }
