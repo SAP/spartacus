@@ -4,7 +4,7 @@ import {
 } from '../../../model/replenishment-order.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
-import { SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID } from '../checkout-state';
+import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 import { CheckoutActions } from './index';
 
 const mockCartId = 'test-cart';
@@ -45,7 +45,7 @@ describe('Replenishment Order Actions', () => {
           payload,
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID
+            PLACED_ORDER_PROCESS_ID
           ),
         });
       });
@@ -63,7 +63,7 @@ describe('Replenishment Order Actions', () => {
           payload: payload,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID
+            PLACED_ORDER_PROCESS_ID
           ),
         });
       });
@@ -81,7 +81,7 @@ describe('Replenishment Order Actions', () => {
           payload,
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
-            SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID,
+            PLACED_ORDER_PROCESS_ID,
             payload
           ),
         });

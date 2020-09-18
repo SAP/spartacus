@@ -12,11 +12,12 @@ import { StateUtils } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import {
   CHECKOUT_DETAILS,
+  PLACED_ORDER_PROCESS_ID,
+  SET_COST_CENTER_PROCESS_ID,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
-  SET_COST_CENTER_PROCESS_ID,
 } from '../checkout-state';
 
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS =
@@ -85,6 +86,7 @@ export const RESET_SET_PAYMENT_DETAILS_PROCESS =
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
 export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
+export const CLEAR_PLACE_ORDER = '[Checkout] Clear Place Order';
 
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
@@ -275,19 +277,32 @@ export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetA
   }
 }
 
-export class PlaceOrder implements Action {
+export class PlaceOrder extends StateUtils.EntityLoadAction {
   readonly type = PLACE_ORDER;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
 }
 
-export class PlaceOrderFail implements Action {
+export class PlaceOrderFail extends StateUtils.EntityFailAction {
   readonly type = PLACE_ORDER_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID, payload);
+  }
 }
 
-export class PlaceOrderSuccess implements Action {
+export class PlaceOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = PLACE_ORDER_SUCCESS;
-  constructor(public payload: Order) {}
+  constructor(public payload: Order) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
+}
+
+export class ClearPlaceOrder extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_PLACE_ORDER;
+  constructor() {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
 }
 
 export class ClearSupportedDeliveryModes implements Action {

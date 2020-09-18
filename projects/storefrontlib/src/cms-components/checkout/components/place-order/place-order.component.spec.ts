@@ -3,16 +3,18 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CheckoutReplenishmentOrderService,
   CheckoutService,
   I18nTestingModule,
   Order,
   ORDER_TYPE,
-  ReplenishmentOrder,
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '../../../../layout/launch-dialog/index';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { PlaceOrderComponent } from './place-order.component';
 
@@ -21,16 +23,22 @@ class MockCheckoutService {
   getOrderDetails(): Observable<Order> {
     return of({});
   }
-}
 
-class MockCheckoutReplenishmentOrderService {
   scheduleReplenishmentOrder(
     _scheduleReplenishmentForm: ScheduleReplenishmentForm,
     _termsChecked: boolean
   ): void {}
 
-  getOrderDetails(): Observable<ReplenishmentOrder> {
-    return of({});
+  getPlaceOrderLoading(): Observable<boolean> {
+    return of();
+  }
+
+  getPlaceOrderSuccess(): Observable<boolean> {
+    return of();
+  }
+
+  getCurrentOrderType(): Observable<ORDER_TYPE> {
+    return of();
   }
 }
 
@@ -50,6 +58,11 @@ class MockRoutingService {
   go(): void {}
 }
 
+class MockLaunchDialogService {
+  launch() {}
+  clear() {}
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -63,9 +76,9 @@ describe('PlaceOrderComponent', () => {
   let controls: FormGroup['controls'];
 
   let checkoutService: CheckoutService;
-  let checkoutReplenishmentOrderService: CheckoutReplenishmentOrderService;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
   let routingService: RoutingService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,14 +87,11 @@ describe('PlaceOrderComponent', () => {
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         {
-          provide: CheckoutReplenishmentOrderService,
-          useClass: MockCheckoutReplenishmentOrderService,
-        },
-        {
           provide: CheckoutReplenishmentFormService,
           useClass: MockCheckoutReplenishmentFormService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
   }));
@@ -93,19 +103,14 @@ describe('PlaceOrderComponent', () => {
     controls = component.checkoutSubmitForm.controls;
 
     checkoutService = TestBed.inject(CheckoutService);
-    checkoutReplenishmentOrderService = TestBed.inject(
-      CheckoutReplenishmentOrderService
-    );
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );
     routingService = TestBed.inject(RoutingService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     spyOn(checkoutService, 'placeOrder').and.callThrough();
-    spyOn(
-      checkoutReplenishmentOrderService,
-      'scheduleReplenishmentOrder'
-    ).and.callThrough();
+    spyOn(checkoutService, 'scheduleReplenishmentOrder').and.callThrough();
     spyOn(
       checkoutReplenishmentFormService,
       'setScheduleReplenishmentFormData'
@@ -125,24 +130,35 @@ describe('PlaceOrderComponent', () => {
       submitForm(ORDER_TYPE.PLACE_ORDER, false);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentOrderService.scheduleReplenishmentOrder
-      ).not.toHaveBeenCalled();
+      expect(checkoutService.scheduleReplenishmentOrder).not.toHaveBeenCalled();
     });
 
     it('should place order when checkbox checked', () => {
       submitForm(ORDER_TYPE.PLACE_ORDER, true);
 
       expect(checkoutService.placeOrder).toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentOrderService.scheduleReplenishmentOrder
-      ).not.toHaveBeenCalled();
+      expect(checkoutService.scheduleReplenishmentOrder).not.toHaveBeenCalled();
     });
 
-    /**
-     * // TODO: when process state functionality is added to place_order store (GH-8659)
-     * onSuccess function
-     */
+    it('should NOT change page and reset form data when there is no successful place order', () => {
+      spyOn(routingService, 'go').and.stub();
+
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      component.onSuccess(false);
+
+      expect(routingService.go).not.toHaveBeenCalled();
+    });
+
+    it('should change page and reset form data on a successful place order', () => {
+      spyOn(routingService, 'go').and.stub();
+
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      component.onSuccess(true);
+
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderConfirmation',
+      });
+    });
   });
 
   describe('when order type is SCHEDULE_REPLENISHMENT_ORDER', () => {
@@ -150,18 +166,14 @@ describe('PlaceOrderComponent', () => {
       submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, false);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentOrderService.scheduleReplenishmentOrder
-      ).not.toHaveBeenCalled();
+      expect(checkoutService.scheduleReplenishmentOrder).not.toHaveBeenCalled();
     });
 
     it('should schedule a replenishment order when checkbox checked', () => {
       submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, true);
 
       expect(checkoutService.placeOrder).not.toHaveBeenCalled();
-      expect(
-        checkoutReplenishmentOrderService.scheduleReplenishmentOrder
-      ).toHaveBeenCalled();
+      expect(checkoutService.scheduleReplenishmentOrder).toHaveBeenCalled();
     });
 
     it('should NOT change page and reset form data when there is no successful replenishment order', () => {
@@ -188,6 +200,21 @@ describe('PlaceOrderComponent', () => {
       expect(
         checkoutReplenishmentFormService.resetScheduleReplenishmentFormData
       ).toHaveBeenCalled();
+    });
+  });
+
+  describe('should be able to call the launch for the spinner', () => {
+    it('should open popover dialog', () => {
+      spyOn(checkoutService, 'getPlaceOrderLoading').and.returnValue(of(true));
+      spyOn(checkoutService, 'getPlaceOrderSuccess').and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.stub();
+
+      component.ngOnInit();
+
+      expect(launchDialogService.launch).toHaveBeenCalledWith(
+        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+        component['vcr']
+      );
     });
   });
 
