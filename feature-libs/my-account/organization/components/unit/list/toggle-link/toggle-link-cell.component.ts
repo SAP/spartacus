@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { B2BUnit } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { UnitListService } from '../../services/unit-list.service';
 import { OrganizationCellComponent } from '../../../shared/organization-table/organization-cell.component';
+import { UnitListService } from '../../services/unit-list.service';
 
 @Component({
   templateUrl: './toggle-link-cell.component.html',
@@ -41,6 +42,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   toggleItem(event: Event) {
     event.stopPropagation();
-    this.uls.toggle(this.model.uid);
+    this.uls.toggle(this.model as B2BUnit);
   }
 }
