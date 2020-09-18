@@ -19,7 +19,6 @@ import { Configurator } from './../../../core/model/configurator.model';
 export class ConfiguratorAttributeFooterComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
-  @Input() groupId: string;
 
   constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
 
@@ -32,7 +31,7 @@ export class ConfiguratorAttributeFooterComponent implements OnInit {
      * free input field
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
-      .isCartEntryOrGroupVisited(this.owner, this.groupId)
+      .isCartEntryOrGroupVisited(this.owner, this.attribute.groupId)
       .pipe(map((result) => (result ? this.needsUserInputMessage() : false)));
   }
 

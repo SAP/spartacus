@@ -18,7 +18,6 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeDropDownComponent implements OnInit {
   attributeDropDownForm = new FormControl('');
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();

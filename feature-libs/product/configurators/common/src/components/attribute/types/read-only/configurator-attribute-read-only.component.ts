@@ -8,7 +8,6 @@ import { Configurator } from './../../../../core/model/configurator.model';
 })
 export class ConfiguratorAttributeReadOnlyComponent {
   @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
     return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(

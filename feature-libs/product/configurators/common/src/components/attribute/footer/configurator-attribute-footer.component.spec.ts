@@ -78,11 +78,11 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute = currentAttribute;
 
     classUnderTest.owner = owner;
-    classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     classUnderTest.attribute.userInput = '';
+    classUnderTest.attribute.groupId = 'testGroup';
     fixture.detectChanges();
   });
 

@@ -23,7 +23,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   changeTriggeredByKeyboard = false;
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
@@ -37,31 +36,25 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   /**
    * Mouse down event triggers submit value.
    *
-   * @param {string} value - Value to update
+   * @param {string} value - Selected value
    */
   onMouseDown(value: string) {
-    this.configUtils.onMouseDown(
-      value,
-      this.ownerKey,
-      this.attribute,
-      this.selectionChange
-    );
+    this.submitValue(value);
   }
 
   /**
-   * Focus  event triggers submit value.
+   * Focus out event triggers submit value.
    *
    * @param {FocusEvent} event -Focus event
    */
   onFocusOut(event: FocusEvent) {
-    this.configUtils.onFocusOut(
-      event,
-      this.attributeRadioButtonForm,
-      this.ownerKey,
-      this.attribute,
-      this.selectionChange,
-      this.changeTriggeredByKeyboard
-    );
+    if (
+      this.configUtils.attributeLostFocus(event) &&
+      this.attributeRadioButtonForm.value !== null &&
+      this.changeTriggeredByKeyboard === true
+    ) {
+      this.submitValue(this.attributeRadioButtonForm?.value);
+    }
   }
 
   /**
@@ -77,12 +70,17 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
    * @param {string} value - Selected value
    */
   submitValue(value: string): void {
-    this.configUtils.submitValue(
-      value,
-      this.ownerKey,
-      this.attribute,
-      this.selectionChange
-    );
+    const event: ConfigFormUpdateEvent = {
+      productCode: this.ownerKey,
+      changedAttribute: {
+        name: this.attribute.name,
+        selectedSingleValue: value,
+        uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
+      },
+    };
+
+    this.selectionChange.emit(event);
     this.changeTriggeredByKeyboard = false;
   }
 

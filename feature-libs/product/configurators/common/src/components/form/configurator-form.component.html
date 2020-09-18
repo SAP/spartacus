@@ -20,7 +20,6 @@
           <cx-configurator-attribute-header
             [attribute]="attribute"
             [owner]="configuration.owner"
-            [groupId]="currentGroup.id"
             [groupType]="currentGroup.groupType"
           ></cx-configurator-attribute-header>
         </div>
@@ -39,7 +38,6 @@
           <cx-configurator-attribute-drop-down
             *ngIf="attribute.uiType === uiType.DROPDOWN"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-drop-down>
@@ -47,7 +45,6 @@
           <cx-configurator-attribute-input-field
             *ngIf="attribute.uiType === uiType.STRING"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerType]="configuration.owner.type"
             [ownerKey]="configuration.owner.key"
             (inputChange)="updateConfiguration($event)"
@@ -57,7 +54,6 @@
             <cx-configurator-attribute-numeric-input-field
               *ngIf="attribute.uiType === uiType.NUMERIC"
               [attribute]="attribute"
-              [group]="currentGroup.id"
               [ownerKey]="configuration.owner.key"
               [language]="activeLanguage"
               (inputChange)="updateConfiguration($event)"
@@ -66,33 +62,28 @@
           <cx-configurator-attribute-checkbox-list
             *ngIf="attribute.uiType === uiType.CHECKBOXLIST"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-checkbox-list>
           <cx-configurator-attribute-checkbox
             *ngIf="attribute.uiType === uiType.CHECKBOX"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-checkbox>
           <cx-configurator-attribute-read-only
             *ngIf="attribute.uiType === uiType.READ_ONLY"
             [attribute]="attribute"
-            [group]="currentGroup.id"
           ></cx-configurator-attribute-read-only>
           <cx-configurator-attribute-multi-selection-image
             *ngIf="attribute.uiType === uiType.MULTI_SELECTION_IMAGE"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-multi-selection-image>
           <cx-configurator-attribute-single-selection-image
             *ngIf="attribute.uiType === uiType.SINGLE_SELECTION_IMAGE"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-single-selection-image>
@@ -104,7 +95,6 @@
           <cx-configurator-attribute-footer
             [attribute]="attribute"
             [owner]="configuration.owner"
-            [groupId]="currentGroup.id"
           ></cx-configurator-attribute-footer>
         </div>
       </div>

@@ -20,7 +20,6 @@ import { Configurator } from './../../../core/model/configurator.model';
 export class ConfiguratorAttributeHeaderComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
-  @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
 
   iconTypes = ICON_TYPE;
@@ -33,7 +32,7 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
      * Show message that indicates that attribute is required in case attribute has a domain of values
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
-      .isCartEntryOrGroupVisited(this.owner, this.groupId)
+      .isCartEntryOrGroupVisited(this.owner, this.attribute.groupId)
       .pipe(
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
       );

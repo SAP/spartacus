@@ -1,12 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
-import { EventEmitter, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GenericConfigurator } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from './../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 
 @Injectable({
   providedIn: 'root',
@@ -105,82 +104,6 @@ export class ConfiguratorStorefrontUtilsService {
         this.scroll(element);
       }
     }
-  }
-
-  /**
-   * Submit value is called after the mouse down event is fired.
-   *
-   * @param {string} value - Value to update
-   * @param {string} ownerKey - Owner key
-   * @param {Configurator.Attribute} attribute - Attribute
-   * @param {EventEmitter<ConfigFormUpdateEvent>} selectionChange - Selection change event emitter
-   */
-  onMouseDown(
-    value: string,
-    ownerKey: string,
-    attribute: Configurator.Attribute,
-    selectionChange: EventEmitter<ConfigFormUpdateEvent>
-  ) {
-    this.submitValue(value, ownerKey, attribute, selectionChange);
-  }
-
-  /**
-   * Submit value is called after the focus out event is fired.
-   *
-   * @param event
-   * @param attributeRadioButtonForm
-   * @param {string} ownerKey - Owner key
-   * @param {Configurator.Attribute} attribute - Attribute
-   * @param {EventEmitter<ConfigFormUpdateEvent>} selectionChange - Selection change event emitter
-   * @param {boolean} isChangeTriggeredByKeyboard - Boolean value that defined whether the change is triggered by keyboard or not
-   */
-  onFocusOut(
-    event: FocusEvent,
-    attributeRadioButtonForm: FormControl,
-    ownerKey: string,
-    attribute: Configurator.Attribute,
-    selectionChange: EventEmitter<ConfigFormUpdateEvent>,
-    isChangeTriggeredByKeyboard: boolean
-  ) {
-    if (
-      this.attributeLostFocus(event) &&
-      attributeRadioButtonForm.value !== null &&
-      isChangeTriggeredByKeyboard === true
-    ) {
-      this.submitValue(
-        attributeRadioButtonForm?.value,
-        ownerKey,
-        attribute,
-        selectionChange
-      );
-    }
-  }
-
-  /**
-   * Submit a value.
-   *
-   * @param {string} value - Value to update
-   * @param {string} ownerKey - Owner key
-   * @param {Configurator.Attribute} attribute - Attribute
-   * @param {EventEmitter<ConfigFormUpdateEvent>} selectionChange - Selection change event emitter
-   */
-  submitValue(
-    value: string,
-    ownerKey: string,
-    attribute: Configurator.Attribute,
-    selectionChange: EventEmitter<ConfigFormUpdateEvent>
-  ): void {
-    const event: ConfigFormUpdateEvent = {
-      productCode: ownerKey,
-      changedAttribute: {
-        name: attribute?.name,
-        selectedSingleValue: value,
-        uiType: attribute?.uiType,
-        groupId: attribute?.groupId,
-      },
-    };
-
-    selectionChange.emit(event);
   }
 
   /**

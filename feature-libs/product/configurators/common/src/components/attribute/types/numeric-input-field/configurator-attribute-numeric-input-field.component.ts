@@ -25,7 +25,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent implements OnInit {
   locale: string;
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
   @Input() language: string;
 
