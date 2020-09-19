@@ -8,7 +8,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { ViewComponent } from 'projects/storefrontlib/src/shared/components/split-view/view/view.component';
 import { of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationMessageTestingModule } from '../organization-message/organization-message.testing.module';
+import { OrganizationMessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationCardComponent } from './organization-card.component';
 import createSpy = jasmine.createSpy;
 

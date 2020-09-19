@@ -14,7 +14,7 @@ import { BaseItem } from '../organization.model';
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: MessageService, useClass: MessageService }],
+  providers: [MessageService],
 })
 export class OrganizationCardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

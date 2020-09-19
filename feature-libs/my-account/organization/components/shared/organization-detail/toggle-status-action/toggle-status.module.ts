@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { OrganizationMessageModule } from '../../organization-message/organization-message.module';
+import { MessageModule } from '../../organization-message/message.module';
 import { PromptMessageModule } from './prompt/prompt.module';
 import { ToggleStatusComponent } from './toggle-status.component';
 
@@ -12,7 +12,7 @@ import { ToggleStatusComponent } from './toggle-status.component';
     RouterModule,
     UrlModule,
     I18nModule,
-    OrganizationMessageModule,
+    MessageModule,
     PromptMessageModule,
   ],
   declarations: [ToggleStatusComponent],

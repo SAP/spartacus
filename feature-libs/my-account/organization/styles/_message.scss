@@ -1,6 +1,6 @@
 %organizationMessage {
   .card {
-    cx-organization-message {
+    cx-message {
       position: absolute;
       width: 100%;
 
@@ -90,35 +90,5 @@
         }
       }
     }
-
-    //   cx-organization-message {
-    //     position: absolute;
-    //     width: 100%;
-
-    //     &.hide {
-    //       display: none;
-    //     }
-
-    //     &.prompt {
-    //       background-color: #cbe6fe;
-    //       .close {
-    //         display: none;
-    //       }
-    //     }
-    //     &.notify {
-    //       background-color: #deeecc;
-    //       .actions {
-    //         display: none;
-    //       }
-    //     }
-
-    //     button.button:not(.primary) {
-    //       background-color: var(--cx-color-inverse);
-    //       color: var(--cx-color-primary);
-    //     }
-    //     button.button.primary {
-    //       border-color: var(--cx-color-inverse);
-    //     }
-    //   }
   }
 }

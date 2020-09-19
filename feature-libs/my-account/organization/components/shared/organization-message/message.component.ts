@@ -10,16 +10,16 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
-import { Message } from './message.model';
+import { MessageData } from './message.model';
 import { NotificationRenderService } from './services/message-render.service';
 import { MessageService } from './services/message.service';
 
 @Component({
-  selector: 'cx-organization-message',
-  templateUrl: './organization-message.component.html',
+  selector: 'cx-message',
+  templateUrl: './message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationMessageComponent implements OnInit, OnDestroy {
+export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild('vc', { read: ViewContainerRef }) vcr: ViewContainerRef;
 
   protected subscription = new Subscription();
@@ -41,13 +41,14 @@ export class OrganizationMessageComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected render(msg: Message) {
+  protected render(msg: MessageData) {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
       this.notificationRenderService.getComponent(msg),
       undefined,
-      this.notificationRenderService.getInjector(msg.data, this.vcr.injector)
+      this.notificationRenderService.getInjector(msg, this.vcr.injector)
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
+
     this.subscription.add(
       ref.instance.closeEvent.subscribe(() => this.terminate(ref))
     );

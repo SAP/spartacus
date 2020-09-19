@@ -2,16 +2,19 @@ import {
   Directive,
   EventEmitter,
   HostBinding,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { MessageComponentData } from './message.model';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { MessageData, MessageEventData } from './message.model';
 
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
-export abstract class BaseMessageComponent implements OnInit {
+// tslint:disable-next-line: directive-class-suffix
+export abstract class BaseMessageComponent implements OnInit, OnDestroy {
   @HostBinding('class') type: string;
   @HostBinding('class.terminated') terminated = false;
 
@@ -20,18 +23,28 @@ export abstract class BaseMessageComponent implements OnInit {
   message: Translatable;
   icon: ICON_TYPE;
 
-  constructor(protected messageData: MessageComponentData) {}
+  private subscription = new Subscription();
+
+  constructor(protected messageData: MessageData) {}
 
   ngOnInit() {
     this.message = this.messageData.message;
     this.icon = ICON_TYPE.INFO;
     this.type = this.resolveType();
 
+    // TODO: only perform this in the browser
     if (this.messageData.timeout) {
       setTimeout(() => {
         this.close();
       }, this.messageData.timeout);
     }
+
+    this.subscription.add(
+      // observe the close event of the message and close accordingly.
+      this.messageData.events
+        .pipe(filter((event: MessageEventData) => !!event.close))
+        .subscribe(() => this.close())
+    );
   }
 
   close(): void {
@@ -48,5 +61,9 @@ export abstract class BaseMessageComponent implements OnInit {
     if (this.messageData.type === GlobalMessageType.MSG_TYPE_WARNING) {
       return 'warning';
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

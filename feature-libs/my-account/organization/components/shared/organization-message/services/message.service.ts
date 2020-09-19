@@ -1,37 +1,48 @@
-import { Injectable, Type } from '@angular/core';
-import { GlobalMessageType, Translatable } from '@spartacus/core';
+import { Injectable } from '@angular/core';
+import { GlobalMessageType } from '@spartacus/core';
 import { Observable, Subject } from 'rxjs';
-import { Message, MessageComponentData } from '../message.model';
+import { MessageData, MessageEventData } from '../message.model';
 
-const DEFAULT_NOTIFY_TIMEOUT = 3000;
+// const DEFAULT_INFO_TIMEOUT = 3000;
 
 @Injectable()
 export class MessageService {
-  protected data$: Subject<Message> = new Subject();
+  protected data$: Subject<MessageData> = new Subject();
 
-  get(): Observable<Message> {
+  get(): Observable<MessageData> {
     return this.data$;
   }
 
-  add<T extends MessageComponentData>(message: T, component?: Type<any>): void {
-    if (!message.type) {
-      message.type = GlobalMessageType.MSG_TYPE_INFO;
-    }
-    this.data$.next({
-      data: message,
-      component,
-    });
+  add<
+    O extends MessageEventData = MessageEventData,
+    T extends MessageData<O> = MessageData<O>
+  >(message: T): Subject<O> {
+    message = { ...this.getDefaultMessage(message), ...message };
+
+    message.events = new Subject<O>();
+
+    this.data$.next(message);
+    return message.events;
   }
 
-  notify(message: Translatable) {
-    const data: MessageComponentData = {
-      message,
-      timeout: DEFAULT_NOTIFY_TIMEOUT,
+  close(message: Subject<MessageEventData>) {
+    message.next({ close: true });
+  }
+
+  /**
+   * Sets the message type to INFO, and adds a default timeout
+   * for info messages.
+   */
+  protected getDefaultMessage<T extends MessageData = MessageData>(
+    _message: T
+  ): MessageData {
+    const defaultMessage: MessageData = {
       type: GlobalMessageType.MSG_TYPE_INFO,
     };
-    this.data$.next({
-      data,
-    });
+    // if (!message.type || message.type === GlobalMessageType.MSG_TYPE_INFO) {
+    //   defaultMessage.timeout = DEFAULT_INFO_TIMEOUT;
+    // }
+    return defaultMessage;
   }
 
   clear(): void {
