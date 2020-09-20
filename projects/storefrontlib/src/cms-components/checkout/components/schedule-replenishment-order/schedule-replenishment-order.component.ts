@@ -109,6 +109,8 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   changeRepeatDays(day: DaysOfWeek, isChecked: boolean): void {
     if (isChecked) {
+      this.currentDaysOfWeek = [...this.currentDaysOfWeek];
+
       this.currentDaysOfWeek.push(day);
 
       this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({

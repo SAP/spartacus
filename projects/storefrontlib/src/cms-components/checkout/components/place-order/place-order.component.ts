@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   OnDestroy,
   OnInit,
   ViewContainerRef,
@@ -14,7 +15,7 @@ import {
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -32,6 +33,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
   daysOfWeekNotChecked: Boolean;
+  placedOrder: void | Observable<ComponentRef<any>>;
 
   checkoutSubmitForm: FormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
@@ -77,12 +79,27 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
       combineLatest([
         this.checkoutService.getPlaceOrderLoading(),
         this.checkoutService.getPlaceOrderSuccess(),
-      ]).subscribe(([orderLoading, orderSuccess]) => {
+        this.checkoutService.getPlaceOrderError(),
+      ]).subscribe(([orderLoading, orderSuccess, orderError]) => {
         if (orderLoading) {
-          this.launchDialogService.launch(
+          this.placedOrder = this.launchDialogService.launch(
             LAUNCH_CALLER.PLACE_ORDER_SPINNER,
             this.vcr
           );
+        }
+
+        if (orderError) {
+          if (this.placedOrder) {
+            this.placedOrder
+              .subscribe((component) => {
+                this.launchDialogService.clear(
+                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                );
+                component.destroy();
+              })
+              .unsubscribe();
+            this.checkoutService.clearPlaceOrderState();
+          }
         }
 
         if (orderSuccess) {
