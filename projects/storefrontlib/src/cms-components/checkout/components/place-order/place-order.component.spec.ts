@@ -48,6 +48,10 @@ class MockCheckoutService {
     return of();
   }
 
+  getPlaceOrderError(): Observable<boolean> {
+    return of();
+  }
+
   getCurrentOrderType(): Observable<ORDER_TYPE> {
     return of();
   }
@@ -220,6 +224,7 @@ describe('PlaceOrderComponent', () => {
     it('should open popover dialog', () => {
       spyOn(checkoutService, 'getPlaceOrderLoading').and.returnValue(of(true));
       spyOn(checkoutService, 'getPlaceOrderSuccess').and.returnValue(of(true));
+      spyOn(checkoutService, 'getPlaceOrderError').and.returnValue(of(false));
       spyOn(launchDialogService, 'launch').and.stub();
 
       component.ngOnInit();
