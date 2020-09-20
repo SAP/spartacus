@@ -44,7 +44,7 @@ export class ConfiguratorTextfieldAddToCartButtonComponent {
   getButtonText(): string {
     return this.configuration.owner.type ===
       GenericConfigurator.OwnerType.CART_ENTRY
-      ? 'configuratorTextfield.addToCart.buttonUpdateCart'
-      : 'configuratorTextfield.addToCart.button';
+      ? 'configurator.addToCart.buttonUpdateCart'
+      : 'configurator.addToCart.button';
   }
 }
