@@ -116,17 +116,15 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
         daysOfWeek: this.currentDaysOfWeek,
       });
     } else {
-      const foundDay = this.currentDaysOfWeek.find((data) => day === data);
+      if (this.scheduleReplenishmentFormData.daysOfWeek.includes(day)) {
+        const index = this.currentDaysOfWeek.indexOf(day, 0);
+        this.currentDaysOfWeek.splice(index, 1);
 
-      if (!foundDay) return;
-
-      const index = this.currentDaysOfWeek.indexOf(foundDay);
-      this.currentDaysOfWeek.splice(index, 1);
-
-      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-        ...this.scheduleReplenishmentFormData,
-        daysOfWeek: this.currentDaysOfWeek,
-      });
+        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+          ...this.scheduleReplenishmentFormData,
+          daysOfWeek: this.currentDaysOfWeek,
+        });
+      }
     }
   }
 

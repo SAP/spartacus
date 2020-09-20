@@ -4,14 +4,13 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutService,
-  DaysOfWeek,
   I18nTestingModule,
+  Order,
   ORDER_TYPE,
-  recurrencePeriod,
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -19,21 +18,11 @@ import {
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { PlaceOrderComponent } from './place-order.component';
 
-const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
-  numberOfDays: 'test-number-days',
-  nthDayOfMonth: 'test-day-month',
-  recurrencePeriod: recurrencePeriod.WEEKLY,
-  numberOfWeeks: 'test-num-of-weeks',
-  replenishmentStartDate: 'test-date',
-  daysOfWeek: [DaysOfWeek.FRIDAY],
-};
-
-const mockReplenishmentOrderFormData$ = new BehaviorSubject<
-  ScheduleReplenishmentForm
->(mockReplenishmentOrderFormData);
-
 class MockCheckoutService {
   placeOrder(): void {}
+  getOrderDetails(): Observable<Order> {
+    return of({});
+  }
 
   scheduleReplenishmentOrder(
     _scheduleReplenishmentForm: ScheduleReplenishmentForm,
@@ -51,13 +40,11 @@ class MockCheckoutService {
   getCurrentOrderType(): Observable<ORDER_TYPE> {
     return of();
   }
-
-  clearPlaceOrderState(): void {}
 }
 
 class MockCheckoutReplenishmentFormService {
   getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
-    return mockReplenishmentOrderFormData$.asObservable();
+    return of({});
   }
 
   setScheduleReplenishmentFormData(
@@ -216,7 +203,7 @@ describe('PlaceOrderComponent', () => {
     });
   });
 
-  describe('when order was successfully placed', () => {
+  describe('should be able to call the launch for the spinner', () => {
     it('should open popover dialog', () => {
       spyOn(checkoutService, 'getPlaceOrderLoading').and.returnValue(of(true));
       spyOn(checkoutService, 'getPlaceOrderSuccess').and.returnValue(of(true));
@@ -228,37 +215,6 @@ describe('PlaceOrderComponent', () => {
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         component['vcr']
       );
-    });
-  });
-
-  describe('Place order UI', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-      component.ngOnInit();
-      controls.termsAndConditions.setValue(true);
-    });
-
-    it('should have button ENABLED when a checkbox for weekday in WEEKLY view is checked and terms and condition checked', () => {
-      fixture.detectChanges();
-
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(false);
-    });
-
-    it('should have button DISABLED when a checkbox for weekday in WEEKLY view is NOT checked and terms and condition checked', () => {
-      mockReplenishmentOrderFormData$.next({
-        ...mockReplenishmentOrderFormData,
-        daysOfWeek: [],
-      });
-
-      fixture.detectChanges();
-
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(true);
     });
   });
 

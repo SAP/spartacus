@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -10,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CheckoutService,
   ORDER_TYPE,
-  recurrencePeriod,
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
@@ -31,7 +29,6 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-  daysOfWeekNotChecked: Boolean;
 
   checkoutSubmitForm: FormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
@@ -47,8 +44,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
-    protected vcr: ViewContainerRef,
-    protected cd: ChangeDetectorRef
+    protected vcr: ViewContainerRef
   ) {}
 
   submitForm(): void {
@@ -100,15 +96,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.checkoutReplenishmentFormService
         .getScheduleReplenishmentFormData()
-        .subscribe((data) => {
-          this.scheduleReplenishmentFormData = data;
-
-          this.daysOfWeekNotChecked =
-            data.daysOfWeek.length === 0 &&
-            data.recurrencePeriod === recurrencePeriod.WEEKLY;
-
-          this.cd.markForCheck();
-        })
+        .subscribe((data) => (this.scheduleReplenishmentFormData = data))
     );
   }
 
@@ -122,10 +110,10 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
         case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
           this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
+          this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
           break;
         }
       }
-      this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
     }
   }
 
