@@ -1,124 +1,78 @@
 %organizationMessage {
-  .card {
-    cx-organization-message {
+  cx-message {
+    position: absolute;
+    width: 100%;
+
+    // the actual message components have various selectors
+    > * {
+      transition: all 0.4s;
+
       position: absolute;
       width: 100%;
 
-      > * {
-        transition: all 0.4s;
-        overflow: hidden;
-        max-height: 1000px;
-        &.terminated {
-          max-height: 0;
-          opacity: 0;
-          pointer-events: none;
-        }
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      &:first-child:not(.terminated) {
+        z-index: 1;
+        opacity: 1;
+        pointer-events: initial;
+      }
+      &.terminated + * {
+        opacity: 1;
       }
 
-      cx-notification {
-        &:last-child:not(.terminated) {
-          max-height: 1000px;
-          opacity: 1;
-        }
-      }
-      &:not(:hover) cx-notification:not(:last-child):not(.terminated) {
-        max-height: 10px;
-        opacity: 0.5;
-        > * {
-          // hide inner content
-          opacity: 0;
-        }
-      }
-
-      &:hover {
-        cx-notification:not(:first-child) {
-          border-top: solid 1px var(--cx-color-light);
-        }
-      }
-
-      .close {
-        position: absolute;
-        right: 20px;
-        margin-top: -5px;
-      }
-      p {
-        margin: 0;
-      }
-
-      cx-icon {
-        align-self: flex-start;
-        margin: 5px;
-      }
-
-      cx-notification,
-      cx-prompt {
-        .inner {
-          display: flex;
-          flex-wrap: wrap;
-          padding: 20px 40px;
-        }
-      }
-
-      cx-notification {
+      .inner {
         display: flex;
-        background-color: #deeecc;
-      }
-
-      cx-prompt {
-        flex: 100%;
-        flex-direction: column;
-
-        width: 100%;
-        display: block;
-
-        &.info {
-          background-color: #cbe6fe;
-        }
-
-        .message {
-          display: flex;
-        }
-
-        .actions {
-          flex: 100%;
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 20px;
-          button {
-            margin-inline-start: 20px;
-          }
-        }
+        flex-wrap: wrap;
+        padding: 20px 40px;
       }
     }
 
-    //   cx-organization-message {
-    //     position: absolute;
-    //     width: 100%;
+    .close {
+      position: absolute;
+      right: 20px;
+      margin-top: -5px;
+    }
+    p {
+      margin: 0;
+    }
 
-    //     &.hide {
-    //       display: none;
-    //     }
+    cx-icon {
+      align-self: flex-start;
+      margin: 5px;
+    }
 
-    //     &.prompt {
-    //       background-color: #cbe6fe;
-    //       .close {
-    //         display: none;
-    //       }
-    //     }
-    //     &.notify {
-    //       background-color: #deeecc;
-    //       .actions {
-    //         display: none;
-    //       }
-    //     }
+    cx-notification {
+      display: flex;
+      background-color: #deeecc;
+    }
 
-    //     button.button:not(.primary) {
-    //       background-color: var(--cx-color-inverse);
-    //       color: var(--cx-color-primary);
-    //     }
-    //     button.button.primary {
-    //       border-color: var(--cx-color-inverse);
-    //     }
-    //   }
+    cx-confirmation {
+      flex: 100%;
+      flex-direction: column;
+
+      width: 100%;
+      display: block;
+
+      &.info {
+        background-color: #cbe6fe;
+      }
+
+      .message {
+        display: flex;
+      }
+
+      .actions {
+        flex: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        button {
+          margin-inline-start: 20px;
+        }
+      }
+    }
   }
 }

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Permission } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
@@ -24,7 +24,7 @@ describe('PermissionDetailsComponent', () => {
   let fixture: ComponentFixture<PermissionDetailsComponent>;
   let itemService: OrganizationItemService<Permission>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -32,7 +32,7 @@ describe('PermissionDetailsComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
       ],
       declarations: [PermissionDetailsComponent],
       providers: [
@@ -44,9 +44,7 @@ describe('PermissionDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

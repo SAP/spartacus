@@ -4,7 +4,7 @@ import { BaseMessageComponent } from '../base-message.component';
 
 @Component({
   selector: 'cx-notification',
-  templateUrl: './notification.component.html',
+  templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
