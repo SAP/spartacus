@@ -1,6 +1,6 @@
 import { Injectable, StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-tokens';
 import { OccConfig } from '../../occ/config/occ-config';
 
 export interface StandardCmsComponentConfig {

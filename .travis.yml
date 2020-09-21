@@ -1,7 +1,7 @@
 dist: bionic
 language: node_js
 node_js:
-  - 12.13.1
+  - 12.16.1
 cache: yarn
 git:
   depth: false
@@ -14,7 +14,10 @@ branches:
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
     - "/^epic\\/.*$/"
-script: ./build.sh sonar
+env:
+  - TEST_SUITE="./build.sh sonar"
+  - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
+script: $TEST_SUITE
 deploy:
   provider: script
   skip_cleanup: true
