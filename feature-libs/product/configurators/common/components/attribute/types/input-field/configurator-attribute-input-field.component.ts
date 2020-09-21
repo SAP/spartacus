@@ -21,6 +21,7 @@ export class ConfiguratorAttributeInputFieldComponent implements OnInit {
   attributeInputForm = new FormControl('');
   @Input() ownerType: GenericConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
+  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();

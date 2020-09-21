@@ -105,35 +105,4 @@ export class ConfiguratorStorefrontUtilsService {
       }
     }
   }
-
-  /**
-   * Removes the value ID from the element ID to get the attribute ID.
-   *
-   * @param {string} id - HTML element ID
-   */
-  getAttributeId(id: string): string {
-    const index = id?.lastIndexOf('--');
-    return id?.substring(0, index);
-  }
-
-  /**
-   * Returns true if the focus changed from one attribute to any other element.
-   * Returns false if the focus change occurred inside the same attribute (i.e. from one value to another of the same attribute)
-   *
-   * @param {FocusEvent} event FocusEvent to be checked
-   */
-  attributeLostFocus(event: FocusEvent): boolean {
-    let attributeLostFocus = false;
-    const from: HTMLElement = event.target as HTMLElement;
-    const to: HTMLElement = event.relatedTarget as HTMLElement;
-    // Avoid submit on round-trip (in this case event.relatedTarget is null)
-    if (to === null) {
-      return attributeLostFocus;
-    }
-    if (this.getAttributeId(from?.id) !== this.getAttributeId(to?.id)) {
-      attributeLostFocus = true;
-    }
-
-    return attributeLostFocus;
-  }
 }

@@ -19,6 +19,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeMultiSelectionImageComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
+  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
@@ -38,6 +39,18 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         attributeCheckBoxForm = new FormControl(false);
       }
       this.attributeCheckBoxForms.push(attributeCheckBoxForm);
+    }
+  }
+
+  /**
+   * Fired on key board events, checks for 'enter' and 'space' and delegates to onSelect.
+   *
+   * @param event
+   * @param index Index of selected value
+   */
+  onKeyUp(event: KeyboardEvent, index: number): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.onSelect(index);
     }
   }
 

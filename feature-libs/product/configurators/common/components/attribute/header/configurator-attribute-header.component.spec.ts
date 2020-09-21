@@ -79,10 +79,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute.label = 'label of attribute';
     classUnderTest.attribute.name = '123';
     classUnderTest.owner = owner;
+    classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = false;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-    classUnderTest.attribute.groupId = 'testGroup';
     classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     fixture.detectChanges();
   });
