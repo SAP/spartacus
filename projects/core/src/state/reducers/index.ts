@@ -2,7 +2,7 @@ import { InjectionToken, Optional, PLATFORM_ID, Provider } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { META_REDUCERS } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-tokens';
 import { WindowRef } from '../../window/window-ref';
 import { getStorageSyncReducer } from './storage-sync.reducer';
 import { getTransferStateReducer } from './transfer-state.reducer';
