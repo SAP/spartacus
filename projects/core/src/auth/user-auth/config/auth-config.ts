@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthConfig as LibConfig } from 'angular-oauth2-oidc';
-import { Config } from '../../config/config-tokens';
+import { Config } from '../../../config/config-tokens';
 
 // siletRefreshTimeout - ommited as it is deprecated of typo
 // clientId - we need it for client credentials flow
@@ -22,7 +22,6 @@ export type AuthLibConfig = Omit<
   | 'revocationEndpoint'
   | 'userinfoEndpoint'
 >;
-
 
 @Injectable({
   providedIn: 'root',
