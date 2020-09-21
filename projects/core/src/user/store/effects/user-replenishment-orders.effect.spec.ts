@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserReplenishmentOrderAdapter } from '../../connectors/replenishment-order/user-replenishment-order.adapter';
 import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
 import { UserActions } from '../actions/index';
@@ -74,7 +75,7 @@ describe('User Replenishment Orders effect', () => {
       });
 
       const completion = new UserActions.LoadUserReplenishmentOrdersFail(
-        'Error'
+        normalizeHttpError('Error')
       );
 
       actions$ = hot('-a', { a: action });

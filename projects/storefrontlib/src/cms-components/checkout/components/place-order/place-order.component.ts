@@ -51,7 +51,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     if (this.checkoutSubmitForm.valid && Boolean(this.currentOrderType)) {
       switch (this.currentOrderType) {
         case ORDER_TYPE.PLACE_ORDER: {
-          this.checkoutService.placeOrder();
+          this.checkoutService.placeOrder(this.checkoutSubmitForm.valid);
           break;
         }
 

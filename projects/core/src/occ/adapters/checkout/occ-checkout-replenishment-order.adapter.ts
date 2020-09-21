@@ -13,8 +13,6 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const FIELDS_PARAMS = 'FULL,costCenter(FULL),purchaseOrderNumber,paymentType';
-
 @Injectable()
 export class OccCheckoutReplenishmentOrderAdapter
   implements CheckoutReplenishmentOrderAdapter {
@@ -35,12 +33,11 @@ export class OccCheckoutReplenishmentOrderAdapter
       REPLENISHMENT_ORDER_FORM_SERIALIZER
     );
 
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
     const params = new HttpParams()
       .set('cartId', cartId)
-      .set('termsChecked', termsChecked.toString())
-      .set('fields', FIELDS_PARAMS);
-
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      .set('termsChecked', termsChecked.toString());
 
     return this.http
       .post(

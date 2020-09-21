@@ -279,7 +279,9 @@ export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetA
 
 export class PlaceOrder extends StateUtils.EntityLoadAction {
   readonly type = PLACE_ORDER;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; termsChecked: boolean }
+  ) {
     super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
   }
 }

@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
 import { UserActions } from '../actions/index';
 
@@ -31,7 +31,7 @@ export class ReplenishmentOrderDetailsEffect {
           catchError((error) =>
             of(
               new UserActions.LoadReplenishmentOrderDetailsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -68,7 +68,7 @@ export class ReplenishmentOrderDetailsEffect {
 
             return of(
               new UserActions.CancelReplenishmentOrderFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             );
           })

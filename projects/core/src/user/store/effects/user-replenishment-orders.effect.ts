@@ -3,9 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { UserActions } from '../actions/index';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserReplenishmentOrdersEffect {
@@ -30,7 +30,7 @@ export class UserReplenishmentOrdersEffect {
           catchError((error) =>
             of(
               new UserActions.LoadUserReplenishmentOrdersFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

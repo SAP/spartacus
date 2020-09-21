@@ -4288,11 +4288,6 @@ export namespace Occ {
     managers?: B2BUser[];
   }
 
-  export interface B2BPaymentType {
-    code?: string;
-    displayName?: string;
-  }
-
   export interface OrderApprovalPermissionType {
     code?: string;
     name?: string;
@@ -4326,6 +4321,7 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
+
   export interface ReplenishmentOrder {
     active?: boolean;
     appliedOrderPromotions?: PromotionResult[];
@@ -4349,7 +4345,7 @@ export namespace Occ {
     orderDiscounts?: Price;
     paymentInfo?: PaymentDetails;
     paymentStatus?: string;
-    paymentType?: B2BPaymentType;
+    paymentType?: PaymentType;
     pickupItemsQuantity?: number;
     pickupOrderGroups?: PickupOrderEntryGroup[];
     potentialOrderPromotions?: PromotionResult[];
@@ -4373,14 +4369,14 @@ export namespace Occ {
   }
 
   export interface ReplenishmentOrderList {
-    pagination?: PaginationModel;
     replenishmentOrders?: ReplenishmentOrder[];
+    pagination?: PaginationModel;
     sorts?: SortModel[];
   }
 
   export interface Trigger {
-    activationTime: string;
-    displayTimeTable: string;
+    activationTime?: string;
+    displayTimeTable?: string;
   }
 
   export interface ScheduleReplenishmentForm {

@@ -8,6 +8,7 @@ import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '../../../model/replenishment-order.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CheckoutReplenishmentOrderConnector } from '../../connectors/index';
 import { CheckoutActions } from '../actions/index';
 import * as fromEffects from './replenishment-order.effect';
@@ -100,7 +101,7 @@ describe('Replenishment Order Effects', () => {
         userId: mockUserId,
       });
       const completion = new CheckoutActions.ScheduleReplenishmentOrderFail(
-        mockError
+        normalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });

@@ -16,6 +16,7 @@ import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
+const termsChecked = true;
 const selectedModeId = 'selectedModeId';
 const paymentDetails: PaymentDetails = {
   id: 'mockPaymentDetails',
@@ -381,6 +382,7 @@ describe('Checkout Actions', () => {
         const payload = {
           userId,
           cartId,
+          termsChecked,
         };
 
         const action = new CheckoutActions.PlaceOrder(payload);
