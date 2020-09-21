@@ -1,13 +1,8 @@
 import * as productSearchFlow from '../../helpers/product-search';
 
-function enterProduct() {
-  cy.get('cx-searchbox input').type('camera{enter}');
-}
-
 context('Product search', () => {
   before(() => {
     cy.visit('/');
-    enterProduct();
   });
 
   describe('Search results', () => {
@@ -49,7 +44,6 @@ context('Product search', () => {
   describe('Sorting', () => {
     before(() => {
       cy.visit('/');
-      enterProduct();
     });
 
     beforeEach(() => {
