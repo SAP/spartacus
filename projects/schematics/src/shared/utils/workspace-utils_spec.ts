@@ -2,8 +2,13 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  ProjectType,
+  WorkspaceProject,
+} from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
 import {
+  buildDefaultPath,
   getProjectFromWorkspace,
   getSourceRoot,
   getWorkspace,
@@ -75,6 +80,34 @@ describe('Workspace utils', () => {
       );
       expect(workspaceProjectObject.projectType).toEqual('application');
       expect(workspaceProjectObject.sourceRoot).toEqual('src');
+    });
+  });
+
+  describe('buildDefaultPath', () => {
+    let project: WorkspaceProject;
+    beforeEach(() => {
+      project = {
+        projectType: ProjectType.Application,
+        root: 'foo',
+        prefix: 'app',
+      };
+    });
+
+    it('should handle projectType of application', () => {
+      const result = buildDefaultPath(project);
+      expect(result).toEqual('/foo/src/app');
+    });
+
+    it('should handle projectType of library', () => {
+      project = { ...project, projectType: ProjectType.Library };
+      const result = buildDefaultPath(project);
+      expect(result).toEqual('/foo/src/lib');
+    });
+
+    it('should handle sourceRoot', () => {
+      project = { ...project, sourceRoot: 'foo/bar/custom' };
+      const result = buildDefaultPath(project);
+      expect(result).toEqual('/foo/bar/custom/app');
     });
   });
 });
