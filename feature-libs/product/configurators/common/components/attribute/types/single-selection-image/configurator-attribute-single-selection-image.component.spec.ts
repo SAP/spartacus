@@ -3,9 +3,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import {
+  ConfiguratorGroupsService,
+  ConfiguratorStorefrontUtilsService,
+  ConfiguratorUIKeyGenerator,
+} from '@spartacus/product/configurators/common';
+
+class MockGroupService {}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -25,7 +32,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         MockFocusDirective,
       ],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfiguratorUIKeyGenerator],
+      providers: [
+        ConfiguratorUIKeyGenerator,
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+      ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
         set: {
@@ -78,6 +92,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       required: false,
       selectedSingleValue: values[2].valueCode,
+      groupId: 'testGroup',
       values: values,
     };
     fixture.detectChanges();

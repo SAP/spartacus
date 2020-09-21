@@ -3,11 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import {
+  ConfiguratorGroupsService,
+  ConfiguratorStorefrontUtilsService,
+  ConfiguratorUIKeyGenerator,
+} from '@spartacus/product/configurators/common';
+
 class MockGroupService {}
 
 @Directive({
@@ -89,6 +92,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       attrCode: 444,
       uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
       required: false,
+      groupId: 'testGroup',
       values: values,
     };
     fixture.detectChanges();

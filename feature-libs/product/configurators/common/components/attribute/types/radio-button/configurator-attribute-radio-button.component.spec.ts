@@ -8,6 +8,7 @@ import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 class MockGroupService {}
+
 @Directive({
   selector: '[cxFocus]',
 })
