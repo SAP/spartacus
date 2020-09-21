@@ -10,7 +10,7 @@ import { ConfiguratorRouterExtractorService } from '../service/configurator-rout
   templateUrl: './configurator-update-message.component.html',
 })
 export class ConfiguratorUpdateMessageComponent {
-  protected hasPendingChanges$: Observable<
+  hasPendingChanges$: Observable<
     boolean
   > = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) =>
@@ -34,12 +34,6 @@ export class ConfiguratorUpdateMessageComponent {
               )
             ) // delay information if its loading
           : of(isLoading) // inform immediately if it's not loading anymore
-    )
-  );
-
-  visibleClass$: Observable<string> = this.hasPendingChanges$.pipe(
-    map((hasPendingChangesOrIsLoading) =>
-      hasPendingChangesOrIsLoading ? 'visible' : ''
     )
   );
 
