@@ -17,7 +17,9 @@ import { Configurator } from './../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeHeaderComponent implements OnInit {
+export class ConfiguratorAttributeHeaderComponent
+  extends ConfiguratorUIKeyGenerator
+  implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
@@ -26,7 +28,9 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+    super();
+  }
 
   ngOnInit(): void {
     /**
@@ -37,10 +41,6 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
       .pipe(
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
       );
-  }
-
-  createAttributeUiKey(prefix: string, attributeId: string): string {
-    return ConfiguratorUIKeyGenerator.createAttributeUiKey(prefix, attributeId);
   }
 
   /**

@@ -16,7 +16,9 @@ import { Configurator } from './../../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
+export class ConfiguratorAttributeCheckBoxListComponent
+  extends ConfiguratorUIKeyGenerator
+  implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -25,7 +27,9 @@ export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  ) {
+    super();
+  }
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -61,33 +65,5 @@ export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
   }
 }

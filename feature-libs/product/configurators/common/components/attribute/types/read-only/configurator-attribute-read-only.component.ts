@@ -6,25 +6,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-read-only.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeReadOnlyComponent {
+export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorUIKeyGenerator {
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
-  }
 }

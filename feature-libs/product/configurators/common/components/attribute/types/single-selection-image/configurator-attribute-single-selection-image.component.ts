@@ -17,6 +17,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
+  extends ConfiguratorUIKeyGenerator
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 
@@ -56,35 +57,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
         groupId: this.attribute.groupId,
       },
     };
-
     this.selectionChange.emit(event);
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
   }
 }

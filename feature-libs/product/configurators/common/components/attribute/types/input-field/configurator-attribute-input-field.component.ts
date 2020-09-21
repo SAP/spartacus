@@ -17,7 +17,9 @@ import { Configurator } from './../../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeInputFieldComponent implements OnInit {
+export class ConfiguratorAttributeInputFieldComponent
+  extends ConfiguratorUIKeyGenerator
+  implements OnInit {
   attributeInputForm = new FormControl('');
   @Input() ownerType: GenericConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
@@ -53,25 +55,5 @@ export class ConfiguratorAttributeInputFieldComponent implements OnInit {
     };
 
     this.inputChange.emit(event);
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createAriaLabelledBy(
-    prefix: string,
-    attributeId: string,
-    valueId?: string,
-    hasQuantity?: boolean
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAriaLabelledBy(
-      prefix,
-      attributeId,
-      valueId,
-      hasQuantity
-    );
   }
 }

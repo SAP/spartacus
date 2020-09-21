@@ -15,7 +15,9 @@ import { Configurator } from './../../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeDropDownComponent implements OnInit {
+export class ConfiguratorAttributeDropDownComponent
+  extends ConfiguratorUIKeyGenerator
+  implements OnInit {
   attributeDropDownForm = new FormControl('');
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -40,11 +42,5 @@ export class ConfiguratorAttributeDropDownComponent implements OnInit {
       },
     };
     this.selectionChange.emit(event);
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
   }
 }

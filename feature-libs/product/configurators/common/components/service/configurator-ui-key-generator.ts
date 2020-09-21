@@ -17,13 +17,13 @@ export class ConfiguratorUIKeyGenerator {
    * @param attributeId
    * @param valueId
    */
-  static createValueUiKey(
+  createValueUiKey(
     prefix: string,
     attributeId: string,
     valueId: string
   ): string {
     return (
-      ConfiguratorUIKeyGenerator.createAttributeUiKey(prefix, attributeId) +
+      this.createAttributeUiKey(prefix, attributeId) +
       ConfiguratorUIKeyGenerator.SEPERATOR +
       valueId
     );
@@ -34,11 +34,11 @@ export class ConfiguratorUIKeyGenerator {
    * @param currentAttribute
    * @param value
    */
-  static createAttributeValueIdForConfigurator(
+  createAttributeValueIdForConfigurator(
     currentAttribute: Configurator.Attribute,
     value: string
   ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
+    return this.createValueUiKey(
       currentAttribute.uiType,
       currentAttribute.name,
       value
@@ -50,7 +50,7 @@ export class ConfiguratorUIKeyGenerator {
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    */
-  static createAttributeUiKey(prefix: string, attributeId: string): string {
+  createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
       ConfiguratorUIKeyGenerator.PREFIX +
       ConfiguratorUIKeyGenerator.SEPERATOR +
@@ -64,11 +64,11 @@ export class ConfiguratorUIKeyGenerator {
    * Creates unique key for config attribute to be sent to configurator
    * @param currentAttribute
    */
-  static createAttributeIdForConfigurator(
+  createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
     if (currentAttribute) {
-      return ConfiguratorUIKeyGenerator.createAttributeUiKey(
+      return this.createAttributeUiKey(
         currentAttribute.uiType,
         currentAttribute.name
       );
@@ -82,26 +82,26 @@ export class ConfiguratorUIKeyGenerator {
    * @param valueId
    * @param hasQuantity
    */
-  static createAriaLabelledBy(
+  createAriaLabelledBy(
     prefix: string,
     attributeId: string,
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    let attributeUiKey = ConfiguratorUIKeyGenerator.createAttributeUiKey(
+    let attributeUiKey = this.createAttributeUiKey(
       ConfiguratorUIKeyGenerator.PREFIX_LABEL,
       attributeId
     );
     if (valueId) {
       attributeUiKey +=
         ' ' +
-        ConfiguratorUIKeyGenerator.createAttributeUiKey(prefix, attributeId) +
+        this.createAttributeUiKey(prefix, attributeId) +
         ConfiguratorUIKeyGenerator.SEPERATOR +
         valueId +
         ' ';
       if (typeof hasQuantity === 'boolean' && !hasQuantity) {
         attributeUiKey +=
-          ConfiguratorUIKeyGenerator.createAttributeUiKey(
+          this.createAttributeUiKey(
             ConfiguratorUIKeyGenerator.PREFIX_DDLB_OPTION_PRICE_VALUE,
             attributeId
           ) +
@@ -109,7 +109,7 @@ export class ConfiguratorUIKeyGenerator {
           valueId;
       } else {
         attributeUiKey +=
-          ConfiguratorUIKeyGenerator.createAttributeUiKey(
+          this.createAttributeUiKey(
             ConfiguratorUIKeyGenerator.PREFIX_OPTION_PRICE_VALUE,
             attributeId
           ) +
