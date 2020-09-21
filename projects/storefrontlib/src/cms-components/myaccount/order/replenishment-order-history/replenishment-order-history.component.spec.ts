@@ -3,8 +3,10 @@ import {
   EventEmitter,
   Input,
   Output,
+  ElementRef,
   Pipe,
   PipeTransform,
+  ViewContainerRef,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
+import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
 
 const mockReplenishmentOrders: ReplenishmentOrderList = {
   replenishmentOrders: [
@@ -25,17 +28,30 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       firstDate: new Date('2018-01-01').toDateString(),
       active: true,
       subTotal: { formattedValue: '$150.00' },
+      trigger: {
+        displayTimeTable: 'time-table',
+        activationTime: '1994-01-11T00:00Z',
+      },
     },
     {
       code: '2',
       firstDate: new Date('2018-01-02').toDateString(),
       active: true,
       subTotal: { formattedValue: '$200.00' },
+      trigger: {
+        displayTimeTable: 'time-table',
+        activationTime: '1994-01-11T00:00Z',
+      },
     },
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }],
 };
+
+const replenishmentOrderHistroy = new BehaviorSubject(mockReplenishmentOrders);
+
+// mock the service
+//
 
 @Component({
   template: '',
@@ -57,6 +73,10 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
+class MockReplenishmentOrderCancellationLaunchDialogService {
+  openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef) {}
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -65,10 +85,8 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockUserOrderService {
-  replenishmentOrderHistroy = new BehaviorSubject(mockReplenishmentOrders);
-
   getReplenishmentOrderHistoryList(): Observable<ReplenishmentOrderList> {
-    return this.replenishmentOrderHistroy;
+    return replenishmentOrderHistroy.asObservable();
   }
   getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
     return of(true);
@@ -89,7 +107,7 @@ class MockRoutingService {
 fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  let userService: UserReplenishmentOrderService | MockUserOrderService;
+  let userService: UserReplenishmentOrderService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -106,6 +124,10 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
         {
           provide: UserReplenishmentOrderService,
           useClass: MockUserOrderService,
+        },
+        {
+          provide: ReplenishmentOrderCancellationLaunchDialogService,
+          useClass: MockReplenishmentOrderCancellationLaunchDialogService,
         },
       ],
     }).compileComponents();
@@ -130,6 +152,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
         replenishmentOrders = value;
       })
       .unsubscribe();
+
     expect(replenishmentOrders).toEqual(mockReplenishmentOrders);
   });
 
@@ -138,12 +161,12 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-table tbody tr')
+      By.css('.cx-order-history-code')
     );
     rows[1].triggerEventHandler('click', null);
 
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderDetails',
+      cxRoute: 'replenishmentDetails',
       params: mockReplenishmentOrders.replenishmentOrders[1],
     });
   });
@@ -155,9 +178,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
       sorts: [{ code: 'byDate', selected: true }],
     };
 
-    (userService as MockUserOrderService).replenishmentOrderHistroy.next(
-      emptyReplenishmentOrderList
-    );
+    replenishmentOrderHistroy.next(emptyReplenishmentOrderList);
     fixture.detectChanges();
 
     expect(
