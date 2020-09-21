@@ -12,8 +12,9 @@
                 *ngFor="let costCenter of costCenters"
                 value="{{ costCenter.code }}"
                 [selected]="(cartCostCenter$ | async) === costCenter.code"
-                >{{ costCenter.name }}</option
               >
+                {{ costCenter.name }}
+              </option>
             </select>
             <span class="label-content">{{
               'checkoutPO.availableLabel' | cxTranslate
