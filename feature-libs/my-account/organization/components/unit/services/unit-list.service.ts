@@ -12,7 +12,6 @@ interface B2bUnitTreeNode extends B2BUnitNode {
   expanded: boolean;
   depthLevel: number;
   count: number;
-
   uid: string;
 }
 
@@ -46,17 +45,17 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       switchMap(() =>
         this.unitService
           .getTree()
-          .pipe(map((list: B2BUnitNode) => this.populate(list)))
+          .pipe(map((tree: B2BUnitNode) => this.convertListItem(tree)))
       )
     );
   }
 
-  protected populate(unit: B2BUnitNode): EntitiesModel<B2BUnit> {
-    return { values: this.convertListItem(unit) };
-  }
-
-  protected convertListItem(unit: B2BUnitNode, depthLevel = 0): B2BUnit[] {
-    let list = [];
+  protected convertListItem(
+    unit: B2BUnitNode,
+    depthLevel = 0,
+    pagination = { totalResults: 0 }
+  ): EntitiesModel<B2BUnit> {
+    let values = [];
     const expanded = this.isExpanded(unit.id, depthLevel);
     const treeNode: B2bUnitTreeNode = {
       ...unit,
@@ -68,16 +67,22 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     };
     this.expandState.set(treeNode.uid, expanded);
     this.levelState.set(treeNode.uid, depthLevel);
-    list.push(treeNode);
+
+    values.push(treeNode);
+    pagination.totalResults++;
 
     unit.children.forEach((childUnit) => {
-      const childList = this.convertListItem(childUnit, depthLevel + 1);
+      const childList = this.convertListItem(
+        childUnit,
+        depthLevel + 1,
+        pagination
+      )?.values;
       if (treeNode.expanded && childList.length > 0) {
-        list = list.concat(childList);
+        values = values.concat(childList);
       }
     });
 
-    return list;
+    return { values, pagination };
   }
 
   /**
@@ -97,8 +102,8 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   collapseAll() {
-    this.levelState.forEach((value, key) => {
-      if (value >= this.initialExpanded) this.expandState.set(key, false);
+    this.levelState.forEach((depthLevel, key) => {
+      if (depthLevel >= this.initialExpanded) this.expandState.set(key, false);
     });
     this.update$.next(true);
   }
