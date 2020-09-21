@@ -3,7 +3,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideDefaultConfigFactory } from '../../config/config.module';
 import {
   StateConfig,
   StateTransferType,
@@ -12,6 +11,7 @@ import { StateModule } from '../../state/state.module';
 import { CMS_FEATURE } from './cms-state';
 import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 
 export function cmsStoreConfigFactory(): StateConfig {
   // if we want to reuse CMS_FEATURE const in config, we have to use factory instead of plain object

@@ -3,12 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideDefaultConfigFactory } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { effects } from './effects/index';
 import { KYMA_FEATURE } from './kyma-state';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 
 export function kymaStoreConfigFactory(): StateConfig {
   // if we want to reuse KYMA_FEATURE const in config, we have to use factory instead of plain object
