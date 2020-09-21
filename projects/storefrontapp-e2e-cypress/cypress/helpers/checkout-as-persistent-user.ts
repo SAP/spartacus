@@ -179,8 +179,13 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
+  cy.route(
+    'PUT',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/**/deliverymode?*`
+  ).as('putDeliveryMode');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage').its('status').should('eq', 200);
+  cy.wait('@putDeliveryMode').its('status').should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
@@ -228,12 +233,12 @@ export function verifyAndPlaceOrder() {
 export function displaySummaryPage() {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .row').within(() => {
-    cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(2) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
+  cy.get('.cx-order-review-summary .container').within(() => {
+    cy.get('.summary-card:nth-child(1) .cx-card').should('not.be.empty');
+    cy.get('.summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains('Standard Delivery');
     });
+    cy.get('.summary-card:nth-child(3) .cx-card').should('not.be.empty');
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');

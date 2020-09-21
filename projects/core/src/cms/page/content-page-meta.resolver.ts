@@ -18,7 +18,8 @@ import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentPageMetaResolver extends PageMetaResolver
+export class ContentPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   /** helper to provie access to the current CMS page */
   protected cms$: Observable<Page> = this.cms

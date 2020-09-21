@@ -1,6 +1,6 @@
 import { GeoPoint } from '../../../model/misc.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import { StateUtils } from '../../../state/utils/index';
-import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
@@ -25,7 +25,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
   constructor(
     public payload: {
       queryText: string;
-      searchConfig?: StoreFinderSearchConfig;
+      searchConfig?: SearchConfig;
       longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
       countryIsoCode?: string;

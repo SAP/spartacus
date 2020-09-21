@@ -1,8 +1,11 @@
-import { EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
 
 // TODO:#my-account-architecture - move to `@spartacust/my-account` library
+
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class AbstractFormComponent {
   // TODO:#save-forms - make abstract?
   form: FormGroup;

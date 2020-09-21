@@ -20,7 +20,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { getProjectTargets } from '../shared/utils/workspace-utils';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
@@ -73,7 +73,7 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^6.0.0',
+        version: '^7.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
@@ -224,7 +224,10 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
+function installStyles(
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
+): Rule {
   return (host: Tree) => {
     const styleFilePath = getProjectStyleFile(project);
 
@@ -262,7 +265,11 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `@import '~@spartacus/styles/index';\n`;
+    const insertion =
+      '\n' +
+      `$styleVersion: ${
+        options.featureLevel || getSpartacusCurrentFeatureLevel()
+      };\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -338,7 +345,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(),
       updateAppModule(options),
-      installStyles(project),
+      installStyles(project, options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
