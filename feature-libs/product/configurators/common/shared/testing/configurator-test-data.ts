@@ -21,7 +21,7 @@ export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
 export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 export const mockRouterState: any = {
   state: {
