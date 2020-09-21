@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -19,45 +20,68 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeSingleSelectionImageComponent
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
+  changeTriggeredByKeyboard = false;
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  ngOnInit() {
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+
+  ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   /**
-   * Fired on key board events, checks for 'enter' and 'space' and delegates to onClick.
+   * Mouse down event triggers submit value.
    *
-   * @param event
-   * @param index Index of selected value
+   * @param {string} value - Value to update
    */
-  onKeyUp(event: KeyboardEvent, index: number): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
-      this.onClick(index);
+  onMouseDown(value: string) {
+    this.submitValue(value);
+  }
+
+  /**
+   * Focus out event triggers submit value.
+   *
+   * @param {FocusEvent} event -Focus event
+   */
+  onFocusOut(event: FocusEvent) {
+    if (
+      this.configUtils.attributeLostFocus(event) &&
+      this.attributeRadioButtonForm.value !== null &&
+      this.changeTriggeredByKeyboard === true
+    ) {
+      this.submitValue(this.attributeRadioButtonForm?.value);
     }
   }
 
   /**
-   * Fired when value was selected
-   * @param index Index of selected value
+   * Key up event sets changeTriggeredByKeyboard to 'true'
    */
-  onClick(index: number): void {
+  onKeyUp() {
+    this.changeTriggeredByKeyboard = true;
+  }
+
+  /**
+   * Submits a value.
+   *
+   * @param {string} value - Selected value
+   */
+  submitValue(value: string): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
-        selectedSingleValue: this.attribute.values[index].valueCode,
+        selectedSingleValue: value,
         uiType: this.attribute.uiType,
         groupId: this.attribute.groupId,
       },
     };
 
     this.selectionChange.emit(event);
+    this.changeTriggeredByKeyboard = false;
   }
 
   createAttributeValueIdForConfigurator(
@@ -85,6 +109,20 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       prefix,
       attributeId,
       valueId
+    );
+  }
+
+  createAriaLabelledBy(
+    prefix: string,
+    attributeId: string,
+    valueId?: string,
+    hasQuantity?: boolean
+  ): string {
+    return ConfiguratorUIKeyGenerator.createAriaLabelledBy(
+      prefix,
+      attributeId,
+      valueId,
+      hasQuantity
     );
   }
 }

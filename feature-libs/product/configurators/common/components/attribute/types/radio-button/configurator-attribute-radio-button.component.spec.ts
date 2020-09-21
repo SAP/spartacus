@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+
+class MockGroupService {}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
 
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
@@ -11,9 +22,19 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeRadioButtonComponent],
+      declarations: [
+        ConfiguratorAttributeRadioButtonComponent,
+        MockFocusDirective,
+      ],
       imports: [ReactiveFormsModule],
-      providers: [ConfiguratorUIKeyGenerator],
+      providers: [
+        ConfiguratorUIKeyGenerator,
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+      ],
     })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
         set: {
@@ -33,6 +54,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       attrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
       selectedSingleValue: 'selectedValue',
+      groupId: 'testGroup',
       quantity: 1,
     };
     fixture.detectChanges();
@@ -40,62 +62,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('getAttributeId should extract the attribute id', () => {
-    const attributeId = component.getAttributeId(
-      'cx-config--radioGroup--CAMERA_COLOR--BLACK'
-    );
-    expect(attributeId).toEqual('cx-config--radioGroup--CAMERA_COLOR');
-  });
-
-  it('getAttributeId should return undefined if radio button id is undefined', () => {
-    const attributeId = component.getAttributeId(undefined);
-    expect(attributeId).toBeUndefined();
-  });
-
-  it('attributeLostFocus should return true if attributeId of relatedTarget and target is different', () => {
-    const he: HTMLElement = document.createElement('input');
-    he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
-    const et: EventTarget = he;
-    const he2: HTMLElement = document.createElement('input');
-    he2.id = 'cx-config--radioGroup--CAMERA_SENSOR--G124';
-    const et2: EventTarget = he2;
-    const ev: FocusEvent = { relatedTarget: et, target: et2 } as FocusEvent;
-    expect(component.attributeLostFocus(ev)).toBeTrue();
-  });
-
-  it('attributeLostFocus should return true if attributeId of relatedTarget and target is different with target being undefined', () => {
-    const he: HTMLElement = document.createElement('input');
-    he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
-    const et: EventTarget = he;
-    const ev: FocusEvent = {
-      relatedTarget: et,
-      target: undefined,
-    } as FocusEvent;
-    expect(component.attributeLostFocus(ev)).toBeTrue();
-  });
-
-  it('attributeLostFocus should return true if attributeId of relatedTarget and target is different with relatedTarget being undefined', () => {
-    const he: HTMLElement = document.createElement('input');
-    he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
-    const et: EventTarget = he;
-    const ev: FocusEvent = {
-      relatedTarget: undefined,
-      target: et,
-    } as FocusEvent;
-    expect(component.attributeLostFocus(ev)).toBeTrue();
-  });
-
-  it('should return false if attributeId of relatedTarget and target are the same', () => {
-    const he: HTMLElement = document.createElement('input');
-    he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
-    const et: EventTarget = he;
-    const he2: HTMLElement = document.createElement('input');
-    he2.id = 'cx-config--radioGroup--CAMERA_COLOR--BROWN';
-    const et2: EventTarget = he2;
-    const ev: FocusEvent = { relatedTarget: et, target: et2 } as FocusEvent;
-    expect(component.attributeLostFocus(ev)).toBeFalse();
   });
 
   it('should set selectedSingleValue on init', () => {

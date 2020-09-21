@@ -19,7 +19,6 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeMultiSelectionImageComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
@@ -49,7 +48,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
    * @param index Index of selected value
    */
   onKeyUp(event: KeyboardEvent, index: number): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
+    if (event.code === 'Space') {
       this.onSelect(index);
     }
   }

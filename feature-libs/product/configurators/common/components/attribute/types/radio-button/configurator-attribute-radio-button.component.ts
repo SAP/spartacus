@@ -10,6 +10,8 @@ import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
 import { Configurator } from './../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
   templateUrl: './configurator-attribute-radio-button.component.html',
@@ -24,67 +26,54 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  ngOnInit() {
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+
+  ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  onMouseDown(valueCode: string) {
-    this.submitValue(valueCode);
+  /**
+   * Mouse down event triggers submit value.
+   *
+   * @param {string} value - Value to update
+   */
+  onMouseDown(value: string) {
+    this.submitValue(value);
   }
 
+  /**
+   * Focus out event triggers submit value.
+   *
+   * @param {FocusEvent} event -Focus event
+   */
   onFocusOut(event: FocusEvent) {
     if (
-      this.attributeLostFocus(event) &&
+      this.configUtils.attributeLostFocus(event) &&
       this.attributeRadioButtonForm.value !== null &&
       this.changeTriggeredByKeyboard === true
     ) {
-      this.submitValue(this.attributeRadioButtonForm.value);
+      this.submitValue(this.attributeRadioButtonForm?.value);
     }
   }
 
+  /**
+   * Key up event sets changeTriggeredByKeyboard to 'true'
+   */
   onKeyUp() {
     this.changeTriggeredByKeyboard = true;
   }
 
   /**
-   * Returns true if the focus changed from one attribute to any other element.
-   * Returns false if the focus change occured inside the same attribute (i.e. from one value to another of the same attribute)
-   * @param event FocusEvent to be checked
+   * Submits a value.
+   *
+   * @param {string} value - Selected value
    */
-  attributeLostFocus(event: FocusEvent): boolean {
-    let attributeLostFocus = false;
-    const from: HTMLElement = event.target as HTMLElement;
-    const to: HTMLElement = event.relatedTarget as HTMLElement;
-    // Avoid submit on round-trip (in this case event.relatedTarget is null)
-    if (to === null) {
-      return attributeLostFocus;
-    }
-    if (this.getAttributeId(from?.id) !== this.getAttributeId(to?.id)) {
-      attributeLostFocus = true;
-    }
-
-    return attributeLostFocus;
-  }
-
-  /**
-   * Removes the value Id from the element id to get the attribute id.
-   * @param id HTMLElment id
-   */
-  getAttributeId(id: string): string {
-    const index = id?.lastIndexOf('--');
-    return id?.substring(0, index);
-  }
-
-  /**
-   * Submits the value.
-   */
-  submitValue(valueCode: string): void {
-    //console.log('the value to submit: ' + valueCode);
+  submitValue(value: string): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
-        selectedSingleValue: valueCode,
+        selectedSingleValue: value,
         uiType: this.attribute.uiType,
         groupId: this.attribute.groupId,
       },
@@ -93,6 +82,7 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
     this.selectionChange.emit(event);
     this.changeTriggeredByKeyboard = false;
   }
+
   createAttributeValueIdForConfigurator(
     attribute: Configurator.Attribute,
     value: string

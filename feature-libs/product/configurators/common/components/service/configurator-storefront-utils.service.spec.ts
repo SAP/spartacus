@@ -84,4 +84,64 @@ describe('ConfigUtilsService', () => {
     expect(values[1].name).toBe(attribute.values[1].name);
     expect(values[1].selected).toBe(false);
   });
+
+  describe('Get attribute ID', () => {
+    it('getAttributeId should extract the attribute id', () => {
+      const attributeId = classUnderTest.getAttributeId(
+        'cx-config--radioGroup--CAMERA_COLOR--BLACK'
+      );
+      expect(attributeId).toEqual('cx-config--radioGroup--CAMERA_COLOR');
+    });
+
+    it('getAttributeId should return undefined if radio button id is undefined', () => {
+      const attributeId = classUnderTest.getAttributeId(undefined);
+      expect(attributeId).toBeUndefined();
+    });
+  });
+
+  describe('Verify whether the attribute lost focus', () => {
+    it('attributeLostFocus should return true if attributeId of relatedTarget and target is different', () => {
+      const he: HTMLElement = document.createElement('input');
+      he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
+      const et: EventTarget = he;
+      const he2: HTMLElement = document.createElement('input');
+      he2.id = 'cx-config--radioGroup--CAMERA_SENSOR--G124';
+      const et2: EventTarget = he2;
+      const ev: FocusEvent = { relatedTarget: et, target: et2 } as FocusEvent;
+      expect(classUnderTest.attributeLostFocus(ev)).toBeTrue();
+    });
+
+    it('attributeLostFocus should return true if attributeId of relatedTarget and target is different with target being undefined', () => {
+      const he: HTMLElement = document.createElement('input');
+      he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
+      const et: EventTarget = he;
+      const ev: FocusEvent = {
+        relatedTarget: et,
+        target: undefined,
+      } as FocusEvent;
+      expect(classUnderTest.attributeLostFocus(ev)).toBeTrue();
+    });
+
+    it('attributeLostFocus should return true if attributeId of relatedTarget and target is different with relatedTarget being undefined', () => {
+      const he: HTMLElement = document.createElement('input');
+      he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
+      const et: EventTarget = he;
+      const ev: FocusEvent = {
+        relatedTarget: undefined,
+        target: et,
+      } as FocusEvent;
+      expect(classUnderTest.attributeLostFocus(ev)).toBeTrue();
+    });
+
+    it('should return false if attributeId of relatedTarget and target are the same', () => {
+      const he: HTMLElement = document.createElement('input');
+      he.id = 'cx-config--radioGroup--CAMERA_COLOR--BLACK';
+      const et: EventTarget = he;
+      const he2: HTMLElement = document.createElement('input');
+      he2.id = 'cx-config--radioGroup--CAMERA_COLOR--BROWN';
+      const et2: EventTarget = he2;
+      const ev: FocusEvent = { relatedTarget: et, target: et2 } as FocusEvent;
+      expect(classUnderTest.attributeLostFocus(ev)).toBeFalse();
+    });
+  });
 });
