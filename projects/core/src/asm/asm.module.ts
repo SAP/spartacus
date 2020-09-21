@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '../config/config.module';
+import { provideDefaultConfig } from '../config/config-providers';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
 import { AsmStoreModule } from './store/asm-store.module';
