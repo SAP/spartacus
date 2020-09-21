@@ -13,9 +13,12 @@ import {
   CmsConfig,
   ConfigChunk,
   ConfigInitializerService,
-  configurationFactory,
+  createFrom,
+  deepMerge,
   DefaultConfigChunk,
+  EventService,
   FeatureModuleConfig,
+  ModuleInitializedEvent,
 } from '@spartacus/core';
 import {
   combineLatest,
@@ -68,7 +71,8 @@ export class FeatureModulesService implements OnDestroy {
   constructor(
     protected configInitializer: ConfigInitializerService,
     protected compiler: Compiler,
-    protected injector: Injector
+    protected injector: Injector,
+    protected events: EventService
   ) {
     this.initFeatureMap();
   }
@@ -168,6 +172,14 @@ export class FeatureModulesService implements OnDestroy {
           featureName,
           depsResolve.pipe(
             switchMap((deps) => this.resolveFeatureModule(featureConfig, deps)),
+            tap((featureInstance) =>
+              this.events.dispatch(
+                createFrom(ModuleInitializedEvent, {
+                  featureName,
+                  moduleRef: featureInstance.moduleRef,
+                })
+              )
+            ),
             shareReplay()
           )
         );
@@ -227,9 +239,10 @@ export class FeatureModulesService implements OnDestroy {
       InjectFlags.Self
     );
 
-    return configurationFactory(
-      featureConfigChunks,
-      featureDefaultConfigChunks
+    return deepMerge(
+      {},
+      ...(featureDefaultConfigChunks ?? []),
+      ...(featureConfigChunks ?? [])
     ) as CmsConfig;
   }
 
@@ -247,6 +260,12 @@ export class FeatureModulesService implements OnDestroy {
         if (!this.dependencyModules.has(module)) {
           const moduleRef = moduleFactory.create(this.injector);
           this.dependencyModules.set(module, moduleRef);
+
+          this.events.dispatch(
+            createFrom(ModuleInitializedEvent, {
+              moduleRef,
+            })
+          );
         }
       }),
       pluck(1)
