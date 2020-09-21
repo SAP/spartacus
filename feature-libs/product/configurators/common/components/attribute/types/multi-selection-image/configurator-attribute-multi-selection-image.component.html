@@ -2,16 +2,7 @@
   <div
     *ngFor="let value of attribute.values; let i = index"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
-    (click)="onSelect(i)"
-    (keyup)="onKeyUp($event, i)"
-    class="cx-configurator-select col-6 col-sm-3"
-    [attr.aria-labelledby]="
-      createValueUiKey('label', attribute.name, value.valueCode)
-    "
-    role="checkbox"
-    [attr.aria-checked]="attributeCheckBoxForms[i].value"
-    [cxFocus]="{ key: attribute.name + '-' + value.name }"
-    tabindex="0"
+    class="cx-config-select col-6 col-sm-3"
   >
     <input
       id="{{
@@ -23,27 +14,33 @@
       [value]="value.valueCode"
       [formControl]="attributeCheckBoxForms[i]"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
+      (click)="onSelect(i)"
+      [attr.aria-labelledby]="
+        createValueUiKey('label', attribute.name, value.valueCode)
+      "
+      [attr.aria-checked]="attributeCheckBoxForms[i].value"
+      [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
-
-    <img
-      *ngIf="value.images[0]"
-      class="cx-configurator-attribute-value-img"
-      src="{{ value.images[0].url }}"
-      alt="{{ value.images[0].altText }}"
-    />
-    <div
-      *ngIf="!value.images[0]"
-      class="cx-configurator-attribute-value-img-dummy"
-    ></div>
-
-    <div class="cx-configurator-attribute-value-label-container">
+    <div class="cx-config-attribute-value-label-container">
       <label
         id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+            '-input'
         }}"
-        class="cx-configurator-attribute-value-label form-check-label"
-        >{{ value.valueDisplay }}</label
+        class="cx-config-attribute-value-label form-check-label"
+      >
+        <img
+          *ngIf="value.images[0]"
+          class="cx-config-attribute-value-img"
+          src="{{ value.images[0].url }}"
+          alt="{{ value.images[0].altText }}"
+        />
+        <div
+          *ngIf="!value.images[0]"
+          class="cx-config-attribute-value-img-dummy"
+        ></div>
+        {{ value.valueDisplay }}</label
       >
     </div>
   </div>

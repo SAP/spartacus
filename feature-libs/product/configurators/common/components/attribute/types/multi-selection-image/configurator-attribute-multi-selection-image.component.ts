@@ -19,7 +19,6 @@ import { Configurator } from './../../../../core/model/configurator.model';
 export class ConfiguratorAttributeMultiSelectionImageComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
