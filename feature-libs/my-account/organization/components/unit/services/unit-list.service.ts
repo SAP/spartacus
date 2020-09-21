@@ -26,7 +26,7 @@ interface B2bUnitTreeNode extends B2BUnitNode {
 export class UnitListService extends OrganizationListService<B2BUnit> {
   protected tableType = OrganizationTableType.UNIT;
 
-  protected initialExpanded = 2;
+  protected initialExpanded = 1;
 
   protected expandState = new Map<string, boolean>();
   protected update$ = new BehaviorSubject(undefined);
@@ -56,26 +56,24 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
 
   protected convertListItem(unit: B2BUnitNode, depthLevel = 0): B2BUnit[] {
     let list = [];
-
+    const expanded = this.isExpanded(unit.id, depthLevel);
     const treeNode: B2bUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
-      expanded: this.isExpanded(unit.id, depthLevel),
+      expanded: expanded,
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
     };
-
+    this.expandState.set(treeNode.uid, expanded);
     list.push(treeNode);
 
-    if (treeNode.expanded) {
-      unit.children.forEach((childUnit) => {
-        const childList = this.convertListItem(childUnit, depthLevel + 1);
-        if (childList.length > 0) {
-          list = list.concat(childList);
-        }
-      });
-    }
+    unit.children.forEach((childUnit) => {
+      const childList = this.convertListItem(childUnit, depthLevel + 1);
+      if (treeNode.expanded && childList.length > 0) {
+        list = list.concat(childList);
+      }
+    });
 
     return list;
   }
@@ -97,10 +95,13 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   collapseAll() {
-    // TODO
+    // TODO: support depth level
+    this.expandState.forEach((_value, key) => this.expandState.set(key, false));
+    this.update$.next(true);
   }
 
   expandAll() {
-    // TODO
+    this.expandState.forEach((_value, key) => this.expandState.set(key, true));
+    this.update$.next(true);
   }
 }
