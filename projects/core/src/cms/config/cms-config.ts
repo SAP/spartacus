@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-tokens';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -86,7 +86,8 @@ export interface FeatureModuleConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig extends OccConfig
+export abstract class CmsConfig
+  extends OccConfig
   implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;
