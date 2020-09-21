@@ -272,6 +272,8 @@ export function clearOrganizationState(
       UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS,
       UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_FAIL,
       UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS,
+      UserGroupActions.DELETE_USER_GROUP_FAIL,
+      UserGroupActions.DELETE_USER_GROUP_SUCCESS,
 
       B2BUserActions.CREATE_B2B_USER_FAIL,
       B2BUserActions.CREATE_B2B_USER_SUCCESS,
@@ -279,6 +281,7 @@ export function clearOrganizationState(
       B2BUserActions.UPDATE_B2B_USER_SUCCESS,
       B2BUserActions.CREATE_B2B_USER_APPROVER_FAIL,
       B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS,
+      B2BUserActions.DELETE_B2B_USER_APPROVER_FAIL,
       B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS,
       B2BUserActions.CREATE_B2B_USER_PERMISSION_FAIL,
       B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS,
