@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../../auth/user-auth/facade/user-id.service';
 import * as fromReducers from '../../../cart/store/reducers/index';
 import { Cart, SaveCartResult } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -62,8 +62,8 @@ class MockSaveCartConnector {
   saveCart = createSpy().and.returnValue(of(saveCartResult));
 }
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService {
+  getUserId = createSpy().and.returnValue(of(userId));
 }
 
 describe('Wish List Effect', () => {
@@ -84,7 +84,7 @@ describe('Wish List Effect', () => {
       providers: [
         { provide: CartConnector, useClass: MockCartConnector },
         { provide: SaveCartConnector, useClass: MockSaveCartConnector },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
         fromEffects.WishListEffects,
         provideMockActions(() => actions$),
       ],

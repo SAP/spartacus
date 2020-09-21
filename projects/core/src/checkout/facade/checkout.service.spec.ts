@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
@@ -13,7 +13,7 @@ import { CheckoutService } from './checkout.service';
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let activeCartService: ActiveCartService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -29,9 +29,9 @@ describe('CheckoutService', () => {
     }
   }
 
-  class AuthServiceStub {
+  class UserIdServiceStub {
     userId;
-    getOccUserId() {
+    getUserId() {
       return of(userId);
     }
   }
@@ -48,16 +48,16 @@ describe('CheckoutService', () => {
       providers: [
         CheckoutService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
     store = TestBed.inject(Store);
     activeCartService = TestBed.inject(ActiveCartService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
 
-    authService['userId'] = userId;
+    userIdService['userId'] = userId;
     activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -149,7 +149,7 @@ describe('CheckoutService', () => {
   });
 
   it('should allow actions for login user or guest user', () => {
-    authService['userId'] = 'anonymous';
+    userIdService['userId'] = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
   });
 });

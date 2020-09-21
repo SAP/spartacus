@@ -5,7 +5,11 @@ import { map } from 'rxjs/operators';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { AuthActions } from '../../auth/user-auth/store/actions';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
+import { UserService } from '../../user/facade/user.service';
 import {
   AsmAuthStorageService,
   TokenTarget,
@@ -23,7 +27,8 @@ export class CsAgentAuthService {
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
-    protected store: Store<StateWithAsm>
+    protected store: Store<StateWithAsm>,
+    protected userService: UserService
   ) {}
 
   /**
@@ -45,10 +50,21 @@ export class CsAgentAuthService {
       this.cxOAuthService
         .authorizeWithPasswordFlow(userId, password)
         .then(() => {
-          // Set previous user token for restoration after asm agent logout
-          // TODO: Get user id for emulation and set it in user id service
-          // TODO: With different OAuth flows extract this common emulation start to separate method
-          this.authStorageService.setEmulatedUserToken(userToken);
+          // Start emulation for currently logged in user
+          let customerId: string;
+          this.userService
+            .get()
+            .subscribe((user) => (customerId = user?.customerId))
+            .unsubscribe();
+          if (Boolean(customerId)) {
+            // OCC specific user id handling. Customize when implementing different backend
+            this.userIdService.setUserId(customerId);
+            this.authStorageService.setEmulatedUserToken(userToken);
+          } else {
+            // When we can't get the customerId just end all current sessions
+            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+            this.authStorageService.clearEmulatedUserToken();
+          }
         })
         .catch(() => {
           this.authStorageService.switchTokenTargetToUser();

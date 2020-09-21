@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -10,7 +10,7 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserNotificationPreferenceService } from './user-notification-preference.service';
 
-class MockAuthService {
+class MockUserIdService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
@@ -39,7 +39,7 @@ describe('UserNotificationPreferenceService', () => {
       ],
       providers: [
         UserNotificationPreferenceService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

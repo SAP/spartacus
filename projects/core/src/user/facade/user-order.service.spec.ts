@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -13,7 +13,7 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserOrderService } from './user-order.service';
 
-class MockAuthService {
+class MockUserIdService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
@@ -21,7 +21,7 @@ class MockAuthService {
 
 describe('UserOrderService', () => {
   let userOrderService: UserOrderService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -36,12 +36,12 @@ describe('UserOrderService', () => {
       ],
       providers: [
         UserOrderService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     userOrderService = TestBed.inject(UserOrderService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -135,7 +135,7 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+    spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
       cb(OCC_USER_ID_ANONYMOUS)
     );
 

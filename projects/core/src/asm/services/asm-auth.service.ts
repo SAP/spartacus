@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthToken } from '../../auth';
 import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-state';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { AuthRedirectService } from '../../auth/user-auth/guards/auth-redirect.service';
 import { BasicAuthService } from '../../auth/user-auth/services/basic-auth.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { UserService } from '../../user/facade/user.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 @Injectable({
@@ -23,7 +22,8 @@ export class AsmAuthService extends BasicAuthService {
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
     protected authStorageService: AsmAuthStorageService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
+    protected userService: UserService
   ) {
     super(
       store,
@@ -100,12 +100,23 @@ export class AsmAuthService extends BasicAuthService {
         })
         .unsubscribe();
 
-      // TODO: For csagent target store emulated token
+      const prevToken = this.authStorageService.getItem('access_token');
+      // Get customerId and token to immediately start emulation session
+      let userToken: AuthToken;
+      let customerId: string;
+      this.authStorageService
+        .getToken()
+        .subscribe((token) => (userToken = token))
+        .unsubscribe();
+      this.userService
+        .get()
+        .subscribe((user) => (customerId = user?.customerId))
+        .unsubscribe();
 
       this.cxOAuthService.tryLogin().then((result) => {
         const token = this.authStorageService.getItem('access_token');
         // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
-        if (result && token) {
+        if (result && token !== prevToken) {
           if (tokenTarget === TokenTarget.User) {
             this.userIdService.setUserId(OCC_USER_ID_CURRENT);
             this.store.dispatch(new AuthActions.Login());
@@ -114,11 +125,11 @@ export class AsmAuthService extends BasicAuthService {
               this.authRedirectService.redirect();
             }, 10);
           } else {
-            // TODO: Set emulated token and try to start the emulated session instantly
-            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+            if (userToken && Boolean(customerId)) {
+              this.userIdService.setUserId(customerId);
+              this.authStorageService.setEmulatedUserToken(userToken);
+            }
           }
-        } else {
-          // this.cxOAuthService.silentRefresh();
         }
       });
     });

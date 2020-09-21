@@ -8,10 +8,10 @@ import {
 } from '@angular/core/testing';
 import {
   AsmConfig,
-  AuthService,
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
   RoutingService,
+  UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -26,8 +26,8 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
-class MockAuthService {
-  getOccUserId(): Observable<string> {
+class MockUserIdService {
+  getUserId(): Observable<string> {
     return of('');
   }
 }
@@ -55,7 +55,7 @@ describe('AsmSessionTimerComponent', () => {
   let config: AsmConfig;
   let asmComponentService: AsmComponentService;
   let routingService: RoutingService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,7 +69,7 @@ describe('AsmSessionTimerComponent', () => {
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     }).compileComponents();
   }));
@@ -79,7 +79,7 @@ describe('AsmSessionTimerComponent', () => {
     config = TestBed.inject(AsmConfig);
     asmComponentService = TestBed.inject(AsmComponentService);
     routingService = TestBed.inject(RoutingService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -151,7 +151,7 @@ describe('AsmSessionTimerComponent', () => {
       OCC_USER_ID_ANONYMOUS
     );
     spyOn(component, 'resetTimer').and.callThrough();
-    spyOn(authService, 'getOccUserId').and.returnValue(occUserId$);
+    spyOn(userIdService, 'getUserId').and.returnValue(occUserId$);
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit(); // reset 1, initial value anonymous.
     occUserId$.next('customer01'); // reset 2, staring an emulation session.

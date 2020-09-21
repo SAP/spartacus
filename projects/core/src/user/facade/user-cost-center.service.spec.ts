@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { B2BAddress, CostCenter } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
@@ -10,7 +10,7 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserCostCenterService } from './user-cost-center.service';
 
 const userId = 'testUserId';
-class MockAuthService {
+class MockUserIdService {
   userId;
   invokeWithUserId(cb) {
     cb(userId);
@@ -32,7 +32,7 @@ describe('PaymentTypeService', () => {
       ],
       providers: [
         UserCostCenterService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

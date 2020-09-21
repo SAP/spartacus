@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   NotificationType,
   ProductInterestSearchResult,
@@ -19,7 +19,7 @@ const emptyInterestList: ProductInterestSearchResult = {
   pagination: {},
 };
 
-class MockAuthService {
+class MockUserIdService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
@@ -41,7 +41,7 @@ describe('UserInterestsService', () => {
       ],
       providers: [
         UserInterestsService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

@@ -44,7 +44,7 @@ const MockWindowRef = {
 };
 
 describe('AsmComponentService', () => {
-  let authService: AuthService;
+  let authService: AsmAuthService;
   let csAgentAuthService: CsAgentAuthService;
   let routingService: RoutingService;
   let windowRef: WindowRef;

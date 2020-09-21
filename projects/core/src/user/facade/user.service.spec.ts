@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -14,11 +14,11 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
-class MockAuthService {
+class MockUserIdService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
-  getOccUserId() {
+  getUserId() {
     return of('');
   }
 }
@@ -39,7 +39,7 @@ describe('UserService', () => {
       ],
       providers: [
         UserService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
@@ -93,8 +93,8 @@ describe('UserService', () => {
     });
 
     it('should not load anonymous user details', () => {
-      const authService = TestBed.inject(AuthService);
-      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+      const userIdService = TestBed.inject(UserIdService);
+      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
         cb(OCC_USER_ID_ANONYMOUS)
       );
       service.load();
