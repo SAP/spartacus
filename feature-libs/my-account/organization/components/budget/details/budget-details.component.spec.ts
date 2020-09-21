@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/my-account/organization/core';
@@ -24,7 +24,7 @@ describe('BudgetDetailsComponent', () => {
   let fixture: ComponentFixture<BudgetDetailsComponent>;
   let itemService: OrganizationItemService<Budget>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -41,9 +41,6 @@ describe('BudgetDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

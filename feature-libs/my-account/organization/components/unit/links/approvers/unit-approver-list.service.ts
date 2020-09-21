@@ -29,7 +29,6 @@ export class UnitApproverListService extends OrganizationSubListService<
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    console.log('load', structure);
     return this.unitService.getUsers(
       code,
       UserRole.APPROVER,

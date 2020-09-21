@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Permission } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -24,7 +24,7 @@ describe('PermissionDetailsComponent', () => {
   let fixture: ComponentFixture<PermissionDetailsComponent>;
   let itemService: OrganizationItemService<Permission>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -44,9 +44,7 @@ describe('PermissionDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

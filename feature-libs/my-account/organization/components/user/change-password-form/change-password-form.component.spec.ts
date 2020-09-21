@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,7 +28,7 @@ describe('ChangePasswordFormComponent', () => {
   let fixture: ComponentFixture<ChangePasswordFormComponent>;
   let formService: ChangePasswordFormService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -50,9 +50,7 @@ describe('ChangePasswordFormComponent', () => {
       ],
     }).compileComponents();
     formService = TestBed.inject(ChangePasswordFormService);
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ChangePasswordFormComponent);
     component = fixture.componentInstance;
   });

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -64,7 +64,7 @@ describe('OrganizationSubListComponent', () => {
   let fixture: ComponentFixture<OrganizationSubListComponent>;
   let organizationListService: OrganizationListService<any>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -87,7 +87,7 @@ describe('OrganizationSubListComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     organizationListService = TestBed.inject(OrganizationListService);

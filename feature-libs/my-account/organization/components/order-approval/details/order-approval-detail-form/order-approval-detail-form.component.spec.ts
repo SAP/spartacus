@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -84,7 +84,7 @@ describe('OrderApprovalDetailFormComponent', () => {
   let orderApprovalService: OrderApprovalService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
       declarations: [
@@ -105,9 +105,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);
     getOrderApproval$.next(mockOrderApproval);
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(OrderApprovalDetailFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
