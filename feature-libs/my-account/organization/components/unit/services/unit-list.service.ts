@@ -29,6 +29,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   protected initialExpanded = 1;
 
   protected expandState = new Map<string, boolean>();
+  protected levelState = new Map<string, number>();
   protected update$ = new BehaviorSubject(undefined);
 
   protected expandedNodeMap = {};
@@ -66,6 +67,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       uid: unit.id,
     };
     this.expandState.set(treeNode.uid, expanded);
+    this.levelState.set(treeNode.uid, depthLevel);
     list.push(treeNode);
 
     unit.children.forEach((childUnit) => {
@@ -95,8 +97,9 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   collapseAll() {
-    // TODO: support depth level
-    this.expandState.forEach((_value, key) => this.expandState.set(key, false));
+    this.levelState.forEach((value, key) => {
+      if (value >= this.initialExpanded) this.expandState.set(key, false);
+    });
     this.update$.next(true);
   }
 
