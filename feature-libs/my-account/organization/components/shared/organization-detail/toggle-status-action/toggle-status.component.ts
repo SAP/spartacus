@@ -4,12 +4,13 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
+import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
+import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
 import { MessageService } from '../../organization-message/services/message.service';
 import { BaseItem } from '../../organization.model';
-import { PromptMessageComponent } from './prompt/prompt.component';
-import { MessageConfirmationData } from './prompt/prompt.model';
 
 /**
  * Reusable component in the my-company are to toggle the disabled state for
@@ -48,11 +49,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   protected itemActiveState: boolean;
 
-  private subscription;
+  protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 
   toggle(item: T) {
@@ -60,23 +61,25 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
       // we do ask for confirmation when the entity gets activated
       this.update(item);
     } else {
-      const confirmation = this.messageService.add<MessageConfirmationData>({
-        message: {
-          key: this.i18nRoot + '.messages.deactivate',
-        },
-        component: PromptMessageComponent,
-      });
+      if (!this.confirmation) {
+        this.confirmation = this.messageService.add({
+          message: {
+            key: this.i18nRoot + '.messages.deactivate',
+          },
+          component: ConfirmationMessageComponent,
+        });
 
-      if (this.subscription) {
-        this.subscription.unsubscribe();
+        this.confirmation.pipe(first()).subscribe((event) => {
+          if (event.close) {
+            this.confirmation = null;
+          }
+          if (event.confirm) {
+            this.messageService.close(this.confirmation);
+            this.update(item);
+            this.confirmation = null;
+          }
+        });
       }
-
-      this.subscription = confirmation.subscribe((event) => {
-        if (event.confirm) {
-          this.messageService.close(confirmation);
-          this.update(item);
-        }
-      });
     }
   }
 
@@ -125,6 +128,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.confirmation?.unsubscribe();
   }
 }

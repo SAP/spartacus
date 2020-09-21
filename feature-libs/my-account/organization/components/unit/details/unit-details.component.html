@@ -9,8 +9,9 @@
   </a>
 
   <cx-toggle-status
+    *ngIf="model.parentOrgUnit"
     actions
-    [disabled]="!model.parentOrgUnit?.active"
+    [disabled]="!model.parentOrgUnit.active"
     key="uid"
     i18nRoot="unit"
   ></cx-toggle-status>

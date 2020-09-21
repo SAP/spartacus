@@ -9,9 +9,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { BaseMessageComponent } from './base-message.component';
-import { MessageData } from './message.model';
-import { NotificationRenderService } from './services/message-render.service';
+import { MessageData, MessageEventData } from './message.model';
+import { MessageRenderService } from './services/message-render.service';
 import { MessageService } from './services/message.service';
 
 @Component({
@@ -20,13 +21,15 @@ import { MessageService } from './services/message.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements OnInit, OnDestroy {
-  @ViewChild('vc', { read: ViewContainerRef }) vcr: ViewContainerRef;
+  // We use a child view container ref, as creating components will become siblings.
+  // We like the message components to appear inside the `cx-message` instead.
+  @ViewChild('vcr', { read: ViewContainerRef }) vcr: ViewContainerRef;
 
   protected subscription = new Subscription();
 
   constructor(
     protected messageService: MessageService,
-    protected notificationRenderService: NotificationRenderService
+    protected renderService: MessageRenderService
   ) {}
 
   ngOnInit() {
@@ -43,14 +46,16 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   protected render(msg: MessageData) {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
-      this.notificationRenderService.getComponent(msg),
-      undefined,
-      this.notificationRenderService.getInjector(msg, this.vcr.injector)
+      this.renderService.getComponent(msg),
+      0,
+      this.renderService.getInjector(msg, this.vcr.injector)
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
 
     this.subscription.add(
-      ref.instance.closeEvent.subscribe(() => this.terminate(ref))
+      msg.events
+        .pipe(filter((event: MessageEventData) => !!event.close))
+        .subscribe(() => this.terminate(ref))
     );
   }
 

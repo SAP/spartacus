@@ -5,12 +5,12 @@ import {
   Injector,
 } from '@angular/core';
 import { MessageData } from '../message.model';
-import { NotificationMessageComponent } from '../notification/notification.component';
+import { NotificationMessageComponent } from '../notification/notification-message.component';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationRenderService {
+export class MessageRenderService {
   constructor(protected componentFactoryResolver: ComponentFactoryResolver) {}
 
   getComponent(msg: MessageData): ComponentFactory<any> {

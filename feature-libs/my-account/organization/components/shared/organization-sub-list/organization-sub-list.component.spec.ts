@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
-import { OrganizationMessageTestingModule } from '../organization-message/message.testing.module';
+import { MessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -69,7 +69,7 @@ describe('OrganizationSubListComponent', () => {
       imports: [
         CommonModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
         I18nTestingModule,
         RouterTestingModule,
         PaginationTestingModule,

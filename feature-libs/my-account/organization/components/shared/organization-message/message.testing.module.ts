@@ -1,13 +1,13 @@
 import { Component, NgModule } from '@angular/core';
 
 @Component({
-  selector: 'cx-organization-message',
+  selector: 'cx-message',
   template: '',
 })
-class OrganizationMessageComponent {}
+class MessageComponent {}
 
 @NgModule({
-  declarations: [OrganizationMessageComponent],
-  exports: [OrganizationMessageComponent],
+  declarations: [MessageComponent],
+  exports: [MessageComponent],
 })
-export class OrganizationMessageTestingModule {}
+export class MessageTestingModule {}

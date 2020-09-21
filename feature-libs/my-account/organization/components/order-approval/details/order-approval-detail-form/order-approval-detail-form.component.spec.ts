@@ -14,10 +14,10 @@ import {
   OrderApproval,
   OrderApprovalDecisionValue,
 } from '@spartacus/core';
+import { OrderApprovalService } from '@spartacus/my-account/organization/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
-import { OrderApprovalService } from '@spartacus/my-account/organization/core';
 
 const { REJECT, APPROVE } = OrderApprovalDecisionValue;
 

@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { OrganizationMessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -31,7 +31,7 @@ describe('UserDetailsComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
       ],
       declarations: [UserDetailsComponent],
       providers: [

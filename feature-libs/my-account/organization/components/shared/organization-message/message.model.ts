@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
 
@@ -12,6 +13,11 @@ export class MessageData<
    * inside the message component.
    */
   message?: Translatable;
+
+  /**
+   * Icon used to display next to the message.
+   */
+  messageIcon?: ICON_TYPE;
 
   /**
    * The type of message is used to render the style of the message.

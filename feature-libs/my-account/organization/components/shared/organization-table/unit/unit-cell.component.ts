@@ -7,6 +7,6 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 })
 export class UnitCellComponent extends OrganizationCellComponent {
   get property() {
-    return this.model.unit?.name;
+    return this.model.unit?.name ?? this.model.orgUnit?.name;
   }
 }

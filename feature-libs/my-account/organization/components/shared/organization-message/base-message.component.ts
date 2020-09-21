@@ -1,58 +1,52 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
-  EventEmitter,
   HostBinding,
-  OnDestroy,
+  Inject,
   OnInit,
-  Output,
+  PLATFORM_ID,
 } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { MessageData, MessageEventData } from './message.model';
+import { MessageData } from './message.model';
 
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
-export abstract class BaseMessageComponent implements OnInit, OnDestroy {
+export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class') type: string;
   @HostBinding('class.terminated') terminated = false;
 
-  @Output() closeEvent: EventEmitter<boolean> = new EventEmitter();
-
   message: Translatable;
-  icon: ICON_TYPE;
 
-  private subscription = new Subscription();
+  /**
+   * Icon used to display next to the message.
+   */
+  messageIcon: ICON_TYPE;
 
-  constructor(protected messageData: MessageData) {}
+  constructor(
+    protected messageData: MessageData,
+    @Inject(PLATFORM_ID) protected platformId: any
+  ) {}
 
   ngOnInit() {
-    this.message = this.messageData.message;
-    this.icon = ICON_TYPE.INFO;
+    this.message = this.messageData.message ?? {};
     this.type = this.resolveType();
+    this.messageIcon = this.messageData.messageIcon;
 
-    // TODO: only perform this in the browser
     if (this.messageData.timeout) {
-      setTimeout(() => {
-        this.close();
-      }, this.messageData.timeout);
+      this.handleAutoHide();
     }
-
-    this.subscription.add(
-      // observe the close event of the message and close accordingly.
-      this.messageData.events
-        .pipe(filter((event: MessageEventData) => !!event.close))
-        .subscribe(() => this.close())
-    );
   }
 
   close(): void {
-    this.closeEvent.emit(true);
+    this.messageData.events.next({ close: true });
   }
 
   protected resolveType(): string {
-    if (this.messageData.type === GlobalMessageType.MSG_TYPE_INFO) {
+    if (
+      !this.messageData.type ||
+      this.messageData.type === GlobalMessageType.MSG_TYPE_INFO
+    ) {
       return 'info';
     }
     if (this.messageData.type === GlobalMessageType.MSG_TYPE_ERROR) {
@@ -63,7 +57,12 @@ export abstract class BaseMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  protected handleAutoHide() {
+    if (isPlatformBrowser(this.platformId)) {
+      // we don't want to run this logic when doing SSR
+      setTimeout(() => {
+        this.close();
+      }, this.messageData.timeout);
+    }
   }
 }
