@@ -5,7 +5,8 @@ import { VisibleFocusDirective } from '../visible/visible-focus.directive';
 
 @Directive()
 // { selector: '[cxBlockFocus]' }
-export class BlockFocusDirective extends VisibleFocusDirective
+export class BlockFocusDirective
+  extends VisibleFocusDirective
   implements OnInit {
   protected defaultConfig: BlockFocusConfig = { block: true };
 
