@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { MessageConfig } from '../config/message-config';
-import { ConfiguratorMessageComponent } from './configurator-message.component';
+import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 let routerStateObservable = null;
 class MockRoutingService {
@@ -48,17 +48,20 @@ class MockMessageConfig {
   template: '',
 })
 class MockCxSpinnerComponent {}
-describe('ConfigurationMessageComponent', () => {
-  let component: ConfiguratorMessageComponent;
+describe('ConfigurationUpdateMessageComponent', () => {
+  let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: GenericConfiguratorUtilsService;
-  let fixture: ComponentFixture<ConfiguratorMessageComponent>;
+  let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorMessageComponent, MockCxSpinnerComponent],
+      declarations: [
+        ConfiguratorUpdateMessageComponent,
+        MockCxSpinnerComponent,
+      ],
       providers: [
         {
           provide: RoutingService,
@@ -77,7 +80,7 @@ describe('ConfigurationMessageComponent', () => {
     });
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorMessageComponent);
+    fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
