@@ -3,7 +3,7 @@ import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
@@ -38,6 +38,20 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     protected unitItemService: UnitItemService
   ) {
     super(tableService);
+    this.waitForKey();
+  }
+
+  protected waitForKey() {
+    this.unitService
+      .getTree()
+      .pipe(
+        withLatestFrom(this.unitItemService.key$),
+        first(([_tree, id]) => Boolean(id))
+      )
+      .subscribe(([tree, id]) => {
+        this.expandBranch(id, tree);
+        this.update$.next(true);
+      });
   }
 
   protected load(): Observable<EntitiesModel<B2BUnit>> {
@@ -111,5 +125,18 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   expandAll() {
     this.expandState.forEach((_value, key) => this.expandState.set(key, true));
     this.update$.next(true);
+  }
+
+  protected expandBranch(id: string, unit: B2BUnitNode) {
+    if (this.findInTree(id, unit).length > 0) {
+      this.expandState.set(unit.id, true);
+      unit.children?.forEach((child) => this.expandBranch(id, child));
+    }
+  }
+
+  protected findInTree(id, unit: B2BUnitNode): B2BUnitNode[] {
+    return unit.id === id
+      ? [unit]
+      : unit.children.flatMap((child) => this.findInTree(id, child));
   }
 }
