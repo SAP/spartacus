@@ -90,6 +90,7 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    console.log('CHHI getOrCreateConfiguration for: ' + JSON.stringify(owner));
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT: {
         return this.getOrCreateConfigurationForProduct(owner);

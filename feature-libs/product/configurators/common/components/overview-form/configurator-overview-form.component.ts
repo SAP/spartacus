@@ -35,6 +35,7 @@ export class ConfiguratorOverviewFormComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {
+    console.log('CHHI OV constructor');
     //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
     //we need to initialise the cart configuration
     this.configRouterExtractorService
