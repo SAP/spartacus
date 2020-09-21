@@ -4,7 +4,7 @@ import {
 } from '../../../model/replenishment-order.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
-import { SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID } from '../checkout-state';
+import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 
 export const SCHEDULE_REPLENISHMENT_ORDER =
   '[Checkout] Schedule Replenishment Order';
@@ -25,28 +25,28 @@ export class ScheduleReplenishmentOrder extends StateUtils.EntityLoadAction {
       userId: string;
     }
   ) {
-    super(PROCESS_FEATURE, SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID);
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
   }
 }
 
 export class ScheduleReplenishmentOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SCHEDULE_REPLENISHMENT_ORDER_SUCCESS;
   constructor(public payload: ReplenishmentOrder) {
-    super(PROCESS_FEATURE, SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID);
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
   }
 }
 
 export class ScheduleReplenishmentOrderFail extends StateUtils.EntityFailAction {
   readonly type = SCHEDULE_REPLENISHMENT_ORDER_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID, payload);
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID, payload);
   }
 }
 
 export class ClearScheduleReplenishmentOrderAction extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_SCHEDULE_REPLENISHMENT_ORDER;
   constructor() {
-    super(PROCESS_FEATURE, SCHEDULE_REPLENISHMENT_ORDER_PROCESS_ID);
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
   }
 }
 

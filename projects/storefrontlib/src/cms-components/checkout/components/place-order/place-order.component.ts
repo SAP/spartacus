@@ -3,17 +3,20 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  CheckoutReplenishmentOrderService,
   CheckoutService,
   ORDER_TYPE,
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { combineLatest, Subscription } from 'rxjs';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '../../../../layout/launch-dialog/index';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 
 @Component({
@@ -37,10 +40,11 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   constructor(
     protected checkoutService: CheckoutService,
-    protected checkoutReplenishmentService: CheckoutReplenishmentOrderService,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected routingService: RoutingService,
-    protected fb: FormBuilder
+    protected launchDialogService: LaunchDialogService,
+    protected fb: FormBuilder,
+    protected vcr: ViewContainerRef
   ) {}
 
   submitForm(): void {
@@ -52,7 +56,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         }
 
         case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
-          this.checkoutReplenishmentService.scheduleReplenishmentOrder(
+          this.checkoutService.scheduleReplenishmentOrder(
             this.scheduleReplenishmentFormData,
             this.checkoutSubmitForm.valid
           );
@@ -65,20 +69,22 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // TODO: when process state functionality is added to place_order store (GH-8659)
     this.subscription.add(
-      this.checkoutService
-        .getOrderDetails()
-        .pipe(filter((order) => Object.keys(order).length !== 0))
-        .subscribe(() => {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
-        })
-    );
+      combineLatest([
+        this.checkoutService.getPlaceOrderLoading(),
+        this.checkoutService.getPlaceOrderSuccess(),
+      ]).subscribe(([orderLoading, orderSuccess]) => {
+        if (orderLoading) {
+          this.launchDialogService.launch(
+            LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+            this.vcr
+          );
+        }
 
-    this.subscription.add(
-      this.checkoutReplenishmentService
-        .getScheduleReplenishmentOrderSuccess()
-        .subscribe((success) => this.onSuccess(success))
+        if (orderSuccess) {
+          this.onSuccess(orderSuccess);
+        }
+      })
     );
 
     this.subscription.add(
@@ -98,7 +104,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     if (data) {
       switch (this.currentOrderType) {
         case ORDER_TYPE.PLACE_ORDER: {
-          // TODO: when process state functionality is added to place_order store (GH-8659)
+          this.routingService.go({ cxRoute: 'orderConfirmation' });
           break;
         }
 
@@ -112,9 +118,8 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.checkoutReplenishmentService.clearScheduleReplenishmentOrderState();
+    this.subscription.unsubscribe();
+    this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+    this.checkoutService.clearPlaceOrderState();
   }
 }
