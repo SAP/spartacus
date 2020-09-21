@@ -5,10 +5,10 @@ import {
   B2BUserService,
   UserRole,
 } from '@spartacus/my-account/organization/core';
-import { MessageService } from '../../../../shared/organization-message/services/message.service';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 import { UnitUserItemService } from '../services/unit-user-item.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 
@@ -61,9 +61,11 @@ export class UnitUserRolesFormComponent {
   }
 
   protected notify(item: B2BUser) {
-    this.messageService.notify({
-      key: 'unitUserRoles.messages.rolesUpdated',
-      params: { item: item },
+    this.messageService.add({
+      message: {
+        key: 'unitUserRoles.messages.rolesUpdated',
+        params: { item: item },
+      },
     });
   }
 }

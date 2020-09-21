@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
-import { OrganizationMessageTestingModule } from '../organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -64,12 +64,12 @@ describe('OrganizationSubListComponent', () => {
   let fixture: ComponentFixture<OrganizationSubListComponent>;
   let organizationListService: OrganizationListService<any>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
         I18nTestingModule,
         RouterTestingModule,
         PaginationTestingModule,
@@ -87,7 +87,7 @@ describe('OrganizationSubListComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     organizationListService = TestBed.inject(OrganizationListService);

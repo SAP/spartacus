@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
@@ -11,7 +11,7 @@ describe('UnitChildrenComponent', () => {
   let component: UnitChildrenComponent;
   let fixture: ComponentFixture<UnitChildrenComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         OrganizationSubListTestingModule,
@@ -26,9 +26,7 @@ describe('UnitChildrenComponent', () => {
       ],
       declarations: [UnitChildrenComponent],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;
   });

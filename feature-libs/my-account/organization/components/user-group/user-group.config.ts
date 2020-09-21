@@ -12,6 +12,7 @@ import { OrganizationListComponent } from '../shared/organization-list/organizat
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
@@ -128,6 +129,7 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP]: {
       cells: ['name', 'uid', 'unit'],
       options: {
+        dataComponent: OrganizationCellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
