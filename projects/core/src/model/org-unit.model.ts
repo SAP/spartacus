@@ -19,6 +19,13 @@ export interface B2BUnitNode {
   parent?: string;
 }
 
+export interface B2bUnitTreeNode extends B2BUnitNode {
+  expanded: boolean;
+  depthLevel: number;
+  count: number;
+  uid: string;
+}
+
 export interface B2BUnit {
   active?: boolean;
   addresses?: B2BAddress[];

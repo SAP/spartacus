@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
+import {
+  // B2BUnit,
+  B2BUnitNode,
+  B2bUnitTreeNode,
+  EntitiesModel,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,13 +13,6 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
 
-interface B2bUnitTreeNode extends B2BUnitNode {
-  expanded: boolean;
-  depthLevel: number;
-  count: number;
-  uid: string;
-}
-
 /**
  * Service to populate Budget data to `Table` data. Budget
  * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
@@ -22,16 +20,14 @@ interface B2bUnitTreeNode extends B2BUnitNode {
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2BUnit> {
+export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   protected initialExpanded = 1;
 
-  protected expandState = new Map<string, boolean>();
-  protected levelState = new Map<string, number>();
+  protected treeState = new Map<string, B2bUnitTreeNode>();
   protected update$ = new BehaviorSubject(undefined);
 
-  protected expandedNodeMap = {};
   constructor(
     protected tableService: TableService,
     protected unitService: OrgUnitService,
@@ -54,7 +50,7 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
       });
   }
 
-  protected load(): Observable<EntitiesModel<B2BUnit>> {
+  protected load(): Observable<EntitiesModel<B2bUnitTreeNode>> {
     return this.update$.pipe(
       switchMap(() =>
         this.unitService
@@ -68,19 +64,18 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     unit: B2BUnitNode,
     depthLevel = 0,
     pagination = { totalResults: 0 }
-  ): EntitiesModel<B2BUnit> {
+  ): EntitiesModel<B2bUnitTreeNode> {
     let values = [];
     const expanded = this.isExpanded(unit.id, depthLevel);
     const treeNode: B2bUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
-      expanded: expanded,
+      expanded,
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
     };
-    this.expandState.set(treeNode.uid, expanded);
-    this.levelState.set(treeNode.uid, depthLevel);
+    this.treeState.set(treeNode.uid, treeNode);
 
     values.push(treeNode);
     pagination.totalResults++;
@@ -103,11 +98,11 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
    * Indicates whether the unit is expanded.
    */
   protected isExpanded(unitId: string, level: number): boolean {
-    return this.expandState.get(unitId) ?? level < this.initialExpanded;
+    return this.treeState.get(unitId)?.expanded ?? level < this.initialExpanded;
   }
 
-  toggle(unit: B2BUnit) {
-    this.expandState.set(unit.uid, !(unit as any).expanded);
+  toggle(unit: B2bUnitTreeNode) {
+    this.treeState.set(unit.uid, { ...unit, expanded: !unit.expanded });
     this.update$.next(true);
   }
 
@@ -116,20 +111,24 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
   }
 
   collapseAll() {
-    this.levelState.forEach((depthLevel, key) => {
-      if (depthLevel >= this.initialExpanded) this.expandState.set(key, false);
+    this.treeState.forEach((treeNode, id) => {
+      if (treeNode.depthLevel >= this.initialExpanded)
+        this.treeState.set(id, { ...treeNode, expanded: false });
     });
     this.update$.next(true);
   }
 
   expandAll() {
-    this.expandState.forEach((_value, key) => this.expandState.set(key, true));
+    this.treeState.forEach((treeNode, id) =>
+      this.treeState.set(id, { ...treeNode, expanded: true })
+    );
     this.update$.next(true);
   }
 
   protected expandBranch(id: string, unit: B2BUnitNode) {
     if (this.findInTree(id, unit).length > 0) {
-      this.expandState.set(unit.id, true);
+      const treeNode = this.treeState.get(unit.id);
+      this.treeState.set(unit.id, { ...treeNode, expanded: true });
       unit.children?.forEach((child) => this.expandBranch(id, child));
     }
   }
