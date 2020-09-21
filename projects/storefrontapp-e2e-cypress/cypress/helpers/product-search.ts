@@ -33,6 +33,10 @@ export const QUERY_ALIAS = {
   INFINITE_SCROLL_PRODUCT_LOADED: 'productLoaded_query',
 };
 
+export function enterProduct() {
+  cy.get('cx-searchbox input[aria-label="search"]').type('camera{enter}');
+}
+
 export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
 }
@@ -77,10 +81,13 @@ export function verifyProductSearch(
     });
 }
 
-export function searchResult() {
+export function searchResult(isMobile = false) {
   cy.server();
   createCameraQuery(QUERY_ALIAS.CAMERA);
-  cy.get('cx-searchbox input').type('camera{enter}');
+  if (isMobile) {
+    clickSearchIcon();
+  }
+  enterProduct();
   cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((xhr) => {
     const cameraResults = xhr.response.body.pagination.totalResults;
 
@@ -154,6 +161,8 @@ export function clearActiveFacet(mobile?: string) {
 }
 
 export function sortByLowestPrice() {
+  clickSearchIcon();
+  enterProduct();
   createProductSortQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
   cy.wait('@query_price_asc').its('status').should('eq', 200);
