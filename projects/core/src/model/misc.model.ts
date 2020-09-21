@@ -67,6 +67,13 @@ export interface EntitiesModel<T> {
   sorts?: SortModel[];
 }
 
+// TODO(#8875): Do we need it here?
+export interface EntitiesModel<T> {
+  values: T[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
 export interface PaginationModel {
   currentPage?: number;
   pageSize?: number;
