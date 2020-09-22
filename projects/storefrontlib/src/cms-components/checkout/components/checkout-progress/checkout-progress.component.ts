@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStep } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -14,10 +9,12 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutProgressComponent implements OnInit, OnDestroy {
+export class CheckoutProgressComponent {
   constructor(protected checkoutStepService: CheckoutStepService) {}
 
-  steps: CheckoutStep[];
+  steps$: Observable<
+    CheckoutStep[]
+  > = this.checkoutStepService.steps$.asObservable();
 
   activeStepIndex: number;
   activeStepIndex$: Observable<
@@ -25,20 +22,6 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
   > = this.checkoutStepService.activeStepIndex$.pipe(
     tap((index) => (this.activeStepIndex = index))
   );
-
-  subscription: Subscription;
-
-  ngOnInit(): void {
-    this.subscription = this.checkoutStepService.steps$.subscribe((steps) => {
-      this.steps = steps;
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   getTabIndex(stepIndex: number): number {
     return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
