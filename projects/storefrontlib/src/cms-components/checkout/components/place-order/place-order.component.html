@@ -26,7 +26,7 @@
   <button
     type="submit"
     class="btn btn-primary btn-block"
-    [disabled]="termsAndConditionInvalid || daysOfWeekNotChecked"
+    [disabled]="termsAndConditionInvalid || (daysOfWeekNotChecked$ | async)"
   >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>

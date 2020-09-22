@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ComponentRef,
   OnDestroy,
@@ -15,7 +14,7 @@ import {
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -32,8 +31,9 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-  daysOfWeekNotChecked: Boolean;
   placedOrder: void | Observable<ComponentRef<any>>;
+
+  daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   checkoutSubmitForm: FormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
@@ -49,8 +49,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
-    protected vcr: ViewContainerRef,
-    protected cd: ChangeDetectorRef
+    protected vcr: ViewContainerRef
   ) {}
 
   submitForm(): void {
@@ -120,11 +119,10 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           this.scheduleReplenishmentFormData = data;
 
-          this.daysOfWeekNotChecked =
+          this.daysOfWeekNotChecked$.next(
             data.daysOfWeek.length === 0 &&
-            data.recurrencePeriod === recurrencePeriod.WEEKLY;
-
-          this.cd.markForCheck();
+              data.recurrencePeriod === recurrencePeriod.WEEKLY
+          );
         })
     );
   }

@@ -238,7 +238,6 @@ describe('PlaceOrderComponent', () => {
 
   describe('Place order UI', () => {
     beforeEach(() => {
-      fixture.detectChanges();
       component.ngOnInit();
       controls.termsAndConditions.setValue(true);
     });
