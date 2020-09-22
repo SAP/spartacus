@@ -109,6 +109,8 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   changeRepeatDays(day: DaysOfWeek, isChecked: boolean): void {
     if (isChecked) {
+      this.currentDaysOfWeek = [...this.currentDaysOfWeek];
+
       this.currentDaysOfWeek.push(day);
 
       this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
@@ -116,15 +118,17 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
         daysOfWeek: this.currentDaysOfWeek,
       });
     } else {
-      if (this.scheduleReplenishmentFormData.daysOfWeek.includes(day)) {
-        const index = this.currentDaysOfWeek.indexOf(day, 0);
-        this.currentDaysOfWeek.splice(index, 1);
+      const foundDay = this.currentDaysOfWeek.find((data) => day === data);
 
-        this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
-          ...this.scheduleReplenishmentFormData,
-          daysOfWeek: this.currentDaysOfWeek,
-        });
-      }
+      if (!foundDay) return;
+
+      const index = this.currentDaysOfWeek.indexOf(foundDay);
+      this.currentDaysOfWeek.splice(index, 1);
+
+      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
+        ...this.scheduleReplenishmentFormData,
+        daysOfWeek: this.currentDaysOfWeek,
+      });
     }
   }
 
@@ -145,7 +149,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       this.scheduleReplenishmentFormData.recurrencePeriod ===
       recurrencePeriod.WEEKLY;
 
-    this.currentDaysOfWeek = this.scheduleReplenishmentFormData.daysOfWeek;
+    this.currentDaysOfWeek = [...this.scheduleReplenishmentFormData.daysOfWeek];
 
     this.numberOfDays = this.isMonthly
       ? this.createNumberStringArray(31)

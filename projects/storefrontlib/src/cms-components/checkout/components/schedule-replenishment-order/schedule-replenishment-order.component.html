@@ -127,8 +127,11 @@
         'checkoutReview.repeatOnDays' | cxTranslate
       }}</span>
       <div *ngFor="let day of daysOfWeek" class="form-check">
-        <span>{{ day | titlecase }}</span
+        <label for="day-{{ day }}" class="cx-week-day">{{
+          day | titlecase
+        }}</label
         ><input
+          id="day-{{ day }}"
           type="checkbox"
           class="form-check-input"
           [checked]="hasDaysOfWeekChecked(day)"
