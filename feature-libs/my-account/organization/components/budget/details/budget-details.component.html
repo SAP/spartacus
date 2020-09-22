@@ -1,7 +1,7 @@
 <cx-organization-card *ngIf="model$ | async as model" i18nRoot="budget.detail">
   <a
     actions
-    class="link"
+    class="link edit"
     [class.disabled]="!model.active"
     [routerLink]="{ cxRoute: 'budgetEdit', params: model } | cxUrl"
   >
