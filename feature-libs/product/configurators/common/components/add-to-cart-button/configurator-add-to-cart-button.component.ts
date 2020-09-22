@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -181,18 +181,12 @@ export class ConfiguratorAddToCartButtonComponent {
       this.configuratorCommonsService
         .getConfiguration(owner)
         .pipe(
-          tap((c) =>
-            console.log(
-              'CHHI next owner after addToCart: ' + JSON.stringify(c.nextOwner)
-            )
-          ),
           filter(
             (configWithNextOwner) => configWithNextOwner.nextOwner !== undefined
           ),
           take(1)
         )
         .subscribe((configWithNextOwner) => {
-          console.log('CHHI before perform navigation');
           this.performNavigation(
             configuratorType,
             configWithNextOwner.nextOwner,
@@ -200,8 +194,14 @@ export class ConfiguratorAddToCartButtonComponent {
             isOverview,
             true
           );
-          console.log('CHHI before remove for: ' + JSON.stringify(owner));
+          // we clean up both the product related configuration (no longer needed)
+          // and the cart entry related configuration, as we might have a configuration
+          // for the same cart entry number stored already.
+          // (Cart entries might have been deleted)
           this.configuratorCommonsService.removeConfiguration(owner);
+          this.configuratorCommonsService.removeConfiguration(
+            configWithNextOwner.nextOwner
+          );
         });
     }
   }

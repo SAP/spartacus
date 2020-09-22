@@ -34,7 +34,6 @@ export class ConfiguratorCartService {
   readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    console.log('CHHI readConfigurationForCartEntry: ' + JSON.stringify(owner));
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -46,16 +45,13 @@ export class ConfiguratorCartService {
       delayWhen(() =>
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
-      tap(() => console.log('CHHI cart is ready')),
       delayWhen(() =>
         this.checkoutService
           .getCheckoutDetailsStable()
           .pipe(filter((loaded) => loaded))
       ),
-      tap(() => console.log('CHHI checkout is ready:')),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
-          console.log('CHHI needs reading');
           this.activeCartService
             .requireLoadedCart()
             .pipe(take(1))
