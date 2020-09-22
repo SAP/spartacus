@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
@@ -47,8 +47,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    */
   current$ = this.itemService.current$.pipe(tap((item) => this.notify(item)));
 
-  protected itemActiveState: boolean;
+  protected itemActiveState: T;
 
+  protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
@@ -69,16 +70,18 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
           component: ConfirmationMessageComponent,
         });
 
-        this.confirmation.pipe(first()).subscribe((event) => {
-          if (event.close) {
-            this.confirmation = null;
-          }
-          if (event.confirm) {
-            this.messageService.close(this.confirmation);
-            this.update(item);
-            this.confirmation = null;
-          }
-        });
+        this.subscription.add(
+          this.confirmation.pipe(first()).subscribe((event) => {
+            if (event.close) {
+              this.confirmation = null;
+            }
+            if (event.confirm) {
+              this.messageService.close(this.confirmation);
+              this.update(item);
+              this.confirmation = null;
+            }
+          })
+        );
       }
     }
   }
@@ -96,12 +99,12 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
+    patch[this.key] = item[this.key];
     if ((item as any).type === 'b2BCostCenterWsDTO') {
       (patch as any).activeFlag = !item.active;
     } else {
       patch.active = !item.active;
     }
-    patch[this.key] = item[this.key];
     return patch as T;
   }
 
@@ -118,16 +121,18 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
         },
       });
     }
-    this.itemActiveState = item.active;
+    this.itemActiveState = { ...item };
   }
 
   protected isChanged(item: T) {
     return (
-      this.itemActiveState !== undefined && item.active !== this.itemActiveState
+      this.itemActiveState &&
+      item[this.key] === this.itemActiveState[this.key] &&
+      item.active !== this.itemActiveState.active
     );
   }
 
   ngOnDestroy() {
-    this.confirmation?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }
