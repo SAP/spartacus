@@ -13,6 +13,7 @@
 
         <div class="actions">
           <ng-select
+            class="sort"
             *ngIf="dataTable.pagination?.sort"
             [searchable]="false"
             [clearable]="false"
@@ -27,15 +28,15 @@
 
           <ng-content select="[actions]"></ng-content>
 
-          <button
-            class="button primary"
+          <a
+            class="button primary create"
             [routerLink]="
               { cxRoute: dataTable.structure.type + 'Create' } | cxUrl
             "
             routerLinkActive="disabled"
           >
             {{ 'organization.add' | cxTranslate }}
-          </button>
+          </a>
         </div>
       </div>
 

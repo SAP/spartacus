@@ -68,7 +68,7 @@
   a.button.primary,
   a.button.disabled.primary {
     @extend .btn-primary;
-    color: var(--cx-color-primary);
+    color: var(--cx-color-inverse);
   }
   button.button.primary,
   button.button.disabled.primary,
