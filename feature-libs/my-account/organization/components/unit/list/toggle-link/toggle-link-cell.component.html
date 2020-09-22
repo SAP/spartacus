@@ -1,14 +1,14 @@
-<button
-  *ngIf="count > 0 && nestLevel > 0"
-  class="button tree-item-toggle"
-  type="button"
-  (click)="toggleItem($event)"
->
-  <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>
-</button>
 <a
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
   [tabIndex]="tabIndex"
 >
+  <button
+    *ngIf="count > 0 && nestLevel > 0"
+    class="button tree-item-toggle"
+    type="button"
+    (click)="toggleItem($event)"
+  >
+    <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>
+  </button>
   <span class="text">{{ property }} ({{ count }})</span>
 </a>

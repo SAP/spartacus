@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-import { TableConfig, BREAKPOINT } from '@spartacus/storefront';
+import { TableConfig, BREAKPOINT, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -204,6 +204,7 @@ export const unitsTableConfig: TableConfig = {
     [OrganizationTableType.UNIT]: {
       cells: ['name'],
       options: {
+        layout: TableLayout.VERTICAL,
         cells: {
           name: {
             dataComponent: ToggleLinkCellComponent,

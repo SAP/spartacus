@@ -25,7 +25,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   }
 
   get tabIndex() {
-    return 1;
+    return 0;
   }
 
   get expanded() {
@@ -41,7 +41,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   }
 
   toggleItem(event: Event) {
-    event.stopPropagation();
+    event.preventDefault();
     this.uls.toggle((this.model as unknown) as B2bUnitTreeNode);
   }
 }

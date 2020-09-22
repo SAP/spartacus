@@ -379,31 +379,22 @@ cx-organization-form {
 .unit {
   .name {
     ng-component {
-      padding-inline-start: calc(1.3rem + var(--cx-nest-level) * 1.5rem);
+      padding-inline-start: calc(var(--cx-nest-level) * 1.5rem);
       button.tree-item-toggle {
-        align-self: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
         margin-inline-start: -40px;
-      }
-    }
-  }
 
-  @include media-breakpoint-down(md) {
-    th {
-      width: 0;
-      opacity: 0;
-      > ng-component {
-        width: 0;
-        opacity: 0;
-      }
-    }
-
-    tr.name {
-      ng-component {
-        margin-inline-start: -1.5rem;
-        padding-inline-start: calc(var(--cx-nest-level) * 1.5rem);
-        a {
-          align-self: center;
+        cx-icon {
+          transform: translate(0%, -50%);
         }
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      height: 4rem;
+      ng-component {
+        padding-inline-start: calc(1.2rem + var(--cx-nest-level) * 1.5rem);
       }
     }
   }
