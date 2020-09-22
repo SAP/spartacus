@@ -110,7 +110,6 @@ export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
       component: UnitListComponent,
-      // component: OrganizationListComponent,
       providers: [
         {
           provide: OrganizationListService,
