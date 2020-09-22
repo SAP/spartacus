@@ -15,6 +15,7 @@ describe('ChangePasswordFormService', () => {
 
   it('should build the form', () => {
     const form = service.getForm();
+    expect(form.get('customerId')).not.toBeNull();
     expect(form.get('password')).not.toBeNull();
     expect(form.get('confirmPassword')).not.toBeNull();
   });

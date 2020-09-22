@@ -1,30 +1,36 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUnitNode } from '@spartacus/core';
+import {
+  OrgUnitService,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
-  selector: 'cx-user-group-form',
   templateUrl: './user-group-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: UserGroupItemService,
+    },
+  ],
 })
 export class UserGroupFormComponent implements OnInit {
-  /**
-   * The form is controlled from the container component.
-   */
-  @Input() form: FormGroup;
+  form: FormGroup = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getList();
+  // getList ???
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
 
-  constructor(protected orgUnitService: OrgUnitService) {}
+  constructor(
+    protected itemService: OrganizationItemService<UserGroup>,
+    protected unitService: OrgUnitService
+  ) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadList();
+    this.unitService.loadList();
   }
 }

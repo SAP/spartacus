@@ -4,31 +4,31 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  SplitViewDeactivateGuard,
-  TableConfig,
-} from '@spartacus/storefront';
-import { ROUTE_PARAMS } from '../constants';
+import { AdminGuard } from '@spartacus/my-account/organization/core';
+import { TableConfig } from '@spartacus/storefront';
+import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { OrganizationItemService } from '../shared/organization-item.service';
+import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
+import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { ActiveLinkCellComponent } from '../shared/organization-table';
+import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
+import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
+import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
-import { BudgetCreateComponent } from './create/budget-create.component';
+import { BudgetCostCenterListComponent } from './cost-centers/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
-import { BudgetEditComponent } from './edit/budget-edit.component';
-import { BudgetListComponent } from './list/budget-list.component';
+import { BudgetFormComponent } from './form/budget-form.component';
 import { ActiveBudgetGuard } from './guards/active-budget.guard';
 import { ExistBudgetGuard } from './guards/exist-budget.guard';
-import { AdminGuard } from '@spartacus/my-account/organization/core';
-
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-const MAX_OCC_INTEGER_VALUE = 2147483647;
+import { BudgetItemService } from './services/budget-item.service';
+import { BudgetListService } from './services/budget-list.service';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
   budgetCode: 'code',
 };
 
-// TODO: this doesn't work with lazy loaded feature
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
@@ -57,30 +57,37 @@ export const budgetRoutingConfig: RoutingConfig = {
 export const budgetCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageBudgetsListComponent: {
-      component: BudgetListComponent,
+      component: OrganizationListComponent,
+      providers: [
+        {
+          provide: OrganizationListService,
+          useExisting: BudgetListService,
+        },
+        {
+          provide: OrganizationItemService,
+          useExisting: BudgetItemService,
+        },
+      ],
       childRoutes: [
         {
           path: 'create',
-          component: BudgetCreateComponent,
-          canDeactivate: [SplitViewDeactivateGuard],
+          component: BudgetFormComponent,
         },
         {
           path: `:${ROUTE_PARAMS.budgetCode}`,
           component: BudgetDetailsComponent,
           canActivate: [ExistBudgetGuard],
-          canDeactivate: [SplitViewDeactivateGuard],
           children: [
+            {
+              path: `edit`,
+              component: BudgetFormComponent,
+              canActivate: [ActiveBudgetGuard],
+            },
             {
               path: 'cost-centers',
               component: BudgetCostCenterListComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
-        },
-        {
-          path: `:${ROUTE_PARAMS.budgetCode}/edit`,
-          component: BudgetEditComponent,
-          canActivate: [ActiveBudgetGuard],
         },
       ],
       guards: [AuthGuard, AdminGuard],
@@ -94,39 +101,36 @@ export function budgetTableConfigFactory(): TableConfig {
 
 export const budgetTableConfig: TableConfig = {
   table: {
-    [OrganizationTableType.BUDGET]: [
-      // TODO: consider cascading from smallest size
-      {
-        headers: [{ key: 'name' }],
-        pagination: {
-          sort: 'byName',
-          // pageSize: 2,
+    [OrganizationTableType.BUDGET]: {
+      cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          amount: {
+            dataComponent: AmountCellComponent,
+          },
+          dateRange: {
+            dataComponent: DateRangeCellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
         },
       },
-      {
-        breakpoint: BREAKPOINT.xs,
-        hideHeader: true,
-      },
-      {
-        breakpoint: BREAKPOINT.lg,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
-          { key: 'dateRange' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-    ],
+    },
 
-    [OrganizationTableType.BUDGET_COST_CENTERS]: [
-      {
-        headers: [{ key: 'summary' }, { key: 'link' }],
-        hideHeader: true,
+    [OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS]: {
+      cells: ['name'],
+      options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
       },
-    ],
+    },
   },
 };

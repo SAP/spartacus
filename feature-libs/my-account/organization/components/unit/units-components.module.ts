@@ -4,43 +4,31 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { UnitDetailsModule } from './details/unit-details.module';
+import { UnitFormModule } from './form/unit-form.module';
+import { UnitCostCenterListModule } from './links/cost-centers/unit-cost-centers.module';
+import { UnitAddressModule } from './links/addresses/unit-address.module';
+import { UnitApproverListModule } from './links/approvers/unit-approver-list.module';
+import { UnitChildrenModule } from './links/children/unit-children.module';
+import { UnitUsersModule } from './links/users/unit-user-list.module';
+import { UnitListModule } from './list/unit-list.module';
 import {
   unitsCmsConfig,
   unitsRoutingConfig,
   unitsTableConfigFactory,
 } from './units.config';
-import { UnitCreateModule } from './create/unit-create.module';
-import { UnitEditModule } from './edit/unit-edit.module';
-import { UnitDetailsModule } from './details/unit-details.module';
-import { UnitUserListModule } from './users/list/unit-user-list.module';
-import { UnitUserAssignRolesModule } from './users/assign-roles/unit-user-assign-roles.module';
-import { UnitChildrenModule } from './children/unit-children.module';
-import { UnitApproverListModule } from './approvers/list/unit-approver-list.module';
-import { UnitListModule } from './list/unit-list.module';
-import { UnitAssignApproversModule } from './approvers/assign/unit-assign-approvers.module';
-import { UnitAddressListModule } from './addresses/list/unit-address-list.module';
-import { UnitAddressDetailsModule } from './addresses/details/unit-address-details.module';
-import { UnitAddressCreateModule } from './addresses/create/unit-address-create.module';
-import { UnitAddressEditModule } from './addresses/edit/unit-address-edit.module';
-import { UnitCostCentersModule } from './cost-centers/unit-cost-centers.module';
 
 @NgModule({
   imports: [
     RouterModule,
     UnitListModule,
-    UnitCreateModule,
-    UnitEditModule,
     UnitDetailsModule,
-    UnitUserListModule,
-    UnitUserAssignRolesModule,
+    UnitFormModule,
     UnitChildrenModule,
     UnitApproverListModule,
-    UnitAssignApproversModule,
-    UnitAddressListModule,
-    UnitAddressDetailsModule,
-    UnitAddressCreateModule,
-    UnitAddressEditModule,
-    UnitCostCentersModule,
+    UnitUsersModule,
+    UnitCostCenterListModule,
+    UnitAddressModule,
   ],
   providers: [
     provideDefaultConfig(unitsRoutingConfig),

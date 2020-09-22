@@ -10,7 +10,7 @@ import {
 } from '../organization-state';
 
 import { ListModel, StateUtils } from '@spartacus/core';
-import { UserGroup } from '../../../core/model/user-group.model';
+import { UserGroup } from '../../model/user-group.model';
 
 export const LOAD_USER_GROUP = '[UserGroup] Load UserGroup Data';
 export const LOAD_USER_GROUP_FAIL = '[UserGroup] Load UserGroup Data Fail';

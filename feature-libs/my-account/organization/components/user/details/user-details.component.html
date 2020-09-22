@@ -1,160 +1,88 @@
-<cx-view #view>
-  <ng-container *ngIf="user$ | async as user">
-    <h3>
+<cx-organization-card *ngIf="model$ | async as model" i18nRoot="user.details">
+  <a
+    actions
+    class="link"
+    [class.disabled]="!model.active"
+    [routerLink]="{ cxRoute: 'userEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-toggle-status actions key="customerId" i18nRoot="user"></cx-toggle-status>
+
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'user.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.roles' | cxTranslate }}</label>
+      <ul class="value">
+        <li
+          *ngFor="let role of model.roles; let isLast = last"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.orgUnit' | cxTranslate }}</label>
       <a
-        class="link"
-        [routerLink]="{ cxRoute: 'user' } | cxUrl"
-        (click)="view.toggle()"
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
       >
-        <cx-icon type="CARET_LEFT"></cx-icon>
-        {{ 'organization.close' | cxTranslate }}
-      </a>
-      <span>{{ user.name }}</span>
-    </h3>
-    <div class="actions">
-      <a
-        class="link"
-        [class.disabled]="!user.active"
-        [routerLink]="{ cxRoute: 'userChangePassword', params: user } | cxUrl"
-      >
-        {{ 'user.changePassword.link' | cxTranslate }}
-      </a>
-      <a
-        class="link"
-        [class.disabled]="!user.active"
-        [routerLink]="{ cxRoute: 'userEdit', params: user } | cxUrl"
-      >
-        {{ 'organization.edit' | cxTranslate }}
+        {{ model.orgUnit?.name }}
       </a>
     </div>
-    <section>
-      <div class="details">
-        <div class="property">
-          <label>{{ 'user.name' | cxTranslate }}</label>
-          <span class="value">
-            {{ user.name }}
-          </span>
-        </div>
+    <div class="property">
+      <a
+        class="link"
+        [class.disabled]="!model.active"
+        [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
+      >
+        {{ 'user.links.password' | cxTranslate }}
+      </a>
+    </div>
+  </section>
 
-        <div class="property">
-          <label>{{ 'user.uid' | cxTranslate }}</label>
-          <span class="value">
-            {{ user.uid }}
-          </span>
-        </div>
+  <section main class="link-list">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.approvers' | cxTranslate }}
+    </a>
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.userGroup' | cxTranslate }}
+    </a>
 
-        <div class="property">
-          <label>{{ 'user.roles' | cxTranslate }}</label>
-          <span class="value">
-            <ng-container *ngFor="let role of user.roles">
-              &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
-            </ng-container>
-          </span>
-        </div>
-
-        <div class="property">
-          <label>{{ 'user.orgUnit' | cxTranslate }}</label>
-          <a
-            class="value"
-            [routerLink]="
-              {
-                cxRoute: 'orgUnitDetails',
-                params: user.orgUnit
-              } | cxUrl
-            "
-          >
-            {{ user.orgUnit?.name }}
-            <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="{ cxRoute: 'userApprovers', params: user } | cxUrl"
-          >
-            {{ 'user.approver.link' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
-      </div>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="{ cxRoute: 'userUserGroups', params: user } | cxUrl"
-          >
-            {{ 'user.userGroup.link' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
-      </div>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="{ cxRoute: 'userPermissions', params: user } | cxUrl"
-          >
-            {{ 'user.permission.link' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
-      </div>
-    </section>
-
-    <section>
-      <div class="property">
-        <label>{{ 'organization.status' | cxTranslate }}</label>
-        <span class="value">
-          <ng-container *ngIf="user.active; else disabled">
-            {{ 'organization.enabled' | cxTranslate }}
-            <button
-              class="button active icon"
-              (click)="openModal(confirmDisable)"
-            >
-              {{ 'organization.disable' | cxTranslate }}
-              <!--              <cx-icon type="ON"></cx-icon>-->
-            </button>
-          </ng-container>
-          <ng-template #disabled>
-            {{ 'organization.disabled' | cxTranslate }}
-            <button
-              class="button icon"
-              [disabled]="user.orgUnit && !user.orgUnit.active"
-              (click)="update({ customerId: user.customerId, active: true })"
-            >
-              {{ 'organization.enable' | cxTranslate }}
-              <!--              <cx-icon type="OFF"></cx-icon>-->
-            </button>
-          </ng-template>
-        </span>
-        <p class="instruction" *ngIf="user.orgUnit && !user.orgUnit.active">
-          {{ 'user.messages.disabledUnit' | cxTranslate }}
-        </p>
-        <p class="instruction">
-          <ng-container *ngIf="user.active; else inactiveInstruction">
-            {{ 'user.messages.enabled' | cxTranslate }}
-          </ng-container>
-          <ng-template #inactiveInstruction>
-            {{ 'user.messages.disabled' | cxTranslate }}
-          </ng-template>
-        </p>
-      </div>
-    </section>
-  </ng-container>
-</cx-view>
-
-<router-outlet></router-outlet>
-
-<ng-template #confirmDisable>
-  <cx-confirm-modal
-    *ngIf="user$ | async as user"
-    [title]="'user.messages.deactivateHeader' | cxTranslate"
-    [message]="'user.messages.deactivate' | cxTranslate"
-    (confirm)="update({ customerId: user.customerId, active: false })"
-  ></cx-confirm-modal>
-</ng-template>
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.permission' | cxTranslate }}
+    </a>
+  </section>
+</cx-organization-card>

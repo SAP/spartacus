@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { BudgetCostCenterListModule } from './cost-centers/list/budget-cost-center-list.module';
+import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import {
   budgetCmsConfig,
   budgetRoutingConfig,
   budgetTableConfigFactory,
 } from './budget.config';
-import { BudgetCreateModule } from './create/budget-create.module';
-import { BudgetEditModule } from './edit/budget-edit.module';
+import { BudgetCostCenterListModule } from './cost-centers/budget-cost-center-list.module';
+import { BudgetDetailsModule } from './details/budget-details.module';
 import { BudgetFormModule } from './form/budget-form.module';
-import { BudgetListModule } from './list/budget-list.module';
 
 @NgModule({
   imports: [
-    RouterModule,
-    BudgetCostCenterListModule,
-    BudgetCreateModule,
-    BudgetEditModule,
+    SharedOrganizationModule,
+    BudgetDetailsModule,
     BudgetFormModule,
-    BudgetListModule,
+    BudgetCostCenterListModule,
   ],
   providers: [
     provideDefaultConfig(budgetRoutingConfig),

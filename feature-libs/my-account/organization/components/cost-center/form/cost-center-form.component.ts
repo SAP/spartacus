@@ -1,50 +1,39 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {
+  B2BUnitNode,
+  CostCenter,
+  Currency,
+  CurrencyService,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { CurrentCostCenterService } from '../current-cost-center.service';
+import { Observable } from 'rxjs';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
-  selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: CostCenterItemService,
+    },
+  ],
 })
-export class CostCenterFormComponent implements OnInit, OnDestroy {
-  /**
-   * The form is controlled from the container component.
-   */
-  @Input() form: FormGroup;
+export class CostCenterFormComponent implements OnInit {
+  form: FormGroup = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
-  subscription = new Subscription();
-  parentUnit$ = this.currentCostCenterService.b2bUnit$.pipe(filter(Boolean));
-
   constructor(
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService,
-    protected currentCostCenterService: CurrentCostCenterService
+    protected itemService: OrganizationItemService<CostCenter>,
+    protected unitService: OrgUnitService,
+    protected currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadList();
-    this.subscription.add(
-      this.parentUnit$.subscribe(() => {
-        this.form.get('unit').disable();
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.unitService.loadList();
   }
 }

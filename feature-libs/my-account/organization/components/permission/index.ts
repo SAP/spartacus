@@ -1,5 +1,4 @@
-export * from './list/index';
-export * from './create/index';
 export * from './details/index';
-export * from './current-permission.service';
+export * from './form/index';
 export * from './guards/index';
+export * from './services/index';

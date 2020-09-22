@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
@@ -11,58 +6,44 @@ import {
   CurrencyService,
   OrderApprovalPermissionType,
   Period,
+  Permission,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import {
-  PermissionFormService,
-  PermissionType,
-} from './permission-form.service';
 import {
   OrgUnitService,
   PermissionService,
 } from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
-  selector: 'cx-permission-form',
   templateUrl: './permission-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: PermissionItemService,
+    },
+  ],
 })
 export class PermissionFormComponent implements OnInit {
-  /**
-   * The form is controlled from the container component.
-   */
-  @Input() form: FormGroup;
+  form: FormGroup = this.itemService.getForm();
 
-  /**
-   * Property used to recognize if form is on create or edit state.
-   * Value of this property is used to mark permission type field as readonly.
-   */
-  @Input() editMode?: boolean;
-
-  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
+  currencies$: Observable<Currency[]> = this.currencyService.getAll();
   types$: Observable<
     OrderApprovalPermissionType[]
   > = this.permissionService.getTypes();
-  currencies$: Observable<Currency[]> = this.currencyService.getAll();
   periods = Object.keys(Period);
 
   constructor(
-    protected permissionService: PermissionService,
-    protected permissionFormService: PermissionFormService,
+    protected itemService: OrganizationItemService<Permission>,
+    protected unitService: OrgUnitService,
     protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    protected permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadList();
-    if (this.form && !this.editMode) {
-      this.permissionFormService.adjustForm(this.form, {
-        code: PermissionType.EXCEEDED,
-      });
-    }
-  }
-
-  onTypeSelect(type: OrderApprovalPermissionType): void {
-    this.permissionFormService.adjustForm(this.form, type);
+    this.unitService.loadList();
   }
 }
