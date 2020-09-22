@@ -79,10 +79,13 @@ export const myAccount = {
   orderHistory: {
     orderHistory: 'Order history',
     orderId: 'Order #',
+    emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
+    noReplenishmentOrders:
+      'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
     replenishmentOrderHistory: 'Replenishment Order History',
@@ -91,8 +94,7 @@ export const myAccount = {
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
-    estTotal: 'Est Total',
-    cancel: 'CANCEL',
+    cancel: 'Cancel',
     replenishmentHistory: 'Replenishment History',
     notFound: 'No Orders Found',
   },

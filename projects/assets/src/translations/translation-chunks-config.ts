@@ -42,7 +42,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'AccountOrderHistoryTabContainer',
     'returnRequestList',
     'returnRequest',
-    'replenishmentOrderHistory',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],

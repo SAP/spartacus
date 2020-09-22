@@ -1,11 +1,11 @@
 %cx-replenishment-order-history {
-  .cx-order-history {
+  .cx-replenishment-order-history {
     @include media-breakpoint-down(sm) {
       max-width: 100%;
       padding: 0;
     }
   }
-  .cx-order-history-table {
+  .cx-replenishment-order-history-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
     border-width: 1px 0 1px 0;
@@ -77,7 +77,7 @@
     }
   }
 
-  .cx-order-history-header {
+  .cx-replenishment-order-history-header {
     padding: 40px 0 0 0;
     color: var(--cx-color-text);
 
@@ -86,19 +86,19 @@
     }
   }
 
-  .cx-order-history-thead-mobile {
+  .cx-replenishment-order-history-thead-mobile {
     @include media-breakpoint-down(sm) {
       display: none;
     }
   }
 
-  .cx-order-history-code {
-    .cx-order-history-value {
+  .cx-replenishment-order-history-code {
+    .cx-replenishment-order-history-value {
       text-decoration: underline;
     }
   }
 
-  .cx-order-history-placed {
+  .cx-replenishment-order-history-placed {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -106,7 +106,7 @@
     }
   }
 
-  .cx-order-history-status {
+  .cx-replenishment-order-history-status {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -114,7 +114,7 @@
     }
   }
 
-  .cx-order-history-total {
+  .cx-replenishment-order-history-total {
     text-align: right;
 
     @include media-breakpoint-down(sm) {
@@ -122,7 +122,7 @@
     }
   }
 
-  .cx-order-history-label {
+  .cx-replenishment-order-history-label {
     text-transform: uppercase;
     color: var(--cx-color-secondary);
 
@@ -132,7 +132,7 @@
     }
   }
 
-  .cx-order-history-value {
+  .cx-replenishment-order-history-value {
     color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
@@ -141,7 +141,7 @@
     }
   }
 
-  .cx-order-history-form-group {
+  .cx-replenishment-order-history-form-group {
     padding: 0;
     margin-bottom: 0;
 
@@ -150,7 +150,7 @@
     }
   }
 
-  .cx-order-history-sort {
+  .cx-replenishment-order-history-sort {
     &.top {
       display: flex;
       justify-content: space-between;
@@ -165,7 +165,7 @@
 
     &.bottom {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       padding: 2rem 0 1rem 0;
       margin: 0;
 
@@ -176,21 +176,21 @@
     }
   }
 
-  .cx-order-history-pagination {
+  .cx-replenishment-order-history-pagination {
     @include media-breakpoint-down(sm) {
       margin: 0 auto;
     }
   }
 
-  .cx-order-history-no-order {
+  .cx-replenishment-order-history-no-order {
     @include type('5');
     font-weight: $font-weight-normal;
     min-height: 415px;
 
     @include media-breakpoint-down(sm) {
       min-height: 474px;
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
+      padding-inline-start: 1.25rem;
+      padding-inline-end: 1.25rem;
     }
 
     .btn {

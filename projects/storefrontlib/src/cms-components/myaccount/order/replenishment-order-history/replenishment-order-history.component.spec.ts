@@ -48,10 +48,9 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
   sorts: [{ code: 'byDate', selected: true }],
 };
 
-const replenishmentOrderHistroy = new BehaviorSubject(mockReplenishmentOrders);
-
-// mock the service
-//
+const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
+  mockReplenishmentOrders
+);
 
 @Component({
   template: '',
@@ -84,9 +83,9 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserOrderService {
+class MockUserReplenishmentOrderService {
   getReplenishmentOrderHistoryList(): Observable<ReplenishmentOrderList> {
-    return replenishmentOrderHistroy.asObservable();
+    return replenishmentOrderHistory.asObservable();
   }
   getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
     return of(true);
@@ -123,7 +122,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: UserReplenishmentOrderService,
-          useClass: MockUserOrderService,
+          useClass: MockUserReplenishmentOrderService,
         },
         {
           provide: ReplenishmentOrderCancellationLaunchDialogService,
@@ -156,13 +155,14 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     expect(replenishmentOrders).toEqual(mockReplenishmentOrders);
   });
 
-  it('should redirect when clicking on order id', () => {
+  it('should redirect when clicking on replenishment order code', () => {
     spyOn(routingService, 'go').and.stub();
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-code')
+      By.css('.cx-replenishment-order-history-code')
     );
+    console.log(rows);
     rows[1].triggerEventHandler('click', null);
 
     expect(routingService.go).toHaveBeenCalledWith({
@@ -171,18 +171,20 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     });
   });
 
-  it('should display No orders found page if no orders are found', () => {
+  it('should display No replenishment orders found page if no orders are found', () => {
     const emptyReplenishmentOrderList: ReplenishmentOrderList = {
       replenishmentOrders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
       sorts: [{ code: 'byDate', selected: true }],
     };
 
-    replenishmentOrderHistroy.next(emptyReplenishmentOrderList);
+    replenishmentOrderHistory.next(emptyReplenishmentOrderList);
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+      fixture.debugElement.query(
+        By.css('.cx-replenishment-order-history-no-order')
+      )
     ).not.toBeNull();
   });
 
@@ -212,7 +214,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     );
   });
 
-  it('should clear order history data when component destroy', () => {
+  it('should clear replenishment order history data when component destroy', () => {
     spyOn(userService, 'clearReplenishmentOrderList').and.stub();
 
     component.ngOnDestroy();

@@ -32,8 +32,6 @@ import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishm
     UrlModule,
     I18nModule,
   ],
-  declarations: [ReplenishmentOrderHistoryComponent],
-  exports: [ReplenishmentOrderHistoryComponent],
   providers: [
     provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
@@ -45,6 +43,8 @@ import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishm
       },
     }),
   ],
+  declarations: [ReplenishmentOrderHistoryComponent],
+  exports: [ReplenishmentOrderHistoryComponent],
   entryComponents: [ReplenishmentOrderHistoryComponent],
 })
 export class ReplenishmentOrderHistoryModule {}

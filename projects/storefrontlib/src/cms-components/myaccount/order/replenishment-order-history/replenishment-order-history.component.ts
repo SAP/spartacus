@@ -38,7 +38,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  // repelnishment orders
   replenishmentOrders$: Observable<
     ReplenishmentOrderList
   > = this.userReplenishmentOrderService
@@ -54,10 +53,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   isLoaded$: Observable<
     boolean
   > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
-
-  ngOnDestroy(): void {
-    this.userReplenishmentOrderService.clearReplenishmentOrderList();
-  }
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {
@@ -123,5 +118,9 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       event.currentPage,
       event.sortCode
     );
+  }
+
+  ngOnDestroy(): void {
+    this.userReplenishmentOrderService.clearReplenishmentOrderList();
   }
 }
