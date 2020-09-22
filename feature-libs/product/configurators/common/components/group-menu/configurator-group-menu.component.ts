@@ -23,17 +23,24 @@ export class ConfiguratorGroupMenuComponent {
     Configurator.Configuration
   > = this.routerData$.pipe(
     switchMap((routerData) =>
-      this.configCommonsService.getConfiguration(routerData.owner)
-    ),
-    //We need to ensure that the navigation to conflict groups or
-    //groups with mandatory attributes already has taken place, as this happens
-    //in an onInit of another component.
-    //otherwise we risk that this component is completely initialized too early,
-    //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
-    filter(
-      (configuration) =>
-        (configuration.complete && configuration.consistent) ||
-        configuration.interactionState.issueNavigationDone
+      this.configCommonsService
+        .getConfiguration(routerData.owner)
+        .pipe(
+          map((configuration) => ({ routerData, configuration })),
+          //We need to ensure that the navigation to conflict groups or
+          //groups with mandatory attributes already has taken place, as this happens
+          //in an onInit of another component.
+          //otherwise we risk that this component is completely initialized too early,
+          //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+          filter(
+            (cont) =>
+              (cont.configuration.complete && cont.configuration.consistent) ||
+              cont.configuration.interactionState.issueNavigationDone ||
+              !cont.routerData.resolveIssues
+          )
+        )
+
+        .pipe(map((cont) => cont.configuration))
     )
   );
 

@@ -1,9 +1,12 @@
 %cx-configurator-product-title {
+  background-color: var(--cx-color-background);
+  margin-bottom: 15px;
+
   .cx-configurator-container {
-    padding: 15px;
-    background-color: var(--cx-color-background);
-    margin-bottom: 15px;
+    padding: 15px 0;
+    margin: 0 auto;
     border-width: 1px;
+    max-width: 1140px;
 
     .cx-configurator-product-title {
       font-weight: bold;
