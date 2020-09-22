@@ -12,7 +12,6 @@ context('Product Configuration', () => {
   describe('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
-
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
