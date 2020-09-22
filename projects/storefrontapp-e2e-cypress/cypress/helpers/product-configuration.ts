@@ -870,6 +870,11 @@ export function goToOrderHistory(): Chainable<Window> {
  */
 export function selectOrderByOrderNumberAlias(): void {
   cy.get('@orderNumber').then((orderNumber) => {
+    cy.waitForOrderToBePlacedRequest(
+      'electronics-spa',
+      'USD',
+      orderNumber.toString()
+    );
     cy.get(
       'cx-order-history a.cx-order-history-value:contains(' +
         `${orderNumber}` +
