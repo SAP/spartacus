@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, mergeMap, groupBy } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  switchMap,
+  mergeMap,
+  groupBy,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   B2BUserActions,
   PermissionActions,
@@ -14,6 +21,8 @@ import {
   EntitiesModel,
   RoutingService,
   normalizeHttpError,
+  AuthActions,
+  UserService,
 } from '@spartacus/core';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { UserGroup } from '../../model/user-group.model';
@@ -74,8 +83,7 @@ export class B2BUserEffects {
 
   @Effect()
   updateB2BUser$: Observable<
-    // B2BUserActions.UpdateB2BUserSuccess
-    B2BUserActions.LoadB2BUser | B2BUserActions.UpdateB2BUserFail
+    B2BUserActions.UpdateB2BUserSuccess | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
@@ -83,9 +91,8 @@ export class B2BUserEffects {
       this.b2bUserConnector
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
-          // TODO: Workaround for empty PATCH response:
-          // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
-          map(() => new B2BUserActions.LoadB2BUser(payload)),
+          // TODO: change for 'payload: data' when backend API start to return user data on PATCH
+          map(() => new B2BUserActions.UpdateB2BUserSuccess(payload)),
           catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
@@ -96,6 +103,27 @@ export class B2BUserEffects {
           )
         )
     )
+  );
+
+  @Effect()
+  verifyB2BUserAfterUpdate$: Observable<
+    AuthActions.Logout | B2BUserActions.LoadB2BUser
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
+    map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
+    withLatestFrom(this.userService.get()),
+    map(([payload, currentUser]) => {
+      const currentUserEmailMatch =
+        payload.orgCustomerId === currentUser.customerId &&
+        payload.orgCustomer.email !== currentUser.displayUid;
+
+      if (currentUserEmailMatch) {
+        this.routingService.go({ cxRoute: 'login' });
+      }
+      return currentUserEmailMatch
+        ? new AuthActions.Logout()
+        : new B2BUserActions.LoadB2BUser(payload);
+    })
   );
 
   @Effect()
@@ -491,6 +519,7 @@ export class B2BUserEffects {
   constructor(
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private userService: UserService
   ) {}
 }

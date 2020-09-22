@@ -18,11 +18,13 @@ import {
   UserGroup,
 } from '@spartacus/my-account/organization/core';
 import {
+  AuthActions,
   B2BUser,
   normalizeHttpError,
   OccConfig,
   Permission,
   RoutingService,
+  UserService,
 } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { B2BUserConnector } from '../../connectors';
@@ -45,6 +47,7 @@ const orgCustomer: B2BUser = {
   customerId: orgCustomerId,
   uid: 'aaa@bbb',
   name: 'test',
+  email: 'test@test.test',
 };
 const permissionId = 'permissionId';
 const permission: Permission = {
@@ -70,6 +73,11 @@ const mockRouterState = {
       customerId: 'testCustomerId',
     },
   },
+};
+
+const mockCurrentUser = {
+  customerId: 'currentCustomerId',
+  displayUid: 'currentCustomer@test.test',
 };
 
 class MockRoutingService {
@@ -113,12 +121,16 @@ class MockB2BUserConnector {
   create = createSpy().and.returnValue(of(orgCustomer));
   update = createSpy().and.returnValue(of(orgCustomer));
 }
+class MockUserService implements Partial<UserService> {
+  get = createSpy().and.returnValue(of(mockCurrentUser));
+}
 
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
   let b2bUserConnector: B2BUserConnector;
   let effects: fromEffects.B2BUserEffects;
   let expected: TestColdObservable;
+  let routingService: RoutingService;
 
   const mockB2bUserState = {
     details: {
@@ -141,6 +153,7 @@ describe('B2B User Effects', () => {
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
+        { provide: UserService, useClass: MockUserService },
       ],
     });
 
@@ -149,6 +162,7 @@ describe('B2B User Effects', () => {
     );
     b2bUserConnector = TestBed.get(B2BUserConnector as Type<B2BUserConnector>);
     expected = null;
+    routingService = TestBed.inject(RoutingService);
   });
 
   describe('load$', () => {
@@ -287,14 +301,15 @@ describe('B2B User Effects', () => {
   });
 
   describe('updateB2BUser$', () => {
-    // TODO: unlock after get correct response and fixed effect
-    xit('should return UpdateB2BUserSuccess action', () => {
-      const action = new B2BUserActions.UpdateB2BUser({
+    // TODO: adjust arguments if PATCH response will get fixed on backend
+    it('should return UpdateB2BUserSuccess action', () => {
+      const payload = {
         userId,
         orgCustomerId,
         orgCustomer,
-      });
-      const completion = new B2BUserActions.UpdateB2BUserSuccess(orgCustomer);
+      };
+      const action = new B2BUserActions.UpdateB2BUser(payload);
+      const completion = new B2BUserActions.UpdateB2BUserSuccess(payload);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -328,6 +343,37 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         orgCustomer
       );
+    });
+  });
+
+  describe('verifyB2BUserAfterUpdate$', () => {
+    it('should return LoadB2BUser action if edited different user', () => {
+      const payload = {
+        userId,
+        orgCustomerId,
+        orgCustomer,
+      };
+      const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
+      const completion = new B2BUserActions.LoadB2BUser(payload);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.verifyB2BUserAfterUpdate$).toBeObservable(expected);
+    });
+
+    it('should return AuthActions.Logout action if edited own credentials', () => {
+      const payload = {
+        userId,
+        orgCustomerId: mockCurrentUser.customerId,
+        orgCustomer,
+      };
+      const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
+      const completion = new AuthActions.Logout();
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.verifyB2BUserAfterUpdate$).toBeObservable(expected);
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
   });
 

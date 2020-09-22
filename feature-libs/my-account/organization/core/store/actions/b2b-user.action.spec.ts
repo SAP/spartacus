@@ -222,11 +222,16 @@ describe('B2BUser Actions', () => {
 
     describe('UpdateB2BUserSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.UpdateB2BUserSuccess(orgCustomer);
+        const payload = {
+          orgCustomer: orgCustomer,
+          orgCustomerId: 'id1',
+          userId: 'userId1',
+        };
+        const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: B2BUserActions.UPDATE_B2B_USER_SUCCESS,
-          payload: orgCustomer,
+          payload,
           meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, orgCustomerId),
         });
       });
