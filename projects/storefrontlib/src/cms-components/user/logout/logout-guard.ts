@@ -9,7 +9,7 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, takeWhile, tap } from 'rxjs/operators';
 
 /**
  * Guards the _logout_ route.
@@ -31,8 +31,6 @@ export class LogoutGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<any> {
-    this.logout();
-
     return this.cms
       .hasPage({
         id: this.semanticPathService.get('logout'),
@@ -40,23 +38,36 @@ export class LogoutGuard implements CanActivate {
       })
       .pipe(
         tap((hasPage) => {
-          if (!hasPage) {
-            this.redirect();
-          }
+          !hasPage ? this.redirect(true) : this.logout();
         })
       );
   }
 
   /**
    * Whenever there is no specific "logout" page configured in the CMS,
-   * we redirect after the user is logged out.
+   * we logging out after the user was redirected.
    *
    * The user gets redirected to the homepage, unless the homepage is protected
    * (in case of a closed shop). We'll redirect to the login page instead.
+   *
+   * @param dispatchLogoutAction Flag to indicate if logout action should
+   *  be dispatched right after redirection is completed.
    */
-  protected redirect(): void {
+  protected redirect(dispatchLogoutAction?: Boolean): void {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
     this.routing.go({ cxRoute });
+
+    if (dispatchLogoutAction) {
+      this.routing
+        .getRouterState()
+        .pipe(
+          map((data) => data.state.semanticRoute),
+          takeWhile((data) => data !== cxRoute, true)
+        )
+        .subscribe((route) => {
+          if (route === cxRoute) this.logout();
+        });
+    }
   }
 
   /**
