@@ -18,14 +18,16 @@ export const budget = {
   byCode: 'Sort by code',
   byValue: 'Sort by value',
 
-  details: {
+  detail: {
     title: 'Budget Details',
     subtitle: 'Budget: {{ item.name }}',
   },
+
   edit: {
     title: 'Edit Budget',
     subtitle: 'Budget: {{ item.name }}',
   },
+
   create: {
     title: 'Create Budget',
     subtitle: '',
@@ -37,8 +39,8 @@ export const budget = {
     confirmDisabled: 'Budget disabled successfully',
   },
 
-  costCenters: {
-    link: 'Cost Centers',
+  links: {
+    costCenters: 'Cost Centers',
   },
 };
 
