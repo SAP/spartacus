@@ -3,7 +3,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ToggleLinkCellComponent } from '../../../shared/organization-table/index';
+import { ToggleLinkCellComponent } from '@spartacus/my-account/organization/components';
+import { UnitListService } from '../../services/unit-list.service';
+import { B2bUnitTreeNode } from '@spartacus/core';
 
 const mockContext = {
   _field: 'name',
@@ -11,6 +13,10 @@ const mockContext = {
   name: 'my name',
   code: 'my code',
 };
+
+class MockUnitListService extends UnitListService {
+  toggle(_unitNode: B2bUnitTreeNode) {}
+}
 
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
@@ -25,12 +31,16 @@ describe('ToggleLinkCellComponent', () => {
           provide: OutletContextData,
           useValue: { context: mockContext },
         },
+        {
+          provide: UnitListService,
+          useValue: MockUnitListService,
+        },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActiveLinkCellComponent);
+    fixture = TestBed.createComponent(ToggleLinkCellComponent);
     component = fixture.componentInstance;
   });
 
