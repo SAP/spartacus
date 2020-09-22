@@ -345,7 +345,11 @@ cx-organization-form {
       .actions {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
+
+        .sort {
+          margin-inline-end: auto;
+        }
 
         button {
           // add a bit more space to call-to-action button
