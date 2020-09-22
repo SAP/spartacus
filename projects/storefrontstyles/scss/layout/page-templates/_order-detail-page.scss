@@ -157,10 +157,6 @@
 
           &-body {
             @extend .modal-body;
-
-            .cx-cancel-replenishment-btns {
-              justify-content: flex-end;
-            }
           }
         }
       }
