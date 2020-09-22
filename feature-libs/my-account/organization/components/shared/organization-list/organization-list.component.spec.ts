@@ -31,7 +31,12 @@ const mockList: Table<Mock> = {
       code: 'c2',
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byCode' },
+  pagination: {
+    totalPages: 1,
+    totalResults: 1,
+    currentPage: 1,
+    sort: 'byCode',
+  },
   structure: { type: 'MockTable' },
 };
 
