@@ -1,6 +1,6 @@
 import * as configuration from '../../helpers/product-configuration';
-import * as productSearch from '../../helpers/product-search';
 import * as login from '../../helpers/login';
+import * as productSearch from '../../helpers/product-search';
 
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 
