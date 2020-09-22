@@ -818,10 +818,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Shipping Address'
-      );
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-shipping-address').should('be.visible');
     });
 }
@@ -923,10 +920,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Delivery mode'
-      );
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
       cy.get('cx-delivery-mode').should('be.visible');
     });
 
@@ -936,10 +930,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/payment-details');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Payment details'
-      );
+      cy.get('.cx-checkout-title').should('contain', 'Payment');
       cy.get('cx-payment-method').should('be.visible');
     });
 
@@ -957,10 +948,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/review-order');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Review order'
-      );
+      cy.get('.cx-review-title').should('contain', 'Review');
       cy.get('cx-review-submit').should('be.visible');
     });
 

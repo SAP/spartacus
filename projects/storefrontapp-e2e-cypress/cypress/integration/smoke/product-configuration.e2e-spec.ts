@@ -18,7 +18,10 @@ context('Product Configuration', () => {
       configuration.checkout();
       configuration.navigateToOrderDetails();
       configuration.goToOrderHistory();
-      configuration.selectOrderByOrderNumberAlias();
+      //pass wrong order number to test error case
+      cy.waitForOrderToBePlacedRequest('electronics-spa', 'USD', '12345');
+
+      //configuration.selectOrderByOrderNumberAlias();
       login.signOutUser();
     });
   });
