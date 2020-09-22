@@ -12,14 +12,14 @@ import { UnitListService } from '../../services/unit-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleLinkCellComponent extends OrganizationCellComponent {
-  @HostBinding('style.--cx-nest-level')
-  get nestLevel() {
+  @HostBinding('style.--cx-depth-level')
+  get depthLevel() {
     return this.model.depthLevel;
   }
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected uls: UnitListService
+    protected unitListService: UnitListService
   ) {
     super(outlet);
   }
@@ -32,16 +32,12 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     return this.model.expanded;
   }
 
-  get level() {
-    return this.model.level;
-  }
-
   get count() {
     return this.model.count;
   }
 
   toggleItem(event: Event) {
     event.preventDefault();
-    this.uls.toggle((this.model as unknown) as B2bUnitTreeNode);
+    this.unitListService.toggle((this.model as unknown) as B2bUnitTreeNode);
   }
 }

@@ -383,7 +383,7 @@ cx-organization-form {
 .unit {
   .name {
     ng-component {
-      padding-inline-start: calc(var(--cx-nest-level) * 1.5rem);
+      padding-inline-start: calc(var(--cx-depth-level) * 1.5rem);
       button.tree-item-toggle {
         padding-top: 2rem;
         padding-bottom: 2rem;
@@ -398,7 +398,7 @@ cx-organization-form {
     @include media-breakpoint-down(md) {
       height: 4rem;
       ng-component {
-        padding-inline-start: calc(1.2rem + var(--cx-nest-level) * 1.5rem);
+        padding-inline-start: calc(1.2rem + var(--cx-depth-level) * 1.5rem);
       }
     }
   }
