@@ -19,7 +19,6 @@ import {
 } from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
-import { OrderDetailHeadlineComponent } from '../order-details/order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from '../order-details/order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
@@ -55,15 +54,6 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ReplenishmentDetailHeadlineComponent: {
-          component: OrderDetailHeadlineComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: ReplenishmentOrderDetailsService,
-            },
-          ],
-        },
         ReplenishmentDetailItemsComponent: {
           component: OrderDetailItemsComponent,
           providers: [

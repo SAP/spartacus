@@ -142,17 +142,7 @@
           <div class="cx-order-history-sort bottom row">
             <div
               class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
-            >
-              <cx-sorting
-                [sortOptions]="type.orderHistory.sorts"
-                [sortLabels]="getSortLabels() | async"
-                (sortListEvent)="changeSortCode($event)"
-                [selectedOption]="type.orderHistory.pagination.sort"
-                placeholder="{{
-                  'orderHistory.sortByMostRecent' | cxTranslate
-                }}"
-              ></cx-sorting>
-            </div>
+            ></div>
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"
