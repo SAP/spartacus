@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from './checkout-config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class CheckoutStepService {
 
   constructor(
     protected routingService: RoutingService,
-    protected checkoutConfigService: CheckoutConfigService,
+    protected checkoutConfig: CheckoutConfig,
     protected routingConfigService: RoutingConfigService
   ) {
     this.resetSteps();
@@ -71,8 +71,7 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
-    // TODOLP: Get steps from checkoutConfig.checkout.steps and remove steps in checkout-config.service
-    this.allSteps = this.checkoutConfigService.steps
+    this.allSteps = this.checkoutConfig.checkout.steps
       .filter((step) => !step.disabled)
       .map((x) => Object.assign({}, x));
     this.steps$.next(this.allSteps);
@@ -146,11 +145,11 @@ export class CheckoutStepService {
       activatedRoute
     );
 
-    // TODOLP: fix to return null when step is not found
-    return this.allSteps.findIndex(
+    const stepIndex = this.allSteps.findIndex(
       (step) =>
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
     );
+    return stepIndex === -1 ? null : stepIndex;
   }
 
   private getStepUrlFromActivatedRoute(

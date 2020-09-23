@@ -4,13 +4,11 @@ import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '../config/checkout-config';
-import { CheckoutStep } from '../model/checkout-step.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   private express: boolean = this.checkoutConfig.checkout.express;
   private guest: boolean = this.checkoutConfig.checkout.guest;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
