@@ -5,7 +5,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { OrganizationCellComponent } from '../../../shared/organization-table/organization-cell.component';
-import { UnitListService } from '../../services/unit-list.service';
+import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
   templateUrl: './toggle-link-cell.component.html',
@@ -19,7 +19,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitListService: UnitListService
+    protected unitTreeService: UnitTreeService
   ) {
     super(outlet);
   }
@@ -32,12 +32,29 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     return this.model.expanded;
   }
 
+  get level() {
+    return this.model.level;
+  }
+
+  /**
+   * Counts the number of descendants
+   */
   get count() {
     return this.model.count;
   }
 
   toggleItem(event: Event) {
     event.preventDefault();
-    this.unitListService.toggle((this.model as unknown) as B2bUnitTreeNode);
+    this.unitTreeService.toggle((this.model as unknown) as B2bUnitTreeNode);
+  }
+
+  /**
+   * Indicates whether the tree item should have a toggle navigation.
+   *
+   * The toggle navigation is used in case the tree item has descendants,
+   * and if the tree item level is not configured to be shown anyway.
+   */
+  get isSwitchable(): boolean {
+    return this.count > 0;
   }
 }

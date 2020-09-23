@@ -3,7 +3,7 @@
   [tabIndex]="tabIndex"
 >
   <button
-    *ngIf="count > 0 && depthLevel > 0"
+    *ngIf="isSwitchable"
     class="button tree-item-toggle"
     type="button"
     (click)="toggleItem($event)"
