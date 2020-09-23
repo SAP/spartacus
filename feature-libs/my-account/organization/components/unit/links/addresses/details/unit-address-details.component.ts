@@ -3,7 +3,7 @@ import { B2BAddress, B2BUnit } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { CurrentUnitService } from '../../../current-unit.service';
+import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 
 @Component({

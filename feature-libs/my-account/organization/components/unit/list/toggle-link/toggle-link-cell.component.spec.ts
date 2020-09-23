@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { ToggleLinkCellComponent } from '@spartacus/my-account/organization/components';
-import { UnitListService } from '../../services/unit-list.service';
+import { UnitTreeService } from '../../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
 const mockContext = {
@@ -18,13 +18,13 @@ const mockContext = {
   code: 'my code',
 };
 
-class MockUnitListService implements Partial<UnitListService> {
+class MockUnitTreeService implements Partial<UnitTreeService> {
   toggle = createSpy('toggle');
 }
 
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
-  let unitListService: UnitListService;
+  let unitTreeService: UnitTreeService;
   let fixture: ComponentFixture<ToggleLinkCellComponent>;
 
   beforeEach(() => {
@@ -37,8 +37,8 @@ describe('ToggleLinkCellComponent', () => {
           useValue: { context: mockContext },
         },
         {
-          provide: UnitListService,
-          useClass: MockUnitListService,
+          provide: UnitTreeService,
+          useClass: MockUnitTreeService,
         },
       ],
     }).compileComponents();
@@ -46,7 +46,7 @@ describe('ToggleLinkCellComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ToggleLinkCellComponent);
-    unitListService = TestBed.inject(UnitListService);
+    unitTreeService = TestBed.inject(UnitTreeService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -70,6 +70,6 @@ describe('ToggleLinkCellComponent', () => {
       By.css('button.tree-item-toggle')
     ).nativeNode;
     el.click();
-    expect(unitListService.toggle).toHaveBeenCalledWith(mockContext);
+    expect(unitTreeService.toggle).toHaveBeenCalledWith(mockContext);
   });
 });

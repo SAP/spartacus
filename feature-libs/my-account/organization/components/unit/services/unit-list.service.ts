@@ -24,7 +24,7 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
     protected tableService: TableService,
     protected unitService: OrgUnitService,
     protected unitItemService: UnitItemService,
-    protected uts: UnitTreeService
+    protected unitTreeService: UnitTreeService
   ) {
     super(tableService);
   }
@@ -34,12 +34,14 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
       switchMap((node) =>
         this.unitItemService.key$.pipe(
           map((key) => {
-            this.uts.initialize(node, key);
+            this.unitTreeService.initialize(node, key);
             return node;
           })
         )
       ),
-      switchMap((tree) => this.uts.treeToggle$.pipe(map(() => tree))),
+      switchMap((tree) =>
+        this.unitTreeService.treeToggle$.pipe(map(() => tree))
+      ),
       map((tree: B2BUnitNode) => this.convertListItem(tree))
     );
   }
@@ -56,13 +58,17 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
     }
 
     if (!parentToggleState) {
-      parentToggleState = this.uts.getToggleState(unit.id);
+      parentToggleState = this.unitTreeService.getToggleState(unit.id);
     }
 
     const node: B2bUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
-      expanded: this.uts.isExpanded(unit.id, depthLevel, parentToggleState),
+      expanded: this.unitTreeService.isExpanded(
+        unit.id,
+        depthLevel,
+        parentToggleState
+      ),
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,

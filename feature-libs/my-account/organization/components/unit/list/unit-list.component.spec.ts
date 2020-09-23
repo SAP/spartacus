@@ -6,6 +6,8 @@ import { UnitListService } from '../services/unit-list.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Component } from '@angular/core';
 import createSpy = jasmine.createSpy;
+import { of } from 'rxjs/internal/observable/of';
+import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',
@@ -13,14 +15,19 @@ import createSpy = jasmine.createSpy;
 })
 class MockOrganizationListComponent {}
 
+const id = 'TEST';
+
 class MockUnitListService {
+  getTable = createSpy('getTable').and.returnValue(of({ data: [{ id }] }));
+}
+class MockUnitTreeService {
   expandAll = createSpy('expandAll');
   collapseAll = createSpy('collapseAll');
 }
 
 describe('UnitListComponent', () => {
   let component: UnitListComponent;
-  let unitListService: UnitListService;
+  let unitTreeService: UnitTreeService;
   let fixture: ComponentFixture<UnitListComponent>;
   let expandAll: HTMLElement, collapseAll: HTMLElement;
   beforeEach(() => {
@@ -32,13 +39,17 @@ describe('UnitListComponent', () => {
           provide: UnitListService,
           useClass: MockUnitListService,
         },
+        {
+          provide: UnitTreeService,
+          useClass: MockUnitTreeService,
+        },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitListComponent);
-    unitListService = TestBed.inject(UnitListService);
+    unitTreeService = TestBed.inject(UnitTreeService);
     component = fixture.componentInstance;
     fixture.detectChanges();
     [expandAll, collapseAll] = fixture.debugElement
@@ -57,11 +68,11 @@ describe('UnitListComponent', () => {
 
   it('should call expandAll', () => {
     expandAll.click();
-    expect(unitListService.expandAll).toHaveBeenCalledWith();
+    expect(unitTreeService.expandAll).toHaveBeenCalledWith(id);
   });
 
   it('should call collapseAll', () => {
     collapseAll.click();
-    expect(unitListService.collapseAll).toHaveBeenCalledWith();
+    expect(unitTreeService.collapseAll).toHaveBeenCalledWith(id);
   });
 });
