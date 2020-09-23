@@ -28,6 +28,12 @@
         <div *ngFor="let line of content.text">
           <div class="cx-card-label">{{ line }}</div>
         </div>
+        <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
+          <div class="cx-card-paragraph-title">{{ item.title }}</div>
+          <div *ngFor="let text of item.text">
+            <div class="cx-card-paragraph-text">{{ text }}</div>
+          </div>
+        </div>
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-img-container">

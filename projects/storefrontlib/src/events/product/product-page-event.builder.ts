@@ -46,13 +46,13 @@ export class ProductPageEventBuilder {
   > {
     return this.eventService.get(PageEvent).pipe(
       filter((pageEvent) => pageEvent.semanticRoute === 'product'),
-      map((pageEvent) => pageEvent.context.id),
-      switchMap((productId) =>
-        this.productService.get(productId).pipe(
+      switchMap((pageEvent) =>
+        this.productService.get(pageEvent.context.id).pipe(
           filter((product) => Boolean(product)),
           take(1),
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
+              ...pageEvent,
               categories: product.categories,
               code: product.code,
               name: product.name,
@@ -72,23 +72,20 @@ export class ProductPageEventBuilder {
       skip(1)
     );
 
-    const categoryPageEvent$ = this.eventService.get(PageEvent).pipe(
-      map((pageEvent) => ({
-        isCategoryPage: pageEvent.semanticRoute === 'category',
-        categoryCode: pageEvent.context.id,
-      }))
-    );
-
-    return categoryPageEvent$.pipe(
+    return this.eventService.get(PageEvent).pipe(
       switchMap((pageEvent) => {
-        if (!pageEvent.isCategoryPage) {
+        if (pageEvent?.semanticRoute !== 'category') {
           return EMPTY;
         }
 
         return searchResults$.pipe(
           map((searchResults) => ({
-            categoryCode: pageEvent.categoryCode,
-            categoryName: searchResults.breadcrumbs[0].facetValueName,
+            ...pageEvent,
+            ...{
+              categoryCode: pageEvent?.context?.id,
+              numberOfResults: searchResults?.pagination?.totalResults,
+              categoryName: searchResults.breadcrumbs?.[0].facetValueName,
+            },
           })),
           map((categoryPage) =>
             createFrom(CategoryPageResultsEvent, categoryPage)
@@ -101,20 +98,26 @@ export class ProductPageEventBuilder {
   protected buildSearchPageResultsEvent(): Observable<SearchPageResultsEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
-      skip(1),
-      map((searchResults) => ({
-        searchTerm: searchResults.freeTextSearch,
-        numberOfResults: searchResults.pagination.totalResults,
-      })),
-      map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
+      skip(1)
     );
 
-    const searchPageEvent$ = this.eventService
-      .get(PageEvent)
-      .pipe(map((pageEvent) => pageEvent.semanticRoute === 'search'));
+    return this.eventService.get(PageEvent).pipe(
+      switchMap((pageEvent) => {
+        if (pageEvent?.semanticRoute !== 'search') {
+          return EMPTY;
+        }
 
-    return searchPageEvent$.pipe(
-      switchMap((isSearchPage) => (isSearchPage ? searchResults$ : EMPTY))
+        return searchResults$.pipe(
+          map((searchResults) => ({
+            ...pageEvent,
+            ...{
+              searchTerm: searchResults?.freeTextSearch,
+              numberOfResults: searchResults?.pagination?.totalResults,
+            },
+          })),
+          map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
+        );
+      })
     );
   }
 }

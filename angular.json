@@ -210,7 +210,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
@@ -503,6 +503,46 @@
               "integration-libs/cdc/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "setup": {
+      "projectType": "library",
+      "root": "core-libs/setup",
+      "sourceRoot": "core-libs/setup",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "core-libs/setup/tsconfig.lib.json",
+            "project": "core-libs/setup/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "core-libs/setup/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "core-libs/setup/test.ts",
+            "tsConfig": "core-libs/setup/tsconfig.spec.json",
+            "karmaConfig": "core-libs/setup/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "core-libs/setup/tsconfig.lib.json",
+              "core-libs/setup/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
