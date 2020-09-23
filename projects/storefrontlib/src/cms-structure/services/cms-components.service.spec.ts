@@ -1,8 +1,8 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CmsConfig, DeferLoadingStrategy } from '@spartacus/core';
-import { CmsComponentsService } from './cms-components.service';
 import { Subject } from 'rxjs';
+import { CmsComponentsService } from './cms-components.service';
 import { FeatureModulesService } from './feature-modules.service';
 import createSpy = jasmine.createSpy;
 
@@ -22,6 +22,13 @@ const mockConfig: CmsConfig = {
       i18nKeys: ['key-1', 'key-2'],
       guards: ['guard1'],
       deferLoading: DeferLoadingStrategy.INSTANT,
+    },
+    exampleMapping3: {
+      component: 'selector-3',
+      childRoutes: {
+        parent: { data: { test: 'parent data' } },
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      },
     },
   },
 };
@@ -114,11 +121,18 @@ describe('CmsComponentsService', () => {
   });
 
   describe('getChildRoutes', () => {
-    it('should get routes from page data', () => {
-      expect(service.getChildRoutes(mockComponents)).toEqual([
-        { path: 'route1' },
-        { path: 'route2' },
-      ]);
+    it('should get child routes from page data', () => {
+      expect(service.getChildRoutes(mockComponents)).toEqual({
+        parent: undefined,
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      });
+    });
+
+    it('should get parent and child routes from page data', () => {
+      expect(service.getChildRoutes(['exampleMapping3'])).toEqual({
+        parent: { data: { test: 'parent data' } },
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      });
     });
   });
 
