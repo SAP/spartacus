@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
@@ -19,7 +19,9 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeNumericInputFieldComponent implements OnInit {
+export class ConfiguratorAttributeNumericInputFieldComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   attributeInputForm: FormControl;
   numericFormatPattern: string;
   locale: string;
@@ -33,7 +35,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent implements OnInit {
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * Do we need to display a validation message
@@ -79,26 +83,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent implements OnInit {
     if (!this.attributeInputForm.invalid) {
       this.inputChange.emit(event);
     }
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createAriaLabelledBy(
-    prefix: string,
-    attributeId: string,
-    valueId?: string,
-    hasQuantity?: boolean
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAriaLabelledBy(
-      prefix,
-      attributeId,
-      valueId,
-      hasQuantity
-    );
   }
 
   protected createEventFromInput(): ConfigFormUpdateEvent {

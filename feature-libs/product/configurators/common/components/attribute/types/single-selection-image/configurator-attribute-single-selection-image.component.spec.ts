@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 @Directive({
@@ -25,7 +25,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         MockFocusDirective,
       ],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfiguratorUIKeyGenerator],
+      providers: [ConfiguratorAttributeBaseComponent],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
         set: {

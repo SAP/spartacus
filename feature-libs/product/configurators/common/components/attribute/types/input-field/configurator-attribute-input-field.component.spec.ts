@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
@@ -25,7 +25,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
         MockFocusDirective,
       ],
       imports: [ReactiveFormsModule],
-      providers: [ConfiguratorUIKeyGenerator],
+      providers: [ConfiguratorAttributeBaseComponent],
     })
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
         set: {

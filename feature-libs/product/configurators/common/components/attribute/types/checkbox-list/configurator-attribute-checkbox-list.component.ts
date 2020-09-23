@@ -9,14 +9,16 @@ import {
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
+export class ConfiguratorAttributeCheckBoxListComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -25,7 +27,9 @@ export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  ) {
+    super();
+  }
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -61,33 +65,5 @@ export class ConfiguratorAttributeCheckBoxListComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
   }
 }
