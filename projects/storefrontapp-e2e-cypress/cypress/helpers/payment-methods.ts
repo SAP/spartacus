@@ -96,7 +96,7 @@ export function setOtherPaymentToDefault() {
     .click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
-  firstCard.should('contain', 'Default Payment Method');
+  firstCard.should('contain', '✓ DEFAULT');
   firstCard.should('contain', '1234');
   firstCard.should('contain', `Expires: 03/2126`);
 }
@@ -126,7 +126,7 @@ export function deletePayment() {
 
   // verify remaining address is now the default one
   const defaultCard = cy.get('.cx-payment-card');
-  defaultCard.should('contain', 'Default Payment Method');
+  defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'test user');
 }
 

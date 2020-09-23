@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 
 export enum ICON_TYPE {
   STAR = 'STAR',
@@ -27,6 +28,7 @@ export enum ICON_TYPE {
   HEART = 'HEART',
   EMPTY_HEART = 'EMPTY_HEART',
   FILTER = 'FILTER',
+  PENCIL = 'PENCIL',
 }
 
 @Injectable({
@@ -60,6 +62,13 @@ export interface IconOptions {
    * is used for the SVG xlink reference.
    */
   resources?: IconConfigResource[];
+
+  /**
+   * Lists icons that should be flipped for a specific direction.
+   */
+  flipDirection?: {
+    [ICON_TYPE: string]: DirectionMode;
+  };
 }
 
 export interface IconConfigResource {
@@ -70,7 +79,7 @@ export interface IconConfigResource {
 
 /**
  * Each ICON type can have an companied resource type, such as SVG, LINK (font) or just TEXT.
- * The resources will be automitacally loaded in case they're required for the `ICON_TYPE`.
+ * The resources will be automatically loaded in case they're required for the `ICON_TYPE`.
  */
 export enum IconResourceType {
   /**

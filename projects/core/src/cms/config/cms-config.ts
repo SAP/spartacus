@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-tokens';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -67,11 +67,27 @@ export interface CMSComponentConfig
   [componentType: string]: CmsComponentMapping;
 }
 
+export interface FeatureModuleConfig {
+  /**
+   * Lazy resolved feature module
+   */
+  module?: () => Promise<any>;
+  /**
+   * Lazy resolved dependency modules
+   */
+  dependencies?: (() => Promise<any>)[];
+  /**
+   * Cms components covered by this feature
+   */
+  cmsComponents?: string[];
+}
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig extends OccConfig
+export abstract class CmsConfig
+  extends OccConfig
   implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;
@@ -79,6 +95,6 @@ export abstract class CmsConfig extends OccConfig
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };
-
+  featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }

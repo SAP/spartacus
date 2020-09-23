@@ -35,7 +35,9 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
-      ]
+      ],
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/setup": ["integration-libs/setup/public_api"]
     }
   },
   "exclude": [

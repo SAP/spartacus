@@ -1,6 +1,6 @@
 <ng-container *ngFor="let component of components$ | async; let i = index">
   <ng-container *ngIf="component">
-    <button [class.active]="i === activeTabNum" (click)="select(i)">
+    <button [class.active]="i === activeTabNum" (click)="select(i, $event)">
       {{ component.title | cxTranslate: { param: tabTitleParams[i] | async } }}
     </button>
     <div [class.active]="i === activeTabNum">

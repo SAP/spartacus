@@ -96,15 +96,15 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL}  --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} --ssr )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} --ssr --pwa )
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa )
 }
 
 function create_apps {
@@ -144,7 +144,7 @@ function local_install {
     ( cd ${CLONE_DIR} && yarn install )
 
     printh "Building spa libraries from source."
-    ( cd ${CLONE_DIR} && yarn build:core:lib)
+    ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
@@ -214,7 +214,7 @@ function start_csr_unix {
     else
         prestart_csr
         printh "Starting csr app"
-        pm2 start --name "${BASE_SITE}-csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
+        pm2 start --name "csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -224,7 +224,7 @@ function start_ssr_unix {
     else
         prestart_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${BASE_SITE}-ssr-${SSR_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-${SSR_PORT}" dist/ssr/server/main.js )
     fi
 }
 
@@ -234,7 +234,7 @@ function start_ssr_pwa_unix {
     else
         prestart_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${BASE_SITE}-ssr_pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr_pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
     fi
 }
 
@@ -258,9 +258,9 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop "${BASE_SITE}-csr-${CSR_PORT}"
-    pm2 stop "${BASE_SITE}-ssr-${SSR_PORT}"
-    pm2 stop "${BASE_SITE}-ssr_pwa-${SSR_PORT}"
+    pm2 stop "csr-${CSR_PORT}"
+    pm2 stop "ssr-${SSR_PORT}"
+    pm2 stop "ssr_pwa-${SSR_PORT}"
 }
 
 function run_e2e_tests {

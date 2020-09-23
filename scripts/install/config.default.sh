@@ -8,8 +8,6 @@
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://localhost:9002"
 
-BASE_SITE="electronics-spa"
-CURRENCY="usd"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
@@ -31,7 +29,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='~9.1.0'
+ANGULAR_CLI_VERSION='~10.1.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"

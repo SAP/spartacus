@@ -133,4 +133,8 @@ export const common = {
     cxStarRatingEmpty: 'Rating field is required',
     cxNoSelectedItemToCancel: 'Select at least one item to cancel',
   },
+  errorHandlers: {
+    scriptFailedToLoad: 'Failed to load the script.',
+    refreshThePage: 'Please refresh the page.',
+  },
 };

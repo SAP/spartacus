@@ -22,8 +22,8 @@ export type SlotConfig = {
 
   /**
    * The page fold identifies the last expected page slot above-the-fold.
-   * It's perfectly fine to specify this by idication, however a more
-   * precise indication will have an positive impact on performance.
+   * It's perfectly fine to specify this by indication, but keep in mind that
+   * a more precise indication will gain a more positive impact on performance.
    */
   pageFold?: string;
 };
@@ -46,7 +46,7 @@ export type LayoutSlotConfig = {
 /**
  * The LayoutConfig supports the configuration of page slots by page templates
  * or page sections, such as headers and footers. The configuration also supports
- * adaptive design per breadpoint (not per device type), so that the DOM is (re)rendered
+ * adaptive design per breakpoint (not per device type), so that the DOM is (re)rendered
  * por a given breakpoint.
  */
 @Injectable({
@@ -54,8 +54,10 @@ export type LayoutSlotConfig = {
   useExisting: Config,
 })
 export abstract class LayoutConfig {
-  /** The breakpoint configuration is used when the DOM is (re)rendered in specific view.
-   * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints. */
+  /**
+   * The breakpoint configuration is used when the DOM is (re)rendered in specific view.
+   * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints.
+   */
   breakpoints?: {
     [BREAKPOINT.xs]?: number;
     [BREAKPOINT.sm]?: number;
@@ -65,14 +67,14 @@ export abstract class LayoutConfig {
   layoutSlots?: LayoutSlotConfig;
 
   /**
-   * Deferrred loading is a technique to hold of with the loading / creation
+   * Deferred loading is a technique to hold of with the loading / creation
    * of DOM elements which are not not in the initial view port.
    * This technique wil increase performance.
    */
   deferredLoading?: {
     /**
      * The global strategy will be used as a fallback strategy for all DOM creation,
-     * but can be overriden by local configuration, i.e. for cms components.
+     * but can be overridden by local configuration, i.e. for cms components.
      */
     strategy?: DeferLoadingStrategy;
     /**
