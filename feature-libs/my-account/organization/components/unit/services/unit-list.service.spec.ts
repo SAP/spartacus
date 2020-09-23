@@ -7,6 +7,43 @@ import { Observable, of } from 'rxjs';
 import { UnitListService } from './unit-list.service';
 import { UnitItemService } from './unit-item.service';
 
+function verifyExpandedAll({ data }) {
+  expect(data.length).toBe(7);
+  expect(data[0].uid).toEqual('Rustic');
+  expect(data[1].uid).toEqual('Rustic Services');
+  expect(data[2].uid).toEqual('Services West');
+  expect(data[3].uid).toEqual('Services East');
+  expect(data[4].uid).toEqual('Rustic Retail');
+  expect(data[5].uid).toEqual('Custom Retail');
+  expect(data[6].uid).toEqual('Test');
+}
+
+function verifyCollapsed({ data }) {
+  expect(data.length).toBe(3);
+  expect(data[0].uid).toEqual('Rustic');
+  expect(data[1].uid).toEqual('Rustic Services');
+  expect(data[2].uid).toEqual('Rustic Retail');
+}
+
+function verifyExpandedOne({ data }) {
+  expect(data.length).toBe(5);
+  expect(data[0].uid).toEqual('Rustic');
+  expect(data[1].uid).toEqual('Rustic Services');
+  expect(data[2].uid).toEqual('Services West');
+  expect(data[3].uid).toEqual('Services East');
+  expect(data[4].uid).toEqual('Rustic Retail');
+}
+
+const toggledUnit = {
+  uid: 'Rustic Services',
+  id: 'Rustic Services',
+  name: 'Rustic Services',
+  parent: 'Rustic',
+  active: true,
+  depthLevel: 1,
+  count: 2,
+};
+
 const mockedTree = {
   id: 'Rustic',
   name: 'Rustic',
@@ -42,6 +79,9 @@ const mockedTree = {
       children: [
         {
           active: true,
+          id: 'Custom Retail',
+          name: 'Custom Retail',
+          parent: 'Rustic Retail',
           children: [
             {
               active: true,
@@ -51,9 +91,6 @@ const mockedTree = {
               parent: 'Custom Retail',
             },
           ],
-          id: 'Custom Retail',
-          name: 'Custom Retail',
-          parent: 'Rustic Retail',
         },
       ],
     },
@@ -73,7 +110,7 @@ export class MockTableService {
   }
 }
 
-fdescribe('UnitListService', () => {
+describe('UnitListService', () => {
   let service: UnitListService;
 
   describe('with table config', () => {
@@ -81,7 +118,6 @@ fdescribe('UnitListService', () => {
       TestBed.configureTestingModule({
         providers: [
           UnitListService,
-
           {
             provide: OrgUnitService,
             useClass: MockUnitService,
@@ -112,10 +148,25 @@ fdescribe('UnitListService', () => {
     it('should populate tree object to list', () => {
       let result;
       service.getTable().subscribe((table) => (result = table));
-      expect(result.data.length).toBe(3);
-      expect(result.data[0].uid).toEqual('Rustic');
-      expect(result.data[1].uid).toEqual('Rustic Services');
-      expect(result.data[2].uid).toEqual('Rustic Retail');
+      verifyCollapsed(result);
+    });
+
+    it('should toggle item', () => {
+      let result;
+      service.getTable().subscribe((table) => (result = table));
+      service.toggle({ ...toggledUnit, expanded: false });
+      verifyExpandedOne(result);
+      service.toggle({ ...toggledUnit, expanded: true });
+      verifyCollapsed(result);
+    });
+
+    it('should expandAll and collapseAll', () => {
+      let result;
+      service.getTable().subscribe((table) => (result = table));
+      service.expandAll();
+      verifyExpandedAll(result);
+      service.collapseAll();
+      verifyCollapsed(result);
     });
   });
 });
