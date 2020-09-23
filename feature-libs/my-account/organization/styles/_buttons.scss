@@ -66,13 +66,11 @@
     }
   }
   a.button.primary,
-  a.button.disabled.primary {
-    @extend .btn-primary;
-    color: var(--cx-color-inverse);
-  }
+  a.button.primary.disabled,
+  a.button.primary:not(:disabled):not(.disabled),
   button.button.primary,
-  button.button.disabled.primary,
-  button.button:active:not(:disabled):not(.disabled) {
+  button.button.primary.disabled,
+  button.button.primary:active:not(:disabled):not(.disabled) {
     @extend .btn-primary;
     background-color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
