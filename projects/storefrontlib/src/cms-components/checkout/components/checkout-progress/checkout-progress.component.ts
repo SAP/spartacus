@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStep } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -10,11 +10,10 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressComponent {
-  constructor(protected checkoutStepService: CheckoutStepService) {}
+  private _steps$: BehaviorSubject<CheckoutStep[]> = this.checkoutStepService
+    .steps$;
 
-  steps$: Observable<
-    CheckoutStep[]
-  > = this.checkoutStepService.steps$.asObservable();
+  constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<
@@ -22,6 +21,10 @@ export class CheckoutProgressComponent {
   > = this.checkoutStepService.activeStepIndex$.pipe(
     tap((index) => (this.activeStepIndex = index))
   );
+
+  get steps$(): Observable<CheckoutStep[]> {
+    return this._steps$.asObservable();
+  }
 
   getTabIndex(stepIndex: number): number {
     return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;

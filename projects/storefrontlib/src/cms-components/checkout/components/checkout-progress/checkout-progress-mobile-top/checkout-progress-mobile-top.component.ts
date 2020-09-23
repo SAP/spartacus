@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActiveCartService, Cart } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStep } from '../../../model/checkout-step.model';
 import { CheckoutStepService } from '../../../services/checkout-step.service';
@@ -11,6 +11,9 @@ import { CheckoutStepService } from '../../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressMobileTopComponent implements OnInit {
+  private _steps$: BehaviorSubject<CheckoutStep[]> = this.checkoutStepService
+    .steps$;
+
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected activeCartService: ActiveCartService
@@ -18,16 +21,16 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
 
   cart$: Observable<Cart>;
 
-  steps$: Observable<
-    CheckoutStep[]
-  > = this.checkoutStepService.steps$.asObservable();
-
   activeStepIndex: number;
   activeStepIndex$: Observable<
     number
   > = this.checkoutStepService.activeStepIndex$.pipe(
     tap((index) => (this.activeStepIndex = index))
   );
+
+  get steps$(): Observable<CheckoutStep[]> {
+    return this._steps$.asObservable();
+  }
 
   ngOnInit(): void {
     this.cart$ = this.activeCartService.getActive();
