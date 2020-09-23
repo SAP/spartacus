@@ -7,6 +7,9 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 })
 export class StatusCellComponent extends OrganizationCellComponent {
   get label() {
+    if (this.isActive === undefined) {
+      return;
+    }
     return this.isActive ? 'organization.enabled' : 'organization.disabled';
   }
 
