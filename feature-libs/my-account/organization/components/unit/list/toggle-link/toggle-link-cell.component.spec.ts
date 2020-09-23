@@ -22,7 +22,7 @@ class MockUnitListService implements Partial<UnitListService> {
   toggle = createSpy('toggle');
 }
 
-fdescribe('ToggleLinkCellComponent', () => {
+describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
   let unitListService: UnitListService;
   let fixture: ComponentFixture<ToggleLinkCellComponent>;

@@ -6,13 +6,13 @@ import { UnitListService } from '../services/unit-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitListComponent {
-  constructor(protected uls: UnitListService) {}
+  constructor(protected unitListService: UnitListService) {}
 
   expandAll() {
-    this.uls.expandAll();
+    this.unitListService.expandAll();
   }
 
   collapseAll() {
-    this.uls.collapseAll();
+    this.unitListService.collapseAll();
   }
 }
