@@ -71,6 +71,7 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
+    // TODOLP: Get steps from checkoutConfig.checkout.steps and remove steps in checkout-config.service
     this.allSteps = this.checkoutConfigService.steps
       .filter((step) => !step.disabled)
       .map((x) => Object.assign({}, x));
@@ -145,6 +146,7 @@ export class CheckoutStepService {
       activatedRoute
     );
 
+    // TODOLP: fix to return null when step is not found
     return this.allSteps.findIndex(
       (step) =>
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`

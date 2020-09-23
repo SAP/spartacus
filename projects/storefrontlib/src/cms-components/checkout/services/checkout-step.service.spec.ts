@@ -57,7 +57,7 @@ class MockRoutingService {
   }
 }
 
-describe('CheckoutStpService', () => {
+describe('CheckoutStepService', () => {
   let service: CheckoutStepService;
   let routingService: RoutingService;
   let routingConfigService: RoutingConfigService;
@@ -162,11 +162,13 @@ describe('CheckoutStpService', () => {
   it('should get checkout step route by type', () => {
     expect(
       service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
-    ).toEqual('route1');
+    ).toEqual(checkoutConfigService.steps[1].routeName);
   });
 
   it('should get first checkout step route', () => {
-    expect(service.getFirstCheckoutStepRoute()).toEqual('route0');
+    expect(service.getFirstCheckoutStepRoute()).toEqual(
+      checkoutConfigService.steps[0].routeName
+    );
   });
 
   it('should be able to get next enabled checkout step url', () => {
@@ -186,7 +188,7 @@ describe('CheckoutStpService', () => {
     );
   });
 
-  it('should be able to get prevous enabled checkout step url', () => {
+  it('should be able to get previous enabled checkout step url', () => {
     const mockActivatedRoute = {
       snapshot: {
         url: ['checkout', 'route2'],
