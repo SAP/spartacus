@@ -6,8 +6,16 @@ import {
   NgModuleRef,
   OnDestroy,
 } from '@angular/core';
-import { combineLatest, from, Observable, of, queueScheduler } from 'rxjs';
-import { map, observeOn, switchMap, tap } from 'rxjs/operators';
+import {
+  combineLatest,
+  ConnectableObservable,
+  from,
+  Observable,
+  of,
+  queueScheduler,
+  Subscription,
+} from 'rxjs';
+import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
 import { createFrom } from '../util';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
 import { EventService } from '../event/event.service';
@@ -21,11 +29,25 @@ import { EventService } from '../event/event.service';
 export class LazyModulesService implements OnDestroy {
   private dependencyModules = new Map<any, NgModuleRef<any>>();
 
+  // and call this guy lazyModules$?
+  modules$: Observable<NgModuleRef<any>> = this.events
+    .get(ModuleInitializedEvent)
+    .pipe(
+      map((event) => event.moduleRef),
+      publishReplay()
+    ) as ConnectableObservable<NgModuleRef<any>>;
+
+  private eventSubscription: Subscription;
+
   constructor(
     protected compiler: Compiler,
     protected injector: Injector,
     protected events: EventService
-  ) {}
+  ) {
+    this.eventSubscription = (this.modules$ as ConnectableObservable<
+      NgModuleRef<any>
+    >).connect();
+  }
 
   /**
    * Returns dependency module instance and initializes it when needed.
@@ -103,6 +125,10 @@ export class LazyModulesService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.eventSubscription) {
+      this.eventSubscription.unsubscribe();
+    }
+
     // clean up all initialized dependency modules
     this.dependencyModules.forEach((dependency) => dependency.destroy());
   }
