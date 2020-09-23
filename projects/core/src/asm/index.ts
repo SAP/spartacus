@@ -4,6 +4,7 @@ export * from './connectors/index';
 export * from './facade/asm.service';
 export * from './facade/csagent-auth.service';
 export * from './models/asm.models';
+export * from './services/asm-auth-storage.service';
 export * from './services/asm-auth.service';
 export * from './services/asm-state-persistence.service';
 export * from './store/actions/index';
