@@ -12,6 +12,10 @@ cx-organization-form {
 }
 
 %organizationList {
+  cx-split-view {
+    height: 100%;
+  }
+
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {
