@@ -2,7 +2,7 @@ import { Inject, Injectable, InjectFlags, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { deepMerge } from '../utils/deep-merge';
 import { EventService } from '../../event/event.service';
-import { ModuleInitializedEvent } from '../../cms/events/module-initialized-event';
+import { ModuleInitializedEvent } from '../../lazy-loading/events/module-initialized-event';
 import { isFeatureEnabled } from '../../features-config';
 import {
   Config,
