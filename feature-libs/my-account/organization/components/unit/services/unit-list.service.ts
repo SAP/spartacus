@@ -9,8 +9,8 @@ import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
 
 /**
- * Service to populate Budget data to `Table` data. Budget
- * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
+ * Service to populate Unit data to `Table` data. Unit
+ * data is driven by the table configuration, using the `OrganizationTables.UNIT`.
  */
 @Injectable({
   providedIn: 'root',
