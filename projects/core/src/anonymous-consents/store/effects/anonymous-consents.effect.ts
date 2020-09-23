@@ -43,7 +43,7 @@ export class AnonymousConsentsEffects {
             if (!newConsents) {
               if (isDevMode()) {
                 console.warn(
-                  'No consents were loaded. Please check Spartacus docs as this could be a back-end configuration issue.'
+                  'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
                 );
               }
               return false;
