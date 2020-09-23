@@ -16,7 +16,7 @@ import { ActiveLinkCellComponent } from '../shared/organization-table/active-lin
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { CostCenterBudgetListComponent } from './budgets';
+import { CostCenterBudgetListComponent } from './budgets/cost-center-budget-list.component';
 import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterFormComponent } from './form/cost-center-form.component';

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationListService } from '../../shared/organization-list';
+import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { UserPermissionListService } from './user-permission-list.service';
 
 @Component({

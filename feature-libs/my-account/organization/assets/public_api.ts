@@ -1,1 +1,1 @@
-export * from './translations/translations';
+export * from './translations/translation-chunks-config';
