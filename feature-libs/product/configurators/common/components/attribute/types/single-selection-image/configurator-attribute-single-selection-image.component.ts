@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
@@ -17,7 +17,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
-  extends ConfiguratorUIKeyGenerator
+  extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 

@@ -9,7 +9,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Component({
@@ -18,7 +18,7 @@ import { Configurator } from './../../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeHeaderComponent
-  extends ConfiguratorUIKeyGenerator
+  extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;

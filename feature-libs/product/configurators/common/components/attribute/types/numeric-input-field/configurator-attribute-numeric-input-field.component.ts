@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
@@ -20,7 +20,7 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
-  extends ConfiguratorUIKeyGenerator
+  extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeInputForm: FormControl;
   numericFormatPattern: string;

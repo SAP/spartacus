@@ -1,8 +1,8 @@
-import { Configurator } from './../../core/model/configurator.model';
-import { ConfiguratorUIKeyGenerator } from './configurator-ui-key-generator';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 describe('ConfigUIKeyGeneratorService', () => {
-  let classUnderTest: ConfiguratorUIKeyGenerator;
+  let classUnderTest: ConfiguratorAttributeBaseComponent;
 
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
@@ -10,7 +10,7 @@ describe('ConfigUIKeyGeneratorService', () => {
   };
 
   beforeEach(() => {
-    classUnderTest = new ConfiguratorUIKeyGenerator();
+    classUnderTest = new ConfiguratorAttributeBaseComponent();
   });
 
   it('should generate value key', () => {
