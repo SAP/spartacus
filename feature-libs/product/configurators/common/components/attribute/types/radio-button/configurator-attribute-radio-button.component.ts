@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
@@ -17,7 +17,9 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
   templateUrl: './configurator-attribute-radio-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
+export class ConfiguratorAttributeRadioButtonComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   attributeRadioButtonForm = new FormControl('');
   changeTriggeredByKeyboard = false;
 
@@ -26,7 +28,9 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
@@ -81,47 +85,5 @@ export class ConfiguratorAttributeRadioButtonComponent implements OnInit {
 
     this.selectionChange.emit(event);
     this.changeTriggeredByKeyboard = false;
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
-  }
-
-  createAriaLabelledBy(
-    prefix: string,
-    attributeId: string,
-    valueId?: string,
-    hasQuantity?: boolean
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAriaLabelledBy(
-      prefix,
-      attributeId,
-      valueId,
-      hasQuantity
-    );
   }
 }

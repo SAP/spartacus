@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -17,6 +17,7 @@ import { Configurator } from './../../../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
+  extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
@@ -25,7 +26,9 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  ) {
+    super();
+  }
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -78,33 +81,5 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     };
 
     this.selectionChange.emit(event);
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
   }
 }

@@ -6,7 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 
 class MockGroupService {}
@@ -31,7 +31,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       ],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [
-        ConfiguratorUIKeyGenerator,
+        ConfiguratorAttributeBaseComponent,
         ConfiguratorStorefrontUtilsService,
         {
           provide: ConfiguratorGroupsService,

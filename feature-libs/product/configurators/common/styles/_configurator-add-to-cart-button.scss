@@ -2,7 +2,7 @@
   padding: 15px;
   margin-top: 15px;
   justify-content: flex-end;
-  width: 100%;
+  max-width: 1140px;
 
   @include media-breakpoint-down(sm) {
     padding: 20px;

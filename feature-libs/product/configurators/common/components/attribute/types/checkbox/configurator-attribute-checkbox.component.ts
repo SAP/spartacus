@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 
 @Component({
@@ -16,7 +16,9 @@ import { Configurator } from './../../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-checkbox.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeCheckBoxComponent implements OnInit {
+export class ConfiguratorAttributeCheckBoxComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -44,34 +46,6 @@ export class ConfiguratorAttributeCheckBoxComponent implements OnInit {
       },
     };
     this.selectionChange.emit(event);
-  }
-
-  createAttributeValueIdForConfigurator(
-    attribute: Configurator.Attribute,
-    value: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createAttributeValueIdForConfigurator(
-      attribute,
-      value
-    );
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
-  }
-
-  createValueUiKey(
-    prefix: string,
-    attributeId: string,
-    valueId: string
-  ): string {
-    return ConfiguratorUIKeyGenerator.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
   }
 
   protected assembleSingleValue(): Configurator.Value[] {

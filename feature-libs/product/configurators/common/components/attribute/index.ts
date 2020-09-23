@@ -1,5 +1,6 @@
 export * from './footer/index';
 export * from './header/index';
+export * from './types/base/index';
 export * from './types/checkbox-list/index';
 export * from './types/checkbox/index';
 export * from './types/drop-down/index';

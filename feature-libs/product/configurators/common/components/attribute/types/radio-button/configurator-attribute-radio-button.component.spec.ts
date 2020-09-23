@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -28,7 +28,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       ],
       imports: [ReactiveFormsModule],
       providers: [
-        ConfiguratorUIKeyGenerator,
+        ConfiguratorAttributeBaseComponent,
         ConfiguratorStorefrontUtilsService,
         {
           provide: ConfiguratorGroupsService,

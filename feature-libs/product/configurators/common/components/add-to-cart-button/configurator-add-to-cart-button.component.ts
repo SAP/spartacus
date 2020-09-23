@@ -194,7 +194,14 @@ export class ConfiguratorAddToCartButtonComponent {
             isOverview,
             true
           );
+          // we clean up both the product related configuration (no longer needed)
+          // and the cart entry related configuration, as we might have a configuration
+          // for the same cart entry number stored already.
+          // (Cart entries might have been deleted)
           this.configuratorCommonsService.removeConfiguration(owner);
+          this.configuratorCommonsService.removeConfiguration(
+            configWithNextOwner.nextOwner
+          );
         });
     }
   }

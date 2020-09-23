@@ -9,7 +9,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorUIKeyGenerator } from '../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Component({
@@ -17,7 +17,9 @@ import { Configurator } from './../../../core/model/configurator.model';
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeHeaderComponent implements OnInit {
+export class ConfiguratorAttributeHeaderComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
@@ -26,7 +28,9 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+    super();
+  }
 
   ngOnInit(): void {
     /**
@@ -37,10 +41,6 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
       .pipe(
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
       );
-  }
-
-  createAttributeUiKey(prefix: string, attributeId: string): string {
-    return ConfiguratorUIKeyGenerator.createAttributeUiKey(prefix, attributeId);
   }
 
   /**

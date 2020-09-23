@@ -8,14 +8,16 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUIKeyGenerator } from '../../../service/configurator-ui-key-generator';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { Configurator } from './../../../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeDropDownComponent implements OnInit {
+export class ConfiguratorAttributeDropDownComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   attributeDropDownForm = new FormControl('');
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -40,11 +42,5 @@ export class ConfiguratorAttributeDropDownComponent implements OnInit {
       },
     };
     this.selectionChange.emit(event);
-  }
-
-  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfiguratorUIKeyGenerator.createAttributeIdForConfigurator(
-      attribute
-    );
   }
 }
