@@ -224,8 +224,8 @@ describe('B2BUser Actions', () => {
       it('should create the action', () => {
         const payload = {
           orgCustomer: orgCustomer,
-          orgCustomerId: 'id1',
-          userId: 'userId1',
+          orgCustomerId: orgCustomerId,
+          userId: userId,
         };
         const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
 
