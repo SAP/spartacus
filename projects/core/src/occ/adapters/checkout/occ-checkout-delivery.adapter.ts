@@ -51,7 +51,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+      this.occEndpoints.getUrl('setDeliveryAddress', { userId, cartId }),
       {},
       {
         params: { addressId: addressId },

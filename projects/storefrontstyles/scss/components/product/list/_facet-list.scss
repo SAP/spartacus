@@ -56,7 +56,10 @@ body.modal-open {
       overflow: scroll;
     }
 
-    padding: 0 10px 10px 10px;
+    padding-top: 0;
+    padding-inline-end: 10px;
+    padding-bottom: 10px;
+    padding-inline-start: 10px;
 
     h4 {
       position: sticky;

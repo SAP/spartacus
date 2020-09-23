@@ -142,7 +142,7 @@ function local_install {
     ( cd ${CLONE_DIR} && yarn install )
 
     printh "Building spa libraries from source."
-    ( cd ${CLONE_DIR} && yarn build:core:lib)
+    ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
