@@ -371,7 +371,9 @@ export function selectAttribute(
   value?: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
+  cy.log('attributeId: ' + attributeId);
   const valueId = `${attributeId}--${valueName}`;
+  cy.log('valueId: ' + valueId);
 
   switch (uiType) {
     case 'radioGroup':
@@ -381,7 +383,10 @@ export function selectAttribute(
       cy.get(`#${valueId}`)
         .click({ force: true })
         .then(() => {
-          cy.get(`#${valueId}`).should('be.checked');
+          if (uiType !== 'single_selection_image') {
+            isUpdatingMessageNotDisplayed();
+            cy.get(`#${valueId}`).should('be.checked');
+          }
         });
       break;
     case 'dropdown':

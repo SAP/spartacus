@@ -43,10 +43,11 @@ const ROOM_SIZE = 'ROOM_SIZE';
 const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
+const SPEAKER_TYPE_FRONT = 'SPEAKER_TYPE_FRONT';
 
 // List of attribute values
-const WHITE = 'WHITE';
-const TITAN = 'TITAN';
+const WHITE = 'COLOUR_HT_WHITE';
+const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
@@ -119,7 +120,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configure Product', () => {
-    it.skip('Image Attribute Types - Single Selection', () => {
+    it('Image Attribute Types - Single Selection', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
@@ -289,7 +290,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu for multi level product', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnGroup(2);
-      configuration.isAttributeDisplayed('SPEAKER_TYPE_FRONT', radioGroup);
+      configuration.isAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
   });
 
