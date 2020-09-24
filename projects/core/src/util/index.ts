@@ -1,8 +1,4 @@
 export * from './applicable';
-export {
-  diff as θdiff,
-  shallowEqualObjects as θshallowEqualObjects,
-} from './compare-equal-objects';
 export * from './converter.service';
 export * from './create-from';
 export * from './glob.service';
