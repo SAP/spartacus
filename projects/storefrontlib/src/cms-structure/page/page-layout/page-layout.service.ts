@@ -185,7 +185,7 @@ export class PageLayoutService {
   }
 
   /**
-   * Returns a list of slots for a breakpoint specific configuratoin
+   * Returns a list of slots for a breakpoint specific configuration
    * If there's no specific configuration for the breakpoint,
    * the closest available configuration will be returned.
    */

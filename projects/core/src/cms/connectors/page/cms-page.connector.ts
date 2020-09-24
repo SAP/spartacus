@@ -49,9 +49,9 @@ export class CmsPageConnector {
 
   /**
    *
-   * Merge default page structure inot the given `CmsStructureModel`.
-   * This is benefitial for a fast setup of the UI without necessary
-   * finegrained CMS setup.
+   * Merge default page structure into the given `CmsStructureModel`.
+   * This is beneficial for a fast setup of the UI without necessary
+   * fine grained CMS setup.
    */
   private mergeDefaultPageStructure(
     pageContext: PageContext,
