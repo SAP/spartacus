@@ -3,7 +3,7 @@ import Chainable = Cypress.Chainable;
 const continueToCartButtonSelector =
   'cx-configurator-add-to-cart-button button';
 const resolveIssuesLinkSelector =
-  'cx-configure-cart-entry button.cx-action-link';
+  'cx-configurator-overview-notification-banner button.cx-action-link';
 
 /**
  * Navigates to the configured product overview page.
@@ -68,7 +68,7 @@ export function clickOnResolveIssuesLinkOnOP(): void {
   cy.get(resolveIssuesLinkSelector)
     .click()
     .then(() => {
-      this.isConfigPageDisplayed();
+      cy.location('pathname').should('contain', '/cartEntry/entityKey/');
     });
 }
 
@@ -83,16 +83,18 @@ export function checkNotificationBannerOnOP(
   numberOfIssues?: number
 ): void {
   const resolveIssuesText =
-    'issues must be resolved before checkout.  Resolve Issues';
+    ' must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg-container')
     .first()
     .invoke('text')
     .then((text) => {
       expect(text).contains(resolveIssuesText);
-      const issues = text.replace(resolveIssuesText, '').trim();
-      expect(issues).match(/^[0-9]/);
-      expect(issues).eq(numberOfIssues.toString());
+      if (numberOfIssues > 1) {
+        const issues = text.replace(resolveIssuesText, '').trim();
+        expect(issues).match(/^[0-9]/);
+        expect(issues).eq(numberOfIssues.toString());
+      }
     });
 }
 
@@ -104,7 +106,7 @@ export function checkNotificationBannerOnOP(
  * Otherwise verifies if this element is not visible.
  */
 export function verifyNotificationBannerOnOP(numberOfIssues?: number) {
-  const element = cy.get('cx-error-container');
+  const element = cy.get('.cx-error-container');
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
