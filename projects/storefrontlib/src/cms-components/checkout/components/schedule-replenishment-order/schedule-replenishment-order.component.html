@@ -50,8 +50,9 @@
               [selected]="
                 nWeeks === scheduleReplenishmentFormData.numberOfWeeks
               "
-              >{{ nWeeks }}</option
             >
+              {{ nWeeks }}
+            </option>
           </select>
         </ng-container>
         <ng-template #isDaily>
@@ -63,8 +64,9 @@
               *ngFor="let nDays of numberOfDays"
               [value]="nDays"
               [selected]="nDays === scheduleReplenishmentFormData.numberOfDays"
-              >{{ nDays }}</option
             >
+              {{ nDays }}
+            </option>
           </select>
         </ng-template>
       </div>
@@ -77,7 +79,8 @@
             *ngFor="let type of recurrencePeriodType"
             [value]="type"
             [selected]="type === scheduleReplenishmentFormData.recurrencePeriod"
-            >{{
+          >
+            {{
               'checkoutReview.recurrencePeriodType'
                 | cxTranslate: { context: type }
             }}
@@ -99,8 +102,9 @@
             *ngFor="let nDays of numberOfDays"
             [value]="nDays"
             [selected]="nDays === scheduleReplenishmentFormData.nthDayOfMonth"
-            >{{ nDays }}</option
           >
+            {{ nDays }}
+          </option>
         </select>
       </div>
     </div>
