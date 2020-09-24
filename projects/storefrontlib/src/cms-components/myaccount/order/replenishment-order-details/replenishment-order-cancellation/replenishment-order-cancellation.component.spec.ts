@@ -102,7 +102,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
       'openDialog'
     ).and.stub();
 
-    el.query(By.css('button.btn-primary')).nativeElement.click();
+    el.query(By.css('button.btn-action:last-child')).nativeElement.click();
 
     expect(
       replenishmentOrderCancellationLaunchDialogService.openDialog

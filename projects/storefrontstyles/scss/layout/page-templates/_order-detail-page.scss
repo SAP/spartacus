@@ -2,75 +2,8 @@
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 
-  cx-order-details-headline {
-    @include media-breakpoint-down(sm) {
-      border: none;
-    }
-
-    .cx-header {
-      border: 1px solid;
-      border-color: var(--cx-color-light);
-      padding-top: 30px;
-      padding-inline-end: 30px;
-      padding-bottom: 20px;
-      padding-inline-start: 30px;
-      margin-bottom: 30px;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-
-      &:not(:first-child) {
-        border-top: none;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 0;
-      }
-
-      @include media-breakpoint-down(sm) {
-        border: none;
-        padding: 0;
-      }
-
-      .cx-detail {
-        border-inline-end: 1px solid var(--cx-color-light);
-
-        &:last-child {
-          border: none;
-        }
-
-        @include media-breakpoint-up(md) {
-          padding-inline-start: 47px;
-
-          &:first-child {
-            padding-inline-start: 0;
-          }
-        }
-
-        @include media-breakpoint-down(sm) {
-          border: none;
-          margin-bottom: 10px;
-        }
-      }
-
-      .cx-detail-label {
-        font-size: 18px;
-        font-weight: bold;
-      }
-    }
-
-    .cx-nav {
-      justify-content: center;
-      padding: 1rem 0;
-
-      .btn-action {
-        @include media-breakpoint-down(sm) {
-          margin: 0 0 1rem;
-        }
-      }
-    }
-  }
-
   cx-order-details-items {
+    margin-top: 30px;
     margin-bottom: 15px;
     .cx-list-header {
       @include media-breakpoint-down(sm) {
@@ -205,6 +138,7 @@
     .cx-cancel-replenishment-dialog-foreground {
       @extend .modal-dialog;
       @extend .modal-dialog-centered;
+      @extend .modal-sm;
 
       .cx-cancel-replenishment-dialog-content {
         @extend .modal-content;
@@ -215,15 +149,14 @@
           }
 
           &-description {
-            padding: 10px 30px 0;
+            padding-top: 10px;
+            padding-inline-start: 25px;
+            padding-inline-end: 25px;
+            padding-bottom: 0;
           }
 
           &-body {
             @extend .modal-body;
-
-            .cx-cancel-replenishment-btns {
-              justify-content: center;
-            }
           }
         }
       }
