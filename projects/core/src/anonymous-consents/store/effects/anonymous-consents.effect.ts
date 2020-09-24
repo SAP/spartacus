@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -14,7 +14,7 @@ import {
 import { AuthActions, AuthService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
@@ -40,6 +40,15 @@ export class AnonymousConsentsEffects {
         .loadAnonymousConsents()
         .pipe(
           map((newConsents) => {
+            if (!newConsents) {
+              if (isDevMode()) {
+                console.warn(
+                  'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
+                );
+              }
+              return false;
+            }
+
             const currentConsentVersions = currentConsents.map(
               (consent) => consent.templateVersion
             );
@@ -60,7 +69,7 @@ export class AnonymousConsentsEffects {
           catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -102,7 +111,7 @@ export class AnonymousConsentsEffects {
           catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
