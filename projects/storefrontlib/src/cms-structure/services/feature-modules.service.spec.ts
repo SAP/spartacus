@@ -4,9 +4,12 @@ import { FeatureModulesService } from './feature-modules.service';
 import {
   CmsConfig,
   ConfigInitializerService,
+  EventService,
+  ModuleInitializedEvent,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { InjectionToken, NgModule } from '@angular/core';
+import { take } from 'rxjs/operators';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -94,6 +97,23 @@ describe('FeatureModulesService', () => {
       service.getCmsMapping('component1').subscribe((mapping) => {
         expect(mapping).toBeTruthy();
         expect(mapping.component).toEqual('component1Class');
+        done();
+      });
+    });
+
+    it('should emit module initialized event', (done) => {
+      const eventService = TestBed.inject(EventService);
+      let moduleEvent;
+      eventService
+        .get(ModuleInitializedEvent)
+        .pipe(take(1))
+        .subscribe((event) => (moduleEvent = event));
+
+      service.getCmsMapping('component1').subscribe(() => {
+        expect(moduleEvent.featureName).toEqual('feature1');
+        expect(
+          moduleEvent.moduleRef.instance instanceof MockFeature1Module
+        ).toBeTruthy();
         done();
       });
     });
