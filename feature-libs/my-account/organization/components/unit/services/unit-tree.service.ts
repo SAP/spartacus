@@ -32,7 +32,7 @@ export class UnitTreeService {
     this.treeToggle$.next(new Map().set(unitId, TREE_TOGGLE.EXPAND_ALL));
   }
 
-  isExpanded(unitId: string, level: number, parent: TREE_TOGGLE): boolean {
+  isExpanded(unitId: string, level: number, parent?: TREE_TOGGLE): boolean {
     const toggle = this.treeToggle$.value?.get(unitId);
     return (
       toggle === TREE_TOGGLE.EXPANDED ||
@@ -44,16 +44,16 @@ export class UnitTreeService {
   }
 
   toggle(unit: B2bUnitTreeNode) {
-    const treeState = this.treeToggle$.value;
-    const currentState =
-      treeState.get(unit.uid) === TREE_TOGGLE.EXPANDED
-        ? TREE_TOGGLE.COLLAPSED
-        : TREE_TOGGLE.EXPANDED;
-    treeState.set(unit.uid, currentState);
-    this.treeToggle$.next(treeState);
+    const newState = this.isExpanded(unit.id, unit.depthLevel)
+      ? TREE_TOGGLE.COLLAPSED
+      : TREE_TOGGLE.EXPANDED;
+
+    const currentState = this.treeToggle$.value;
+    currentState.set(unit.uid, newState);
+    this.treeToggle$.next(currentState);
   }
 
-  getToggleState(unitId): TREE_TOGGLE {
+  getToggleState(unitId: string): TREE_TOGGLE {
     return this.treeToggle$.value?.get(unitId);
   }
 

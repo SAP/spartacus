@@ -45,6 +45,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
 
   toggleItem(event: Event) {
     event.preventDefault();
+    event.stopPropagation();
     this.unitTreeService.toggle((this.model as unknown) as B2bUnitTreeNode);
   }
 
