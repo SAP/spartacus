@@ -7,6 +7,7 @@ import {
   Pipe,
   PipeTransform,
   ViewContainerRef,
+  DebugElement,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -26,7 +27,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
     {
       code: '1',
       firstDate: new Date('2018-01-01').toDateString(),
-      active: true,
+      active: false,
       subTotal: { formattedValue: '$150.00' },
       trigger: {
         displayTimeTable: 'time-table',
@@ -103,11 +104,13 @@ class MockRoutingService {
   go() {}
 }
 
-describe('ReplenishmentOrderHistoryComponent', () => {
+fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService;
   let routingService: RoutingService;
+  let replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -133,11 +136,15 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
     userService = TestBed.inject(UserReplenishmentOrderService);
     routingService = TestBed.inject(RoutingService);
+    replenishmentOrderCancellationLaunchDialogService = TestBed.inject(
+      ReplenishmentOrderCancellationLaunchDialogService
+    );
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
   });
 
   it('should be created', () => {
@@ -155,14 +162,13 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     expect(replenishmentOrders).toEqual(mockReplenishmentOrders);
   });
 
-  it('should redirect when clicking on replenishment order code', () => {
+  it('should redirect when clicking on replenishment order row', () => {
     spyOn(routingService, 'go').and.stub();
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-replenishment-order-history-code')
+      By.css('.cx-replenishment-order-history-table tbody tr')
     );
-    console.log(rows);
     rows[1].triggerEventHandler('click', null);
 
     expect(routingService.go).toHaveBeenCalledWith({
@@ -214,10 +220,74 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     );
   });
 
+  it('should be able to call the open dialog', () => {
+    spyOn(
+      replenishmentOrderCancellationLaunchDialogService,
+      'openDialog'
+    ).and.stub();
+
+    replenishmentOrderHistory.next(mockReplenishmentOrders);
+
+    fixture.detectChanges();
+
+    el.query(By.css('.cx-order-cancel')).nativeElement.click();
+
+    expect(
+      replenishmentOrderCancellationLaunchDialogService.openDialog
+    ).toHaveBeenCalledWith(component.element, component['vcr']);
+  });
+
+  it('should NOT show a cancel action button', () => {
+    replenishmentOrderHistory.next(mockReplenishmentOrders);
+
+    fixture.detectChanges();
+
+    const button = el.query(By.css('.cx-order-cancel:first-child'));
+
+    expect(button).toBeFalsy();
+  });
+
+  it('should show a cancel action button', () => {
+    fixture.detectChanges();
+
+    const button = el.query(By.css('.cx-order-cancel:last-child'))
+      .nativeElement;
+
+    expect(button.textContent).toContain('orderHistory.cancel');
+  });
+
+  it('should display Cancelled when replenishment order is cancelled', () => {
+    fixture.detectChanges();
+    component.replenishmentOrders$.subscribe((data) => {
+      console.log(data);
+    });
+    console.log('no child', el.queryAll(By.css('.cx-next-order-date')));
+    console.log(
+      'first child ',
+      el.query(By.css('.cx-next-order-date:first-child')).nativeElement
+    );
+    console.log(
+      'last child ',
+      el.query(By.css('.cx-next-order-date:last-child')).nativeElement
+    );
+
+    const element = el.queryAll(By.css('.cx-next-order-date'))[0].nativeElement;
+    expect(element.textContent).toContain('orderHistory.cancelled');
+  });
+
+  it('should display next order date when replenishment order is NOT cancelled', () => {
+    fixture.detectChanges();
+
+    const element = el.queryAll(By.css('.cx-next-order-date'))[1].nativeElement;
+
+    expect(element.textContent).toContain('1/10/94');
+  });
+
   it('should clear replenishment order history data when component destroy', () => {
     spyOn(userService, 'clearReplenishmentOrderList').and.stub();
 
     component.ngOnDestroy();
+
     expect(userService.clearReplenishmentOrderList).toHaveBeenCalledWith();
   });
 });

@@ -27,14 +27,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(
-    private routing: RoutingService,
-    private userReplenishmentOrderService: UserReplenishmentOrderService,
-    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
-    private translation: TranslationService,
-    protected vcr: ViewContainerRef
-  ) {}
-
   private PAGE_SIZE = 5;
   sortType: string;
 
@@ -53,6 +45,14 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   isLoaded$: Observable<
     boolean
   > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
+
+  constructor(
+    private routing: RoutingService,
+    private userReplenishmentOrderService: UserReplenishmentOrderService,
+    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
+    private translation: TranslationService,
+    protected vcr: ViewContainerRef
+  ) {}
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {
@@ -98,7 +98,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     );
   }
 
-  openDialog() {
+  openDialog(event: Event): void {
     const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
       this.element,
       this.vcr
@@ -107,6 +107,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
+    event.stopPropagation();
   }
 
   private fetchReplenishmentOrders(event: {
@@ -121,6 +122,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     this.userReplenishmentOrderService.clearReplenishmentOrderList();
   }
 }

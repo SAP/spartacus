@@ -25,11 +25,13 @@
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
             ></cx-sorting>
           </div>
-          <div class="cx-replenishment-order-history-pagination">
+          <div
+            class="cx-replenishment-order-history-pagination"
+            *ngIf="replenishmentOrders.pagination.totalPages > 1"
+          >
             <cx-pagination
               [pagination]="replenishmentOrders.pagination"
               (viewPageEvent)="pageChange($event)"
-              *ngIf="replenishmentOrders.pagination.totalPages > 1"
             ></cx-pagination>
           </div>
         </div>
@@ -51,17 +53,17 @@
             <th scope="col">
               {{ 'orderHistory.nextOrderDate' | cxTranslate }}
             </th>
-            <th scope="col">
+            <th scope="col" class="cx-replenishment-order-history-total">
               {{ 'orderHistory.total' | cxTranslate }}
             </th>
             <th scope="col"></th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of replenishmentOrders.replenishmentOrders">
-              <td
-                class="cx-replenishment-order-history-code"
-                (click)="goToOrderDetail(order)"
-              >
+            <tr
+              *ngFor="let order of replenishmentOrders.replenishmentOrders"
+              (click)="goToOrderDetail(order)"
+            >
+              <td class="cx-replenishment-order-history-code">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </div>
@@ -77,10 +79,7 @@
                   {{ order?.replenishmentOrderCode }}</a
                 >
               </td>
-              <td
-                class="cx-replenishment-order-history-placed"
-                (click)="goToOrderDetail(order)"
-              >
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
                 </div>
@@ -100,10 +99,7 @@
                   }}
                 </a>
               </td>
-              <td
-                class="cx-replenishment-order-history-status"
-                (click)="goToOrderDetail(order)"
-              >
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.startOn' | cxTranslate }}
                 </div>
@@ -116,13 +112,10 @@
                   "
                   class="cx-replenishment-order-history-value"
                 >
-                  {{ order?.firstDate | cxDate }}</a
+                  {{ order?.firstDate | cxDate: 'shortDate' }}</a
                 >
               </td>
-              <td
-                class="cx-replenishment-order-history-total"
-                (click)="goToOrderDetail(order)"
-              >
+              <td class="cx-replenishment-order-history-frequency">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.frequency' | cxTranslate }}
                 </div>
@@ -138,13 +131,11 @@
                   {{ order?.trigger.displayTimeTable }}
                 </a>
               </td>
-              <td
-                class="cx-replenishment-order-history-total"
-                (click)="goToOrderDetail(order)"
-              >
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </div>
+
                 <a
                   [routerLink]="
                     {
@@ -152,15 +143,16 @@
                       params: order
                     } | cxUrl
                   "
-                  class="cx-replenishment-order-history-value"
+                  class="cx-replenishment-order-history-value cx-next-order-date"
                 >
-                  {{ order?.trigger.activationTime | cxDate }}
+                  {{
+                    order?.active
+                      ? (order?.trigger.activationTime | cxDate: 'shortDate')
+                      : ('orderHistory.cancelled' | cxTranslate)
+                  }}
                 </a>
               </td>
-              <td
-                class="cx-replenishment-order-history-total"
-                (click)="goToOrderDetail(order)"
-              >
+              <td class="cx-replenishment-order-history-total">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.total' | cxTranslate }}
                 </div>
@@ -176,13 +168,17 @@
                   {{ order?.subTotal.formattedValue }}</a
                 >
               </td>
-              <td (click)="openDialog()">
+              <td class="cx-replenishment-order-history-cancel">
+                <div
+                  class="d-md-none cx-replenishment-order-history-label"
+                ></div>
                 <a
-                  (click)="openDialog()"
+                  (click)="openDialog($event)"
                   class="cx-order-cancel btn btn-link"
                   #element
+                  *ngIf="order?.active"
                 >
-                  {{ 'orderHistory.cancel' | cxTranslate | uppercase }}
+                  {{ 'orderHistory.cancel' | cxTranslate }}
                 </a>
               </td>
             </tr>
