@@ -332,37 +332,31 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
-
-      // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configuration.clickAddToCartBtn();
-      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configurationOverview.verifyNotificationBannerOnOP(1);
-
+      // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
+      configurationOverview.verifyNotificationBannerOnOP(1);
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
       configurationOverview.clickContinueToCartBtnOnOP();
-      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configuration.verifyNotificationBannerInCart(0,1);
+      configuration.verifyNotificationBannerInCart(0, 1);
       // Navigate back to the configuration page
       configuration.clickOnEditConfigurationLink(0);
       // Navigate to Overview page and back to configuration via 'Resolve issues' link
       configuration.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
-      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configurationOverview.clickOnResolveIssuesLinkOnOP();
-
+      configurationOverview.clickOnResolveIssuesLinkOnOP();
       // Navigate back to the configuration page and deselect conflicting value
-      //configuration.clickOnGroup(3);
-      //configuration.deselectConflictingValue(GAMING_CONSOLE, radioGroup, GAMING_CONSOLE_NO);
-
+      configuration.clickOnGroup(3);
+      configuration.deselectConflictingValue(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_NO
+      );
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
-      //configuration.clickAddToCartBtn();
-      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configurationOverview.verifyNotificationBannerOnOP();
-
+      configuration.clickAddToCartBtn();
+      configurationOverview.verifyNotificationBannerOnOP();
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
-      //configurationOverview.clickContinueToCartBtnOnOP();
-      // *** Functionally works, but not for multilevel product. Waiting for fix im CORE ***
-      //configuration.verifyNotificationBannerInCart(0);
+      configurationOverview.clickContinueToCartBtnOnOP();
+      configuration.verifyNotificationBannerInCart(0);
     });
   });
 });

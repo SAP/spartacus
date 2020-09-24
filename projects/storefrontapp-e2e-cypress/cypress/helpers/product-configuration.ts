@@ -559,17 +559,18 @@ export function checkNotificationBanner(
   element,
   numberOfIssues?: number
 ): void {
-  const resolveIssuesText =
-    'issues must be resolved before checkout.  Resolve Issues';
+  const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg-container')
     .first()
     .invoke('text')
     .then((text) => {
       expect(text).contains(resolveIssuesText);
-      const issues = text.replace(resolveIssuesText, '').trim();
-      expect(issues).match(/^[0-9]/);
-      expect(issues).eq(numberOfIssues.toString());
+      if (numberOfIssues > 1) {
+        const issues = text.replace(resolveIssuesText, '').trim();
+        expect(issues).match(/^[0-9]/);
+        expect(issues).eq(numberOfIssues.toString());
+      }
     });
 }
 
