@@ -861,7 +861,7 @@ export function navigateToOrderDetails(): void {
  */
 export function goToOrderHistory(): Chainable<Window> {
   return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
-    cy.get('cx-order-history').should('be.visible');
+    cy.get('cx-order-history h3').should('contain', 'Order history');
   });
 }
 
