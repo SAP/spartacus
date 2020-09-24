@@ -134,6 +134,9 @@ export const userGroupTableConfig: TableConfig = {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
+          uid: {
+            dataComponent: OrganizationCellComponent,
+          },
           unit: {
             dataComponent: UnitCellComponent,
           },
