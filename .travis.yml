@@ -16,11 +16,9 @@ branches:
     - "/^epic\\/.*$/"
 jobs:
   include:
-    - stage: test
-      env:
-        - TEST_SUITE="./build.sh sonar"
-        - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
-      script: $TEST_SUITE
+    - stage: tests
+      script: './build.sh sonar'
+    - script: './ci-scripts/e2e-cypress.sh'
     - stage: deploy
       provider: script
       skip_cleanup: true
