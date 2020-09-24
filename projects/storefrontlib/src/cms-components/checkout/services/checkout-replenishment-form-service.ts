@@ -22,21 +22,21 @@ export class CheckoutReplenishmentFormService {
     replenishmentStartDate: new Date().toISOString(),
   };
 
-  private scheduleReplenishmentFormData$: BehaviorSubject<
+  private scheduleReplenishmentFormDataSubject$: BehaviorSubject<
     ScheduleReplenishmentForm
   > = new BehaviorSubject<ScheduleReplenishmentForm>(this.defaultFormData);
 
-  constructor() {}
-
-  getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
-    return this.scheduleReplenishmentFormData$.asObservable();
+  get scheduleReplenishmentFormData$(): Observable<ScheduleReplenishmentForm> {
+    return this.scheduleReplenishmentFormDataSubject$.asObservable();
   }
 
-  setScheduleReplenishmentFormData(formData: ScheduleReplenishmentForm): void {
-    this.scheduleReplenishmentFormData$.next(formData);
+  constructor() {}
+
+  emitScheduleReplenishmentFormData(formData: ScheduleReplenishmentForm): void {
+    this.scheduleReplenishmentFormDataSubject$.next(formData);
   }
 
   resetScheduleReplenishmentFormData(): void {
-    this.scheduleReplenishmentFormData$.next(this.defaultFormData);
+    this.scheduleReplenishmentFormDataSubject$.next(this.defaultFormData);
   }
 }

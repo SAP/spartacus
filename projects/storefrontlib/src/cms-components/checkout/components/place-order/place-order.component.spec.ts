@@ -60,11 +60,11 @@ class MockCheckoutService {
 }
 
 class MockCheckoutReplenishmentFormService {
-  getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
+  get scheduleReplenishmentFormData$(): Observable<ScheduleReplenishmentForm> {
     return mockReplenishmentOrderFormData$.asObservable();
   }
 
-  setScheduleReplenishmentFormData(
+  emitScheduleReplenishmentFormData(
     _formData: ScheduleReplenishmentForm
   ): void {}
 
@@ -130,7 +130,7 @@ describe('PlaceOrderComponent', () => {
     spyOn(checkoutService, 'scheduleReplenishmentOrder').and.callThrough();
     spyOn(
       checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
+      'emitScheduleReplenishmentFormData'
     ).and.callThrough();
     spyOn(
       checkoutReplenishmentFormService,
