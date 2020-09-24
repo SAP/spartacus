@@ -49,6 +49,19 @@ cx-organization-form {
             left: 0;
           }
         }
+
+        @include media-breakpoint-down(md) {
+          tr td:before {
+            top: initial;
+            bottom: 2px;
+            height: 20px;
+            margin-inline-start: 40px;
+            width: calc(100% - 60px);
+          }
+          tr:last-child td:before {
+            bottom: 22px;
+          }
+        }
       }
     }
   }
@@ -139,6 +152,7 @@ cx-organization-form {
       &:last-child {
         border-bottom: solid 1px var(--cx-color-light);
       }
+
       tr:first-child > * {
         padding-top: 20px;
       }

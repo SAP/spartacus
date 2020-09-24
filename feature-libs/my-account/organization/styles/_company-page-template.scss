@@ -22,7 +22,9 @@
 
     .BodyContent {
       justify-content: space-between;
-      margin: 0 10px;
+      @include media-breakpoint-up(sm) {
+        margin: 0 10px;
+      }
     }
 
     // the current rotating banner styles are very opinionated, hence we revert it all.
