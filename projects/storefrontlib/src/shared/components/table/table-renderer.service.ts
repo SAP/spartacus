@@ -108,7 +108,7 @@ export class TableRendererService {
    * The field is generated as:
    * `table.[tableType].data.[tableField]`
    */
-  getDataOutletRef(type, field: string): string {
+  getDataOutletRef(type: string, field: string): string {
     return `table.${type}.data.${field}`;
   }
 
