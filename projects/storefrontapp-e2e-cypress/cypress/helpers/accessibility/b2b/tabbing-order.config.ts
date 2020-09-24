@@ -1,21 +1,27 @@
 import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';
 
+const paymentTypeRadio = {
+  value: 'paymentType',
+  type: TabbingOrderTypes.RADIO,
+};
+
+const backToCartButton = {
+  value: 'Back to cart',
+  type: TabbingOrderTypes.BUTTON,
+};
+const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
+const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
+
 export const tabbingOrderConfig: TabbingOrderConfig = {
   paymentMethod: [
     {
       value: 'poNumber',
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
-    {
-      value: 'paymentType',
-      type: TabbingOrderTypes.RADIO,
-    },
-    {
-      value: 'paymentType',
-      type: TabbingOrderTypes.RADIO,
-    },
-    { value: 'Back', type: TabbingOrderTypes.BUTTON },
-    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+    paymentTypeRadio,
+    paymentTypeRadio,
+    backButton,
+    continueButton,
   ],
   shippingAddressNew: [
     { value: 'isocode', type: TabbingOrderTypes.NG_SELECT },
@@ -28,8 +34,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'isocode', type: TabbingOrderTypes.NG_SELECT },
     { value: 'phone', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
-    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+    backButton,
+    continueButton,
   ],
   shippingAddressExisting: [
     { value: 'Add New Address', type: TabbingOrderTypes.BUTTON },
@@ -37,14 +43,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Ship to this address',
       type: TabbingOrderTypes.LINK,
     },
-    { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
-    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+    backToCartButton,
+    continueButton,
   ],
   deliveryMode: [
     { value: 'Shipping address', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
-    { value: 'Back', type: TabbingOrderTypes.BUTTON },
-    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+    backButton,
+    continueButton,
   ],
 };
