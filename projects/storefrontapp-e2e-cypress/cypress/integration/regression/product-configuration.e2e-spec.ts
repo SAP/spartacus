@@ -9,7 +9,6 @@ const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 // UI types
 const radioGroup = 'radioGroup';
 const single_selection_image = 'single_selection_image';
-const dropdown = 'dropdown';
 const checkBoxList = 'checkBoxList';
 
 // Group Status
@@ -287,10 +286,10 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
-    it.skip('should navigate using the group menu for multi level product', () => {
+    it('should navigate using the group menu for multi level product', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnGroup(2);
-      configuration.isAttributeDisplayed('CPQ_HT_RECV_MODEL2', dropdown);
+      configuration.isAttributeDisplayed('SPEAKER_TYPE_FRONT', radioGroup);
     });
   });
 

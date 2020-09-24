@@ -735,11 +735,39 @@ export function navigateToOverviewPage(): void {
  *
  * @param {number} groupIndex - Group index
  */
-export function clickOnGroup(groupIndex: number): void {
+function clickOnGroupByGroupIndex(groupIndex: number): void {
   cy.get('.cx-configurator-menu>li')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
+}
+
+/**
+ * Clicks on the group via its index in the group menu.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroup(groupIndex: number): void {
+  cy.get('.cx-configurator-menu>li')
+    .eq(groupIndex)
+    .children('a')
+    .children()
+    .within(() => {
+      cy.get('div.subGroupIndicator').within(($list) => {
+        cy.log('$list.children().length: ' + $list.children().length);
+        cy.wrap($list.children().length).as('subGroupIndicator');
+      });
+    });
+
+  cy.get('@subGroupIndicator').then((subGroupIndicator) => {
+    cy.log('subGroupIndicator: ' + subGroupIndicator);
+    if (!subGroupIndicator) {
+      clickOnGroupByGroupIndex(groupIndex);
+    } else {
+      clickOnGroupByGroupIndex(groupIndex);
+      clickOnGroupByGroupIndex(1);
+    }
+  });
 }
 
 /**
