@@ -12,7 +12,7 @@ import {
 } from '../../../checkout/connectors/index';
 import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
-import { provideDefaultConfig } from '../../../config/config.module';
+import { provideDefaultConfig } from '../../../config/config-providers';
 import {
   OccOrderNormalizer,
   OccReplenishmentOrderFormSerializer,
