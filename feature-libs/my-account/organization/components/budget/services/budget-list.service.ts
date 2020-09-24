@@ -3,7 +3,7 @@ import { EntitiesModel } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -29,10 +29,9 @@ export class BudgetListService extends OrganizationListService<Budget> {
     _params?
   ): Observable<EntitiesModel<Budget>> {
     const paginationConfig = structure.options?.pagination;
-    return this.budgetService.getList(paginationConfig).pipe(
-      delay(15000),
-      map((raw) => this.convertBudgets(raw))
-    );
+    return this.budgetService
+      .getList(paginationConfig)
+      .pipe(map((raw) => this.convertBudgets(raw)));
   }
 
   /**
