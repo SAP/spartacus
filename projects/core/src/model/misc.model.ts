@@ -47,26 +47,6 @@ export interface ListModel {
   sorts?: SortModel[];
 }
 
-export interface EntitiesModel<T> {
-  values: T[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-// TODO(#8875): Do we need it here?
-export interface EntitiesModel<T> {
-  values: T[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-// TODO(#8875): Do we need it here?
-export interface EntitiesModel<T> {
-  values: T[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
 // TODO(#8875): Do we need it here?
 export interface EntitiesModel<T> {
   values: T[];
