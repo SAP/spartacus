@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
+import { BudgetService } from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { BudgetService } from '@spartacus/my-account/organization/core';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
@@ -47,7 +47,7 @@ class MockBudgetService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
