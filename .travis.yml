@@ -8,11 +8,8 @@ git:
 branches:
   only:
     - develop
-    - master
     - "/^feature\\/.*$/"
-    - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-    - "/^doc\\/.*$/"
     - "/^epic\\/.*$/"
 jobs:
   include:
