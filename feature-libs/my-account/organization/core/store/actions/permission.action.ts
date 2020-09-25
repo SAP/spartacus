@@ -1,9 +1,8 @@
+import { ListModel, StateUtils } from '@spartacus/core';
 import {
   OrderApprovalPermissionType,
   Permission,
-  ListModel,
-  StateUtils,
-} from '@spartacus/core';
+} from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {

@@ -1,24 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2B_USERS_NORMALIZER,
-  B2BSearchConfig,
-  PERMISSIONS_NORMALIZER,
-  USER_GROUP_NORMALIZER,
-  USER_GROUPS_NORMALIZER,
-  UserGroup,
-  UserGroupAdapter,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   B2BUser,
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
-  Permission,
 } from '@spartacus/core';
+import {
+  B2BSearchConfig,
+  B2B_USERS_NORMALIZER,
+  Permission,
+  PERMISSIONS_NORMALIZER,
+  UserGroup,
+  UserGroupAdapter,
+  USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccUserGroupAdapter implements UserGroupAdapter {

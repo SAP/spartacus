@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, OccConfig, Occ, Permission } from '@spartacus/core';
+import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
+import { Permission } from '../../core/model/permission.model';
 import { OccPermissionListNormalizer } from './occ-permission-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

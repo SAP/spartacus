@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs/internal/observable/of';
 import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
-import { of } from 'rxjs/internal/observable/of';
+} from '../../model/order-approval.model';
+import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;

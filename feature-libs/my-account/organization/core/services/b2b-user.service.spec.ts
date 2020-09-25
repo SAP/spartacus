@@ -1,28 +1,23 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthService, B2BUser, EntitiesModel } from '@spartacus/core';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import {
-  AuthService,
-  B2BUser,
-  Permission,
-  EntitiesModel,
-} from '@spartacus/core';
-import { B2BUserService } from './b2b-user.service';
+import { Permission } from '../model/permission.model';
+import { B2BSearchConfig } from '../model/search-config';
+import { UserGroup } from '../model/user-group.model';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
 import {
-  StateWithOrganization,
   ORGANIZATION_FEATURE,
+  StateWithOrganization,
 } from '../store/organization-state';
-import { B2BSearchConfig } from '../model/search-config';
-import { UserGroup } from '../model/user-group.model';
+import * as fromReducers from '../store/reducers/index';
+import { B2BUserService } from './b2b-user.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';

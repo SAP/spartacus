@@ -1,13 +1,11 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-
-import { OccOrderApprovalDecisionNormalizer } from './occ-order-approval-decision-normalizer';
+import { Occ, OccConfig } from '@spartacus/core';
 import {
-  OccConfig,
-  Occ,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-} from '@spartacus/core';
+} from '../../core/model/order-approval.model';
+import { OccOrderApprovalDecisionNormalizer } from './occ-order-approval-decision-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

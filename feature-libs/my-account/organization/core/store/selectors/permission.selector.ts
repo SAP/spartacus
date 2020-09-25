@@ -1,20 +1,19 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { EntitiesModel, StateUtils } from '@spartacus/core';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
   OrganizationState,
   PermissionManagement,
   PERMISSION_FEATURE,
-  StateWithOrganization,
   PERMISSION_TYPES,
+  StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import {
-  StateUtils,
-  EntitiesModel,
-  OrderApprovalPermissionType,
-  Permission,
-} from '@spartacus/core';
 
 export const getPermissionManagementState: MemoizedSelector<
   StateWithOrganization,

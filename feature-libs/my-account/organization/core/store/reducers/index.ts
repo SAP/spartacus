@@ -15,12 +15,23 @@ import {
   B2BUser,
   CostCenter,
   ListModel,
-  OrderApproval,
-  OrderApprovalPermissionType,
-  Permission,
   StateUtils,
 } from '@spartacus/core';
-
+import { Budget } from '../../model/budget.model';
+import { OrderApproval } from '../../model/order-approval.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import {
+  B2BUserActions,
+  BudgetActions,
+  CostCenterActions,
+  OrgUnitActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../actions';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -87,16 +98,6 @@ import {
   userGroupEntitiesReducer,
   userGroupsListReducer,
 } from './user-group.reducer';
-import { Budget } from '../../model/budget.model';
-import { UserGroup } from '../../model/user-group.model';
-import {
-  BudgetActions,
-  OrgUnitActions,
-  CostCenterActions,
-  PermissionActions,
-  UserGroupActions,
-  B2BUserActions,
-} from '../actions';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {

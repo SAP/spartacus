@@ -1,28 +1,24 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { normalizeHttpError, OccConfig } from '@spartacus/core';
+import {
+  B2BSearchConfig,
+  OrderApproval,
+  OrderApprovalConnector,
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
+} from '@spartacus/my-account/organization/core';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-
-import {
-  normalizeHttpError,
-  OccConfig,
-  OrderApproval,
-  OrderApprovalDecision,
-  OrderApprovalDecisionValue,
-} from '@spartacus/core';
-
-import {
-  B2BSearchConfig,
-  OrderApprovalConnector,
-} from '@spartacus/my-account/organization/core';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
 import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({

@@ -1,7 +1,8 @@
+import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { EntitiesModel, Permission, B2BUser } from '@spartacus/core';
-import { UserGroup } from '../../model/user-group.model';
+import { Permission } from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
+import { UserGroup } from '../../model/user-group.model';
 
 export abstract class UserGroupAdapter {
   /**

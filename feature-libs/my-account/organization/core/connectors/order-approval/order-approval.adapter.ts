@@ -1,9 +1,9 @@
+import { EntitiesModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApproval,
   OrderApprovalDecision,
-  EntitiesModel,
-} from '@spartacus/core';
+} from '../../model/order-approval.model';
 import { B2BSearchConfig } from '../../model/search-config';
 
 export abstract class OrderApprovalAdapter {

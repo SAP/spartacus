@@ -1,22 +1,21 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '@spartacus/core';
+import { AuthService, EntitiesModel } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
-  EntitiesModel,
-} from '@spartacus/core';
+} from '../model/permission.model';
 import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
-import { PermissionService } from './permission.service';
-import * as fromReducers from '../store/reducers/index';
-import createSpy = jasmine.createSpy;
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { PermissionService } from './permission.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const permissionCode = 'testPermission';

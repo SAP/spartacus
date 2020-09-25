@@ -7,7 +7,6 @@ import {
   Voucher,
 } from './cart.model';
 import { PaginationModel, SortModel } from './misc.model';
-import { OrderApprovalPermissionResult } from './order-approval.model';
 import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';
@@ -148,7 +147,7 @@ export interface Order {
   orderDiscounts?: Price;
   orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
-  permissionResults?: OrderApprovalPermissionResult[];
+  permissionResults?: any[]; //OrderApprovalPermissionResult[];
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;
