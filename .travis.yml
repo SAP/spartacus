@@ -31,5 +31,5 @@ defaults: &defaults
   env: STAGE_NAME=4x-electron"
   <<: *defaults
 
-  addons:
-    chrome: stable
+addons:
+  chrome: stable
