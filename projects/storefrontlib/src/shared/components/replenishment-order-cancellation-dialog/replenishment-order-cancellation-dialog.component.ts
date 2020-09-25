@@ -8,10 +8,10 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  replenishmentOrder: ReplenishmentOrder;
+  replenishmentOrderCode: string;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -41,9 +41,15 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userReplenishmentOrderService
-        .getReplenishmentOrderDetails()
-        .subscribe((value) => (this.replenishmentOrder = value))
+      combineLatest([
+        this.userReplenishmentOrderService
+          .getReplenishmentOrderDetails()
+          .pipe(startWith(null)),
+        this.launchDialogService.data$,
+      ]).subscribe(([replenishmentOrder, code]) => {
+        this.replenishmentOrderCode =
+          code || replenishmentOrder.replenishmentOrderCode;
+      })
     );
 
     this.subscription.add(
@@ -63,8 +69,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         {
           key: 'orderDetails.cancelReplenishment.cancelSuccess',
           params: {
-            replenishmentOrderCode: this.replenishmentOrder
-              .replenishmentOrderCode,
+            replenishmentOrderCode: this.replenishmentOrderCode,
           },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -78,7 +83,7 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   cancelReplenishment(): void {
     this.userReplenishmentOrderService.cancelReplenishmentOrder(
-      this.replenishmentOrder.replenishmentOrderCode
+      this.replenishmentOrderCode
     );
   }
 
