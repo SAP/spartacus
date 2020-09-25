@@ -4,12 +4,6 @@
     transform: translateX(100%);
   }
 }
-// TODO: Make use in rtl layout
-@keyframes loadingRtl {
-  100% {
-    transform: translateX(-100%);
-  }
-}
 
 :root {
   --cx-color-ghost: #f1f1f1;
