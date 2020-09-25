@@ -28,6 +28,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       code: '1',
       firstDate: new Date('2018-01-01').toDateString(),
       active: false,
+      purchaseOrderNumber: '',
       subTotal: { formattedValue: '$150.00' },
       trigger: {
         displayTimeTable: 'time-table',
@@ -38,6 +39,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       code: '2',
       firstDate: new Date('2018-01-02').toDateString(),
       active: true,
+      purchaseOrderNumber: 'xyz',
       subTotal: { formattedValue: '$200.00' },
       trigger: {
         displayTimeTable: 'time-table',
@@ -258,20 +260,9 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
 
   it('should display Cancelled when replenishment order is cancelled', () => {
     fixture.detectChanges();
-    component.replenishmentOrders$.subscribe((data) => {
-      console.log(data);
-    });
-    console.log('no child', el.queryAll(By.css('.cx-next-order-date')));
-    console.log(
-      'first child ',
-      el.query(By.css('.cx-next-order-date:first-child')).nativeElement
-    );
-    console.log(
-      'last child ',
-      el.query(By.css('.cx-next-order-date:last-child')).nativeElement
-    );
 
     const element = el.queryAll(By.css('.cx-next-order-date'))[0].nativeElement;
+
     expect(element.textContent).toContain('orderHistory.cancelled');
   });
 
@@ -281,6 +272,26 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
     const element = el.queryAll(By.css('.cx-next-order-date'))[1].nativeElement;
 
     expect(element.textContent).toContain('1/10/94');
+  });
+
+  it('should display None when purchaseOrderNumber is empty', () => {
+    fixture.detectChanges();
+
+    const element = el.queryAll(By.css('.cx-purchase-order-number'))[0]
+      .nativeElement;
+
+    expect(element.textContent).toContain('orderHistory.emptyPurchaseOrderId');
+  });
+
+  it('should display purchaseOrderNumber when not empty', () => {
+    fixture.detectChanges();
+
+    const element = el.queryAll(By.css('.cx-purchase-order-number'))[1]
+      .nativeElement;
+
+    expect(element.textContent).toContain(
+      mockReplenishmentOrders.replenishmentOrders[1].purchaseOrderNumber
+    );
   });
 
   it('should clear replenishment order history data when component destroy', () => {

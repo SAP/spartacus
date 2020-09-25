@@ -90,7 +90,7 @@
                       params: order
                     } | cxUrl
                   "
-                  class="cx-replenishment-order-history-value"
+                  class="cx-replenishment-order-history-value cx-purchase-order-number"
                 >
                   {{
                     order?.purchaseOrderNumber?.length > 0
@@ -172,14 +172,14 @@
                 <div
                   class="d-md-none cx-replenishment-order-history-label"
                 ></div>
-                <a
+                <button
                   (click)="openDialog($event)"
                   class="cx-order-cancel btn btn-link"
                   #element
                   *ngIf="order?.active"
                 >
                   {{ 'orderHistory.cancel' | cxTranslate }}
-                </a>
+                </button>
               </td>
             </tr>
           </tbody>
