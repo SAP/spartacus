@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 
 import { StateWithOrganization } from '../store/organization-state';
 import { OrgUnitActions } from '../store/actions/index';
@@ -27,6 +27,7 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { B2BSearchConfig } from '../model/search-config';
+import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
 @Injectable()
 export class OrgUnitService {
@@ -252,6 +253,15 @@ export class OrgUnitService {
     );
   }
 
+  getLoadingStatus(orgUnitId: string): Observable<ItemInfo<B2BUnit>> {
+    return this.getOrgUnit(orgUnitId).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+    );
+  }
+
   assignRole(orgCustomerId: string, roleId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
@@ -362,6 +372,15 @@ export class OrgUnitService {
           address,
         })
       )
+    );
+  }
+
+  getAddressLoadingStatus(addressId: string): Observable<ItemInfo<B2BAddress>> {
+    return this.getAddressState(addressId).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
     );
   }
 

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitFormService } from '../form/unit-form.service';
+import { ItemInfo } from '../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +31,9 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
     return this.unitService.get(code);
   }
 
-  update(code, value: B2BUnit) {
+  update(code, value: B2BUnit): Observable<ItemInfo<B2BUnit>> {
     this.unitService.update(code, value);
+    return this.unitService.getLoadingStatus(code);
   }
 
   protected create(value: B2BUnit) {

@@ -7,6 +7,7 @@ import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
+import { ItemInfo } from '../../../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +32,14 @@ export class UnitAddressItemService extends OrganizationItemService<
     return this.unitService.getAddress(unitUid, addressId);
   }
 
-  update(addressCode: string, address: B2BAddress) {
+  update(
+    addressCode: string,
+    address: B2BAddress
+  ): Observable<ItemInfo<B2BAddress>> {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
-      return this.unitService.updateAddress(unitCode, addressCode, address);
+      this.unitService.updateAddress(unitCode, addressCode, address);
     });
+    return this.unitService.getAddressLoadingStatus(addressCode);
   }
 
   protected create(value: B2BAddress) {

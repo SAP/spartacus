@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 import {
   StateWithProcess,
   AuthService,
@@ -21,6 +21,7 @@ import {
   getAvailableOrgCustomers,
   getAvailableOrderApprovalPermissions,
 } from '../store/selectors/user-group.selector';
+import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
 @Injectable()
 export class UserGroupService {
@@ -125,6 +126,15 @@ export class UserGroupService {
           userGroup,
         })
       )
+    );
+  }
+
+  getLoadingStatus(budgetCode: string): Observable<ItemInfo<UserGroup>> {
+    return this.getUserGroup(budgetCode).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
     );
   }
 

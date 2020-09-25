@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 import { Permission } from '@spartacus/core';
 
 import { StateWithOrganization } from '../store/organization-state';
@@ -22,6 +22,7 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { UserGroup } from '../model/user-group.model';
+import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
 @Injectable()
 export class B2BUserService {
@@ -98,6 +99,15 @@ export class B2BUserService {
           orgCustomer,
         })
       )
+    );
+  }
+
+  getLoadingStatus(orgCustomerId: string): Observable<ItemInfo<B2BUser>> {
+    return this.getB2BUserState(orgCustomerId).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
     );
   }
 

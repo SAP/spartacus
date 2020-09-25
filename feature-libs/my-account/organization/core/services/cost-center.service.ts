@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 
 import { StateWithOrganization } from '../store/organization-state';
 import { CostCenterActions } from '../store/actions/index';
@@ -19,6 +19,7 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../model/budget.model';
+import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
 @Injectable()
 export class CostCenterService {
@@ -107,6 +108,15 @@ export class CostCenterService {
           costCenter,
         })
       )
+    );
+  }
+
+  getLoadingStatus(costCenterCode: string): Observable<ItemInfo<CostCenter>> {
+    return this.getCostCenter(costCenterCode).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
     );
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
@@ -18,6 +18,7 @@ import {
   EntitiesModel,
   OrderApprovalPermissionType,
 } from '@spartacus/core';
+import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
 @Injectable()
 export class PermissionService {
@@ -129,6 +130,15 @@ export class PermissionService {
           permission,
         })
       )
+    );
+  }
+
+  getLoadingStatus(permissionCode: string): Observable<ItemInfo<Permission>> {
+    return this.getPermission(permissionCode).pipe(
+      observeOn(queueScheduler),
+      pairwise(),
+      filter(([previousState]) => previousState.loading),
+      map(([_previousState, currentState]) => mapToItemInfo(currentState))
     );
   }
 

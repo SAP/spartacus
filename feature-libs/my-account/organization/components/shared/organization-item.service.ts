@@ -5,6 +5,7 @@ import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
+import { ItemInfo } from '../../core/model/LoadStatus';
 
 /**
  * Provides CRUD operations for all organization entities.
@@ -57,7 +58,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Updates an existing item.
    */
-  abstract update(key: string, value: T): void;
+  abstract update(key: string, value: T): Observable<ItemInfo<T>>;
 
   /**
    * Returns the detailed cxRoute for the organization item.
