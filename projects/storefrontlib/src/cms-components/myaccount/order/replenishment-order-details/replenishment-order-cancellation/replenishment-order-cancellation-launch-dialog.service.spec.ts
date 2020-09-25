@@ -55,11 +55,13 @@ describe('ReplenishmentOrderCancellationLaunchDialogService', () => {
     it('should call LaunchDialogService launch', () => {
       service.openDialog(null, component.vcr, { test: 123 });
 
-      expect(
-        launchDialogService.launch
-      ).toHaveBeenCalledWith(LAUNCH_CALLER.REPLENISHMENT_ORDER, component.vcr, {
-        test: 123,
-      });
+      expect(launchDialogService.launch).toHaveBeenCalledWith(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        component.vcr,
+        {
+          test: 123,
+        }
+      );
     });
 
     it('should call LaunchDialogService clear on close', () => {
