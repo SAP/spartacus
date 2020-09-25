@@ -12,34 +12,24 @@ branches:
     - "/^release\\/.*$/"
     - "/^epic\\/.*$/"
 defaults: &defaults
-  script: './ci-scripts/e2e-cypress.sh'
-jobs:
-  include:
-    - stage: Tests
-      env:
-        - STAGE_NAME="1x-electron on Travis CI"
-      script: './build.sh sonar'
-    - stage: Tests
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - stage: Tests
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - stage: Tests
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - stage: Tests
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-notifications:
-  email:
-    on_failure: always
-    on_success: change
-addons:
-  chrome: stable
-  sonarcloud:
-    organization: sap
+  script: "./ci-scripts/e2e-cypress.sh"
+
+- script:
+  name: "Cypress smoke tests 1st thread"
+  env: STAGE_NAME=4x-electron"
+  <<: *defaults
+- script:
+  name: "Cypress smoke tests 2st thread"
+  env: STAGE_NAME=4x-electron"
+  <<: *defaults
+- script:
+  name: "Cypress smoke tests 2st thread"
+  env: STAGE_NAME=4x-electron"
+  <<: *defaults
+- script:
+  name: "Cypress smoke tests 2st thread"
+  env: STAGE_NAME=4x-electron"
+  <<: *defaults
+
+  addons:
+    chrome: stable
