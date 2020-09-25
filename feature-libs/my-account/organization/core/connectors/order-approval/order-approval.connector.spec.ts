@@ -1,11 +1,10 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
 } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
 import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import { of } from 'rxjs/internal/observable/of';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;
@@ -46,10 +45,8 @@ describe('OrderApprovalConnector', () => {
       ],
     });
 
-    service = TestBed.get(
-      OrderApprovalConnector as Type<OrderApprovalConnector>
-    );
-    adapter = TestBed.get(OrderApprovalAdapter as Type<OrderApprovalAdapter>);
+    service = TestBed.inject(OrderApprovalConnector);
+    adapter = TestBed.inject(OrderApprovalAdapter);
   });
 
   it('should be created', () => {
