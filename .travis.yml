@@ -13,23 +13,23 @@ branches:
     - "/^epic\\/.*$/"
 defaults: &defaults
   script: "./ci-scripts/e2e-cypress.sh"
-
-- script:
-  name: "Cypress smoke tests 1st thread"
-  env: STAGE_NAME=4x-electron"
-  <<: *defaults
-- script:
-  name: "Cypress smoke tests 2st thread"
-  env: STAGE_NAME=4x-electron"
-  <<: *defaults
-- script:
-  name: "Cypress smoke tests 2st thread"
-  env: STAGE_NAME=4x-electron"
-  <<: *defaults
-- script:
-  name: "Cypress smoke tests 2st thread"
-  env: STAGE_NAME=4x-electron"
-  <<: *defaults
+jobs:
+  - script:
+    name: "Cypress smoke tests 1st thread"
+    env: STAGE_NAME=4x-electron
+    <<: *defaults
+  - script:
+    name: "Cypress smoke tests 2st thread"
+    env: STAGE_NAME=4x-electron
+    <<: *defaults
+  - script:
+    name: "Cypress smoke tests 2st thread"
+    env: STAGE_NAME=4x-electron
+    <<: *defaults
+  - script:
+    name: "Cypress smoke tests 2st thread"
+    env: STAGE_NAME=4x-electron
+    <<: *defaults
 
 addons:
   chrome: stable
