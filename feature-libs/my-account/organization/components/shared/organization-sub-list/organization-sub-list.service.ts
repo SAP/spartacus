@@ -4,7 +4,7 @@ import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { OrganizationListService } from '../organization-list';
+import { OrganizationListService } from '../organization-list/organization-list.service';
 import { BaseItem } from '../organization.model';
 
 @Injectable()

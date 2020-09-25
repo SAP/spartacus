@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { OrganizationFormService } from '../../../../shared/organization-form';
+import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
