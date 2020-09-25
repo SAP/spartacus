@@ -8,7 +8,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --spec --parallel --group $STAGE_NAME \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --parallel --group $STAGE_NAME --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
     "cy:run:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
     "cy:run:mobile": "cypress run --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:mobile:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/mobile/**/*\"",
