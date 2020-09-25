@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -94,9 +93,9 @@ describe('UserGroupService', () => {
       ],
     });
 
-    store = TestBed.inject(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.inject(UserGroupService as Type<UserGroupService>);
-    authService = TestBed.inject(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(UserGroupService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

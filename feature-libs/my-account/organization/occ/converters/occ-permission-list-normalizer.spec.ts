@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
 import { Permission } from '../../core/model/permission.model';
@@ -40,9 +39,7 @@ describe('PermissionListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccPermissionListNormalizer as Type<OccPermissionListNormalizer>
-    );
+    service = TestBed.inject(OccPermissionListNormalizer);
   });
 
   it('should inject OccPermissionListNormalizer', inject(

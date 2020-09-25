@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BAddress, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -60,8 +59,8 @@ describe('OrgUnitConnector', () => {
       ],
     });
 
-    service = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
-    adapter = TestBed.get(OrgUnitAdapter as Type<OrgUnitAdapter>);
+    service = TestBed.inject(OrgUnitConnector);
+    adapter = TestBed.inject(OrgUnitAdapter);
   });
 
   it('should be created', () => {

@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
@@ -56,13 +55,9 @@ describe('OccOrderApprovalAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(
-      OccOrderApprovalAdapter as Type<OccOrderApprovalAdapter>
-    );
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccOrderApprovalAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

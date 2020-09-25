@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   B2BAddress,
@@ -31,9 +30,7 @@ describe('OccOrgUnitAddressListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccOrgUnitAddressListNormalizer as Type<OccOrgUnitAddressListNormalizer>
-    );
+    service = TestBed.inject(OccOrgUnitAddressListNormalizer);
   });
 
   afterEach(() => {});

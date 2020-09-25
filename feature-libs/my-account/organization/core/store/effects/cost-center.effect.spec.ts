@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -99,12 +98,8 @@ describe('CostCenter Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.CostCenterEffects as Type<fromEffects.CostCenterEffects>
-    );
-    costCenterConnector = TestBed.get(
-      CostCenterConnector as Type<CostCenterConnector>
-    );
+    effects = TestBed.inject(fromEffects.CostCenterEffects);
+    costCenterConnector = TestBed.inject(CostCenterConnector);
     expected = null;
   });
 

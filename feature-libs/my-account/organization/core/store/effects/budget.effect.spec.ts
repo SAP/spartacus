@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -80,10 +79,8 @@ describe('Budget Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.BudgetEffects as Type<fromEffects.BudgetEffects>
-    );
-    budgetConnector = TestBed.get(BudgetConnector as Type<BudgetConnector>);
+    effects = TestBed.inject(fromEffects.BudgetEffects);
+    budgetConnector = TestBed.inject(BudgetConnector);
     expected = null;
   });
 

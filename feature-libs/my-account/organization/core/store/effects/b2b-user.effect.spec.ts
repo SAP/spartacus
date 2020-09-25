@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -141,10 +140,8 @@ describe('B2B User Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.B2BUserEffects as Type<fromEffects.B2BUserEffects>
-    );
-    b2bUserConnector = TestBed.get(B2BUserConnector as Type<B2BUserConnector>);
+    effects = TestBed.inject(fromEffects.B2BUserEffects);
+    b2bUserConnector = TestBed.inject(B2BUserConnector);
     expected = null;
   });
 

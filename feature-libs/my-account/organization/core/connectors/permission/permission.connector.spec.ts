@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { OrderApprovalPermissionType } from '@spartacus/my-account/organization/core';
@@ -45,8 +44,8 @@ describe('PermissionConnector', () => {
       ],
     });
 
-    service = TestBed.get(PermissionConnector as Type<PermissionConnector>);
-    adapter = TestBed.get(PermissionAdapter as Type<PermissionAdapter>);
+    service = TestBed.inject(PermissionConnector);
+    adapter = TestBed.inject(PermissionAdapter);
   });
 
   it('should be created', () => {

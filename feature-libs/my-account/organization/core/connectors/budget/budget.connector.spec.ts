@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -32,8 +31,8 @@ describe('BudgetConnector', () => {
       ],
     });
 
-    service = TestBed.get(BudgetConnector as Type<BudgetConnector>);
-    adapter = TestBed.get(BudgetAdapter as Type<BudgetAdapter>);
+    service = TestBed.inject(BudgetConnector);
+    adapter = TestBed.inject(BudgetAdapter);
   });
 
   it('should be created', () => {

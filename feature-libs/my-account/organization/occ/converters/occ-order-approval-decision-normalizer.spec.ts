@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Occ, OccConfig } from '@spartacus/core';
 import {
@@ -35,11 +34,7 @@ describe('OrderApprovalDecisionNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccOrderApprovalDecisionNormalizer as Type<
-        OccOrderApprovalDecisionNormalizer
-      >
-    );
+    service = TestBed.inject(OccOrderApprovalDecisionNormalizer);
   });
 
   it('should inject OccOrderApprovalDecisionNormalizer', inject(

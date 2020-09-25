@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BUnitNode, Occ, OccEndpointsService } from '@spartacus/core';
 import { OccOrgUnitNodeListNormalizer } from './occ-org-unit-node-list-normalizer';
@@ -26,9 +25,7 @@ describe('OccOrgUnitNodeListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccOrgUnitNodeListNormalizer as Type<OccOrgUnitNodeListNormalizer>
-    );
+    service = TestBed.inject(OccOrgUnitNodeListNormalizer);
   });
 
   afterEach(() => {});

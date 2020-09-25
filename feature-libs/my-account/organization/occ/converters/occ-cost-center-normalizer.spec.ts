@@ -1,7 +1,6 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { CostCenter, Occ, OccConfig } from '@spartacus/core';
 import { OccCostCenterNormalizer } from './occ-cost-center-normalizer';
-import { Occ, OccConfig, CostCenter } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -35,9 +34,7 @@ describe('CostCenterNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccCostCenterNormalizer as Type<OccCostCenterNormalizer>
-    );
+    service = TestBed.inject(OccCostCenterNormalizer);
   });
 
   it('should inject OccCostCenterNormalizer', inject(

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -48,8 +47,8 @@ describe('CostCenterConnector', () => {
       ],
     });
 
-    service = TestBed.get(CostCenterConnector as Type<CostCenterConnector>);
-    adapter = TestBed.get(CostCenterAdapter as Type<CostCenterAdapter>);
+    service = TestBed.inject(CostCenterConnector);
+    adapter = TestBed.inject(CostCenterAdapter);
   });
 
   it('should be created', () => {

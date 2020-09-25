@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -82,12 +81,8 @@ describe('OrderApproval Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.OrderApprovalEffects as Type<fromEffects.OrderApprovalEffects>
-    );
-    orderApprovalConnector = TestBed.get(
-      OrderApprovalConnector as Type<OrderApprovalConnector>
-    );
+    effects = TestBed.inject(fromEffects.OrderApprovalEffects);
+    orderApprovalConnector = TestBed.inject(OrderApprovalConnector);
     expected = null;
   });
 

@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -14,7 +13,7 @@ import {
   ListModel,
   normalizeHttpError,
   OccConfig,
-  SearchConfig,
+  SearchConfig
 } from '@spartacus/core';
 import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
@@ -108,10 +107,8 @@ describe('OrgUnit Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.OrgUnitEffects as Type<fromEffects.OrgUnitEffects>
-    );
-    orgUnitConnector = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
+    effects = TestBed.inject(fromEffects.OrgUnitEffects);
+    orgUnitConnector = TestBed.inject(OrgUnitConnector);
     expected = null;
   });
 

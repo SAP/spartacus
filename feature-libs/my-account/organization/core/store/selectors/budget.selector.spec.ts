@@ -1,16 +1,15 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { BudgetActions } from '../actions/index';
 import {
+  BudgetManagement,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  BudgetManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
-import { Budget } from '@spartacus/my-account/organization/core';
 
 describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -51,7 +50,7 @@ describe('Budget Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   B2BAddress,
@@ -57,11 +56,9 @@ describe('OccOrgUnitAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(OccOrgUnitAdapter as Type<OccOrgUnitAdapter>);
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccOrgUnitAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

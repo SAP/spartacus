@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -83,12 +82,8 @@ describe('Permission Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.PermissionEffects as Type<fromEffects.PermissionEffects>
-    );
-    permissionConnector = TestBed.get(
-      PermissionConnector as Type<PermissionConnector>
-    );
+    effects = TestBed.inject(fromEffects.PermissionEffects);
+    permissionConnector = TestBed.inject(PermissionConnector);
     expected = null;
   });
 
