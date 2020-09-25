@@ -6,9 +6,9 @@ import {
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   B2B_USERS_NORMALIZER,
   Permission,
   PERMISSIONS_NORMALIZER,
@@ -35,7 +35,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<UserGroup>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(this.getUserGroupsEndpoint(userId, params))
@@ -45,7 +45,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   loadAvailableOrderApprovalPermissions(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
@@ -57,7 +57,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   loadAvailableOrgCustomers(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
@@ -156,7 +156,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
 
   protected getUserGroupsEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('userGroups', { userId }, params);
   }
@@ -164,7 +164,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getAvailableCustomersEndpoint(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
       'userGroupAvailableOrgCustomers',
@@ -176,7 +176,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getPermissionsEndpoint(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
       'userGroupAvailableOrderApprovalPermissions',
@@ -200,7 +200,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getMembersEndpoint(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
       'userGroupMembers',
@@ -212,7 +212,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getOrderApprovalPermissionsEndpoint(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig | { orderApprovalPermissionCode: string }
+    params?: SearchConfig | { orderApprovalPermissionCode: string }
   ): string {
     return this.occEndpoints.getUrl(
       'userGroupOrderApprovalPermissions',

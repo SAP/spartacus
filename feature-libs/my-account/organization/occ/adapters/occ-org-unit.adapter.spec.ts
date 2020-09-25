@@ -8,18 +8,18 @@ import {
   B2BAddress,
   ConverterService,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
-import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import {
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_USERS_NORMALIZER,
-  B2BSearchConfig,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import createSpy = jasmine.createSpy;
 
 const orgUnitId = 'testId';
@@ -29,7 +29,7 @@ const orgUnit = {
   name: 'testOrgUnit',
 };
 const roleId = 'testRoleId';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const orgCustomerId = 'testCustomerId';
 const address: B2BAddress = { id: 'testAddressId' };
 const addressId: string = address.id;

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { SearchConfig } from '@spartacus/core';
+import { of } from 'rxjs';
 import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
 } from '../../model/order-approval.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;
@@ -59,7 +59,7 @@ describe('OrderApprovalConnector', () => {
   });
 
   it('should load orderApprovals', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });

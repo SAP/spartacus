@@ -1,14 +1,18 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService, EntitiesModel, ProcessModule } from '@spartacus/core';
+import {
+  AuthService,
+  EntitiesModel,
+  ProcessModule,
+  SearchConfig,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
 } from '../model/order-approval.model';
-import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -146,7 +150,7 @@ describe('OrderApprovalService', () => {
   });
 
   describe('get orderApprovals', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load orderApprovals when they are not present in the store', () => {
       let orderApprovals: EntitiesModel<OrderApproval>;

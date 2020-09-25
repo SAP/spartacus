@@ -1,10 +1,14 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService, B2BUser, EntitiesModel } from '@spartacus/core';
+import {
+  AuthService,
+  B2BUser,
+  EntitiesModel,
+  SearchConfig,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { Permission } from '../model/permission.model';
-import { B2BSearchConfig } from '../model/search-config';
 import { UserGroup } from '../model/user-group.model';
 import {
   B2BUserActions,
@@ -23,7 +27,7 @@ const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';
 const permissionId = 'permissionId';
 const permissionId2 = 'permissionId2';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const permission: Permission = {
   active: true,
   code: permissionId,

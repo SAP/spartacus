@@ -5,9 +5,9 @@ import {
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   OrderApproval,
   OrderApprovalAdapter,
   OrderApprovalDecision,
@@ -35,7 +35,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.http
       .get<Occ.OrderApprovalsList>(
@@ -69,7 +69,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   protected getOrderApprovalsEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('orderApprovals', { userId }, params);
   }

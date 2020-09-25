@@ -1,11 +1,15 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { B2BUser, EntitiesModel, StateUtils } from '@spartacus/core';
+import {
+  B2BUser,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
 import { Permission } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 import {
-  denormalizeB2BSearch,
   denormalizeCustomB2BSearch,
+  denormalizeSearch,
 } from '../../utils/serializer';
 import {
   B2BUserManagement,
@@ -43,18 +47,18 @@ export const getB2BUserState = (
   );
 
 export const getUserList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
 > =>
   createSelector(getB2BUserManagementState, (state: B2BUserManagement) =>
-    denormalizeB2BSearch<B2BUser>(state, params)
+    denormalizeSearch<B2BUser>(state, params)
   );
 
 export const getB2BUserApprovers = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
@@ -70,7 +74,7 @@ export const getB2BUserApprovers = (
 
 export const getB2BUserPermissions = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>
@@ -96,7 +100,7 @@ const getUserGroupsState: MemoizedSelector<
 
 export const getB2BUserUserGroups = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<UserGroup>>

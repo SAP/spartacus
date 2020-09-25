@@ -4,20 +4,23 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
-import { cold, hot } from 'jasmine-marbles';
-import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-
-import { BudgetActions, CostCenterActions } from '../actions/index';
-import * as fromEffects from './cost-center.effect';
 import {
-  B2BSearchConfig,
+  CostCenter,
+  normalizeHttpError,
+  OccConfig,
+  SearchConfig,
+} from '@spartacus/core';
+import {
   Budget,
   CostCenterConnector,
 } from '@spartacus/my-account/organization/core';
-
-import { CostCenter, normalizeHttpError, OccConfig } from '@spartacus/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { cold, hot } from 'jasmine-marbles';
+import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
+import { Observable, of, throwError } from 'rxjs';
+import { BudgetActions, CostCenterActions } from '../actions/index';
+import * as fromEffects from './cost-center.effect';
+
 import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
@@ -148,7 +151,7 @@ describe('CostCenter Effects', () => {
   });
 
   describe('loadCostCenters$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadCostCenterSuccess action', () => {
       const action = new CostCenterActions.LoadCostCenters({ userId, params });
@@ -272,7 +275,7 @@ describe('CostCenter Effects', () => {
   });
 
   describe('loadAssignedBudgets$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadBudgetSuccess action', () => {
       const action = new CostCenterActions.LoadAssignedBudgets({

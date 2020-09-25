@@ -4,6 +4,7 @@ import {
   AuthService,
   EntitiesModel,
   ProcessSelectors,
+  SearchConfig,
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
@@ -13,7 +14,6 @@ import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../model/order-approval.model';
-import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
@@ -39,7 +39,7 @@ export class OrderApprovalService {
     );
   }
 
-  loadOrderApprovals(params?: B2BSearchConfig): void {
+  loadOrderApprovals(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -86,7 +86,7 @@ export class OrderApprovalService {
     return this.getOrderApproval(orderApprovalCode).pipe(pluck('loading'));
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<OrderApproval>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<OrderApproval>> {
     return this.getOrderApprovalList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) => {

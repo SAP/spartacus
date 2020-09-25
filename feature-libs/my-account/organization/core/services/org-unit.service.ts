@@ -9,12 +9,12 @@ import {
   B2BUser,
   CostCenter,
   EntitiesModel,
+  SearchConfig,
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-import { B2BSearchConfig } from '../model/search-config';
 import { OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
@@ -58,7 +58,7 @@ export class OrgUnitService {
     );
   }
 
-  loadUsers(orgUnitId: string, roleId: string, params: B2BSearchConfig): void {
+  loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.LoadAssignedUsers({
@@ -112,7 +112,7 @@ export class OrgUnitService {
   private getAssignedUsers(
     orgUnitId: string,
     roleId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAssignedUsers(orgUnitId, roleId, params));
   }
@@ -220,7 +220,7 @@ export class OrgUnitService {
   getUsers(
     orgUnitId: string,
     roleId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
       observeOn(queueScheduler),

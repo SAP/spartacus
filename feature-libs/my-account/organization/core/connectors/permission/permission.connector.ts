@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionAdapter } from './permission.adapter';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class PermissionConnector {
 
   getList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadList(userId, params);
   }

@@ -4,9 +4,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig } from '@spartacus/core';
+import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   OrderApproval,
   OrderApprovalConnector,
   OrderApprovalDecision,
@@ -135,7 +134,7 @@ describe('OrderApproval Effects', () => {
   });
 
   describe('loadOrderApprovals$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadOrderApprovalSuccess action', () => {
       const action = new OrderApprovalActions.LoadOrderApprovals({

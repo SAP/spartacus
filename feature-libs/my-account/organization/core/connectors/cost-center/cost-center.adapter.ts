@@ -1,6 +1,5 @@
+import { CostCenter, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CostCenter, EntitiesModel } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
 import { Budget } from '../../model/budget.model';
 
 export abstract class CostCenterAdapter {
@@ -16,7 +15,7 @@ export abstract class CostCenterAdapter {
 
   abstract loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<CostCenter>>;
 
   abstract create(
@@ -33,7 +32,7 @@ export abstract class CostCenterAdapter {
   abstract loadBudgets(
     userId: string,
     costCenterCode: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Budget>>;
 
   abstract assignBudget(

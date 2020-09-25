@@ -9,12 +9,9 @@ import {
   normalizeHttpError,
   OccConfig,
   RoutingService,
+  SearchConfig,
 } from '@spartacus/core';
-import {
-  B2BSearchConfig,
-  Permission,
-  UserGroup,
-} from '@spartacus/my-account/organization/core';
+import { Permission, UserGroup } from '@spartacus/my-account/organization/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -62,7 +59,7 @@ const approverId = 'approverId';
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 const page = { ids: [orgCustomer.customerId], pagination, sorts };
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 
 const mockRouterState = {
   state: {

@@ -1,10 +1,14 @@
-import { ListModel, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import {
+  ListModel,
+  PROCESS_FEATURE,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
 import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
-import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,
@@ -60,19 +64,19 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeB2BSearchConfig(payload.params));
+    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       ORDER_APPROVAL_LIST,
-      serializeB2BSearchConfig(payload.params),
+      serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -83,10 +87,10 @@ export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeB2BSearchConfig(payload.params));
+    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
   }
 }
 

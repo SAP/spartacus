@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 import { B2BUserAdapter } from './b2b-user.adapter';
 
@@ -30,7 +29,7 @@ export class B2BUserConnector {
 
   getList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadList(userId, params);
   }
@@ -38,7 +37,7 @@ export class B2BUserConnector {
   getApprovers(
     userId: string,
     orgUnitCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadApprovers(userId, orgUnitCustomerId, params);
   }
@@ -62,7 +61,7 @@ export class B2BUserConnector {
   getPermissions(
     userId: string,
     orgUnitCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadPermissions(userId, orgUnitCustomerId, params);
   }
@@ -86,7 +85,7 @@ export class B2BUserConnector {
   getUserGroups(
     userId: string,
     orgUnitCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<UserGroup>> {
     return this.adapter.loadUserGroups(userId, orgUnitCustomerId, params);
   }

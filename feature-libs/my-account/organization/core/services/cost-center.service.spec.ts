@@ -1,19 +1,22 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import * as fromReducers from '../store/reducers/index';
-import { CostCenterActions, BudgetActions } from '../store/actions/index';
-import { CostCenterService } from './cost-center.service';
-import { B2BSearchConfig } from '../model/search-config';
-import { CostCenter, EntitiesModel, AuthService } from '@spartacus/core';
-import { Budget } from '../model/budget.model';
 import {
-  StateWithOrganization,
+  AuthService,
+  CostCenter,
+  EntitiesModel,
+  SearchConfig,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { Budget } from '../model/budget.model';
+import { BudgetActions, CostCenterActions } from '../store/actions/index';
+import {
   ORGANIZATION_FEATURE,
+  StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { CostCenterService } from './cost-center.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';
@@ -111,7 +114,7 @@ describe('CostCenterService', () => {
   });
 
   describe('get costCenters', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load costCenters when they are not present in the store', () => {
       let costCenters: EntitiesModel<CostCenter>;
@@ -186,7 +189,7 @@ describe('CostCenterService', () => {
   });
 
   describe('get budgets', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getBudgets() should trigger load budgets when they are not present in the store', () => {
       let budgets: EntitiesModel<Budget>;

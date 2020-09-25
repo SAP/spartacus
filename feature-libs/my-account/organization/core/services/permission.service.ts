@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AuthService,
   EntitiesModel,
+  SearchConfig,
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
@@ -12,7 +13,6 @@ import {
   OrderApprovalPermissionType,
   Permission,
 } from '../model/permission.model';
-import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
@@ -39,7 +39,7 @@ export class PermissionService {
     );
   }
 
-  loadPermissions(params?: B2BSearchConfig): void {
+  loadPermissions(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -98,7 +98,7 @@ export class PermissionService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<Permission>> {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {

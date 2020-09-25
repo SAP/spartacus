@@ -1,18 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_USERS_NORMALIZER,
-  B2BSearchConfig,
-  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-  B2BUNIT_NODE_LIST_NORMALIZER,
-  B2BUNIT_NODE_NORMALIZER,
-  B2BUNIT_NORMALIZER,
-  OrgUnitAdapter,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   B2BAddress,
   B2BApprovalProcess,
@@ -23,7 +10,19 @@ import {
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
+import {
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  OrgUnitAdapter,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -79,7 +78,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
@@ -204,7 +203,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl(
       'orgUnitUsers',

@@ -1,11 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
-
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const budgetCode = 'budgetCode';
@@ -47,7 +46,7 @@ describe('BudgetConnector', () => {
   });
 
   it('should load budgets', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });

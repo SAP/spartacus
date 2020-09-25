@@ -4,9 +4,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig } from '@spartacus/core';
+import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   OrderApprovalPermissionType,
   Permission,
   PermissionConnector,
@@ -136,7 +135,7 @@ describe('Permission Effects', () => {
   });
 
   describe('loadPermissions$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadPermissionSuccess action', () => {
       const action = new PermissionActions.LoadPermissions({ userId, params });

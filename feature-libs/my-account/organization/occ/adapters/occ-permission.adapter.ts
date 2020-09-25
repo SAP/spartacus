@@ -5,9 +5,9 @@ import {
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   OrderApprovalPermissionType,
   Permission,
   PermissionAdapter,
@@ -33,7 +33,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.PermissionsList>(this.getPermissionsEndpoint(userId, params))
@@ -79,7 +79,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionsEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
   }

@@ -1,10 +1,14 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService, B2BUser, EntitiesModel } from '@spartacus/core';
+import {
+  AuthService,
+  B2BUser,
+  EntitiesModel,
+  SearchConfig,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { Permission, UserGroup } from '../model';
-import { B2BSearchConfig } from '../model/search-config';
 import {
   B2BUserActions,
   PermissionActions,
@@ -147,7 +151,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get userGroups', () => {
-    const params: B2BSearchConfig = { sort: 'byName' };
+    const params: SearchConfig = { sort: 'byName' };
 
     it('getList() should trigger load userGroups when they are not present in the store', () => {
       let userGroups: EntitiesModel<UserGroup>;
@@ -239,7 +243,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get permissions', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('getUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
@@ -323,7 +327,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get members', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('getUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;

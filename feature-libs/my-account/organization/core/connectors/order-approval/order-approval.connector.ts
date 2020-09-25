@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class OrderApprovalConnector {
 
   getList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.adapter.loadList(userId, params);
   }

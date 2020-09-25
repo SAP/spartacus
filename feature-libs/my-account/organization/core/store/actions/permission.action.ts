@@ -1,10 +1,9 @@
-import { ListModel, StateUtils } from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
   PERMISSION_ENTITIES,
   PERMISSION_LIST,
@@ -66,19 +65,19 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, serializeB2BSearchConfig(payload.params));
+    super(PERMISSION_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSIONS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       PERMISSION_LIST,
-      serializeB2BSearchConfig(payload.params),
+      serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -89,10 +88,10 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, serializeB2BSearchConfig(payload.params));
+    super(PERMISSION_LIST, serializeSearchConfig(payload.params));
   }
 }
 

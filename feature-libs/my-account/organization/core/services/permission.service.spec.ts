@@ -1,13 +1,12 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService, EntitiesModel } from '@spartacus/core';
+import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
 } from '../model/permission.model';
-import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -109,7 +108,7 @@ describe('PermissionService', () => {
   });
 
   describe('get permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;

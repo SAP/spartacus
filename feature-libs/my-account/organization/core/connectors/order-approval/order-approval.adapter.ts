@@ -1,10 +1,9 @@
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
-import { B2BSearchConfig } from '../../model/search-config';
 
 export abstract class OrderApprovalAdapter {
   /**
@@ -22,7 +21,7 @@ export abstract class OrderApprovalAdapter {
 
   abstract loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>>;
 
   abstract makeDecision(

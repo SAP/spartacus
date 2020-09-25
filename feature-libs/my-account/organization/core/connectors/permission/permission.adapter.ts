@@ -1,10 +1,9 @@
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
 
 export abstract class PermissionAdapter {
   /**
@@ -19,7 +18,7 @@ export abstract class PermissionAdapter {
 
   abstract loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>>;
 
   abstract create(

@@ -1,13 +1,13 @@
-import { Observable } from 'rxjs';
 import {
-  B2BUnitNode,
-  B2BUnit,
-  B2BApprovalProcess,
-  B2BUser,
   B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUnitNode,
+  B2BUser,
   EntitiesModel,
+  SearchConfig,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
+import { Observable } from 'rxjs';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -40,7 +40,7 @@ export abstract class OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignRole(

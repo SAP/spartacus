@@ -1,7 +1,6 @@
-import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
-import { B2BSearchConfig } from '../../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 
 export abstract class B2BUserAdapter {
@@ -17,7 +16,7 @@ export abstract class B2BUserAdapter {
 
   abstract loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract create(userId: string, orgCustomer: B2BUser): Observable<B2BUser>;
@@ -31,7 +30,7 @@ export abstract class B2BUserAdapter {
   abstract loadApprovers(
     userId: string,
     orgCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignApprover(
@@ -49,7 +48,7 @@ export abstract class B2BUserAdapter {
   abstract loadPermissions(
     userId: string,
     orgCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>>;
 
   abstract assignPermission(
@@ -67,7 +66,7 @@ export abstract class B2BUserAdapter {
   abstract loadUserGroups(
     userId: string,
     orgCustomerId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<UserGroup>>;
 
   abstract assignUserGroup(

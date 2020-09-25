@@ -1,10 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  B2BSearchConfig,
-  OrderApprovalPermissionType,
-} from '@spartacus/my-account/organization/core';
-import { of } from 'rxjs/internal/observable/of';
+import { SearchConfig } from '@spartacus/core';
+import { OrderApprovalPermissionType } from '@spartacus/my-account/organization/core';
+import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
 
@@ -61,7 +59,7 @@ describe('PermissionConnector', () => {
   });
 
   it('should load permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });

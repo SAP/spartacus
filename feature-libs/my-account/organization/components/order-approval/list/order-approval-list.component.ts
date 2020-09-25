@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EntitiesModel,
   RoutingService,
+  SearchConfig,
   TranslationService,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   OrderApproval,
   OrderApprovalService,
 } from '@spartacus/my-account/organization/core';
@@ -32,7 +32,7 @@ export class OrderApprovalListComponent {
   orderApprovals$: Observable<EntitiesModel<OrderApproval>>;
 
   changeSortCode(sortCode: string): void {
-    const fetchParams: B2BSearchConfig = {
+    const fetchParams: SearchConfig = {
       sort: sortCode,
       currentPage: 0,
     };
@@ -41,7 +41,7 @@ export class OrderApprovalListComponent {
   }
 
   pageChange(page: number): void {
-    const fetchParams: B2BSearchConfig = {
+    const fetchParams: SearchConfig = {
       sort: this.sortType,
       currentPage: page,
     };
@@ -62,7 +62,7 @@ export class OrderApprovalListComponent {
     );
   }
 
-  protected fetchApprovalListPage(searchConfig: B2BSearchConfig): void {
+  protected fetchApprovalListPage(searchConfig: SearchConfig): void {
     searchConfig.pageSize = this.PAGE_SIZE;
     this.orderApprovalService.loadOrderApprovals(searchConfig);
     this.orderApprovals$ = this.orderApprovalService.getList(searchConfig);
