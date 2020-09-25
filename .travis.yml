@@ -23,11 +23,11 @@ jobs:
     env: STAGE_NAME=4x-electron
     <<: *defaults
   - script:
-    name: "Cypress smoke tests 2st thread"
+    name: "Cypress smoke tests 3rd thread"
     env: STAGE_NAME=4x-electron
     <<: *defaults
   - script:
-    name: "Cypress smoke tests 2st thread"
+    name: "Cypress smoke tests 4th thread"
     env: STAGE_NAME=4x-electron
     <<: *defaults
 
