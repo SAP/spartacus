@@ -1,5 +1,4 @@
-import { User } from '@spartacus/core';
-import { Currency } from './misc.model';
+import { Currency, User } from './misc.model';
 
 // TODO(#8876): Should we simplify the models only for the fields required by the B2B checkout?
 export interface CostCenter {
