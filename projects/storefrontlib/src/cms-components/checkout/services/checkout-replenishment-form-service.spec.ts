@@ -1,6 +1,11 @@
 import { async, TestBed } from '@angular/core/testing';
 import { ScheduleReplenishmentForm } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form-service';
+
+const mockDefaultReplenishmentOrderFormData: ScheduleReplenishmentForm = {
+  numberOfDays: 'test-number-days',
+};
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {
   recurrencePeriod: 'test-period',
@@ -18,28 +23,33 @@ describe('Checkout Replenishment Form Service', () => {
 
   beforeEach(() => {
     service = TestBed.inject(CheckoutReplenishmentFormService);
+    service['scheduleReplenishmentFormData$'] = new BehaviorSubject<
+      ScheduleReplenishmentForm
+    >(mockDefaultReplenishmentOrderFormData);
   });
 
   it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get default replenishment form data', () => {
+  it('should get replenishment form data', () => {
     let result: ScheduleReplenishmentForm;
 
-    service.scheduleReplenishmentFormData$
+    service
+      .getScheduleReplenishmentFormData()
       .subscribe((data) => (result = data))
       .unsubscribe();
 
-    expect(result).toEqual(service.defaultFormData);
+    expect(result).toEqual(mockDefaultReplenishmentOrderFormData);
   });
 
-  it('should emit new replenishment form data', () => {
-    service.emitScheduleReplenishmentFormData(newReplenishmentFormData);
+  it('should set new replenishment form data', () => {
+    service.setScheduleReplenishmentFormData(newReplenishmentFormData);
 
     let result: ScheduleReplenishmentForm;
 
-    service.scheduleReplenishmentFormData$
+    service
+      .getScheduleReplenishmentFormData()
       .subscribe((data) => (result = data))
       .unsubscribe();
 
@@ -47,11 +57,13 @@ describe('Checkout Replenishment Form Service', () => {
   });
 
   it('should reset the form data to default', () => {
-    service.emitScheduleReplenishmentFormData(newReplenishmentFormData);
+    service.setScheduleReplenishmentFormData(newReplenishmentFormData);
 
     let result: ScheduleReplenishmentForm;
 
-    service.scheduleReplenishmentFormData$.subscribe((data) => (result = data));
+    service
+      .getScheduleReplenishmentFormData()
+      .subscribe((data) => (result = data));
 
     expect(result).toEqual(newReplenishmentFormData);
 

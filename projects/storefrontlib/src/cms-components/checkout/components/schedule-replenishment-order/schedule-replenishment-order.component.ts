@@ -49,11 +49,11 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.checkoutReplenishmentFormService.scheduleReplenishmentFormData$.subscribe(
-        (data) => {
+      this.checkoutReplenishmentFormService
+        .getScheduleReplenishmentFormData()
+        .subscribe((data) => {
           this.scheduleReplenishmentFormData = data;
-        }
-      )
+        })
     );
 
     this.initConfig();
@@ -64,14 +64,14 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   }
 
   changeNumberOfDays(nDays: string): void {
-    this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
       numberOfDays: nDays,
     });
   }
 
   changeNumberOfWeeks(nWeeks: string): void {
-    this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
       numberOfWeeks: nWeeks,
     });
@@ -85,14 +85,14 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       ? this.createNumberStringArray(31)
       : this.createNumberStringArray(30);
 
-    this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
       recurrencePeriod: type,
     });
   }
 
   changeDayOfTheMonth(dayOfMonth: string): void {
-    this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+    this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
       ...this.scheduleReplenishmentFormData,
       nthDayOfMonth: dayOfMonth,
     });
@@ -100,7 +100,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   changeReplenishmentStartDate(date: string): void {
     if (Boolean(date)) {
-      this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
         ...this.scheduleReplenishmentFormData,
         replenishmentStartDate: date,
       });
@@ -113,7 +113,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
       this.currentDaysOfWeek.push(day);
 
-      this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
         ...this.scheduleReplenishmentFormData,
         daysOfWeek: this.currentDaysOfWeek,
       });
@@ -125,7 +125,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       const index = this.currentDaysOfWeek.indexOf(foundDay);
       this.currentDaysOfWeek.splice(index, 1);
 
-      this.checkoutReplenishmentFormService.emitScheduleReplenishmentFormData({
+      this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
         ...this.scheduleReplenishmentFormData,
         daysOfWeek: this.currentDaysOfWeek,
       });

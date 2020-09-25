@@ -114,16 +114,16 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.checkoutReplenishmentFormService.scheduleReplenishmentFormData$.subscribe(
-        (data) => {
+      this.checkoutReplenishmentFormService
+        .getScheduleReplenishmentFormData()
+        .subscribe((data) => {
           this.scheduleReplenishmentFormData = data;
 
           this.daysOfWeekNotChecked$.next(
             data.daysOfWeek.length === 0 &&
               data.recurrencePeriod === recurrencePeriod.WEEKLY
           );
-        }
-      )
+        })
     );
   }
 

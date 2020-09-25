@@ -30,11 +30,11 @@ class MockCheckoutService {
 }
 
 class MockCheckoutReplenishmentFormService {
-  get scheduleReplenishmentFormData$(): Observable<ScheduleReplenishmentForm> {
-    return of(mockReplenishmentOrderFormData);
+  getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
+    return of({});
   }
 
-  emitScheduleReplenishmentFormData(
+  setScheduleReplenishmentFormData(
     _formData: ScheduleReplenishmentForm
   ): void {}
 }
@@ -69,7 +69,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       CheckoutReplenishmentFormService
     );
 
-    component.ngOnInit();
+    component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
   });
 
   it('should create', () => {
@@ -99,7 +99,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change number of days of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockNumberOfDays = 'new-test-num-days';
@@ -107,7 +107,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeNumberOfDays(mockNumberOfDays);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       numberOfDays: mockNumberOfDays,
@@ -117,7 +117,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change number of weeks of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockNumberOfWeeks = 'new-test-num-weeks';
@@ -125,7 +125,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeNumberOfWeeks(mockNumberOfWeeks);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       numberOfWeeks: mockNumberOfWeeks,
@@ -135,7 +135,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change recurrence period type of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockPeriodType = 'test-monthly';
@@ -143,7 +143,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeRecurrencePeriodType(mockPeriodType);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       recurrencePeriod: mockPeriodType,
@@ -153,7 +153,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change day of month of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockDayOfMonth = 'new-test-day-month';
@@ -161,7 +161,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeDayOfTheMonth(mockDayOfMonth);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       nthDayOfMonth: mockDayOfMonth,
@@ -171,7 +171,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change replenishment start date of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockStartDate = 'new-test-start-date';
@@ -179,7 +179,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeReplenishmentStartDate(mockStartDate);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       replenishmentStartDate: mockStartDate,
@@ -189,7 +189,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   it('should change repeat days when reoccurence is weekly of replenishment form data', () => {
     spyOn(
       checkoutReplenishmentFormService,
-      'emitScheduleReplenishmentFormData'
+      'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
     const mockRepeatDays = DaysOfWeek.MONDAY;
@@ -197,7 +197,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.changeRepeatDays(mockRepeatDays, true);
 
     expect(
-      checkoutReplenishmentFormService.emitScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       daysOfWeek: [mockRepeatDays],
