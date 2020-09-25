@@ -15,7 +15,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
   // temp as long as unit tree is not merged
   @HostBinding('class.organization') orgCls = true;
 
-  @HostBinding('class.ghost') loading;
+  @HostBinding('class.ghost') loading: boolean;
 
   constructor(
     protected service: OrganizationListService<T, P>,
