@@ -12,7 +12,7 @@ branches:
     - "/^release\\/.*$/"
     - "/^epic\\/.*$/"
 defaults: &defaults
-  script: "./ci-scripts/e2e-cypress.sh regression"
+  script: "./ci-scripts/e2e-cypress.sh -s regression"
 jobs:
   - script: "./build.sh sonar"
   - script:
@@ -34,3 +34,5 @@ jobs:
 
 addons:
   chrome: stable
+  sonarcloud:
+    organization: sap
