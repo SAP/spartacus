@@ -32,7 +32,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       subTotal: { formattedValue: '$150.00' },
       trigger: {
         displayTimeTable: 'time-table',
-        activationTime: '1994-01-11T00:00Z',
+        activationTime: '1994-01-11T14:00Z',
       },
     },
     {
@@ -43,7 +43,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       subTotal: { formattedValue: '$200.00' },
       trigger: {
         displayTimeTable: 'time-table',
-        activationTime: '1994-01-11T00:00Z',
+        activationTime: '1994-01-11T14:00Z',
       },
     },
   ],
@@ -106,7 +106,7 @@ class MockRoutingService {
   go() {}
 }
 
-describe('ReplenishmentOrderHistoryComponent', () => {
+fdescribe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService;
@@ -271,10 +271,10 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
     const element = el.queryAll(By.css('.cx-next-order-date'))[1].nativeElement;
 
-    expect(element.textContent).toContain('1/10/94');
+    expect(element.textContent).toContain('1/11/94');
   });
 
-  it('should display None when purchaseOrderNumber is empty', () => {
+  it('should display "None" when purchaseOrderNumber is empty', () => {
     fixture.detectChanges();
 
     const element = el.queryAll(By.css('.cx-purchase-order-number'))[0]
