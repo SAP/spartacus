@@ -7,7 +7,6 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import {
-  Budget,
   PermissionService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
@@ -30,7 +29,7 @@ export class ExistPermissionGuard extends ExistOrganizationItemGuard<
   ) {
     super();
   }
-  protected getItem(code: string): Observable<Budget> {
+  protected getItem(code: string): Observable<Permission> {
     return this.permissionService.get(code);
   }
 
