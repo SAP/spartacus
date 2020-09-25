@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { Converter, ConverterService } from './converter.service';
 
 const TestConverterInjectionToken = new InjectionToken(

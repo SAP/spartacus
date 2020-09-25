@@ -96,6 +96,6 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

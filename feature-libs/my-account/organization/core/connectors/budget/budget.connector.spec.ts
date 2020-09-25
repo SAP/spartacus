@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';
 import createSpy = jasmine.createSpy;

@@ -22,7 +22,7 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     return 'budgetDetails';
   }
 
-  protected getParamKey(): string {
+  protected getParamKey() {
     return ROUTE_PARAMS.budgetCode;
   }
 
