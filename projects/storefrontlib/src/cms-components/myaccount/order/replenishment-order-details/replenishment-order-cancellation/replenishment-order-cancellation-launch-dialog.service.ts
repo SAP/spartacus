@@ -12,11 +12,13 @@ export class ReplenishmentOrderCancellationLaunchDialogService {
 
   openDialog(
     openElement?: ElementRef,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    data?: any
   ): Observable<any> | undefined {
     const component = this.launchDialogService.launch(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      vcr
+      vcr,
+      data
     );
 
     if (component) {

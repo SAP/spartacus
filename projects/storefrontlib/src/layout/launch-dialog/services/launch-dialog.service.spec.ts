@@ -22,6 +22,9 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
+const urlConfig = mockLaunchConfig.launch['TEST_URL'];
+const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -106,7 +109,6 @@ describe('LaunchDialogService', () => {
 
   describe('launch', () => {
     it('should call the proper renderer', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
       service.launch('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
@@ -114,7 +116,6 @@ describe('LaunchDialogService', () => {
         undefined
       );
 
-      const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
       service.launch('TEST_INLINE', component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
@@ -122,14 +123,20 @@ describe('LaunchDialogService', () => {
         component.vcr
       );
     });
+
+    it('should get any data from the launcher when data is passed', () => {
+      service.launch('TEST_INLINE', component.vcr, 'test-data');
+
+      let result: any;
+
+      service.data$.subscribe((data) => (result = data)).unsubscribe();
+
+      expect(result).toEqual('test-data');
+    });
   });
 
   describe('clear', () => {
     it('should call the proper remove', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
-      const inlineConfig =
-        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
-
       service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
         'TEST_URL',
@@ -146,10 +153,8 @@ describe('LaunchDialogService', () => {
 
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
-      const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
       expect(service['findConfiguration']('TEST_INLINE')).toEqual(inlineConfig);
 
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
       expect(service['findConfiguration']('TEST_URL')).toEqual(urlConfig);
     });
   });

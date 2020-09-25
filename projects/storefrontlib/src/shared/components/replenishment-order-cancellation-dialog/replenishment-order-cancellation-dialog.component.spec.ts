@@ -39,6 +39,10 @@ class MockGlobalMessageService {
 }
 
 class MockLaunchDialogService {
+  get data$(): Observable<any> {
+    return of(undefined);
+  }
+
   closeDialog(_reason: string): void {}
 }
 
