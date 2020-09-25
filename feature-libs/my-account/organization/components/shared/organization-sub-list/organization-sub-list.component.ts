@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Table } from '@spartacus/storefront';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 

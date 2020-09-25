@@ -292,7 +292,6 @@ if (typeof config.to === 'undefined') {
     case 'my-account':
     case '@spartacus/myaccount':
     case '@spartacus/my-account':
-    case '@spartacus/my-account/organization':
       config.library = '@spartacus/my-account';
       break;
     case 'product':
