@@ -68,9 +68,4 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     this.flatten(unitModels.values, root.children, level + 1, pagination);
     return unitModels;
   }
-
-  toggle(_event: Event) {
-    // here's the place to update your local subject
-    console.log(_event);
-  }
 }
