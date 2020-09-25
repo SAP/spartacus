@@ -1,9 +1,9 @@
+import { B2BUser, StateUtils } from '@spartacus/core';
 import {
   B2BUserActions,
   OrgUnitActions,
   UserGroupActions,
 } from '../actions/index';
-import { B2BUser, StateUtils } from '@spartacus/core';
 
 export const b2bUserInitialState = {};
 export const b2bUsersInitialState = undefined;

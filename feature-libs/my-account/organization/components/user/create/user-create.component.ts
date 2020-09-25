@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
-import { FormUtils } from '@spartacus/storefront';
 import { UserFormService } from '../form/user-form.service';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
 
 @Component({
   selector: 'cx-user-create',
@@ -41,11 +41,6 @@ export class UserCreateComponent {
     } else {
       form.disable();
       this.userService.create(form.value);
-
-      this.routingService.go({
-        cxRoute: 'userDetails',
-        params: form.value,
-      });
     }
   }
 }

@@ -1,23 +1,24 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  B2BUser,
+  EntitiesModel,
+  normalizeHttpError,
+  Permission,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
+import { UserGroup } from '../../model/user-group.model';
+import { normalizeListPage } from '../../utils/serializer';
 import {
   B2BUserActions,
+  OrgUnitActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
-import {
-  Permission,
-  B2BUser,
-  EntitiesModel,
-  RoutingService,
-  normalizeHttpError,
-} from '@spartacus/core';
-import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
-import { UserGroup } from '../../model/user-group.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class B2BUserEffects {
@@ -57,9 +58,49 @@ export class B2BUserEffects {
             cxRoute: 'userDetails',
             params: { customerId: data.customerId },
           });
+
           return new B2BUserActions.CreateB2BUserSuccess(data);
         }),
+        catchError((error: HttpErrorResponse) =>
+          of(
+            new B2BUserActions.CreateB2BUserFail({
+              orgCustomerId: payload.orgCustomer.customerId,
+              error: normalizeHttpError(error),
+            })
+          )
+        )
+      )
+    )
+  );
 
+  @Effect()
+  createB2BUserAndAssignToApprovers$: Observable<
+    | B2BUserActions.CreateB2BUserSuccess
+    | OrgUnitActions.AssignApprover
+    | B2BUserActions.CreateB2BUserFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.CREATE_B2B_USER_AND_ASSIGN_TO_APPROVERS),
+    map((action: B2BUserActions.CreateB2BUser) => action.payload),
+    switchMap((payload) =>
+      this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
+        concatMap((data) => {
+          const assignApproverPayload = {
+            userId: payload.userId,
+            orgUnitId: payload.orgCustomer.orgUnit.uid,
+            orgCustomerId: data.customerId,
+            roleId: 'b2bapprovergroup',
+          };
+
+          this.routingService.go({
+            cxRoute: 'userDetails',
+            params: { customerId: data.customerId },
+          });
+
+          return [
+            new B2BUserActions.CreateB2BUserSuccess(data),
+            new OrgUnitActions.AssignApprover(assignApproverPayload),
+          ];
+        }),
         catchError((error: HttpErrorResponse) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
@@ -86,6 +127,45 @@ export class B2BUserEffects {
           // TODO: Workaround for empty PATCH response:
           // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
           map(() => new B2BUserActions.LoadB2BUser(payload)),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new B2BUserActions.UpdateB2BUserFail({
+                orgCustomerId: payload.orgCustomer.customerId,
+                error: normalizeHttpError(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  updateB2BUserAndAssignToApprovers$: Observable<
+    // B2BUserActions.UpdateB2BUserSuccess
+    | B2BUserActions.LoadB2BUser
+    | OrgUnitActions.AssignApprover
+    | B2BUserActions.UpdateB2BUserFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS),
+    map((action: B2BUserActions.UpdateB2BUser) => action.payload),
+    switchMap((payload) =>
+      this.b2bUserConnector
+        .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
+        .pipe(
+          // TODO: Workaround for empty PATCH response:
+          // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          concatMap(() => {
+            const assignApproverPayload = {
+              userId: payload.userId,
+              orgUnitId: payload.orgCustomer.orgUnit.uid,
+              orgCustomerId: payload.orgCustomerId,
+              roleId: 'b2bapprovergroup',
+            };
+            return [
+              new B2BUserActions.LoadB2BUser(payload),
+              new OrgUnitActions.AssignApprover(assignApproverPayload),
+            ];
+          }),
           catchError((error: HttpErrorResponse) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({

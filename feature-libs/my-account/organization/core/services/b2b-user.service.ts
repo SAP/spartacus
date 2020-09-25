@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  B2BUser,
+  EntitiesModel,
+  Permission,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-import { Permission } from '@spartacus/core';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { B2BUserActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import {
-  getB2BUserState,
-  getUserList,
-  getB2BUserPermissions,
-  getB2BUserApprovers,
-  getB2BUserUserGroups,
-} from '../store/selectors/b2b-user.selector';
-import {
-  StateWithProcess,
-  AuthService,
-  EntitiesModel,
-  B2BUser,
-  StateUtils,
-} from '@spartacus/core';
 import { UserGroup } from '../model/user-group.model';
+import { B2BUserActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getB2BUserApprovers,
+  getB2BUserPermissions,
+  getB2BUserState,
+  getB2BUserUserGroups,
+  getUserList,
+} from '../store/selectors/b2b-user.selector';
 
 @Injectable()
 export class B2BUserService {
@@ -77,28 +76,53 @@ export class B2BUserService {
   }
 
   create(orgCustomer: B2BUser): void {
-    delete orgCustomer.isAssignedToApprovers;
+    this.withUserId((userId) => {
+      const isAssignedToApprovers = orgCustomer.isAssignedToApprovers;
+      delete orgCustomer.isAssignedToApprovers;
 
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.CreateB2BUser({
-          userId,
-          orgCustomer,
-        })
-      )
-    );
+      if (isAssignedToApprovers) {
+        this.store.dispatch(
+          new B2BUserActions.CreateB2BUserAndAssignToApprovers({
+            userId,
+            orgCustomer,
+            isAssignedToApprovers,
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new B2BUserActions.CreateB2BUser({
+            userId,
+            orgCustomer,
+          })
+        );
+      }
+    });
   }
 
   update(orgCustomerId: string, orgCustomer: B2BUser): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.UpdateB2BUser({
-          userId,
-          orgCustomerId,
-          orgCustomer,
-        })
-      )
-    );
+    this.withUserId((userId) => {
+      const isAssignedToApprovers = orgCustomer.isAssignedToApprovers;
+      delete orgCustomer.isAssignedToApprovers;
+
+      if (isAssignedToApprovers) {
+        this.store.dispatch(
+          new B2BUserActions.UpdateB2BUserAndAssignToApprovers({
+            userId,
+            orgCustomerId,
+            orgCustomer,
+            isAssignedToApprovers,
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new B2BUserActions.UpdateB2BUser({
+            userId,
+            orgCustomerId,
+            orgCustomer,
+          })
+        );
+      }
+    });
   }
 
   loadApprovers(orgCustomerId: string, params: B2BSearchConfig): void {

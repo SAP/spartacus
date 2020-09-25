@@ -1,25 +1,29 @@
+import { B2BUser, ListModel, StateUtils } from '@spartacus/core';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
-  B2B_USER_ENTITIES,
-  USER_LIST,
   B2B_USER_APPROVERS,
+  B2B_USER_ENTITIES,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
   PERMISSION_ENTITIES,
   USER_GROUP_ENTITIES,
+  USER_LIST,
 } from '../organization-state';
-import { ListModel, B2BUser, StateUtils } from '@spartacus/core';
 
 export const LOAD_B2B_USER = '[B2BUser] Load B2BUser Data';
 export const LOAD_B2B_USER_FAIL = '[B2BUser] Load B2BUser Data Fail';
 export const LOAD_B2B_USER_SUCCESS = '[B2BUser] Load B2BUser Data Success';
 
 export const CREATE_B2B_USER = '[B2BUser] Create B2BUser Data';
+export const CREATE_B2B_USER_AND_ASSIGN_TO_APPROVERS =
+  '[B2BUser] Create B2BUser Data and assign it to approvers';
 export const CREATE_B2B_USER_FAIL = '[B2BUser] Create B2BUser Data Fail';
 export const CREATE_B2B_USER_SUCCESS = '[B2BUser] Create B2BUser Data Success';
 
 export const UPDATE_B2B_USER = '[B2BUser] Update B2BUser Data';
+export const UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS =
+  '[B2BUser] Update B2BUser Data and assign it to approvers';
 export const UPDATE_B2B_USER_FAIL = '[B2BUser] Update B2BUser Data Fail';
 export const UPDATE_B2B_USER_SUCCESS = '[B2BUser] Update B2BUser Data Success';
 
@@ -110,6 +114,16 @@ export class CreateB2BUser {
   constructor(public payload: { userId: string; orgCustomer: B2BUser }) {}
 }
 
+export class CreateB2BUserAndAssignToApprovers {
+  readonly type = CREATE_B2B_USER_AND_ASSIGN_TO_APPROVERS;
+  constructor(
+    public payload: {
+      userId: string;
+      orgCustomer: B2BUser;
+      isAssignedToApprovers: boolean;
+    }
+  ) {}
+}
 export class CreateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_B2B_USER_FAIL;
   constructor(public payload: { orgCustomerId: string; error: any }) {
@@ -135,6 +149,18 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
   }
+}
+
+export class UpdateB2BUserAndAssignToApprovers {
+  readonly type = UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS;
+  constructor(
+    public payload: {
+      userId: string;
+      orgCustomerId: string;
+      orgCustomer: B2BUser;
+      isAssignedToApprovers: boolean;
+    }
+  ) {}
 }
 
 export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
@@ -558,9 +584,11 @@ export type B2BUserAction =
   | LoadB2BUserFail
   | LoadB2BUserSuccess
   | CreateB2BUser
+  | CreateB2BUserAndAssignToApprovers
   | CreateB2BUserFail
   | CreateB2BUserSuccess
   | UpdateB2BUser
+  | UpdateB2BUserAndAssignToApprovers
   | UpdateB2BUserFail
   | UpdateB2BUserSuccess
   | LoadB2BUsers
