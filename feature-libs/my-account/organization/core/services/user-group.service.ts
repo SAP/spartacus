@@ -21,7 +21,7 @@ import {
   getUserGroupList,
 } from '../store/selectors/user-group.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,

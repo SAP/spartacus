@@ -22,7 +22,7 @@ import {
   getUserList,
 } from '../store/selectors/b2b-user.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,

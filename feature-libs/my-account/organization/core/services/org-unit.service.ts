@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { OrgUnitActions } from '../store/actions/index';
 import {
-  getOrgUnit,
-  getOrgUnitList,
-  getApprovalProcesses,
-  getOrgUnitTree,
-  getAssignedUsers,
-  getB2BAddresses,
-  getB2BAddress,
-} from '../store/selectors/org-unit.selector';
-import {
+  AuthService,
+  B2BAddress,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUnitNode,
-  B2BApprovalProcess,
   B2BUser,
-  EntitiesModel,
-  B2BAddress,
   CostCenter,
-  StateWithProcess,
-  AuthService,
+  EntitiesModel,
   StateUtils,
+  StateWithProcess,
 } from '@spartacus/core';
+import { Observable, queueScheduler } from 'rxjs';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { B2BSearchConfig } from '../model/search-config';
+import { OrgUnitActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getApprovalProcesses,
+  getAssignedUsers,
+  getB2BAddress,
+  getB2BAddresses,
+  getOrgUnit,
+  getOrgUnitList,
+  getOrgUnitTree,
+} from '../store/selectors/org-unit.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrgUnitService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,

@@ -21,7 +21,7 @@ import {
 } from '../store/organization-state';
 import { OrderApprovalSelectors } from '../store/selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrderApprovalService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,

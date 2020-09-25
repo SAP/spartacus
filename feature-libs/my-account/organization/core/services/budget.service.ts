@@ -14,7 +14,7 @@ import { B2BSearchConfig } from '../model/search-config';
 import { BudgetActions, StateWithOrganization } from '../store/index';
 import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BudgetService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,

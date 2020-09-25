@@ -21,7 +21,7 @@ import {
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
