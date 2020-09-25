@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  EntitiesModel,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../model/permission.model';
 import { B2BSearchConfig } from '../model/search-config';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
-  getPermissionList,
   getPermission,
+  getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
-import {
-  StateWithProcess,
-  StateUtils,
-  AuthService,
-  Permission,
-  EntitiesModel,
-  OrderApprovalPermissionType,
-} from '@spartacus/core';
 
 @Injectable()
 export class PermissionService {

@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2BSearchConfig,
-  PERMISSION_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
-  PermissionAdapter,
-  PERMISSIONS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
+} from '@spartacus/core';
+import {
+  B2BSearchConfig,
   OrderApprovalPermissionType,
   Permission,
-} from '@spartacus/core';
+  PermissionAdapter,
+  PERMISSIONS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccPermissionAdapter implements PermissionAdapter {

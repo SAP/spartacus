@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';

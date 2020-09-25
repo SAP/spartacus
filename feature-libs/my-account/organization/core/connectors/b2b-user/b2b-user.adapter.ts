@@ -1,5 +1,6 @@
+import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { B2BUser, EntitiesModel, Permission } from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 

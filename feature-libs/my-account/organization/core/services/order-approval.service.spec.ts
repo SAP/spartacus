@@ -1,22 +1,19 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthService, EntitiesModel, ProcessModule } from '@spartacus/core';
 import { of } from 'rxjs';
-
 import {
-  AuthService,
-  EntitiesModel,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  ProcessModule,
-} from '@spartacus/core';
-import {
-  StateWithOrganization,
-  ORGANIZATION_FEATURE,
-} from '../store/organization-state';
+} from '../model/order-approval.model';
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { OrderApprovalService } from './order-approval.service';
 

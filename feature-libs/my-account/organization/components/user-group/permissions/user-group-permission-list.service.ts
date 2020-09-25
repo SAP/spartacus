@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';

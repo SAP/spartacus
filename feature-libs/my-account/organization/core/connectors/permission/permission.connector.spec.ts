@@ -1,10 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderApprovalPermissionType } from '@spartacus/core';
+import {
+  B2BSearchConfig,
+  OrderApprovalPermissionType,
+} from '@spartacus/my-account/organization/core';
 import { of } from 'rxjs/internal/observable/of';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';

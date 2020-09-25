@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  B2BUser,
+  EntitiesModel,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-import { Permission } from '@spartacus/core';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { B2BUserActions } from '../store/actions/index';
+import { Permission } from '../model/permission.model';
 import { B2BSearchConfig } from '../model/search-config';
-import {
-  getB2BUserState,
-  getUserList,
-  getB2BUserPermissions,
-  getB2BUserApprovers,
-  getB2BUserUserGroups,
-} from '../store/selectors/b2b-user.selector';
-import {
-  StateWithProcess,
-  AuthService,
-  EntitiesModel,
-  B2BUser,
-  StateUtils,
-} from '@spartacus/core';
 import { UserGroup } from '../model/user-group.model';
+import { B2BUserActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getB2BUserApprovers,
+  getB2BUserPermissions,
+  getB2BUserState,
+  getB2BUserUserGroups,
+  getUserList,
+} from '../store/selectors/b2b-user.selector';
 
 @Injectable()
 export class B2BUserService {

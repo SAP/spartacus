@@ -1,25 +1,21 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  OrganizationState,
-  StateWithOrganization,
-  B2BUserManagement,
-  B2B_USER_FEATURE,
-  USER_GROUP_FEATURE,
-} from '../organization-state';
+import { B2BUser, EntitiesModel, StateUtils } from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
+import { B2BSearchConfig } from '../../model/search-config';
+import { UserGroup } from '../../model/user-group.model';
 import {
   denormalizeB2BSearch,
   denormalizeCustomB2BSearch,
 } from '../../utils/serializer';
 import {
-  EntitiesModel,
-  B2BUser,
-  Permission,
-  StateUtils,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { getPermissionsState } from './permission.selector';
+  B2BUserManagement,
+  B2B_USER_FEATURE,
+  OrganizationState,
+  StateWithOrganization,
+  USER_GROUP_FEATURE,
+} from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { UserGroup } from '../../model/user-group.model';
+import { getPermissionsState } from './permission.selector';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,

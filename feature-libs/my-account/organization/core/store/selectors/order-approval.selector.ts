@@ -1,11 +1,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { EntitiesModel, StateUtils } from '@spartacus/core';
+import { OrderApproval } from '../../model/order-approval.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
-import { StateUtils, EntitiesModel, OrderApproval } from '@spartacus/core';
 import {
-  OrganizationState,
   OrderApprovalManagement,
   ORDER_APPROVAL_FEATURE,
+  OrganizationState,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';

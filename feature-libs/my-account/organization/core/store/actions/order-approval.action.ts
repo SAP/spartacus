@@ -1,10 +1,8 @@
+import { ListModel, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
-  PROCESS_FEATURE,
-  ListModel,
-  StateUtils,
   OrderApproval,
   OrderApprovalDecision,
-} from '@spartacus/core';
+} from '../../model/order-approval.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {

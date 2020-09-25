@@ -1,32 +1,32 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
+import {
+  B2BUser,
+  normalizeHttpError,
+  OccConfig,
+  RoutingService,
+} from '@spartacus/core';
+import {
+  B2BSearchConfig,
+  Permission,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
+import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-
+import { Observable, of, throwError } from 'rxjs';
+import { B2BUserConnector } from '../../connectors';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
-import {
-  B2BSearchConfig,
-  UserGroup,
-} from '@spartacus/my-account/organization/core';
-import {
-  B2BUser,
-  normalizeHttpError,
-  OccConfig,
-  Permission,
-  RoutingService,
-} from '@spartacus/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
-import { B2BUserConnector } from '../../connectors';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
 import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   OrderApprovalPermissionType,
-  EntitiesModel,
   Permission,
-} from '@spartacus/core';
+} from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionAdapter } from './permission.adapter';
 

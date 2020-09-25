@@ -1,16 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import {
-  EntitiesModel,
-  OrderApproval,
-  normalizeHttpError,
-} from '@spartacus/core';
-import { OrderApprovalActions } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
-import { HttpErrorResponse } from '@angular/common/http';
+import { OrderApproval } from '../../model/order-approval.model';
+import { normalizeListPage } from '../../utils/serializer';
+import { OrderApprovalActions } from '../actions/index';
 
 @Injectable()
 export class OrderApprovalEffects {

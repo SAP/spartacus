@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  AuthService,
+  EntitiesModel,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pluck, take, tap } from 'rxjs/operators';
 import {
-  AuthService,
   OrderApproval,
   OrderApprovalDecision,
-  StateWithProcess,
-  EntitiesModel,
-  StateUtils,
-  ProcessSelectors,
-} from '@spartacus/core';
+} from '../model/order-approval.model';
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
 import {

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { PermissionListService } from './permission-list.service';

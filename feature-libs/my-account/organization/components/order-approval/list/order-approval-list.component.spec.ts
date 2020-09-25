@@ -11,11 +11,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   EntitiesModel,
   I18nTestingModule,
-  OrderApproval,
   RoutingService,
 } from '@spartacus/core';
 import {
   B2BSearchConfig,
+  OrderApproval,
   OrderApprovalService,
 } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';

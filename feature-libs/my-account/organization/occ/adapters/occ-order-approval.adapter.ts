@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2BSearchConfig,
-  ORDER_APPROVAL_DECISION_NORMALIZER,
-  ORDER_APPROVAL_NORMALIZER,
-  ORDER_APPROVALS_NORMALIZER,
-  OrderApprovalAdapter,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
-  OrderApproval,
-  OrderApprovalDecision,
 } from '@spartacus/core';
+import {
+  B2BSearchConfig,
+  OrderApproval,
+  OrderApprovalAdapter,
+  OrderApprovalDecision,
+  ORDER_APPROVALS_NORMALIZER,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
+  ORDER_APPROVAL_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccOrderApprovalAdapter implements OrderApprovalAdapter {

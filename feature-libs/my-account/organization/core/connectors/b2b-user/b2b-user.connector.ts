@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { Permission } from '../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
-import { B2BUserAdapter } from './b2b-user.adapter';
 import { UserGroup } from '../../model/user-group.model';
-import { B2BUser, EntitiesModel, Permission } from '@spartacus/core';
+import { B2BUserAdapter } from './b2b-user.adapter';
 
 @Injectable({
   providedIn: 'root',
