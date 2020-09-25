@@ -11,6 +11,7 @@ import {
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { combineLatest, Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
@@ -41,13 +42,14 @@ export class ReplenishmentOrderCancellationDialogComponent
   ngOnInit(): void {
     this.subscription.add(
       combineLatest([
-        this.userReplenishmentOrderService.getReplenishmentOrderDetails(),
+        this.userReplenishmentOrderService
+          .getReplenishmentOrderDetails()
+          .pipe(startWith(null)),
         this.launchDialogService.data$,
-      ]).subscribe(
-        ([replenishmentOrder, code]) =>
-          (this.replenishmentOrderCode =
-            code || replenishmentOrder.replenishmentOrderCode)
-      )
+      ]).subscribe(([replenishmentOrder, code]) => {
+        this.replenishmentOrderCode =
+          code || replenishmentOrder.replenishmentOrderCode;
+      })
     );
 
     this.subscription.add(
