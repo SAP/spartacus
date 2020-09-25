@@ -106,7 +106,7 @@ class MockRoutingService {
   go() {}
 }
 
-fdescribe('ReplenishmentOrderHistoryComponent', () => {
+describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService;
