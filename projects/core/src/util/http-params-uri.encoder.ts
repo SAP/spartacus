@@ -7,7 +7,7 @@
  */
 import { HttpParameterCodec } from '@angular/common/http';
 
-export class CustomEncoder implements HttpParameterCodec {
+export class HttpParamsURIEncoder implements HttpParameterCodec {
   encodeKey(key: string): string {
     return encodeURIComponent(key);
   }
