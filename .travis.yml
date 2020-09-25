@@ -11,11 +11,30 @@ branches:
     - "/^feature\\/.*$/"
     - "/^release\\/.*$/"
     - "/^epic\\/.*$/"
+defaults: &defaults
+  script: './ci-scripts/e2e-cypress.sh'
 jobs:
   include:
     - stage: Tests
+      env:
+        - STAGE_NAME="1x-electron on Travis CI"
       script: './build.sh sonar'
-    - script: './ci-scripts/e2e-cypress.sh'
+    - stage: Tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: Tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: Tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: Tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
 notifications:
   email:
     on_failure: always
