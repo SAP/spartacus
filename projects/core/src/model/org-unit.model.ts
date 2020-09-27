@@ -18,14 +18,6 @@ export enum B2BUserGroup {
   B2B_APPROVER_GROUP = 'b2bapprovergroup',
 }
 
-export interface B2BUnitNode {
-  active?: boolean;
-  children?: B2BUnitNode[];
-  id?: string;
-  name?: string;
-  parent?: string;
-}
-
 export interface B2BUnit {
   active?: boolean;
   addresses?: B2BAddress[];

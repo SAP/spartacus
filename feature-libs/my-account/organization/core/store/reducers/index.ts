@@ -11,7 +11,6 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   CostCenter,
   ListModel,
@@ -23,6 +22,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { UserGroup } from '../../model/user-group.model';
 import {
   B2BUserActions,

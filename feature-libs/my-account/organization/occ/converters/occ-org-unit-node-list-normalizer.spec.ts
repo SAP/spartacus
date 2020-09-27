@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnitNode, Occ, OccEndpointsService } from '@spartacus/core';
+import { Occ, OccEndpointsService } from '@spartacus/core';
+import { B2BUnitNode } from '@spartacus/my-account/organization/core';
 import { OccOrgUnitNodeListNormalizer } from './occ-org-unit-node-list-normalizer';
 
 import createSpy = jasmine.createSpy;

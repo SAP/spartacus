@@ -5,7 +5,6 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   CostCenter,
   EntitiesModel,
@@ -15,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {

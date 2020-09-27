@@ -5,7 +5,6 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   CostCenter,
   EntitiesModel,
@@ -13,6 +12,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { B2BUnitNode } from '../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,

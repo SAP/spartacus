@@ -3,12 +3,12 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   EntitiesModel,
   SearchConfig,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitAdapter } from './org-unit.adapter';
 
 @Injectable({

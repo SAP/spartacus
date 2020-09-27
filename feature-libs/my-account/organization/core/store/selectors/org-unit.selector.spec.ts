@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import {
-  B2BAddress,
-  B2BUnit,
-  B2BUnitNode,
-  ListModel,
-  StateUtils,
-} from '@spartacus/core';
+import { B2BAddress, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,

@@ -7,15 +7,17 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   EntitiesModel,
   ListModel,
   normalizeHttpError,
   OccConfig,
-  SearchConfig
+  SearchConfig,
 } from '@spartacus/core';
-import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
+import {
+  B2BUnitNode,
+  OrgUnitConnector,
+} from '@spartacus/my-account/organization/core';
 import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';

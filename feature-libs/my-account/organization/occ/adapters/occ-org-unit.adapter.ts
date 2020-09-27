@@ -4,7 +4,6 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   ConverterService,
   EntitiesModel,
@@ -13,6 +12,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import {
+  B2BUnitNode,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,

@@ -3,12 +3,12 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   EntitiesModel,
   SearchConfig,
   StateUtils,
 } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { denormalizeCustomB2BSearch } from '../../utils/serializer';
 import {
   OrganizationState,
