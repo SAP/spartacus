@@ -46,7 +46,7 @@ describe('PermissionTypeNormalizer', () => {
     expect(result).toEqual(targetPermissionType);
   });
 
-  it('should convert permissionn typewith applied target', () => {
+  it('should convert permission type with applied target', () => {
     const result = service.convert(permissionType, {});
     expect(result).toEqual({});
   });
