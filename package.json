@@ -91,7 +91,6 @@
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "build:myaccount": "ng build my-account --prod",
-    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
     "start:b2b": "cross-env SPARTACUS_BASE_URL=https://localhost:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:product": "ng build product --prod",
     "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
