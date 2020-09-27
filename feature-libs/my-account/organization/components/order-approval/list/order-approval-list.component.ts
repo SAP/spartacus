@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   EntitiesModel,
   RoutingService,
@@ -17,19 +17,21 @@ import { map } from 'rxjs/operators';
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderApprovalListComponent {
+export class OrderApprovalListComponent implements OnInit {
   constructor(
     protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
-  ) {
-    this.fetchApprovalListPage({});
-  }
+  ) {}
 
   protected PAGE_SIZE = 5;
   sortType: string;
 
   orderApprovals$: Observable<EntitiesModel<OrderApproval>>;
+
+  ngOnInit(): void {
+    this.fetchApprovalListPage({});
+  }
 
   changeSortCode(sortCode: string): void {
     const fetchParams: SearchConfig = {
