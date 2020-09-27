@@ -24,6 +24,7 @@ export class OrderApprovalListComponent implements OnInit {
     protected translation: TranslationService
   ) {}
 
+  sortLabels$;
   protected PAGE_SIZE = 5;
   sortType: string;
 
@@ -31,6 +32,17 @@ export class OrderApprovalListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchApprovalListPage({});
+    this.sortLabels$ = combineLatest([
+      this.translation.translate('sorting.date'),
+      this.translation.translate('sorting.orderNumber'),
+    ]).pipe(
+      map(([textByDate, textByOrderNumber]) => {
+        return {
+          byDate: textByDate,
+          byOrderNumber: textByOrderNumber,
+        };
+      })
+    );
   }
 
   changeSortCode(sortCode: string): void {
@@ -48,20 +60,6 @@ export class OrderApprovalListComponent implements OnInit {
       currentPage: page,
     };
     this.fetchApprovalListPage(fetchParams);
-  }
-
-  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
-    return combineLatest([
-      this.translation.translate('sorting.date'),
-      this.translation.translate('sorting.orderNumber'),
-    ]).pipe(
-      map(([textByDate, textByOrderNumber]) => {
-        return {
-          byDate: textByDate,
-          byOrderNumber: textByOrderNumber,
-        };
-      })
-    );
   }
 
   protected fetchApprovalListPage(searchConfig: SearchConfig): void {
