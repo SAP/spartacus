@@ -24,6 +24,7 @@ import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
 import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
+import { CostCenterRoutePageMetaResolver } from './services/cost-center-route-page-meta.resolver';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
@@ -70,33 +71,55 @@ export const costCenterCmsConfig: CmsConfig = {
           useExisting: CostCenterItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: CostCenterFormComponent,
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'costCenter.breadcrumbs.list',
+              resolver: CostCenterRoutePageMetaResolver,
+            },
+          },
         },
-
-        {
-          path: `:${ROUTE_PARAMS.costCenterCode}`,
-          component: CostCenterDetailsComponent,
-          canActivate: [ExistCostCenterGuard],
-          children: [
-            {
-              path: 'edit',
-              component: CostCenterFormComponent,
-              canActivate: [ActiveCostCenterGuard],
+        children: [
+          {
+            path: 'create',
+            component: CostCenterFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.costCenterCode}`,
+            component: CostCenterDetailsComponent,
+            canActivate: [ExistCostCenterGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'costCenter.breadcrumbs.details' },
             },
-            {
-              path: 'budgets',
-              component: CostCenterAssignedBudgetListComponent,
-            },
-            {
-              path: 'budgets/assign',
-              component: CostCenterBudgetListComponent,
-            },
-          ],
-        },
-      ],
+            children: [
+              {
+                path: 'edit',
+                component: CostCenterFormComponent,
+                canActivate: [ActiveCostCenterGuard],
+              },
+              {
+                path: 'budgets',
+                data: {
+                  cxPageMeta: {
+                    breadcrumb: 'costCenter.breadcrumbs.budgets',
+                  },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: CostCenterAssignedBudgetListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: CostCenterBudgetListComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },
