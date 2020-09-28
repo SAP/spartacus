@@ -19,6 +19,7 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
+import { take } from 'rxjs/operators';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -109,6 +110,11 @@ class PageWithAllResolvers
   }
 }
 
+// can be removed/replaced in future by the built-in RxJS 7 alternative
+function firstValueFrom<T>(observable: Observable<T>): Promise<T> {
+  return observable.pipe(take(1)).toPromise();
+}
+
 describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -146,39 +152,28 @@ describe('PageMetaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should resolve page title using resolveTitle()', () => {
+  it('should resolve page title using resolveTitle()', async () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
     spyOn(resolver, 'resolveTitle').and.callThrough();
 
-    service.getMeta().subscribe().unsubscribe();
+    await firstValueFrom(service.getMeta());
 
     expect(resolver.resolveTitle).toHaveBeenCalled();
   });
 
-  it('should resolve page heading', () => {
+  it('should resolve page heading', async () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(
       of(mockContentPageWithTemplate)
     );
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => {
-        result = value;
-      })
-      .unsubscribe();
+
+    const result: PageMeta = await firstValueFrom(service.getMeta());
 
     expect(result.heading).toEqual('page heading');
   });
 
-  it('should resolve meta data for product page', () => {
+  it('should resolve meta data for product page', async () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => {
-        result = value;
-      })
-      .unsubscribe();
+    const result: PageMeta = await firstValueFrom(service.getMeta());
 
     expect(result.title).toEqual('page title');
     expect(result.heading).toEqual('page heading');
@@ -251,13 +246,9 @@ describe('Custom PageTitleService', () => {
     }
   ));
 
-  it('should resolve keywords for custom page meta service', () => {
+  it('should resolve keywords for custom page meta service', async () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));
-    let result: CustomPageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result: CustomPageMeta = await firstValueFrom(service.getMeta());
 
     expect(result.keywords).toEqual(KEYWORDS);
   });
