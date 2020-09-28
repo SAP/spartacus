@@ -29,7 +29,6 @@ import { EventService } from '../event/event.service';
 export class LazyModulesService implements OnDestroy {
   private dependencyModules = new Map<any, NgModuleRef<any>>();
 
-  // and call this guy lazyModules$?
   modules$: Observable<NgModuleRef<any>> = this.events
     .get(ModuleInitializedEvent)
     .pipe(
