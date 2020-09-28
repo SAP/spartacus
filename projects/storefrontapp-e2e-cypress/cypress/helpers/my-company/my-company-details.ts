@@ -1,3 +1,4 @@
+import { CONTEXT_URL_EN_USD } from '../site-context-selector';
 import { MyCompanyConfig, MyCompanySelectorSuffixes } from './models';
 import {
   loginAsMyCompanyAdmin,
@@ -9,52 +10,68 @@ export function testDetailsFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Details`, () => {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
-      cy.visit(`${config.baseUrl}s`);
+      cy.server();
     });
 
     it('should show details', () => {
       let firstRow;
 
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      cy.visit(`/organization`);
+      cy.route('GET', `**/users/current/${config.apiEndpoint}**`).as('getData');
       waitForData((data) => {
-        const rows = getListRowsFromBody(data, config.objectType, config.rows);
-        firstRow = rows[0];
-
-        cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST}`).within(
-          () => {
-            cy.get('a').contains(`${firstRow.text[0]}`).click({ force: true });
-          }
+        const listData = getListRowsFromBody(
+          data,
+          config.objectType,
+          config.rows
         );
+        firstRow = listData[0];
+        cy.get('cx-organization-list a')
+          .contains(firstRow.text[0])
+          .click({ force: true });
+      }, cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click());
 
-        cy.url().should('contain', `${firstRow.links[0]}`);
-      }, cy.visit(`${config.baseUrl}s`));
+      // cy.url().should('contain', `${firstRow.links[0]}`);
 
-      cy.get(`${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`).within(
-        () => {
-          // Check details exist on menu
-          cy.get('h3').should('contain.text', firstRow.text[0]);
+      cy.get(`cx-organization-card`).within(() => {
+        cy.get('div.header').within(() => {
+          cy.get('h3').should('contain.text', `${config.name} Details`);
+          cy.get('h4').should(
+            'contain.text',
+            `${config.name}: ${firstRow.text[0]}`
+          );
+        });
 
-          // TODO: We should check labels are correct for property values
-          config.rows.forEach((rowConfig) => {
-            cy.get('div.property label').should(
-              'contain.text',
-              rowConfig.label
-            );
+        cy.get('div.main').within(() => {
+          cy.get('section.details').within(() => {});
+          cy.get('section.link-list').within(() => {
+            config.subCategories.forEach((subCategory: MyCompanyConfig) => {
+              cy.get('a')
+                .contains(subCategory.name)
+                .should(
+                  'contain.html',
+                  `href="${CONTEXT_URL_EN_USD}/organization/${firstRow.text[0]}/${subCategory.baseUrl}`
+                );
+            });
           });
-          firstRow.text.forEach((row) => {
-            cy.get('div.property').should('contain.text', row);
-          });
+        });
 
-          // TODO: Need to check links but not the link to itself
-          // console.log(firstRow.links);
-          // firstRow.links.forEach((link) => {
-          //   cy.get('div.property a').should('contain.html', link);
-          // });
+        // TODO: We should check labels are correct for property values
+        config.rows.forEach((rowConfig) => {
+          cy.get('div.property label').should('contain.text', rowConfig.label);
+        });
+        firstRow.text.forEach((row) => {
+          cy.get('div.property').should('contain.text', row);
+        });
 
-          // Close details
-          cy.get('cx-icon[type="CARET_LEFT"]').click();
-        }
-      );
+        // TODO: Need to check links but not the link to itself
+        // console.log(firstRow.links);
+        // firstRow.links.forEach((link) => {
+        //   cy.get('div.property a').should('contain.html', link);
+        // });
+
+        // Close details
+        cy.get('cx-icon[type="CARET_LEFT"]').click();
+      });
 
       cy.url().should('contain', `${config.baseUrl}s`);
       cy.get(`${config.selector}-${MyCompanySelectorSuffixes.DETAILS}`).should(

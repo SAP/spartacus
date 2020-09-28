@@ -1,4 +1,3 @@
-import { CONTEXT_URL_EN_USD } from '../site-context-selector';
 import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testDetailsFromConfig } from './my-company-details';
@@ -8,16 +7,22 @@ import { nextPage } from '../product-search';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}`, () => {
-    testListFromConfig(config);
-    testDetailsFromConfig(config);
+    // testListFromConfig(config);
+    // testDetailsFromConfig(config);
     testCreateUpdateFromConfig(config);
     testAssignmentFromConfig(config);
   });
 }
 
-export function checkRowHeaders(rowConfigs: any): void {
-  rowConfigs.forEach((config: any) => {
-    cy.get('th').should('contain.text', config.label);
+/**
+ * Assert table headers are correctly labelled.
+ * @param configs Row configurations containing header labels.
+ */
+export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
+  configs.forEach((config: any) => {
+    if (config.showInTable) {
+      cy.get('th').should('contain.text', config.label);
+    }
   });
 }
 
@@ -31,14 +36,6 @@ export function checkRows(rows): void {
           for (let i = 0; i < row.text.length; i++) {
             if (row.text[i]) {
               cy.get('td').eq(i).should('contain.text', row.text[i]);
-              if (row.links && row.links[i]) {
-                cy.get('td')
-                  .eq(i)
-                  .should(
-                    'contain.html',
-                    `href="${CONTEXT_URL_EN_USD}${row.links[i]}`
-                  );
-              }
             }
           }
         });
@@ -48,23 +45,48 @@ export function checkRows(rows): void {
 }
 
 export function getListRowsFromBody(
-  body,
-  objectType,
+  body: any,
+  objectType: string,
   rows: MyCompanyRowConfig[]
 ) {
   return body[objectType].map((data) => {
-    const table = { text: [], links: [] };
+    const table = { text: [] };
     rows.map((row) => {
-      // if (!data.hasOwnProperty('selected') || data.selected) {
-      const foundText = row.variableName
-        .split('.')
-        .reduce((p, c) => (p && p[c]) || null, data);
-      table.text.push(foundText);
-      table.links.push(row.link ? row.link : null);
-      // }
+      if (row.showInTable) {
+        if (Array.isArray(row.variableName)) {
+          row.variableName.forEach((variable) => {
+            // TODO: Improper imp.
+            if (variable === 'startDate') {
+              let foundText = getVariableFromName(variable, data);
+              if (row.useDatePipe) {
+                const foundDate = new Date(foundText);
+                foundText = getFormattedDate(foundDate);
+              }
+              table.text.push(foundText);
+            }
+          });
+        } else {
+          const foundText = getVariableFromName(row.variableName, data);
+          table.text.push(foundText);
+        }
+      }
     });
     return table;
   });
+
+  function getVariableFromName(name: string, dataset: any) {
+    return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
+  }
+
+  function getMonthPartFromDate(date: Date): string {
+    return date.toString().slice(4, 7);
+  }
+
+  function getFormattedDate(date: Date): string {
+    return `${getMonthPartFromDate(
+      date
+    )} ${date.getDate()}, ${date.getFullYear()}`;
+  }
 }
 
 export function waitForData(thenCommand, waitForCommand?): void {
@@ -85,6 +107,9 @@ export function verifyList(rows, rowConfig): void {
   });
 }
 
+/**
+ * Login as user with organization administration powers.
+ */
 export function loginAsMyCompanyAdmin(): void {
   cy.requireLoggedIn({
     user: 'linda.wolf@rustic-hw.com',
@@ -98,12 +123,10 @@ export function loginAsMyCompanyAdmin(): void {
   });
 }
 
-export function ngSelect(sortKey: string): void {
-  cy.get('.ng-select').click();
+export function ngSelect(formControlName: string, sortKey: string): void {
+  cy.get(`ng-select[formcontrolname="${formControlName}"]`).click();
   cy.wait(1000);
-  cy.get('ng-dropdown-panel .ng-dropdown-panel-items')
-    .contains(new RegExp(`^${sortKey}$`, 'g'))
-    .click({ force: true });
+  cy.get('div.ng-option').contains(sortKey).click({ force: true });
 }
 
 export function scanTablePagesForText(text: string, config): void {
