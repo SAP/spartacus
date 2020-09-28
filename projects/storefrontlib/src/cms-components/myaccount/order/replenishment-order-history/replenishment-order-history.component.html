@@ -39,19 +39,25 @@
         <table class="table cx-replenishment-order-history-table">
           <thead class="cx-replenishment-order-history-thead-mobile">
             <th scope="col">
-              {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
+              </span>
             </th>
             <th scope="col">
               {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'orderHistory.startOn' | cxTranslate }}
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.startOn' | cxTranslate }}
+              </span>
             </th>
             <th scope="col">
               {{ 'orderHistory.frequency' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'orderHistory.nextOrderDate' | cxTranslate }}
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.nextOrderDate' | cxTranslate }}
+              </span>
             </th>
             <th scope="col" class="cx-replenishment-order-history-total">
               {{ 'orderHistory.total' | cxTranslate }}
@@ -112,7 +118,7 @@
                   "
                   class="cx-replenishment-order-history-value"
                 >
-                  {{ order?.firstDate | cxDate: 'shortDate' }}</a
+                  {{ order?.firstDate | cxDate: 'M/d/yyyy' }}</a
                 >
               </td>
               <td class="cx-replenishment-order-history-frequency">
@@ -128,12 +134,12 @@
                   "
                   class="cx-replenishment-order-history-value"
                 >
-                  {{ order?.trigger.displayTimeTable }}
+                  {{ order?.trigger.displayTimeTable | slice: 0:-12 }}
                 </a>
               </td>
               <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
-                  {{ 'orderHistory.nextOrderDate' | cxTranslate }}
+                  {{ 'orderHistory.nextOrderDate' }}
                 </div>
 
                 <a
@@ -147,7 +153,7 @@
                 >
                   {{
                     order?.active
-                      ? (order?.trigger.activationTime | cxDate: 'shortDate')
+                      ? (order?.trigger.activationTime | cxDate: 'M/d/yyyy')
                       : ('orderHistory.cancelled' | cxTranslate)
                   }}
                 </a>

@@ -36,6 +36,7 @@
         padding-bottom: 1.125rem;
         padding-inline-start: 5px;
         text-align: start;
+        vertical-align: top;
 
         &:first-child {
           padding-inline-start: 0;
@@ -84,6 +85,12 @@
         }
       }
 
+      .#{$block}-code {
+        .#{$block}-value {
+          text-decoration: underline;
+        }
+      }
+
       .#{$block}-frequency {
         width: 25%;
 
@@ -112,6 +119,14 @@
         @include media-breakpoint-down(sm) {
           width: unset;
         }
+      }
+
+      .#{$block}-ellipses {
+        display: inline-block;
+        max-width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
