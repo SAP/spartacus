@@ -18,7 +18,7 @@ export const budget = {
   byCode: 'Sort by code',
   byValue: 'Sort by value',
 
-  detail: {
+  details: {
     title: 'Budget Details',
     subtitle: 'Budget: {{ item.name }}',
   },

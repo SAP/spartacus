@@ -25,8 +25,8 @@ import { OrgUnitActions, B2BUserActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 import createSpy = jasmine.createSpy;
 import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',

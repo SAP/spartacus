@@ -13,8 +13,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { MessageService } from '../../../../shared/organization-message/services';
 import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 
 @Component({
   templateUrl: './toggle-user-role.component.html',
