@@ -71,8 +71,8 @@ export interface BreakPoint {
  * are defined by breakpoints, with a min and/or max value. The breakpoint size is in pixels,
  * hence a numeric value is expected.
  */
-export type LayoutBreakPoints<T extends BREAKPOINT = BREAKPOINT> = {
-  [t in T]?: number | BreakPoint;
+export type LayoutBreakPoints = {
+  [t in BREAKPOINT]?: number | BreakPoint;
 };
 
 /**
