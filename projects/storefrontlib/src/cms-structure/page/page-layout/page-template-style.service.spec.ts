@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { PageLayoutService } from '..';
+import { PageLayoutService } from '../page-layout/page-layout.service';
 import { PageTemplateStyleService } from './page-template-style.service';
 
 class MockPageLayoutService {
