@@ -23,6 +23,7 @@ import {
 } from '../store/organization-state';
 import { B2BSearchConfig } from '../model/search-config';
 import { UserGroup } from '../model/user-group.model';
+import { LoadStatus } from '../model/LoadStatus';
 
 const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';
@@ -539,6 +540,41 @@ describe('B2BUserService', () => {
           userGroupId,
         })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new B2BUserActions.LoadB2BUserSuccess([b2bUser]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: b2bUser,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new B2BUserActions.LoadB2BUserFail({
+          orgCustomerId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
     });
   });
 });

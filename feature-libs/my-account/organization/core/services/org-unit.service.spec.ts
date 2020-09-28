@@ -23,10 +23,17 @@ import {
   StateWithOrganization,
 } from '../store/organization-state';
 import { B2BSearchConfig } from '../model/search-config';
+import { LoadStatus } from '../model/LoadStatus';
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
-const orgUnit: Partial<B2BUnit> = { uid: orgUnitId, costCenters: [] };
+const addressId = 'testAddressId';
+const address: B2BAddress = { id: addressId };
+const orgUnit: Partial<B2BUnit> = {
+  uid: orgUnitId,
+  costCenters: [],
+  addresses: [address],
+};
 
 const mockedTree = {
   active: true,
@@ -86,8 +93,6 @@ const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
-const address: B2BAddress = { id: 'adrId' };
-const addressId = 'testAddressId';
 const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';
 const unit: B2BUnit = { uid: 'testUid' };
@@ -602,6 +607,76 @@ describe('OrgUnitService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadTree({ userId })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getLoadingStatus(orgUnitId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: orgUnit,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getLoadingStatus(orgUnitId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new OrgUnitActions.LoadOrgUnitFail({
+          orgUnitId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
+    });
+  });
+
+  describe('get loading status for address', () => {
+    it('getAddressLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getAddressLoadingStatus(addressId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: address,
+      });
+    });
+
+    it('getAddressLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getAddressLoadingStatus(addressId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new OrgUnitActions.LoadOrgUnitFail({
+          orgUnitId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
     });
   });
 });

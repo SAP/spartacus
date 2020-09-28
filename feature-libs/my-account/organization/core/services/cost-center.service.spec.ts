@@ -14,6 +14,7 @@ import {
   StateWithOrganization,
   ORGANIZATION_FEATURE,
 } from '../store/organization-state';
+import { LoadStatus } from '../model/LoadStatus';
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';
@@ -264,6 +265,45 @@ describe('CostCenterService', () => {
           budgetCode,
         })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+      );
+      service
+        .getLoadingStatus(costCenterCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new CostCenterActions.LoadCostCenterSuccess([costCenter]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: costCenter,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+      );
+      service
+        .getLoadingStatus(costCenterCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new CostCenterActions.LoadCostCenterFail({
+          costCenterCode,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
     });
   });
 });

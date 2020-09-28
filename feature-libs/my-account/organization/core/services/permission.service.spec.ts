@@ -17,6 +17,7 @@ import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
+import { LoadStatus } from '../model/LoadStatus';
 
 const userId = 'current';
 const permissionCode = 'testPermission';
@@ -216,6 +217,45 @@ describe('PermissionService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(
+        new PermissionActions.LoadPermission({ userId, permissionCode })
+      );
+      service
+        .getLoadingStatus(permissionCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new PermissionActions.LoadPermissionSuccess([permission]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: permission,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(
+        new PermissionActions.LoadPermission({ userId, permissionCode })
+      );
+      service
+        .getLoadingStatus(permissionCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new PermissionActions.LoadPermissionFail({
+          permissionCode,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
     });
   });
 });
