@@ -17,9 +17,45 @@
         {{ 'orderDetails.status' | cxTranslate }}
       </div>
       <div class="cx-detail-value" *ngIf="order?.statusDisplay">
+        {{ 'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate }}
+      </div>
+    </div>
+  </div>
+  <div *ngIf="order?.orgCustomer?.orgUnit" class="cx-header row">
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'orderDetails.purchaseOrderId' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">
         {{
-          'orderDetails.statusDisplay'
-            | cxTranslate: { context: order?.statusDisplay }
+          order?.purchaseOrderNumber
+            ? order?.purchaseOrderNumber
+            : ('orderDetails.none' | cxTranslate)
+        }}
+      </div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'orderDetails.placedBy' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">{{ order?.orgCustomer?.name }}</div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'orderDetails.costCenterAndUnit' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">
+        {{
+          order?.costCenter
+            ? ('orderDetails.costCenterAndUnitValue'
+              | cxTranslate
+                : {
+                    costCenterName: order?.costCenter?.name,
+                    unitName: order?.costCenter?.unit?.name
+                  })
+            : ('orderDetails.none'
+              | cxTranslate
+                : { value: 'orderDetails.paidByCreditCard' | cxTranslate })
         }}
       </div>
     </div>

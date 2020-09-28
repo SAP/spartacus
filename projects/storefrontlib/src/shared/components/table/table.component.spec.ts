@@ -2,18 +2,13 @@ import * as AngularCore from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
-import { LayoutConfig } from 'projects/storefrontlib/src/layout';
-import { of } from 'rxjs';
+import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
-import { Table, TableHeader } from './table.model';
+import { Table, TableLayout } from './table.model';
+import createSpy = jasmine.createSpy;
 
-const headers: TableHeader[] = [
-  { key: 'key1' },
-  { key: 'key2' },
-  { key: 'key3', label: 'label3' },
-];
+const headers: string[] = ['key1', 'key2', 'key3'];
 
 const data = [
   { key1: 'val1', key2: 'val2', key3: 'val3' },
@@ -24,20 +19,34 @@ const data = [
 const mockDataset: Table = {
   structure: {
     type: 'test-1',
-    headers,
+    cells: headers,
+    options: {
+      layout: TableLayout.VERTICAL,
+    },
   },
-  data$: of(data),
+  data,
 };
+
+class MockTableRendererService {
+  getHeaderOutletRef = createSpy('getHeaderOutletRef');
+  getHeaderOutletContext = createSpy('getHeaderOutletRef');
+  getDataOutletRef = createSpy('getDataOutletRef');
+  getDataOutletContext = createSpy('getDataOutletRef');
+  add() {}
+}
 
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
+  let tableRendererService: TableRendererService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule],
+      imports: [OutletModule],
       declarations: [TableComponent],
-      providers: [{ provide: LayoutConfig, useValue: {} }],
+      providers: [
+        { provide: TableRendererService, useClass: MockTableRendererService },
+      ],
     })
       .overrideComponent(TableComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -46,6 +55,7 @@ describe('TableComponent', () => {
 
     fixture = TestBed.createComponent(TableComponent);
     tableComponent = fixture.componentInstance;
+    tableRendererService = TestBed.inject(TableRendererService);
     fixture.detectChanges();
   });
 
@@ -75,7 +85,7 @@ describe('TableComponent', () => {
   });
 
   it('should add the table type to __cx-table-type attribute in devMode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
@@ -85,7 +95,7 @@ describe('TableComponent', () => {
   });
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
 
     tableComponent.dataset = mockDataset;
     fixture.detectChanges();
@@ -96,99 +106,230 @@ describe('TableComponent', () => {
   });
 
   describe('table header', () => {
-    it('should not add the thead when hideHeader = true', () => {
-      tableComponent.dataset = {
-        ...mockDataset,
-        structure: { ...mockDataset.structure, hideHeader: true },
-      };
-      fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table > thead'));
-      expect(table).toBeNull();
+    beforeEach(() => {
+      tableComponent.dataset = mockDataset;
     });
 
-    it('should add a th for each tableHeader ', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table > thead'));
-      expect(table.nativeElement).toBeTruthy();
-      const th = fixture.debugElement.queryAll(
-        By.css('table > thead > tr > th')
+    it('should delegate creation of table header outlet reference', () => {
+      tableComponent.getHeaderOutletRef('key1');
+      expect(tableRendererService.getHeaderOutletRef).toHaveBeenCalledWith(
+        'test-1',
+        'key1'
       );
-      expect(th.length).toBe(3);
-      expect(th[0].nativeElement).toBeTruthy();
-      expect(th[1].nativeElement).toBeTruthy();
-      expect(th[2].nativeElement).toBeTruthy();
     });
 
-    it('should leverage the translate pipe for the header key when there is no header label', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+    it('should delegate creation of table header outlet context', () => {
+      tableComponent.getHeaderOutletContext('key1');
 
-      const th1: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(1)')
-      ).nativeElement;
-
-      expect(th1.innerText).toEqual('test-1.key1');
+      expect(tableRendererService.getHeaderOutletContext).toHaveBeenCalledWith(
+        'test-1',
+        mockDataset.structure.options,
+        'key1'
+      );
     });
 
-    it('should add the header.label in the th if available ', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+    describe('UI', () => {
+      it('should add a th for each tableHeader ', () => {
+        fixture.detectChanges();
+        const table = fixture.debugElement.query(By.css('table > thead'));
+        expect(table.nativeElement).toBeTruthy();
+        const th = fixture.debugElement.queryAll(
+          By.css('table > thead > tr > th')
+        );
+        expect(th.length).toBe(3);
+        expect(th[0].nativeElement).toBeTruthy();
+        expect(th[1].nativeElement).toBeTruthy();
+        expect(th[2].nativeElement).toBeTruthy();
+      });
 
-      const th3: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(3)')
-      ).nativeElement;
+      it('should add the col key as a css class to each <th>', () => {
+        fixture.detectChanges();
 
-      expect(th3.innerText).toEqual('label3');
-    });
+        const th1: HTMLElement = fixture.debugElement.query(
+          By.css('table th:nth-child(1)')
+        ).nativeElement;
 
-    it('should add the col key as a css class to each <th>', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const th1: HTMLElement = fixture.debugElement.query(
-        By.css('table th:nth-child(1)')
-      ).nativeElement;
-
-      expect(th1.classList).toContain('key1');
+        expect(th1.classList).toContain('key1');
+      });
     });
   });
 
   describe('table data', () => {
-    it('should generate a tr for each data row', () => {
+    beforeEach(() => {
       tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(3);
     });
 
-    it('should generate a td for each data row', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
-
-      const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(9);
+    it('should delegate creation of table data outlet reference', () => {
+      tableComponent.getDataOutletRef('key1');
+      expect(tableRendererService.getDataOutletRef).toHaveBeenCalledWith(
+        'test-1',
+        'key1'
+      );
     });
 
-    it('should add the col key as a css class to each <td>', () => {
-      tableComponent.dataset = mockDataset;
-      fixture.detectChanges();
+    it('should delegate creation of table data outlet context', () => {
+      tableComponent.getDataOutletContext('key1', {
+        foo: 'bar',
+      });
 
-      const td1: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(1)')
-      ).nativeElement;
-      expect(td1.classList).toContain('key1');
+      expect(tableRendererService.getDataOutletContext).toHaveBeenCalledWith(
+        'test-1',
+        mockDataset.structure.options,
+        'key1',
+        {
+          foo: 'bar',
+        }
+      );
+    });
 
-      const td2: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(2)')
-      ).nativeElement;
-      expect(td2.classList).toContain('key2');
+    describe('UI', () => {
+      it('should generate a tr for each data row', () => {
+        fixture.detectChanges();
 
-      const td3: HTMLElement = fixture.debugElement.query(
-        By.css('table td:nth-child(3)')
-      ).nativeElement;
-      expect(td3.classList).toContain('key3');
+        const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+        expect(tr.length).toBe(3);
+      });
+
+      it('should generate a td for each data row', () => {
+        fixture.detectChanges();
+
+        const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
+        expect(td.length).toBe(9);
+      });
+
+      it('should add the col key as a css class to each <td>', () => {
+        fixture.detectChanges();
+
+        const td1: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(1)')
+        ).nativeElement;
+        expect(td1.classList).toContain('key1');
+
+        const td2: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(2)')
+        ).nativeElement;
+        expect(td2.classList).toContain('key2');
+
+        const td3: HTMLElement = fixture.debugElement.query(
+          By.css('table td:nth-child(3)')
+        ).nativeElement;
+        expect(td3.classList).toContain('key3');
+      });
+    });
+  });
+
+  describe('table layout', () => {
+    describe('vertical', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical class', () => {
+        expect(tableComponent.verticalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical');
+      });
+
+      it('should send out an event for the selected item', () => {
+        spyOn(tableComponent.launch, 'emit');
+        tableComponent.launchItem({ foo: 'bar' });
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
+      });
+
+      it('should launch on TR click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tr'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should have a current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val7' };
+        expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
+      });
+
+      it('should add is-current class to tr holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+
+        fixture.detectChanges();
+        const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+        expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tr[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
+    });
+
+    describe('vertical stacked', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.VERTICAL_STACKED;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have vertical-stacked class', () => {
+        expect(tableComponent.verticalStackedLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('vertical-stacked');
+      });
+
+      it('should have a tbody for each data item', () => {
+        const tbody = fixture.debugElement.queryAll(By.css('tbody'));
+        expect(tbody.length).toEqual(data.length);
+      });
+
+      it('should have a tr in tbody for each data item', () => {
+        const tr = fixture.debugElement.queryAll(
+          By.css('tbody:first-child tr')
+        );
+        expect(tr.length).toEqual(Object.keys(data[0]).length);
+      });
+
+      it('should launch on tbody click', () => {
+        spyOn(tableComponent.launch, 'emit');
+        const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
+        (rows[0].nativeElement as HTMLElement).click();
+        expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+      });
+
+      it('should add is-current class to tbody holding the current item', () => {
+        tableComponent.currentItem = { property: 'key1', value: 'val4' };
+        fixture.detectChanges();
+        const tbody = fixture.debugElement.queryAll(By.css('table > tbody'));
+        expect((tbody[0].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+        expect((tbody[1].nativeElement as HTMLElement).classList).toContain(
+          'is-current'
+        );
+        expect((tbody[2].nativeElement as HTMLElement).classList).not.toContain(
+          'is-current'
+        );
+      });
+    });
+
+    describe('horizontal', () => {
+      beforeEach(() => {
+        const table = Object.assign({}, mockDataset);
+        table.structure.options.layout = TableLayout.HORIZONTAL;
+        tableComponent.dataset = table;
+        fixture.detectChanges();
+      });
+
+      it('should have horizontal class', () => {
+        expect(tableComponent.horizontalLayout).toBeTruthy();
+        const table: HTMLElement = fixture.debugElement.nativeElement;
+        expect(table.classList).toContain('horizontal');
+      });
     });
   });
 });
