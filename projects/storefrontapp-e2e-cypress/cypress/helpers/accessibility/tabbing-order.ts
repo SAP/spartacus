@@ -1,9 +1,9 @@
 import { user } from '../../sample-data/checkout-flow';
+import { focusableSelectors } from '../../support/utils/a11y-tab';
 import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { TabElement, TabbingOrderTypes } from './tabbing-order.model';
-import { focusableSelectors } from '../../support/utils/a11y-tab';
+import { TabbingOrderTypes, TabElement } from './tabbing-order.model';
 
 export const testProductUrl = '/product/779841';
 export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
@@ -57,6 +57,12 @@ export function verifyTabElement(tabElement: TabElement) {
       });
   };
 
+  const urlCheck = (value: string) => {
+    cy.focused()
+      .invoke('href')
+      .then((url) => expect(url).to.contain(value));
+  };
+
   switch (tabElement.type) {
     case TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE: {
       cy.focused().should('contain', tabElement.value);
@@ -68,6 +74,9 @@ export function verifyTabElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.LINK: {
       regexpCheck(tabElement.value as string);
+      if (!!tabElement.url) {
+        urlCheck(tabElement.url);
+      }
       return;
     }
     case TabbingOrderTypes.BUTTON: {

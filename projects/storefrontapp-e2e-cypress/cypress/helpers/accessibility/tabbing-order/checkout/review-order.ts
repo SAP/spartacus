@@ -1,7 +1,7 @@
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
-const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
+const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutReviewOrderTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/review-order');

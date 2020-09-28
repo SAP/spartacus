@@ -11,8 +11,8 @@ export function checkoutPaymentMethodTabbingOrder(config: TabElement[]) {
     'getPaymentType'
   );
   cy.visit('/checkout/payment-type');
-  enterPONumber();
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+  enterPONumber();
 
   verifyTabbingOrder(containerSelector, config);
   checkoutNextStep('/checkout/shipping-address');

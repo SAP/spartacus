@@ -20,5 +20,10 @@ export function checkoutShippingAddressExistingTabbingOrder(
 ) {
   cy.visit('/checkout/shipping-address');
 
+  cy.get('cx-card').within(() => {
+    cy.get('.cx-card-label-bold').should('not.be.empty');
+    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
+  });
+
   verifyTabbingOrder(containerSelector, config);
 }

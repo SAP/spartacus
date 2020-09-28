@@ -5,10 +5,6 @@ const paymentTypeRadio = {
   type: TabbingOrderTypes.RADIO,
 };
 
-const backToCartButton = {
-  value: 'Back to cart',
-  type: TabbingOrderTypes.BUTTON,
-};
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
@@ -43,14 +39,69 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Ship to this address',
       type: TabbingOrderTypes.LINK,
     },
-    backToCartButton,
+    backButton,
     continueButton,
   ],
   deliveryMode: [
-    { value: 'Shipping address', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
     continueButton,
+  ],
+  paymentDetailsCard: [
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'accountHolderName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'cardNumber', type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'cvn', type: TabbingOrderTypes.FORM_FIELD },
+    {
+      value: 'Set as default',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Same as shipping address',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    backButton,
+    continueButton,
+  ],
+  paymentDetailsBillingAddress: [
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line1', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line2', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'town', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'isocodeShort', type: TabbingOrderTypes.NG_SELECT },
+  ],
+  checkoutReviewOrder: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
+    { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
+    { url: 'checkout/payment-type', type: TabbingOrderTypes.LINK },
+    { url: 'checkout/shipping-address', type: TabbingOrderTypes.LINK },
+    { url: 'checkout/delivery-mode', type: TabbingOrderTypes.LINK },
+    { url: 'checkout/payment-details', type: TabbingOrderTypes.LINK },
+    { url: 'checkout/review-order', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'I am confirming that I have read and agreed with',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Terms & Conditions',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
 };
