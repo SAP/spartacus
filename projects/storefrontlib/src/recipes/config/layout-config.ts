@@ -34,7 +34,6 @@ export const layoutConfig: LayoutConfig = {
       slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
     },
     navigation: {
-      // md: { slots: [] },
       lg: { slots: [] },
       slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
     },
