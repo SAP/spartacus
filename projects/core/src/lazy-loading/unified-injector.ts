@@ -21,7 +21,7 @@ const NOT_FOUND_SYMBOL: any = {};
 })
 export class UnifiedInjector {
   /**
-   * Gather all the injectors, with the root injector as a frist one
+   * Gather all the injectors, with the root injector as a first one
    *
    * @private
    */
