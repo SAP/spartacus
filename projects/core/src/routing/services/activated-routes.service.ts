@@ -11,8 +11,7 @@ export class ActivatedRoutesService {
   constructor(protected router: Router) {}
 
   /**
-   * Array of currently activated routes from all the nested the primary router outlets
-   * (from the root route to the leaf route).
+   * Array of currently activated routes (from the root route to the leaf route).
    */
   readonly routes$: Observable<
     ActivatedRouteSnapshot[]

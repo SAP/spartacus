@@ -123,7 +123,6 @@ describe('CmsComponentsService', () => {
   describe('getChildRoutes', () => {
     it('should get child routes from page data', () => {
       expect(service.getChildRoutes(mockComponents)).toEqual({
-        parent: undefined,
         children: [{ path: 'route1' }, { path: 'route2' }],
       });
     });

@@ -27,14 +27,20 @@ export class ContentPageMetaResolver
     .getCurrentPage()
     .pipe(filter((p) => Boolean(p)));
 
-  private _homeBreadcrumb$: Observable<
+  /**
+   * Breadcrumb for the home page.
+   */
+  protected homeBreadcrumb$: Observable<
     BreadcrumbMeta[]
   > = this.translation
     .translate('common.home')
     .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
 
-  private _breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
-    this._homeBreadcrumb$,
+  /**
+   * All the resolved breadcrumbs (including those from Angular child routes).
+   */
+  private breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
+    this.homeBreadcrumb$,
     defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
     map(
@@ -61,10 +67,10 @@ export class ContentPageMetaResolver
   }
 
   /**
-   * Resolves a single breacrumb item to the home page for each `ContentPage`.
+   * Resolves a single breadcrumb item to the home page for each `ContentPage`.
    * The home page label is resolved from the translation service.
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
-    return this._breadcrumbs$;
+    return this.breadcrumbs$;
   }
 }

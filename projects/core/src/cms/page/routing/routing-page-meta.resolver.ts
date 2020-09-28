@@ -20,7 +20,7 @@ export interface RouteWithExtras {
 
 export interface RoutingResolveBreadcrumbsOptions {
   /**
-   * When true, includes in the breadcrumbs the page title of the current route. False by default.
+   * Includes the current route in the breadcrumbs.
    */
   includeCurrentRoute?: boolean;
 }
@@ -39,7 +39,8 @@ export class RoutingPageMetaResolver {
    * Array of activated routes, excluding the special Angular `root` route.
    */
   protected readonly routes$ = this.activatedRoutesService.routes$.pipe(
-    map((routes) => (routes = routes.slice(1, routes.length))) // drop the first route - the special `root` route
+    // drop the first route - the special `root` route:
+    map((routes) => (routes = routes.slice(1, routes.length)))
   );
 
   /**

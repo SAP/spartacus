@@ -41,7 +41,8 @@ export class OrganizationPageMetaResolver
   protected readonly ORGANIZATION_TRANSLATION_KEY = 'organization.breadcrumb';
 
   /**
-   * Semantic route name of the Organization home page
+   * The semantic route of the organization landing page. It's used to recognize whether
+   * we are on this page. In such a case we avoid showing the breadcrumb for this page.
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE = 'organization';
 
@@ -80,7 +81,7 @@ export class OrganizationPageMetaResolver
   /**
    * Breadcrumbs returned in the method #resolveBreadcrumbs.
    */
-  private breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
+  protected breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
     this.organizationPageBreadcrumb$,
     defer(() => this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
