@@ -27,9 +27,7 @@
               ? 'checked'
               : null
           "
-          (mousedown)="onMouseDown(value.valueCode)"
-          (focusout)="onFocusOut($event)"
-          (keyup)="onKeyUp()"
+          (change)="onSelect(value.valueCode)"
         />
         <div class="cx-configurator-attribute-value-label-container">
           <label
@@ -40,7 +38,6 @@
               createAttributeValueIdForConfigurator(attribute, value.valueCode)
             }}"
             class="cx-configurator-attribute-value-label form-check-label form-radio-label"
-            (mousedown)="onMouseDown(value.valueCode)"
             >{{ value.valueDisplay }}</label
           >
         </div>
