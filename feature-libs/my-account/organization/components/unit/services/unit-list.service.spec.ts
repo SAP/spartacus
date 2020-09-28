@@ -1,52 +1,34 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUnitNode } from '@spartacus/core';
+import { B2BUnitNode, B2bUnitTreeNode } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitListService } from './unit-list.service';
 import { UnitItemService } from './unit-item.service';
-import createSpy = jasmine.createSpy;
 import { UnitTreeService } from './unit-tree.service';
 import { TREE_TOGGLE } from './unit-tree.model';
+import createSpy = jasmine.createSpy;
 
-// function verifyExpandedAll({ data }) {
-//   expect(data.length).toBe(7);
-//   expect(data[0].uid).toEqual('Rustic');
-//   expect(data[1].uid).toEqual('Rustic Services');
-//   expect(data[2].uid).toEqual('Services West');
-//   expect(data[3].uid).toEqual('Services East');
-//   expect(data[4].uid).toEqual('Rustic Retail');
-//   expect(data[5].uid).toEqual('Custom Retail');
-//   expect(data[6].uid).toEqual('Test');
-// }
-
-function verifyCollapsed({ data }) {
-  console.log(data);
-  expect(data.length).toBe(3);
-  expect(data[0].id).toEqual('Rustic');
-  expect(data[1].id).toEqual('Rustic Services');
-  expect(data[2].id).toEqual('Rustic Retail');
+function verifyExpandedAll({ data }: Table<B2bUnitTreeNode>) {
+  expect(data.length).toEqual(7);
+  data.forEach((element) => {
+    expect(element.expanded).toBeTrue();
+  });
 }
 
-// function verifyExpandedOne({ data }) {
-//   expect(data.length).toBe(5);
-//   expect(data[0].uid).toEqual('Rustic');
-//   expect(data[1].uid).toEqual('Rustic Services');
-//   expect(data[2].uid).toEqual('Services West');
-//   expect(data[3].uid).toEqual('Services East');
-//   expect(data[4].uid).toEqual('Rustic Retail');
-// }
-//
-// const toggledUnit = {
-//   uid: 'Rustic Services',
-//   id: 'Rustic Services',
-//   name: 'Rustic Services',
-//   parent: 'Rustic',
-//   active: true,
-//   depthLevel: 1,
-//   count: 2,
-// };
+function verifyCollapsedAll({ data }: Table<B2bUnitTreeNode>) {
+  console.log(data);
+  const root = data[0];
+
+  expect(data.length).toEqual(1);
+  expect(root.uid).toEqual(mockedTree.id);
+  expect(root.expanded).toBeFalse();
+  expect(root.depthLevel).toEqual(0);
+  expect(root.count).toEqual(mockedTree.children.length);
+}
+
+const codeKey = 'uid';
 
 const mockedTree = {
   id: 'Rustic',
@@ -101,6 +83,10 @@ const mockedTree = {
   ],
 };
 
+const treeToggle$ = new BehaviorSubject(
+  new Map().set(mockedTree.id, TREE_TOGGLE.EXPANDED)
+);
+
 class MockUnitService {
   getTree(): Observable<B2BUnitNode> {
     return of(mockedTree);
@@ -114,25 +100,18 @@ export class MockTableService {
   }
 }
 
-const treeToggle$ = new BehaviorSubject(
-  new Map().set('Rustic', TREE_TOGGLE.EXPANDED)
-);
-
 export class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
   initialize = createSpy('initialize');
   getToggleState = createSpy('getToggleState')
-    .withArgs('Rustic')
-    .and.returnValue(treeToggle$.value?.get('Rustic'));
-  isExpanded = createSpy('isExpanded')
-    .and.returnValue(false)
-    .withArgs('Rustic', 0, undefined)
-    .and.returnValue(true);
+    .withArgs(mockedTree.id)
+    .and.returnValue(treeToggle$.value?.get(mockedTree.id));
+  isExpanded = createSpy('isExpanded').and.returnValue(false);
 }
 
 describe('UnitListService', () => {
   let service: UnitListService;
-
+  let treeService: UnitTreeService;
   describe('with table config', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -153,12 +132,13 @@ describe('UnitListService', () => {
           {
             provide: UnitItemService,
             useValue: {
-              key$: of('Rustic'),
+              key$: of(mockedTree.id),
             },
           },
         ],
       });
       service = TestBed.inject(UnitListService);
+      treeService = TestBed.inject(UnitTreeService);
     });
 
     it('should inject service', () => {
@@ -166,31 +146,23 @@ describe('UnitListService', () => {
     });
 
     it('should return "code" key', () => {
-      expect(service.key()).toEqual('uid');
+      expect(service.key()).toEqual(codeKey);
     });
 
-    it('should populate tree object to list', () => {
-      let result;
+    it('should get collapsed all items structure', () => {
+      let result: Table;
+
       service.getTable().subscribe((table) => (result = table));
-      verifyCollapsed(result);
+      verifyCollapsedAll(result);
     });
 
-    // it('should toggle item', () => {
-    //   let result;
-    //   service.getTable().subscribe((table) => (result = table));
-    //   service.toggle({ ...toggledUnit, expanded: false });
-    //   verifyExpandedOne(result);
-    //   service.toggle({ ...toggledUnit, expanded: true });
-    //   verifyCollapsed(result);
-    // });
-    //
-    // it('should expandAll and collapseAll', () => {
-    //   let result;
-    //   service.getTable().subscribe((table) => (result = table));
-    //   service.expandAll();
-    //   verifyExpandedAll(result);
-    //   service.collapseAll();
-    //   verifyCollapsed(result);
-    // });
+    it('should get expanded all items structure', () => {
+      let result: Table;
+
+      treeService.isExpanded = createSpy().and.returnValue(true);
+
+      service.getTable().subscribe((table) => (result = table));
+      verifyExpandedAll(result);
+    });
   });
 });

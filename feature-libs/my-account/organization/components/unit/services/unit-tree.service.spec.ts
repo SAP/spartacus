@@ -1,135 +1,118 @@
 import { TestBed } from '@angular/core/testing';
+import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
 
-// function verifyExpandedAll({ data }) {
-//   expect(data.length).toBe(7);
-//   expect(data[0].uid).toEqual('Rustic');
-//   expect(data[1].uid).toEqual('Rustic Services');
-//   expect(data[2].uid).toEqual('Services West');
-//   expect(data[3].uid).toEqual('Services East');
-//   expect(data[4].uid).toEqual('Rustic Retail');
-//   expect(data[5].uid).toEqual('Custom Retail');
-//   expect(data[6].uid).toEqual('Test');
-// }
-//
-// function verifyCollapsed({ data }) {
-//   expect(data.length).toBe(3);
-//   expect(data[0].uid).toEqual('Rustic');
-//   expect(data[1].uid).toEqual('Rustic Services');
-//   expect(data[2].uid).toEqual('Rustic Retail');
-// }
-//
-// function verifyExpandedOne({ data }) {
-//   expect(data.length).toBe(5);
-//   expect(data[0].uid).toEqual('Rustic');
-//   expect(data[1].uid).toEqual('Rustic Services');
-//   expect(data[2].uid).toEqual('Services West');
-//   expect(data[3].uid).toEqual('Services East');
-//   expect(data[4].uid).toEqual('Rustic Retail');
-// }
-//
-// const toggledUnit = {
-//   uid: 'Rustic Services',
-//   id: 'Rustic Services',
-//   name: 'Rustic Services',
-//   parent: 'Rustic',
-//   active: true,
-//   depthLevel: 1,
-//   count: 2,
-// };
-//
-// const mockedTree = {
-//   id: 'Rustic',
-//   name: 'Rustic',
-//   active: true,
-//   children: [
-//     {
-//       id: 'Rustic Services',
-//       name: 'Rustic Services',
-//       parent: 'Rustic',
-//       active: true,
-//       children: [
-//         {
-//           active: true,
-//           children: [],
-//           id: 'Services West',
-//           name: 'Services West',
-//           parent: 'Rustic Services',
-//         },
-//         {
-//           active: true,
-//           children: [],
-//           id: 'Services East',
-//           name: 'Services East',
-//           parent: 'Rustic Services',
-//         },
-//       ],
-//     },
-//     {
-//       id: 'Rustic Retail',
-//       name: 'Rustic Retail',
-//       parent: 'Rustic',
-//       active: true,
-//       children: [
-//         {
-//           active: true,
-//           id: 'Custom Retail',
-//           name: 'Custom Retail',
-//           parent: 'Rustic Retail',
-//           children: [
-//             {
-//               active: true,
-//               children: [],
-//               id: 'Test',
-//               name: 'TestUnit',
-//               parent: 'Custom Retail',
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };
+const mockedTree = {
+  active: true,
+  count: 2,
+  depthLevel: 0,
+  expanded: false,
+  id: 'Rustic',
+  name: 'Rustic',
+  uid: 'Rustic',
+  children: [
+    {
+      active: true,
+      id: 'Rustic Services',
+      name: 'Rustic Services',
+      parent: 'Rustic',
+      children: [
+        {
+          active: true,
+          children: [],
+          id: 'Services West',
+          name: 'Services West',
+          parent: 'Rustic Services',
+        },
+      ],
+    },
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Retail',
+      name: 'Rustic Retail',
+      parent: 'Rustic',
+    },
+  ],
+};
 
 describe('UnitTreeService', () => {
   let service: UnitTreeService;
 
-  describe('with table config', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [UnitTreeService],
-      });
-      service = TestBed.inject(UnitTreeService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [UnitTreeService],
     });
+    service = TestBed.inject(UnitTreeService);
+  });
 
-    it('should inject service', () => {
-      expect(service).toBeTruthy();
-    });
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
+  });
 
-    // it('should populate tree object to list', () => {
-    //   let result;
-    //   service.initialize(mockedTree, 'rustic');
-    //   service.treeToggle$.subscribe((table) => (result = table));
-    //   console.log(result);
-    //   // verifyCollapsed(result);
-    // });
+  it('should `colapseAll` method to be defined', () => {
+    expect(service.collapseAll).toBeDefined();
+  });
 
-    // it('should toggle item', () => {
-    //   let result;
-    //   service.getTable().subscribe((table) => (result = table));
-    //   service.toggle({ ...toggledUnit, expanded: false });
-    //   verifyExpandedOne(result);
-    //   service.toggle({ ...toggledUnit, expanded: true });
-    //   verifyCollapsed(result);
-    // });
-    //
-    // it('should expandAll and collapseAll', () => {
-    //   let result;
-    //   service.getTable().subscribe((table) => (result = table));
-    //   service.expandAll();
-    //   verifyExpandedAll(result);
-    //   service.collapseAll();
-    //   verifyCollapsed(result);
-    // });
+  it('should `expandAll` method to be defined', () => {
+    expect(service.expandAll).toBeDefined();
+  });
+
+  it('should `toggle` method to be defined', () => {
+    expect(service.toggle).toBeDefined();
+  });
+
+  it('should `getToggleState` method to be defined', () => {
+    expect(service.getToggleState).toBeDefined();
+  });
+
+  it('should `isExpanded` method to be defined', () => {
+    expect(service.isExpanded).toBeDefined();
+  });
+
+  it('should `toggle` toggle unit and set COLLAPSED/EXPANDED state', () => {
+    let state: number;
+
+    service.initialize(mockedTree, mockedTree.id);
+
+    service.toggle(mockedTree);
+    state = service.getToggleState(mockedTree.id);
+    expect(state).toEqual(2);
+    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[2]);
+
+    service.toggle(mockedTree);
+    state = service.getToggleState(mockedTree.id);
+    expect(state).toEqual(1);
+    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[1]);
+  });
+
+  it('should `expandAll` set EXPAND_ALL state', () => {
+    service.initialize(mockedTree, mockedTree.id);
+
+    service.expandAll(mockedTree.id);
+    const state = service.getToggleState(mockedTree.id);
+    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[3]);
+  });
+
+  it('should `collapseAll` set COLLAPSE_ALL state', () => {
+    service.initialize(mockedTree, mockedTree.id);
+
+    service.collapseAll(mockedTree.id);
+    const state = service.getToggleState(mockedTree.id);
+    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[4]);
+  });
+
+  it('should `isExpanded` return expanded property state', () => {
+    let state: boolean;
+
+    service.initialize(mockedTree, mockedTree.id);
+
+    service.collapseAll(mockedTree.id);
+    state = service.isExpanded(mockedTree.id, 0);
+    expect(state).toBeFalse();
+
+    service.expandAll(mockedTree.id);
+    state = service.isExpanded(mockedTree.id, 0);
+    expect(state).toBeTrue();
   });
 });
