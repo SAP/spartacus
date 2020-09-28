@@ -1,7 +1,6 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { B2BUser, Occ, OccConfig } from '@spartacus/core';
 import { OccB2BUserNormalizer } from './occ-b2b-user-normalizer';
-import { Occ, OccConfig, B2BUser } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -34,7 +33,7 @@ describe('B2BUserNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(OccB2BUserNormalizer as Type<OccB2BUserNormalizer>);
+    service = TestBed.inject(OccB2BUserNormalizer);
   });
 
   it('should inject OccB2BUserNormalizer', inject(

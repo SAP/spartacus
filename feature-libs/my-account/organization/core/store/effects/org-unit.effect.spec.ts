@@ -1,32 +1,29 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
+  B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUser,
   EntitiesModel,
   ListModel,
-  B2BAddress,
   normalizeHttpError,
+  OccConfig,
+  SearchConfig,
 } from '@spartacus/core';
+import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-
-import {
-  B2BApprovalProcess,
-  B2BUnitNode,
-  B2BUser,
-  B2BUnit,
-  OccConfig,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../../model';
-import { OrgUnitActions, B2BUserActions } from '../actions/index';
-import * as fromEffects from './org-unit.effect';
-import createSpy = jasmine.createSpy;
-import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
+import * as fromEffects from './org-unit.effect';
+
+import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -110,10 +107,8 @@ describe('OrgUnit Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.OrgUnitEffects as Type<fromEffects.OrgUnitEffects>
-    );
-    orgUnitConnector = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
+    effects = TestBed.inject(fromEffects.OrgUnitEffects);
+    orgUnitConnector = TestBed.inject(OrgUnitConnector);
     expected = null;
   });
 
@@ -628,7 +623,7 @@ describe('OrgUnit Effects', () => {
   });
 
   describe('LoadUsers', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     const page: ListModel = {
       ids: [userId],
       pagination: { totalResults: 1 },

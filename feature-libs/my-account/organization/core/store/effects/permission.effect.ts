@@ -1,18 +1,16 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import {
   OrderApprovalPermissionType,
   Permission,
-  EntitiesModel,
-  normalizeHttpError,
-} from '@spartacus/core';
-
+} from '../../model/permission.model';
 import { normalizeListPage } from '../../utils/serializer';
-import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { PermissionActions } from '../actions';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PermissionEffects {

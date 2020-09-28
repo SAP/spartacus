@@ -1,22 +1,18 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { B2BUser, EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, mergeMap, groupBy } from 'rxjs/operators';
-import {
-  EntitiesModel,
-  Permission,
-  B2BUser,
-  normalizeHttpError,
-} from '@spartacus/core';
-import {
-  UserGroupActions,
-  PermissionActions,
-  B2BUserActions,
-} from '../actions/index';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
-import { UserGroup } from '../../model/user-group.model';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
+import {
+  B2BUserActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../actions/index';
 
 @Injectable()
 export class UserGroupEffects {

@@ -1,7 +1,7 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { Occ, OccConfig } from '@spartacus/core';
+import { OrderApprovalPermissionType } from '../../core/model/permission.model';
 import { OccPermissionTypeNormalizer } from './occ-permission-type-normalizer';
-import { OccConfig, Occ, OrderApprovalPermissionType } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -31,9 +31,7 @@ describe('PermissionTypeNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccPermissionTypeNormalizer as Type<OccPermissionTypeNormalizer>
-    );
+    service = TestBed.inject(OccPermissionTypeNormalizer);
   });
 
   it('should inject OccPermissionTypeNormalizer', inject(
@@ -48,7 +46,7 @@ describe('PermissionTypeNormalizer', () => {
     expect(result).toEqual(targetPermissionType);
   });
 
-  it('should convert permissionn typewith applied target', () => {
+  it('should convert permission type with applied target', () => {
     const result = service.convert(permissionType, {});
     expect(result).toEqual({});
   });

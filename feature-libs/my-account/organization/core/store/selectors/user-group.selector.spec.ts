@@ -1,6 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -9,8 +10,6 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { UserGroupSelectors } from '../selectors/index';
-import { StateUtils } from '@spartacus/core';
-import { UserGroup } from '@spartacus/my-account/organization/core';
 
 describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -51,7 +50,7 @@ describe('UserGroup Selectors', () => {
       ],
     });
 
-    store = TestBed.inject(Store as Type<Store<StateWithOrganization>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

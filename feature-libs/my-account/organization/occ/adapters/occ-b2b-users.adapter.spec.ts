@@ -8,16 +8,16 @@ import {
   B2BUser,
   ConverterService,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
-
-import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 import {
-  B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
-  B2BSearchConfig,
+  B2B_USER_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
@@ -30,7 +30,7 @@ const orgCustomer: B2BUser = {
 const approverId = 'approverId';
 const permissionId = 'permissionId';
 const userGroupId = 'userGroupId';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(

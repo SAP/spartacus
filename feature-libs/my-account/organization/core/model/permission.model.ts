@@ -1,5 +1,4 @@
-import { Currency } from './misc.model';
-import { B2BUnit } from './org-unit.model';
+import { B2BUnit, Currency } from '@spartacus/core';
 
 export interface OrderApprovalPermissionType {
   code?: string;

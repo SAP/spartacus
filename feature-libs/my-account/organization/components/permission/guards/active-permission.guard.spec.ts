@@ -4,10 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  Permission,
   SemanticPathService,
 } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import {
+  Permission,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { ActivePermissionGuard } from './active-permission.guard';
 import createSpy = jasmine.createSpy;

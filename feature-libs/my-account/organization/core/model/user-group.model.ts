@@ -1,4 +1,5 @@
-import { B2BUnit, B2BUser, Permission } from '@spartacus/core';
+import { B2BUnit, B2BUser } from '@spartacus/core';
+import { Permission } from './permission.model';
 
 export interface UserGroup {
   members?: B2BUser[];

@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, OccConfig, Occ } from '@spartacus/core';
+import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
 import { Budget } from '@spartacus/my-account/organization/core';
 import { OccBudgetListNormalizer } from './occ-budget-list-normalizer';
 
@@ -42,9 +41,7 @@ describe('BudgetListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccBudgetListNormalizer as Type<OccBudgetListNormalizer>
-    );
+    service = TestBed.inject(OccBudgetListNormalizer);
   });
 
   it('should inject OccBudgetListNormalizer', inject(

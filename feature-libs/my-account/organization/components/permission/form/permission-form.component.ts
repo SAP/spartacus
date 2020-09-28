@@ -1,15 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
-  Currency,
-  CurrencyService,
   OrderApprovalPermissionType,
+  OrgUnitService,
   Period,
   Permission,
-} from '@spartacus/core';
-import {
-  OrgUnitService,
   PermissionService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';

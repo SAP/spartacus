@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Permission, RoutingService } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import { RoutingService } from '@spartacus/core';
+import {
+  Permission,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
