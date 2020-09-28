@@ -10,12 +10,13 @@ import {
   RoutingService,
   SearchConfig,
 } from '@spartacus/core';
-import { Permission, UserGroup } from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { B2BUserConnector } from '../../connectors';
+import { Permission } from '../../model/permission.model';
 import {
   B2BUserActions,
   PermissionActions,
