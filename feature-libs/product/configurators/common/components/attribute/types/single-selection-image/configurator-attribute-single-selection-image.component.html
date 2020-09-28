@@ -27,9 +27,8 @@
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "
+      (click)="onClick(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
-      (focusout)="onFocusOut($event)"
-      (keyup)="onKeyUp()"
     />
     <div class="cx-configurator-attribute-value-label-container">
       <label
@@ -39,7 +38,6 @@
             '-input'
         }}"
         class="cx-configurator-attribute-value-label form-check-label form-radio-label"
-        (mousedown)="onMouseDown(value.valueCode)"
       >
         <img
           *ngIf="value.images[0]"

@@ -23,10 +23,6 @@
     }
 
     .cx-configurator-attribute-value-label-container {
-      &:focus {
-        outline: none;
-      }
-
       .cx-configurator-attribute-value-label {
         cursor: pointer;
         text-align: center;
