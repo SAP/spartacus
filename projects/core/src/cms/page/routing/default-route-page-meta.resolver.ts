@@ -4,6 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { TranslationService } from '../../../i18n/translation.service';
 import { BreadcrumbMeta } from '../../model/page.model';
 import {
+  RouteBreadcrumbConfig,
   RouteBreadcrumbResolver,
   RouteBreadcrumbResolverParams,
 } from './route-page-meta.model';
@@ -39,23 +40,25 @@ export abstract class DefaultRoutePageMetaResolver
       return of([{ link: url, label: breadcrumbConfig.raw }]);
     }
 
+    return this.translateBreadcrumbLabel(breadcrumbConfig).pipe(
+      map((label) => [{ label, link: url }])
+    );
+  }
+
+  /**
+   * Translates the configured breadcrumb label
+   */
+  protected translateBreadcrumbLabel(
+    breadcrumbConfig: string | RouteBreadcrumbConfig
+  ): Observable<string> {
     const i18nKey =
       typeof breadcrumbConfig === 'string'
         ? breadcrumbConfig
         : breadcrumbConfig.i18n;
 
-    const label$ = this.getBreadcrumbParams().pipe(
+    return this.getParams().pipe(
       switchMap((params) => this.translation.translate(i18nKey, params ?? {}))
     );
-
-    return label$.pipe(map((label) => [{ label, link: url }]));
-  }
-
-  /**
-   * Resolves dynamic params for the translation key used for the breadcrumb label.
-   */
-  protected getBreadcrumbParams(): Observable<object> {
-    return this.getParams();
   }
 
   /**

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnit, I18nTestingModule } from '@spartacus/core';
+import { B2BAddress, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CurrentUnitService } from '../current-unit.service';
-import { UnitRoutePageMetaResolver } from './unit-route-page-meta.resolver';
+import { CurrentUnitAddressService } from '../links/addresses/services/current-unit-address.service';
+import { UnitAddressRoutePageMetaResolver } from './unit-address-route-page-meta.resolver';
 
-class MockCurrentItemService implements Partial<CurrentUnitService> {
-  item$: Observable<B2BUnit> = of({ name: 'testName' });
+class MockCurrentItemService implements Partial<CurrentUnitAddressService> {
+  item$: Observable<B2BAddress> = of({ formattedAddress: 'testAddress' });
 }
 
 describe('UnitAddressRoutePageMetaResolver', () => {
@@ -17,13 +17,13 @@ describe('UnitAddressRoutePageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         {
-          provide: CurrentUnitService,
+          provide: CurrentUnitAddressService,
           useClass: MockCurrentItemService,
         },
       ],
     });
 
-    resolver = TestBed.inject(UnitRoutePageMetaResolver);
+    resolver = TestBed.inject(UnitAddressRoutePageMetaResolver);
   });
 
   it('should emit breadcrumb with translated i18n key, using current item as params', async () => {
@@ -35,6 +35,11 @@ describe('UnitAddressRoutePageMetaResolver', () => {
         })
         .pipe(take(1))
         .toPromise()
-    ).toEqual([{ label: 'testTranslation name:testName', link: 'testPath' }]);
+    ).toEqual([
+      {
+        label: 'testTranslation formattedAddress:testAddress',
+        link: 'testPath',
+      },
+    ]);
   });
 });

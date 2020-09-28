@@ -36,13 +36,12 @@ export interface RoutePageMetaConfig {
  */
 export interface RouteBreadcrumbConfig {
   /**
-   * Raw text to be used for a breadcrumb.
+   * Raw text for the breadcrumb label.
    */
   raw?: string;
 
   /**
-   * I18n key for the breadcrumb label. The method `RoutePageMetaResolver#getBreadcrumbParams` can provide
-   * dynamic params for the translation key.
+   * Translation key for the breadcrumb label.
    * */
   i18n?: string;
 }

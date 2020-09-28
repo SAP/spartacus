@@ -167,32 +167,28 @@ export class CmsComponentsService {
   }
 
   /**
-   * Standardizes the format to an object with defined parent and children routes, even if parent is undefined
+   * Standardizes the format of `childRoutes` config.
    *
    * Some `childRoutes` configs are simple arrays of Routes (without the notion of the parent route).
    * But some configs can be an object with children routes and their parent defined in separate property.
    */
-  private standardizeChildRoutes(
+  protected standardizeChildRoutes(
     childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[]
   ): CmsComponentChildRoutesConfig {
-    return (childRoutesConfigs || []).reduce<CmsComponentChildRoutesConfig>(
-      (result, config) =>
-        Array.isArray(config)
-          ? // config is an array of child routes:
-            {
-              parent: result.parent,
-              children: [...result.children, ...config],
-            }
-          : // config is an object with `parent` and `children` properties:
-            {
-              parent: config.parent ?? result.parent,
-              children: [...result.children, ...config.children],
-            },
-      {
-        parent: undefined,
-        children: [],
+    const result: CmsComponentChildRoutesConfig = { children: [] };
+
+    (childRoutesConfigs || []).forEach((config) => {
+      if (Array.isArray(config)) {
+        result.children.push(...config);
+      } else {
+        result.children.push(...(config.children || []));
+        if (config.parent) {
+          result.parent = config.parent;
+        }
       }
-    );
+    });
+
+    return result;
   }
 
   /**
