@@ -8,13 +8,14 @@ import {
   CmsLibModule,
   defaultB2bCheckoutConfig,
   defaultCmsContentConfig,
+  layoutConfig,
   mediaConfig,
   StorefrontConfig,
   StorefrontModule,
 } from '@spartacus/storefront';
 import { OrganizationModule } from '../organization.module';
-import { b2bLayoutConfig } from './config/b2b-layout-config';
 import { defaultB2bOccConfig } from './config/b2b-occ-config';
+import { organizationLayoutConfig } from './config/organization-layout.config';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { defaultB2bOccConfig } from './config/b2b-occ-config';
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2bLayoutConfig),
+    provideDefaultConfig(layoutConfig),
+    provideDefaultConfig(organizationLayoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
