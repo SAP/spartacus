@@ -154,17 +154,14 @@ export class B2BUserEffects {
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
-          concatMap(() => {
+          map(() => {
             const assignApproverPayload = {
               userId: payload.userId,
               orgUnitId: payload.orgCustomer.orgUnit.uid,
               orgCustomerId: payload.orgCustomerId,
               roleId: 'b2bapprovergroup',
             };
-            return [
-              new B2BUserActions.LoadB2BUser(payload),
-              new OrgUnitActions.AssignApprover(assignApproverPayload),
-            ];
+            return new OrgUnitActions.AssignApprover(assignApproverPayload);
           }),
           catchError((error: HttpErrorResponse) =>
             of(
