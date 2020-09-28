@@ -42,6 +42,11 @@ export const budget = {
   links: {
     costCenters: 'Cost Centers',
   },
+
+  breadcrumbs: {
+    list: 'All budgets',
+    details: '{{name}}',
+  },
 };
 
 export const budgetAssignedCostCenters = {
