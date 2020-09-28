@@ -1,25 +1,25 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  OrganizationState,
-  StateWithOrganization,
-  B2BUserManagement,
-  B2B_USER_FEATURE,
-  USER_GROUP_FEATURE,
-} from '../organization-state';
-import {
-  denormalizeB2BSearch,
-  denormalizeCustomB2BSearch,
-} from '../../utils/serializer';
-import {
-  EntitiesModel,
   B2BUser,
-  Permission,
+  EntitiesModel,
+  SearchConfig,
   StateUtils,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { getPermissionsState } from './permission.selector';
-import { getOrganizationState } from './feature.selector';
+import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
+import {
+  denormalizeCustomB2BSearch,
+  denormalizeSearch,
+} from '../../utils/serializer';
+import {
+  B2BUserManagement,
+  B2B_USER_FEATURE,
+  OrganizationState,
+  StateWithOrganization,
+  USER_GROUP_FEATURE,
+} from '../organization-state';
+import { getOrganizationState } from './feature.selector';
+import { getPermissionsState } from './permission.selector';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -47,18 +47,18 @@ export const getB2BUserState = (
   );
 
 export const getUserList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
 > =>
   createSelector(getB2BUserManagementState, (state: B2BUserManagement) =>
-    denormalizeB2BSearch<B2BUser>(state, params)
+    denormalizeSearch<B2BUser>(state, params)
   );
 
 export const getB2BUserApprovers = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
@@ -74,7 +74,7 @@ export const getB2BUserApprovers = (
 
 export const getB2BUserPermissions = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>
@@ -100,7 +100,7 @@ const getUserGroupsState: MemoizedSelector<
 
 export const getB2BUserUserGroups = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<UserGroup>>

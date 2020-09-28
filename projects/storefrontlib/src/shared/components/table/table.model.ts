@@ -135,6 +135,11 @@ export interface TableStructure extends TableStructureConfiguration {
    * configuration and is used to generate a unique outlet reference.
    */
   type: string;
+
+  /**
+   * Indicates that the table is loading. This is useful to add a loading indicator or skeleton
+   */
+  isLoading?: boolean;
 }
 
 /**

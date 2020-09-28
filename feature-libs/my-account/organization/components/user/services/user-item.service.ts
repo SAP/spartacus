@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, Permission, RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
+  Permission,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';

@@ -33,7 +33,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }

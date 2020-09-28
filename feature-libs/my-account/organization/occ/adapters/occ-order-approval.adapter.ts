@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2BSearchConfig,
-  ORDER_APPROVAL_DECISION_NORMALIZER,
-  ORDER_APPROVAL_NORMALIZER,
-  ORDER_APPROVALS_NORMALIZER,
-  OrderApprovalAdapter,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
-  OrderApproval,
-  OrderApprovalDecision,
+  SearchConfig,
 } from '@spartacus/core';
+import {
+  OrderApproval,
+  OrderApprovalAdapter,
+  OrderApprovalDecision,
+  ORDER_APPROVALS_NORMALIZER,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
+  ORDER_APPROVAL_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
@@ -36,7 +35,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.http
       .get<Occ.OrderApprovalsList>(
@@ -70,7 +69,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   protected getOrderApprovalsEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('orderApprovals', { userId }, params);
   }

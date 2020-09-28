@@ -33,7 +33,7 @@ export class OrganizationCellComponent {
    * Defaults to `true`.
    */
   get linkable(): boolean {
-    return this.cellOptions.linkable ?? true;
+    return !!this.property && (this.cellOptions.linkable ?? true);
   }
 
   /**

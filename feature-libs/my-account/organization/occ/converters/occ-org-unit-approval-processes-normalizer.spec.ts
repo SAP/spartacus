@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BApprovalProcess, Occ, OccEndpointsService } from '@spartacus/core';
 import { OccOrgUnitApprovalProcessNormalizer } from './occ-org-unit-approval-processes-normalizer';
@@ -26,11 +25,7 @@ describe('OccOrgUnitApprovalProcessNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccOrgUnitApprovalProcessNormalizer as Type<
-        OccOrgUnitApprovalProcessNormalizer
-      >
-    );
+    service = TestBed.inject(OccOrgUnitApprovalProcessNormalizer);
   });
 
   afterEach(() => {});

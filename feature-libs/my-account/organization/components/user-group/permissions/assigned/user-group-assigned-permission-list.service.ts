@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, Permission } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
+import { Permission } from '@spartacus/my-account/organization/core';
 import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

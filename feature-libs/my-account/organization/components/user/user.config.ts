@@ -17,8 +17,8 @@ import { RolesCellComponent } from '../shared/organization-table/roles/roles-cel
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { UserApproverListComponent } from './approvers/user-approver-list.component';
 import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
+import { UserApproverListComponent } from './approvers/user-approver-list.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form/user-form.component';
@@ -28,8 +28,8 @@ import { UserAssignedPermissionListComponent } from './permissions/assigned/user
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
 import { UserListService } from './services/user-list.service';
-import { UserUserGroupListComponent } from './user-groups/user-user-group-list.component';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
+import { UserUserGroupListComponent } from './user-groups/user-user-group-list.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {

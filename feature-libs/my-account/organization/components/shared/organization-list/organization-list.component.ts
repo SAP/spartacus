@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from './organization-list.service';
 
@@ -13,6 +14,8 @@ import { OrganizationListService } from './organization-list.service';
 export class OrganizationListComponent<T = any, P = PaginationModel> {
   // temp as long as unit tree is not merged
   @HostBinding('class.organization') orgCls = true;
+
+  @HostBinding('class.ghost') loading: boolean;
 
   constructor(
     protected service: OrganizationListService<T, P>,
@@ -31,7 +34,9 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    */
   readonly currentKey$ = this.organizationItemService.key$;
 
-  readonly dataTable$: Observable<Table> = this.service.getTable();
+  readonly dataTable$: Observable<Table> = this.service
+    .getTable()
+    .pipe(tap((table) => (this.loading = table.structure.isLoading)));
 
   notification$: Observable<string> = this.service.notification$;
 

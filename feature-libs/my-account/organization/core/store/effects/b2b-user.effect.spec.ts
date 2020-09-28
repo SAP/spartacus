@@ -1,33 +1,30 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
+import {
+  B2BUser,
+  normalizeHttpError,
+  OccConfig,
+  RoutingService,
+  SearchConfig,
+} from '@spartacus/core';
+import { UserGroup } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-
+import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
+import { B2BUserConnector } from '../../connectors';
+import { Permission } from '../../model/permission.model';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
-import {
-  B2BSearchConfig,
-  UserGroup,
-} from '@spartacus/my-account/organization/core';
-import {
-  B2BUser,
-  normalizeHttpError,
-  OccConfig,
-  Permission,
-  RoutingService,
-} from '@spartacus/core';
-import { B2BUserConnector } from '../../connectors';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
 import createSpy = jasmine.createSpy;
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -62,7 +59,7 @@ const approverId = 'approverId';
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 const page = { ids: [orgCustomer.customerId], pagination, sorts };
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 
 const mockRouterState = {
   state: {
@@ -144,10 +141,8 @@ describe('B2B User Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.B2BUserEffects as Type<fromEffects.B2BUserEffects>
-    );
-    b2bUserConnector = TestBed.get(B2BUserConnector as Type<B2BUserConnector>);
+    effects = TestBed.inject(fromEffects.B2BUserEffects);
+    b2bUserConnector = TestBed.inject(B2BUserConnector);
     expected = null;
   });
 

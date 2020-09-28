@@ -1,28 +1,27 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
-  B2BUnit,
-  B2BUnitNode,
-  B2BApprovalProcess,
-  B2BUser,
   B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUser,
+  CostCenter,
   EntitiesModel,
   ListModel,
-  CostCenter,
+  SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-
+import { B2BUnitNode } from '../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
-import { OrgUnitService } from './org-unit.service';
-import createSpy = jasmine.createSpy;
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
-import { B2BSearchConfig } from '../model/search-config';
+import * as fromReducers from '../store/reducers/index';
+import { OrgUnitService } from './org-unit.service';
+
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
@@ -116,9 +115,9 @@ describe('OrgUnitService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(OrgUnitService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -445,7 +444,7 @@ describe('OrgUnitService', () => {
   });
 
   describe('get Users', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     const customerId = 'customerId';
     const customerId2 = 'customerId2';
     const user1 = {

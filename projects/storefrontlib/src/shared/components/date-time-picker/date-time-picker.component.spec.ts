@@ -1,6 +1,4 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DateTimePickerFormatterService } from './date-time-picker-formatter.service';
 import { DateTimePickerComponent } from './date-time-picker.component';
 
@@ -35,9 +33,7 @@ describe('Date Time Picker Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DateTimePickerComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(
-      DateTimePickerFormatterService as Type<DateTimePickerFormatterService>
-    );
+    service = TestBed.inject(DateTimePickerFormatterService);
   });
 
   describe('component tests', () => {

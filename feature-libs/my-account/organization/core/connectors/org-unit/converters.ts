@@ -1,12 +1,12 @@
 import { InjectionToken } from '@angular/core';
 import {
-  Converter,
+  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
-  B2BAddress,
+  Converter,
   EntitiesModel,
 } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
 
 export const B2BUNIT_NODE_NORMALIZER = new InjectionToken<
   Converter<any, B2BUnitNode>

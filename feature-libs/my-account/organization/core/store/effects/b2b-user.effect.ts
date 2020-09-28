@@ -5,7 +5,6 @@ import {
   B2BUser,
   EntitiesModel,
   normalizeHttpError,
-  Permission,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -18,6 +17,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
+import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
