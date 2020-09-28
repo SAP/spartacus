@@ -19,6 +19,7 @@ import { UserCreateComponent } from './create/user-create.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserEditComponent } from './edit/user-edit.component';
 import { ActiveUserGuard } from './guards/active-user.guard';
+import { ExistUserGuard } from './guards/exist-user.guard';
 import { UserListComponent } from './list/user-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permissions.component';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
@@ -96,8 +97,7 @@ export const userCmsConfig: CmsConfig = {
         {
           path: `:${ROUTE_PARAMS.userCode}`,
           component: UserDetailsComponent,
-          // TODO: bring back after guards refactor is done in #8973
-          // canActivate: [ExistUserGuard],
+          canActivate: [ExistUserGuard],
           canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
