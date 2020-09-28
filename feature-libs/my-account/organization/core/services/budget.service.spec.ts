@@ -14,6 +14,7 @@ import {
 } from '../store/organization-state';
 
 import createSpy = jasmine.createSpy;
+import { LoadStatus } from '../model/LoadStatus';
 
 const userId = 'current';
 const budgetCode = 'testBudget';
@@ -158,13 +159,45 @@ describe('BudgetService', () => {
   });
 
   describe('update budget', () => {
-    it('update() should should dispatch UpdateBudget action', () => {
+    it('update() should should be able to get status change from loading with value', () => {
       service.update(budgetCode, budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus;
+      store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
+      service
+        .getLoadingStatus(budgetCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        value: budget,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus;
+      store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
+      service
+        .getLoadingStatus(budgetCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new BudgetActions.LoadBudgetFail({ budgetCode, error: new Error() })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        value: {},
+      });
     });
   });
 });
