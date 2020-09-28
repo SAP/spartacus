@@ -74,7 +74,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
    */
   submitValue(value: string): void {
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         selectedSingleValue: value,

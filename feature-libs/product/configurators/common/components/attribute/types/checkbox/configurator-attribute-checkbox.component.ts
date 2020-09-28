@@ -37,7 +37,7 @@ export class ConfiguratorAttributeCheckBoxComponent
     const selectedValues = this.assembleSingleValue();
 
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         values: selectedValues,

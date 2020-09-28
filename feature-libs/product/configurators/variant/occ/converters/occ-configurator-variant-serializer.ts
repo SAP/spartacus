@@ -57,6 +57,7 @@ export class OccConfiguratorVariantSerializer
       name: attribute.name,
       langDepName: attribute.label,
       required: attribute.required,
+      retractTriggered: attribute.retractTriggered,
       type: this.convertCharacteristicType(attribute.uiType),
     };
 

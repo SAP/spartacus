@@ -33,7 +33,7 @@ export class ConfiguratorAttributeDropDownComponent
    */
   onSelect(): void {
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         selectedSingleValue: this.attributeDropDownForm.value,

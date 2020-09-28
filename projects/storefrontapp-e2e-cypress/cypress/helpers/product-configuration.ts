@@ -371,7 +371,9 @@ export function selectAttribute(
   value?: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
+  cy.log('attributeId: ' + attributeId);
   const valueId = `${attributeId}--${valueName}`;
+  cy.log('valueId: ' + valueId);
 
   switch (uiType) {
     case 'radioGroup':
@@ -381,7 +383,10 @@ export function selectAttribute(
       cy.get(`#${valueId}`)
         .click({ force: true })
         .then(() => {
-          cy.get(`#${valueId}`).should('be.checked');
+          if (uiType !== 'single_selection_image') {
+            isUpdatingMessageNotDisplayed();
+            cy.get(`#${valueId}`).should('be.checked');
+          }
         });
       break;
     case 'dropdown':
@@ -559,17 +564,18 @@ export function checkNotificationBanner(
   element,
   numberOfIssues?: number
 ): void {
-  const resolveIssuesText =
-    'issues must be resolved before checkout.  Resolve Issues';
+  const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg-container')
     .first()
     .invoke('text')
     .then((text) => {
       expect(text).contains(resolveIssuesText);
-      const issues = text.replace(resolveIssuesText, '').trim();
-      expect(issues).match(/^[0-9]/);
-      expect(issues).eq(numberOfIssues.toString());
+      if (numberOfIssues > 1) {
+        const issues = text.replace(resolveIssuesText, '').trim();
+        expect(issues).match(/^[0-9]/);
+        expect(issues).eq(numberOfIssues.toString());
+      }
     });
 }
 
@@ -734,11 +740,39 @@ export function navigateToOverviewPage(): void {
  *
  * @param {number} groupIndex - Group index
  */
-export function clickOnGroup(groupIndex: number): void {
+function clickOnGroupByGroupIndex(groupIndex: number): void {
   cy.get('.cx-configurator-menu>li')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
+}
+
+/**
+ * Clicks on the group via its index in the group menu.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroup(groupIndex: number): void {
+  cy.get('.cx-configurator-menu>li')
+    .eq(groupIndex)
+    .children('a')
+    .children()
+    .within(() => {
+      cy.get('div.subGroupIndicator').within(($list) => {
+        cy.log('$list.children().length: ' + $list.children().length);
+        cy.wrap($list.children().length).as('subGroupIndicator');
+      });
+    });
+
+  cy.get('@subGroupIndicator').then((subGroupIndicator) => {
+    cy.log('subGroupIndicator: ' + subGroupIndicator);
+    if (!subGroupIndicator) {
+      clickOnGroupByGroupIndex(groupIndex);
+    } else {
+      clickOnGroupByGroupIndex(groupIndex);
+      clickOnGroupByGroupIndex(1);
+    }
+  });
 }
 
 /**
@@ -861,7 +895,7 @@ export function navigateToOrderDetails(): void {
  */
 export function goToOrderHistory(): Chainable<Window> {
   return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
-    cy.get('cx-order-history').should('be.visible');
+    cy.get('cx-order-history h3').should('contain', 'Order history');
   });
 }
 

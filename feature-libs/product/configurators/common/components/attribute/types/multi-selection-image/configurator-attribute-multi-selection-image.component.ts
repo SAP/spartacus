@@ -71,7 +71,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     );
 
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         values: selectedValues,

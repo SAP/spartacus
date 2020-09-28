@@ -383,7 +383,7 @@ describe('ConfigurationFormComponent', () => {
     const component = fixture.componentInstance;
     component.updateConfiguration({
       changedAttribute: configRead.groups[0].attributes[0],
-      productCode: owner.key,
+      ownerKey: owner.key,
     });
 
     expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
