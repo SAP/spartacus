@@ -1,11 +1,5 @@
-import {
-  Inject,
-  Injectable,
-  InjectFlags,
-  NgModuleRef,
-  OnDestroy,
-} from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, zip } from 'rxjs';
 import { deepMerge } from '../utils/deep-merge';
 import { isFeatureEnabled } from '../../features-config';
 import {
@@ -15,7 +9,8 @@ import {
   DefaultConfigChunk,
   RootConfig,
 } from '../config-tokens';
-import { LazyModulesService } from '../../lazy-loading';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { skip, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +36,7 @@ export class ConfigurationService implements OnDestroy {
   constructor(
     @Inject(RootConfig) protected rootConfig: any,
     @Inject(DefaultConfig) protected defaultConfig: any,
-    protected lazyModules: LazyModulesService,
+    protected unifiedInjector: UnifiedInjector,
     @Inject(Config) config: any
   ) {
     this.config = config;
@@ -50,26 +45,39 @@ export class ConfigurationService implements OnDestroy {
     // We need to use subscription to propagate changes to the config from the beginning.
     // It will be possible to make it lazy, when we drop this compatibility feature
     // in the future.
-    this.subscription = this.lazyModules.modules$.subscribe((moduleRef) =>
-      this.processModule(moduleRef)
+    this.subscription = this.feedUnifiedConfig().subscribe();
+  }
+
+  private feedUnifiedConfig(): Observable<any> {
+    const configChunks$: Observable<object[]> = this.unifiedInjector.get(
+      ConfigChunk,
+      []
+    );
+    const defaultConfigChunks$ = this.unifiedInjector.get(
+      DefaultConfigChunk,
+      []
+    );
+
+    return zip(configChunks$, defaultConfigChunks$).pipe(
+      // we don't need result from the root injector
+      skip(1),
+      tap(([configChunks, defaultConfigChunks]) =>
+        this.processConfig(configChunks, defaultConfigChunks)
+      )
     );
   }
 
-  // We are extracting ambient configuration from lazy loaded modules
-  private processModule(moduleRef: NgModuleRef<any>) {
-    const defaultConfigs = moduleRef.injector.get(
-      DefaultConfigChunk,
-      null,
-      InjectFlags.Self
-    );
-    if (defaultConfigs?.length) {
-      deepMerge(this.ambientDefaultConfig, ...defaultConfigs);
+  private processConfig(configChunks: any[], defaultConfigChunks: any[]) {
+    if (defaultConfigChunks?.length) {
+      deepMerge(this.ambientDefaultConfig, ...defaultConfigChunks);
     }
-    const configs = moduleRef.injector.get(ConfigChunk, null, InjectFlags.Self);
-    if (configs?.length) {
-      deepMerge(this.ambientConfig, ...configs);
+    if (configChunks.length) {
+      deepMerge(this.ambientConfig, ...configChunks);
     }
-    this.emitUnifiedConfig();
+
+    if (configChunks.length || defaultConfigChunks.length) {
+      this.emitUnifiedConfig();
+    }
   }
 
   private emitUnifiedConfig(): void {
