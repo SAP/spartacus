@@ -2,13 +2,20 @@ import { Currency, User } from './misc.model';
 
 // TODO(#8876): Should we simplify the models only for the fields required by the B2B checkout?
 export interface CostCenter {
-  active?: string;
+  active?: boolean;
   activeFlag?: boolean;
   code?: string;
   name?: string;
   originalCode?: string;
   unit?: B2BUnit;
   currency?: Currency;
+}
+
+export enum B2BUserGroup {
+  B2B_ADMIN_GROUP = 'b2badmingroup',
+  B2B_CUSTOMER_GROUP = 'b2bcustomergroup',
+  B2B_MANAGER_GROUP = 'b2bmanagergroup',
+  B2B_APPROVER_GROUP = 'b2bapprovergroup',
 }
 
 export interface B2BUnit {
@@ -62,16 +69,11 @@ export interface B2BUser extends User {
   orgUnit?: B2BUnit;
   roles?: string[];
   selected?: boolean;
+  isAssignedToApprovers?: boolean;
+  email?: string;
 }
 
 export interface B2BApprovalProcess {
   code?: string;
   name?: string;
-}
-
-export enum B2BUserGroup {
-  B2B_ADMIN_GROUP = 'b2badmingroup',
-  B2B_CUSTOMER_GROUP = 'b2bcustomergroup',
-  B2B_MANAGER_GROUP = 'b2bmanagergroup',
-  B2B_APPROVER_GROUP = 'b2bapprovergroup',
 }

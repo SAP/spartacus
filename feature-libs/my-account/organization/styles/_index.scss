@@ -1,0 +1,29 @@
+@import './buttons';
+@import './message';
+
+@import './company-page-template';
+
+@import './list';
+@import './card';
+@import './details';
+@import './form';
+
+// this one is likely be dropped after unit tree is merged
+@import './tree';
+
+.CompanyPageTemplate {
+  @extend %CompanyPageTemplate !optional;
+}
+
+.organization, // tmp selector for as long as unit tree is not merged
+cx-organization-list {
+  @extend %buttons !optional;
+  @extend %organizationMessage !optional;
+
+  @extend %organizationList !optional;
+  @extend %organizationCard !optional;
+  @extend %organizationItemDetails !optional;
+  @extend %organizationItemForm !optional;
+}
+
+@import './order-approval/index';

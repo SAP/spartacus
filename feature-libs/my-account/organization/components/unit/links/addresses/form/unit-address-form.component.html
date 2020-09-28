@@ -1,0 +1,155 @@
+<cx-organization-form i18nRoot="unitAddress">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label aria-required="true" formGroupName="country">
+      <span class="label-content required">{{
+        'unitAddress.country' | cxTranslate
+      }}</span>
+      <ng-select
+        class="country-select"
+        formControlName="isocode"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="countries$ | async"
+        bindLabel="name"
+        bindValue="isocode"
+        placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('country.isocode')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true">
+      <span class="label-content required">{{
+        'unitAddress.titles' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="titleCode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="titles$ | async"
+        bindLabel="name"
+        bindValue="code"
+        placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
+        appendTo=".organization"
+      >
+      </ng-select>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'unitAddress.firstName' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        placeholder="{{ 'unitAddress.firstName' | cxTranslate }}"
+        formControlName="firstName"
+      />
+      <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+    </label>
+    <label>
+      <span class="label-content required">{{
+        'unitAddress.lastName' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.lastName' | cxTranslate }}"
+        formControlName="lastName"
+      />
+      <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    </label>
+
+    <label class="full-width">
+      <span class="label-content required">{{
+        'unitAddress.address1' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.streetAddress' | cxTranslate }}"
+        formControlName="line1"
+      />
+      <cx-form-errors [control]="form.get('line1')"></cx-form-errors>
+    </label>
+
+    <label class="full-width">
+      <span class="label-content">{{
+        'unitAddress.address2' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.aptSuite' | cxTranslate }}"
+        formControlName="line2"
+      />
+    </label>
+
+    <label class="full-width">
+      <span class="label-content">{{
+        'unitAddress.phoneNumber' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.phoneNumber' | cxTranslate }}"
+        formControlName="phone"
+      />
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'unitAddress.city' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.city' | cxTranslate }}"
+        formControlName="town"
+      />
+      <cx-form-errors [control]="form.get('town')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'unitAddress.zipCode' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'unitAddress.zipCode' | cxTranslate }}"
+        formControlName="postalCode"
+      />
+      <cx-form-errors [control]="form.get('postalCode')"></cx-form-errors>
+    </label>
+
+    <label></label>
+
+    <ng-container *ngIf="regions$ | async as regions">
+      <label
+        class="full-width"
+        aria-required="true"
+        formGroupName="region"
+        *ngIf="regions.length > 0"
+      >
+        <span class="label-content required">{{
+          'unitAddress.state' | cxTranslate
+        }}</span>
+        <ng-select
+          class="region-select"
+          formControlName="isocode"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="regions"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
+          appendTo=".organization"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('region.isocode')"></cx-form-errors>
+      </label>
+    </ng-container>
+  </ng-container>
+</cx-organization-form>
