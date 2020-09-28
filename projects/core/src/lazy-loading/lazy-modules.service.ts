@@ -27,16 +27,18 @@ import { EventService } from '../event/event.service';
   providedIn: 'root',
 })
 export class LazyModulesService implements OnDestroy {
-  private dependencyModules = new Map<any, NgModuleRef<any>>();
-
-  modules$: Observable<NgModuleRef<any>> = this.events
+  /**
+   * Expose lazy loaded module references
+   */
+  readonly modules$: Observable<NgModuleRef<any>> = this.events
     .get(ModuleInitializedEvent)
     .pipe(
       map((event) => event.moduleRef),
       publishReplay()
     ) as ConnectableObservable<NgModuleRef<any>>;
 
-  private eventSubscription: Subscription;
+  private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
+  private readonly eventSubscription: Subscription;
 
   constructor(
     protected compiler: Compiler,
@@ -46,6 +48,31 @@ export class LazyModulesService implements OnDestroy {
     this.eventSubscription = (this.modules$ as ConnectableObservable<
       NgModuleRef<any>
     >).connect();
+  }
+
+  /**
+   * Resolves module instance based dynamic import wrapped in an arrow function
+   *
+   * New module instance will be created with each call.
+   *
+   * @param moduleFunc
+   * @param feature
+   */
+  public resolveModuleInstance(
+    moduleFunc: () => Promise<any>,
+    feature?: string
+  ): Observable<NgModuleRef<any>> {
+    return this.resolveModuleFactory(moduleFunc).pipe(
+      map(([moduleFactory]) => moduleFactory.create(this.injector)),
+      tap((moduleRef) =>
+        this.events.dispatch(
+          createFrom(ModuleInitializedEvent, {
+            feature,
+            moduleRef,
+          })
+        )
+      )
+    );
   }
 
   /**
@@ -77,35 +104,9 @@ export class LazyModulesService implements OnDestroy {
   }
 
   /**
-   * Resolves module instance based dynamic import wrapped in an arrow function
-   *
-   * New module instance will be created with each call.
-   *
-   * @param moduleFunc
-   * @param feature
-   */
-
-  public resolveModuleInstance(
-    moduleFunc: () => Promise<any>,
-    feature?: string
-  ): Observable<NgModuleRef<any>> {
-    return this.resolveModuleFactory(moduleFunc).pipe(
-      map(([moduleFactory]) => moduleFactory.create(this.injector)),
-      tap((moduleRef) =>
-        this.events.dispatch(
-          createFrom(ModuleInitializedEvent, {
-            feature,
-            moduleRef,
-          })
-        )
-      )
-    );
-  }
-
-  /**
    * Resolve any Angular module from an function that return module or moduleFactory
    */
-  resolveModuleFactory(
+  private resolveModuleFactory(
     moduleFunc: () => Promise<any>
   ): Observable<[NgModuleFactory<any>, any]> {
     return from(moduleFunc()).pipe(
