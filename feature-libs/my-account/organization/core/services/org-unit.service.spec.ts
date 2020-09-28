@@ -648,12 +648,18 @@ describe('OrgUnitService', () => {
   describe('get loading status for address', () => {
     it('getAddressLoadingStatus() should should be able to get status success change from loading with value', () => {
       let loadingStatus;
-      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      store.dispatch(
+        new OrgUnitActions.CreateAddress({
+          userId,
+          orgUnitId,
+          address,
+        })
+      );
       service
         .getAddressLoadingStatus(addressId)
         .subscribe((status) => (loadingStatus = status));
       expect(loadingStatus).toBeUndefined();
-      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      store.dispatch(new OrgUnitActions.CreateAddressSuccess(address));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
         value: address,
@@ -662,20 +668,26 @@ describe('OrgUnitService', () => {
 
     it('getAddressLoadingStatus() should should be able to get status fail', () => {
       let loadingStatus;
-      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      store.dispatch(
+        new OrgUnitActions.CreateAddress({
+          userId,
+          orgUnitId,
+          address,
+        })
+      );
       service
         .getAddressLoadingStatus(addressId)
         .subscribe((status) => (loadingStatus = status));
       expect(loadingStatus).toBeUndefined();
       store.dispatch(
-        new OrgUnitActions.LoadOrgUnitFail({
-          orgUnitId,
+        new OrgUnitActions.CreateAddressFail({
+          addressId,
           error: new Error(),
         })
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        value: undefined,
       });
     });
   });
