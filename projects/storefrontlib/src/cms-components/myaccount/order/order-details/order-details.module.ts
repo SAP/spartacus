@@ -18,6 +18,7 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
+import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details/order-detail-approval-details.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
@@ -32,6 +33,7 @@ const moduleComponents = [
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
   OrderDetailShippingComponent,
+  OrderDetailApprovalDetailsComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
@@ -70,6 +72,9 @@ const moduleComponents = [
         },
         AccountOrderDetailsHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
+        },
+        AccountOrderDetailsApprovalDetailsComponent: {
+          component: OrderDetailApprovalDetailsComponent,
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
