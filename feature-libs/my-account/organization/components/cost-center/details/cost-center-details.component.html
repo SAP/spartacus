@@ -1,0 +1,74 @@
+<cx-organization-card
+  *ngIf="model$ | async as model"
+  i18nRoot="costCenter.details"
+>
+  <a
+    actions
+    class="link"
+    [class.disabled]="!model.active"
+    [routerLink]="{ cxRoute: 'costCenterEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-toggle-status actions i18nRoot="costCenter"></cx-toggle-status>
+
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'costCenter.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'costCenter.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'costCenter.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'costCenter.currency' | cxTranslate }}</label>
+
+      <span class="value">
+        {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'costCenter.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.unit
+          } | cxUrl
+        "
+      >
+        {{ model.unit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'costCenterBudgets', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'costCenter.budget.link' | cxTranslate }}
+    </a>
+  </section>
+</cx-organization-card>

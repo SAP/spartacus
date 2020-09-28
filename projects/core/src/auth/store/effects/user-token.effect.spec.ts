@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';

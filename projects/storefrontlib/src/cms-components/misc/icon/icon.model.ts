@@ -29,6 +29,16 @@ export enum ICON_TYPE {
   EMPTY_HEART = 'EMPTY_HEART',
   FILTER = 'FILTER',
   PENCIL = 'PENCIL',
+  TRASH = 'TRASH',
+
+  ACTIVE = 'ACTIVE',
+  SORT_DOWN = 'SORT_DOWN',
+  SORT = 'SORT',
+
+  ON = 'ON',
+  OFF = 'OFF',
+
+  LINK_OUT = 'LINK_OUT',
 }
 
 @Injectable({
