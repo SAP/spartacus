@@ -8,9 +8,9 @@ import {
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import {
-  b2bLayoutConfig,
   defaultB2bCheckoutConfig,
   defaultB2bOccConfig,
+  layoutConfig,
   mediaConfig,
 } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
@@ -31,7 +31,7 @@ import { StorefrontModule } from './storefront.module';
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2bLayoutConfig),
+    provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfig(defaultB2bCheckoutConfig),
