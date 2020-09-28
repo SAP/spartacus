@@ -6,7 +6,6 @@ import {
   map,
   shareReplay,
   switchMap,
-  tap,
 } from 'rxjs/operators';
 import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
@@ -19,10 +18,11 @@ import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 })
 export class PageMetaService {
   private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
-    ? (this.unifiedInjector.getMulti(PageMetaResolver).pipe(
-        tap((x) => console.log('resolvers ', x)),
-        shareReplay({ bufferSize: 1, refCount: true })
-      ) as Observable<PageMetaResolver[]>)
+    ? (this.unifiedInjector
+        .getMulti(PageMetaResolver)
+        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+        PageMetaResolver[]
+      >)
     : of(this.resolvers);
 
   constructor(
