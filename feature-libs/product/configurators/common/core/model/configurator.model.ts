@@ -22,6 +22,7 @@ export namespace Configurator {
     numTotalLength?: number;
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
+    retractTriggered?: boolean;
   }
 
   export interface Value {

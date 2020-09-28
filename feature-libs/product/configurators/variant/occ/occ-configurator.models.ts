@@ -68,6 +68,7 @@ export namespace OccConfigurator {
     numberScale?: number;
     negativeAllowed?: boolean;
     conflicts?: string[];
+    retractTriggered?: boolean;
   }
 
   export interface Value {

@@ -1,5 +1,5 @@
 import { Configurator } from './../../core/model/configurator.model';
 export class ConfigFormUpdateEvent {
-  productCode: string;
+  ownerKey: string;
   changedAttribute: Configurator.Attribute;
 }
