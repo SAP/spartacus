@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import {
   CmsLibModule,
+  defaultB2bCheckoutConfig,
   defaultCmsContentConfig,
   mediaConfig,
   StorefrontConfig,
@@ -33,6 +34,7 @@ import { defaultB2bOccConfig } from './config/b2b-occ-config';
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
+    provideDefaultConfig(defaultB2bCheckoutConfig),
   ],
 })
 export class B2bStorefrontModule {
