@@ -8,10 +8,10 @@ import {
   Budget,
   BudgetConnector,
 } from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
 
