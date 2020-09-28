@@ -5,7 +5,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CurrentUnitService } from '../current-unit.service';
+import { CurrentUnitService } from './current-unit.service';
 
 @Injectable({ providedIn: 'root' })
 export class UnitRoutePageMetaResolver extends DefaultRoutePageMetaResolver {

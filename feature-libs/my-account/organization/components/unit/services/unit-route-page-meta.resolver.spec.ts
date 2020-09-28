@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { B2BUnit, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CurrentUnitService } from '../current-unit.service';
+import { CurrentUnitService } from './current-unit.service';
 import { UnitRoutePageMetaResolver } from './unit-route-page-meta.resolver';
 
 class MockCurrentItemService implements Partial<CurrentUnitService> {
