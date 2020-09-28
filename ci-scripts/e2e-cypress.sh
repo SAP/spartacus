@@ -44,7 +44,7 @@ do
             ;;
     esac
 done
-
+# echo "s: $SUITE, i: $INTEGRATION, e: $CI_ENV, p: $POSITIONAL, 1: $1, 0: $0"
 set -- "${POSITIONAL[@]}"
 
 
@@ -58,7 +58,7 @@ yarn
 echo '-----'
 echo 'Building Spartacus libraries'
 # Currently for our unified app you have to build all libraries to run it
-yarn build:core:lib:cds && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then

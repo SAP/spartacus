@@ -17,6 +17,7 @@ branches:
 env:
   - TEST_SUITE="./build.sh sonar"
   - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
+  - TEST_SUITE="./ci-scripts/e2e-cypress.sh -s regression"
 script: $TEST_SUITE
 deploy:
   provider: script
