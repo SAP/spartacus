@@ -190,7 +190,7 @@ export class BreakpointService {
   /**
    * Helper method to return the breakpoint configuration.
    */
-  protected get config(): LayoutBreakPoints<BREAKPOINT> {
+  protected get config(): LayoutBreakPoints {
     return this.layoutConfig?.breakpoints || {};
   }
 
