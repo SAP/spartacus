@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { BudgetService } from '@spartacus/my-account/organization/core';
-import { of } from 'rxjs';
+import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import { Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
+import { ItemInfo, LoadStatus } from '../../../core/model/LoadStatus';
 
 class MockRoutingService {
   go() {}
@@ -18,6 +19,9 @@ class MockBudgetService {
   loadBudget() {}
   update() {}
   create() {}
+  getLoadingStatus(): Observable<ItemInfo<Budget>> {
+    return of({ status: LoadStatus.SUCCESS, value: {} });
+  }
 }
 
 class MockBudgetFormService {}
