@@ -31,7 +31,7 @@ export class PageMetaService {
     protected resolvers: PageMetaResolver[],
     protected cms: CmsService,
     @Optional()
-    protected unifiedInjector: UnifiedInjector
+    protected unifiedInjector?: UnifiedInjector
   ) {
     this.resolvers = this.resolvers || [];
   }
@@ -55,14 +55,9 @@ export class PageMetaService {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap((page: Page) => this.getMetaResolver(page)),
-      switchMap((metaResolver: PageMetaResolver) => {
-        if (metaResolver) {
-          return this.resolve(metaResolver);
-        } else {
-          // we do not have a page resolver
-          return of(null);
-        }
-      })
+      switchMap((metaResolver: PageMetaResolver) =>
+        metaResolver ? this.resolve(metaResolver) : of(null)
+      )
     );
   }
 

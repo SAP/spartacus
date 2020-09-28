@@ -35,7 +35,7 @@ export class LazyModulesService implements OnDestroy {
     .pipe(
       map((event) => event.moduleRef),
       publishReplay()
-    ) as ConnectableObservable<NgModuleRef<any>>;
+    );
 
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
   private readonly eventSubscription: Subscription;
@@ -91,15 +91,17 @@ export class LazyModulesService implements OnDestroy {
         if (!this.dependencyModules.has(module)) {
           const moduleRef = moduleFactory.create(this.injector);
           this.dependencyModules.set(module, moduleRef);
-
-          this.events.dispatch(
-            createFrom(ModuleInitializedEvent, {
-              moduleRef,
-            })
-          );
         }
+
         return this.dependencyModules.get(module);
-      })
+      }),
+      tap((moduleRef) =>
+        this.events.dispatch(
+          createFrom(ModuleInitializedEvent, {
+            moduleRef,
+          })
+        )
+      )
     );
   }
 
