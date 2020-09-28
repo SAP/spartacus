@@ -18,4 +18,4 @@ import { CostCenterBudgetListComponent } from './cost-center-budget-list.compone
     CostCenterBudgetListComponent,
   ],
 })
-export class CostCenterBudgetsModule {}
+export class CostCenterBudgetListModule {}

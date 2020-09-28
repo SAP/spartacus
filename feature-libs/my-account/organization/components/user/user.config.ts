@@ -17,21 +17,19 @@ import { RolesCellComponent } from '../shared/organization-table/roles/roles-cel
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import {
-  UserApproverListComponent,
-  UserAssignedApproverListComponent,
-} from './approvers';
-import { ChangePasswordFormComponent } from './change-password-form';
+import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
+import { UserApproverListComponent } from './approvers/user-approver-list.component';
+import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { UserDetailsComponent } from './details/user-details.component';
-import { UserFormComponent } from './form';
+import { UserFormComponent } from './form/user-form.component';
 import { ActiveUserGuard } from './guards/active-user.guard';
 import { ExistUserGuard } from './guards/exist-user.guard';
-import { UserAssignedPermissionListComponent } from './permissions';
+import { UserAssignedPermissionListComponent } from './permissions/assigned/user-assigned-permission-list.component';
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
 import { UserListService } from './services/user-list.service';
-import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
+import { UserUserGroupListComponent } from './user-groups/user-user-group-list.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {

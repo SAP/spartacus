@@ -4,16 +4,16 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
-import {
-  OrderApproval,
-  OrderApprovalConnector,
-  OrderApprovalDecision,
-  OrderApprovalDecisionValue,
-} from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { OrderApprovalConnector } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
+import {
+  OrderApproval,
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
+} from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 
