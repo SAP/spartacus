@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { B2BSearchConfig } from '../../model/search-config';
+import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import { UserGroupAdapter } from './user-group.adapter';
-import { Permission, B2BUser, EntitiesModel } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class UserGroupConnector {
 
   getList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<UserGroup>> {
     return this.adapter.loadList(userId, params);
   }
@@ -25,7 +25,7 @@ export class UserGroupConnector {
   getAvailableOrderApprovalPermissions(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadAvailableOrderApprovalPermissions(
       userId,
@@ -37,7 +37,7 @@ export class UserGroupConnector {
   getAvailableOrgCustomers(
     userId: string,
     userGroupId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadAvailableOrgCustomers(userId, userGroupId, params);
   }

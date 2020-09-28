@@ -1,23 +1,21 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
-import { cold, hot } from 'jasmine-marbles';
-import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-
-import { normalizeHttpError, OccConfig } from '@spartacus/core';
-import { BudgetActions } from '../actions/index';
-import * as fromEffects from './budget.effect';
+import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   Budget,
   BudgetConnector,
 } from '@spartacus/my-account/organization/core';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
+import { cold, hot } from 'jasmine-marbles';
+import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
+import { Observable, of, throwError } from 'rxjs';
 import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
+import { BudgetActions } from '../actions/index';
+import * as fromEffects from './budget.effect';
+
+import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -81,10 +79,8 @@ describe('Budget Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.BudgetEffects as Type<fromEffects.BudgetEffects>
-    );
-    budgetConnector = TestBed.get(BudgetConnector as Type<BudgetConnector>);
+    effects = TestBed.inject(fromEffects.BudgetEffects);
+    budgetConnector = TestBed.inject(BudgetConnector);
     expected = null;
   });
 
@@ -117,7 +113,7 @@ describe('Budget Effects', () => {
   });
 
   describe('loadBudgets$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });

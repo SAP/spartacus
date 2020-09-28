@@ -23,7 +23,7 @@ class MockRoutingService {
   go() {}
 }
 
-export interface Mock {
+interface Mock {
   code?: string;
   name?: string;
 }

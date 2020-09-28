@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnit, B2BUnitNode } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { B2BUnit } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';

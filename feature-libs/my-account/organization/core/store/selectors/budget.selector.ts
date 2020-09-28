@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils, EntitiesModel } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { denormalizeB2BSearch } from '../../utils/serializer';
+import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { Budget } from '../../model/budget.model';
+import { denormalizeSearch } from '../../utils/serializer';
 import {
   BudgetManagement,
   BUDGET_FEATURE,
@@ -9,7 +9,6 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { Budget } from '../../model/budget.model';
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -37,11 +36,11 @@ export const getBudget = (
   );
 
 export const getBudgetList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Budget>>
 > =>
   createSelector(getBudgetManagementState, (state: BudgetManagement) =>
-    denormalizeB2BSearch<Budget>(state, params)
+    denormalizeSearch<Budget>(state, params)
   );

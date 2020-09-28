@@ -9,12 +9,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import {
-  I18nTestingModule,
   OrderApproval,
   OrderApprovalDecisionValue,
-} from '@spartacus/core';
-import { OrderApprovalService } from '@spartacus/my-account/organization/core';
+  OrderApprovalService,
+} from '@spartacus/my-account/organization/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';

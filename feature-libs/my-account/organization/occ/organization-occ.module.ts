@@ -1,66 +1,63 @@
-import { OccOrgUnitNodeNormalizer } from './converters/occ-org-unit-node-normalizer';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
-import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
-import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
-import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
-import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';
-import { OccOrgUnitAdapter } from './adapters/occ-org-unit.adapter';
-import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
-import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
-import { OccOrderApprovalAdapter } from './adapters/occ-order-approval.adapter';
+import { ConverterService, provideDefaultConfig } from '@spartacus/core';
 import {
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_USER_NORMALIZER,
-  B2B_USERS_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUserAdapter,
-  BUDGET_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  B2B_USER_NORMALIZER,
   BudgetAdapter,
   BUDGETS_NORMALIZER,
-  COST_CENTER_NORMALIZER,
-  COST_CENTERS_NORMALIZER,
+  BUDGET_NORMALIZER,
   CostCenterAdapter,
+  COST_CENTERS_NORMALIZER,
+  OrderApprovalAdapter,
+  ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   ORDER_APPROVAL_NORMALIZER,
-  ORDER_APPROVALS_NORMALIZER,
-  OrderApprovalAdapter,
   OrgUnitAdapter,
-  PERMISSION_NORMALIZER,
-  PERMISSION_TYPE_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
   PermissionAdapter,
   PERMISSIONS_NORMALIZER,
-  USER_GROUP_NORMALIZER,
-  USER_GROUPS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+  PERMISSION_TYPE_NORMALIZER,
   UserGroupAdapter,
+  USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
-import { ConverterService, provideDefaultConfig } from '@spartacus/core';
-import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
-import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
-import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
-import { OccUserGroupListNormalizer } from './converters/occ-user-group-list-normalizer';
-import { OccPermissionListNormalizer } from './converters/occ-permission-list-normalizer';
-import { OccPermissionNormalizer } from './converters/occ-permission-normalizer';
-import { OccPermissionTypeListNormalizer } from './converters/occ-permission-type-list.normalizer';
-import { OccCostCenterNormalizer } from './converters/occ-cost-center-normalizer';
-import { OccCostCenterListNormalizer } from './converters/occ-cost-center-list-normalizer';
+import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
+import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
+import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';
+import { OccOrderApprovalAdapter } from './adapters/occ-order-approval.adapter';
+import { OccOrgUnitAdapter } from './adapters/occ-org-unit.adapter';
+import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
+import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
+import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
-import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
-import { OccOrgUnitAddressNormalizer } from './converters/occ-org-unit-address-normalizer';
-import { OccOrgUnitAddressListNormalizer } from './converters/occ-org-unit-address-list-normalizer';
+import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
+import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
+import { OccCostCenterListNormalizer } from './converters/occ-cost-center-list-normalizer';
 import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
 import { OccOrderApprovalListNormalizer } from './converters/occ-order-approval-list-normalizer';
 import { OccOrderApprovalNormalizer } from './converters/occ-order-approval-normalizer';
-import { OccOrgUnitNormalizer } from './converters/occ-org-unit-normalizer';
-import { OccOrgUnitNodeListNormalizer } from './converters/occ-org-unit-node-list-normalizer';
+import { OccOrgUnitAddressListNormalizer } from './converters/occ-org-unit-address-list-normalizer';
+import { OccOrgUnitAddressNormalizer } from './converters/occ-org-unit-address-normalizer';
 import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-approval-processes-normalizer';
+import { OccOrgUnitNodeListNormalizer } from './converters/occ-org-unit-node-list-normalizer';
+import { OccOrgUnitNodeNormalizer } from './converters/occ-org-unit-node-normalizer';
+import { OccOrgUnitNormalizer } from './converters/occ-org-unit-normalizer';
+import { OccPermissionListNormalizer } from './converters/occ-permission-list-normalizer';
+import { OccPermissionNormalizer } from './converters/occ-permission-normalizer';
+import { OccPermissionTypeListNormalizer } from './converters/occ-permission-type-list.normalizer';
+import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
+import { OccUserGroupListNormalizer } from './converters/occ-user-group-list-normalizer';
+import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
+import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
 
 @NgModule({
   imports: [CommonModule],
@@ -141,11 +138,6 @@ import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-a
     {
       provide: CostCenterAdapter,
       useClass: OccCostCenterAdapter,
-    },
-    {
-      provide: COST_CENTER_NORMALIZER,
-      useClass: OccCostCenterNormalizer,
-      multi: true,
     },
     {
       provide: COST_CENTERS_NORMALIZER,

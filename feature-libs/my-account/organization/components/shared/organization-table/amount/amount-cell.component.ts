@@ -6,8 +6,11 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountCellComponent extends OrganizationCellComponent {
-  get property() {
-    return this.budget + ' ' + this.currency;
+  get property(): string {
+    if (this.budget && this.currency) {
+      return this.budget + ' ' + this.currency;
+    }
+    return;
   }
 
   protected get budget() {

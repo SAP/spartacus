@@ -1,27 +1,26 @@
 import {
-  B2BUnit,
-  B2BUnitNode,
-  B2BApprovalProcess,
   B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
   ListModel,
+  SearchConfig,
   StateUtils,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
-  ORG_UNIT_NODE_LIST,
-  ORG_UNIT_ENTITIES,
-  ORG_UNIT_TREE_ENTITY,
-  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-  ORG_UNIT_TREE,
-  ORG_UNIT_APPROVAL_PROCESSES,
-  ORG_UNIT_NODES,
-  ORG_UNIT_ASSIGNED_USERS,
-  B2B_USER_ENTITIES,
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
+  B2B_USER_ENTITIES,
+  ORG_UNIT_APPROVAL_PROCESSES,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_ASSIGNED_USERS,
+  ORG_UNIT_ENTITIES,
+  ORG_UNIT_NODES,
+  ORG_UNIT_NODE_LIST,
+  ORG_UNIT_TREE,
+  ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnit] Load B2BUnit Data Fail';
@@ -243,12 +242,12 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
       userId: string;
       orgUnitId: string;
       roleId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -262,13 +261,13 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
     public payload: {
       orgUnitId: string;
       roleId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
       error: any;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       ),
@@ -284,12 +283,12 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
       orgUnitId: string;
       roleId: string;
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )

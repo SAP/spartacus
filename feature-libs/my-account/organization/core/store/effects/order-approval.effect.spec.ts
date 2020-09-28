@@ -1,29 +1,23 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
+import { OrderApprovalConnector } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import {
-  normalizeHttpError,
-  OccConfig,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-} from '@spartacus/core';
-
-import {
-  B2BSearchConfig,
-  OrderApprovalConnector,
-} from '@spartacus/my-account/organization/core';
+} from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
 import createSpy = jasmine.createSpy;
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -87,12 +81,8 @@ describe('OrderApproval Effects', () => {
       ],
     });
 
-    effects = TestBed.get(
-      fromEffects.OrderApprovalEffects as Type<fromEffects.OrderApprovalEffects>
-    );
-    orderApprovalConnector = TestBed.get(
-      OrderApprovalConnector as Type<OrderApprovalConnector>
-    );
+    effects = TestBed.inject(fromEffects.OrderApprovalEffects);
+    orderApprovalConnector = TestBed.inject(OrderApprovalConnector);
     expected = null;
   });
 
@@ -139,7 +129,7 @@ describe('OrderApproval Effects', () => {
   });
 
   describe('loadOrderApprovals$', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('should return LoadOrderApprovalSuccess action', () => {
       const action = new OrderApprovalActions.LoadOrderApprovals({

@@ -77,6 +77,6 @@ describe('SplitViewComponent', () => {
       of(BREAKPOINT.xs)
     );
     fixture.detectChanges();
-    expect(splitViewService.updateSplitView).toHaveBeenCalledWith(1);
+    expect(splitViewService.updateSplitView).toHaveBeenCalled();
   });
 });

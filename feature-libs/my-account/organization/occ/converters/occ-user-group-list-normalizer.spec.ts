@@ -1,8 +1,7 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, OccConfig, Occ } from '@spartacus/core';
-import { OccUserGroupListNormalizer } from './occ-user-group-list-normalizer';
+import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
 import { UserGroup } from '@spartacus/my-account/organization/core';
+import { OccUserGroupListNormalizer } from './occ-user-group-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -40,9 +39,7 @@ describe('UserGroupListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccUserGroupListNormalizer as Type<OccUserGroupListNormalizer>
-    );
+    service = TestBed.inject(OccUserGroupListNormalizer);
   });
 
   it('should inject OccUserGroupListNormalizer', inject(

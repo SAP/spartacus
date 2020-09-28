@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   Budget,
-  BUDGET_NORMALIZER,
   BudgetAdapter,
   BUDGETS_NORMALIZER,
+  BUDGET_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {
@@ -32,7 +31,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Budget>> {
     return this.http
       .get<Occ.BudgetsList>(this.getBudgetsEndpoint(userId, params))
@@ -59,10 +58,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
     return this.occEndpoints.getUrl('budget', { userId, budgetCode });
   }
 
-  protected getBudgetsEndpoint(
-    userId: string,
-    params?: B2BSearchConfig
-  ): string {
+  protected getBudgetsEndpoint(userId: string, params?: SearchConfig): string {
     return this.occEndpoints.getUrl('budgets', { userId }, params);
   }
 }
