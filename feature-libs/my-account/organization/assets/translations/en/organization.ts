@@ -1,18 +1,38 @@
-import { budget } from './budget.i18n';
-import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
+import { budget, budgetAssignedCostCenters } from './budget.i18n';
+import {
+  costCenter,
+  costCenterAssignedBudgets,
+  costCenterBudgets,
+} from './cost-center.i18n';
 import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
-import { unit, unitAssignApprovers, unitAssignRoles } from './units.i18n';
+import {
+  unit,
+  unitAddress,
+  unitApprovers,
+  unitAssignedApprovers,
+  unitAssignedRoles,
+  unitAssignedUsers,
+  unitChildren,
+  unitCostCenters,
+  unitUserRoles,
+  unitUsers,
+} from './units.i18n';
 import {
   userGroup,
-  userGroupAssignPermissions,
-  userGroupAssignUsers,
+  userGroupAssignedPermissions,
+  userGroupAssignedUsers,
+  userGroupPermissions,
+  userGroupUsers,
 } from './user-group.i18n';
 import {
   user,
-  userAssignApprovers,
-  userAssignPermissions,
-  userAssignUserGroups,
+  userApprovers,
+  userAssignedApprovers,
+  userAssignedPermissions,
+  userAssignedUserGroups,
+  userPermissions,
+  userUserGroups,
 } from './user.i18n';
 
 /**
@@ -23,24 +43,26 @@ import {
 
 export const organization = {
   organization: {
-    enabled: 'Enabled',
+    enabled: 'Active',
     disabled: 'Disabled',
+
     enable: 'Enable',
     disable: 'Disable',
 
     name: 'Name',
     code: 'Code',
 
-    back: '',
-    close: '',
+    done: 'done',
+
     cancel: 'Cancel',
 
+    add: 'Add',
     create: 'Create {{name}}',
-    edit: 'Edit details',
+    edit: 'Edit',
     save: 'Save {{name}}',
     delete: 'Delete',
 
-    manage: 'Manage',
+    assign: 'Manage',
 
     active: 'Active',
     status: 'Status',
@@ -67,18 +89,33 @@ export const organization = {
 
   // sub feature labels are added below
   costCenter,
-  costCenterAssignBudgets,
-  unit,
-  unitAssignRoles,
-  unitAssignApprovers,
-  userGroup,
-  userGroupAssignUsers,
-  userGroupAssignPermissions,
+  costCenterBudgets,
+  costCenterAssignedBudgets,
   budget,
+  budgetAssignedCostCenters,
+  unit,
+  unitChildren,
+  unitApprovers,
+  unitAssignedApprovers,
+  unitAssignedRoles,
+  unitUsers,
+  unitUserRoles,
+  unitAssignedUsers,
+  unitCostCenters,
+  unitAddress,
+
+  userGroup,
+  userGroupUsers,
+  userGroupAssignedUsers,
+  userGroupPermissions,
+  userGroupAssignedPermissions,
   user,
-  userAssignApprovers,
-  userAssignPermissions,
-  userAssignUserGroups,
+  userUserGroups,
+  userAssignedUserGroups,
+  userApprovers,
+  userAssignedApprovers,
+  userPermissions,
+  userAssignedPermissions,
   permission,
   orderApproval,
   orderApprovalList,

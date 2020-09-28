@@ -1,0 +1,11 @@
+<a
+  *ngIf="linkable; else noLink"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabIndex]="tabIndex"
+>
+  <span class="text">{{ property }}</span>
+</a>
+
+<ng-template #noLink>
+  <span class="text"> {{ property }}</span>
+</ng-template>

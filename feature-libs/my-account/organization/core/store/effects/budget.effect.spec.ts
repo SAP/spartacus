@@ -15,9 +15,9 @@ import {
   Budget,
   BudgetConnector,
 } from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import createSpy = jasmine.createSpy;
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',

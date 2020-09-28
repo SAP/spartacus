@@ -1,86 +1,50 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Period, Permission } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
+import { I18nTestingModule, Permission } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { PermissionService } from '@spartacus/my-account/organization/core';
-import { CurrentPermissionService } from '../current-permission.service';
-import { PermissionType } from '../form/permission-form.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
 
-const permissionCode = 'b1';
+const mockCode = 'p1';
 
-const mockPermission: Permission = {
-  code: permissionCode,
-  orderApprovalPermissionType: {
-    code: PermissionType.TIMESPAN,
-    name: 'Type',
-  },
-  threshold: 10000,
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  periodRange: Period.WEEK,
-  orgUnit: { name: 'orgName', uid: 'orgCode' },
-};
-class MockPermissionService implements Partial<PermissionService> {
-  loadPermission = createSpy('loadPermission');
-  update = createSpy('update');
-  get = createSpy('get').and.returnValue(of(mockPermission));
-}
-
-class MockCurrentPermissionService
-  implements Partial<CurrentPermissionService> {
-  key$ = of(permissionCode);
-}
-
-class MockModalService {
-  open() {}
+class MockPermissionItemService
+  implements Partial<OrganizationItemService<Permission>> {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
 }
 
 describe('PermissionDetailsComponent', () => {
   let component: PermissionDetailsComponent;
   let fixture: ComponentFixture<PermissionDetailsComponent>;
-  let permissionService: PermissionService;
+  let itemService: OrganizationItemService<Permission>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
+        MessageTestingModule,
       ],
       declarations: [PermissionDetailsComponent],
       providers: [
-        { provide: PermissionService, useClass: MockPermissionService },
-        { provide: ModalService, useClass: MockModalService },
-      ],
-    })
-      .overrideComponent(PermissionDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentPermissionService,
-              useClass: MockCurrentPermissionService,
-            },
-          ],
+        {
+          provide: OrganizationItemService,
+          useClass: MockPermissionItemService,
         },
-      })
-      .compileComponents();
+      ],
+    }).compileComponents();
 
-    permissionService = TestBed.inject(PermissionService);
-  }));
+    itemService = TestBed.inject(OrganizationItemService);
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -89,17 +53,8 @@ describe('PermissionDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should trigger reload of cost center model on each code change', () => {
-    expect(permissionService.loadPermission).toHaveBeenCalledWith(
-      mockPermission.code
-    );
-  });
 
-  describe('costCenter$', () => {
-    it('should emit current cost center model', () => {
-      let result;
-      component.permission$.subscribe((r) => (result = r)).unsubscribe();
-      expect(result).toBe(mockPermission);
-    });
+  it('should trigger reload of model on each code change', () => {
+    expect(itemService.load).toHaveBeenCalledWith(mockCode);
   });
 });

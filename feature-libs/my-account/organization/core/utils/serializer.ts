@@ -76,3 +76,10 @@ export function normalizeListPage<T>(
   }
   return { values, page };
 }
+
+export function serializeParams(
+  params: string | string[],
+  searchConfig: B2BSearchConfig
+): string {
+  return [params, serializeB2BSearchConfig(searchConfig)].toString();
+}

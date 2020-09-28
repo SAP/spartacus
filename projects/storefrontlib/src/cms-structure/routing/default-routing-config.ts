@@ -14,6 +14,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutLogin: { paths: ['checkout-login'] },
 
   checkout: { paths: ['checkout'] },
+  checkoutPaymentType: { paths: ['checkout/payment-type'] },
   checkoutShippingAddress: { paths: ['checkout/shipping-address'] },
   checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
@@ -70,9 +71,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   couponClaim: {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
-  },
-  organization: {
-    paths: ['organization'],
   },
   orderApprovalDetails: {
     paths: ['my-account/approval/:approvalCode'],

@@ -12,13 +12,18 @@
     The 2nd CSS property that is used to split views, is the `--cx-active-view`. This property is set by the 
     component logic and indicates the deepest view that is visible. When the visibility of views are toggled, the 
     `--cx-active-view` is set accordingly. 
+
+    A gutter can be added to the views. This is controlled with the css variable `--cx-split-gutter`. 
   */
 
 :root {
   --cx-transition-duration: 0.3s;
 
-  @include media-breakpoint-down(lg) {
+  --cx-split-gutter: 40px;
+
+  @include media-breakpoint-down(md) {
     --cx-max-views: 1;
+    --cx-split-gutter: 0px;
   }
   @include media-breakpoint-up(lg) {
     --cx-max-views: 2;
@@ -33,6 +38,8 @@
   /* We hide all elements outside the box, so that the views can animate nicely inside.  */
   overflow: hidden;
 
+  margin-inline-end: calc(var(--cx-split-gutter) * -1);
+
   --cx-view-flex: calc(
     (100% / min(var(--cx-active-view), var(--cx-max-views)))
   );
@@ -46,18 +53,22 @@
 
     overflow: hidden;
 
-    flex: 1 0 calc((100% / min(var(--cx-active-view), var(--cx-max-views))));
+    flex: 1 0
+      calc(
+        (100% / min(var(--cx-active-view), var(--cx-max-views))) -
+          var(--cx-split-gutter)
+      );
 
-    // Add padding, so we get a gutter in between views. This padding also adds a surrounding
-    // padding, as the start and end of the split views are effected.
-    padding: 0 20px;
+    margin-inline-end: var(--cx-split-gutter);
 
     // The inline start margin of the first flex item decreases to move
     // the flex items outside the flex container.
     &[position='0'] {
       margin-inline-start: calc(
-        max(var(--cx-active-view) - var(--cx-max-views), 0) *
-          (var(--cx-view-flex) * -1)
+        (
+          max(var(--cx-active-view) - var(--cx-max-views), 0) *
+            (var(--cx-view-flex) * -1)
+        )
       );
     }
 

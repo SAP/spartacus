@@ -1,29 +1,49 @@
 export const user = {
-  header: 'Users',
+  header: 'All users ({{count}})',
   disabled: '(disabled)',
   uid: 'Email',
+  active: 'Status',
   name: 'Name',
   firstName: 'Fist name',
   lastName: 'Last name',
   email: 'Email',
   orgUnit: 'Unit',
+  unit: 'Unit',
   roles: 'Roles',
   title: 'Title',
-  assignAprover: 'Add to the approvers list',
-  changePassword: {
-    link: 'Change password',
-    header: 'Change password of {{code}}',
-    password: 'New password',
-    confirmPassword: 'Retype new password',
+
+  unitApprover: `Unit approver`,
+  assignApprover: 'Add the user to approvers for the unit',
+
+  actions: '',
+
+  byName: 'Sort by name',
+  byUnit: 'Sort by unit',
+
+  details: {
+    title: 'User Details',
+    subtitle: 'User: {{ item.name }}',
+  },
+  edit: {
+    title: 'Edit User',
+    subtitle: 'User: {{ item.name }}',
+  },
+  create: {
+    title: 'Create User',
+    subtitle: '',
+  },
+
+  links: {
+    password: 'Change password',
+    approvers: 'Approvers',
+    userGroup: 'User groups',
+    permission: 'Permission',
   },
 
   messages: {
-    enabled:
-      'When you disable the user, the related data will be disabled as well. ',
-    disabled: 'You cannot edit a disabled User.',
-    disabledUnit: 'You cannot enable user if unit is disabled.',
     deactivate: 'Are you sure you want to disable this user?',
-    deactivateHeader: 'Disable User',
+    confirmEnabled: 'User {{item.name}} enabled successfully',
+    confirmDisabled: 'User {{item.name}}  disabled successfully',
   },
 
   approver: {
@@ -73,23 +93,52 @@ export const user = {
       QUARTER: 'per Quarter',
     },
   },
+
+  password: {
+    title: 'Change password',
+    subtitle: '',
+    newPassword: 'New password',
+    confirmPassword: 'Retype new password',
+  },
 };
 
-export const userAssignApprovers = {
-  name: 'Name',
-  email: 'Email',
-  roles: 'Roles',
-  orgUnit: 'Unit',
+export const userAssignedApprovers = {
+  title: 'Assigned approvers',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'Unit assigned successfully',
+  unassigned: 'Unit unassigned successfully',
+};
+export const userApprovers = {
+  title: 'Manage approvers',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'Unit assigned successfully',
+  unassigned: 'Unit unassigned successfully',
 };
 
-export const userAssignPermissions = {
-  name: 'Code',
-  limit: 'Limit',
-  orgUnit: 'Unit',
+export const userAssignedPermissions = {
+  title: 'Assigned permissions',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'Permission assigned successfully',
+  unassigned: 'Permission unassigned successfully',
 };
 
-export const userAssignUserGroups = {
-  name: 'Name',
-  uid: 'Code',
-  orgUnit: 'Unit',
+export const userPermissions = {
+  title: 'Manage assigned permissions',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'Permission assigned successfully',
+  unassigned: 'Permission unassigned successfully',
+};
+
+export const userAssignedUserGroups = {
+  title: 'Assigned User groups',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'User group "{{item.name}}" assigned successfully',
+  unassigned: 'User group "{{item.name}}" unassigned successfully',
+};
+
+export const userUserGroups = {
+  title: 'Manage User groups',
+  subtitle: 'User: {{ item.name }}',
+  assigned: 'User group "{{item.name}}" assigned successfully',
+  unassigned: 'User group "{{item.name}}" unassigned successfully',
 };
