@@ -87,6 +87,15 @@ export interface B2BPaymentType {
   displayName?: string;
 }
 
+export interface EntryGroup {
+  entries?: OrderEntry[];
+  entryGroupNumber?: number;
+  entryGroups?: EntryGroup[];
+  erroneous?: boolean;
+  label?: string;
+  type?: string;
+}
+
 export interface Cart {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
@@ -101,6 +110,7 @@ export interface Cart {
   deliveryOrderGroups?: DeliveryOrderEntryGroup[];
   description?: string;
   entries?: OrderEntry[];
+  entryGroups?: EntryGroup[];
   expirationTime?: Date;
   guid?: string;
   name?: string;

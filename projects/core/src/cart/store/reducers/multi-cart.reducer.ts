@@ -14,8 +14,6 @@ export function activeCartReducer(
     case CartActions.CREATE_CART_SUCCESS:
     // point to `temp-${uuid}` cart when we are creating/merging cart
     case CartActions.CREATE_CART:
-    case CartActions.CREATE_BUNDLE:
-    case CartActions.CREATE_BUNDLE_SUCCESS:
       if (action?.payload?.extraData?.active) {
         return action.meta.entityId as string;
       } else {
@@ -31,6 +29,9 @@ export function activeCartReducer(
       return state;
     case CartActions.CLEAR_CART_STATE:
       return activeCartInitialState;
+    case CartActions.CREATE_BUNDLE:
+    case CartActions.CREATE_BUNDLE_SUCCESS:
+      return state;
   }
   return state;
 }
