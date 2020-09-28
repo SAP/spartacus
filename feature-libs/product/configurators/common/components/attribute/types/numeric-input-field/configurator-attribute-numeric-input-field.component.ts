@@ -87,7 +87,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected createEventFromInput(): ConfigFormUpdateEvent {
     return {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,

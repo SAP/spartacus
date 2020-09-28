@@ -195,6 +195,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const numericAttribute: Configurator.Attribute = {
       name: 'attr',
       userInput: '12.21',
+      retractTriggered: false,
       uiType: Configurator.UiType.NUMERIC,
     };
     const occAttributes = [];
@@ -203,6 +204,20 @@ describe('OccConfiguratorVariantSerializer', () => {
       occAttributes
     );
     expect(occAttributes[0].formattedValue).toBe(numericAttribute.userInput);
+    expect(occAttributes[0].retractTriggered).toBe(false);
+  });
+
+  it('should consider that an attribute was retracted', () => {
+    const attributeWithRetraction: Configurator.Attribute = {
+      name: 'attr',
+      retractTriggered: true,
+    };
+    const occAttributes = [];
+    occConfiguratorVariantSerializer.convertAttribute(
+      attributeWithRetraction,
+      occAttributes
+    );
+    expect(occAttributes[0].retractTriggered).toBe(true);
   });
 
   it('should map ui types properly', () => {

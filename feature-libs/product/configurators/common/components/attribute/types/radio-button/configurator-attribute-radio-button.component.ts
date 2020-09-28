@@ -83,7 +83,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   submitValue(valueCode: string): void {
     //console.log('the value to submit: ' + valueCode);
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         selectedSingleValue: valueCode,

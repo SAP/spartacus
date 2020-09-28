@@ -45,7 +45,7 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   onChange(): void {
     const event: ConfigFormUpdateEvent = {
-      productCode: this.ownerKey,
+      ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,

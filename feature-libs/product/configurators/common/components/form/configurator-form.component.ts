@@ -86,10 +86,10 @@ export class ConfiguratorFormComponent implements OnInit {
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {
-    const owner: GenericConfigurator.Owner = { key: event.productCode };
+    const owner: GenericConfigurator.Owner = { key: event.ownerKey };
 
     this.configuratorCommonsService.updateConfiguration(
-      event.productCode,
+      event.ownerKey,
       event.changedAttribute
     );
 
