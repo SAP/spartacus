@@ -98,10 +98,11 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     );
   }
 
-  openDialog(event: Event): void {
+  openDialog(event: Event, replenishmentOrderCode: string): void {
     const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
       this.element,
-      this.vcr
+      this.vcr,
+      replenishmentOrderCode
     );
 
     if (dialog) {

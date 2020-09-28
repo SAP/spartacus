@@ -30,6 +30,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       active: false,
       purchaseOrderNumber: '',
       subTotal: { formattedValue: '$150.00' },
+      replenishmentOrderCode: 'abc',
       trigger: {
         displayTimeTable: 'time-table',
         activationTime: '1994-01-11T14:00Z',
@@ -41,6 +42,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       active: true,
       purchaseOrderNumber: 'xyz',
       subTotal: { formattedValue: '$200.00' },
+      replenishmentOrderCode: 'abc',
       trigger: {
         displayTimeTable: 'time-table',
         activationTime: '1994-01-11T14:00Z',
@@ -232,11 +234,15 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
 
     fixture.detectChanges();
 
-    el.query(By.css('.cx-order-cancel')).nativeElement.click();
+    el.query(By.css('.cx-order-cancel:last-child')).nativeElement.click();
 
     expect(
       replenishmentOrderCancellationLaunchDialogService.openDialog
-    ).toHaveBeenCalledWith(component.element, component['vcr']);
+    ).toHaveBeenCalledWith(
+      component.element,
+      component['vcr'],
+      mockReplenishmentOrders.replenishmentOrders[1].replenishmentOrderCode
+    );
   });
 
   it('should NOT show a cancel action button', () => {

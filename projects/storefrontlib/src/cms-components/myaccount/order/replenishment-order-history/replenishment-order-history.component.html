@@ -173,7 +173,7 @@
                   class="d-md-none cx-replenishment-order-history-label"
                 ></div>
                 <button
-                  (click)="openDialog($event)"
+                  (click)="openDialog($event, order?.replenishmentOrderCode)"
                   class="cx-order-cancel btn btn-link"
                   #element
                   *ngIf="order?.active"
