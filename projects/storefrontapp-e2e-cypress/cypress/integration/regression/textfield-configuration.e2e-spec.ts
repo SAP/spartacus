@@ -28,7 +28,7 @@ context('Textfield Configuration', () => {
       textfiledConfiguration.goToConfigurationPage(testProduct);
       textfiledConfiguration.isConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
-      textfiledConfiguration.clickOnEditConfigurationBtn();
+      textfiledConfiguration.clickOnEditConfigurationLink(0);
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -36,7 +36,7 @@ context('Textfield Configuration', () => {
       textfiledConfiguration.clickOnAddToCartBtnOnPD();
       textfiledConfiguration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      textfiledConfiguration.clickOnEditConfigurationBtn();
+      textfiledConfiguration.clickOnEditConfigurationLink(0);
     });
   });
 
@@ -53,7 +53,7 @@ context('Textfield Configuration', () => {
       textfiledConfiguration.goToConfigurationPage(testProduct);
       textfiledConfiguration.isConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
-      textfiledConfiguration.clickOnEditConfigurationBtn();
+      textfiledConfiguration.clickOnEditConfigurationLink(0);
       textfiledConfiguration.isAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
       textfiledConfiguration.addToCartAndVerify(testProduct);
