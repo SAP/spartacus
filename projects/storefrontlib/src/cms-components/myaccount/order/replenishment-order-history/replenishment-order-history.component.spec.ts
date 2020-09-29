@@ -108,7 +108,7 @@ class MockRoutingService {
   go() {}
 }
 
-fdescribe('ReplenishmentOrderHistoryComponent', () => {
+describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService;
@@ -277,7 +277,7 @@ fdescribe('ReplenishmentOrderHistoryComponent', () => {
 
     const element = el.queryAll(By.css('.cx-next-order-date'))[1].nativeElement;
 
-    expect(element.textContent).toContain('1/11/94');
+    expect(element.textContent).toContain('1/11/1994');
   });
 
   it('should display "None" when purchaseOrderNumber is empty', () => {
