@@ -20,6 +20,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     continueButton,
   ],
   shippingAddressNew: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'isocode', type: TabbingOrderTypes.NG_SELECT },
     { value: 'titleCode', type: TabbingOrderTypes.NG_SELECT },
     { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
@@ -34,6 +35,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     continueButton,
   ],
   shippingAddressExisting: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Add New Address', type: TabbingOrderTypes.BUTTON },
     {
       value: 'Ship to this address',
@@ -43,12 +45,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     continueButton,
   ],
   deliveryMode: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
     continueButton,
   ],
   paymentDetailsCard: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'accountHolderName',

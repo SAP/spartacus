@@ -3,7 +3,7 @@ import { fillShippingAddress } from '../../../checkout-forms';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
-const containerSelector = 'cx-shipping-address';
+const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/shipping-address');

@@ -3,7 +3,7 @@ import { waitForPage } from '../../../../checkout-flow';
 import { checkoutNextStep, verifyTabbingOrder } from '../../../tabbing-order';
 import { TabElement } from '../../../tabbing-order.model';
 
-const containerSelector = 'cx-payment-type';
+const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutPaymentMethodTabbingOrder(config: TabElement[]) {
   const paymentTypePage = waitForPage(

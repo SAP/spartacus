@@ -6,7 +6,7 @@ import {
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
-const containerSelector = 'cx-payment-method';
+const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.server();

@@ -68,9 +68,6 @@ export function verifyTabElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.LINK: {
       regexpCheck(tabElement.value as string);
-      if (!!tabElement.url) {
-        urlCheck(tabElement.url);
-      }
       return;
     }
     case TabbingOrderTypes.BUTTON: {
