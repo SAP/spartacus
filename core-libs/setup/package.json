@@ -16,8 +16,8 @@
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
   "peerDependencies": {
-    "@angular/common": "~10.1.0",
-    "@angular/core": "~10.1.0",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0"
