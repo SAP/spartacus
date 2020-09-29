@@ -2,32 +2,33 @@ import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 import {
-  asmTabbingOrderNoSelectedUser, asmTabbingOrderNotLoggedIn,
-
-  asmTabbingOrderWithSelectedUser
+  asmTabbingOrderNoSelectedUser,
+  asmTabbingOrderNotLoggedIn,
+  asmTabbingOrderWithSelectedUser,
 } from '../../helpers/accessibility/tabbing-order/asm';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import {
   checkoutAppliedCouponsTabbingOrder,
-  checkoutCouponsTabbingOrder
+  checkoutCouponsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/coupons';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
-  checkoutPaymentDetailsTabbingOrder
+  checkoutPaymentDetailsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
 import {
   checkoutShippingAddressExistingTabbingOrder,
-  checkoutShippingAddressNewTabbingOrder
+  checkoutShippingAddressNewTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 import {
-  consignmentTrackingEventsTabbingOrder, consignmentTrackingTabbingOrder
+  consignmentTrackingEventsTabbingOrder,
+  consignmentTrackingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import {
   headerTabbingOrder,
-  subCategoryTabbingOrder
+  subCategoryTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
@@ -35,7 +36,7 @@ import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order
 import {
   addressBookDirectoryTabbingOrder,
   addressBookFormTabbingOrder,
-  setupForAddressBookTests
+  setupForAddressBookTests,
 } from '../../helpers/accessibility/tabbing-order/my-account/address-book';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
@@ -46,7 +47,7 @@ import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
-  orderHistoryWithOrdersTabbingOrder
+  orderHistoryWithOrdersTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/my-account/order-history';
 import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/payment-details';
 import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/personal-details';
@@ -57,19 +58,18 @@ import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
-  toggleProductView
+  toggleProductView,
 } from '../../helpers/accessibility/tabbing-order/product-list';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
 import {
-  stockNotificationDialogTabbingOrder, stockNotificationNotLoginTabbingOrder,
-
-
-  stockNotificationTabbingOrderNotificationsAllowed, stockNotificationTabbingOrderNotificationsNotAllowed,
-
-  stockNotificationTabbingOrderProductSubscribed
+  stockNotificationDialogTabbingOrder,
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationTabbingOrderNotificationsAllowed,
+  stockNotificationTabbingOrderNotificationsNotAllowed,
+  stockNotificationTabbingOrderProductSubscribed,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
 import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
 import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
@@ -146,7 +146,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
         );
       });
     });
-  }ec;
+  });
 
   context('Home page', () => {
     it('should allow to navigate with tab key', () => {
