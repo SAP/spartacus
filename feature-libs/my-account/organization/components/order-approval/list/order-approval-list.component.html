@@ -9,7 +9,7 @@
       >
         <cx-sorting
           [sortOptions]="orderApprovals.sorts"
-          [sortLabels]="getSortLabels() | async"
+          [sortLabels]="sortLabels$ | async"
           (sortListEvent)="changeSortCode($event)"
           [selectedOption]="orderApprovals.pagination.sort"
         ></cx-sorting>
@@ -150,7 +150,7 @@
       >
         <cx-sorting
           [sortOptions]="orderApprovals.sorts"
-          [sortLabels]="getSortLabels() | async"
+          [sortLabels]="sortLabels$ | async"
           (sortListEvent)="changeSortCode($event)"
           [selectedOption]="orderApprovals.pagination.sort"
         ></cx-sorting>

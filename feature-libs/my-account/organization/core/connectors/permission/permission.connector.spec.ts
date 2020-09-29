@@ -1,10 +1,10 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderApprovalPermissionType } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import { SearchConfig } from '@spartacus/core';
+import { OrderApprovalPermissionType } from '@spartacus/my-account/organization/core';
+import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
@@ -44,8 +44,8 @@ describe('PermissionConnector', () => {
       ],
     });
 
-    service = TestBed.get(PermissionConnector as Type<PermissionConnector>);
-    adapter = TestBed.get(PermissionAdapter as Type<PermissionAdapter>);
+    service = TestBed.inject(PermissionConnector);
+    adapter = TestBed.inject(PermissionAdapter);
   });
 
   it('should be created', () => {
@@ -58,7 +58,7 @@ describe('PermissionConnector', () => {
   });
 
   it('should load permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });

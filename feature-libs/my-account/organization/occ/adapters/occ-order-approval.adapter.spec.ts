@@ -2,20 +2,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
-  ORDER_APPROVAL_NORMALIZER,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+  ORDER_APPROVAL_NORMALIZER,
+} from '../../core/connectors/order-approval';
 import {
-  ConverterService,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '../../core/model/order-approval.model';
 import { OccOrderApprovalAdapter } from './occ-order-approval.adapter';
 
 import createSpy = jasmine.createSpy;
@@ -57,13 +55,9 @@ describe('OccOrderApprovalAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(
-      OccOrderApprovalAdapter as Type<OccOrderApprovalAdapter>
-    );
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccOrderApprovalAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

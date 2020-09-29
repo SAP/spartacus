@@ -1,20 +1,18 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { B2BSearchConfig } from '../../model/search-config';
-import { denormalizeB2BSearch } from '../../utils/serializer';
+import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
+import { denormalizeSearch } from '../../utils/serializer';
 import {
   OrganizationState,
   PermissionManagement,
   PERMISSION_FEATURE,
-  StateWithOrganization,
   PERMISSION_TYPES,
+  StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import {
-  StateUtils,
-  EntitiesModel,
-  OrderApprovalPermissionType,
-  Permission,
-} from '@spartacus/core';
 
 export const getPermissionManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -53,13 +51,13 @@ export const getPermission = (
   );
 
 export const getPermissionList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>
 > =>
   createSelector(getPermissionManagementState, (state: PermissionManagement) =>
-    denormalizeB2BSearch<Permission>(state, params)
+    denormalizeSearch<Permission>(state, params)
   );
 
 export const getPermissionTypes = (): MemoizedSelector<

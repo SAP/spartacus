@@ -1,5 +1,4 @@
-import { Principal } from './cart.model';
-import { Order } from './order.model';
+import { Order, Principal } from '@spartacus/core';
 import { OrderApprovalPermissionType } from './permission.model';
 
 export enum OrderApprovalDecisionValue {
@@ -18,18 +17,13 @@ export interface OrderApprovalRecord {
   statusDisplay?: string;
 }
 
-export interface Trigger {
-  activationTime?: string;
-  displayTimeTable?: string;
-}
-
 export interface OrderApproval {
   approvalDecisionRequired?: boolean;
   code?: string;
   customerOrderApprovalRecords?: OrderApprovalRecord[];
   merchantOrderApprovalRecords?: OrderApprovalRecord[];
   order?: Order;
-  trigger?: Trigger;
+  trigger?: OrderApprovalTrigger;
 }
 
 export interface OrderApprovalPermissionResult {
@@ -37,4 +31,9 @@ export interface OrderApprovalPermissionResult {
   approverNotes: string;
   permissionType: OrderApprovalPermissionType;
   statusDisplay: string;
+}
+
+export interface OrderApprovalTrigger {
+  activationTime?: string;
+  displayTimeTable?: string;
 }

@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { CostCenterActions } from '../store/actions/index';
 import {
-  getCostCenter,
-  getCostCenterList,
-  getAssignedBudgets,
-} from '../store/selectors/cost-center.selector';
-import { B2BSearchConfig } from '../model/search-config';
-import {
+  AuthService,
   CostCenter,
   EntitiesModel,
-  StateWithProcess,
-  AuthService,
+  SearchConfig,
   StateUtils,
+  StateWithProcess,
 } from '@spartacus/core';
+import { Observable, queueScheduler } from 'rxjs';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
+import { CostCenterActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getAssignedBudgets,
+  getCostCenter,
+  getCostCenterList,
+} from '../store/selectors/cost-center.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CostCenterService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -35,7 +34,7 @@ export class CostCenterService {
     );
   }
 
-  loadList(params?: B2BSearchConfig): void {
+  loadList(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -74,7 +73,7 @@ export class CostCenterService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<CostCenter>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<CostCenter>> {
     return this.getCostCenterList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) => {
@@ -110,7 +109,7 @@ export class CostCenterService {
     );
   }
 
-  loadBudgets(costCenterCode: string, params: B2BSearchConfig): void {
+  loadBudgets(costCenterCode: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
@@ -124,7 +123,7 @@ export class CostCenterService {
 
   getBudgets(
     costCenterCode: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<Budget>> {
     return this.getBudgetList(costCenterCode, params).pipe(
       observeOn(queueScheduler),

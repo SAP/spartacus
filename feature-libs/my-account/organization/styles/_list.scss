@@ -11,6 +11,62 @@ cx-organization-form {
   display: contents;
 }
 
+%ghost {
+  &.ghost {
+    .header {
+      h3 {
+        color: transparent;
+        background-color: var(--cx-color-ghost);
+        border-radius: var(--cx-ghost-radius);
+        display: inline-block;
+      }
+    }
+    ng-select.sort {
+      min-width: 200px;
+      background-color: var(--cx-color-ghost);
+      .ng-select-container {
+        visibility: hidden;
+      }
+    }
+
+    cx-table.vertical-stacked,
+    cx-table.vertical {
+      table {
+        tr:hover:not(.is-current) {
+          background: none;
+        }
+
+        td {
+          position: relative;
+          &:before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 25px);
+            height: 25px;
+            background: var(--cx-color-ghost);
+            border-radius: var(--cx-ghost-radius);
+            top: 25px;
+            left: 0;
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          tr td:before {
+            top: initial;
+            bottom: 2px;
+            height: 20px;
+            margin-inline-start: 40px;
+            width: calc(100% - 60px);
+          }
+          tr:last-child td:before {
+            bottom: 22px;
+          }
+        }
+      }
+    }
+  }
+}
+
 %organizationList {
   cx-split-view {
     height: 100%;
@@ -51,6 +107,8 @@ cx-organization-form {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
   }
+
+  @extend %ghost !optional;
 
   @extend %viewHeader !optional;
   @extend %table !optional;
@@ -98,6 +156,7 @@ cx-organization-form {
       &:last-child {
         border-bottom: solid 1px var(--cx-color-light);
       }
+
       tr:first-child > * {
         padding-top: 20px;
       }
@@ -174,9 +233,6 @@ cx-organization-form {
           display: none;
         }
         tr {
-          :hover {
-            // background: none;
-          }
           &:focus-within {
             outline: none;
           }

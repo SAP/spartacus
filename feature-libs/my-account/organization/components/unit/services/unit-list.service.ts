@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { B2BUnitNode, B2bUnitTreeNode, EntitiesModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { B2bUnitTreeNode, EntitiesModel } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

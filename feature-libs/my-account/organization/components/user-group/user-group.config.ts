@@ -16,12 +16,12 @@ import { OrganizationCellComponent } from '../shared/organization-table/organiza
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
-import { UserGroupFormComponent } from './form';
+import { UserGroupFormComponent } from './form/user-group-form.component';
 import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
-import { UserGroupPermissionListComponent } from './permissions';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
-import { UserGroupListService } from './services';
+import { UserGroupPermissionListComponent } from './permissions/user-group-permission-list.component';
 import { UserGroupItemService } from './services/user-group-item.service';
+import { UserGroupListService } from './services/user-group-list.service';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
 
@@ -133,6 +133,9 @@ export const userGroupTableConfig: TableConfig = {
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
+          },
+          uid: {
+            dataComponent: OrganizationCellComponent,
           },
           unit: {
             dataComponent: UnitCellComponent,

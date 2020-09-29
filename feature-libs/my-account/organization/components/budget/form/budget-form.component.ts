@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnitNode, Currency, CurrencyService } from '@spartacus/core';
+import { Currency, CurrencyService } from '@spartacus/core';
 import {
+  B2BUnitNode,
   Budget,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';

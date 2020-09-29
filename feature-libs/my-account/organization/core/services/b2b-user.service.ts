@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  B2BUser,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-import { Permission } from '@spartacus/core';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { B2BUserActions } from '../store/actions/index';
-import { B2BSearchConfig } from '../model/search-config';
-import {
-  getB2BUserState,
-  getUserList,
-  getB2BUserPermissions,
-  getB2BUserApprovers,
-  getB2BUserUserGroups,
-} from '../store/selectors/b2b-user.selector';
-import {
-  StateWithProcess,
-  AuthService,
-  EntitiesModel,
-  B2BUser,
-  StateUtils,
-} from '@spartacus/core';
+import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
+import { B2BUserActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
+import {
+  getB2BUserApprovers,
+  getB2BUserPermissions,
+  getB2BUserState,
+  getB2BUserUserGroups,
+  getUserList,
+} from '../store/selectors/b2b-user.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -41,7 +40,7 @@ export class B2BUserService {
     );
   }
 
-  loadList(params?: B2BSearchConfig): void {
+  loadList(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
@@ -60,7 +59,7 @@ export class B2BUserService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<B2BUser>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<B2BUser>> {
     return this.getUserList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
@@ -101,7 +100,7 @@ export class B2BUserService {
     );
   }
 
-  loadApprovers(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadApprovers(orgCustomerId: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserApprovers({
@@ -115,7 +114,7 @@ export class B2BUserService {
 
   getApprovers(
     orgCustomerId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.getB2BUserApproverList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
@@ -156,7 +155,7 @@ export class B2BUserService {
     );
   }
 
-  loadPermissions(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadPermissions(orgCustomerId: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserPermissions({
@@ -170,7 +169,7 @@ export class B2BUserService {
 
   getPermissions(
     orgCustomerId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.getB2BUserPermissionList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
@@ -211,7 +210,7 @@ export class B2BUserService {
     );
   }
 
-  loadUserGroups(orgCustomerId: string, params: B2BSearchConfig): void {
+  loadUserGroups(orgCustomerId: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -225,7 +224,7 @@ export class B2BUserService {
 
   getUserGroups(
     orgCustomerId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<UserGroup>> {
     return this.getB2BUserUserGroupList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),

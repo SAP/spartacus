@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';

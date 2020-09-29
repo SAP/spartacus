@@ -2,17 +2,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
-import { OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  PERMISSIONS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 
 import createSpy = jasmine.createSpy;
-import {
-  PERMISSION_NORMALIZER,
-  PERMISSIONS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
 
 const orderApprovalPermissionCode = 'testCode';
 const userId = 'userId';
@@ -45,11 +43,9 @@ describe('OccPermissionAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(OccPermissionAdapter as Type<OccPermissionAdapter>);
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccPermissionAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
