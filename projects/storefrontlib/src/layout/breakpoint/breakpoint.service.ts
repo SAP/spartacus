@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -10,9 +11,11 @@ import {
 } from '../config/layout-config';
 
 /**
- * The `BreakpointService` resolves the various screen sizes that are used in the
- * storefront. The screen sizes are globally configurable by breakpoint name and
- * min/max size. The sizes can be customized based on your layout requirements.
+ * The `BreakpointService` resolves the various screen sizes that are used in
+ * the storefront. The screen sizes are globally configurable based on your
+ * layout requirements. You can adjust the screen sizes by setting the minimum
+ * and/or maximum size for a breakpoint, as well as extending the configuration
+ * with new screens.
  *
  * By default, the `BreakpointService` is based on the breakpoints from the
  * Bootstrap ui library:
@@ -26,31 +29,20 @@ import {
   providedIn: 'root',
 })
 export class BreakpointService {
-  private readonly _breakpoints = this.resolveBreakpointsFromConfig();
+  private _breakpoints: BREAKPOINT[];
 
-  private _breakpoint$: Observable<BREAKPOINT>;
+  breakpoint$: Observable<BREAKPOINT> = isPlatformBrowser(this.platform)
+    ? this.winRef.resize$.pipe(
+        map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
+        distinctUntilChanged()
+      )
+    : of(this.fallbackBreakpoint);
 
   constructor(
     protected winRef: WindowRef,
-    protected layoutConfig: LayoutConfig
+    protected layoutConfig: LayoutConfig,
+    @Inject(PLATFORM_ID) protected platform: any
   ) {}
-
-  /**
-   * Emits the current breakpoint. The current breakpoint is driven by the breakpoint
-   * configuration and the actual window size.
-   */
-  get breakpoint$(): Observable<BREAKPOINT> {
-    if (!this.window) {
-      return of(this.breakpoints?.[0]);
-    }
-    if (!this._breakpoint$) {
-      this._breakpoint$ = this.winRef.resize$.pipe(
-        map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
-        distinctUntilChanged()
-      );
-    }
-    return this._breakpoint$;
-  }
 
   /**
    * Returns the breakpoints for the storefront layout.
@@ -59,7 +51,10 @@ export class BreakpointService {
    * the given screen size.
    */
   get breakpoints(): BREAKPOINT[] {
-    return [...this._breakpoints];
+    if (!this._breakpoints) {
+      this._breakpoints = this.resolveBreakpointsFromConfig();
+    }
+    return this._breakpoints;
   }
 
   /**
@@ -67,26 +62,14 @@ export class BreakpointService {
    * configuration.
    */
   getSize(breakpoint: BREAKPOINT): number {
-    const breakpointConfig = this.config[breakpoint];
-
-    if (!breakpointConfig) {
-      return null;
-    }
-    // we treat numbers as the max number by default
-    if (typeof breakpointConfig === 'number') {
-      return breakpointConfig as number;
-    } else if (breakpointConfig.max) {
-      return breakpointConfig.max;
-    } else if (breakpointConfig?.min) {
-      // if there's a `min` value only, we need to base the `max` value
-      // on the next breakpoints `min`
-      const i = this.breakpoints.indexOf(breakpoint);
-      const next = this.breakpoints[i + 1];
-      return (this.config[next] as BreakPoint)?.min;
-    } else {
-      // this must be last in range and there's not much what we can do.
-      return null;
-    }
+    return (
+      this.getMaxSize(breakpoint) ??
+      // if there's no direct max value or explicit max value
+      // we must derive the max value from the previous min
+      this.getMinSize(
+        this.breakpoints?.[this.breakpoints.indexOf(breakpoint) + 1]
+      )
+    );
   }
 
   /**
@@ -124,10 +107,20 @@ export class BreakpointService {
   }
 
   /**
-   * Indicates whether the current screen size fits to the given breakpoint
+   * Indicates whether the given breakpoint fits in the current screen size.
    */
   isEqual(breakpoint: BREAKPOINT): Observable<boolean> {
     return this.breakpoint$.pipe(map((br) => br === breakpoint));
+  }
+
+  /**
+   * Returns the fallback breakpoint in case no breakpoint can be resolved. This is
+   * typically the case when we're on SSR without an actual window.
+   *
+   * Returns the smallest screen size (mobile first).
+   */
+  protected get fallbackBreakpoint(): BREAKPOINT {
+    return this.breakpoints?.[0];
   }
 
   /**
@@ -136,33 +129,41 @@ export class BreakpointService {
    * The sort order is by small to large screens.
    */
   protected resolveBreakpointsFromConfig(): BREAKPOINT[] {
-    const orderedBreakpoints = (Object.keys(this.config) as BREAKPOINT[]).sort(
-      (next, prev) => {
-        const prevMax = this.getMaxSize(next);
-        const nextMax = this.getMaxSize(prev);
-        if (!!prevMax || !!nextMax) {
-          return !nextMax || nextMax > prevMax ? -1 : 0;
-        } else {
-          return this.getMinSize(next) > this.getMinSize(prev) ? 0 : -1;
-        }
+    const sortByScreenSize = (next: BREAKPOINT, prev: BREAKPOINT): number => {
+      const prevMax = this.getMaxSize(next);
+      const nextMax = this.getMaxSize(prev);
+      if (!!prevMax || !!nextMax) {
+        return !nextMax || nextMax > prevMax ? -1 : 0;
+      } else {
+        return this.getMinSize(next) > this.getMinSize(prev) ? 0 : -1;
       }
+    };
+    const orderedBreakpoints = (Object.keys(this.config) as BREAKPOINT[]).sort(
+      sortByScreenSize
     );
-    return [...orderedBreakpoints];
+    return orderedBreakpoints;
   }
 
   /**
-   * Returns the _maximum_ size for the breakpoint, given by the `LayoutConfig.breakpoints`
-   * configuration.
+   * Returns the _maximum_ size for the breakpoint, given by the
+   * `LayoutConfig.breakpoints` configuration. We will try to resolve the
+   * max size form the current breakpoint, but if this is not available, we
+   * resolve it form the next breakpoint
    */
   protected getMaxSize(breakpoint: BREAKPOINT): number {
     const breakpointConfig = this.config[breakpoint];
+
+    if (!breakpointConfig) {
+      return null;
+    }
+
     // we treat numbers as the max number by default
     if (typeof breakpointConfig === 'number') {
       return breakpointConfig as number;
     } else if (breakpointConfig.max) {
       return breakpointConfig.max;
     } else {
-      return undefined;
+      return null;
     }
   }
 
@@ -178,9 +179,6 @@ export class BreakpointService {
    * is greater than the largest configurable breakpoint.
    */
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
-    if (windowWidth === undefined) {
-      windowWidth = window?.innerWidth || 0;
-    }
     return (
       this.breakpoints.find((br) => windowWidth <= this.getSize(br)) ??
       this.breakpoints?.[this.breakpoints.length - 1]
@@ -192,12 +190,5 @@ export class BreakpointService {
    */
   protected get config(): LayoutBreakPoints {
     return this.layoutConfig?.breakpoints || {};
-  }
-
-  /**
-   * Helper method to return the breakpoint configuration.
-   */
-  protected get window(): Window {
-    return this.winRef.nativeWindow;
   }
 }

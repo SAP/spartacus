@@ -9,7 +9,7 @@ class MockWindowRef {
     innerWidth: 1000,
   };
   get resize$(): Observable<any> {
-    return;
+    return of();
   }
 }
 const MockWindow = {
@@ -193,12 +193,12 @@ describe('BreakpointService', () => {
           min: 1200,
         },
       };
-      service = TestBed.inject(BreakpointService);
     });
 
     it('should return xs for <= 576', () => {
       MockWindow.target.innerWidth = 576;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xs);
@@ -207,6 +207,7 @@ describe('BreakpointService', () => {
     it('should return sm for <= 768', () => {
       MockWindow.target.innerWidth = 768;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.sm);
@@ -215,6 +216,7 @@ describe('BreakpointService', () => {
     it('should return md for <= 992', () => {
       MockWindow.target.innerWidth = 992;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.md);
@@ -223,6 +225,7 @@ describe('BreakpointService', () => {
     it('should return lg for < 1200', () => {
       MockWindow.target.innerWidth = 1200;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.lg);
@@ -231,6 +234,7 @@ describe('BreakpointService', () => {
     it('should return xl for >= 1201', () => {
       MockWindow.target.innerWidth = 1201;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xl);
@@ -248,13 +252,13 @@ describe('BreakpointService', () => {
           min: 1200,
         },
       };
-      service = TestBed.inject(BreakpointService);
     });
 
     describe('isEqual', () => {
       const isEqual = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isEqual(breakpoint)
@@ -308,6 +312,7 @@ describe('BreakpointService', () => {
       const isDown = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isDown(breakpoint)
@@ -344,7 +349,7 @@ describe('BreakpointService', () => {
         expect(isDown(901, BREAKPOINT.md)).toBeFalsy();
       });
 
-      it('should return false if window width > lg', () => {
+      fit('should return falsy if window width > lg', () => {
         expect(isDown(1201, BREAKPOINT.lg)).toBeFalsy();
       });
     });
@@ -353,6 +358,7 @@ describe('BreakpointService', () => {
       const isUp = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isUp(breakpoint)
