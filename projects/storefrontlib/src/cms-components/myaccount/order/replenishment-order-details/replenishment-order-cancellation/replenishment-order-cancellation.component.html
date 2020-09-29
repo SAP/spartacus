@@ -1,5 +1,5 @@
 <div class="cx-cancel-replenishment-btns row">
-  <div class="col-xs-12 col-md-4 col-lg-3">
+  <div class="col-xs-12 col-md-5 col-lg-4">
     <a
       class="btn btn-block btn-action"
       [routerLink]="
@@ -13,7 +13,7 @@
   </div>
   <div
     *ngIf="(replenishmentOrder$ | async).active"
-    class="col-xs-12 col-md-4 col-lg-3"
+    class="col-xs-12 col-md-5 col-lg-4"
   >
     <button #element class="btn btn-block btn-action" (click)="openDialog()">
       {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}

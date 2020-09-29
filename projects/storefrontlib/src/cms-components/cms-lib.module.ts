@@ -32,6 +32,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  ReplenishmentOrderHistoryModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -111,6 +112,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
+    ReplenishmentOrderHistoryModule,
     ReplenishmentOrderConfirmationModule,
     ReplenishmentOrderDetailsModule,
   ],
