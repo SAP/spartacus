@@ -14,8 +14,8 @@ import {
   StorefrontModule,
 } from '@spartacus/storefront';
 import { OrganizationModule } from '@spartacus/my-account/organization';
-import { defaultB2bOccConfig } from './config/b2b-occ-config';
-import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
+import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
+import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 
 @NgModule({
   imports: [
