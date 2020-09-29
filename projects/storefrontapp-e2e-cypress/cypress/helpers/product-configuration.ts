@@ -1,5 +1,6 @@
 import * as authentication from './auth-forms';
 import Chainable = Cypress.Chainable;
+import { navigation } from './navigation';
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons div div:last button';
@@ -879,6 +880,7 @@ export function login(): void {
  * Navigates to the order details page.
  */
 export function navigateToOrderDetails(): void {
+  cy.log('Navigate to order detail page');
   // Verify whether the ordered product is displayed in the order list
   cy.get('cx-cart-item-list cx-configure-cart-entry button')
     .first()
@@ -894,9 +896,26 @@ export function navigateToOrderDetails(): void {
  * @return {Chainable<Window>} - New order history window
  */
 export function goToOrderHistory(): Chainable<Window> {
+  cy.log('Navigate to order history');
   return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
     cy.get('cx-order-history h3').should('contain', 'Order history');
   });
+}
+
+function searchForOrder(orderNumber: string) {
+  cy.get('cx-order-history')
+    .get('td.cx-order-history-code a.cx-order-history-value')
+    .each((elem) => {
+      const order = elem.text().trim();
+      cy.log('order number: ' + order);
+      cy.log('searched order number: ' + orderNumber);
+      if (order === orderNumber) {
+        cy.wrap(true).as('isFound');
+        return false;
+      } else {
+        cy.wrap(false).as('isFound');
+      }
+    });
 }
 
 /**
@@ -904,20 +923,46 @@ export function goToOrderHistory(): Chainable<Window> {
  */
 export function selectOrderByOrderNumberAlias(): void {
   cy.get('@orderNumber').then((orderNumber) => {
-    cy.waitForOrderToBePlacedRequest(
-      'electronics-spa',
-      'USD',
-      orderNumber.toString()
-    );
-    cy.get(
-      'cx-order-history a.cx-order-history-value:contains(' +
-        `${orderNumber}` +
-        ')'
-    )
-      .click()
-      .then(() => {
-        navigateToOrderDetails();
-      });
+    cy.log('Order number: ' + orderNumber);
+    cy.log('Navigate to home page');
+    navigation.visitHomePage({});
+    this.goToOrderHistory();
+
+    searchForOrder(orderNumber.toString());
+    cy.get('@isFound').then((isFound) => {
+      let found = isFound ? ' ' : ' not ';
+      cy.log("Order with number '" + orderNumber + "' is" + found + 'found');
+      if (!isFound) {
+        cy.waitForOrderToBePlacedRequest(
+          'electronics-spa',
+          'USD',
+          orderNumber.toString()
+        );
+
+        searchForOrder(orderNumber.toString());
+        cy.get('@isFound').then((isOFound) => {
+          found = isOFound ? ' ' : ' not ';
+          cy.log(
+            "Order with number '" + orderNumber + "' is" + found + 'found'
+          );
+
+          if (!isFound) {
+            cy.log('Navigate to home page');
+            navigation.visitHomePage({});
+            this.goToOrderHistory();
+          }
+        });
+      }
+      cy.get(
+        'cx-order-history a.cx-order-history-value:contains(' +
+          `${orderNumber}` +
+          ')'
+      )
+        .click()
+        .then(() => {
+          navigateToOrderDetails();
+        });
+    });
   });
 }
 
@@ -942,6 +987,7 @@ export function defineOrderNumberAlias(): void {
  * Conducts the checkout.
  */
 export function checkout(): void {
+  cy.log('Complete checkout');
   // If 'Continue' button is disable, click on 'Ship to this address' link to enable it
   cy.get('button.btn-primary')
     .contains('Continue')
