@@ -89,5 +89,6 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
   }
 }

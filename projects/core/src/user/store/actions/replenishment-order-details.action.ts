@@ -20,7 +20,8 @@ export const CANCEL_REPLENISHMENT_ORDER_SUCCESS =
   '[User] Cancel Replenishment Order Success';
 export const CANCEL_REPLENISHMENT_ORDER_FAIL =
   '[User] Cancel Replenishment Order Fail';
-export const CLEAR_REPLENISHMENT_ORDER = '[User] Clear Replenishment Order';
+export const CLEAR_REPLENISHMENT_ORDER =
+  '[User] Clear Cancel Replenishment Order';
 
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS;

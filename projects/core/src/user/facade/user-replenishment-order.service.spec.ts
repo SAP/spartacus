@@ -247,7 +247,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should dispatch a ClearReplenishmentOrder action', () => {
-      userReplenishmentOrderService.clearReplenishmentOrderProcessState();
+      userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.ClearReplenishmentOrder()

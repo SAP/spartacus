@@ -139,7 +139,7 @@ export class UserReplenishmentOrderService {
   /**
    * Clears the cancel replenishment order processing state
    */
-  clearReplenishmentOrderProcessState(): void {
+  clearCancelReplenishmentOrderProcessState(): void {
     this.store.dispatch(new UserActions.ClearReplenishmentOrder());
   }
 
