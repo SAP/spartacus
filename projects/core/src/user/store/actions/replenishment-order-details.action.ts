@@ -20,7 +20,7 @@ export const CANCEL_REPLENISHMENT_ORDER_SUCCESS =
   '[User] Cancel Replenishment Order Success';
 export const CANCEL_REPLENISHMENT_ORDER_FAIL =
   '[User] Cancel Replenishment Order Fail';
-export const CLEAR_REPLENISHMENT_ORDER =
+export const CLEAR_CANCEL_REPLENISHMENT_ORDER =
   '[User] Clear Cancel Replenishment Order';
 
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
@@ -83,7 +83,7 @@ export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
 }
 
 export class ClearReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
-  readonly type = CLEAR_REPLENISHMENT_ORDER;
+  readonly type = CLEAR_CANCEL_REPLENISHMENT_ORDER;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
   }

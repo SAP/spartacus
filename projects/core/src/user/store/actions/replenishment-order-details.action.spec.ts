@@ -143,7 +143,7 @@ describe('ReplenishmentOrderActions', () => {
         const action = new UserActions.ClearReplenishmentOrder();
 
         expect({ ...action }).toEqual({
-          type: UserActions.CLEAR_REPLENISHMENT_ORDER,
+          type: UserActions.CLEAR_CANCEL_REPLENISHMENT_ORDER,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
