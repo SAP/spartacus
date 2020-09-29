@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { take } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-
+import { take } from 'rxjs/operators';
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
+
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements CheckoutAdapter {
   placeOrder = createSpy(
     'CheckoutAdapter.placeOrder'
-  ).and.callFake((userId, cartId) => of(`placedOrder-${userId}-${cartId}`));
+  ).and.callFake((userId, cartId, termsChecked) =>
+    of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
+  );
   loadCheckoutDetails = createSpy(
     'CheckoutAdapter.loadCheckoutDetails'
   ).and.callFake((userId, cartId) =>
@@ -47,11 +49,11 @@ describe('OrderConnector', () => {
   it('placeOrder should call adapter', () => {
     let result;
     service
-      .placeOrder('user1', 'cart1')
+      .placeOrder('user1', 'cart1', true)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe('placedOrder-user1-cart1');
-    expect(adapter.placeOrder).toHaveBeenCalledWith('user1', 'cart1');
+    expect(result).toBe('placedOrder-user1-cart1-true');
+    expect(adapter.placeOrder).toHaveBeenCalledWith('user1', 'cart1', true);
   });
 
   it('loadCheckoutDetails should call adapter', () => {

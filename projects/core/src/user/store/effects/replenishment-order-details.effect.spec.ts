@@ -7,6 +7,7 @@ import { GlobalMessageService } from '../../../global-message/facade/global-mess
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { Translatable } from '../../../i18n/translatable';
 import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
 import { UserActions } from '../actions/index';
 import * as fromEffects from './replenishment-order-details.effect';
@@ -99,7 +100,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new UserActions.LoadReplenishmentOrderDetailsFail(
-        mockError
+        normalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });
@@ -143,7 +144,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new UserActions.CancelReplenishmentOrderFail(
-        mockError
+        normalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });

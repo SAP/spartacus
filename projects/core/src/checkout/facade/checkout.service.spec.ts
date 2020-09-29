@@ -171,12 +171,13 @@ describe('CheckoutService', () => {
 
   describe('Place an order', () => {
     it('should be able to place order', () => {
-      service.placeOrder();
+      service.placeOrder(mockTermsChecked);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.PlaceOrder({
           userId: mockUserId,
           cartId: mockCartId,
+          termsChecked: mockTermsChecked,
         })
       );
     });

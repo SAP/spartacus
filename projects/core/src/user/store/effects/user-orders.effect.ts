@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import {
   UserOrderConnector,
   UserReplenishmentOrderConnector,
@@ -45,7 +45,7 @@ export class UserOrdersEffect {
           return new UserActions.LoadUserOrdersSuccess(orders);
         }),
         catchError((error) =>
-          of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserOrdersFail(normalizeHttpError(error)))
         )
       );
     })

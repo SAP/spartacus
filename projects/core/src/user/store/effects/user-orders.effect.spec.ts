@@ -7,6 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import {
   UserOrderAdapter,
   UserOrderConnector,
@@ -21,6 +22,8 @@ const mockUserOrders: OrderHistoryList = {
   pagination: {},
   sorts: [],
 };
+
+const mockError = 'test-error';
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
@@ -69,7 +72,7 @@ describe('User Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderConnector, 'getHistory').and.returnValue(
-          throwError('Error')
+          throwError(mockError)
         );
 
         const action = new UserActions.LoadUserOrders({
@@ -77,7 +80,9 @@ describe('User Orders effect', () => {
           pageSize: 5,
         });
 
-        const completion = new UserActions.LoadUserOrdersFail('Error');
+        const completion = new UserActions.LoadUserOrdersFail(
+          normalizeHttpError(mockError)
+        );
         actions$ = hot('-a', { a: action });
 
         const expected = cold('-b', { b: completion });
@@ -113,7 +118,7 @@ describe('User Orders effect', () => {
         spyOn(
           userReplenishmentOrderConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(throwError('Error'));
+        ).and.returnValue(throwError(mockError));
 
         const action = new UserActions.LoadUserOrders({
           userId: 'test@sap.com',
@@ -121,7 +126,9 @@ describe('User Orders effect', () => {
           replenishmentOrderCode: 'test-repl-code',
         });
 
-        const completion = new UserActions.LoadUserOrdersFail('Error');
+        const completion = new UserActions.LoadUserOrdersFail(
+          normalizeHttpError(mockError)
+        );
         actions$ = hot('-a', { a: action });
 
         const expected = cold('-b', { b: completion });
