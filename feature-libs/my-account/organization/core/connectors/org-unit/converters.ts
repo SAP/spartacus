@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   Converter,
@@ -23,9 +23,9 @@ export const B2BUNIT_APPROVAL_PROCESSES_NORMALIZER = new InjectionToken<
 >('B2BUnitApprovalProcessNormalizer');
 
 export const B2B_ADDRESS_LIST_NORMALIZER = new InjectionToken<
-  Converter<any, EntitiesModel<B2BAddress>>
+  Converter<any, EntitiesModel<Address>>
 >('B2BAddressesNormalizer');
 
 export const B2B_ADDRESS_NORMALIZER = new InjectionToken<
-  Converter<any, B2BAddress>
+  Converter<any, Address>
 >('B2BAddressNormalizer');

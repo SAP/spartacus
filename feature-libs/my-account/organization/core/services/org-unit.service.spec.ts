@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  Address,
   AuthService,
-  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -85,7 +85,7 @@ const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
-const address: B2BAddress = { id: 'adrId' };
+const address: Address = { id: 'adrId' };
 const addressId = 'testAddressId';
 const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';
@@ -277,7 +277,7 @@ describe('OrgUnitService', () => {
 
   describe('get Addresses', () => {
     it('getAddresses() should trigger loadAddresses when they are not present in the store', () => {
-      let fetchedAddress: EntitiesModel<B2BAddress>;
+      let fetchedAddress: EntitiesModel<Address>;
       service
         .getAddresses(orgUnitId)
         .subscribe((data) => {

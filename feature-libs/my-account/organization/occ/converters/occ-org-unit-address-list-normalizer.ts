@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { B2B_ADDRESS_NORMALIZER } from '@spartacus/my-account/organization/core';
 import {
+  Address,
   Converter,
-  Occ,
-  EntitiesModel,
-  B2BAddress,
   ConverterService,
+  EntitiesModel,
+  Occ,
 } from '@spartacus/core';
+import { B2B_ADDRESS_NORMALIZER } from '@spartacus/my-account/organization/core';
 
 @Injectable()
 export class OccOrgUnitAddressListNormalizer
-  implements Converter<Occ.B2BAddressList, EntitiesModel<B2BAddress>> {
+  implements Converter<Occ.B2BAddressList, EntitiesModel<Address>> {
   constructor(private converter: ConverterService) {}
 
   convert(
     source: Occ.B2BAddressList,
-    target?: EntitiesModel<B2BAddress>
-  ): EntitiesModel<B2BAddress> {
+    target?: EntitiesModel<Address>
+  ): EntitiesModel<Address> {
     if (target === undefined) {
       target = {
         ...(source as any),

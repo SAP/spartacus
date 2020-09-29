@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -134,7 +134,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   loadAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<EntitiesModel<B2BAddress>> {
+  ): Observable<EntitiesModel<Address>> {
     return this.http
       .get<Occ.B2BAddressList>(this.getAddressesEndpoint(userId, orgUnitId))
       .pipe(this.converter.pipeable(B2B_ADDRESS_LIST_NORMALIZER));
@@ -143,8 +143,8 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   createAddress(
     userId: string,
     orgUnitId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.http
       .post<Occ.B2BAddress>(
         this.getAddressesEndpoint(userId, orgUnitId),
@@ -157,8 +157,8 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.http
       .patch<Occ.B2BAddress>(
         this.getAddressEndpoint(userId, orgUnitId, addressId),

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { B2BAddress, RoutingService } from '@spartacus/core';
+import { Address, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
@@ -11,9 +11,7 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressItemService extends OrganizationItemService<
-  B2BAddress
-> {
+export class UnitAddressItemService extends OrganizationItemService<Address> {
   constructor(
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
@@ -27,17 +25,17 @@ export class UnitAddressItemService extends OrganizationItemService<
     .getParams()
     .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
 
-  load(unitUid: string, addressId: string): Observable<B2BAddress> {
+  load(unitUid: string, addressId: string): Observable<Address> {
     return this.unitService.getAddress(unitUid, addressId);
   }
 
-  update(addressCode: string, address: B2BAddress) {
+  update(addressCode: string, address: Address) {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
       return this.unitService.updateAddress(unitCode, addressCode, address);
     });
   }
 
-  protected create(value: B2BAddress) {
+  protected create(value: Address) {
     this.unitRouteParam$
       .pipe(first(), tap(console.log))
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
@@ -52,7 +50,7 @@ export class UnitAddressItemService extends OrganizationItemService<
     this.unitService.deleteAddress(unitUid, addressId);
   }
 
-  launchDetails(item: B2BAddress): void {
+  launchDetails(item: Address): void {
     if (!item.id) {
       // since the ID is generated in the backend
       // we redirect to the list instead.

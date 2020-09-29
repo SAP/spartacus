@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  B2BAddress,
+  Address,
   EntitiesModel,
   Occ,
   OccEndpointsService,
@@ -45,7 +45,7 @@ describe('OccOrgUnitAddressListNormalizer', () => {
 
   describe('convert', () => {
     it('convert Occ.B2BAddressList to EntitiesModel<B2BAddress>', () => {
-      let target: EntitiesModel<B2BAddress>;
+      let target: EntitiesModel<Address>;
       target = service.convert(source);
 
       expect(target.values.length).toEqual(source.addresses.length);
