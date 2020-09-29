@@ -19,12 +19,13 @@ export function reducer(
     case UserActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
+
     case UserActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS: {
       const cancelledReplenishmentOrder = action.payload;
       const userReplenishmentOrders = new Array<ReplenishmentOrder>(
         state.replenishmentOrders.length
       );
-      state.replenishmentOrders.forEach(
+      state.replenishmentOrders.map(
         (replenishmentOrder: ReplenishmentOrder, index) =>
           replenishmentOrder.replenishmentOrderCode ===
           cancelledReplenishmentOrder.replenishmentOrderCode
