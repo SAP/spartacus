@@ -29,9 +29,6 @@ export function activeCartReducer(
       return state;
     case CartActions.CLEAR_CART_STATE:
       return activeCartInitialState;
-    case CartActions.CREATE_BUNDLE:
-    case CartActions.CREATE_BUNDLE_SUCCESS:
-      return state;
   }
   return state;
 }

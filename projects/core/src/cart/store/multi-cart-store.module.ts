@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
+import { CartBundleEffects } from './effects/cart-bundle.effect';
 import { CartEntryEffects } from './effects/cart-entry.effect';
 import { CartVoucherEffects } from './effects/cart-voucher.effect';
 import { CartEffects } from './effects/cart.effect';
@@ -17,6 +18,7 @@ import {
 
 const effects: any[] = [
   CartEffects,
+  CartBundleEffects,
   CartEntryEffects,
   CartVoucherEffects,
   WishListEffects,

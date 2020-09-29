@@ -329,35 +329,6 @@ export class CartEffects {
     )
   );
 
-  @Effect()
-  createBundle$: Observable<
-    CartActions.CreateBundleSuccess | CartActions.CreateBundleFail
-  > = this.actions$.pipe(
-    ofType(CartActions.CREATE_BUNDLE),
-    map((action: CartActions.CreateBundle) => action.payload),
-    mergeMap((payload) => {
-      return this.cartConnector.create(payload.userId, payload.cartId).pipe(
-        switchMap((cart: Cart) => {
-          return [
-            new CartActions.CreateBundleSuccess({
-              ...payload,
-              cartId: getCartIdByUserId(cart, payload.userId),
-            }),
-          ];
-        }),
-        catchError((error) =>
-          of(
-            new CartActions.CreateBundleFail({
-              ...payload,
-              error: makeErrorSerializable(error),
-            })
-          )
-        )
-      );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
