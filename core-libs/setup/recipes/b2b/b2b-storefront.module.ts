@@ -19,11 +19,11 @@ import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
 
 @NgModule({
   imports: [
-    CostCenterModule.forRoot(),
-    OrganizationModule,
     StorefrontModule,
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
+    CostCenterModule.forRoot(),
+    OrganizationModule,
   ],
   providers: [
     provideDefaultConfig(layoutConfig),
