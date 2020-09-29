@@ -65,8 +65,8 @@ export interface ReplenishmentOrderList {
 }
 
 export interface Trigger {
-  activationTime: string;
-  displayTimeTable: string;
+  activationTime?: string;
+  displayTimeTable?: string;
 }
 
 export interface ScheduleReplenishmentForm {

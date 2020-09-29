@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CartActions } from '../../../cart/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CheckoutReplenishmentOrderConnector } from '../../connectors/index';
 import { CheckoutActions } from '../actions/index';
 
@@ -33,7 +33,7 @@ export class ReplenishmentOrderEffects {
           catchError((error) =>
             of(
               new CheckoutActions.ScheduleReplenishmentOrderFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

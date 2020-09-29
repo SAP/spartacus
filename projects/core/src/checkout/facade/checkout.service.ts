@@ -37,7 +37,7 @@ export class CheckoutService {
   /**
    * Places an order
    */
-  placeOrder(): void {
+  placeOrder(termsChecked: boolean): void {
     if (this.actionAllowed()) {
       let userId;
       this.authService
@@ -56,6 +56,7 @@ export class CheckoutService {
           new CheckoutActions.PlaceOrder({
             userId,
             cartId,
+            termsChecked,
           })
         );
       }
