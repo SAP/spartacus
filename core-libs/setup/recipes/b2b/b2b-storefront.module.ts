@@ -23,24 +23,12 @@ import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
     CmsLibModule,
   ],
   providers: [
-    provideDefaultConfig({
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
     provideDefaultConfig(layoutConfig),
     provideDefaultConfig(organizationLayoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
     provideDefaultConfig(defaultB2bCheckoutConfig),
-    provideDefaultConfig({
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
   ],
   exports: [StorefrontModule],
 })
