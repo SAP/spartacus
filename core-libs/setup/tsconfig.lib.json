@@ -11,7 +11,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "esnext"],
+    "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
