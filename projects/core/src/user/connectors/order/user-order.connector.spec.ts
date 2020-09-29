@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
 import createSpy = jasmine.createSpy;

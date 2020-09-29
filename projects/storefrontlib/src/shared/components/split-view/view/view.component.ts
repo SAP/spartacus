@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -9,7 +10,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { delayWhen } from 'rxjs/operators';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -31,6 +33,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   @Input()
   @HostBinding('attr.position')
+  @HostBinding('style.--cx-view-position')
   position: string;
 
   /**
@@ -60,27 +63,24 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   constructor(
     protected splitService: SplitViewService,
-    protected elementRef: ElementRef
+    protected elementRef: ElementRef,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.splitService.splitViewCount = this.splitViewCount;
-
     const hidden = this._hidden ? { hidden: this._hidden } : {};
     this.splitService.add(this.viewPosition, hidden);
 
     this.subscription = this.splitService
-      .getViewState(Number(this.position))
+      .getViewState(this.viewPosition)
+      // delay the disappeared state, so that the (CSS driven) animation has time to finish
+      .pipe(delayWhen((view) => timer(view.hidden ? this.duration * 1.25 : 0)))
       .subscribe((view) => {
         this.hiddenChange.emit(view.hidden);
         this._hidden = view.hidden;
-        if (view.hidden) {
-          setTimeout(() => {
-            this.disappeared = true;
-          }, this.duration * 1.25);
-        } else {
-          this.disappeared = false;
-        }
+
+        this.disappeared = view.hidden;
+        this.cd.markForCheck();
       });
   }
 
@@ -121,18 +121,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     } else {
       return 300;
     }
-  }
-
-  /**
-   * Returns the maximum number of views per split-view. The number is based on the CSS custom property
-   * `--cx-max-views`. Defaults to `2`
-   */
-  protected get splitViewCount(): number {
-    return Number(
-      getComputedStyle(this.elementRef.nativeElement)
-        .getPropertyValue('--cx-max-views')
-        .trim() || 2
-    );
   }
 
   /**

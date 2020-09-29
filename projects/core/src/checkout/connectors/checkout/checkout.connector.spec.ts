@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
-
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
+
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements CheckoutAdapter {
