@@ -1,6 +1,5 @@
 export interface TabElement {
   value?: string | any[];
-  url?: string;
   type: TabbingOrderTypes;
 }
 

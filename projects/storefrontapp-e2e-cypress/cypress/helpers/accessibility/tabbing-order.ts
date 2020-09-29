@@ -57,12 +57,6 @@ export function verifyTabElement(tabElement: TabElement) {
       });
   };
 
-  const urlCheck = (value: string) => {
-    cy.focused()
-      .invoke('href')
-      .then((url) => expect(url).to.contain(value));
-  };
-
   switch (tabElement.type) {
     case TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE: {
       cy.focused().should('contain', tabElement.value);

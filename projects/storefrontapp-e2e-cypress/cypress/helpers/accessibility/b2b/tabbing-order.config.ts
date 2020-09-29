@@ -85,11 +85,26 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
-    { url: 'checkout/payment-type', type: TabbingOrderTypes.LINK },
-    { url: 'checkout/shipping-address', type: TabbingOrderTypes.LINK },
-    { url: 'checkout/delivery-mode', type: TabbingOrderTypes.LINK },
-    { url: 'checkout/payment-details', type: TabbingOrderTypes.LINK },
-    { url: 'checkout/review-order', type: TabbingOrderTypes.LINK },
+    {
+      value: '/powertools-spa/en/USD/checkout/payment-type',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/payment-type',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/payment-details',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/shipping-address',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/delivery-mode',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
     {
       value: 'Cordless screwdriver 2436',
       type: TabbingOrderTypes.LINK,
