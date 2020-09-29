@@ -1,13 +1,17 @@
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
 import { addProduct } from '../../../helpers/accessibility/tabbing-order';
 import { checkoutPaymentMethodTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/b2b/payment-method';
-import { checkoutDeliveryModeTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+import {
+  checkoutDeliveryModeTabbingOrder,
+  checkoutDeliveryModeTabbingOrderAccount,
+} from '../../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
   checkoutPaymentDetailsTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { checkoutReviewOrderTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/review-order';
 import {
+  checkoutShippingAddressAccount,
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
@@ -15,7 +19,7 @@ import { generateMail, randomString } from '../../../helpers/user';
 import { b2bProduct, b2bUser } from '../../../sample-data/b2b-checkout';
 
 describe('Tabbing order for B2B checkout', () => {
-  describe('Checkout', () => {
+  describe('Checkout Credit Card', () => {
     before(() => {
       b2bUser.registrationData.email = generateMail(randomString(), true);
       cy.requireLoggedIn(b2bUser);
@@ -71,6 +75,47 @@ describe('Tabbing order for B2B checkout', () => {
     context('Review order', () => {
       it('should allow to navigate with tab key', () => {
         checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder);
+      });
+    });
+  });
+
+  describe('Checkout Account', () => {
+    before(() => {
+      addProduct(b2bProduct.code);
+      cy.getAllByText(/Proceed to checkout/i)
+        .first()
+        .click();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    context('Method of Payment', () => {
+      it('should allow to navigate with tab key (Account)', () => {
+        checkoutPaymentMethodTabbingOrder(config.paymentMethod, true);
+      });
+    });
+
+    context('Shipping address', () => {
+      it('should allow to navigate with tab key', () => {
+        checkoutShippingAddressAccount(config.shippingAddressAccount);
+      });
+    });
+
+    context('Delivery mode', () => {
+      it('should allow to navigate with tab key', () => {
+        checkoutDeliveryModeTabbingOrderAccount(config.deliveryMode);
+      });
+    });
+
+    context('Review order', () => {
+      it('should allow to navigate with tab key', () => {
+        checkoutReviewOrderTabbingOrder(config.checkoutReviewOrderAccount);
       });
     });
   });

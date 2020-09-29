@@ -44,6 +44,16 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     backButton,
     continueButton,
   ],
+  shippingAddressAccount: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
+    {
+      value: 'Ship to this address',
+      type: TabbingOrderTypes.LINK,
+    },
+    backButton,
+    continueButton,
+  ],
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
@@ -102,6 +112,44 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: '/powertools-spa/en/USD/checkout/payment-details',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/shipping-address',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/delivery-mode',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'I am confirming that I have read and agreed with',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Terms & Conditions',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+  ],
+  checkoutReviewOrderAccount: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
+    {
+      value: '/powertools-spa/en/USD/checkout/payment-type',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/payment-type',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/powertools-spa/en/USD/checkout/shipping-address',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {

@@ -11,3 +11,12 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
   checkoutNextStep('/checkout/payment-details');
 }
+
+export function checkoutDeliveryModeTabbingOrderAccount(config: TabElement[]) {
+  cy.visit('/checkout/delivery-mode');
+
+  cy.get('cx-delivery-mode input');
+
+  verifyTabbingOrder(containerSelector, config);
+  checkoutNextStep('/checkout/review-order');
+}
