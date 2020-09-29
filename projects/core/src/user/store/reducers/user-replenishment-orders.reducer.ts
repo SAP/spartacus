@@ -22,18 +22,22 @@ export function reducer(
 
     case UserActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS: {
       const cancelledReplenishmentOrder = action.payload;
-      const userReplenishmentOrders = new Array<ReplenishmentOrder>(
-        state.replenishmentOrders.length
-      );
-      state.replenishmentOrders.map(
-        (replenishmentOrder: ReplenishmentOrder, index) =>
+      const userReplenishmentOrders = [...state.replenishmentOrders];
+
+      const index = userReplenishmentOrders.findIndex(
+        (replenishmentOrder: ReplenishmentOrder) =>
           replenishmentOrder.replenishmentOrderCode ===
           cancelledReplenishmentOrder.replenishmentOrderCode
-            ? (userReplenishmentOrders[index] = {
-                ...cancelledReplenishmentOrder,
-              })
-            : (userReplenishmentOrders[index] = replenishmentOrder)
       );
+
+      if (index === -1) {
+        return initialState;
+      } else {
+        userReplenishmentOrders[index] = {
+          ...cancelledReplenishmentOrder,
+        };
+      }
+
       return { ...state, replenishmentOrders: userReplenishmentOrders };
     }
   }
