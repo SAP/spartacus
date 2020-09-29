@@ -10,7 +10,6 @@ import {
 } from '@spartacus/storefront';
 import { OrganizationModule } from '@spartacus/my-account/organization';
 import { defaultB2bOccConfig } from './config/b2b-occ-config';
-import { organizationLayoutConfig } from './config/organization-layout.config';
 import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
 
 
@@ -24,7 +23,6 @@ import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
   ],
   providers: [
     provideDefaultConfig(layoutConfig),
-    provideDefaultConfig(organizationLayoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
