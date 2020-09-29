@@ -1,7 +1,7 @@
-import { dummy } from '@spartacus/setup';
+import { B2bStorefrontModule } from '@spartacus/setup';
 
-describe('dummy', () => {
+describe('B2bStorefrontModule', () => {
   it('should be defined', () => {
-    expect(dummy).toBeTruthy();
+    expect(B2bStorefrontModule).toBeTruthy();
   });
 });
