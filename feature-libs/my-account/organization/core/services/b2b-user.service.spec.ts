@@ -1,23 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  AuthService,
-  B2BUser,
-  EntitiesModel,
-  SearchConfig,
-} from '@spartacus/core';
+import { AuthService, B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
-import {
-  B2BUserActions,
-  PermissionActions,
-  UserGroupActions,
-} from '../store/actions/index';
-import {
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
-} from '../store/organization-state';
+import { B2BUserActions, PermissionActions, UserGroupActions } from '../store/actions/index';
+import { ORGANIZATION_FEATURE, StateWithOrganization } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { B2BUserService } from './b2b-user.service';
 import createSpy = jasmine.createSpy;
@@ -32,7 +20,7 @@ const permission: Permission = {
   code: permissionId,
 };
 const permission2: Permission = { ...permission, code: permissionId2 };
-
+const isAssignedToApprovers = true;
 const b2bUser: B2BUser = {
   active: true,
   customerId: orgCustomerId,
@@ -45,6 +33,8 @@ const b2bUser2: B2BUser = {
   uid: 'bbb@aaa',
   name: 'test2',
 };
+let b2bUserUnassigned;
+let b2bUserAssigned;
 
 const userGroup: UserGroup = {
   uid: 'userGroupUid',
@@ -212,28 +202,99 @@ describe('B2BUserService', () => {
     });
 
     describe('create B2B user', () => {
-      it('create() should should dispatch CreateBudget action', () => {
-        service.create(b2bUser);
+      beforeEach(() => {
+        b2bUserUnassigned = {
+          active: true,
+          customerId: orgCustomerId,
+          uid: 'aaa@bbb',
+          name: 'test',
+          isAssignedToApprovers: false,
+        };
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new B2BUserActions.CreateB2BUser({ userId, orgCustomer: b2bUser })
-        );
+        b2bUserAssigned = {
+          active: true,
+          customerId: orgCustomerId,
+          uid: 'aaa@bbb',
+          name: 'test',
+          isAssignedToApprovers: true,
+        };
+      });
+
+      describe('when the user should be assigned to the approvers list for the unit', () => {
+        it('create() should dispatch CreateB2BUserAndAssignToApprovers action', () => {
+          service.create(b2bUserAssigned);
+
+          expect(authService.getOccUserId).toHaveBeenCalled();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new B2BUserActions.CreateB2BUserAndAssignToApprovers({
+              userId,
+              orgCustomer: b2bUser,
+              isAssignedToApprovers,
+            })
+          );
+        });
+      });
+
+      describe('when the user should not be assigned to the approvers list for the unit', () => {
+        it('create() should dispatch CreateB2BUser action', () => {
+          service.create(b2bUserUnassigned);
+
+          expect(authService.getOccUserId).toHaveBeenCalled();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new B2BUserActions.CreateB2BUser({ userId, orgCustomer: b2bUser })
+          );
+        });
       });
     });
 
     describe('update B2B user', () => {
-      it('update() should should dispatch UpdateB2BUser action', () => {
-        service.update(orgCustomerId, b2bUser);
+      beforeEach(() => {
+        b2bUserUnassigned = {
+          active: true,
+          customerId: orgCustomerId,
+          uid: 'aaa@bbb',
+          name: 'test',
+          isAssignedToApprovers: false,
+        };
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new B2BUserActions.UpdateB2BUser({
-            userId,
-            orgCustomerId,
-            orgCustomer: b2bUser,
-          })
-        );
+        b2bUserAssigned = {
+          active: true,
+          customerId: orgCustomerId,
+          uid: 'aaa@bbb',
+          name: 'test',
+          isAssignedToApprovers: true,
+        };
+      });
+
+      describe('when the user should be assigned to the approvers list for the unit', () => {
+        it('update() should should dispatch UpdateB2BUserAndAssignToApprovers action', () => {
+          service.update(orgCustomerId, b2bUserAssigned);
+
+          expect(authService.getOccUserId).toHaveBeenCalled();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new B2BUserActions.UpdateB2BUserAndAssignToApprovers({
+              userId,
+              orgCustomerId,
+              orgCustomer: b2bUser,
+              isAssignedToApprovers,
+            })
+          );
+        });
+      });
+
+      describe('when the user should not be assigned to the approvers list for the unit', () => {
+        it('update() should should dispatch UpdateB2BUser action', () => {
+          service.update(orgCustomerId, b2bUserUnassigned);
+
+          expect(authService.getOccUserId).toHaveBeenCalled();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new B2BUserActions.UpdateB2BUser({
+              userId,
+              orgCustomerId,
+              orgCustomer: b2bUser,
+            })
+          );
+        });
       });
     });
 

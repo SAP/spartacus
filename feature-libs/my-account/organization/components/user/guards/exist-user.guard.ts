@@ -10,8 +10,7 @@ import {
   B2BUserService,
   Budget,
 } from '@spartacus/my-account/organization/core';
-import { Observable, of } from 'rxjs';
-import { shareReplay, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 
@@ -31,10 +30,7 @@ export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
   }
 
   protected getItem(code: string): Observable<Budget> {
-    return of(this.userService.load(code)).pipe(
-      switchMap(() => this.userService.get(code)),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return this.userService.get(code);
   }
 
   protected getRedirectUrl(_urlParams?: any): UrlTree {
