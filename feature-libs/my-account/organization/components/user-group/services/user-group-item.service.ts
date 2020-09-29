@@ -3,12 +3,12 @@ import { RoutingService } from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
+  ItemInfo,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { CurrentUserGroupService } from './current-user-group.service';
-import { ItemInfo } from '../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',

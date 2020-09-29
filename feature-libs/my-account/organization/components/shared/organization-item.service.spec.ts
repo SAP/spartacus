@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 import { OrganizationItemService } from './organization-item.service';
-import { ItemInfo, LoadStatus } from '../../core/model/LoadStatus';
+import { ItemInfo, LoadStatus } from '@spartacus/my-account/organization/core';
 
 class MockRoutingService {
   go() {}

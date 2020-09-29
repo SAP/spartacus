@@ -3,12 +3,12 @@ import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   OrgUnitService,
+  ItemInfo,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitUserRolesFormService } from '../roles/unit-user-roles-form.service';
 import { CurrentUnitUserService } from './current-unit-user.service';
-import { ItemInfo } from '../../../../../core/model/LoadStatus';
 @Injectable({
   providedIn: 'root',
 })

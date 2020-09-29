@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { B2BAddress, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  ItemInfo,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
-import { ItemInfo } from '../../../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',

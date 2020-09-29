@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { B2BUnit, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  ItemInfo,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../services/current-unit.service';
-import { ItemInfo } from '../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',

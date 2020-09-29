@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
-import { CostCenterService } from '@spartacus/my-account/organization/core';
+import {
+  CostCenterService,
+  ItemInfo,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CurrentCostCenterService } from './current-cost-center.service';
-import { ItemInfo } from '../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',

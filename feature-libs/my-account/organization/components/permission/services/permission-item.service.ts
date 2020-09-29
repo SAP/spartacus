@@ -3,12 +3,12 @@ import { RoutingService } from '@spartacus/core';
 import {
   Permission,
   PermissionService,
+  ItemInfo,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { PermissionFormService } from '../form/permission-form.service';
 import { CurrentPermissionService } from './current-permission.service';
-import { ItemInfo } from '../../../core/model/LoadStatus';
 
 @Injectable({
   providedIn: 'root',
