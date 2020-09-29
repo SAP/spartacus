@@ -1,7 +1,6 @@
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../model/budget.model';
-import { B2BSearchConfig } from '../../model/search-config';
-import { EntitiesModel } from '@spartacus/core';
 
 export abstract class BudgetAdapter {
   /**
@@ -16,7 +15,7 @@ export abstract class BudgetAdapter {
 
   abstract loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Budget>>;
 
   abstract create(userId: string, budget: Budget): Observable<Budget>;

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   Converter,
-  Occ,
-  OrderApproval,
   ConverterService,
+  Occ,
   ORDER_NORMALIZER,
 } from '@spartacus/core';
+import { OrderApproval } from '@spartacus/my-account/organization/core';
 
 @Injectable()
 export class OccOrderApprovalNormalizer

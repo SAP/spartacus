@@ -72,10 +72,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
   },
-  orderApprovalDetails: {
-    paths: ['my-account/approval/:approvalCode'],
-    paramsMapping: { approvalCode: 'approvalCode' },
-  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

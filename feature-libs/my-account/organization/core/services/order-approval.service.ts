@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  AuthService,
+  EntitiesModel,
+  ProcessSelectors,
+  SearchConfig,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pluck, take, tap } from 'rxjs/operators';
 import {
-  AuthService,
   OrderApproval,
   OrderApprovalDecision,
-  StateWithProcess,
-  EntitiesModel,
-  StateUtils,
-  ProcessSelectors,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../model/search-config';
+} from '../model/order-approval.model';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
@@ -19,7 +21,7 @@ import {
 } from '../store/organization-state';
 import { OrderApprovalSelectors } from '../store/selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrderApprovalService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -37,7 +39,7 @@ export class OrderApprovalService {
     );
   }
 
-  loadOrderApprovals(params?: B2BSearchConfig): void {
+  loadOrderApprovals(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -84,7 +86,7 @@ export class OrderApprovalService {
     return this.getOrderApproval(orderApprovalCode).pipe(pluck('loading'));
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<OrderApproval>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<OrderApproval>> {
     return this.getOrderApprovalList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) => {

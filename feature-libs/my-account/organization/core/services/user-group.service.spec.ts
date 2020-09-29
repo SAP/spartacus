@@ -1,30 +1,26 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import {
-  UserGroupActions,
-  PermissionActions,
-  B2BUserActions,
-} from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
-
-import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
   B2BUser,
-  Permission,
   EntitiesModel,
+  SearchConfig,
 } from '@spartacus/core';
-import { UserGroup } from '../model';
-import { UserGroupService } from './user-group.service';
+import { of } from 'rxjs';
+import { Permission, UserGroup } from '../model';
 import {
-  StateWithOrganization,
+  B2BUserActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../store/actions/index';
+import {
   ORGANIZATION_FEATURE,
+  StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { UserGroupService } from './user-group.service';
 import { LoadStatus } from '../model/LoadStatus';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const userGroupId = 'testUserGroup';
@@ -98,9 +94,9 @@ describe('UserGroupService', () => {
       ],
     });
 
-    store = TestBed.inject(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.inject(UserGroupService as Type<UserGroupService>);
-    authService = TestBed.inject(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(UserGroupService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -155,7 +151,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get userGroups', () => {
-    const params: B2BSearchConfig = { sort: 'byName' };
+    const params: SearchConfig = { sort: 'byName' };
 
     it('getList() should trigger load userGroups when they are not present in the store', () => {
       let userGroups: EntitiesModel<UserGroup>;
@@ -247,7 +243,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get permissions', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('getUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
@@ -331,7 +327,7 @@ describe('UserGroupService', () => {
   });
 
   describe('get members', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('getUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;

@@ -1,22 +1,22 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-
 import {
   AuthService,
   EntitiesModel,
+  ProcessModule,
+  SearchConfig,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import {
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  ProcessModule,
-} from '@spartacus/core';
-import {
-  StateWithOrganization,
-  ORGANIZATION_FEATURE,
-} from '../store/organization-state';
-import { B2BSearchConfig } from '../model/search-config';
+} from '../model/order-approval.model';
 import { OrderApprovalActions } from '../store/actions/index';
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { OrderApprovalService } from './order-approval.service';
 
@@ -63,9 +63,9 @@ describe('OrderApprovalService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(OrderApprovalService as Type<OrderApprovalService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(OrderApprovalService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -149,7 +149,7 @@ describe('OrderApprovalService', () => {
   });
 
   describe('get orderApprovals', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load orderApprovals when they are not present in the store', () => {
       let orderApprovals: EntitiesModel<OrderApproval>;

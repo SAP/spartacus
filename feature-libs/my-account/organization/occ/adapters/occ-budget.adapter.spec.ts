@@ -2,16 +2,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  BUDGETS_NORMALIZER,
+  BUDGET_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
 import createSpy = jasmine.createSpy;
-import {
-  BUDGET_NORMALIZER,
-  BUDGETS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
 
 const budgetCode = 'testCode';
 const userId = 'userId';
@@ -43,11 +42,9 @@ describe('OccBudgetAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(OccBudgetAdapter as Type<OccBudgetAdapter>);
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccBudgetAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

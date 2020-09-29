@@ -1,10 +1,9 @@
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
-  PROCESS_FEATURE,
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-  StateUtils,
-} from '@spartacus/core';
+} from '../../model/order-approval.model';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,

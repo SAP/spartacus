@@ -8,7 +8,7 @@ import {
   TableStructure,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
 
 /**
@@ -30,6 +30,15 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     options: { layout: TableLayout.VERTICAL_STACKED },
     lg: { options: { layout: TableLayout.VERTICAL } },
   };
+
+  protected ghostData = {
+    values: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+    pagination: {
+      totalPages: 1,
+      sort: ' ',
+    },
+    sorts: [],
+  } as EntitiesModel<T>;
 
   notification$: Subject<any> = new Subject();
 
@@ -82,6 +91,11 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     return this.getStructure().pipe(
       switchMap((structure) =>
         this.load(structure, ...args).pipe(
+          startWith(this.ghostData),
+          tap((data) => {
+            // if we have ghost data, we add the ghost class
+            structure.isLoading = data === this.ghostData;
+          }),
           map(
             ({ values, pagination, sorts }) =>
               ({

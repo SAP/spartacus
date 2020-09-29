@@ -1,8 +1,6 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DatePickerFormatterService } from './date-picker-formatter.service';
 import { DatePickerComponent } from '.';
+import { DatePickerFormatterService } from './date-picker-formatter.service';
 
 import createSpy = jasmine.createSpy;
 
@@ -35,9 +33,7 @@ describe('Date Picker Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DatePickerComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(
-      DatePickerFormatterService as Type<DatePickerFormatterService>
-    );
+    service = TestBed.inject(DatePickerFormatterService);
   });
 
   describe('component tests', () => {

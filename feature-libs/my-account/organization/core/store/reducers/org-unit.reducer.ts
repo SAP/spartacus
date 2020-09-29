@@ -1,4 +1,5 @@
-import { B2BUnitNode, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 
 export const orgUnitInitialState = {};

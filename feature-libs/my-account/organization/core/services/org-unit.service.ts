@@ -1,35 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUser,
+  CostCenter,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
-
-import { StateWithOrganization } from '../store/organization-state';
+import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
 import {
+  getApprovalProcesses,
+  getAssignedUsers,
+  getB2BAddress,
+  getB2BAddresses,
   getOrgUnit,
   getOrgUnitList,
-  getApprovalProcesses,
   getOrgUnitTree,
-  getAssignedUsers,
-  getB2BAddresses,
-  getB2BAddress,
 } from '../store/selectors/org-unit.selector';
-import {
-  B2BUnit,
-  B2BUnitNode,
-  B2BApprovalProcess,
-  B2BUser,
-  EntitiesModel,
-  B2BAddress,
-  CostCenter,
-  StateWithProcess,
-  AuthService,
-  StateUtils,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../model/search-config';
 import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrgUnitService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -60,7 +59,7 @@ export class OrgUnitService {
     );
   }
 
-  loadUsers(orgUnitId: string, roleId: string, params: B2BSearchConfig): void {
+  loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.LoadAssignedUsers({
@@ -114,7 +113,7 @@ export class OrgUnitService {
   private getAssignedUsers(
     orgUnitId: string,
     roleId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAssignedUsers(orgUnitId, roleId, params));
   }
@@ -222,7 +221,7 @@ export class OrgUnitService {
   getUsers(
     orgUnitId: string,
     roleId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
       observeOn(queueScheduler),

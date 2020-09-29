@@ -1,10 +1,9 @@
 import { InjectionToken } from '@angular/core';
+import { Converter, EntitiesModel } from '@spartacus/core';
 import {
-  Converter,
-  EntitiesModel,
   OrderApproval,
   OrderApprovalDecision,
-} from '@spartacus/core';
+} from '../../model/order-approval.model';
 
 export const ORDER_APPROVAL_NORMALIZER = new InjectionToken<
   Converter<any, OrderApproval>

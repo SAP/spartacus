@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
-import { B2BSearchConfig } from '../model/search-config';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
-  getPermissionList,
   getPermission,
+  getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
-import {
-  StateWithProcess,
-  StateUtils,
-  AuthService,
-  Permission,
-  EntitiesModel,
-  OrderApprovalPermissionType,
-} from '@spartacus/core';
 import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -38,7 +40,7 @@ export class PermissionService {
     );
   }
 
-  loadPermissions(params?: B2BSearchConfig): void {
+  loadPermissions(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -97,7 +99,7 @@ export class PermissionService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<Permission>> {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {

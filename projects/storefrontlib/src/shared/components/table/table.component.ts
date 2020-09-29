@@ -94,7 +94,7 @@ export class TableComponent {
    */
   isCurrentItem(item: any): boolean {
     if (!this.currentItem || !this.currentItem.value) {
-      return;
+      return false;
     }
     return this.currentItem?.value === item?.[this.currentItem?.property];
   }

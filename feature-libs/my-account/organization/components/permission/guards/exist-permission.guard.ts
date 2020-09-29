@@ -3,10 +3,12 @@ import { Router, UrlTree } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  Permission,
   SemanticPathService,
 } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import {
+  Permission,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';

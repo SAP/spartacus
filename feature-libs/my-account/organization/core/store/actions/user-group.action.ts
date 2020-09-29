@@ -1,16 +1,14 @@
-import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { UserGroup } from '../../model/user-group.model';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
+  B2B_USER_ENTITIES,
+  PERMISSION_ENTITIES,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
   USER_GROUP_ENTITIES,
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
-  USER_GROUP_AVAILABLE_CUSTOMERS,
-  B2B_USER_ENTITIES,
-  PERMISSION_ENTITIES,
 } from '../organization-state';
-
-import { ListModel, StateUtils } from '@spartacus/core';
-import { UserGroup } from '../../model/user-group.model';
 
 export const LOAD_USER_GROUP = '[UserGroup] Load UserGroup Data';
 export const LOAD_USER_GROUP_FAIL = '[UserGroup] Load UserGroup Data Fail';
@@ -104,19 +102,19 @@ export class LoadUserGroups extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(USER_GROUP_LIST, serializeB2BSearchConfig(payload.params));
+    super(USER_GROUP_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUPS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_GROUP_LIST,
-      serializeB2BSearchConfig(payload.params),
+      serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -127,10 +125,10 @@ export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(USER_GROUP_LIST, serializeB2BSearchConfig(payload.params));
+    super(USER_GROUP_LIST, serializeSearchConfig(payload.params));
   }
 }
 
@@ -140,12 +138,12 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       userGroupId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId)
+      serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -155,13 +153,13 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       userGroupId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
       error: any;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId),
+      serializeSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -173,12 +171,12 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       userGroupId: string;
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId)
+      serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -189,12 +187,12 @@ export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       userGroupId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId)
+      serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -204,13 +202,13 @@ export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       userGroupId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
       error: any;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId),
+      serializeSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -222,12 +220,12 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
     public payload: {
       userGroupId: string;
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.userGroupId)
+      serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }

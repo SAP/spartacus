@@ -11,11 +11,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   EntitiesModel,
   I18nTestingModule,
-  OrderApproval,
   RoutingService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
+  OrderApproval,
   OrderApprovalService,
 } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -87,9 +87,9 @@ class MockSortingComponent {
 class MockOrderApprovalService {
   orderApprovalList = new BehaviorSubject(mockOrderApprovals);
 
-  loadOrderApprovals(_searchConfig: B2BSearchConfig): void {}
+  loadOrderApprovals(_searchConfig: SearchConfig): void {}
   getList(
-    _searchConfig: B2BSearchConfig
+    _searchConfig: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.orderApprovalList;
   }
@@ -169,7 +169,7 @@ describe('OrderApprovalListComponent?', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
 
-    const orderNumberSearchConfig: B2BSearchConfig = {
+    const orderNumberSearchConfig: SearchConfig = {
       pageSize: 5,
       currentPage: 0,
       sort: 'byOrderNumber',
@@ -186,7 +186,7 @@ describe('OrderApprovalListComponent?', () => {
     component.sortType = 'byDate';
     component.pageChange(1);
 
-    const dateSearchConfig: B2BSearchConfig = {
+    const dateSearchConfig: SearchConfig = {
       pageSize: 5,
       currentPage: 1,
       sort: 'byDate',

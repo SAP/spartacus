@@ -1,23 +1,20 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '@spartacus/core';
+import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
-  EntitiesModel,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../model/search-config';
+} from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
-import { PermissionService } from './permission.service';
-import * as fromReducers from '../store/reducers/index';
-import createSpy = jasmine.createSpy;
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { PermissionService } from './permission.service';
 import { LoadStatus } from '../model/LoadStatus';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const permissionCode = 'testPermission';
@@ -60,9 +57,9 @@ describe('PermissionService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(PermissionService as Type<PermissionService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(PermissionService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -111,7 +108,7 @@ describe('PermissionService', () => {
   });
 
   describe('get permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;

@@ -1,4 +1,5 @@
-import { OrderApproval, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 
 export const orderApprovalInitialState = {};

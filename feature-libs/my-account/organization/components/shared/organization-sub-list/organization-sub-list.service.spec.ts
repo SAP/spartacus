@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { OrganizationSubListService } from './organization-sub-list.service';
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
