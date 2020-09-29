@@ -24,7 +24,7 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationTabBar: {
+        ConfiguratorTabBar: {
           component: ConfiguratorTabBarComponent,
         },
       },

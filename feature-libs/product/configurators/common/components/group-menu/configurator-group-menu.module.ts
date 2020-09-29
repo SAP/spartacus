@@ -9,7 +9,7 @@ import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.compon
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationMenu: {
+        ConfiguratorMenu: {
           component: ConfiguratorGroupMenuComponent,
         },
       },

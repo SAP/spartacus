@@ -16,7 +16,7 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationUpdateMessage: {
+        ConfiguratorUpdateMessage: {
           component: ConfiguratorUpdateMessageComponent,
         },
       },
