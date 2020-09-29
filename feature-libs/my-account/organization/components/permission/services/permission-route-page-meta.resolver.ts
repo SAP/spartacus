@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
   DefaultRoutePageMetaResolver,
-  Permission,
   TranslationService,
 } from '@spartacus/core';
+import { Permission } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { CurrentPermissionService } from './current-permission.service';
 
