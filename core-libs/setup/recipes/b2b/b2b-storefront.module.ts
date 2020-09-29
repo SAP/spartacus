@@ -1,17 +1,21 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CostCenterModule, provideConfig, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CostCenterModule,
+  provideConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import {
   CmsLibModule,
   defaultCmsContentConfig,
   layoutConfig,
   mediaConfig,
   StorefrontConfig,
-  StorefrontModule
+  StorefrontModule,
 } from '@spartacus/storefront';
 import { OrganizationModule } from '@spartacus/my-account/organization';
 import { defaultB2bOccConfig } from './config/b2b-occ-config';
 import { defaultB2bCheckoutConfig } from './config/b2b-checkout-config';
-
 
 @NgModule({
   imports: [
