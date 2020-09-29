@@ -157,7 +157,7 @@ describe('BudgetService', () => {
   });
 
   describe('update budget', () => {
-    it('update() should should be able to get status change from loading with value', () => {
+    it('update() should should dispatch UpdateBudget action', () => {
       service.update(budgetCode, budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
