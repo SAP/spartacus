@@ -47,10 +47,10 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
 
   constructor(
-    private routing: RoutingService,
-    private userReplenishmentOrderService: UserReplenishmentOrderService,
+    protected routing: RoutingService,
+    protected userReplenishmentOrderService: UserReplenishmentOrderService,
     protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
-    private translation: TranslationService,
+    protected translation: TranslationService,
     protected vcr: ViewContainerRef
   ) {}
 

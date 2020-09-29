@@ -85,12 +85,6 @@
         }
       }
 
-      .#{$block}-code {
-        .#{$block}-value {
-          text-decoration: underline;
-        }
-      }
-
       .#{$block}-frequency {
         width: 25%;
 
@@ -113,7 +107,6 @@
         .cx-order-cancel {
           text-decoration: underline;
           text-transform: uppercase;
-          margin: 1.25rem 0;
         }
 
         @include media-breakpoint-down(sm) {
@@ -215,6 +208,9 @@
         min-height: 474px;
         padding-inline-start: 1.25rem;
         padding-inline-end: 1.25rem;
+      }
+      .btn {
+        margin: 1.25rem 0;
       }
     }
   }

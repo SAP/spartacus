@@ -57,7 +57,7 @@ describe('User Orders Replenishment Reducer', () => {
       );
       const state = fromReducer.reducer(mockUserReplenishmentOrders, action);
 
-      expect(state.replenishmentOrders[0].active).toEqual(false);
+      expect(state).toEqual(mockUserReplenishmentOrders);
     });
   });
 });
