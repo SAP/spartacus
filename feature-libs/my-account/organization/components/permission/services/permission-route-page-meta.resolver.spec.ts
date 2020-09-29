@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Permission } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
+import { Permission } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentPermissionService } from './current-permission.service';
