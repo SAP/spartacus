@@ -126,30 +126,38 @@ export function selectAccountDeliveryMode(
   cy.wait(`@${orderReview}`).its('status').should('eq', 200);
 }
 
-export function placeAccountOrder(
+export function placeOrder(
   sampleUser: SampleUser = b2bAccountShipToUser,
-  cartData: SampleCartProduct
+  cartData: SampleCartProduct,
+  isAccount: boolean,
+  orderType: string
 ) {
   verifyReviewOrderPage();
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Purchase Order Number')
-    .find('.cx-card-container')
-    .within(() => {
-      cy.getByText(poNumber);
-    });
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Method of Payment')
-    .find('.cx-card-container')
-    .within(() => {
-      cy.getByText('Account');
-    });
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Cost Center')
-    .find('.cx-card-container')
-    .within(() => {
-      cy.getByText(costCenter);
-      cy.getByText(`(${b2bUnit})`);
-    });
+
+  if (isAccount) {
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Purchase Order Number')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.getByText(poNumber);
+      });
+
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Method of Payment')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.getByText('Account');
+      });
+
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Cost Center')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.getByText(costCenter);
+        cy.getByText(`(${b2bUnit})`);
+      });
+  }
+
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -157,22 +165,31 @@ export function placeAccountOrder(
       cy.getByText(sampleUser.fullName);
       cy.getByText(sampleUser.address.line1);
     });
+
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
       cy.getByText('Standard Delivery');
     });
+
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
     .should('contain', cartData.total);
+
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
     .should('contain', cartData.estimatedShipping);
+
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
     cartData.totalAndShipping
   );
+
+  cy.get('cx-schedule-replenishment-order [type="radio"]')
+    .check(orderType)
+    .should('be.checked');
+
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should(
@@ -180,7 +197,9 @@ export function placeAccountOrder(
       'href',
       `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
     );
+
   cy.get('input[formcontrolname="termsAndConditions"]').check();
+
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
     'getOrderConfirmationPage'
@@ -196,9 +215,11 @@ export function reviewB2bOrderConfirmation(
   isAccount: boolean = true
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
+
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .container').within(() => {
-    cy.get('.summary-card:nth-child(1)').within(() => {
+
+  cy.get('cx-order-overview .container').within(() => {
+    cy.get('.cx-summary-card:nth-child(1)').within(() => {
       cy.get('cx-card:nth-child(1)').within(() => {
         cy.get('.cx-card-title').should('contain', 'Order Number');
         cy.get('.cx-card-label').should('not.be.empty');
@@ -212,7 +233,8 @@ export function reviewB2bOrderConfirmation(
         cy.get('.cx-card-label').should('not.be.empty');
       });
     });
-    cy.get('.summary-card:nth-child(2) .cx-card').within(() => {
+
+    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains(poNumber);
       if (isAccount) {
         cy.contains('Account');
@@ -222,20 +244,24 @@ export function reviewB2bOrderConfirmation(
         cy.contains('Credit Card');
       }
     });
-    cy.get('.summary-card:nth-child(3) .cx-card').within(() => {
+
+    cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
       cy.contains('Standard Delivery');
     });
+
     if (!isAccount) {
-      cy.get('.summary-card:nth-child(4) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
         cy.contains('Payment');
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
       });
     }
   });
+
   cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
     cartData.totalAndShipping
