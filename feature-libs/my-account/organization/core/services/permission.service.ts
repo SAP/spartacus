@@ -8,7 +8,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import {
   OrderApprovalPermissionType,
   Permission,
@@ -20,10 +20,8 @@ import {
   getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
-import {
-  OrganizationItemStatus,
-  mapToOrganizationItemStatus,
-} from '../model/organization-item-status';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
@@ -141,14 +139,7 @@ export class PermissionService {
   getLoadingStatus(
     permissionCode: string
   ): Observable<OrganizationItemStatus<Permission>> {
-    return this.getPermission(permissionCode).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getPermission(permissionCode));
   }
 
   private withUserId(callback: (userId: string) => void): void {

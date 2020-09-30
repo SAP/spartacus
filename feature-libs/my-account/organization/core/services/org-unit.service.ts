@@ -13,7 +13,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
@@ -26,10 +26,8 @@ import {
   getOrgUnitList,
   getOrgUnitTree,
 } from '../store/selectors/org-unit.selector';
-import {
-  OrganizationItemStatus,
-  mapToOrganizationItemStatus,
-} from '../model/organization-item-status';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
@@ -258,14 +256,7 @@ export class OrgUnitService {
   getLoadingStatus(
     orgUnitId: string
   ): Observable<OrganizationItemStatus<B2BUnit>> {
-    return this.getOrgUnit(orgUnitId).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getOrgUnit(orgUnitId));
   }
 
   assignRole(orgCustomerId: string, roleId: string): void {
@@ -384,14 +375,7 @@ export class OrgUnitService {
   getAddressLoadingStatus(
     addressId: string
   ): Observable<OrganizationItemStatus<B2BAddress>> {
-    return this.getAddressState(addressId).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getAddressState(addressId));
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {

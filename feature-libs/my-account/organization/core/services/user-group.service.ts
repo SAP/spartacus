@@ -9,7 +9,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { UserGroupActions } from '../store/actions/index';
@@ -20,10 +20,8 @@ import {
   getUserGroup,
   getUserGroupList,
 } from '../store/selectors/user-group.selector';
-import {
-  OrganizationItemStatus,
-  mapToOrganizationItemStatus,
-} from '../model/organization-item-status';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -134,14 +132,7 @@ export class UserGroupService {
   getLoadingStatus(
     budgetCode: string
   ): Observable<OrganizationItemStatus<UserGroup>> {
-    return this.getUserGroup(budgetCode).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getUserGroup(budgetCode));
   }
 
   delete(userGroupId: string) {

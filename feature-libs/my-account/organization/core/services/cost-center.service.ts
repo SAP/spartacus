@@ -9,7 +9,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { CostCenterActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
@@ -18,10 +18,8 @@ import {
   getCostCenter,
   getCostCenterList,
 } from '../store/selectors/cost-center.selector';
-import {
-  OrganizationItemStatus,
-  mapToOrganizationItemStatus,
-} from '../model/organization-item-status';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
@@ -116,14 +114,7 @@ export class CostCenterService {
   getLoadingStatus(
     costCenterCode: string
   ): Observable<OrganizationItemStatus<CostCenter>> {
-    return this.getCostCenter(costCenterCode).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getCostCenter(costCenterCode));
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {

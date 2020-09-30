@@ -9,7 +9,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { B2BUserActions } from '../store/actions/index';
@@ -21,10 +21,8 @@ import {
   getB2BUserUserGroups,
   getUserList,
 } from '../store/selectors/b2b-user.selector';
-import {
-  OrganizationItemStatus,
-  mapToOrganizationItemStatus,
-} from '../model/organization-item-status';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class B2BUserService {
@@ -107,14 +105,7 @@ export class B2BUserService {
   getLoadingStatus(
     orgCustomerId: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.getB2BUserState(orgCustomerId).pipe(
-      observeOn(queueScheduler),
-      pairwise(),
-      filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) =>
-        mapToOrganizationItemStatus(currentState)
-      )
-    );
+    return getItemStatus(this.getB2BUserState(orgCustomerId));
   }
 
   loadApprovers(orgCustomerId: string, params: SearchConfig): void {
