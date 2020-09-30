@@ -15,6 +15,11 @@ export interface OptimizedSsrOptions {
    * Limit number of concurrent rendering
    */
   concurrency?: number;
+
+  /**
+   * Time in milliseconds to wait for SSR rendering to happen.
+   */
+  ttl?: number;
 }
 
 class RenderingCache {
@@ -30,10 +35,13 @@ class RenderingCache {
 
   store(key, err, html) {
     this.renderedUrls[key] = { err, html };
+    if (this.options.ttl) {
+      this.renderedUrls[key].time = Date.now();
+    }
   }
 
   has(key): boolean {
-    return !!this.renderedUrls[key];
+    return !!this.renderedUrls[key] && this.isCurrent(key);
   }
 
   get(key) {
@@ -41,7 +49,17 @@ class RenderingCache {
   }
 
   isReady(key) {
-    return this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
+    const renderIsPresent =
+      this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
+    return renderIsPresent && this.isCurrent(key);
+  }
+
+  isCurrent(key) {
+    if (!this.options.ttl) {
+      return true;
+    }
+
+    return Date.now() - this.renderedUrls[key]?.time < this.options.ttl;
   }
 
   remove(key) {
