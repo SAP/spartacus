@@ -22,7 +22,7 @@ import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationOverviewBanner: {
+        ConfiguratorOverviewBanner: {
           component: ConfiguratorOverviewNotificationBannerComponent,
         },
       },
