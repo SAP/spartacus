@@ -133,7 +133,7 @@ export class BreakpointService {
       const prevMax = this.getMaxSize(next);
       const nextMax = this.getMaxSize(prev);
       if (!!prevMax || !!nextMax) {
-        return !nextMax || nextMax > prevMax ? -1 : 0;
+        return nextMax > prevMax ? -1 : 0;
       } else {
         return this.getMinSize(next) > this.getMinSize(prev) ? 0 : -1;
       }
