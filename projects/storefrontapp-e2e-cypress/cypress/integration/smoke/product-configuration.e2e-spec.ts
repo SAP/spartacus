@@ -17,7 +17,6 @@ context('Product Configuration', () => {
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configuration.checkout();
       configuration.navigateToOrderDetails();
-      configuration.goToOrderHistory();
       configuration.selectOrderByOrderNumberAlias();
       login.signOutUser();
     });
