@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2bUnitTreeNode } from '@spartacus/core';
+
 import {
   B2BUnitNode,
+  B2BUnitTreeNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
@@ -13,14 +14,14 @@ import { UnitTreeService } from './unit-tree.service';
 import { TREE_TOGGLE } from './unit-tree.model';
 import createSpy = jasmine.createSpy;
 
-function verifyExpandedAll({ data }: Table<B2bUnitTreeNode>) {
+function verifyExpandedAll({ data }: Table<B2BUnitTreeNode>) {
   expect(data.length).toEqual(7);
   data.forEach((element) => {
     expect(element.expanded).toBeTrue();
   });
 }
 
-function verifyCollapsedAll({ data }: Table<B2bUnitTreeNode>) {
+function verifyCollapsedAll({ data }: Table<B2BUnitTreeNode>) {
   console.log(data);
   const root = data[0];
 

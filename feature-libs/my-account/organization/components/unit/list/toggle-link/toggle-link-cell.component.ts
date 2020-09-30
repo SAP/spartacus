@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { B2bUnitTreeNode } from '@spartacus/core';
+import { B2BUnitTreeNode } from '@spartacus/my-account/organization/core';
+
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -46,7 +47,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   toggleItem(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.unitTreeService.toggle((this.model as unknown) as B2bUnitTreeNode);
+    this.unitTreeService.toggle((this.model as unknown) as B2BUnitTreeNode);
   }
 
   /**

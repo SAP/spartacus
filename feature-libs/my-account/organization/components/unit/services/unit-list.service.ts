@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { B2bUnitTreeNode, EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUnitNode,
+  B2BUnitTreeNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
@@ -20,7 +21,7 @@ import { UnitTreeService } from './unit-tree.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
+export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   constructor(
@@ -32,7 +33,7 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
     super(tableService);
   }
 
-  protected load(): Observable<EntitiesModel<B2bUnitTreeNode>> {
+  protected load(): Observable<EntitiesModel<B2BUnitTreeNode>> {
     return this.unitService.getTree().pipe(
       switchMap((node) =>
         this.unitItemService.key$.pipe(
@@ -54,7 +55,7 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
     depthLevel = 0,
     pagination = { totalResults: 0 },
     parentToggleState?: TREE_TOGGLE
-  ): EntitiesModel<B2bUnitTreeNode> {
+  ): EntitiesModel<B2BUnitTreeNode> {
     let values = [];
     if (!unit) {
       return;
@@ -64,7 +65,7 @@ export class UnitListService extends OrganizationListService<B2bUnitTreeNode> {
       parentToggleState = this.unitTreeService.getToggleState(unit.id);
     }
 
-    const node: B2bUnitTreeNode = {
+    const node: B2BUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
       expanded: this.unitTreeService.isExpanded(
