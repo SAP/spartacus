@@ -16,7 +16,7 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
-import { merge, Observable, of } from 'rxjs';
+import { merge, Observable, of, zip } from 'rxjs';
 import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
@@ -73,10 +73,6 @@ export class ProfileTagPushEventsService {
     this.modifiedCart()
   );
 
-  private semanticRouteState: {
-    previous: string;
-    current: string;
-  } = { previous: undefined, current: undefined };
   constructor(
     protected eventService: EventService,
     protected personalizationContextService: PersonalizationContextService
@@ -124,21 +120,30 @@ export class ProfileTagPushEventsService {
    */
 
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(CategoryPageResultsEvent).pipe(
+    let currentRoute;
+    let previousRoute;
+    const pageEvents$ = this.eventService.get(PageEvent).pipe(
+      tap((pageEvent) => {
+        previousRoute = currentRoute;
+        currentRoute = pageEvent.semanticRoute;
+      })
+    );
+    return zip(
+      this.eventService.get(CategoryPageResultsEvent),
+      pageEvents$
+    ).pipe(
       distinctUntilChanged(
-        (previouslyEmittedCategoryPage, currentCategoryPage) => {
+        ([previouslyEmittedCategoryPage], [currentCategoryPage]) => {
           return (
             previouslyEmittedCategoryPage.categoryCode ===
-              currentCategoryPage.categoryCode &&
-            this.semanticRouteState.previous ===
-              currentCategoryPage.semanticRoute
+              currentCategoryPage.categoryCode && previousRoute === currentRoute
           ); // A true means that this item is not unique, so this is hard to wrap your head around.
           // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
           // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode
         }
       ),
       map(
-        (categoryPageEvent) =>
+        ([categoryPageEvent]) =>
           new CategoryViewPushEvent({
             productCategory: categoryPageEvent.categoryCode,
             productCategoryName: categoryPageEvent.categoryName,
@@ -202,13 +207,9 @@ export class ProfileTagPushEventsService {
    * @see NavigatedPushEvent
    */
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(PageEvent).pipe(
-      tap((pageEvent) => {
-        this.semanticRouteState.previous = this.semanticRouteState.current;
-        this.semanticRouteState.current = pageEvent.semanticRoute;
-      }),
-      mapTo(new NavigatedPushEvent())
-    );
+    return this.eventService
+      .get(PageEvent)
+      .pipe(mapTo(new NavigatedPushEvent()));
   }
 
   /**

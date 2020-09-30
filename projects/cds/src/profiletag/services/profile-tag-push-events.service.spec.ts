@@ -18,7 +18,7 @@ import {
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
 let profileTagPushEventsService: ProfileTagPushEventsService;
@@ -157,6 +157,22 @@ describe('profileTagPushEventsService', () => {
   });
 
   describe('CategoryPageResultsEvent events', () => {
+    const pageEventHome: PageEvent[] = [
+      {
+        semanticRoute: 'home',
+        url: 'page 1',
+        context: undefined,
+        params: { 'pt-debug': true },
+      },
+    ];
+    const pageEventCategory: PageEvent[] = [
+      {
+        semanticRoute: 'home',
+        url: 'page 1',
+        context: undefined,
+        params: { 'pt-debug': true },
+      },
+    ];
     const categoryPageResultsEvent123: CategoryPageResultsEvent = {
       categoryCode: '123',
       categoryName: 'categoryName1',
@@ -185,14 +201,20 @@ describe('profileTagPushEventsService', () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          filter((event) => event.name === 'CategoryPageViewed'),
+          tap(() => timesCalled++)
+        )
         .subscribe();
+      eventServiceEvents.get(PageEvent).next(pageEventHome);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent234);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent345);
@@ -204,23 +226,33 @@ describe('profileTagPushEventsService', () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          filter((event) => event.name === 'CategoryPageViewed'),
+          tap(() => timesCalled++)
+        )
         .subscribe();
+      eventServiceEvents.get(PageEvent).next(pageEventHome);
+
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent234);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent345);
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent345);
@@ -230,29 +262,42 @@ describe('profileTagPushEventsService', () => {
 
     it(`Should emit an event if the category code is the same, and different type of page is visited`, () => {
       let timesCalled = 0;
-      const pageEvent: PageEvent[] = [
-        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
-      ];
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          filter((event) => event.name === 'CategoryPageViewed'),
+          tap(() => timesCalled++)
+        )
         .subscribe();
+      eventServiceEvents.get(PageEvent).next(pageEventHome);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
-      eventServiceEvents.get(PageEvent).next(pageEvent);
+
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
+
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent345);
+
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent345);
+
+      eventServiceEvents.get(PageEvent).next(pageEventCategory);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent234);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(3);
     });

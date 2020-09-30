@@ -82,7 +82,7 @@
     "e2e:cy:cds:start-run-ci": "start-server-and-test start:cds:ci:1905 http-get://localhost:4200 e2e:cy:run:ci:all",
     "start:cds": "cross-env SPARTACUS_CDS=true ng serve",
     "start:cds:ci:1905": "cross-env SPARTACUS_BASE_URL=https://spartacus-legacy.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/rest/v2/ SPARTACUS_CDS=true ng serve --prod",
-    "start:cds:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_CDS=true ng serve --prod",
+    "start:cds:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev3.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_CDS=true ng serve --prod",
     "start:cds:ci:ccv2": "cross-env SPARTACUS_BASE_URL=https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com SPARTACUS_CDS=true ng serve --prod",
     "test:cds:lib": "ng test cds --code-coverage",
     "dev:cds:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:serve-ssr",
