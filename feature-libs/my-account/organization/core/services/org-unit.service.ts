@@ -26,7 +26,7 @@ import {
   getOrgUnitList,
   getOrgUnitTree,
 } from '../store/selectors/org-unit.selector';
-import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
+import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
@@ -252,7 +252,7 @@ export class OrgUnitService {
     );
   }
 
-  getLoadingStatus(orgUnitId: string): Observable<ItemInfo<B2BUnit>> {
+  getLoadingStatus(orgUnitId: string): Observable<OrganizationItemStatus<B2BUnit>> {
     return this.getOrgUnit(orgUnitId).pipe(
       observeOn(queueScheduler),
       pairwise(),
@@ -374,7 +374,7 @@ export class OrgUnitService {
     );
   }
 
-  getAddressLoadingStatus(addressId: string): Observable<ItemInfo<B2BAddress>> {
+  getAddressLoadingStatus(addressId: string): Observable<OrganizationItemStatus<B2BAddress>> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
       pairwise(),

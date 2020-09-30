@@ -21,7 +21,7 @@ import {
   getB2BUserUserGroups,
   getUserList,
 } from '../store/selectors/b2b-user.selector';
-import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
+import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class B2BUserService {
@@ -101,7 +101,7 @@ export class B2BUserService {
     );
   }
 
-  getLoadingStatus(orgCustomerId: string): Observable<ItemInfo<B2BUser>> {
+  getLoadingStatus(orgCustomerId: string): Observable<OrganizationItemStatus<B2BUser>> {
     return this.getB2BUserState(orgCustomerId).pipe(
       observeOn(queueScheduler),
       pairwise(),

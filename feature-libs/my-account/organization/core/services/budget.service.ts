@@ -13,7 +13,7 @@ import { filter, map, observeOn, pairwise, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { BudgetActions, StateWithOrganization } from '../store/index';
 import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
-import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
+import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
@@ -97,7 +97,7 @@ export class BudgetService {
     );
   }
 
-  getLoadingStatus(budgetCode: string): Observable<ItemInfo<Budget>> {
+  getLoadingStatus(budgetCode: string): Observable<OrganizationItemStatus<Budget>> {
     return this.getBudget(budgetCode).pipe(
       observeOn(queueScheduler),
       pairwise(),

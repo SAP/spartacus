@@ -19,7 +19,7 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { UserGroupService } from './user-group.service';
-import { LoadStatus } from '../model/LoadStatus';
+import { LoadStatus } from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';

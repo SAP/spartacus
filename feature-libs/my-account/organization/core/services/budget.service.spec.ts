@@ -12,7 +12,7 @@ import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
 
 import createSpy = jasmine.createSpy;
-import { LoadStatus } from '../model/LoadStatus';
+import { LoadStatus } from '../model/organization-item-status';
 
 const userId = 'current';
 const budgetCode = 'testBudget';

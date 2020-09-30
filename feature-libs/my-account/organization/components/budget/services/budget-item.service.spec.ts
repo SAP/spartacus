@@ -4,7 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   Budget,
   BudgetService,
-  ItemInfo,
+  OrganizationItemStatus,
   LoadStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
@@ -23,7 +23,7 @@ class MockBudgetService {
   loadBudget() {}
   update() {}
   create() {}
-  getLoadingStatus(): Observable<ItemInfo<Budget>> {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
     return of({ status: LoadStatus.SUCCESS, value: {} });
   }
 }

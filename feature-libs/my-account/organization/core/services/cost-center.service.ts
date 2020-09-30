@@ -18,7 +18,7 @@ import {
   getCostCenter,
   getCostCenterList,
 } from '../store/selectors/cost-center.selector';
-import { ItemInfo, mapToItemInfo } from '../model/LoadStatus';
+import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
@@ -110,7 +110,7 @@ export class CostCenterService {
     );
   }
 
-  getLoadingStatus(costCenterCode: string): Observable<ItemInfo<CostCenter>> {
+  getLoadingStatus(costCenterCode: string): Observable<OrganizationItemStatus<CostCenter>> {
     return this.getCostCenter(costCenterCode).pipe(
       observeOn(queueScheduler),
       pairwise(),

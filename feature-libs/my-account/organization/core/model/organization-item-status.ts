@@ -3,7 +3,7 @@ export enum LoadStatus {
   ERROR,
 }
 
-export interface ItemInfo<T> {
+export interface OrganizationItemStatus<T> {
   status: LoadStatus;
   value: T;
 }
@@ -16,7 +16,7 @@ interface LoaderState<T> {
   value?: T;
 }
 
-export function mapToItemInfo<T>(currentState: LoaderState<T>): ItemInfo<T> {
+export function mapToItemInfo<T>(currentState: LoaderState<T>): OrganizationItemStatus<T> {
   return {
     status: currentState.success
       ? LoadStatus.SUCCESS
