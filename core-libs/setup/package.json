@@ -20,6 +20,7 @@
     "@angular/core": "~10.1.0",
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.0",
-    "@spartacus/storefront": "3.0.0-next.0"
+    "@spartacus/storefront": "3.0.0-next.0",
+    "@spartacus/my-account": "3.0.0-next.0"
   }
 }
