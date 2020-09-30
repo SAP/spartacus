@@ -902,7 +902,13 @@ export function goToOrderHistory(): Chainable<Window> {
   });
 }
 
-function searchForOrder(orderNumber: string) {
+/**
+ * Verifies whether the searched order exists in the order history and
+ * sets the '@isFound' alias accordingly.
+ *
+ * @param {string} orderNumber - Order number
+ */
+function searchForOrder(orderNumber: string): void {
   cy.get('cx-order-history')
     .get('td.cx-order-history-code a.cx-order-history-value')
     .each((elem) => {
@@ -923,11 +929,13 @@ function searchForOrder(orderNumber: string) {
  */
 export function selectOrderByOrderNumberAlias(): void {
   cy.get('@orderNumber').then((orderNumber) => {
-    cy.log('Order number: ' + orderNumber);
+    cy.log('Searched order number: ' + orderNumber);
+    // To refresh the order history content, navigate to the home page and back to the order history
     cy.log('Navigate to home page');
     navigation.visitHomePage({});
     this.goToOrderHistory();
 
+    // Verify whether the searched order exists
     searchForOrder(orderNumber.toString());
     cy.get('@isFound').then((isFound) => {
       let found = isFound ? ' ' : ' not ';
@@ -945,14 +953,15 @@ export function selectOrderByOrderNumberAlias(): void {
           cy.log(
             "Order with number '" + orderNumber + "' is" + found + 'found'
           );
-
           if (!isFound) {
+            // To refresh the order history content, navigate to the home page and back to the order history
             cy.log('Navigate to home page');
             navigation.visitHomePage({});
             this.goToOrderHistory();
           }
         });
       }
+      // Navigate to the order details page of the searched order
       cy.get(
         'cx-order-history a.cx-order-history-value:contains(' +
           `${orderNumber}` +
