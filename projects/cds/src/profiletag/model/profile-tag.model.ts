@@ -1,4 +1,4 @@
-import { Cart, PersonalizationAction } from '@spartacus/core';
+import { PersonalizationAction } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -32,10 +32,6 @@ export interface DebugEvent extends CustomEvent {
 export enum InternalProfileTagEventNames {
   CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
-}
-
-interface ProfileTagCart {
-  cart: Cart;
 }
 
 export interface ProfileTagPushEvent {
@@ -80,6 +76,7 @@ export class ProductViewPushEvent implements ProfileTagPushEvent {
     productPrice: Number;
     productCategory: string;
     productCategoryName: string;
+    categories: Array<string>
   }) {
     this.data = data;
   }
@@ -126,10 +123,45 @@ export class CartViewPushEvent implements ProfileTagPushEvent {
   }
 }
 
-export class CartChangedPushEvent implements ProfileTagPushEvent {
-  name = 'CartSnapshot';
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
+export class AddedToCartPushEvent implements ProfileTagPushEvent {
+  name = 'AddedToCart';
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    categories: Array<string>
+  }) {
+    this.data = data;
+  }
+}
+
+export class RemovedFromCartPushEvent implements ProfileTagPushEvent {
+  name = 'RemovedFromCart';
+  data: any;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productCategory: string;
+    cartId: string;
+    productCategoryName: string;
+    categories: Array<string>
+  }) {
+    this.data = data;
+  }
+}
+
+export class ModifiedCartPushEvent implements ProfileTagPushEvent {
+  name = 'ModifiedCart';
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    categories: Array<string>
+  }) {
     this.data = data;
   }
 }
