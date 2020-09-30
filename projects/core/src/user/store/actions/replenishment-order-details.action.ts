@@ -82,7 +82,7 @@ export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class ClearReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
+export class ClearCancelReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_CANCEL_REPLENISHMENT_ORDER;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
@@ -97,4 +97,4 @@ export type ReplenishmentOrderDetailsAction =
   | CancelReplenishmentOrder
   | CancelReplenishmentOrderSuccess
   | CancelReplenishmentOrderFail
-  | ClearReplenishmentOrder;
+  | ClearCancelReplenishmentOrder;

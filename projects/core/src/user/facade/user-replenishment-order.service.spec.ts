@@ -246,11 +246,11 @@ describe('UserReplenishmentOrderService', () => {
       expect(result).toBe(true);
     });
 
-    it('should dispatch a ClearReplenishmentOrder action', () => {
+    it('should dispatch a ClearCancelReplenishmentOrder action', () => {
       userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.ClearReplenishmentOrder()
+        new UserActions.ClearCancelReplenishmentOrder()
       );
     });
   });

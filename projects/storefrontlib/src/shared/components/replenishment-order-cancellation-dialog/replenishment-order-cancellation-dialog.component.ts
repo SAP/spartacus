@@ -83,6 +83,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
   }
 
   close(reason: string): void {
@@ -97,6 +98,5 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
   }
 }

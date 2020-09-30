@@ -28,6 +28,8 @@ class MockUserReplenishmentOrderService {
   }
 
   cancelReplenishmentOrder(_replenishmentOrderCode: string): void {}
+
+  clearCancelReplenishmentOrderProcessState(): void {}
 }
 
 class MockGlobalMessageService {
@@ -99,6 +101,10 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
     spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
+    spyOn(
+      userReplenishmentOrderService,
+      'clearCancelReplenishmentOrderProcessState'
+    ).and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
@@ -117,6 +123,10 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       'Successffully cancelled replenishment'
     );
+
+    expect(
+      userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState
+    ).toHaveBeenCalled();
   });
 
   it('should be able to call the close dialog', () => {
