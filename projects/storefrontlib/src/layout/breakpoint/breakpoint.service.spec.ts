@@ -45,7 +45,7 @@ describe('BreakpointService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('resolve from config', () => {
+  describe('resolve sorted breakpoints from config', () => {
     it('should resolve [xs,sm,md,lg,xl] from config', () => {
       config.breakpoints = {
         xl: {
@@ -115,6 +115,17 @@ describe('BreakpointService', () => {
       };
       service = TestBed.inject(BreakpointService);
       expect(service.breakpoints).toEqual([BREAKPOINT.sm, BREAKPOINT.xl]);
+    });
+
+    it('should resolve [xs,lg] by bin and default values', () => {
+      config.breakpoints = config.breakpoints = {
+        xs: 576,
+        lg: {
+          min: 992,
+        },
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual(['xs', 'lg'] as any);
     });
 
     it('should resolve any screen', () => {
@@ -349,7 +360,7 @@ describe('BreakpointService', () => {
         expect(isDown(901, BREAKPOINT.md)).toBeFalsy();
       });
 
-      fit('should return falsy if window width > lg', () => {
+      it('should return falsy if window width > lg', () => {
         expect(isDown(1201, BREAKPOINT.lg)).toBeFalsy();
       });
     });

@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import {
   BreakPoint,
   BREAKPOINT,
@@ -81,6 +81,7 @@ export class BreakpointService {
    */
   isDown(breakpoint: BREAKPOINT): Observable<boolean> {
     return this.breakpoint$.pipe(
+      tap((br) => console.log('isDown', br, this.breakpoints)),
       map((br) =>
         this.breakpoints
           .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
@@ -130,18 +131,17 @@ export class BreakpointService {
    */
   protected resolveBreakpointsFromConfig(): BREAKPOINT[] {
     const sortByScreenSize = (next: BREAKPOINT, prev: BREAKPOINT): number => {
-      const prevMax = this.getMaxSize(next);
-      const nextMax = this.getMaxSize(prev);
-      if (!!prevMax || !!nextMax) {
-        return nextMax > prevMax ? -1 : 0;
-      } else {
-        return this.getMinSize(next) > this.getMinSize(prev) ? 0 : -1;
-      }
+      const maxNext = Math.max(
+        this.getMinSize(next) + 1 || 0,
+        this.getMaxSize(next) || 0
+      );
+      const maxPrev = Math.max(
+        this.getMinSize(prev) + 1 || 0,
+        this.getMaxSize(prev) || 0
+      );
+      return maxNext < maxPrev ? -1 : 0;
     };
-    const orderedBreakpoints = (Object.keys(this.config) as BREAKPOINT[]).sort(
-      sortByScreenSize
-    );
-    return orderedBreakpoints;
+    return (Object.keys(this.config) as BREAKPOINT[]).sort(sortByScreenSize);
   }
 
   /**
