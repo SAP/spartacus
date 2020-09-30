@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map, shareReplay, startWith } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { ActivatedRoutesService } from '../services/activated-routes.service';
 
 /**
  * Service to expose all parameters for the router, including child routes.
@@ -10,20 +11,17 @@ import { filter, map, shareReplay, startWith } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class RoutingParamsService {
-  protected navigationEndEvent$ = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd)
-  );
-
   protected readonly params$: Observable<{
     [key: string]: string;
-  }> = this.navigationEndEvent$.pipe(
-    // tslint:disable-next-line: deprecation (https://github.com/ReactiveX/rxjs/issues/4772)
-    startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
-    map(() => this.findAllParam(this.router.routerState.snapshot.root)),
+  }> = this.activatedRoutesService.routes$.pipe(
+    map((routes) => this.findAllParam(routes)),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
-  constructor(protected router: Router) {}
+  constructor(
+    protected router: Router,
+    protected activatedRoutesService: ActivatedRoutesService
+  ) {}
 
   /**
    * Get the list of all parameters of the full route. This includes
@@ -34,15 +32,8 @@ export class RoutingParamsService {
   }
 
   protected findAllParam(
-    route: ActivatedRouteSnapshot
+    routes: ActivatedRouteSnapshot[]
   ): { [key: string]: string } {
-    let params = {};
-    route.children.forEach((c) =>
-      c.paramMap.keys.forEach((key) => (params[key] = c.paramMap.get(key)))
-    );
-    route.children.forEach(
-      (c) => (params = { ...params, ...this.findAllParam(c) })
-    );
-    return params;
+    return Object.assign({}, ...routes.map((route) => route.params));
   }
 }

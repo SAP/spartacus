@@ -29,8 +29,10 @@ import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-ce
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
 import { UnitListComponent } from './list/unit-list.component';
+import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
+import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -118,75 +120,117 @@ export const unitsCmsConfig: CmsConfig = {
           useExisting: UnitItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: UnitFormComponent,
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'unit.breadcrumbs.list',
+              resolver: UnitRoutePageMetaResolver,
+            },
+          },
         },
-        {
-          path: `:${ROUTE_PARAMS.unitCode}`,
-          component: UnitDetailsComponent,
-          canActivate: [ExistUnitGuard],
-          children: [
-            {
-              path: 'edit',
-              component: UnitFormComponent,
-              canActivate: [ActiveUnitGuard],
+        children: [
+          {
+            path: 'create',
+            component: UnitFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.unitCode}`,
+            component: UnitDetailsComponent,
+            canActivate: [ExistUnitGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'unit.breadcrumbs.details' },
             },
-            {
-              path: 'children',
-              component: UnitChildrenComponent,
-              children: [
-                {
-                  path: 'create',
-                  component: UnitFormComponent,
+            children: [
+              {
+                path: 'edit',
+                component: UnitFormComponent,
+                canActivate: [ActiveUnitGuard],
+              },
+              {
+                path: 'children',
+                component: UnitChildrenComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.children' },
                 },
-              ],
-            },
-            {
-              path: 'approvers',
-              component: UnitAssignedApproverListComponent,
-            },
-            {
-              path: 'approvers/assign',
-              component: UnitApproverListComponent,
-            },
-            {
-              path: 'users',
-              component: UnitUserListComponent,
-              children: [
-                {
-                  path: ':userCode/roles',
-                  component: UnitUserRolesFormComponent,
+                children: [
+                  {
+                    path: 'create',
+                    component: UnitFormComponent,
+                  },
+                ],
+              },
+              {
+                path: 'approvers',
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.approvers' },
                 },
-              ],
-            },
-            {
-              path: 'cost-centers',
-              component: UnitCostCenterListComponent,
-            },
-            {
-              path: 'addresses',
-              component: UnitAddressListComponent,
-              children: [
-                {
-                  path: 'create',
-                  component: UnitAddressFormComponent,
+                children: [
+                  {
+                    path: '',
+                    component: UnitAssignedApproverListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UnitApproverListComponent,
+                  },
+                ],
+              },
+              {
+                path: 'users',
+                component: UnitUserListComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.users' },
                 },
-                {
-                  path: ':addressId',
-                  component: UnitAddressDetailsComponent,
+                children: [
+                  {
+                    path: `:${ROUTE_PARAMS.userCode}/roles`,
+                    component: UnitUserRolesFormComponent,
+                  },
+                ],
+              },
+              {
+                path: 'cost-centers',
+                component: UnitCostCenterListComponent,
+              },
+              {
+                path: 'addresses',
+                component: UnitAddressListComponent,
+                data: {
+                  cxPageMeta: {
+                    breadcrumb: 'unit.breadcrumbs.addresses',
+                    resolver: UnitAddressRoutePageMetaResolver,
+                  },
                 },
-                {
-                  path: ':addressId/edit',
-                  component: UnitAddressFormComponent,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-
+                children: [
+                  {
+                    path: 'create',
+                    component: UnitAddressFormComponent,
+                  },
+                  {
+                    path: `:${ROUTE_PARAMS.addressCode}`,
+                    data: {
+                      cxPageMeta: {
+                        breadcrumb: 'unit.breadcrumbs.addressDetails',
+                      },
+                    },
+                    children: [
+                      {
+                        path: '',
+                        component: UnitAddressDetailsComponent,
+                      },
+                      {
+                        path: 'edit',
+                        component: UnitAddressFormComponent,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },

@@ -37,7 +37,7 @@ export const user = {
     password: 'Change password',
     approvers: 'Approvers',
     userGroup: 'User groups',
-    permission: 'Permission',
+    permission: 'Permissions',
   },
 
   messages: {
@@ -99,6 +99,14 @@ export const user = {
     subtitle: '',
     newPassword: 'New password',
     confirmPassword: 'Retype new password',
+  },
+
+  breadcrumbs: {
+    list: 'All users',
+    details: '{{name}}',
+    userGroups: 'User groups',
+    approvers: 'Approvers',
+    permissions: 'Permissions',
   },
 };
 
