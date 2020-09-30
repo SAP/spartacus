@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';

@@ -4,11 +4,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { StoreCount } from '../../../model/store-finder.model';
-import { OccConfig } from '../../../occ';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './view-all-stores.effect';
 import createSpy = jasmine.createSpy;
+import { OccConfig } from '@spartacus/core';
 
 const mockOccModuleConfig: OccConfig = {
   backend: {

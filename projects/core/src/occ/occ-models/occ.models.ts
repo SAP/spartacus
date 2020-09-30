@@ -2946,60 +2946,6 @@ export namespace Occ {
     uid?: string;
   }
 
-  /**
-   *
-   * An interface representing UserGroupList.
-   */
-  export interface UserGroupList {
-    /**
-     * @member {number} [currentPage]
-     */
-    currentPage?: number;
-    /**
-     * @member {number} [numberOfPages]
-     */
-    numberOfPages?: number;
-    /**
-     * @member {number} [pageSize]
-     */
-    pageSize?: number;
-    /**
-     * @member {number} [totalNumber]
-     */
-    totalNumber?: number;
-    /**
-     * @member {UserGroup[]} [userGroups]
-     */
-    userGroups?: UserGroup[];
-  }
-
-  /**
-   *
-   * An interface representing UserSignUp.
-   */
-  export interface UserSignUp {
-    /**
-     * @member {string} [firstName]
-     */
-    firstName?: string;
-    /**
-     * @member {string} [lastName]
-     */
-    lastName?: string;
-    /**
-     * @member {string} [password]
-     */
-    password?: string;
-    /**
-     * @member {string} [titleCode]
-     */
-    titleCode?: string;
-    /**
-     * @member {string} [uid]
-     */
-    uid?: string;
-  }
-
   export interface StoreCount {
     count?: number;
     isoCode?: string;
@@ -4170,6 +4116,24 @@ export namespace Occ {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 
+  export interface Budget {
+    active?: boolean;
+    budget?: number;
+    code?: string;
+    currency?: Currency;
+    endDate?: string;
+    startDate?: string;
+    name?: string;
+    orgUnit?: B2BUnit;
+    costCenters?: CostCenter[];
+  }
+
+  export interface BudgetsList {
+    budgets?: Budget[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
   export interface CostCenter {
     active?: string;
     activeFlag?: boolean;
@@ -4396,5 +4360,36 @@ export namespace Occ {
     FRIDAY = 'FRIDAY',
     SATURDAY = 'SATURDAY',
     SUNDAY = 'SUNDAY',
+  }
+
+  export enum OrderApprovalDecisionValue {
+    APPROVE = 'APPROVE',
+    REJECT = 'REJECT',
+  }
+  export interface OrderApprovalDecision {
+    decision?: OrderApprovalDecisionValue;
+    comment?: string;
+  }
+
+  export interface OrderApprovalRecord {
+    approver?: Principal;
+    comments?: string;
+    permissionTypes?: OrderApprovalPermissionType[];
+    statusDisplay?: string;
+  }
+
+  export interface OrderApproval {
+    approvalDecisionRequired?: boolean;
+    code?: string;
+    customerOrderApprovalRecords?: OrderApprovalRecord[];
+    merchantOrderApprovalRecords?: OrderApprovalRecord[];
+    order?: Order;
+    trigger?: Trigger;
+  }
+
+  export interface OrderApprovalsList {
+    orderApprovals?: OrderApproval[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 }
