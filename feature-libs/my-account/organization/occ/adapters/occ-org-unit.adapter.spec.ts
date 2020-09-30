@@ -5,6 +5,8 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   Address,
+  ADDRESS_LIST_NORMALIZER,
+  ADDRESS_SERIALIZER,
   ConverterService,
   OccEndpointsService,
   SearchConfig,
@@ -14,8 +16,6 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
   B2B_USERS_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -243,7 +243,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_LIST_NORMALIZER
+        ADDRESS_LIST_NORMALIZER
       );
     });
   });
@@ -261,7 +261,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });
@@ -276,7 +276,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });
@@ -291,7 +291,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });

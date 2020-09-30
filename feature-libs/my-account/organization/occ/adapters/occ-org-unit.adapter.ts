@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   Address,
+  ADDRESS_LIST_NORMALIZER,
+  ADDRESS_SERIALIZER,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -17,8 +19,6 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
   B2B_USERS_NORMALIZER,
   OrgUnitAdapter,
 } from '@spartacus/my-account/organization/core';
@@ -137,7 +137,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   ): Observable<EntitiesModel<Address>> {
     return this.http
       .get<Occ.B2BAddressList>(this.getAddressesEndpoint(userId, orgUnitId))
-      .pipe(this.converter.pipeable(B2B_ADDRESS_LIST_NORMALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_LIST_NORMALIZER));
   }
 
   createAddress(
@@ -150,7 +150,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
         this.getAddressesEndpoint(userId, orgUnitId),
         address
       )
-      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
   }
 
   updateAddress(
@@ -164,7 +164,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
         this.getAddressEndpoint(userId, orgUnitId, addressId),
         address
       )
-      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
   }
 
   deleteAddress(
@@ -176,7 +176,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .delete<Occ.B2BAddress>(
         this.getAddressEndpoint(userId, orgUnitId, addressId)
       )
-      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
   }
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
