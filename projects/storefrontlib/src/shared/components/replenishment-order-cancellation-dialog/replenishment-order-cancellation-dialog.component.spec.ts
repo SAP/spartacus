@@ -104,9 +104,9 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     spyOn(
       userReplenishmentOrderService,
       'clearCancelReplenishmentOrderProcessState'
-    ).and.callThrough();
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    ).and.stub();
+    spyOn(globalMessageService, 'add').and.stub();
+    spyOn(launchDialogService, 'closeDialog').and.stub();
 
     component.onSuccess(true);
 
@@ -130,7 +130,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    spyOn(launchDialogService, 'closeDialog').and.stub();
 
     const mockCloseReason = 'test-close';
 
@@ -142,10 +142,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(
-      userReplenishmentOrderService,
-      'cancelReplenishmentOrder'
-    ).and.callThrough();
+    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
 
     component.cancelReplenishment();
 
