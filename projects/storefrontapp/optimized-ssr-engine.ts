@@ -10,6 +10,43 @@ export interface OptimizedSsrOptions {
    * Enable in-memory cache for pre-rendered urls.
    */
   cache?: boolean;
+
+  /**
+   * Limit number of concurrent rendering
+   */
+  concurrency?: number;
+}
+
+class RenderingCache {
+  renderedUrls: {
+    [filePath: string]: {
+      html?: any;
+      err?: any;
+      time?: number;
+    };
+  } = {};
+
+  constructor(private options: OptimizedSsrOptions) {}
+
+  store(key, err, html) {
+    this.renderedUrls[key] = { err, html };
+  }
+
+  has(key): boolean {
+    return !!this.renderedUrls[key];
+  }
+
+  get(key) {
+    return this.renderedUrls[key];
+  }
+
+  isReady(key) {
+    return this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
+  }
+
+  remove(key) {
+    delete this.renderedUrls[key];
+  }
 }
 
 export function optimizedSsrEngine(
@@ -18,12 +55,9 @@ export function optimizedSsrEngine(
 ) {
   // The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
   // response is evicted as soon as the first successful response is successfully returned.
-  const renderedUrls: {
-    [filePath: string]: {
-      html?: any;
-      err?: any;
-    };
-  } = {};
+  const renderingCache = new RenderingCache(ssrOptions);
+
+  let currentConcurrency = 0;
 
   return function wrappedEngine(
     filePath: string,
@@ -32,8 +66,10 @@ export function optimizedSsrEngine(
   ) {
     const res = options.res || options.req.res;
 
+    const renderingKey = filePath;
+
     /**
-     * When SSR page can not be returned in time, we're returnig index.html of
+     * When SSR page can not be returned in time, we're returning index.html of
      * the CSR application.
      * The CSR application is returned with the "Cache-Control: no-store" response-header. This notifies external cache systems to not use the CSR application for the subsequent request.
      */
@@ -42,20 +78,26 @@ export function optimizedSsrEngine(
       callback(undefined, getDocument(filePath));
     }
 
-    const isRenderingReady =
-      renderedUrls[filePath]?.html || renderedUrls[filePath]?.err;
-    if (isRenderingReady) {
-      callback(renderedUrls[filePath].err, renderedUrls[filePath].html);
+    if (renderingCache.isReady(renderingKey)) {
+      callback(
+        renderingCache.get(renderingKey).err,
+        renderingCache.get(renderingKey).html
+      );
 
       if (!ssrOptions?.cache) {
         // we drop cached rendering if caching is disabled
-        delete renderedUrls[filePath];
+        renderingCache.remove(renderingKey);
       }
     } else {
       let waitingForRender;
 
-      if (!renderedUrls[filePath]) {
+      const concurrencyLimitExceed = ssrOptions.concurrency
+        ? currentConcurrency > ssrOptions.concurrency
+        : false;
+
+      if (!renderingCache.has(renderingKey) && !concurrencyLimitExceed) {
         // if there is no rendering already in progress
+        currentConcurrency++;
 
         if (ssrOptions?.timeout) {
           waitingForRender = setTimeout(() => {
@@ -69,21 +111,21 @@ export function optimizedSsrEngine(
           fallbackToCsr();
         }
 
-        renderedUrls[filePath] = {};
         expressEngine(filePath, options, (err, html) => {
+          currentConcurrency--;
           if (waitingForRender) {
             // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
             callback(err, html);
 
             if (ssrOptions?.cache) {
-              renderedUrls[filePath] = { err, html };
+              renderingCache.store(renderingKey, err, html);
             } else {
-              delete renderedUrls[filePath];
+              renderingCache.remove(renderingKey);
             }
           } else {
             // store the rendering for future use
-            renderedUrls[filePath] = { err, html };
+            renderingCache.store(renderingKey, err, html);
           }
         });
       } else {
