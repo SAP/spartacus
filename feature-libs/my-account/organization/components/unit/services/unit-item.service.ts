@@ -4,7 +4,7 @@ import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitFormService } from '../form/unit-form.service';
-import { CurrentUnitService } from './current-unit.service';
+import { CurrentUnitService } from '../services/current-unit.service';
 
 @Injectable({
   providedIn: 'root',

@@ -7,6 +7,7 @@ import { PermissionComponentsModule } from './permission/permission-components.m
 import { UnitsComponentsModule } from './unit/units-components.module';
 import { UserGroupComponentsModule } from './user-group/user-group-components.module';
 import { UserComponentsModule } from './user/user-components.module';
+import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { UserComponentsModule } from './user/user-components.module';
     OrderApprovalComponentsModule,
   ],
   providers: [
+    provideDefaultConfig(defaultOrganizationLayoutConfig),
     provideDefaultConfig(<RoutingConfig>{
       routing: {
         routes: {

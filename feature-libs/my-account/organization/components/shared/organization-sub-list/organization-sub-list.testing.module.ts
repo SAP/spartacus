@@ -1,5 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { OrganizationListService } from '../organization-list';
+import { OrganizationListService } from '../organization-list/organization-list.service';
 
 @Component({
   selector: 'cx-organization-sub-list',

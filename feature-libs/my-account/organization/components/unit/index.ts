@@ -4,4 +4,7 @@ export * from './guards/index';
 export * from './links/index';
 export * from './list/index';
 export * from './services/current-unit.service';
+export * from './services/index';
 export * from './unit-tree/index';
+export * from './units-components.module';
+export * from './units.config';

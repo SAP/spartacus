@@ -5,37 +5,32 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsLibModule } from '../cms-components/cms-lib.module';
-import { StorefrontConfig } from '../storefront-config';
 import {
-  b2bLayoutConfig,
-  defaultB2bCheckoutConfig,
-  defaultB2bOccConfig,
+  CmsLibModule,
+  defaultCmsContentConfig,
+  layoutConfig,
   mediaConfig,
-} from './config/index';
-import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
-import { StorefrontModule } from './storefront.module';
+  StorefrontConfig,
+  StorefrontModule,
+} from '@spartacus/storefront';
+import { OrganizationModule } from '@spartacus/my-account/organization';
+import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
+import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 
 @NgModule({
   imports: [
-    CostCenterModule.forRoot(),
     StorefrontModule,
-
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
+    CostCenterModule.forRoot(),
+    OrganizationModule,
   ],
   providers: [
-    provideDefaultConfig({
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
-    provideDefaultConfig(b2bLayoutConfig),
+    provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
-    provideDefaultConfig(defaultB2bCheckoutConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
+    provideDefaultConfig(defaultB2bCheckoutConfig),
   ],
   exports: [StorefrontModule],
 })
