@@ -2,15 +2,32 @@
   display: flex;
   flex-direction: column;
 
-  padding: 20px 0;
   text-align: center;
 
   color: currentcolor;
   background-color: var(--cx-color-background);
 
+  // TODO: with 3.0 the default padding should be replaced with the new spatial
+  padding: 20px 0;
+  @include forVersion(2.1) {
+    padding: var(--cx-spatial-base);
+    h1 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   nav {
     font-size: 0.85rem;
     padding: 5px 0;
+
+    @include forVersion(2.1) {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     span {
       color: var(--cx-color-secondary);
 
