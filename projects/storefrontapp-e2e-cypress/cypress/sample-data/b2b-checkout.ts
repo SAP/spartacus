@@ -11,6 +11,10 @@ export const POWERTOOLS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 export const poNumber = '123';
 export const costCenter = 'PunchOut Organization';
 export const b2bUnit = 'PunchOut Organization';
+export const replenishmentDay = '8';
+export const replenishmentDate = '2100-01-01';
+export const convertedReplenishmentDate = 'Jan 01 2100';
+
 export const b2bProduct: SampleProduct = {
   name: 'Cordless screwdriver 2436',
   code: '3881074',
@@ -43,6 +47,22 @@ export const b2bUser: AccountData = {
 };
 
 export const order_type = {
-  place_order: 'PLACE_ORDER',
-  schedule_replenishment: 'SCHEDULE_REPLENISHMENT_ORDER',
+  PLACE_ORDER: 'PLACE_ORDER',
+  SCHEDULE_REPLENISHMENT: 'SCHEDULE_REPLENISHMENT_ORDER',
+};
+
+export const recurrencePeriod = {
+  MONTHLY: 'MONTHLY',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+};
+
+export const DaysOfWeek = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY',
 };
