@@ -21,6 +21,7 @@ import { ActivePermissionGuard } from './guards/active-permission.guard';
 import { ExistPermissionGuard } from './guards/exist-permission.guard';
 import { PermissionItemService } from './services/permission-item.service';
 import { PermissionListService } from './services/permission-list.service';
+import { PermissionRoutePageMetaResolver } from './services/permission-route-page-meta.resolver';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;
 const paramsMapping: ParamsMapping = {
@@ -62,24 +63,37 @@ export const permissionCmsConfig: CmsConfig = {
           useExisting: PermissionItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: PermissionFormComponent,
-        },
-        {
-          path: `:${ROUTE_PARAMS.permissionCode}`,
-          component: PermissionDetailsComponent,
-          canActivate: [ExistPermissionGuard],
-          children: [
-            {
-              path: 'edit',
-              component: PermissionFormComponent,
-              canActivate: [ActivePermissionGuard],
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'permission.breadcrumbs.list',
+              resolver: PermissionRoutePageMetaResolver,
             },
-          ],
+          },
         },
-      ],
+        children: [
+          {
+            path: 'create',
+            component: PermissionFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.permissionCode}`,
+            component: PermissionDetailsComponent,
+            canActivate: [ExistPermissionGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'permission.breadcrumbs.details' },
+            },
+            children: [
+              {
+                path: 'edit',
+                component: PermissionFormComponent,
+                canActivate: [ActivePermissionGuard],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },
