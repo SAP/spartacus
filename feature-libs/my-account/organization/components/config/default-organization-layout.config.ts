@@ -1,6 +1,6 @@
 import { LayoutConfig } from '@spartacus/storefront';
 
-export const organizationLayoutConfig = {
+export const defaultOrganizationLayoutConfig = {
   layoutSlots: {
     CompanyPageTemplate: {
       slots: ['BodyContent'],
