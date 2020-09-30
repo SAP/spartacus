@@ -33,6 +33,10 @@ class RenderingCache {
 
   constructor(private options: OptimizedSsrOptions) {}
 
+  prepare(key) {
+    this.renderedUrls[key] = {};
+  }
+
   store(key, err, html) {
     this.renderedUrls[key] = { err, html };
     if (this.options.ttl) {
@@ -129,6 +133,7 @@ export function optimizedSsrEngine(
           fallbackToCsr();
         }
 
+        renderingCache.prepare(renderingKey);
         expressEngine(filePath, options, (err, html) => {
           currentConcurrency--;
           if (waitingForRender) {
