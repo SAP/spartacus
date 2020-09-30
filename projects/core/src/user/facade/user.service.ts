@@ -152,10 +152,17 @@ export class UserService {
   }
 
   /**
-   * Returns titles
+   * Returns titles.
    */
   getTitles(): Observable<Title[]> {
-    return this.store.pipe(select(UsersSelectors.getAllTitles));
+    return this.store.pipe(
+      select(UsersSelectors.getAllTitles),
+      tap((titles: Title[]) => {
+        if (Object.keys(titles).length === 0) {
+          this.loadTitles();
+        }
+      })
+    );
   }
 
   /**

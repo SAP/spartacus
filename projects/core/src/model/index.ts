@@ -15,5 +15,4 @@ export * from './product-search.model';
 export * from './product.model';
 export * from './replenishment-order.model';
 export * from './scoped-data';
-export * from './shared.model';
 export * from './store-finder.model';

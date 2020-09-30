@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { CostCenter } from '../../../../model/org-unit.model';
 import { OccConfig } from '../../../config/occ-config';
@@ -20,11 +19,13 @@ describe('CostCenterNormalizer', () => {
   const costCenter: Occ.CostCenter = {
     name: 'CostCenter1',
     code: 'testCode',
+    active: 'true',
   };
 
   const convertedCostCenter: CostCenter = {
     name: 'CostCenter1',
     code: 'testCode',
+    active: true,
   };
 
   beforeEach(() => {
@@ -35,9 +36,7 @@ describe('CostCenterNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccCostCenterNormalizer as Type<OccCostCenterNormalizer>
-    );
+    service = TestBed.inject(OccCostCenterNormalizer);
   });
 
   it('should inject OccCostCenterNormalizer', inject(
