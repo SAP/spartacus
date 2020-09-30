@@ -75,6 +75,16 @@ export const unit = {
   //   header: 'Cost centers in {{code}}',
   //   new: 'New cost center',
   // },
+
+  breadcrumbs: {
+    list: 'All units',
+    details: '{{name}}',
+    children: 'Child units',
+    users: 'Users',
+    approvers: 'Approvers',
+    addresses: 'Shipping addresses',
+    addressDetails: '{{formattedAddress}}',
+  },
 };
 
 export const unitChildren = {

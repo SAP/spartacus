@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   BreadcrumbMeta,
   CmsService,
+  ContentPageMetaResolver,
   I18nTestingModule,
   Page,
   PageType,
@@ -10,6 +11,7 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
 
 const mockOrganizationPage: Page = {
@@ -18,68 +20,113 @@ const mockOrganizationPage: Page = {
   slots: {},
 };
 
-const state: RouterState = {
-  navigationId: 0,
-  state: {
-    url: 'powertools-spa/en/USD/organization/cost-centers',
-    queryParams: {},
-    params: {},
-    context: {
-      id: '/organization/cost-centers',
-      type: PageType.CONTENT_PAGE,
-    },
-    cmsRequired: true,
-  },
-};
-
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockOrganizationPage);
   }
 }
 
-class RoutingServiceStub {
+class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(state);
+    return of({ state: {} } as RouterState);
   }
 }
 
 const testOrganizationUrl = '/test-organization';
+const organizationTranslationKey = 'organization.breadcrumb';
+const organizationBreadcrumb: BreadcrumbMeta = {
+  label: organizationTranslationKey,
+  link: testOrganizationUrl,
+};
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
   get = jasmine.createSpy('get').and.returnValue(testOrganizationUrl);
 }
 
+const testHomeBreadcrumb: BreadcrumbMeta = { label: 'Test Home', link: '/' };
+
+class MockContentPageMetaResolver implements Partial<ContentPageMetaResolver> {
+  resolveTitle() {
+    return of('testContentPageTitle');
+  }
+
+  resolveBreadcrumbs() {
+    return of([testHomeBreadcrumb]);
+  }
+}
+
 describe('OrganizationPageMetaResolver', () => {
   let resolver: OrganizationPageMetaResolver;
-  let semanticPathService: SemanticPathService;
+  let routingService: RoutingService;
+  let contentPageMetaResolver: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
         { provide: CmsService, useClass: MockCmsService },
-        { provide: RoutingService, useClass: RoutingServiceStub },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
-        OrganizationPageMetaResolver,
+        {
+          provide: ContentPageMetaResolver,
+          useClass: MockContentPageMetaResolver,
+        },
       ],
     });
 
     resolver = TestBed.inject(OrganizationPageMetaResolver);
-    semanticPathService = TestBed.inject(SemanticPathService);
+    routingService = TestBed.inject(RoutingService);
+    contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
   });
 
-  it('should resolve breadcrumbs', () => {
-    let result: BreadcrumbMeta[];
-    resolver
-      .resolveBreadcrumbs()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+  describe('resolveTitle', () => {
+    it('should emit title of CMS content page ', async () => {
+      expect(await resolver.resolveTitle().pipe(take(1)).toPromise()).toBe(
+        'testContentPageTitle'
+      );
+    });
+  });
 
-    expect(result).toEqual([
-      { label: 'common.home', link: '/' },
-      { label: 'organization.breadcrumb', link: testOrganizationUrl },
-    ]);
-    expect(semanticPathService.get).toHaveBeenCalledWith('organization');
+  describe('resolveBreadcrumbs', () => {
+    describe('when being on the Organization page', () => {
+      beforeEach(() => {
+        spyOn(routingService, 'getRouterState').and.returnValue(
+          of({ state: { semanticRoute: 'organization' } } as any)
+        );
+      });
+
+      it('should NOT return breadcrumb for the Organization page', async () => {
+        expect(
+          await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
+        ).toEqual([testHomeBreadcrumb]);
+      });
+    });
+
+    describe('when being on any sub page of the Organization page', () => {
+      const testBudgetsBreadcrumb: BreadcrumbMeta = {
+        link: '/test-organization/test-budgets',
+        label: 'Test Budgets',
+      };
+
+      beforeEach(() => {
+        spyOn(routingService, 'getRouterState').and.returnValue(
+          of({ state: { semanticRoute: 'budgetDetails' } } as any)
+        );
+
+        spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+          of([testHomeBreadcrumb, testBudgetsBreadcrumb])
+        );
+      });
+
+      it('should insert breadcrumb for the Organization page right after the Homepage breadcrumb', async () => {
+        expect(
+          await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
+        ).toEqual([
+          testHomeBreadcrumb,
+          organizationBreadcrumb,
+          testBudgetsBreadcrumb,
+        ]);
+      });
+    });
   });
 });
