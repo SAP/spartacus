@@ -24,8 +24,7 @@ import { AutoFocusService } from './auto-focus.service';
  *
  */
 @Directive() // selector: '[cxAutoFocus]'
-export class AutoFocusDirective
-  extends EscapeFocusDirective
+export class AutoFocusDirective extends EscapeFocusDirective
   implements AfterViewInit {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };

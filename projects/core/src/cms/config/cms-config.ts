@@ -86,8 +86,7 @@ export interface FeatureModuleConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig
-  extends OccConfig
+export abstract class CmsConfig extends OccConfig
   implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;

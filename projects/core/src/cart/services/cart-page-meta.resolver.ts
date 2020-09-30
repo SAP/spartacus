@@ -20,8 +20,7 @@ import { PageType } from '../../model/cms.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CartPageMetaResolver
-  extends PageMetaResolver
+export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()

@@ -21,8 +21,7 @@ import { PageType } from '../../model/cms.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutPageMetaResolver
-  extends PageMetaResolver
+export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cart$ = this.activeCartService.getActive();
 

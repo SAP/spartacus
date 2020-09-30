@@ -44,8 +44,7 @@ class MockCmsService {
 }
 
 @Injectable()
-class ContentPageResolver
-  extends PageMetaResolver
+class ContentPageResolver extends PageMetaResolver
   implements PageTitleResolver {
   pageType = PageType.CONTENT_PAGE;
   resolveTitle(): Observable<string> {
@@ -56,8 +55,7 @@ class ContentPageResolver
 @Injectable({
   providedIn: 'root',
 })
-class PageWithHeadingResolver
-  extends PageMetaResolver
+class PageWithHeadingResolver extends PageMetaResolver
   implements PageHeadingResolver {
   pageType = PageType.CONTENT_PAGE;
   pageTemplate = 'template';
@@ -69,8 +67,7 @@ class PageWithHeadingResolver
 @Injectable({
   providedIn: 'root',
 })
-class PageWithAllResolvers
-  extends PageMetaResolver
+class PageWithAllResolvers extends PageMetaResolver
   implements
     PageTitleResolver,
     PageHeadingResolver,

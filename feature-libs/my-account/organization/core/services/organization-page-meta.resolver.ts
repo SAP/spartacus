@@ -21,8 +21,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class OrganizationPageMetaResolver
-  extends ContentPageMetaResolver
+export class OrganizationPageMetaResolver extends ContentPageMetaResolver
   implements PageBreadcrumbResolver {
   pageTemplate = 'CompanyPageTemplate';
   protected ORGANIZATION_TRANSLATION_KEY = 'organization.breadcrumb';
