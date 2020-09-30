@@ -1,5 +1,4 @@
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
-import { addProduct } from '../../../helpers/accessibility/tabbing-order';
 import { checkoutPaymentMethodTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/b2b/payment-method';
 import {
   checkoutDeliveryModeTabbingOrder,
@@ -16,7 +15,7 @@ import {
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 import { generateMail, randomString } from '../../../helpers/user';
-import { b2bProduct, b2bUser } from '../../../sample-data/b2b-checkout';
+import { b2bUser } from '../../../sample-data/b2b-checkout';
 
 describe('Tabbing order for B2B checkout', () => {
   describe('Checkout Credit Card', () => {
@@ -24,10 +23,13 @@ describe('Tabbing order for B2B checkout', () => {
       b2bUser.registrationData.email = generateMail(randomString(), true);
       cy.requireLoggedIn(b2bUser);
 
-      addProduct(b2bProduct.code);
-      cy.getAllByText(/Proceed to checkout/i)
-        .first()
-        .click();
+      cy.window()
+        .then((win) =>
+          JSON.parse(win.localStorage.getItem('spartacus-local-data'))
+        )
+        .then(({ auth }) => cy.requireProductAddedToCart(auth));
+
+      // addProduct(b2bProduct.code);
     });
 
     beforeEach(() => {
@@ -74,17 +76,18 @@ describe('Tabbing order for B2B checkout', () => {
 
     context('Review order', () => {
       it('should allow to navigate with tab key', () => {
-        checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder);
+        checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder, true);
       });
     });
   });
 
   describe('Checkout Account', () => {
     before(() => {
-      addProduct(b2bProduct.code);
-      cy.getAllByText(/Proceed to checkout/i)
-        .first()
-        .click();
+      cy.window()
+        .then((win) =>
+          JSON.parse(win.localStorage.getItem('spartacus-local-data'))
+        )
+        .then(({ auth }) => cy.requireProductAddedToCart(auth));
     });
 
     beforeEach(() => {
@@ -115,7 +118,10 @@ describe('Tabbing order for B2B checkout', () => {
 
     context('Review order', () => {
       it('should allow to navigate with tab key', () => {
-        checkoutReviewOrderTabbingOrder(config.checkoutReviewOrderAccount);
+        checkoutReviewOrderTabbingOrder(
+          config.checkoutReviewOrderAccount,
+          true
+        );
       });
     });
   });
