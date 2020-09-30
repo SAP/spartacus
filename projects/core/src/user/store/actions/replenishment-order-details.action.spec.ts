@@ -138,12 +138,12 @@ describe('ReplenishmentOrderActions', () => {
       });
     });
 
-    describe('ClearReplenishmentOrder action', () => {
+    describe('ClearCancelReplenishmentOrder action', () => {
       it('should create the action', () => {
-        const action = new UserActions.ClearReplenishmentOrder();
+        const action = new UserActions.ClearCancelReplenishmentOrder();
 
         expect({ ...action }).toEqual({
-          type: UserActions.CLEAR_REPLENISHMENT_ORDER,
+          type: UserActions.CLEAR_CANCEL_REPLENISHMENT_ORDER,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID

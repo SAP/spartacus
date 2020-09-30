@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
@@ -23,6 +24,13 @@ export class ReplenishmentOrderCancellationDialogComponent
   private subscription = new Subscription();
 
   replenishmentOrderCode: string;
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -75,6 +83,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
   }
 
   close(reason: string): void {

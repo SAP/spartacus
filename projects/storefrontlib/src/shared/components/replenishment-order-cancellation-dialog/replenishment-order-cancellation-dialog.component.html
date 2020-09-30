@@ -1,4 +1,8 @@
-<div class="cx-cancel-replenishment-dialog-foreground">
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-cancel-replenishment-dialog-foreground"
+>
   <div class="cx-cancel-replenishment-dialog-content">
     <div class="cx-cancel-replenishment-dialog-header">
       <h3>

@@ -28,6 +28,8 @@ class MockUserReplenishmentOrderService {
   }
 
   cancelReplenishmentOrder(_replenishmentOrderCode: string): void {}
+
+  clearCancelReplenishmentOrderProcessState(): void {}
 }
 
 class MockGlobalMessageService {
@@ -99,8 +101,12 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
     spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    spyOn(
+      userReplenishmentOrderService,
+      'clearCancelReplenishmentOrderProcessState'
+    ).and.stub();
+    spyOn(globalMessageService, 'add').and.stub();
+    spyOn(launchDialogService, 'closeDialog').and.stub();
 
     component.onSuccess(true);
 
@@ -117,10 +123,14 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       'Successffully cancelled replenishment'
     );
+
+    expect(
+      userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState
+    ).toHaveBeenCalled();
   });
 
   it('should be able to call the close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    spyOn(launchDialogService, 'closeDialog').and.stub();
 
     const mockCloseReason = 'test-close';
 
@@ -132,10 +142,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(
-      userReplenishmentOrderService,
-      'cancelReplenishmentOrder'
-    ).and.callThrough();
+    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
 
     component.cancelReplenishment();
 
