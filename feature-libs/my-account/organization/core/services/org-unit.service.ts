@@ -26,7 +26,10 @@ import {
   getOrgUnitList,
   getOrgUnitTree,
 } from '../store/selectors/org-unit.selector';
-import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
+import {
+  OrganizationItemStatus,
+  mapToOrganizationItemStatus,
+} from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
@@ -252,12 +255,16 @@ export class OrgUnitService {
     );
   }
 
-  getLoadingStatus(orgUnitId: string): Observable<OrganizationItemStatus<B2BUnit>> {
+  getLoadingStatus(
+    orgUnitId: string
+  ): Observable<OrganizationItemStatus<B2BUnit>> {
     return this.getOrgUnit(orgUnitId).pipe(
       observeOn(queueScheduler),
       pairwise(),
       filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+      map(([_previousState, currentState]) =>
+        mapToOrganizationItemStatus(currentState)
+      )
     );
   }
 
@@ -374,12 +381,16 @@ export class OrgUnitService {
     );
   }
 
-  getAddressLoadingStatus(addressId: string): Observable<OrganizationItemStatus<B2BAddress>> {
+  getAddressLoadingStatus(
+    addressId: string
+  ): Observable<OrganizationItemStatus<B2BAddress>> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
       pairwise(),
       filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+      map(([_previousState, currentState]) =>
+        mapToOrganizationItemStatus(currentState)
+      )
     );
   }
 

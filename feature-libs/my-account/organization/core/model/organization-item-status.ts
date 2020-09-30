@@ -5,7 +5,7 @@ export enum LoadStatus {
 
 export interface OrganizationItemStatus<T> {
   status: LoadStatus;
-  value: T;
+  item: T;
 }
 
 //TODO: consider to make public LoaderState from core
@@ -16,13 +16,15 @@ interface LoaderState<T> {
   value?: T;
 }
 
-export function mapToItemInfo<T>(currentState: LoaderState<T>): OrganizationItemStatus<T> {
+export function mapToOrganizationItemStatus<T>(
+  currentState: LoaderState<T>
+): OrganizationItemStatus<T> {
   return {
     status: currentState.success
       ? LoadStatus.SUCCESS
       : currentState.error
       ? LoadStatus.ERROR
       : null,
-    value: currentState.value,
+    item: currentState.value,
   };
 }

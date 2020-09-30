@@ -15,7 +15,10 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { CostCenterService } from './cost-center.service';
-import { LoadStatus } from '../model/organization-item-status';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -272,7 +275,7 @@ describe('CostCenterService', () => {
 
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<CostCenter>;
       store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
       );
@@ -283,12 +286,12 @@ describe('CostCenterService', () => {
       store.dispatch(new CostCenterActions.LoadCostCenterSuccess([costCenter]));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: costCenter,
+        item: costCenter,
       });
     });
 
     it('getLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<CostCenter>;
       store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
       );
@@ -304,7 +307,7 @@ describe('CostCenterService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        item: {},
       });
     });
   });

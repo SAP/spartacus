@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { ItemInfo } from '@spartacus/my-account/organization/core';
+import { OrganizationItemStatus } from '@spartacus/my-account/organization/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
@@ -58,7 +58,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Updates an existing item.
    */
-  abstract update(key: string, value: T): Observable<ItemInfo<T>>;
+  abstract update(key: string, value: T): Observable<OrganizationItemStatus<T>>;
 
   /**
    * Returns the detailed cxRoute for the organization item.

@@ -7,7 +7,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { Permission, UserGroup } from '../model';
+import { OrganizationItemStatus, Permission, UserGroup } from '../model';
 import {
   B2BUserActions,
   PermissionActions,
@@ -424,7 +424,7 @@ describe('UserGroupService', () => {
 
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<UserGroup>;
       store.dispatch(
         new UserGroupActions.LoadUserGroup({ userId, userGroupId })
       );
@@ -435,12 +435,12 @@ describe('UserGroupService', () => {
       store.dispatch(new UserGroupActions.LoadUserGroupSuccess([userGroup]));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: userGroup,
+        item: userGroup,
       });
     });
 
     it('getLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<UserGroup>;
       store.dispatch(
         new UserGroupActions.LoadUserGroup({ userId, userGroupId })
       );
@@ -456,7 +456,7 @@ describe('UserGroupService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        item: {},
       });
     });
   });

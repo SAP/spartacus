@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
-  ItemInfo,
+  OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -28,7 +28,10 @@ export class UserGroupItemService extends OrganizationItemService<UserGroup> {
     return this.userGroupService.get(code);
   }
 
-  update(code, value: UserGroup): Observable<ItemInfo<UserGroup>> {
+  update(
+    code,
+    value: UserGroup
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
     return this.userGroupService.getLoadingStatus(code);
   }

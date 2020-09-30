@@ -20,7 +20,10 @@ import {
   getUserGroup,
   getUserGroupList,
 } from '../store/selectors/user-group.selector';
-import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
+import {
+  OrganizationItemStatus,
+  mapToOrganizationItemStatus,
+} from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -128,12 +131,16 @@ export class UserGroupService {
     );
   }
 
-  getLoadingStatus(budgetCode: string): Observable<OrganizationItemStatus<UserGroup>> {
+  getLoadingStatus(
+    budgetCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     return this.getUserGroup(budgetCode).pipe(
       observeOn(queueScheduler),
       pairwise(),
       filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+      map(([_previousState, currentState]) =>
+        mapToOrganizationItemStatus(currentState)
+      )
     );
   }
 

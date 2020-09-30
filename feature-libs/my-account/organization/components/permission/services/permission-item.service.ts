@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   Permission,
   PermissionService,
-  ItemInfo,
+  OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -28,7 +28,10 @@ export class PermissionItemService extends OrganizationItemService<Permission> {
     return this.permissionService.get(code);
   }
 
-  update(code, value: Permission): Observable<ItemInfo<Permission>> {
+  update(
+    code,
+    value: Permission
+  ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.update(code, value);
     return this.permissionService.getLoadingStatus(code);
   }

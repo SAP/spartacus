@@ -13,7 +13,10 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { PermissionService } from './permission.service';
-import { LoadStatus } from '../model/organization-item-status';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -219,7 +222,7 @@ describe('PermissionService', () => {
 
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<Permission>;
       store.dispatch(
         new PermissionActions.LoadPermission({ userId, permissionCode })
       );
@@ -230,12 +233,12 @@ describe('PermissionService', () => {
       store.dispatch(new PermissionActions.LoadPermissionSuccess([permission]));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: permission,
+        item: permission,
       });
     });
 
     it('getLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<Permission>;
       store.dispatch(
         new PermissionActions.LoadPermission({ userId, permissionCode })
       );
@@ -251,7 +254,7 @@ describe('PermissionService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        item: {},
       });
     });
   });

@@ -12,7 +12,10 @@ import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
 
 import createSpy = jasmine.createSpy;
-import { LoadStatus } from '../model/organization-item-status';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 
 const userId = 'current';
 const budgetCode = 'testBudget';
@@ -169,7 +172,7 @@ describe('BudgetService', () => {
 
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<Budget>;
       store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
       service
         .getLoadingStatus(budgetCode)
@@ -178,12 +181,12 @@ describe('BudgetService', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget]));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: budget,
+        item: budget,
       });
     });
 
     it('getLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<Budget>;
       store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
       service
         .getLoadingStatus(budgetCode)
@@ -194,7 +197,7 @@ describe('BudgetService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        item: {},
       });
     });
   });

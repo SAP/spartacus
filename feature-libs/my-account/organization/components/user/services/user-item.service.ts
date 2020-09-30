@@ -3,7 +3,7 @@ import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Permission,
-  ItemInfo,
+  OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -28,7 +28,7 @@ export class UserItemService extends OrganizationItemService<Permission> {
     return this.userService.get(code);
   }
 
-  update(code, value: B2BUser): Observable<ItemInfo<B2BUser>> {
+  update(code, value: B2BUser): Observable<OrganizationItemStatus<B2BUser>> {
     delete value.approvers;
     this.userService.update(code, value);
     return this.userService.getLoadingStatus(code);

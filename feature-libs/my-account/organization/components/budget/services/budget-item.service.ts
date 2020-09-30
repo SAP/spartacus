@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   Budget,
   BudgetService,
-  ItemInfo,
+  OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -34,7 +34,7 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     return this.budgetService.get(code);
   }
 
-  update(code, value: Budget): Observable<ItemInfo<Budget>> {
+  update(code, value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.update(code, value);
     return this.budgetService.getLoadingStatus(code);
   }

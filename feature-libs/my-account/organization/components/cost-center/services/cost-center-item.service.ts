@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import {
   CostCenterService,
-  ItemInfo,
+  OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -27,7 +27,10 @@ export class CostCenterItemService extends OrganizationItemService<CostCenter> {
     return this.costCenterService.get(code);
   }
 
-  update(code, value: CostCenter): Observable<ItemInfo<CostCenter>> {
+  update(
+    code,
+    value: CostCenter
+  ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
     return this.costCenterService.getLoadingStatus(code);
   }

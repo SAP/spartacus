@@ -18,7 +18,10 @@ import {
   getCostCenter,
   getCostCenterList,
 } from '../store/selectors/cost-center.selector';
-import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
+import {
+  OrganizationItemStatus,
+  mapToOrganizationItemStatus,
+} from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
@@ -110,12 +113,16 @@ export class CostCenterService {
     );
   }
 
-  getLoadingStatus(costCenterCode: string): Observable<OrganizationItemStatus<CostCenter>> {
+  getLoadingStatus(
+    costCenterCode: string
+  ): Observable<OrganizationItemStatus<CostCenter>> {
     return this.getCostCenter(costCenterCode).pipe(
       observeOn(queueScheduler),
       pairwise(),
       filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+      map(([_previousState, currentState]) =>
+        mapToOrganizationItemStatus(currentState)
+      )
     );
   }
 

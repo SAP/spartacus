@@ -20,7 +20,10 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
-import { LoadStatus } from '../model/organization-item-status';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -610,7 +613,7 @@ describe('OrgUnitService', () => {
 
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<B2BUnit>;
       store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
       service
         .getLoadingStatus(orgUnitId)
@@ -619,12 +622,12 @@ describe('OrgUnitService', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: orgUnit,
+        item: orgUnit,
       });
     });
 
     it('getLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<B2BUnit>;
       store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
       service
         .getLoadingStatus(orgUnitId)
@@ -638,14 +641,14 @@ describe('OrgUnitService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: {},
+        item: {},
       });
     });
   });
 
   describe('get loading status for address', () => {
     it('getAddressLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<B2BAddress>;
       store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,
@@ -660,12 +663,12 @@ describe('OrgUnitService', () => {
       store.dispatch(new OrgUnitActions.CreateAddressSuccess(address));
       expect(loadingStatus).toEqual({
         status: LoadStatus.SUCCESS,
-        value: address,
+        item: address,
       });
     });
 
     it('getAddressLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus;
+      let loadingStatus: OrganizationItemStatus<B2BAddress>;
       store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,
@@ -685,7 +688,7 @@ describe('OrgUnitService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        value: undefined,
+        item: undefined,
       });
     });
   });

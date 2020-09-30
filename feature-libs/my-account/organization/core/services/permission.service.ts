@@ -20,7 +20,10 @@ import {
   getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
-import { OrganizationItemStatus, mapToItemInfo } from '../model/organization-item-status';
+import {
+  OrganizationItemStatus,
+  mapToOrganizationItemStatus,
+} from '../model/organization-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
@@ -135,12 +138,16 @@ export class PermissionService {
     );
   }
 
-  getLoadingStatus(permissionCode: string): Observable<OrganizationItemStatus<Permission>> {
+  getLoadingStatus(
+    permissionCode: string
+  ): Observable<OrganizationItemStatus<Permission>> {
     return this.getPermission(permissionCode).pipe(
       observeOn(queueScheduler),
       pairwise(),
       filter(([previousState]) => previousState.loading),
-      map(([_previousState, currentState]) => mapToItemInfo(currentState))
+      map(([_previousState, currentState]) =>
+        mapToOrganizationItemStatus(currentState)
+      )
     );
   }
 
