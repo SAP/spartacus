@@ -18,7 +18,7 @@ import { ConfiguratorProductTitleComponent } from './configurator-product-title.
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationTitle: {
+        ConfiguratorProductTitle: {
           component: ConfiguratorProductTitleComponent,
         },
       },

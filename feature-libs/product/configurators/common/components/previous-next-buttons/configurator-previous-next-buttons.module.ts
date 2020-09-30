@@ -9,7 +9,7 @@ import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previou
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationPrevNext: {
+        ConfiguratorPrevNext: {
           component: ConfiguratorPreviousNextButtonsComponent,
         },
       },

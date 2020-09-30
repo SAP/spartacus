@@ -9,7 +9,7 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationOverview: {
+        ConfiguratorOverviewForm: {
           component: ConfiguratorOverviewFormComponent,
         },
       },
