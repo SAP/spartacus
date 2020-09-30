@@ -16,16 +16,10 @@ export const navigation = {
     id = 266685,
     options?: Partial<Cypress.VisitOptions>
   ): Cypress.Chainable<string> {
-    navigation.visitPage(`/product/${id}`, options);
+    cy.visit(`/product/${id}`, options);
     return cy
       .location('pathname', { timeout: 10000 })
       .should('include', `/product/${id}`);
-  },
-  visitPage(
-    url,
-    options?: Partial<Cypress.VisitOptions>
-  ): Cypress.Chainable<Window> {
-    return cy.visit(url, options);
   },
   waitForPage(page: string): Cypress.Chainable<Cypress.WaitXHR> {
     return cy

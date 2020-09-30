@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  ActiveCartService,
-  Cart,
+  CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent,
   EventService,
-  OrderEntry,
   OrderPlacedEvent,
   PersonalizationContext,
   PersonalizationContextService,
@@ -22,15 +22,12 @@ import { tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
 let profileTagPushEventsService: ProfileTagPushEventsService;
-let cartBehavior: ReplaySubject<Cart>;
-let activeCartService;
 let eventService;
 let eventServiceEvents: Map<Type<any>, ReplaySubject<any>>;
 let personalizationContextService;
 let getPersonalizationContext;
 
 function setVariables() {
-  cartBehavior = new ReplaySubject<Cart>();
   eventServiceEvents = new Map();
   eventServiceEvents.set(
     CategoryPageResultsEvent,
@@ -51,14 +48,24 @@ function setVariables() {
     OrderPlacedEvent,
     new ReplaySubject<OrderPlacedEvent>()
   );
+  eventServiceEvents.set(
+    CartAddEntrySuccessEvent,
+    new ReplaySubject<CartAddEntrySuccessEvent>()
+  );
+  eventServiceEvents.set(
+    CartRemoveEntrySuccessEvent,
+    new ReplaySubject<CartRemoveEntrySuccessEvent>()
+  );
+  eventServiceEvents.set(
+    CartUpdateEntrySuccessEvent,
+    new ReplaySubject<CartUpdateEntrySuccessEvent>()
+  );
+
   getPersonalizationContext = new ReplaySubject<PersonalizationContext>();
   eventService = {
     get<T>(eventType: Type<T>) {
       return eventServiceEvents.get(eventType);
     },
-  };
-  activeCartService = {
-    getActive: () => cartBehavior,
   };
   personalizationContextService = {
     getPersonalizationContext: () => getPersonalizationContext,
@@ -70,10 +77,6 @@ describe('profileTagPushEventsService', () => {
     setVariables();
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: ActiveCartService,
-          useValue: activeCartService,
-        },
         {
           provide: EventService,
           useValue: eventService,
@@ -91,88 +94,167 @@ describe('profileTagPushEventsService', () => {
     expect(profileTagPushEventsService).toBeTruthy();
   });
 
-  describe('call profileTagPushEventsService for CartSnapshotEvents events', () => {
-    it(`Should call the cartChanged method for every CartSnapshot event`, () => {
+  describe('Cart Events', () => {
+    it(`Should Transform CartAddEntrySuccessEvents to a AddedToCartPushEvent`, () => {
       let timesCalled = 0;
+      let calledWith;
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          tap((item) => {
+            timesCalled++;
+            calledWith = item;
+          })
+        )
         .subscribe();
-      const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
-      const mockOrderEntries: OrderEntry[] = [
-        { entryNumber: 7 },
-        { entryNumber: 1 },
-      ];
-      const testCart = { id: 123, entries: mockOrderEntry };
-      const testCartWithAdditionalOrderEntry = {
-        id: 123,
-        entries: mockOrderEntries,
-      };
-      cartBehavior.next(testCart);
-      cartBehavior.next(testCartWithAdditionalOrderEntry);
+      eventServiceEvents
+        .get(CartAddEntrySuccessEvent)
+        .next({ entry: { product: { categories: [] } } });
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(2);
+      expect(timesCalled).toEqual(1);
+      expect(calledWith.name).toBe('AddedToCart');
     });
 
-    it(`Should not call the cartChanged method when the cart is not modified`, () => {
+    it(`Should Transform CartRemoveEntrySuccessEvents to a RemovedFromCartPushEvent`, () => {
       let timesCalled = 0;
+      let calledWith;
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          tap((item) => {
+            timesCalled++;
+            calledWith = item;
+          })
+        )
         .subscribe();
+      eventServiceEvents
+        .get(CartRemoveEntrySuccessEvent)
+        .next({ entry: { product: { categories: [] } } });
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(0);
+      expect(timesCalled).toEqual(1);
+      expect(calledWith.name).toBe('RemovedFromCart');
     });
 
-    it(`Should not call the cartChanged method even when the entries have an empty array`, () => {
+    it(`Should Transform CartUpdateEntrySuccessEvents to a ModifiedCart`, () => {
       let timesCalled = 0;
+      let calledWith;
       const subscription = profileTagPushEventsService
         .getPushEvents()
-        .pipe(tap(() => timesCalled++))
+        .pipe(
+          tap((item) => {
+            timesCalled++;
+            calledWith = item;
+          })
+        )
         .subscribe();
-      cartBehavior.next({ entries: [] });
-      cartBehavior.next({ entries: [] });
+      eventServiceEvents
+        .get(CartUpdateEntrySuccessEvent)
+        .next({ entry: { product: { categories: [] } } });
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(0);
-    });
-
-    it(`Should call the cartChanged method every time after a non-empty cart is passed`, () => {
-      let timesCalled = 0;
-      const subscription = profileTagPushEventsService
-        .getPushEvents()
-        .pipe(tap(() => timesCalled++))
-        .subscribe();
-      const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
-      cartBehavior.next({ entries: [] });
-      cartBehavior.next({ entries: [] });
-      cartBehavior.next({ entries: [] });
-      cartBehavior.next({ entries: mockOrderEntry });
-      cartBehavior.next({ entries: mockOrderEntry });
-      cartBehavior.next({ entries: [] });
-      cartBehavior.next({ entries: [] });
-      subscription.unsubscribe();
-      expect(timesCalled).toEqual(4);
+      expect(timesCalled).toEqual(1);
+      expect(calledWith.name).toBe('ModifiedCart');
     });
   });
 
-  describe('call profileTagPushEventsService for CategoryPageResultsEvent events', () => {
-    it(`Should call the CategoryPageResultsEvent method for every CategoryPageResultsEvent event`, () => {
+  describe('CategoryPageResultsEvent events', () => {
+    const categoryPageResultsEvent123: CategoryPageResultsEvent = {
+      categoryCode: '123',
+      categoryName: 'categoryName1',
+      numberOfResults: 2,
+      context: null,
+      url: 'http',
+      params: { 'pt-debug': true },
+    };
+    const categoryPageResultsEvent234: CategoryPageResultsEvent = {
+      categoryCode: '234',
+      categoryName: 'categoryName2',
+      numberOfResults: 2,
+      context: null,
+      url: 'http',
+      params: { 'pt-debug': true },
+    };
+    const categoryPageResultsEvent345: CategoryPageResultsEvent = {
+      categoryCode: '345',
+      categoryName: 'categoryName3',
+      numberOfResults: 2,
+      context: undefined,
+      url: 'http',
+      params: { 'pt-debug': true },
+    };
+    it(`Should emit an event for every CategoryPageResultsEvent event with a different category code`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: CategoryPageResultsEvent[] = [
-        { categoryCode: '123', categoryName: 'categoryName1' },
-      ];
-      const mockOrderEntries: CategoryPageResultsEvent[] = [
-        { categoryCode: '234', categoryName: 'categoryName2' },
-        { categoryCode: '345', categoryName: 'categoryName3' },
-      ];
-      eventServiceEvents.get(CategoryPageResultsEvent).next(mockOrderEntry);
-      eventServiceEvents.get(CategoryPageResultsEvent).next(mockOrderEntries);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent234);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent345);
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(2);
+      expect(timesCalled).toEqual(3);
+    });
+
+    it(`Should not emit an event if the category code and semantic route are the same`, () => {
+      let timesCalled = 0;
+      const subscription = profileTagPushEventsService
+        .getPushEvents()
+        .pipe(tap(() => timesCalled++))
+        .subscribe();
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent234);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent345);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent345);
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(3);
+    });
+
+    it(`Should emit an event if the category code is the same, and different type of page is visited`, () => {
+      let timesCalled = 0;
+      const pageEvent: PageEvent[] = [
+        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+      ];
+      const subscription = profileTagPushEventsService
+        .getPushEvents()
+        .pipe(tap(() => timesCalled++))
+        .subscribe();
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents.get(PageEvent).next(pageEvent);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent123);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent345);
+      eventServiceEvents
+        .get(CategoryPageResultsEvent)
+        .next(categoryPageResultsEvent345);
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(3);
     });
   });
 
@@ -183,75 +265,66 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: SearchPageResultsEvent[] = [
-        { searchTerm: 'search term 1', numberOfResults: 0 },
-      ];
-      const mockOrderEntries: SearchPageResultsEvent[] = [
-        { searchTerm: 'search term 2', numberOfResults: 1 },
-        { searchTerm: 'search term 3', numberOfResults: 4 },
-      ];
-      eventServiceEvents.get(SearchPageResultsEvent).next(mockOrderEntry);
-      eventServiceEvents.get(SearchPageResultsEvent).next(mockOrderEntries);
+      const searchResultEvent1: SearchPageResultsEvent = {
+        searchTerm: 'search term 1',
+        numberOfResults: 0,
+        context: undefined,
+        url: 'http',
+        params: { 'pt-debug': true },
+      };
+      const searchResultEvent2: SearchPageResultsEvent = {
+        searchTerm: 'search term 2',
+        numberOfResults: 1,
+        context: undefined,
+        url: 'http',
+        params: { 'pt-debug': true },
+      };
+      const searchResultEvent3: SearchPageResultsEvent = {
+        searchTerm: 'search term 3',
+        numberOfResults: 4,
+        context: undefined,
+        url: 'http',
+        params: { 'pt-debug': true },
+      };
+      eventServiceEvents.get(SearchPageResultsEvent).next(searchResultEvent1);
+      eventServiceEvents.get(SearchPageResultsEvent).next(searchResultEvent2);
+      eventServiceEvents.get(SearchPageResultsEvent).next(searchResultEvent3);
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(2);
+      expect(timesCalled).toEqual(3);
     });
   });
 
-  describe('call profileTagPushEventsService for ProductDetailsPageEvent events', () => {
-    it(`Should call the productDetailsPageView method for every ProductDetailsPageEvent event`, () => {
+  describe('ProductDetailsPageEvent events', () => {
+    const productDetailsPageEvent: ProductDetailsPageEvent = {
+      code: '12345',
+      name: 'product 1',
+      price: {
+        value: 123.45,
+        currencyIso: 'EUR',
+      },
+      categories: [
+        {
+          code: '321',
+          name: 'category 1',
+        },
+      ],
+      context: undefined,
+      url: 'http',
+      params: { 'pt-debug': true },
+    };
+
+    it(`Should call the productDetailsPageView method for every ProductDetailsPageEvent event with a different code`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: ProductDetailsPageEvent[] = [
-        {
-          code: '12345',
-          name: 'product 1',
-          price: {
-            value: 123.45,
-            currencyIso: 'EUR',
-          },
-          categories: [
-            {
-              code: '321',
-              name: 'category 1',
-            },
-          ],
-        },
-      ];
-      const mockOrderEntries: ProductDetailsPageEvent[] = [
-        {
-          code: '23456',
-          name: 'product 2',
-          price: {
-            value: 234.56,
-            currencyIso: 'EUR',
-          },
-          categories: [
-            {
-              code: '432',
-              name: 'category 2',
-            },
-          ],
-        },
-        {
-          code: '34567',
-          name: 'product 3',
-          price: {
-            value: 345.67,
-            currencyIso: 'EUR',
-          },
-          categories: [
-            {
-              code: '543',
-              name: 'category 3',
-            },
-          ],
-        },
-      ];
-      eventServiceEvents.get(ProductDetailsPageEvent).next(mockOrderEntry);
-      eventServiceEvents.get(ProductDetailsPageEvent).next(mockOrderEntries);
+      eventServiceEvents
+        .get(ProductDetailsPageEvent)
+        .next(productDetailsPageEvent);
+      eventServiceEvents
+        .get(ProductDetailsPageEvent)
+        .next(productDetailsPageEvent);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
@@ -264,32 +337,13 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: PageEvent[] = [{ url: 'page 1' }];
-      const mockOrderEntries: PageEvent[] = [
-        { url: 'page 2' },
-        { url: 'page 3' },
-      ];
-      eventServiceEvents.get(PageEvent).next(mockOrderEntry);
-      eventServiceEvents.get(PageEvent).next(mockOrderEntries);
-      subscription.unsubscribe();
-      expect(timesCalled).toEqual(2);
-    });
-  });
-
-  describe('call profileTagPushEventsService for CartPageEvent events', () => {
-    it(`Should call the categoryPageVisited method for every CartPageEvent event`, () => {
-      let timesCalled = 0;
-      const subscription = profileTagPushEventsService
-        .getPushEvents()
-        .pipe(tap(() => timesCalled++))
-        .subscribe();
-      const mockOrderEntry: CartPageEvent[] = [{ cartId: '123' }];
-      const mockOrderEntries: CartPageEvent[] = [
-        { cartId: '234' },
-        { cartId: '345' },
-      ];
-      eventServiceEvents.get(CartPageEvent).next(mockOrderEntry);
-      eventServiceEvents.get(CartPageEvent).next(mockOrderEntries);
+      const pageEvent: PageEvent = {
+        url: 'page 1',
+        context: undefined,
+        params: { 'pt-debug': true },
+      };
+      eventServiceEvents.get(PageEvent).next(pageEvent);
+      eventServiceEvents.get(PageEvent).next(pageEvent);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });
@@ -302,8 +356,13 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: HomePageEvent[] = [{}];
-      const mockOrderEntries: HomePageEvent[] = [{}, {}];
+      const mockOrderEntry: HomePageEvent[] = [
+        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+      ];
+      const mockOrderEntries: HomePageEvent[] = [
+        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+      ];
       eventServiceEvents.get(HomePageEvent).next(mockOrderEntry);
       eventServiceEvents.get(HomePageEvent).next(mockOrderEntries);
       subscription.unsubscribe();

@@ -1,8 +1,9 @@
 import * as anonymousConsents from '../../../../helpers/anonymous-consents';
-import * as checkoutFlow from '../../../../helpers/checkout-as-persistent-user';
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
+import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import * as loginHelper from '../../../../helpers/login';
 import { navigation } from '../../../../helpers/navigation';
+import * as productSearch from '../../../../helpers/product-search';
 import {
   createProductQuery,
   QUERY_ALIAS,
@@ -23,9 +24,10 @@ describe('Profile-tag events', () => {
       },
     });
     profileTagHelper.waitForCMSComponents();
+    anonymousConsents.clickAllowAllFromBanner();
   });
 
-  it('should send a CartChanged event on adding an item to cart', () => {
+  it('should send a AddedToCart event on adding an item to cart', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary');
@@ -33,17 +35,17 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.ADDED_TO_CART
         )
       ).to.equal(1);
-
-      const cartSnapshotEvent = (<any>win).Y_TRACKING.eventLayer.filter(
-        (event) => event.name === profileTagHelper.EventNames.CART_SNAPSHOT
+      const cartSnapshotEvent = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.ADDED_TO_CART
       )[0];
-      const cartPayload = JSON.stringify(cartSnapshotEvent.data);
-
-      expect(cartPayload).to.include('cart');
-      expect(cartPayload).to.include('code');
+      expect(cartSnapshotEvent.data.productQty).to.eq(1);
+      expect(cartSnapshotEvent.data.productSku).to.eq('280916');
+      expect(cartSnapshotEvent.data.categories).to.contain('577');
+      expect(cartSnapshotEvent.data.categories).to.contain('brand_745');
     });
   });
 
@@ -63,13 +65,13 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.MODIFIED_CART
         )
-      ).to.equal(2);
+      ).to.equal(1);
     });
   });
 
-  it('should send an additional CartChanged event on emptying the cart', () => {
+  it('should send an additional CartChanged event on removing and item from the cart', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
@@ -85,16 +87,14 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.REMOVED_FROM_CART
         )
-      ).to.equal(2);
+      ).to.equal(1);
     });
   });
 
   it('should send a product detail page view event when viewing a product', () => {
-    cy.route('GET', `/rest/v2/electronics-spa/products/280916/reviews*`).as(
-      'lastRequest'
-    );
+    cy.route('GET', `**reviews*`).as('lastRequest');
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
     const productPrice = 8.2;
@@ -109,36 +109,17 @@ describe('Profile-tag events', () => {
           profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )
       ).to.equal(1);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )[0].data.productSku
-      ).to.equal(`${productSku}`);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )[0].data.productName
-      ).to.equal(productName);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )[0].data.productPrice
-      ).to.equal(productPrice);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )[0].data.productCategory
-      ).to.equal(productCategory);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )[0].data.productCategoryName
-      ).to.equal(productCategoryName);
+      const productViewedEvent = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
+      )[0];
+      expect(productViewedEvent.data.productSku).to.equal(`${productSku}`);
+      expect(productViewedEvent.data.productName).to.equal(productName);
+      expect(productViewedEvent.data.productPrice).to.equal(productPrice);
+      expect(productViewedEvent.data.productCategory).to.equal(productCategory);
+      expect(productViewedEvent.data.productCategoryName).to.equal(
+        productCategoryName
+      );
     });
   });
 
@@ -154,29 +135,12 @@ describe('Profile-tag events', () => {
           profileTagHelper.EventNames.KEYWORD_SEARCH
         )
       ).to.equal(1);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.KEYWORD_SEARCH
-        )[0].data.numResults
-      ).to.equal(140);
-      expect(
-        profileTagHelper.getEvent(
-          win,
-          profileTagHelper.EventNames.KEYWORD_SEARCH
-        )[0].data.searchTerm
-      ).to.equal('camera');
-    });
-  });
-
-  it('should send a HomePageViewed event when viewing the homepage', () => {
-    cy.window().then((win) => {
-      expect(
-        profileTagHelper.eventCount(
-          win,
-          profileTagHelper.EventNames.HOME_PAGE_VIEWED
-        )
-      ).to.equal(1);
+      const keywordSearchEvent = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.KEYWORD_SEARCH
+      )[0];
+      expect(keywordSearchEvent.data.numResults).to.equal(145);
+      expect(keywordSearchEvent.data.searchTerm).to.equal('camera');
     });
   });
 
@@ -200,15 +164,23 @@ describe('Profile-tag events', () => {
 
   it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
     loginHelper.loginAsDefaultUser();
-    checkoutFlow.goToProductPageFromCategory();
-    checkoutFlow.addProductToCart();
-    checkoutFlow.addPaymentMethod();
-    checkoutFlow.selectShippingAddress();
-    checkoutFlow.selectDeliveryMethod();
-    checkoutFlow.selectPaymentMethod();
+    checkoutFlowPersistentUser.goToProductPageFromCategory();
+    checkoutFlowPersistentUser.addProductToCart();
+    checkoutFlowPersistentUser.addPaymentMethod();
+    cy.wait(0).then(() => {
+      checkoutFlowPersistentUser.addShippingAddress();
+    });
+    checkoutFlowPersistentUser.selectShippingAddress();
+    checkoutFlowPersistentUser.selectDeliveryMethod();
+    checkoutFlowPersistentUser.selectPaymentMethod();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       `checkout/review-order`
+    );
+    checkoutFlowPersistentUser.verifyAndPlaceOrder();
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      `order-confirmation`
     );
     cy.window().then((win) => {
       expect(
@@ -221,9 +193,7 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
-    cy.route('GET', `/rest/v2/electronics-spa/products/search*`).as(
-      'lastRequest'
-    );
+    cy.route('GET', `**/products/search**`).as('lastRequest');
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
@@ -238,23 +208,88 @@ describe('Profile-tag events', () => {
           profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
         )
       ).to.equal(1);
+      const categoryViewedEvent = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+      )[0];
+      expect(categoryViewedEvent.data.productCategory).to.equal(
+        productCategory
+      );
+      expect(categoryViewedEvent.data.productCategoryName).to.equal(
+        productCategoryName
+      );
+    });
+  });
+
+  it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
+    cy.route('GET', `**/products/search**`).as('lastRequest');
+
+    cy.get('cx-category-navigation cx-generic-link a')
+      .contains('Cameras')
+      .click({ force: true });
+    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait('@lastRequest');
+    cy.window().then((win) => {
       expect(
-        profileTagHelper.getEvent(
+        profileTagHelper.eventCount(
           win,
           profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )[0].data.productCategory
-      ).to.equal(productCategory);
+        )
+      ).to.equal(1);
+    });
+    cy.get('cx-searchbox input').type('camera{enter}');
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 10);
+    cy.wait(`@${QUERY_ALIAS.CAMERA}`);
+
+    cy.route('GET', `**/products/search**`).as('lastRequest2'); //waiting for the same request a 2nd time doesn't work
+    cy.get('cx-category-navigation cx-generic-link a')
+      .contains('Cameras')
+      .click({ force: true });
+    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait('@lastRequest2');
+    cy.window().then((win2) => {
       expect(
-        profileTagHelper.getEvent(
+        profileTagHelper.eventCount(
+          win2,
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+        )
+      ).to.equal(2);
+    });
+  });
+
+  it('should send 1 Category View event when going to a Category and clicking a facet', () => {
+    cy.route('GET', `**/products/search**`).as('lastRequest');
+
+    cy.get('cx-category-navigation cx-generic-link a')
+      .contains('Cameras')
+      .click({ force: true });
+    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait('@lastRequest');
+    cy.window().then((win) => {
+      expect(
+        profileTagHelper.eventCount(
           win,
           profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )[0].data.productCategoryName
-      ).to.equal(productCategoryName);
+        )
+      ).to.equal(1);
+    });
+    productSearch.clickFacet('Stores', '');
+
+    cy.window().then((win2) => {
+      expect(
+        profileTagHelper.eventCount(
+          win2,
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+        )
+      ).to.equal(1);
     });
   });
 
   it('should send a Navigated event when a navigation occurs', () => {
-    const categoryPage = waitForPage('CategoryPage', 'getCategory');
+    const categoryPage = checkoutFlow.waitForPage(
+      'CategoryPage',
+      'getCategory'
+    );
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
@@ -265,7 +300,21 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
   });
+});
 
+// For some reason these two events interfere with eachother. Only 1 needs to click the allow all banner
+// and the next will then have consent granted
+describe('Consent Changed and homepageviewed events', () => {
+  beforeEach(() => {
+    cy.server();
+    cdsHelper.setUpMocks(strategyRequestAlias);
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    profileTagHelper.waitForCMSComponents();
+  });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.window().then((win) => {
@@ -277,11 +326,28 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
   });
+
+  it('should send a HomePageViewed event when viewing the homepage', () => {
+    cy.reload();
+    profileTagHelper.waitForCMSComponents().then(() => {
+      cy.window().then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.HOME_PAGE_VIEWED
+          )
+        ).to.equal(1);
+      });
+    });
+  });
 });
 
 function goToProductPage(): Cypress.Chainable<number> {
   const productPagePath = 'ProductPage';
-  const productPage = waitForPage(productPagePath, 'getProductPage');
+  const productPage = checkoutFlow.waitForPage(
+    productPagePath,
+    'getProductPage'
+  );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
   return cy.wait(`@${productPage}`).its('status').should('eq', 200);
 }

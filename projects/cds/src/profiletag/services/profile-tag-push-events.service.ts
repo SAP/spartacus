@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
-  ActiveCartService,
+  CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent,
+  Category,
   EventService,
   OrderPlacedEvent,
-  PageType,
   PersonalizationContextService,
-  ProductSearchService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
+  CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
@@ -18,26 +20,23 @@ import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
-  filter,
   map,
   mapTo,
-  skip,
-  skipWhile,
-  switchMap,
-  take,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
-  BrandPageVisitedEvent,
-  CartChangedPushEvent,
+  AddedToCartPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
   KeywordSearchPushEvent,
+  ModifiedCartPushEvent,
   NavigatedPushEvent,
   OrderConfirmationPushEvent,
   ProductViewPushEvent,
   ProfileTagPushEvent,
+  RemovedFromCartPushEvent,
 } from '../model/profile-tag.model';
 
 /**
@@ -53,9 +52,9 @@ import {
  *  - OrderConfirmationPageVisited
  *  - PageVisited
  *  - ProductDetailsPageVisited
- *
- * Currently supported events from the active cart service:
- * - any event
+ *  - CartAddEntrySuccessEvent
+ *  - CartRemoveEntrySuccessEvent
+ *  - CartUpdateEntrySuccessEvent
  */
 @Injectable({
   providedIn: 'root',
@@ -67,17 +66,20 @@ export class ProfileTagPushEventsService {
     this.searchResultsChanged(),
     this.homePageVisitedEvent(),
     this.cartPageVisitedEvent(),
-    this.buildBrandPageVisitedEvent(),
     this.navigatedEvent(),
     this.orderConfirmationPageVisited(),
-    this.cartChanged()
+    this.addedToCart(),
+    this.removedFromCart(),
+    this.modifiedCart()
   );
 
+  private semanticRouteState: {
+    previous: string;
+    current: string;
+  } = { previous: undefined, current: undefined };
   constructor(
-    protected activeCartService: ActiveCartService,
     protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService,
-    protected productSearchService: ProductSearchService
+    protected personalizationContextService: PersonalizationContextService
   ) {}
 
   /**
@@ -114,70 +116,39 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to the changes to the cart and pushes the events for profiletag to pick them up further.
-   *
-   * @returns an observable emitting events that describe cart changes in a profiltag compliant way
-   * @see CartChangedPushEvent
-   */
-  protected cartChanged(): Observable<ProfileTagPushEvent> {
-    return this.activeCartService.getActive().pipe(
-      skipWhile((cart) => !Boolean(cart.entries) || cart.entries.length === 0),
-      map(
-        (cart) =>
-          new CartChangedPushEvent({
-            cart,
-          })
-      )
-    );
-  }
-
-  /**
    * Emits the category page visited event.
    *
    * @returns an observable emitting events that describe category page visits in a profiltag compliant way
    * @see CategoryPageResultsEvent
    * @see CategoryViewPushEvent
    */
-  // TODO:#cds - add a test. maybe cover the following cases:
-  // 1. it should emit the event when switching between categories. double check if the emitted category ID is being updated
-  // 2. it should not emit when changing facets / sorting / paging
-  // 3. when navigating from a category page to another page (e.g. home) and then back to the same category, the event should be emitted
+
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
-    const searchResults$ = this.productSearchService.getResults().pipe(
-      // skipping the initial value, and preventing emission of the previous search state
-      skip(1),
-      // prevent emissions from the search results (changing facets, sorting order or paging)
-      take(1)
-    );
-
-    const categoryPageEvent$ = this.eventService.get(PageEvent).pipe(
+    return this.eventService.get(CategoryPageResultsEvent).pipe(
       distinctUntilChanged(
-        (prev, curr) =>
-          prev.context?.type === PageType.CATEGORY_PAGE &&
-          curr.context?.type === PageType.CATEGORY_PAGE &&
-          prev.context?.id === curr.context?.id
+        (previouslyEmittedCategoryPage, currentCategoryPage) => {
+          return (
+            previouslyEmittedCategoryPage.categoryCode ===
+              currentCategoryPage.categoryCode &&
+            this.semanticRouteState.previous ===
+              currentCategoryPage.semanticRoute
+          ); // A true means that this item is not unique, so this is hard to wrap your head around.
+          // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
+          // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode
+        }
       ),
-      filter((pageEvent) => pageEvent.semanticRoute === 'category')
-    );
-
-    return categoryPageEvent$.pipe(
-      switchMap((categoryPageEvent) =>
-        searchResults$.pipe(
-          map(
-            (searchResults) =>
-              new CategoryViewPushEvent({
-                productCategory: categoryPageEvent.context?.id,
-                productCategoryName:
-                  searchResults.breadcrumbs?.[0].facetValueName,
-              })
-          )
-        )
+      map(
+        (categoryPageEvent) =>
+          new CategoryViewPushEvent({
+            productCategory: categoryPageEvent.categoryCode,
+            productCategoryName: categoryPageEvent.categoryName,
+          })
       )
     );
   }
 
   /**
-   * Listens to SearchPageResultsEvent events, parses and pushes them to profiletag to pick them up further.
+   * Listens to SearchPageResultsEvent events
    *
    * @returns an observable emitting events that describe keyword search page visits in a profiltag compliant way
    * @see SearchPageResultsEvent
@@ -186,17 +157,18 @@ export class ProfileTagPushEventsService {
   protected searchResultsChanged(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(SearchPageResultsEvent).pipe(
       distinctUntilKeyChanged('searchTerm'),
-      map((searchEvent) => {
-        return new KeywordSearchPushEvent({
-          searchTerm: searchEvent.searchTerm,
-          numResults: searchEvent.numberOfResults,
-        });
-      })
+      map(
+        (searchEvent) =>
+          new KeywordSearchPushEvent({
+            searchTerm: searchEvent.searchTerm,
+            numResults: searchEvent.numberOfResults,
+          })
+      )
     );
   }
 
   /**
-   * Listens to ProductDetailsPageEvent events, parses and pushes them to profiletag to pick them up further.
+   * Listens to ProductDetailsPageEvent events
    *
    * @returns an observable emitting events that describe product detail page visits in a profiltag compliant way
    * @see ProductDetailsPageEvent
@@ -216,26 +188,31 @@ export class ProfileTagPushEventsService {
             productCategory: item.categories
               ? item.categories[item.categories.length - 1].code
               : undefined,
+            categories: this.categoriesToIds(item.categories),
           })
       )
     );
   }
 
   /**
-   * Listens to PageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to PageVisited events
    *
    * @returns an observable emitting events that describe page visits in a profiltag compliant way
    * @see PageVisited
    * @see NavigatedPushEvent
    */
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
-    return this.eventService
-      .get(PageEvent)
-      .pipe(mapTo(new NavigatedPushEvent()));
+    return this.eventService.get(PageEvent).pipe(
+      tap((pageEvent) => {
+        this.semanticRouteState.previous = this.semanticRouteState.current;
+        this.semanticRouteState.current = pageEvent.semanticRoute;
+      }),
+      mapTo(new NavigatedPushEvent())
+    );
   }
 
   /**
-   * Listens to CartPageVisited events, parses and pushes them to profiletag to pick them up further.
+   * Listens to CartPageVisited events
    *
    * @returns an observable emitting events that describe cart page visits in a profiltag compliant way
    * @see CartPageVisited
@@ -248,48 +225,7 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to BrandPageVisitedEvent events, parses and pushes them to profiletag to pick them up further.
-   *
-   * @returns an observable emitting events that describe brand page visits in a profiltag compliant way
-   * @see CartPageVisited
-   * @see CartViewPushEvent
-   */
-  // TODO:#cds - add a test. If not sure how to test, please check `projects/storefrontlib/src/events/product/product-page-event.builder.spec.ts`
-  protected buildBrandPageVisitedEvent(): Observable<BrandPageVisitedEvent> {
-    const searchResults$ = this.productSearchService.getResults().pipe(
-      // skipping the initial value, and preventing emission of the previous search state
-      skip(1),
-      // prevent emissions from the search results (changing facets, sorting order or paging)
-      take(1)
-    );
-
-    const brandPageEvent$ = this.eventService.get(PageEvent).pipe(
-      distinctUntilChanged(
-        (prev, curr) =>
-          prev.context?.type === PageType.CATEGORY_PAGE &&
-          curr.context?.type === PageType.CATEGORY_PAGE &&
-          prev.context?.id === curr.context?.id
-      ),
-      filter((pageEvent) => pageEvent.semanticRoute === 'brand')
-    );
-
-    return brandPageEvent$.pipe(
-      switchMap((brandPageEvent) =>
-        searchResults$.pipe(
-          map(
-            (searchResults) =>
-              new BrandPageVisitedEvent({
-                brandCode: brandPageEvent.context?.id,
-                brandName: searchResults.breadcrumbs?.[0].facetValueName,
-              })
-          )
-        )
-      )
-    );
-  }
-
-  /**
-   * Listens to HomePageEvent events, parses and pushes them to profiletag to pick them up further.
+   * Listens to HomePageEvent events
    *
    * @returns an observable emitting events that describe home page visits in a profiltag compliant way
    * @see HomePageEvent
@@ -302,7 +238,7 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to OrderPlacedEvent events, parses and pushes them to profiletag to pick them up further.
+   * Listens to OrderPlacedEvent events
    *
    * @returns an observable emitting events that describe order confirmation page visits in a profiltag compliant way
    * @see OrderPlacedEvent
@@ -312,5 +248,76 @@ export class ProfileTagPushEventsService {
     return this.eventService
       .get(OrderPlacedEvent)
       .pipe(mapTo(new OrderConfirmationPushEvent()));
+  }
+
+  /**
+   * Listens to CartAddEntrySuccessEvent events, transforms them to AddedToCartPushEvent.
+   *
+   * @returns an observable emitting AddedToCartPushEvent events
+   * @see CartAddEntrySuccessEvent
+   * @see AddedToCartPushEvent
+   */
+  protected addedToCart(): Observable<ProfileTagPushEvent> {
+    return this.eventService.get(CartAddEntrySuccessEvent).pipe(
+      map(
+        (item) =>
+          new AddedToCartPushEvent({
+            productQty: item.quantityAdded,
+            productSku: item.entry.product.code,
+            productName: item.entry.product.name,
+            cartId: item.cartId,
+            categories: this.categoriesToIds(item.entry.product.categories),
+          })
+      )
+    );
+  }
+
+  /**
+   * Listens to @CartRemoveEntrySuccessEvent events, transforms them to @RemovedFromCartPushEvent
+   *
+   * @returns an observable emitting @RemovedFromCartPushEvent events
+   * @see CartRemoveEntrySuccessEvent
+   * @see RemovedFromCartPushEvent
+   */
+  protected removedFromCart(): Observable<ProfileTagPushEvent> {
+    return this.eventService.get(CartRemoveEntrySuccessEvent).pipe(
+      map(
+        (item) =>
+          new RemovedFromCartPushEvent({
+            productSku: item.entry.product.code,
+            productName: item.entry.product.name,
+            productCategory: 'string',
+            cartId: item.cartId,
+            productCategoryName: 'string',
+            categories: this.categoriesToIds(item.entry.product.categories),
+          })
+      )
+    );
+  }
+
+  /**
+   * Listens to @CartUpdateEntrySuccessEvent events, transforms them to @ModifiedCartPushEvent
+   *
+   * @returns an observable emitting @RemovedFromCartPushEvent events
+   * @see CartRemoveEntrySuccessEvent
+   * @see ModifiedCartPushEvent
+   */
+  protected modifiedCart(): Observable<ProfileTagPushEvent> {
+    return this.eventService.get(CartUpdateEntrySuccessEvent).pipe(
+      map(
+        (item) =>
+          new ModifiedCartPushEvent({
+            productQty: item.quantity,
+            productSku: item.entry.product.code,
+            productName: item.entry.product.name,
+            cartId: item.cartId,
+            categories: this.categoriesToIds(item.entry.product.categories),
+          })
+      )
+    );
+  }
+
+  private categoriesToIds(categories: Array<Category>): Array<string> {
+    return categories.map((category) => category.code);
   }
 }

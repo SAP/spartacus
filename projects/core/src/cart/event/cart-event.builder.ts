@@ -12,6 +12,8 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent
 } from './cart.events';
 
 /**
@@ -32,6 +34,8 @@ export class CartEventBuilder {
    */
   protected register() {
     this.registerAddEntry();
+    this.registerRemoveEntry();
+    this.registerUpdateEntry();
   }
 
   /**
@@ -52,6 +56,20 @@ export class CartEventBuilder {
     });
   }
 
+  protected registerRemoveEntry() {
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      event: CartRemoveEntrySuccessEvent,
+    });
+  }
+
+  protected registerUpdateEntry() {
+    this.registerMapped({
+      action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      event: CartUpdateEntrySuccessEvent,
+    });
+  }
+
   /**
    * Registers a stream of target events mapped from the source actions that contain the cart id equal to the active cart id.
    *
@@ -60,13 +78,13 @@ export class CartEventBuilder {
    */
   protected registerMapped<T>(mapping: ActionToEventMapping<T>): () => void {
     const eventStream$ = this.getAction(mapping.action).pipe(
-      withLatestFrom(this.activeCartService.getActiveCartId()),
+      withLatestFrom(this.activeCartService.getActive()),
       filter(
-        ([action, activeCartId]) => action.payload['cartId'] === activeCartId // assuming that action's payload contains the cart id
+        ([action, activeCart]) => action.payload['cartId'] === activeCart.guid // assuming that action's payload contains the cart id
       ),
-      map(([action]) => createFrom(mapping.event, action.payload))
+      map(([action, activeCart]) => createFrom(mapping.event, {
+         ...action.payload, entry: action.payload.entry ? action.payload.entry : activeCart.entries[action.payload.entryNumber] })) //temp code so update entries has a productCode
     );
-
     return this.event.register(mapping.event, eventStream$);
   }
 

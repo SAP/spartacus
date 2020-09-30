@@ -10,6 +10,9 @@ enum EventNames {
   CATEGORY_PAGE_VIEWED = 'CategoryPageViewed',
   CART_PAGE_VIEWED = 'CartPageViewed',
   ORDER_CONFIRMATION_PAGE_VIEWED = 'OrderConfirmationPageViewed',
+  ADDED_TO_CART = 'AddedToCart',
+  REMOVED_FROM_CART = 'RemovedFromCart',
+  MODIFIED_CART = 'ModifiedCart',
 }
 
 export const profileTagHelper = {
@@ -41,8 +44,8 @@ export const profileTagHelper = {
       win.dispatchEvent(event);
     });
   },
-  waitForCMSComponents() {
-    cy.get('cx-profiletag');
+  waitForCMSComponents(): Cypress.Chainable {
+    return cy.get('cx-profiletag');
   },
   testCr: '123-1bc',
   profileTagScriptResponse: {},

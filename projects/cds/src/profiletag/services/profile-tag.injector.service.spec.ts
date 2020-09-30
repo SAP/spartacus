@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
-  CartChangedPushEvent,
   ConsentChangedPushEvent,
   ProfileTagPushEvent,
-  NavigatedPushEvent,
 } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
@@ -96,49 +94,6 @@ describe('ProfileTagInjector', () => {
   it('Should be created', () => {
     expect(profileTagInjector).toBeTruthy();
     expect(profileTagPushEventsServiceMock).toBeTruthy();
-  });
-
-  it('Should notify profile tag of consent granted', () => {
-    const subscription = profileTagInjector.track().subscribe();
-    addTrackerBehavior.next(new CustomEvent('test'));
-    consentBehavior.next(new ConsentChangedPushEvent(true));
-
-    subscription.unsubscribe();
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledTimes(1);
-
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledWith(new ConsentChangedPushEvent(true));
-  });
-
-  it('Should notify profile tag of when push events happen', () => {
-    const subscription = profileTagInjector.track().subscribe();
-    const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const testCart = <Cart>{ testCart: { id: 123, entries: cartEntry } };
-    addTrackerBehavior.next(new CustomEvent('test'));
-    pushEvents.next(new CartChangedPushEvent({ cart: testCart }));
-    subscription.unsubscribe();
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalled();
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledWith(new CartChangedPushEvent({ cart: testCart }));
-  });
-
-  it('Should notify profile tag of page loaded', () => {
-    const subscription = profileTagInjector.track().subscribe();
-    addTrackerBehavior.next(new CustomEvent('test'));
-    pushEvents.next(new NavigatedPushEvent('test'));
-    subscription.unsubscribe();
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalled();
-    expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledWith(new NavigatedPushEvent('test'));
   });
 
   it('Should notify profile tag of successful login', () => {
