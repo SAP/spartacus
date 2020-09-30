@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUnitNode, B2bUnitTreeNode } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { B2bUnitTreeNode } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitListService } from './unit-list.service';
