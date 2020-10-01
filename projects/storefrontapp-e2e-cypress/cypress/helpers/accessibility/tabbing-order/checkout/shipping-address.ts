@@ -1,4 +1,5 @@
 import { user } from '../../../../sample-data/checkout-flow';
+import { waitForPage } from '../../../checkout-flow';
 import { fillShippingAddress } from '../../../checkout-forms';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
@@ -29,7 +30,12 @@ export function checkoutShippingAddressExistingTabbingOrder(
 }
 
 export function checkoutShippingAddressAccount(config: TabElement[]) {
+  const shippingAddressPage = waitForPage(
+    '/checkout/shipping-address',
+    'getShippingAddress'
+  );
   cy.visit('/checkout/shipping-address');
+  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')

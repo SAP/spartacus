@@ -28,8 +28,6 @@ describe('Tabbing order for B2B checkout', () => {
           JSON.parse(win.localStorage.getItem('spartacus-local-data'))
         )
         .then(({ auth }) => cy.requireProductAddedToCart(auth));
-
-      // addProduct(b2bProduct.code);
     });
 
     beforeEach(() => {
@@ -77,17 +75,25 @@ describe('Tabbing order for B2B checkout', () => {
     context('Review order', () => {
       it('should allow to navigate with tab key', () => {
         checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder, true);
+        cy.saveLocalStorage();
       });
     });
   });
 
   describe('Checkout Account', () => {
     before(() => {
-      cy.window()
-        .then((win) =>
-          JSON.parse(win.localStorage.getItem('spartacus-local-data'))
-        )
-        .then(({ auth }) => cy.requireProductAddedToCart(auth));
+      cy.restoreLocalStorage();
+      cy.window().then((win) => {
+        const { auth } = JSON.parse(
+          win.localStorage.getItem('spartacus-local-data')
+        );
+        const cartCode = JSON.parse(
+          window.localStorage.getItem('spartacus⚿powertools-spa⚿cart')
+        ).active;
+
+        cy.requireProductAddedToCart(auth, cartCode);
+      });
+      cy.saveLocalStorage();
     });
 
     beforeEach(() => {
