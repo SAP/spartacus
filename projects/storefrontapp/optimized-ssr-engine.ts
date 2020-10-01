@@ -1,5 +1,11 @@
 import * as fs from 'fs';
 
+export enum RenderingStrategy {
+  ALWAYS_CSR = -1,
+  DEFAULT = 0,
+  ALWAYS_SSR = 1,
+}
+
 export interface OptimizedSsrOptions {
   /**
    * Time in milliseconds to wait for SSR rendering to happen.
@@ -29,6 +35,19 @@ export interface OptimizedSsrOptions {
    * @param req
    */
   renderKeyResolver?: (req) => string;
+
+  /**
+   * Allows to define custom rendering strategy per request
+   *
+   * @param req
+   */
+  renderingStrategyResolver?: (req) => RenderingStrategy;
+
+  /**
+   * Time in milliseconds to wait for SSR rendering in SSR_ALWAYS render strategy.
+   * Default value is 60 seconds.
+   */
+  forcedSsrTimeout?: number;
 }
 
 class RenderingCache {
@@ -129,21 +148,34 @@ export function optimizedSsrEngine(
         ? currentConcurrency > ssrOptions.concurrency
         : false;
 
+      const renderingStrategy = ssrOptions.renderingStrategyResolver
+        ? ssrOptions.renderingStrategyResolver(options.req)
+        : RenderingStrategy.DEFAULT;
+
       if (
-        !renderingCache.isRendering(renderingKey) &&
-        !concurrencyLimitExceed
+        (!renderingCache.isRendering(renderingKey) &&
+          !concurrencyLimitExceed &&
+          renderingStrategy !== RenderingStrategy.ALWAYS_CSR) ||
+        renderingStrategy === RenderingStrategy.ALWAYS_SSR
       ) {
-        // if there is no rendering already in progress
         currentConcurrency++;
 
-        if (ssrOptions?.timeout) {
+        if (
+          ssrOptions?.timeout ||
+          renderingStrategy === RenderingStrategy.ALWAYS_SSR
+        ) {
+          const timeout =
+            renderingStrategy === RenderingStrategy.ALWAYS_SSR
+              ? ssrOptions.forcedSsrTimeout ?? 60000
+              : ssrOptions.timeout;
+
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
             fallbackToCsr();
             console.log(
               `SSR rendering exceeded timeout, fallbacking to CSR for ${options.req?.url}`
             );
-          }, ssrOptions.timeout);
+          }, timeout);
         } else {
           fallbackToCsr();
         }
