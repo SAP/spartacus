@@ -6,10 +6,7 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import {
-  B2BUserService,
-  Budget,
-} from '@spartacus/my-account/organization/core';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
@@ -29,7 +26,7 @@ export class ExistUserGuard extends ExistOrganizationItemGuard<B2BUser> {
     super();
   }
 
-  protected getItem(code: string): Observable<Budget> {
+  protected getItem(code: string): Observable<B2BUser> {
     return this.userService.get(code);
   }
 

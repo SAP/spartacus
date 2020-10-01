@@ -20,6 +20,8 @@ import {
   getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
@@ -132,6 +134,12 @@ export class PermissionService {
         })
       )
     );
+  }
+
+  getLoadingStatus(
+    permissionCode: string
+  ): Observable<OrganizationItemStatus<Permission>> {
+    return getItemStatus(this.getPermission(permissionCode));
   }
 
   private withUserId(callback: (userId: string) => void): void {
