@@ -20,6 +20,10 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { B2BUserService } from './b2b-user.service';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'currentUserId';
@@ -537,6 +541,41 @@ describe('B2BUserService', () => {
           userGroupId,
         })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUser>;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new B2BUserActions.LoadB2BUserSuccess([b2bUser]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: b2bUser,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUser>;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new B2BUserActions.LoadB2BUserFail({
+          orgCustomerId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

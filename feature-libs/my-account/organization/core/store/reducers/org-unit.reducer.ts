@@ -10,6 +10,10 @@ export function orgUnitEntitiesReducer(
   action: StateUtils.LoaderAction
 ): B2BUnitNode {
   switch (action.type) {
+    case OrgUnitActions.LOAD_ORG_UNIT_SUCCESS:
+    case OrgUnitActions.CREATE_ORG_UNIT_SUCCESS:
+    case OrgUnitActions.UPDATE_ORG_UNIT_SUCCESS:
+      return action.payload;
   }
   return state;
 }
