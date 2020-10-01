@@ -19,7 +19,7 @@ export class CartBundleEffects {
   );
 
   @Effect()
-  createBundle$: Observable<
+  startBundle$: Observable<
     | CartActions.CreateBundleSuccess
     | CartActions.CreateBundleFail
     | CartActions.LoadCart
@@ -28,7 +28,13 @@ export class CartBundleEffects {
     map((action: CartActions.CreateBundle) => action.payload),
     concatMap((payload) => {
       return this.cartBundleConnector
-        .create(payload.userId, payload.cartId)
+        .start(
+          payload.userId,
+          payload.cartId,
+          payload.productCode,
+          payload.quantity,
+          payload.templateId
+        )
         .pipe(
           map(
             (cartModification: CartModification) =>

@@ -15,26 +15,27 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
     protected converterService: ConverterService
   ) {}
 
-  public create(
+  public start(
     userId: string,
     cartId: string,
-    productCode: string = '12345',
-    quantity: number = 1
+    productCode: string,
+    quantity: number,
+    templateId: string
   ): Observable<CartModification> {
-    const toAdd = JSON.stringify({});
+    const toAdd = JSON.stringify({
+      productCode: productCode,
+      quantity: quantity,
+      templateId: templateId,
+    });
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl(
-      'startBundle',
-      {
-        userId,
-        cartId,
-      },
-      { code: productCode, qty: quantity }
-    );
+    const url = this.occEndpointsService.getUrl('startBundle', {
+      userId,
+      cartId,
+    });
 
     return this.http
       .post<CartModification>(url, toAdd, { headers })

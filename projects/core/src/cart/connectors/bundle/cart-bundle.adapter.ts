@@ -7,6 +7,15 @@ export abstract class CartBundleAdapter {
    *
    * @param userId
    * @param cartId
+   * @param productCode
+   * @param quantity
+   * @param templateId
    */
-  abstract create(userId: string, cartId: string): Observable<CartModification>;
+  abstract start(
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number,
+    templateId: string
+  ): Observable<CartModification>;
 }

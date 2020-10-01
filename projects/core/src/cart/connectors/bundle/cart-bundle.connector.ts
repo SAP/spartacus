@@ -9,7 +9,19 @@ import { CartBundleAdapter } from './cart-bundle.adapter';
 export class CartBundleConnector {
   constructor(protected adapter: CartBundleAdapter) {}
 
-  public create(userId: string, cartId: string): Observable<CartModification> {
-    return this.adapter.create(userId, cartId);
+  public start(
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number,
+    templateId: string
+  ): Observable<CartModification> {
+    return this.adapter.start(
+      userId,
+      cartId,
+      productCode,
+      quantity,
+      templateId
+    );
   }
 }

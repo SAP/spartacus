@@ -17,6 +17,7 @@ export class CreateBundle extends EntityProcessesIncrementAction {
       userId: string;
       productCode: string;
       quantity: number;
+      templateId: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
