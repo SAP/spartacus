@@ -29,7 +29,7 @@ export interface OptimizedSsrOptions {
   ttl?: number;
 
   /**
-   * Allows to override default key generator for custom differentiating
+   * Allows overriding default key generator for custom differentiating
    * between rendered pages. By default it uses req.originalUrl
    *
    * @param req
@@ -37,7 +37,7 @@ export interface OptimizedSsrOptions {
   renderKeyResolver?: (req) => string;
 
   /**
-   * Allows to define custom rendering strategy per request
+   * Allows defining custom rendering strategy per request
    *
    * @param req
    */
