@@ -33,10 +33,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     return this.model.expanded;
   }
 
-  get level() {
-    return this.model.level;
-  }
-
   /**
    * Counts the number of descendants
    */
