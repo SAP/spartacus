@@ -44,7 +44,7 @@ export interface OptimizedSsrOptions {
   renderingStrategyResolver?: (req) => RenderingStrategy;
 
   /**
-   * Time in milliseconds to wait for SSR rendering in SSR_ALWAYS render strategy.
+   * Time in milliseconds to wait for rendering when SSR_ALWAYS render strategy is set for the request.
    * Default value is 60 seconds.
    */
   forcedSsrTimeout?: number;
