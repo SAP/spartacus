@@ -14,7 +14,21 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/my-account": ["dist/my-account"],
+      "@spartacus/my-account/organization": ["dist/my-account/organization"],
+      "@spartacus/my-account/organization/core": [
+        "dist/my-account/organization/core"
+      ],
+      "@spartacus/my-account/organization/occ": [
+        "dist/my-account/organization/occ"
+      ],
+      "@spartacus/my-account/organization/components": [
+        "dist/my-account/organization/components"
+      ],
+      "@spartacus/my-account/organization/assets": [
+        "dist/my-account/organization/assets"
+      ]
     }
   },
   "angularCompilerOptions": {

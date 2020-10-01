@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { B2BAddress, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  OrganizationItemStatus,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
@@ -31,10 +34,14 @@ export class UnitAddressItemService extends OrganizationItemService<
     return this.unitService.getAddress(unitUid, addressId);
   }
 
-  update(addressCode: string, address: B2BAddress) {
+  update(
+    addressCode: string,
+    address: B2BAddress
+  ): Observable<OrganizationItemStatus<B2BAddress>> {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
-      return this.unitService.updateAddress(unitCode, addressCode, address);
+      this.unitService.updateAddress(unitCode, addressCode, address);
     });
+    return this.unitService.getAddressLoadingStatus(addressCode);
   }
 
   protected create(value: B2BAddress) {
