@@ -28,10 +28,10 @@ export class UnitUserItemService extends OrganizationItemService<B2BUser> {
   }
 
   update(
-    _customerId: string,
+    customerId: string,
     _user: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.b2bUserService.getLoadingStatus(_customerId);
+    return this.b2bUserService.getLoadingStatus(customerId);
   }
 
   protected create(_customerId: B2BUser): void {}
