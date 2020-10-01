@@ -4228,6 +4228,7 @@ export namespace Occ {
     customers?: B2BUser[];
     managers?: B2BUser[];
   }
+
   export interface OrderApprovalPermissionType {
     code?: string;
     name?: string;
@@ -4262,6 +4263,82 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
+  export interface ReplenishmentOrder {
+    active?: boolean;
+    appliedOrderPromotions?: PromotionResult[];
+    appliedProductPromotions?: PromotionResult[];
+    appliedVouchers?: Voucher[];
+    calculated?: boolean;
+    code?: string;
+    costCenter?: CostCenter;
+    deliveryAddress?: Address;
+    deliveryCost?: Price;
+    deliveryItemsQuantity?: number;
+    deliveryMode?: DeliveryMode;
+    deliveryOrderGroups?: DeliveryOrderEntryGroup[];
+    description?: string;
+    entries?: OrderEntry[];
+    expirationTime?: string;
+    firstDate?: string;
+    guid?: string;
+    name?: string;
+    net?: boolean;
+    orderDiscounts?: Price;
+    paymentInfo?: PaymentDetails;
+    paymentStatus?: string;
+    paymentType?: PaymentType;
+    pickupItemsQuantity?: number;
+    pickupOrderGroups?: PickupOrderEntryGroup[];
+    potentialOrderPromotions?: PromotionResult[];
+    potentialProductPromotions?: PromotionResult[];
+    productDiscounts?: Price;
+    purchaseOrderNumber?: string;
+    replenishmentOrderCode?: string;
+    saveTime?: string;
+    savedBy?: Principal;
+    site?: string;
+    store?: string;
+    subTotal?: Price;
+    totalDiscounts?: Price;
+    totalItems?: number;
+    totalPrice?: Price;
+    totalPriceWithTax?: Price;
+    totalTax?: Price;
+    totalUnitCount?: number;
+    trigger?: Trigger;
+    user?: Principal;
+  }
+
+  export interface ReplenishmentOrderList {
+    replenishmentOrders?: ReplenishmentOrder[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface Trigger {
+    activationTime?: string;
+    displayTimeTable?: string;
+  }
+
+  export interface ScheduleReplenishmentForm {
+    daysOfWeek?: DaysOfWeek[];
+    nthDayOfMonth?: string;
+    numberOfDays?: string;
+    numberOfWeeks?: string;
+    recurrencePeriod?: string;
+    replenishmentStartDate?: string;
+  }
+
+  export enum DaysOfWeek {
+    MONDAY = 'MONDAY',
+    TUESDAY = 'TUESDAY',
+    WEDNESDAY = 'WEDNESDAY',
+    THURSDAY = 'THURSDAY',
+    FRIDAY = 'FRIDAY',
+    SATURDAY = 'SATURDAY',
+    SUNDAY = 'SUNDAY',
+  }
+
   export enum OrderApprovalDecisionValue {
     APPROVE = 'APPROVE',
     REJECT = 'REJECT',
@@ -4276,11 +4353,6 @@ export namespace Occ {
     comments?: string;
     permissionTypes?: OrderApprovalPermissionType[];
     statusDisplay?: string;
-  }
-
-  export interface Trigger {
-    activationTime?: string;
-    displayTimeTable?: string;
   }
 
   export interface OrderApproval {

@@ -15,6 +15,7 @@ import { UserNotificationPreferenceAdapter } from '../../../user/connectors/noti
 import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
+import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
 import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
 import { AnonymousConsentNormalizer } from './converters/anonymous-consents-normalizer';
@@ -30,6 +31,7 @@ import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
 
 @NgModule({
@@ -74,6 +76,10 @@ import { OccUserAdapter } from './occ-user.adapter';
       provide: ADDRESS_LIST_NORMALIZER,
       useExisting: OccAddressListNormalizer,
       multi: true,
+    },
+    {
+      provide: UserReplenishmentOrderAdapter,
+      useClass: OccUserReplenishmentOrderAdapter,
     },
   ],
 })

@@ -1,6 +1,7 @@
 import { Address } from '../../../model/address.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Cart } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
@@ -21,6 +22,7 @@ export function reducer(
     | CheckoutActions.CheckoutAction
     | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.SetPaymentTypeSuccess
+    | CheckoutActions.ReplenishmentOrderActions
 ): CheckoutStepsState {
   switch (action.type) {
     case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
@@ -113,8 +115,9 @@ export function reducer(
       return state;
     }
 
-    case CheckoutActions.PLACE_ORDER_SUCCESS: {
-      const orderDetails: Order = action.payload;
+    case CheckoutActions.PLACE_ORDER_SUCCESS:
+    case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
+      const orderDetails: Order | ReplenishmentOrder = action.payload;
 
       return {
         ...state,
