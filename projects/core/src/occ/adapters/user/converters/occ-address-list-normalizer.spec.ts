@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, Occ, OccEndpointsService } from '@spartacus/core';
-import { OccOrgUnitAddressNormalizer } from './occ-org-unit-address-normalizer';
+import {
+  Address,
+  EntitiesModel,
+  Occ,
+  OccEndpointsService,
+} from '@spartacus/core';
+import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 
 import createSpy = jasmine.createSpy;
 
@@ -10,13 +15,14 @@ class MockOccEndpointsService {
     (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
   );
 }
-describe('OccOrgUnitAddressNormalizer', () => {
-  let service: OccOrgUnitAddressNormalizer;
+
+describe('OccAddressListNormalizer', () => {
+  let service: OccAddressListNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OccOrgUnitAddressNormalizer,
+        OccAddressListNormalizer,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
@@ -24,7 +30,7 @@ describe('OccOrgUnitAddressNormalizer', () => {
       ],
     });
 
-    service = TestBed.inject(OccOrgUnitAddressNormalizer);
+    service = TestBed.inject(OccAddressListNormalizer);
   });
 
   afterEach(() => {});
@@ -33,14 +39,16 @@ describe('OccOrgUnitAddressNormalizer', () => {
     expect(service).toBeTruthy();
   });
 
-  const source: Occ.B2BAddress = { id: 'adrId1' };
+  const source: Occ.AddressList = {
+    addresses: [{ id: 'adrId1' }, { id: 'adrId2' }],
+  };
 
   describe('convert', () => {
     it('convert Occ.B2BAddressList to EntitiesModel<B2BAddress>', () => {
-      let target: Address;
+      let target: EntitiesModel<Address>;
       target = service.convert(source);
 
-      expect(target.id).toEqual(source.id);
+      expect(target.values.length).toEqual(source.addresses.length);
     });
   });
 });

@@ -136,7 +136,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string
   ): Observable<EntitiesModel<Address>> {
     return this.http
-      .get<Occ.B2BAddressList>(this.getAddressesEndpoint(userId, orgUnitId))
+      .get<Occ.AddressList>(this.getAddressesEndpoint(userId, orgUnitId))
       .pipe(this.converter.pipeable(ADDRESS_LIST_NORMALIZER));
   }
 
@@ -146,10 +146,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     address: Address
   ): Observable<Address> {
     return this.http
-      .post<Occ.B2BAddress>(
-        this.getAddressesEndpoint(userId, orgUnitId),
-        address
-      )
+      .post<Occ.Address>(this.getAddressesEndpoint(userId, orgUnitId), address)
       .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
   }
 
@@ -160,7 +157,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     address: Address
   ): Observable<Address> {
     return this.http
-      .patch<Occ.B2BAddress>(
+      .patch<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId),
         address
       )
@@ -173,7 +170,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     addressId: string
   ): Observable<any> {
     return this.http
-      .delete<Occ.B2BAddress>(
+      .delete<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId)
       )
       .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
