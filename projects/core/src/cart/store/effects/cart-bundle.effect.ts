@@ -60,6 +60,80 @@ export class CartBundleEffects {
     withdrawOn(this.contextChange$)
   );
 
+  @Effect()
+  removeBundle$: Observable<
+    | CartActions.RemoveBundleSuccess
+    | CartActions.RemoveBundleFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.REMOVE_BUNDLE),
+    map((action: CartActions.RemoveBundle) => action.payload),
+    concatMap((payload) =>
+      this.cartBundleConnector
+        .remove(payload.userId, payload.cartId, payload.entryGroupId)
+        .pipe(
+          map(() => {
+            return new CartActions.RemoveBundleSuccess({
+              ...payload,
+            });
+          }),
+          catchError((error) =>
+            from([
+              new CartActions.RemoveBundleFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        )
+    ),
+    withdrawOn(this.contextChange$)
+  );
+
+  @Effect()
+  updateBundle$: Observable<
+    | CartActions.UpdateBundleSuccess
+    | CartActions.UpdateBundleFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.UPDATE_BUNDLE),
+    map((action: CartActions.UpdateBundle) => action.payload),
+    concatMap((payload) =>
+      this.cartBundleConnector
+        .update(
+          payload.userId,
+          payload.cartId,
+          payload.entryGroupId,
+          payload.product,
+          payload.quantity
+        )
+        .pipe(
+          map(() => {
+            return new CartActions.UpdateBundleSuccess({
+              ...payload,
+            });
+          }),
+          catchError((error) =>
+            from([
+              new CartActions.UpdateBundleFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        )
+    ),
+    withdrawOn(this.contextChange$)
+  );
+
   constructor(
     private actions$: Actions,
     private cartBundleConnector: CartBundleConnector

@@ -601,4 +601,16 @@ export interface OccEndpoints {
    * @member {string} [cart]
    */
   startBundle?: string | OccEndpoint;
+  /**
+   * View a cart's bundles with a given identifier
+   *
+   * @member {string} [cart]
+   */
+  viewBundles?: string | OccEndpoint;
+  /**
+   * Modify a cart bundle a cart bundle with a given identifier
+   *
+   * @member {string} [cart]
+   */
+  editBundle?: string | OccEndpoint;
 }
