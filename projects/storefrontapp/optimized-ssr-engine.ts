@@ -88,7 +88,7 @@ export function optimizedSsrEngine(
   ) {
     const res = options.res || options.req.res;
 
-    const renderingKey = filePath;
+    const renderingKey = options.req.originalUrl;
 
     /**
      * When SSR page can not be returned in time, we're returning index.html of
