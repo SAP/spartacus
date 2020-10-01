@@ -149,7 +149,7 @@ describe('profileTagPushEventsService', () => {
         .subscribe();
       eventServiceEvents
         .get(CartUpdateEntrySuccessEvent)
-        .next({ entry: { product: { categories: [] } } });
+        .next({ entry: { product: { categories: [{}] } } });
       subscription.unsubscribe();
       expect(timesCalled).toEqual(1);
       expect(calledWith.name).toBe('ModifiedCart');
