@@ -24,6 +24,21 @@
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
       "@spartacus/my-account": ["feature-libs/my-account/public_api"],
+      "@spartacus/my-account/organization": [
+        "feature-libs/my-account/organization/public_api"
+      ],
+      "@spartacus/my-account/organization/core": [
+        "feature-libs/my-account/organization/core/public_api"
+      ],
+      "@spartacus/my-account/organization/occ": [
+        "feature-libs/my-account/organization/occ/public_api"
+      ],
+      "@spartacus/my-account/organization/components": [
+        "feature-libs/my-account/organization/components/public_api"
+      ],
+      "@spartacus/my-account/organization/assets": [
+        "feature-libs/my-account/organization/assets/public_api"
+      ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "feature-libs/product/configurators/public_api"

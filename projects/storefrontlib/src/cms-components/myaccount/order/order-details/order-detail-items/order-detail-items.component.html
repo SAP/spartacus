@@ -34,8 +34,7 @@
       <div class="cx-list-header col-12">
         <div class="cx-list-status">
           {{
-            'orderDetails.statusDisplay'
-              | cxTranslate: { context: order.statusDisplay }
+            'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
           }}
         </div>
       </div>
