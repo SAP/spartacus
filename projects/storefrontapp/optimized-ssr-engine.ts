@@ -17,13 +17,14 @@ export interface OptimizedSsrOptions {
   concurrency?: number;
 
   /**
-   * Time in milliseconds to wait for SSR rendering to happen.
+   * Time in milliseconds after prerendered page is becoming stale and should
+   * be rendered again.
    */
   ttl?: number;
 
   /**
-   * Possible to override default key generator for custom differentiating
-   * between rendered pages. By default it uses req.url
+   * Allows to override default key generator for custom differentiating
+   * between rendered pages. By default it uses req.originalUrl
    *
    * @param req
    */
