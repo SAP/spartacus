@@ -10,3 +10,4 @@
 - Update schematics so new features are covered
 - Handle automated migration and deprecations
 - Add migration documentation, example: https://sap.github.io/spartacus-docs/updating-to-version-2/
+- Update Release Information page: https://sap.github.io/spartacus-docs/release-information/
