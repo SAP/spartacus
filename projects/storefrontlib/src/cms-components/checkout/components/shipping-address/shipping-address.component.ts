@@ -115,9 +115,8 @@ export class ShippingAddressComponent implements OnInit {
           return this.userCostCenterService.getCostCenterAddresses(selected);
         })
       );
-    } else {
-      return this.userAddressService.getAddresses();
     }
+    return this.userAddressService.getAddresses();
   }
 
   selectDefaultAddress(addresses: Address[], selected: Address) {
