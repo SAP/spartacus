@@ -11,7 +11,7 @@
 // this one is likely be dropped after unit tree is merged
 @import './tree';
 
-.CompanyPageTemplate {
+cx-page-layout.CompanyPageTemplate {
   @extend %CompanyPageTemplate !optional;
 }
 

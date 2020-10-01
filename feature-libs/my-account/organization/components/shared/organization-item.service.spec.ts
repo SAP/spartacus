@@ -6,6 +6,10 @@ import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 import { OrganizationItemService } from './organization-item.service';
+import {
+  OrganizationItemStatus,
+  LoadStatus,
+} from '@spartacus/my-account/organization/core';
 
 class MockRoutingService {
   go() {}
@@ -31,7 +35,9 @@ class MockItemService extends OrganizationItemService<any> {
     return of();
   }
   create(_item) {}
-  update(_code, _item) {}
+  update(_code, _item): Observable<OrganizationItemStatus<any>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
 }
 
 describe('OrganizationItemService', () => {
