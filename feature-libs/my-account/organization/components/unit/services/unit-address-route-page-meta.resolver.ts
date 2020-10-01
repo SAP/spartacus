@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  B2BAddress,
+  Address,
   DefaultRoutePageMetaResolver,
   TranslationService,
 } from '@spartacus/core';
@@ -16,7 +16,7 @@ export class UnitAddressRoutePageMetaResolver extends DefaultRoutePageMetaResolv
     super(translation);
   }
 
-  protected getParams(): Observable<B2BAddress> {
+  protected getParams(): Observable<Address> {
     return this.currentItemService.item$;
   }
 }

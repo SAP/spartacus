@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
@@ -26,7 +27,6 @@ import {
   getOrgUnitList,
   getOrgUnitTree,
 } from '../store/selectors/org-unit.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -370,7 +370,7 @@ export class OrgUnitService {
 
   getAddressLoadingStatus(
     addressId: string
-  ): Observable<OrganizationItemStatus<B2BAddress>> {
+  ): Observable<OrganizationItemStatus<Address>> {
     return getItemStatus(this.getAddressState(addressId));
   }
 
