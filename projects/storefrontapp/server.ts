@@ -31,6 +31,9 @@ export function app() {
       {
         cache: false,
         timeout: 2000,
+        concurrency: 5,
+        ttl: 3600000,
+        // renderKeyResolver: (req) => req.originalUrl,
       }
     )
   );

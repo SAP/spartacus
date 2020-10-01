@@ -20,6 +20,14 @@ export interface OptimizedSsrOptions {
    * Time in milliseconds to wait for SSR rendering to happen.
    */
   ttl?: number;
+
+  /**
+   * Possible to override default key generator for custom differentiating
+   * between rendered pages. By default it uses req.url
+   *
+   * @param req
+   */
+  renderKeyResolver?: (req) => string;
 }
 
 class RenderingCache {
@@ -28,13 +36,14 @@ class RenderingCache {
       html?: any;
       err?: any;
       time?: number;
+      rendering?: boolean;
     };
   } = {};
 
   constructor(private options: OptimizedSsrOptions) {}
 
-  prepare(key) {
-    this.renderedUrls[key] = {};
+  setRendering(key) {
+    this.renderedUrls[key] = { rendering: true };
   }
 
   store(key, err, html) {
@@ -44,8 +53,8 @@ class RenderingCache {
     }
   }
 
-  has(key): boolean {
-    return !!this.renderedUrls[key] && this.isCurrent(key);
+  isRendering(key): boolean {
+    return this.renderedUrls[key]?.rendering;
   }
 
   get(key) {
@@ -55,15 +64,15 @@ class RenderingCache {
   isReady(key) {
     const renderIsPresent =
       this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
-    return renderIsPresent && this.isCurrent(key);
+    return renderIsPresent && this.isFresh(key);
   }
 
-  isCurrent(key) {
+  isFresh(key) {
     if (!this.options.ttl) {
       return true;
     }
 
-    return Date.now() - this.renderedUrls[key]?.time < this.options.ttl;
+    return Date.now() - this.renderedUrls[key]?.time ?? 0 < this.options.ttl;
   }
 
   remove(key) {
@@ -88,7 +97,9 @@ export function optimizedSsrEngine(
   ) {
     const res = options.res || options.req.res;
 
-    const renderingKey = options.req.originalUrl;
+    const renderingKey = ssrOptions.renderKeyResolver
+      ? ssrOptions.renderKeyResolver(options.req)
+      : options.req.originalUrl;
 
     /**
      * When SSR page can not be returned in time, we're returning index.html of
@@ -117,7 +128,10 @@ export function optimizedSsrEngine(
         ? currentConcurrency > ssrOptions.concurrency
         : false;
 
-      if (!renderingCache.has(renderingKey) && !concurrencyLimitExceed) {
+      if (
+        !renderingCache.isRendering(renderingKey) &&
+        !concurrencyLimitExceed
+      ) {
         // if there is no rendering already in progress
         currentConcurrency++;
 
@@ -133,7 +147,7 @@ export function optimizedSsrEngine(
           fallbackToCsr();
         }
 
-        renderingCache.prepare(renderingKey);
+        renderingCache.setRendering(renderingKey);
         expressEngine(filePath, options, (err, html) => {
           currentConcurrency--;
           if (waitingForRender) {
