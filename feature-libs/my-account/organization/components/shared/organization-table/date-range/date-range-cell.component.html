@@ -1,0 +1,15 @@
+<a
+  *ngIf="linkable; else noLink"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabindex]="tabIndex"
+>
+  <span class="text" *ngIf="hasRange">
+    {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+  </span>
+</a>
+
+<ng-template #noLink>
+  <span class="text" *ngIf="hasRange">
+    {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+  </span>
+</ng-template>

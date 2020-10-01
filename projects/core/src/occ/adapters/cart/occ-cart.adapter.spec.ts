@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '../../../model/cart.model';
-import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
@@ -18,6 +17,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
 } from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
+import { ProductImageNormalizer } from '../product/converters/product-image-normalizer';
 
 const userId = '123';
 const cartId = '456';

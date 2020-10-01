@@ -1,20 +1,22 @@
 import {
   MULTI_CART_DATA,
   PROCESS_FEATURE,
+  SET_COST_CENTER_PROCESS_ID,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
-  SET_COST_CENTER_PROCESS_ID,
 } from '@spartacus/core';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { StateUtils } from '../../../state/utils/index';
 import { CheckoutActions } from '../actions/index';
+import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
+const termsChecked = true;
 const selectedModeId = 'selectedModeId';
 const paymentDetails: PaymentDetails = {
   id: 'mockPaymentDetails',
@@ -380,12 +382,17 @@ describe('Checkout Actions', () => {
         const payload = {
           userId,
           cartId,
+          termsChecked,
         };
 
         const action = new CheckoutActions.PlaceOrder(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.PLACE_ORDER,
           payload,
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            PLACED_ORDER_PROCESS_ID
+          ),
         });
       });
     });
@@ -398,6 +405,11 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.PLACE_ORDER_FAIL,
           payload: error,
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            PLACED_ORDER_PROCESS_ID,
+            error
+          ),
         });
       });
     });
@@ -408,6 +420,23 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.PLACE_ORDER_SUCCESS,
           payload: orderDetails,
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            PLACED_ORDER_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('ClearPlaceOrder', () => {
+      it('should create the action', () => {
+        const action = new CheckoutActions.ClearPlaceOrder();
+        expect({ ...action }).toEqual({
+          type: CheckoutActions.CLEAR_PLACE_ORDER,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            PLACED_ORDER_PROCESS_ID
+          ),
         });
       });
     });

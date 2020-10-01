@@ -2946,60 +2946,6 @@ export namespace Occ {
     uid?: string;
   }
 
-  /**
-   *
-   * An interface representing UserGroupList.
-   */
-  export interface UserGroupList {
-    /**
-     * @member {number} [currentPage]
-     */
-    currentPage?: number;
-    /**
-     * @member {number} [numberOfPages]
-     */
-    numberOfPages?: number;
-    /**
-     * @member {number} [pageSize]
-     */
-    pageSize?: number;
-    /**
-     * @member {number} [totalNumber]
-     */
-    totalNumber?: number;
-    /**
-     * @member {UserGroup[]} [userGroups]
-     */
-    userGroups?: UserGroup[];
-  }
-
-  /**
-   *
-   * An interface representing UserSignUp.
-   */
-  export interface UserSignUp {
-    /**
-     * @member {string} [firstName]
-     */
-    firstName?: string;
-    /**
-     * @member {string} [lastName]
-     */
-    lastName?: string;
-    /**
-     * @member {string} [password]
-     */
-    password?: string;
-    /**
-     * @member {string} [titleCode]
-     */
-    titleCode?: string;
-    /**
-     * @member {string} [uid]
-     */
-    uid?: string;
-  }
-
   export interface StoreCount {
     count?: number;
     isoCode?: string;
@@ -4170,6 +4116,24 @@ export namespace Occ {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 
+  export interface Budget {
+    active?: boolean;
+    budget?: number;
+    code?: string;
+    currency?: Currency;
+    endDate?: string;
+    startDate?: string;
+    name?: string;
+    orgUnit?: B2BUnit;
+    costCenters?: CostCenter[];
+  }
+
+  export interface BudgetsList {
+    budgets?: Budget[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
   export interface CostCenter {
     active?: string;
     activeFlag?: boolean;
@@ -4287,6 +4251,7 @@ export namespace Occ {
     customers?: B2BUser[];
     managers?: B2BUser[];
   }
+
   export interface OrderApprovalPermissionType {
     code?: string;
     name?: string;
@@ -4317,6 +4282,113 @@ export namespace Occ {
 
   export interface PermissionsList {
     orderApprovalPermissions?: Permission[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface ReplenishmentOrder {
+    active?: boolean;
+    appliedOrderPromotions?: PromotionResult[];
+    appliedProductPromotions?: PromotionResult[];
+    appliedVouchers?: Voucher[];
+    calculated?: boolean;
+    code?: string;
+    costCenter?: CostCenter;
+    deliveryAddress?: Address;
+    deliveryCost?: Price;
+    deliveryItemsQuantity?: number;
+    deliveryMode?: DeliveryMode;
+    deliveryOrderGroups?: DeliveryOrderEntryGroup[];
+    description?: string;
+    entries?: OrderEntry[];
+    expirationTime?: string;
+    firstDate?: string;
+    guid?: string;
+    name?: string;
+    net?: boolean;
+    orderDiscounts?: Price;
+    paymentInfo?: PaymentDetails;
+    paymentStatus?: string;
+    paymentType?: PaymentType;
+    pickupItemsQuantity?: number;
+    pickupOrderGroups?: PickupOrderEntryGroup[];
+    potentialOrderPromotions?: PromotionResult[];
+    potentialProductPromotions?: PromotionResult[];
+    productDiscounts?: Price;
+    purchaseOrderNumber?: string;
+    replenishmentOrderCode?: string;
+    saveTime?: string;
+    savedBy?: Principal;
+    site?: string;
+    store?: string;
+    subTotal?: Price;
+    totalDiscounts?: Price;
+    totalItems?: number;
+    totalPrice?: Price;
+    totalPriceWithTax?: Price;
+    totalTax?: Price;
+    totalUnitCount?: number;
+    trigger?: Trigger;
+    user?: Principal;
+  }
+
+  export interface ReplenishmentOrderList {
+    replenishmentOrders?: ReplenishmentOrder[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface Trigger {
+    activationTime?: string;
+    displayTimeTable?: string;
+  }
+
+  export interface ScheduleReplenishmentForm {
+    daysOfWeek?: DaysOfWeek[];
+    nthDayOfMonth?: string;
+    numberOfDays?: string;
+    numberOfWeeks?: string;
+    recurrencePeriod?: string;
+    replenishmentStartDate?: string;
+  }
+
+  export enum DaysOfWeek {
+    MONDAY = 'MONDAY',
+    TUESDAY = 'TUESDAY',
+    WEDNESDAY = 'WEDNESDAY',
+    THURSDAY = 'THURSDAY',
+    FRIDAY = 'FRIDAY',
+    SATURDAY = 'SATURDAY',
+    SUNDAY = 'SUNDAY',
+  }
+
+  export enum OrderApprovalDecisionValue {
+    APPROVE = 'APPROVE',
+    REJECT = 'REJECT',
+  }
+  export interface OrderApprovalDecision {
+    decision?: OrderApprovalDecisionValue;
+    comment?: string;
+  }
+
+  export interface OrderApprovalRecord {
+    approver?: Principal;
+    comments?: string;
+    permissionTypes?: OrderApprovalPermissionType[];
+    statusDisplay?: string;
+  }
+
+  export interface OrderApproval {
+    approvalDecisionRequired?: boolean;
+    code?: string;
+    customerOrderApprovalRecords?: OrderApprovalRecord[];
+    merchantOrderApprovalRecords?: OrderApprovalRecord[];
+    order?: Order;
+    trigger?: Trigger;
+  }
+
+  export interface OrderApprovalsList {
+    orderApprovals?: OrderApproval[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

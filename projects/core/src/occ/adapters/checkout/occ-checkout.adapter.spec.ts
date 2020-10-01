@@ -12,6 +12,7 @@ import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const userId = '123';
 const cartId = '456';
+const termsChecked = true;
 
 const orderData: Order = {
   site: 'electronics',
@@ -67,7 +68,7 @@ describe('OccCheckoutAdapter', () => {
 
   describe('place order', () => {
     it('should be able to place order for the cart', () => {
-      service.placeOrder(userId, cartId).subscribe((result) => {
+      service.placeOrder(userId, cartId, termsChecked).subscribe((result) => {
         expect(result).toEqual(orderData);
       });
 
@@ -85,7 +86,7 @@ describe('OccCheckoutAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.placeOrder(userId, cartId).subscribe();
+      service.placeOrder(userId, cartId, termsChecked).subscribe();
       httpMock
         .expectOne((req) => req.method === 'POST' && req.url === 'placeOrder')
         .flush({});
