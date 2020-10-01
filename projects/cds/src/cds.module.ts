@@ -2,12 +2,12 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   provideConfig,
   provideConfigValidator,
-  provideDefaultConfig
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   CdsConfig,
   cdsConfigValidator,
-  DEFAULT_CDS_CONFIG
+  DEFAULT_CDS_CONFIG,
 } from './config/index';
 import { MerchandisingModule } from './merchandising/merchandising.module';
 import { ProfileTagModule } from './profiletag/profile-tag.module';

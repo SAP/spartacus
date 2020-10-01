@@ -13,7 +13,7 @@ import {
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent
+  CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
 /**
@@ -82,8 +82,14 @@ export class CartEventBuilder {
       filter(
         ([action, activeCart]) => action.payload['cartId'] === activeCart.guid // assuming that action's payload contains the cart id
       ),
-      map(([action, activeCart]) => createFrom(mapping.event, {
-         ...action.payload, entry: action.payload.entry ? action.payload.entry : activeCart.entries[action.payload.entryNumber] })) //temp code so update entries has a productCode
+      map(([action, activeCart]) =>
+        createFrom(mapping.event, {
+          ...action.payload,
+          entry: action.payload.entry
+            ? action.payload.entry
+            : activeCart.entries[action.payload.entryNumber],
+        })
+      ) //temp code so update entries has a productCode
     );
     return this.event.register(mapping.event, eventStream$);
   }

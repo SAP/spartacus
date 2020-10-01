@@ -109,7 +109,7 @@ describe('profileTagPushEventsService', () => {
         .subscribe();
       eventServiceEvents
         .get(CartAddEntrySuccessEvent)
-        .next({ entry: { product: { categories: [] } } });
+        .next({ entry: { product: { categories: [{}] } } });
       subscription.unsubscribe();
       expect(timesCalled).toEqual(1);
       expect(calledWith.name).toBe('AddedToCart');
@@ -129,7 +129,7 @@ describe('profileTagPushEventsService', () => {
         .subscribe();
       eventServiceEvents
         .get(CartRemoveEntrySuccessEvent)
-        .next({ entry: { product: { categories: [] } } });
+        .next({ entry: { product: { categories: [{}] } } });
       subscription.unsubscribe();
       expect(timesCalled).toEqual(1);
       expect(calledWith.name).toBe('RemovedFromCart');

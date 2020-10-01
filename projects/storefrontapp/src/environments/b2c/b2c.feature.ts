@@ -19,6 +19,9 @@ export const b2cFeature: FeatureEnvironment = {
           enabled: true,
         },
       },
+      personalization: {
+        enabled: true,
+      },
     }),
   ],
 };

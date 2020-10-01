@@ -7,7 +7,7 @@ import {
   filter,
   map,
   shareReplay,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
 import {
@@ -16,7 +16,7 @@ import {
   InternalProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagPushEvent,
-  ProfileTagWindowObject
+  ProfileTagWindowObject,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -43,7 +43,7 @@ export class ProfileTagEventService {
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
   }
-  
+
   getConsentReference(): Observable<string> {
     if (!this.consentReference$) {
       this.consentReference$ = fromEvent(

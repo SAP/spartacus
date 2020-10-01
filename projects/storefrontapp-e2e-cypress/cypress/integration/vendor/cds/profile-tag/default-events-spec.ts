@@ -26,70 +26,91 @@ describe('Profile-tag events', () => {
     profileTagHelper.waitForCMSComponents();
     anonymousConsents.clickAllowAllFromBanner();
   });
-
-  it('should send a AddedToCart event on adding an item to cart', () => {
-    goToProductPage();
-    cy.get('cx-add-to-cart button.btn-primary').click();
-    cy.get('cx-added-to-cart-dialog .btn-primary');
-    cy.window().then((win) => {
-      expect(
-        profileTagHelper.eventCount(
+  describe('cart events', () => {
+    it('should send a AddedToCart event on adding an item to cart', () => {
+      goToProductPage();
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary');
+      cy.window().then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.ADDED_TO_CART
+          )
+        ).to.equal(1);
+        const addedToCartEvent = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.ADDED_TO_CART
-        )
-      ).to.equal(1);
-      const cartSnapshotEvent = profileTagHelper.getEvent(
-        win,
-        profileTagHelper.EventNames.ADDED_TO_CART
-      )[0];
-      expect(cartSnapshotEvent.data.productQty).to.eq(1);
-      expect(cartSnapshotEvent.data.productSku).to.eq('280916');
-      expect(cartSnapshotEvent.data.categories).to.contain('577');
-      expect(cartSnapshotEvent.data.categories).to.contain('brand_745');
+        )[0];
+        expect(addedToCartEvent.data.productQty).to.eq(1);
+        expect(addedToCartEvent.data.productSku).to.eq('280916');
+        expect(addedToCartEvent.data.categories).to.contain('577');
+        expect(addedToCartEvent.data.categories).to.contain('brand_745');
+        expect(addedToCartEvent.data.productCategory).to.eq('brand_745');
+      });
     });
-  });
 
-  it('should send an additional CartChanged event on modifying the cart', () => {
-    goToProductPage();
-    cy.get('cx-add-to-cart button.btn-primary').click();
-    cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item cx-item-counter').getByText('+').click();
-    cy.route(
-      'GET',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/anonymous/carts/*`
-    ).as('getRefreshedCart');
-    cy.wait('@getRefreshedCart');
-    cy.window().then((win) => {
-      expect(
-        profileTagHelper.eventCount(
+    it('should send a CartModified event on modifying the cart', () => {
+      goToProductPage();
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.get('cx-cart-item cx-item-counter').getByText('+').click();
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/anonymous/carts/*`
+      ).as('getRefreshedCart');
+      cy.wait('@getRefreshedCart');
+      cy.window().then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.MODIFIED_CART
+          )
+        ).to.equal(1);
+        const modifiedCart = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.MODIFIED_CART
-        )
-      ).to.equal(1);
+        )[0];
+        expect(modifiedCart.data.productQty).to.eq(2);
+        expect(modifiedCart.data.productSku).to.eq('280916');
+        expect(modifiedCart.data.categories).to.contain('577');
+        expect(modifiedCart.data.categories).to.contain('brand_745');
+        expect(modifiedCart.data.productCategory).to.eq('brand_745');
+      });
     });
-  });
 
-  it('should send an additional CartChanged event on removing and item from the cart', () => {
-    goToProductPage();
-    cy.get('cx-add-to-cart button.btn-primary').click();
-    cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
-    cy.route(
-      'GET',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/anonymous/carts/*`
-    ).as('getRefreshedCart');
-    cy.wait('@getRefreshedCart');
-    cy.window().then((win) => {
-      expect(
-        profileTagHelper.eventCount(
+    it('should send a RemovedFromCart event on removing an item from the cart', () => {
+      goToProductPage();
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/anonymous/carts/*`
+      ).as('getRefreshedCart');
+      cy.wait('@getRefreshedCart');
+      cy.window().then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.REMOVED_FROM_CART
+          )
+        ).to.equal(1);
+        const removedFromCart = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.REMOVED_FROM_CART
-        )
-      ).to.equal(1);
+        )[0];
+        expect(removedFromCart.data.productSku).to.eq('280916');
+        expect(removedFromCart.data.categories).to.contain('577');
+        expect(removedFromCart.data.categories).to.contain('brand_745');
+        expect(removedFromCart.data.productCategory).to.eq('brand_745');
+      });
     });
   });
 

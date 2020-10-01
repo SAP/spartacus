@@ -6,7 +6,6 @@ import { ProfileTagPushEvent } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from '../services/profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from '../services/profile-tag-push-events.service';
 
-
 @Injectable({
   providedIn: 'root',
 })

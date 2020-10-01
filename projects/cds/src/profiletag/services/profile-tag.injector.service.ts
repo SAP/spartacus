@@ -12,15 +12,20 @@ export class ProfileTagInjectorService {
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
     private cdsBackendConnector: CdsBackendConnector,
-    private profileTagLifecycleService: ProfileTagLifecycleService,
+    private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
 
   track(): Observable<boolean> {
-    return this.profileTagEventTracker.addTracker().pipe(
-      switchMap(_ =>merge(
-      this.profileTagEventTracker.getProfileTagEvents(),
-      this.notifyEcOfLoginSuccessful()
-    ).pipe(mapTo(true))))
+    return this.profileTagEventTracker
+      .addTracker()
+      .pipe(
+        switchMap((_) =>
+          merge(
+            this.profileTagEventTracker.getProfileTagEvents(),
+            this.notifyEcOfLoginSuccessful()
+          ).pipe(mapTo(true))
+        )
+      );
   }
 
   private notifyEcOfLoginSuccessful(): Observable<boolean> {

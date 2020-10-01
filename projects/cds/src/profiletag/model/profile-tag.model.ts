@@ -76,7 +76,7 @@ export class ProductViewPushEvent implements ProfileTagPushEvent {
     productPrice: Number;
     productCategory: string;
     productCategoryName: string;
-    categories: Array<string>
+    categories: Array<string>;
   }) {
     this.data = data;
   }
@@ -131,7 +131,9 @@ export class AddedToCartPushEvent implements ProfileTagPushEvent {
     productSku: string;
     productName: string;
     cartId: string;
-    categories: Array<string>
+    categories: Array<string>;
+    productCategoryName: string;
+    productCategory: string;
   }) {
     this.data = data;
   }
@@ -146,7 +148,7 @@ export class RemovedFromCartPushEvent implements ProfileTagPushEvent {
     productCategory: string;
     cartId: string;
     productCategoryName: string;
-    categories: Array<string>
+    categories: Array<string>;
   }) {
     this.data = data;
   }
@@ -160,7 +162,9 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     productSku: string;
     productName: string;
     cartId: string;
-    categories: Array<string>
+    categories: Array<string>;
+    productCategoryName: string;
+    productCategory: string;
   }) {
     this.data = data;
   }

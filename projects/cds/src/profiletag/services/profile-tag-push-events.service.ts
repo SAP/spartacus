@@ -268,6 +268,16 @@ export class ProfileTagPushEventsService {
             productName: item.entry.product.name,
             cartId: item.cartId,
             categories: this.categoriesToIds(item.entry.product.categories),
+            productCategoryName: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].name
+              : undefined,
+            productCategory: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].code
+              : undefined,
           })
       )
     );
@@ -287,9 +297,17 @@ export class ProfileTagPushEventsService {
           new RemovedFromCartPushEvent({
             productSku: item.entry.product.code,
             productName: item.entry.product.name,
-            productCategory: 'string',
             cartId: item.cartId,
-            productCategoryName: 'string',
+            productCategoryName: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].name
+              : undefined,
+            productCategory: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].code
+              : undefined,
             categories: this.categoriesToIds(item.entry.product.categories),
           })
       )
@@ -313,6 +331,16 @@ export class ProfileTagPushEventsService {
             productName: item.entry.product.name,
             cartId: item.cartId,
             categories: this.categoriesToIds(item.entry.product.categories),
+            productCategoryName: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].name
+              : undefined,
+            productCategory: item.entry.product.categories
+              ? item.entry.product.categories[
+                  item.entry.product.categories.length - 1
+                ].code
+              : undefined,
           })
       )
     );
