@@ -1,16 +1,3 @@
-ng-component {
-  display: contents;
-}
-
-cx-organization-sub-list,
-form,
-cx-organization-view,
-cx-organization-card,
-cx-organization-card-list,
-cx-organization-form {
-  display: contents;
-}
-
 %ghost {
   &.ghost {
     .header {
@@ -70,6 +57,19 @@ cx-organization-form {
 %organizationList {
   cx-split-view {
     height: 100%;
+  }
+
+  ng-component {
+    display: contents;
+  }
+
+  cx-organization-sub-list,
+  form,
+  cx-organization-view,
+  cx-organization-card,
+  cx-organization-card-list,
+  cx-organization-form {
+    display: contents;
   }
 
   cx-split-view:not([active-view='1']) .list table {
@@ -209,6 +209,32 @@ cx-organization-form {
 
       &.disabled {
         color: var(--cx-color-light);
+      }
+    }
+  }
+
+  &.unit {
+    .name {
+      ng-component {
+        display: block;
+        padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+        button.tree-item-toggle {
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+          margin-inline-start: -40px;
+
+          cx-icon {
+            transform: translate(0%, -50%);
+          }
+        }
+      }
+
+      @include media-breakpoint-down(md) {
+        height: 4rem;
+        ng-component {
+          display: block;
+          padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+        }
       }
     }
   }
@@ -435,30 +461,6 @@ cx-organization-form {
             max-height: 40px;
           }
         }
-      }
-    }
-  }
-}
-
-.unit {
-  .name {
-    ng-component {
-      padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
-      button.tree-item-toggle {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        margin-inline-start: -40px;
-
-        cx-icon {
-          transform: translate(0%, -50%);
-        }
-      }
-    }
-
-    @include media-breakpoint-down(md) {
-      height: 4rem;
-      ng-component {
-        padding-inline-start: calc(1.2rem + var(--cx-depth-level) * 1.5rem);
       }
     }
   }
