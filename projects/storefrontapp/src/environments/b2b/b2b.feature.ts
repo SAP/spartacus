@@ -1,4 +1,4 @@
-import { B2bStorefrontModule } from '@spartacus/my-account';
+import { B2bStorefrontModule } from '@spartacus/setup';
 import { OrganizationModule } from '@spartacus/my-account/organization';
 import {
   organizationTranslationChunksConfig,
