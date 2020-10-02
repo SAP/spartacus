@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { B2BAddress, RoutingService } from '@spartacus/core';
+import { Address, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
@@ -10,10 +10,10 @@ import { CurrentOrganizationItemService } from '../../../../shared/current-organ
   providedIn: 'root',
 })
 export class CurrentUnitAddressService extends CurrentOrganizationItemService<
-  B2BAddress
+  Address
 > {
   // override item$ as we need to use the unit code as well
-  readonly item$: Observable<B2BAddress> = this.b2bUnit$.pipe(
+  readonly item$: Observable<Address> = this.b2bUnit$.pipe(
     filter((unit) => Boolean(unit)),
     switchMap((unit) =>
       this.key$.pipe(switchMap((code: string) => this.getItem(unit, code)))
@@ -35,10 +35,7 @@ export class CurrentUnitAddressService extends CurrentOrganizationItemService<
     return ROUTE_PARAMS.addressCode;
   }
 
-  protected getItem(
-    unitUid: string,
-    addressId: string
-  ): Observable<B2BAddress> {
+  protected getItem(unitUid: string, addressId: string): Observable<Address> {
     return addressId ? this.unitService.getAddress(unitUid, addressId) : of({});
   }
 }

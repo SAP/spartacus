@@ -1,16 +1,3 @@
-ng-component {
-  display: contents;
-}
-
-cx-organization-sub-list,
-form,
-cx-organization-view,
-cx-organization-card,
-cx-organization-card-list,
-cx-organization-form {
-  display: contents;
-}
-
 %ghost {
   &.ghost {
     .header {
@@ -68,6 +55,19 @@ cx-organization-form {
 }
 
 %organizationList {
+  ng-component {
+    display: contents;
+  }
+
+  cx-organization-sub-list,
+  form,
+  cx-organization-view,
+  cx-organization-card,
+  cx-organization-card-list,
+  cx-organization-form {
+    display: contents;
+  }
+
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {

@@ -9,6 +9,10 @@ export function costCentersEntitiesReducer(
   action: StateUtils.LoaderAction
 ): CostCenter {
   switch (action.type) {
+    case CostCenterActions.LOAD_COST_CENTER_SUCCESS:
+    case CostCenterActions.CREATE_COST_CENTER_SUCCESS:
+    case CostCenterActions.UPDATE_COST_CENTER_SUCCESS:
+      return action.payload;
   }
   return state;
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, UserService } from '@spartacus/core';
+import { B2BUser, Title, UserService } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -24,7 +24,7 @@ export class UserFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
-  titles$ = this.userService.getTitles();
+  titles$: Observable<Title[]> = this.userService.getTitles();
 
   availableRoles = [
     UserRole.CUSTOMER,

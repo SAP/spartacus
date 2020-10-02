@@ -25,12 +25,14 @@ import {
   OrderHistoryModule,
   OrderReturnModule,
   PaymentMethodsModule,
+  ReplenishmentOrderDetailsModule,
   ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  ReplenishmentOrderHistoryModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -39,7 +41,10 @@ import {
   NavigationModule,
   SearchBoxModule,
 } from './navigation/index';
-import { OrderConfirmationModule } from './order-confirmation/index';
+import {
+  OrderConfirmationModule,
+  ReplenishmentOrderConfirmationModule,
+} from './order-confirmation/index';
 import {
   ProductCarouselModule,
   ProductFacetNavigationModule,
@@ -107,6 +112,9 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
+    ReplenishmentOrderHistoryModule,
+    ReplenishmentOrderConfirmationModule,
+    ReplenishmentOrderDetailsModule,
   ],
 })
 export class CmsLibModule {}

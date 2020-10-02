@@ -366,8 +366,9 @@ export class OrgUnitEffects {
 
   @Effect()
   updateAddress$: Observable<
-    // OrgUnitActions.UpdateAddressSuccess |
-    OrgUnitActions.LoadAddresses | OrgUnitActions.UpdateAddressFail
+    | OrgUnitActions.UpdateAddressSuccess
+    | OrgUnitActions.LoadAddresses
+    | OrgUnitActions.UpdateAddressFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),

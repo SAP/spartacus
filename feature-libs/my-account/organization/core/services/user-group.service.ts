@@ -20,6 +20,8 @@ import {
   getUserGroup,
   getUserGroupList,
 } from '../store/selectors/user-group.selector';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -125,6 +127,12 @@ export class UserGroupService {
         })
       )
     );
+  }
+
+  getLoadingStatus(
+    budgetCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
+    return getItemStatus(this.getUserGroup(budgetCode));
   }
 
   delete(userGroupId: string) {
