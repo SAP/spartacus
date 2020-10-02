@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserGroup, Title, UserService } from '@spartacus/core';
+import { B2BUser, Title, UserService } from '@spartacus/core';
 import {
   B2BUnitNode,
+  B2BUserService,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
@@ -25,17 +26,13 @@ export class UserFormComponent implements OnInit {
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   titles$: Observable<Title[]> = this.userService.getTitles();
 
-  availableRoles = [
-    B2BUserGroup.B2B_CUSTOMER_GROUP,
-    B2BUserGroup.B2B_MANAGER_GROUP,
-    B2BUserGroup.B2B_APPROVER_GROUP,
-    B2BUserGroup.B2B_ADMIN_GROUP,
-  ];
+  availableRoles = this.b2bUserService.getAllRoles();
 
   constructor(
     protected itemService: OrganizationItemService<B2BUser>,
     protected unitService: OrgUnitService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected b2bUserService: B2BUserService
   ) {}
 
   ngOnInit(): void {
