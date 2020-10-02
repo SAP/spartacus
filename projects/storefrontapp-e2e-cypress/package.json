@@ -19,7 +19,7 @@
     "cy:run:smoke:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --tag \"1905,smoke\" --spec \"cypress/integration/smoke/**/*\"",
     "cy:run:smoke:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --tag \"2005,smoke\" --spec \"cypress/integration/smoke/**/*\"",
     "cy:run:smoke:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --tag \"ccv2,smoke\" --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:b2b": "cypress run --spec \"cypress/integration/b2b/**/*\"",
+    "cy:run:b2b": "cypress run --config-file cypress.b2b.json --spec \"cypress/integration/b2b/**/*\"",
     "cy:run:b2b:ci": "cypress run --config-file cypress.b2b.json --record --key $CYPRESS_KEY --tag \"2005,b2b\" --spec \"cypress/integration/b2b/**/*\""
   },
   "devDependencies": {
