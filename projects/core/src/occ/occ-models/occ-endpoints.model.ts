@@ -642,4 +642,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+  /**
+   * Endpoint to returns active cost centers
+   *
+   * @member {string}
+   */
+  getActiveCostCenters?: string | OccEndpoint;
 }

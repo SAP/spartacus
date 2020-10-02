@@ -6,7 +6,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center',
@@ -14,30 +14,32 @@ import { filter, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterComponent {
-  protected costCenterId: string;
-
-  cartCostCenter$: Observable<
-    string
-  > = this.checkoutCostCenterService.getCostCenter();
-
-  isAccountPayment$ = this.paymentTypeService.isAccountPayment();
-
-  costCenters$: Observable<
-    CostCenter[]
-  > = this.userCostCenterService.getActiveCostCenters().pipe(
-    filter((costCenters: CostCenter[]) => Boolean(costCenters)),
-    tap((costCenters: CostCenter[]) => {
-      if (!Boolean(this.costCenterId)) {
-        this.setCostCenter(costCenters[0].code);
-      }
-    })
-  );
+  costCenterId: string;
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
     protected checkoutCostCenterService: CheckoutCostCenterService,
     protected paymentTypeService: PaymentTypeService
   ) {}
+
+  get isAccountPayment$(): Observable<boolean> {
+    return this.paymentTypeService.isAccountPayment();
+  }
+
+  get costCenters$(): Observable<CostCenter[]> {
+    return this.userCostCenterService.getActiveCostCenters().pipe(
+      withLatestFrom(this.checkoutCostCenterService.getCostCenter()),
+      filter(([costCenters]) => Boolean(costCenters)),
+      tap(([costCenters, cartCostCenter]) => {
+        if (!Boolean(cartCostCenter)) {
+          this.setCostCenter(costCenters[0].code);
+        } else {
+          this.costCenterId = cartCostCenter;
+        }
+      }),
+      map(([costCenters]) => costCenters)
+    );
+  }
 
   setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
