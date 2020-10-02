@@ -87,7 +87,10 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_AND_ASSIGN_TO_APPROVERS),
-    map((action: B2BUserActions.CreateB2BUser) => action.payload),
+    map(
+      (action: B2BUserActions.CreateB2BUserAndAssignToApprovers) =>
+        action.payload
+    ),
     switchMap((payload) =>
       this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
         concatMap((data) => {
@@ -154,21 +157,27 @@ export class B2BUserEffects {
     | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS),
-    map((action: B2BUserActions.UpdateB2BUser) => action.payload),
+    map(
+      (action: B2BUserActions.UpdateB2BUserAndAssignToApprovers) =>
+        action.payload
+    ),
     switchMap((payload) =>
       this.b2bUserConnector
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
-          map(() => {
+          concatMap(() => {
             const assignApproverPayload = {
               userId: payload.userId,
               orgUnitId: payload.orgCustomer.orgUnit.uid,
               orgCustomerId: payload.orgCustomerId,
               roleId: 'b2bapprovergroup',
             };
-            return new OrgUnitActions.AssignApprover(assignApproverPayload);
+            return [
+              new B2BUserActions.LoadB2BUser(payload),
+              new OrgUnitActions.AssignApprover(assignApproverPayload),
+            ];
           }),
           catchError((error: HttpErrorResponse) =>
             of(

@@ -21,19 +21,13 @@ export function b2bUserEntitiesReducer(
     case OrgUnitActions.ASSIGN_APPROVER_SUCCESS:
       return {
         ...state,
-        selected: action.payload.selected,
-        roles: state.roles.includes(action.payload.roleId)
-          ? state.roles
-          : state.roles.concat(action.payload.roleId),
+        ...action.payload,
       };
     case OrgUnitActions.UNASSIGN_ROLE_SUCCESS:
     case OrgUnitActions.UNASSIGN_APPROVER_SUCCESS:
       return {
         ...state,
-        selected: action.payload.selected,
-        roles: [...state.roles].filter(
-          (role) => role !== action.payload.roleId
-        ),
+        ...action.payload,
       };
     case B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS:
     case B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS:
