@@ -13,6 +13,8 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { BudgetActions, StateWithOrganization } from '../store/index';
 import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
@@ -94,6 +96,12 @@ export class BudgetService {
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       )
     );
+  }
+
+  getLoadingStatus(
+    budgetCode: string
+  ): Observable<OrganizationItemStatus<Budget>> {
+    return getItemStatus(this.getBudget(budgetCode));
   }
 
   private withUserId(callback: (userId: string) => void): void {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { B2BAddress, EntitiesModel } from '@spartacus/core';
+import { Address, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { OrganizationTableType } from '../../../../shared/organization.model';
   providedIn: 'root',
 })
 export class UnitAddressListService extends OrganizationSubListService<
-  B2BAddress
+  Address
 > {
   protected tableType = OrganizationTableType.UNIT_ADDRESS;
   protected domainType = OrganizationTableType.UNIT_ADDRESS;
@@ -22,7 +22,7 @@ export class UnitAddressListService extends OrganizationSubListService<
     super(tableService);
   }
 
-  protected load(_, code: string): Observable<EntitiesModel<B2BAddress>> {
+  protected load(_, code: string): Observable<EntitiesModel<Address>> {
     return this.orgUnitService.getAddresses(code);
   }
 }

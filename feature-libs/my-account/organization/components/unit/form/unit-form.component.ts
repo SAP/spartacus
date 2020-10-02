@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnit } from '@spartacus/core';
+import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -29,7 +29,9 @@ export class UnitFormComponent implements OnInit {
       map((units) => units.filter((unit) => unit.id !== this.form?.value.uid))
     );
 
-  approvalProcess$ = this.unitService
+  approvalProcess$: Observable<
+    B2BApprovalProcess[]
+  > = this.unitService
     .getApprovalProcesses()
     .pipe(filter((items) => items.length > 0));
 
