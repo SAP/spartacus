@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { B2BUser } from '@spartacus/core';
-import { UserRole } from '@spartacus/my-account/organization/core';
+import { B2BUser, B2BUserGroup } from '@spartacus/core';
 import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
 
 @Injectable({
@@ -9,10 +8,10 @@ import { OrganizationFormService } from '../../../../shared/organization-form/or
 })
 export class UnitUserRolesFormService extends OrganizationFormService<B2BUser> {
   availableRoles = [
-    UserRole.CUSTOMER,
-    UserRole.MANAGER,
-    UserRole.APPROVER,
-    UserRole.ADMIN,
+    B2BUserGroup.B2B_CUSTOMER_GROUP,
+    B2BUserGroup.B2B_MANAGER_GROUP,
+    B2BUserGroup.B2B_APPROVER_GROUP,
+    B2BUserGroup.B2B_ADMIN_GROUP,
   ];
 
   protected build() {

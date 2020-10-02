@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, Title, UserService } from '@spartacus/core';
+import { B2BUser, B2BUserGroup, Title, UserService } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
-  UserRole,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -27,10 +26,10 @@ export class UserFormComponent implements OnInit {
   titles$: Observable<Title[]> = this.userService.getTitles();
 
   availableRoles = [
-    UserRole.CUSTOMER,
-    UserRole.MANAGER,
-    UserRole.APPROVER,
-    UserRole.ADMIN,
+    B2BUserGroup.B2B_CUSTOMER_GROUP,
+    B2BUserGroup.B2B_MANAGER_GROUP,
+    B2BUserGroup.B2B_APPROVER_GROUP,
+    B2BUserGroup.B2B_ADMIN_GROUP,
   ];
 
   constructor(

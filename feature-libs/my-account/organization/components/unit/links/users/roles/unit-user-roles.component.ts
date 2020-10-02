@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser } from '@spartacus/core';
-import {
-  B2BUserService,
-  UserRole,
-} from '@spartacus/my-account/organization/core';
+import { B2BUser, B2BUserGroup } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
@@ -42,10 +39,10 @@ export class UnitUserRolesFormComponent {
   );
 
   availableRoles = [
-    UserRole.CUSTOMER,
-    UserRole.MANAGER,
-    UserRole.APPROVER,
-    UserRole.ADMIN,
+    B2BUserGroup.B2B_CUSTOMER_GROUP,
+    B2BUserGroup.B2B_MANAGER_GROUP,
+    B2BUserGroup.B2B_APPROVER_GROUP,
+    B2BUserGroup.B2B_ADMIN_GROUP,
   ];
 
   constructor(
