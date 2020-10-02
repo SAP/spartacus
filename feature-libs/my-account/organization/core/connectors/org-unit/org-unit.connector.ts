@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -101,15 +101,15 @@ export class OrgUnitConnector {
   getAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<EntitiesModel<B2BAddress>> {
+  ): Observable<EntitiesModel<Address>> {
     return this.adapter.loadAddresses(userId, orgUnitId);
   }
 
   createAddress(
     userId: string,
     orgUnitId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.adapter.createAddress(userId, orgUnitId, address);
   }
 
@@ -117,8 +117,8 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.adapter.updateAddress(userId, orgUnitId, addressId, address);
   }
 

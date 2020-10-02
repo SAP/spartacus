@@ -30,6 +30,13 @@ export const userGroup = {
     user: 'Users',
     permission: 'Purchase limits',
   },
+
+  breadcrumbs: {
+    list: 'All user groups',
+    details: '{{name}}',
+    users: 'Users',
+    permissions: 'Purchase limits',
+  },
 };
 
 export const userGroupAssignedUsers = {

@@ -1,6 +1,7 @@
 export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
+    replenishmentId: 'Replenishment #',
     purchaseOrderId: 'Purchase Order #',
     emptyPurchaseOrderId: 'None',
     none: 'None {{value}}',
@@ -14,6 +15,10 @@ export const myAccount = {
     paidByCreditCard: '(paid by credit card)',
     status: 'Status',
     shippedOn: 'Shipped on',
+    startOn: 'Start On',
+    nextOrderDate: 'Next Order Date',
+    frequency: 'Frequency',
+    cancelled: ' Cancelled',
     deliveryStatus_IN_TRANSIT: 'In Transit',
     deliveryStatus_READY_FOR_PICKUP: 'Ready for Pickup',
     deliveryStatus_READY_FOR_SHIPPING: 'Ready for Shipping',
@@ -79,6 +84,14 @@ export const myAccount = {
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
+    cancelReplenishment: {
+      title: 'Cancel Replenishment',
+      description: 'Cancel any future replenishment order?',
+      accept: 'Yes',
+      reject: 'No',
+      cancelSuccess:
+        'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
+    },
     approvalDetails: {
       header: 'Customer Approval Details',
       permission: 'Permission',
@@ -97,12 +110,25 @@ export const myAccount = {
   orderHistory: {
     orderHistory: 'Order history',
     orderId: 'Order #',
+    emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
+    noReplenishmentOrders:
+      'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
+    replenishmentOrderHistory: 'Replenishment Order History',
+    replenishmentOrderId: 'Replenishment #',
+    purchaseOrderNumber: 'PO #',
+    startOn: 'Start On',
+    frequency: 'Frequency',
+    nextOrderDate: 'Next Order Date',
+    cancel: 'Cancel',
+    cancelled: 'Cancelled',
+    replenishmentHistory: 'Replenishment History',
+    notFound: 'No Orders Found',
   },
   closeAccount: {
     confirmAccountClosure: 'Confirm Account Closure',
