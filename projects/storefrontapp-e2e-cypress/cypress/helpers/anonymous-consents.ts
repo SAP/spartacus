@@ -1,7 +1,8 @@
 import { giveConsent } from '../helpers/consent-management';
+import { SampleUser } from '../sample-data/checkout-flow';
 import { standardUser } from '../sample-data/shared-users';
 import { switchSiteContext } from '../support/utils/switch-site-context';
-import { login, register, RegisterUser } from './auth-forms';
+import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { signOutUser } from './login';
@@ -26,19 +27,19 @@ export const noLegalDescriptionInDialog = false;
 export const displayLegalDescriptionInDialog = true;
 
 const personalizationConsentLabel = 'personalised';
-const userGiveConsentRegistrationTest: RegisterUser = {
+const userGiveConsentRegistrationTest: SampleUser = {
   firstName: 'John',
   lastName: 'Doe',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
-const userTransferConsentTest: RegisterUser = {
+const userTransferConsentTest: SampleUser = {
   firstName: 'a',
   lastName: 'b',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
-const userFromConfigTest: RegisterUser = {
+const userFromConfigTest: SampleUser = {
   firstName: 'x',
   lastName: 'x',
   email: generateMail(randomString(), true),
@@ -65,7 +66,7 @@ export function anonoymousConsentConfig(
 }
 
 export function registerNewUserAndLogin(
-  newUser: RegisterUser,
+  newUser: SampleUser,
   giveRegistrationConsent = false,
   hiddenConsent?
 ) {

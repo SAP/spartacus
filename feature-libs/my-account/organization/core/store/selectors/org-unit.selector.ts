@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -56,7 +56,7 @@ export const getOrgUnitsTreeState: MemoizedSelector<
 
 export const getAddressesState: MemoizedSelector<
   StateWithOrganization,
-  StateUtils.EntityLoaderState<B2BAddress>
+  StateUtils.EntityLoaderState<Address>
 > = createSelector(
   getB2BOrgUnitState,
   (state: OrgUnits) => state && state.addressEntities
@@ -134,7 +134,7 @@ export const getB2BAddresses = (
   params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
-  StateUtils.LoaderState<EntitiesModel<B2BAddress>>
+  StateUtils.LoaderState<EntitiesModel<Address>>
 > =>
   createSelector(getB2BOrgUnitState, (state: OrgUnits) =>
     denormalizeCustomB2BSearch(
@@ -147,12 +147,9 @@ export const getB2BAddresses = (
 
 export const getB2BAddress = (
   addressId: string
-): MemoizedSelector<
-  StateWithOrganization,
-  StateUtils.LoaderState<B2BAddress>
-> =>
+): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<Address>> =>
   createSelector(
     getAddressesState,
-    (state: StateUtils.EntityLoaderState<B2BAddress>) =>
+    (state: StateUtils.EntityLoaderState<Address>) =>
       StateUtils.entityLoaderStateSelector(state, addressId)
   );

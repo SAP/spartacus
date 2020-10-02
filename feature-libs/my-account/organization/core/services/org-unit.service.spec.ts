@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  Address,
   AuthService,
-  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -12,6 +12,10 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
 import {
@@ -20,16 +24,12 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
 const addressId = 'testAddressId';
-const address: B2BAddress = { id: addressId };
+const address: Address = { id: addressId };
 const orgUnit: Partial<B2BUnit> = {
   uid: orgUnitId,
   costCenters: [],
@@ -284,7 +284,7 @@ describe('OrgUnitService', () => {
 
   describe('get Addresses', () => {
     it('getAddresses() should trigger loadAddresses when they are not present in the store', () => {
-      let fetchedAddress: EntitiesModel<B2BAddress>;
+      let fetchedAddress: EntitiesModel<Address>;
       service
         .getAddresses(orgUnitId)
         .subscribe((data) => {
@@ -648,7 +648,7 @@ describe('OrgUnitService', () => {
 
   describe('get loading status for address', () => {
     it('getAddressLoadingStatus() should should be able to get status success change from loading with value', () => {
-      let loadingStatus: OrganizationItemStatus<B2BAddress>;
+      let loadingStatus: OrganizationItemStatus<Address>;
       store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,
@@ -668,7 +668,7 @@ describe('OrgUnitService', () => {
     });
 
     it('getAddressLoadingStatus() should should be able to get status fail', () => {
-      let loadingStatus: OrganizationItemStatus<B2BAddress>;
+      let loadingStatus: OrganizationItemStatus<Address>;
       store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,

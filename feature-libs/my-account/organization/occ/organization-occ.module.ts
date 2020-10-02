@@ -7,8 +7,6 @@ import {
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUserAdapter,
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
   BudgetAdapter,
@@ -45,8 +43,6 @@ import { OccCostCenterListNormalizer } from './converters/occ-cost-center-list-n
 import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
 import { OccOrderApprovalListNormalizer } from './converters/occ-order-approval-list-normalizer';
 import { OccOrderApprovalNormalizer } from './converters/occ-order-approval-normalizer';
-import { OccOrgUnitAddressListNormalizer } from './converters/occ-org-unit-address-list-normalizer';
-import { OccOrgUnitAddressNormalizer } from './converters/occ-org-unit-address-normalizer';
 import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-approval-processes-normalizer';
 import { OccOrgUnitNodeListNormalizer } from './converters/occ-org-unit-node-list-normalizer';
 import { OccOrgUnitNodeNormalizer } from './converters/occ-org-unit-node-normalizer';
@@ -156,16 +152,6 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     {
       provide: B2B_USERS_NORMALIZER,
       useClass: OccUserListNormalizer,
-      multi: true,
-    },
-    {
-      provide: B2B_ADDRESS_NORMALIZER,
-      useClass: OccOrgUnitAddressNormalizer,
-      multi: true,
-    },
-    {
-      provide: B2B_ADDRESS_LIST_NORMALIZER,
-      useClass: OccOrgUnitAddressListNormalizer,
       multi: true,
     },
     {
