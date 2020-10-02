@@ -6,10 +6,10 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
-    justify-content: flex-start !important;
+    justify-content: flex-start;
 
     @include media-breakpoint-down(xs) {
-      justify-content: center !important;
+      justify-content: center;
     }
 
     @include media-breakpoint-down(md) {
