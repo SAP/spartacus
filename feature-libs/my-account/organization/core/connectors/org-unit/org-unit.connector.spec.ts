@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BAddress, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
+import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
@@ -11,7 +11,7 @@ const approvalProcessCode = 'approvalProcessCode';
 const roleId = 'testRoleId';
 const params: SearchConfig = { sort: 'code' };
 const orgCustomerId = 'testCustomerId';
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 
 const orgUnitNode = {

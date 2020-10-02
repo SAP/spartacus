@@ -21,6 +21,8 @@ import {
   getB2BUserUserGroups,
   getUserList,
 } from '../store/selectors/b2b-user.selector';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class B2BUserService {
@@ -123,6 +125,12 @@ export class B2BUserService {
         );
       }
     });
+  }
+
+  getLoadingStatus(
+    orgCustomerId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    return getItemStatus(this.getB2BUserState(orgCustomerId));
   }
 
   loadApprovers(orgCustomerId: string, params: SearchConfig): void {

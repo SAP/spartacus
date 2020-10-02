@@ -109,11 +109,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
-      tap((titles: Title[]) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      }),
       map((titles) => {
         titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
