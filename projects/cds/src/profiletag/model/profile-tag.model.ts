@@ -134,6 +134,7 @@ export class AddedToCartPushEvent implements ProfileTagPushEvent {
     categories: Array<string>;
     productCategoryName: string;
     productCategory: string;
+    productPrice: Number;
   }) {
     this.data = data;
   }

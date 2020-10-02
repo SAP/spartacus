@@ -267,6 +267,7 @@ export class ProfileTagPushEventsService {
             productSku: item.entry.product.code,
             productName: item.entry.product.name,
             cartId: item.cartId,
+            productPrice: this.getProductPrice(item),
             categories: this.categoriesToIds(item.entry.product.categories),
             productCategoryName: item.entry.product.categories
               ? item.entry.product.categories[
@@ -346,6 +347,18 @@ export class ProfileTagPushEventsService {
     );
   }
 
+  private getProductPrice(event: CartAddEntrySuccessEvent): Number {
+    if (
+      !event.entry.totalPrice ||
+      !event.entry.totalPrice.value ||
+      !event.entry.quantity
+    ) {
+      return undefined;
+    }
+    return parseFloat(
+      (event.entry.totalPrice.value / event.entry.quantity).toFixed(2)
+    );
+  }
   private categoriesToIds(categories: Array<Category>): Array<string> {
     return categories.map((category) => category.code);
   }

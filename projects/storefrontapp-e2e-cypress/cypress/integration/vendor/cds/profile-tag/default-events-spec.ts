@@ -26,7 +26,7 @@ describe('Profile-tag events', () => {
     profileTagHelper.waitForCMSComponents();
     anonymousConsents.clickAllowAllFromBanner();
   });
-  describe('cart events', () => {
+  describe.only('cart events', () => {
     it('should send a AddedToCart event on adding an item to cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
@@ -47,6 +47,7 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.categories).to.contain('577');
         expect(addedToCartEvent.data.categories).to.contain('brand_745');
         expect(addedToCartEvent.data.productCategory).to.eq('brand_745');
+        expect(addedToCartEvent.data.productPrice).to.eq(8.2);
       });
     });
 
