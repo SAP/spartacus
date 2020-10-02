@@ -4,11 +4,11 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { AuthActions } from '../../auth/user-auth/store/actions';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { UserService } from '../../user/facade/user.service';
 import {
   AsmAuthStorageService,
@@ -28,7 +28,8 @@ export class CsAgentAuthService {
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
     protected store: Store<StateWithAsm>,
-    protected userService: UserService
+    protected userService: UserService,
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -130,12 +131,8 @@ export class CsAgentAuthService {
         this.authStorageService.setToken(emulatedToken);
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.authStorageService.clearEmulatedUserToken();
-      } else if (isCustomerEmulated) {
-        this.userIdService.clearUserId();
-        this.store.dispatch(new AuthActions.Logout());
-        // TODO: we should redirect to `home or login` page
       } else {
-        // TODO: we should redirect to `home or login` page
+        this.routingService.go({ cxRoute: 'logout' });
       }
     });
   }

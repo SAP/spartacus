@@ -78,7 +78,6 @@ export class BasicAuthService {
     return new Promise((resolve) => {
       this.cxOAuthService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
-        // TODO: we should redirect to `logout` page
         resolve();
       });
     });

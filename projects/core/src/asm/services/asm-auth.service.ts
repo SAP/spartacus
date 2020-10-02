@@ -66,7 +66,6 @@ export class AsmAuthService extends BasicAuthService {
         this.authStorageService.clearEmulatedUserToken();
         this.userIdService.clearUserId();
         this.store.dispatch(new AuthActions.Logout());
-        // TODO: We should redirect to logout or home page?
         resolve();
       });
     } else {

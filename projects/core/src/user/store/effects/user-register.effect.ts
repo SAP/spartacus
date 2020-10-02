@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { RoutingService } from 'projects/core/src/routing';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/user-auth/facade/auth.service';
@@ -54,7 +55,7 @@ export class UserRegisterEffects {
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(() => {
-          this.authService.logout();
+          this.routingService.go({ cxRoute: 'logout' });
           return [new UserActions.RemoveUserSuccess()];
         }),
         catchError((error) =>
@@ -67,6 +68,7 @@ export class UserRegisterEffects {
   constructor(
     private actions$: Actions,
     private userConnector: UserConnector,
-    private authService: AuthService
+    private authService: AuthService,
+    private routingService: RoutingService
   ) {}
 }

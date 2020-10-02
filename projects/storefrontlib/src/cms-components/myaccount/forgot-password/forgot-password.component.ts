@@ -29,6 +29,8 @@ export class ForgotPasswordComponent implements OnInit {
       this.userService.requestForgotPasswordEmail(
         this.forgotPasswordForm.value.userEmail
       );
+      // TODO: Should we do something different here in case of implicit/code flow
+      // Don't redirect in different flows
       this.routingService.go({ cxRoute: 'login' });
     } else {
       this.forgotPasswordForm.markAllAsTouched();
