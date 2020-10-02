@@ -28,8 +28,9 @@ import { UserAssignedPermissionListComponent } from './permissions/assigned/user
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
 import { UserListService } from './services/user-list.service';
+import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resolver';
+import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
-import { UserUserGroupListComponent } from './user-groups/user-user-group-list.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -99,53 +100,89 @@ export const userCmsConfig: CmsConfig = {
           useExisting: UserItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: UserFormComponent,
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'user.breadcrumbs.list',
+              resolver: UserRoutePageMetaResolver,
+            },
+          },
         },
-        {
-          path: `:${ROUTE_PARAMS.userCode}`,
-          component: UserDetailsComponent,
-          canActivate: [ExistUserGuard],
-          children: [
-            {
-              path: `edit`,
-              component: UserFormComponent,
-              canActivate: [ActiveUserGuard],
+        children: [
+          {
+            path: 'create',
+            component: UserFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.userCode}`,
+            component: UserDetailsComponent,
+            canActivate: [ExistUserGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'user.breadcrumbs.details' },
             },
-            {
-              path: `change-password`,
-              component: ChangePasswordFormComponent,
-            },
-
-            {
-              path: 'user-groups',
-              component: UserAssignedUserGroupListComponent,
-            },
-            {
-              path: 'user-groups/assign',
-              component: UserUserGroupListComponent,
-            },
-            {
-              path: 'approvers',
-              component: UserAssignedApproverListComponent,
-            },
-            {
-              path: 'approvers/assign',
-              component: UserApproverListComponent,
-            },
-            {
-              path: 'purchase-limits',
-              component: UserAssignedPermissionListComponent,
-            },
-            {
-              path: 'purchase-limits/assign',
-              component: UserPermissionListComponent,
-            },
-          ],
-        },
-      ],
+            children: [
+              {
+                path: `edit`,
+                component: UserFormComponent,
+                canActivate: [ActiveUserGuard],
+              },
+              {
+                path: `change-password`,
+                component: ChangePasswordFormComponent,
+              },
+              {
+                path: 'user-groups',
+                data: {
+                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.userGroups' },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: UserAssignedUserGroupListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UserUserGroupListComponent,
+                  },
+                ],
+              },
+              {
+                path: 'approvers',
+                data: {
+                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.approvers' },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: UserAssignedApproverListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UserApproverListComponent,
+                  },
+                ],
+              },
+              {
+                path: 'purchase-limits',
+                data: {
+                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.permissions' },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: UserAssignedPermissionListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UserPermissionListComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },
