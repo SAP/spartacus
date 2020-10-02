@@ -1,12 +1,13 @@
+import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
+import { Route } from '@angular/router';
 import {
+  CmsComponentChildRoutesConfig,
   CmsComponentMapping,
   CmsConfig,
   deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
-import { Route } from '@angular/router';
-import { isPlatformServer } from '@angular/common';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
@@ -154,14 +155,40 @@ export class CmsComponentsService {
   /**
    * Get cms driven child routes for components
    */
-  getChildRoutes(componentTypes: string[]): Route[] {
-    const routes = [];
+  getChildRoutes(componentTypes: string[]): CmsComponentChildRoutesConfig {
+    const configs = [];
     for (const componentType of componentTypes) {
       if (this.shouldRender(componentType)) {
-        routes.push(...(this.getMapping(componentType)?.childRoutes ?? []));
+        configs.push(this.getMapping(componentType)?.childRoutes ?? []);
       }
     }
-    return routes;
+
+    return this.standardizeChildRoutes(configs);
+  }
+
+  /**
+   * Standardizes the format of `childRoutes` config.
+   *
+   * Some `childRoutes` configs are simple arrays of Routes (without the notion of the parent route).
+   * But some configs can be an object with children routes and their parent defined in separate property.
+   */
+  protected standardizeChildRoutes(
+    childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[]
+  ): CmsComponentChildRoutesConfig {
+    const result: CmsComponentChildRoutesConfig = { children: [] };
+
+    (childRoutesConfigs || []).forEach((config) => {
+      if (Array.isArray(config)) {
+        result.children.push(...config);
+      } else {
+        result.children.push(...(config.children || []));
+        if (config.parent) {
+          result.parent = config.parent;
+        }
+      }
+    });
+
+    return result;
   }
 
   /**

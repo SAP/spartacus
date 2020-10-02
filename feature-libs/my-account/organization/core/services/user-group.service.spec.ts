@@ -7,7 +7,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { Permission, UserGroup } from '../model';
+import { OrganizationItemStatus, Permission, UserGroup } from '../model';
 import {
   B2BUserActions,
   PermissionActions,
@@ -19,12 +19,13 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { UserGroupService } from './user-group.service';
+import { LoadStatus } from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
-const testUserGroupId = 'testUserGroup';
+const userGroupId = 'testUserGroup';
 const userGroup = {
-  uid: testUserGroupId,
+  uid: userGroupId,
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
@@ -110,7 +111,7 @@ describe('UserGroupService', () => {
     it('get() should trigger load userGroup details when they are not present in the store', () => {
       let userGroupDetails: UserGroup;
       service
-        .get(testUserGroupId)
+        .get(userGroupId)
         .subscribe((data) => {
           userGroupDetails = data;
         })
@@ -121,7 +122,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
         })
       );
     });
@@ -132,7 +133,7 @@ describe('UserGroupService', () => {
       );
       let userGroupDetails: UserGroup;
       service
-        .get(testUserGroupId)
+        .get(userGroupId)
         .subscribe((data) => {
           userGroupDetails = data;
         })
@@ -143,7 +144,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
         })
       );
     });
@@ -214,13 +215,13 @@ describe('UserGroupService', () => {
 
   describe('update userGroup', () => {
     it('update() should should dispatch UpdateUserGroup action', () => {
-      service.update(testUserGroupId, userGroup);
+      service.update(userGroupId, userGroup);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UpdateUserGroup({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           userGroup,
         })
       );
@@ -229,13 +230,13 @@ describe('UserGroupService', () => {
 
   describe('delete userGroup', () => {
     it('delete() should should dispatch UpdateUserGroup action', () => {
-      service.delete(testUserGroupId);
+      service.delete(userGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.DeleteUserGroup({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
         })
       );
     });
@@ -247,7 +248,7 @@ describe('UserGroupService', () => {
     it('getUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
       service
-        .getAvailableOrderApprovalPermissions(testUserGroupId, params)
+        .getAvailableOrderApprovalPermissions(userGroupId, params)
         .subscribe((data) => {
           permissions = data;
         })
@@ -258,7 +259,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadPermissions({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           params,
         })
       );
@@ -270,7 +271,7 @@ describe('UserGroupService', () => {
       );
       store.dispatch(
         new UserGroupActions.LoadPermissionsSuccess({
-          userGroupId: testUserGroupId,
+          userGroupId,
           params,
           page: {
             ids: [permission.code, permission2.code],
@@ -281,7 +282,7 @@ describe('UserGroupService', () => {
       );
       let permissions: EntitiesModel<Permission>;
       service
-        .getAvailableOrderApprovalPermissions(testUserGroupId, params)
+        .getAvailableOrderApprovalPermissions(userGroupId, params)
         .subscribe((data) => {
           permissions = data;
         })
@@ -297,13 +298,13 @@ describe('UserGroupService', () => {
 
   describe('assign permission to userGroup', () => {
     it('assignPermission() should should dispatch CreateUserGroupOrderApprovalPermission action', () => {
-      service.assignPermission(testUserGroupId, permissionUid);
+      service.assignPermission(userGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignPermission({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           permissionUid,
         })
       );
@@ -312,13 +313,13 @@ describe('UserGroupService', () => {
 
   describe('unassign permission from userGroup', () => {
     it('unassignPermission() should should dispatch DeleteUserGroupOrderApprovalPermission action', () => {
-      service.unassignPermission(testUserGroupId, permissionUid);
+      service.unassignPermission(userGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignPermission({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           permissionUid,
         })
       );
@@ -331,7 +332,7 @@ describe('UserGroupService', () => {
     it('getUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;
       service
-        .getAvailableOrgCustomers(testUserGroupId, params)
+        .getAvailableOrgCustomers(userGroupId, params)
         .subscribe((data) => {
           members = data;
         })
@@ -342,7 +343,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           params,
         })
       );
@@ -352,7 +353,7 @@ describe('UserGroupService', () => {
       store.dispatch(new B2BUserActions.LoadB2BUserSuccess([member, member2]));
       store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomersSuccess({
-          userGroupId: testUserGroupId,
+          userGroupId,
           params,
           page: {
             ids: [member.customerId, member2.customerId],
@@ -363,7 +364,7 @@ describe('UserGroupService', () => {
       );
       let members: EntitiesModel<B2BUser>;
       service
-        .getAvailableOrgCustomers(testUserGroupId, params)
+        .getAvailableOrgCustomers(userGroupId, params)
         .subscribe((data) => {
           members = data;
         })
@@ -379,13 +380,13 @@ describe('UserGroupService', () => {
 
   describe('assign members to userGroup', () => {
     it('assignMember() should should dispatch CreateUserGroupMember action', () => {
-      service.assignMember(testUserGroupId, customerId);
+      service.assignMember(userGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignMember({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           customerId,
         })
       );
@@ -394,13 +395,13 @@ describe('UserGroupService', () => {
 
   describe('unassign members from userGroup', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
-      service.unassignMember(testUserGroupId, customerId);
+      service.unassignMember(userGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignMember({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
           customerId,
         })
       );
@@ -409,15 +410,54 @@ describe('UserGroupService', () => {
 
   describe('unassign all members from userGroup', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
-      service.unassignAllMembers(testUserGroupId);
+      service.unassignAllMembers(userGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignAllMembers({
           userId,
-          userGroupId: testUserGroupId,
+          userGroupId,
         })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<UserGroup>;
+      store.dispatch(
+        new UserGroupActions.LoadUserGroup({ userId, userGroupId })
+      );
+      service
+        .getLoadingStatus(userGroupId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new UserGroupActions.LoadUserGroupSuccess([userGroup]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: userGroup,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<UserGroup>;
+      store.dispatch(
+        new UserGroupActions.LoadUserGroup({ userId, userGroupId })
+      );
+      service
+        .getLoadingStatus(userGroupId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new UserGroupActions.LoadUserGroupFail({
+          userGroupId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   ListModel,
@@ -40,7 +40,7 @@ const roleId = 'testRoleId';
 const uid = 'testUid';
 const selected = true;
 
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 const page: ListModel = {
   ids: [addressId],
