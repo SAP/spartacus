@@ -19,7 +19,8 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentPageMetaResolver extends PageMetaResolver
+export class ContentPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   /** helper to provide access to the current CMS page */
   protected cms$: Observable<Page> = this.cms

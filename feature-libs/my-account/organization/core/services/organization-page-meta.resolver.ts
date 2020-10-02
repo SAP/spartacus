@@ -29,7 +29,8 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class OrganizationPageMetaResolver extends PageMetaResolver
+export class OrganizationPageMetaResolver
+  extends PageMetaResolver
   implements PageBreadcrumbResolver, PageTitleResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
