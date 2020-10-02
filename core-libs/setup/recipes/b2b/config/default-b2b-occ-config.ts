@@ -8,8 +8,17 @@ export const defaultB2bOccConfig: OccConfig = {
         addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
         setDeliveryAddress:
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-        // TODO(#8877): Is this a hack for an API? Shouldn't user pass this data?
-        placeOrder: 'orgUsers/${userId}/orders?termsChecked=true',
+        placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
+        scheduleReplenishmentOrder:
+          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+        replenishmentOrderDetails:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderDetailsHistory:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
+        cancelReplenishmentOrder:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderHistory:
+          'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       },
     },
   },

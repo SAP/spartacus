@@ -9,21 +9,20 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
-import { OrderApprovalDetailService } from './order-approval-detail.service';
 import {
-  CmsPageGuard,
-  PageLayoutComponent,
-  FormErrorsModule,
-  SpinnerModule,
   CartSharedModule,
+  CmsPageGuard,
+  FormErrorsModule,
   OrderDetailApprovalDetailsComponent,
-  OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
+  PageLayoutComponent,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
+import { OrderApprovalDetailService } from './order-approval-detail.service';
 
 @NgModule({
   imports: [
@@ -44,16 +43,6 @@ import {
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        OrderApprovalDetailHeadlineComponent: {
-          component: OrderDetailHeadlineComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderApprovalDetailService,
-            },
-          ],
-          guards: [AuthGuard],
-        },
         OrderApprovalDetailTotalsComponent: {
           component: OrderDetailTotalsComponent,
           providers: [

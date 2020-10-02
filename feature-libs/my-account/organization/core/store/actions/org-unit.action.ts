@@ -1,5 +1,5 @@
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   ListModel,
@@ -437,7 +437,7 @@ export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
 export class CreateAddress extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ADDRESS;
   constructor(
-    public payload: { userId: string; orgUnitId: string; address: B2BAddress }
+    public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
     super(ADDRESS_ENTITIES, payload.address.id);
   }
@@ -452,7 +452,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
 
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id, payload);
   }
 }
@@ -464,7 +464,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
       userId: string;
       orgUnitId: string;
       addressId: string;
-      address: B2BAddress;
+      address: Address;
     }
   ) {
     super(ADDRESS_ENTITIES, payload.address.id);
@@ -480,7 +480,7 @@ export class UpdateAddressFail extends StateUtils.EntityFailAction {
 
 export class UpdateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id, payload);
   }
 }
@@ -507,14 +507,14 @@ export class DeleteAddressFail extends StateUtils.EntityFailAction {
 
 export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id);
   }
 }
 
 export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress[]) {
+  constructor(public payload: Address[]) {
     super(
       ADDRESS_ENTITIES,
       payload.map((address) => address.id)
