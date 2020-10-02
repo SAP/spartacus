@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  B2BAddress,
+  Address,
   Country,
   Region,
   Title,
@@ -15,9 +15,7 @@ import { OrganizationFormService } from '../../../../shared/organization-form/or
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressFormService extends OrganizationFormService<
-  B2BAddress
-> {
+export class UnitAddressFormService extends OrganizationFormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
     protected userService: UserService

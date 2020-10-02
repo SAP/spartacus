@@ -41,3 +41,8 @@ export const b2bUser: AccountData = {
     titleCode: 'mr',
   },
 };
+
+export const order_type = {
+  place_order: 'PLACE_ORDER',
+  schedule_replenishment: 'SCHEDULE_REPLENISHMENT_ORDER',
+};

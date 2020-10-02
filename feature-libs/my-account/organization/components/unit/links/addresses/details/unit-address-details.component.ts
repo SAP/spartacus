@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BAddress, B2BUnit } from '@spartacus/core';
+import { Address, B2BUnit } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
@@ -19,7 +19,7 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit> = this.currentUnitService.item$;
 
-  model$: Observable<B2BAddress> = this.unit$.pipe(
+  model$: Observable<Address> = this.unit$.pipe(
     switchMap((unit) =>
       this.itemService.key$.pipe(
         switchMap((code) => this.itemService.load(unit.uid, code)),
@@ -29,7 +29,7 @@ export class UnitAddressDetailsComponent {
   );
 
   constructor(
-    protected itemService: OrganizationItemService<B2BAddress>,
+    protected itemService: OrganizationItemService<Address>,
     protected currentUnitService: CurrentUnitService
   ) {}
 

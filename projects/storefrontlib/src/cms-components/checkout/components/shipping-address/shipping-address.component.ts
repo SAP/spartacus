@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
   Address,
-  B2BAddress,
   CheckoutCostCenterService,
   CheckoutDeliveryService,
   PaymentTypeService,
@@ -106,7 +105,7 @@ export class ShippingAddressComponent implements OnInit {
     );
   }
 
-  getSupportedAddresses(): Observable<Address[] | B2BAddress[]> {
+  getSupportedAddresses(): Observable<Address[]> {
     if (this.isAccountPayment) {
       return this.checkoutCostCenterService.getCostCenter().pipe(
         distinctUntilChanged(),
@@ -115,9 +114,8 @@ export class ShippingAddressComponent implements OnInit {
           return this.userCostCenterService.getCostCenterAddresses(selected);
         })
       );
-    } else {
-      return this.userAddressService.getAddresses();
     }
+    return this.userAddressService.getAddresses();
   }
 
   selectDefaultAddress(addresses: Address[], selected: Address) {

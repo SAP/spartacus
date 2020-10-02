@@ -1,11 +1,6 @@
-@import '../../../theme';
-
-%cx-order-confirmation-overview {
-  .cx-order-review-summary {
+%cx-order-overview {
+  .cx-order-summary {
     background-color: var(--cx-color-background);
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
       background-color: var(--cx-color-inverse);
@@ -26,7 +21,7 @@
         padding: 1.25rem;
       }
 
-      .summary-card {
+      .cx-summary-card {
         flex: 1;
         padding: 0 15px;
 
