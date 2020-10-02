@@ -24,7 +24,7 @@ class MockOccEndpointsService {
   );
 }
 
-describe('OccUserCostCenterAdapter', () => {
+fdescribe('OccUserCostCenterAdapter', () => {
   let service: OccUserCostCenterAdapter;
   let httpMock: HttpTestingController;
 
@@ -58,13 +58,10 @@ describe('OccUserCostCenterAdapter', () => {
     it('should load active costCenter list', () => {
       service.loadActiveList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'costCenters'
+        (req) => req.method === 'GET' && req.url === 'getActiveCostCenters'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,unit(BASIC,addresses(DEFAULT))'
-      );
       mockReq.flush([costCenter]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
         COST_CENTERS_NORMALIZER
