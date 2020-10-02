@@ -66,3 +66,9 @@ export const DaysOfWeek = {
   SATURDAY: 'SATURDAY',
   SUNDAY: 'SUNDAY',
 };
+
+export const recurrencePeriodMap = new Map<string, string>([
+  [recurrencePeriod.DAILY, 'days'],
+  [recurrencePeriod.WEEKLY, 'week'],
+  [recurrencePeriod.MONTHLY, 'month'],
+]);

@@ -9,7 +9,7 @@ import {
 } from '../../../sample-data/b2b-checkout';
 
 context('B2B - Replenishment Checkout flow', () => {
-  for (const [key, value] of Object.entries(recurrencePeriod)) {
+  for (const [key, replenishment] of Object.entries(recurrencePeriod)) {
     describe(key, () => {
       before(() => {
         cy.window().then((win) => {
@@ -56,7 +56,7 @@ context('B2B - Replenishment Checkout flow', () => {
           order_type.SCHEDULE_REPLENISHMENT
         );
 
-        b2bCheckout.completeReplenishmentForm(value);
+        b2bCheckout.completeReplenishmentForm(replenishment);
 
         b2bCheckout.placeOrder('/replenishment/confirmation');
       });
@@ -67,7 +67,7 @@ context('B2B - Replenishment Checkout flow', () => {
           b2bProduct,
           cartWithB2bProduct,
           true,
-          true
+          replenishment
         );
       });
     });

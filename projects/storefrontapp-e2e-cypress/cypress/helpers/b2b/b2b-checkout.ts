@@ -9,6 +9,7 @@ import {
   POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
   recurrencePeriod,
+  recurrencePeriodMap,
   replenishmentDate,
   replenishmentDay,
 } from '../../sample-data/b2b-checkout';
@@ -248,7 +249,7 @@ export function reviewB2bOrderConfirmation(
   sampleProduct: SampleProduct = b2bProduct,
   cartData: SampleCartProduct,
   isAccount: boolean = true,
-  isReplenishment: boolean = false
+  replenishment?: string
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
 
@@ -257,14 +258,14 @@ export function reviewB2bOrderConfirmation(
   cy.get('cx-order-overview .container').within(() => {
     cy.get('.cx-summary-card:nth-child(1)').within(() => {
       cy.get('cx-card:nth-child(1)').within(() => {
-        if (!isReplenishment) {
+        if (!replenishment) {
           cy.get('.cx-card-title').should('contain', 'Order Number');
         } else {
           cy.get('.cx-card-title').should('contain', 'Replenishment #');
         }
         cy.get('.cx-card-label').should('not.be.empty');
       });
-      if (!isReplenishment) {
+      if (!replenishment) {
         cy.get('cx-card:nth-child(2)').within(() => {
           cy.get('.cx-card-title').should('contain', 'Placed on');
           cy.get('.cx-card-label').should('not.be.empty');
@@ -281,7 +282,7 @@ export function reviewB2bOrderConfirmation(
       }
     });
 
-    if (!isReplenishment) {
+    if (!replenishment) {
       cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
         cy.contains(poNumber);
         if (isAccount) {
@@ -293,9 +294,10 @@ export function reviewB2bOrderConfirmation(
         }
       });
     } else {
-      // cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
-      //   cy.contains('Next order date');
-      //   cy.contains(convertedReplenishmentDate);
+      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+        cy.contains('Frequency');
+        cy.contains(recurrencePeriodMap.get(replenishment));
+      });
 
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
         cy.contains(poNumber);
@@ -309,7 +311,7 @@ export function reviewB2bOrderConfirmation(
       });
     }
 
-    if (!isReplenishment) {
+    if (!replenishment) {
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
