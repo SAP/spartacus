@@ -9,10 +9,12 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  AuthConfigService,
   ConsentTemplate,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  OAuthFlow,
   RoutingService,
   Title,
   UserService,
@@ -67,7 +69,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig
+    protected anonymousConsentsConfig: AnonymousConsentsConfig,
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
@@ -178,8 +181,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private onRegisterUserSuccess(success: boolean): void {
     if (success) {
-      // TODO: Should we do something different here in case of implicit/code flow
-      this.router.go('login');
+      if (
+        this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
+      ) {
+        this.router.go('login');
+      }
       this.globalMessageService.add(
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
