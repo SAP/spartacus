@@ -1,7 +1,6 @@
 import {
   countOfDeepEqualObjects,
   deepEqualObjects,
-  diff,
   indexOfFirstOccurrence,
   shallowEqualObjects,
 } from './compare-equal-objects';
@@ -151,16 +150,6 @@ describe('compare equal objects utilities', () => {
     it('should return index of first deep equal primitive', () => {
       expect(indexOfFirstOccurrence(3, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
       expect(indexOfFirstOccurrence(5, [])).toEqual(undefined);
-    });
-  });
-  describe('diffs utility', () => {
-    it('should return object of diffs from 2 objects', () => {
-      expect(diff({ x: 1, y: 2, z: 3 }, { x: 1, y: 3, z: 4 })).toEqual({
-        y: 3,
-        z: 4,
-      });
-      expect(diff({ x: 1, z: 3 }, { x: 1, y: 2, z: 3 })).toEqual({ y: 2 });
-      expect(diff({ x: 1, y: 2, z: 3 }, { x: 1, z: 3 })).toEqual({ y: null });
     });
   });
 });

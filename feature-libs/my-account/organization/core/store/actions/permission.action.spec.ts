@@ -1,8 +1,8 @@
+import { StateUtils } from '@spartacus/core';
 import {
   OrderApprovalPermissionType,
   Permission,
-  StateUtils,
-} from '@spartacus/core';
+} from '../../model/permission.model';
 import {
   PERMISSION_ENTITIES,
   PERMISSION_LIST,

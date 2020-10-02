@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   CostCenter,
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   Budget,
   BUDGETS_NORMALIZER,
-  COST_CENTER_NORMALIZER,
-  COST_CENTERS_NORMALIZER,
   CostCenterAdapter,
+  COST_CENTERS_NORMALIZER,
+  COST_CENTER_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccCostCenterAdapter implements CostCenterAdapter {
@@ -34,7 +33,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<CostCenter>> {
     return this.http
       .get<Occ.CostCentersList>(this.getAllCostCentersEndpoint(userId, params))
@@ -63,7 +62,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   loadBudgets(
     userId: string,
     costCenterCode: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Budget>> {
     return this.http
       .get<Occ.BudgetsList>(
@@ -102,14 +101,14 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   protected getCostCentersEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('costCenters', { userId }, params);
   }
 
   protected getAllCostCentersEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('costCentersAll', { userId }, params);
   }
@@ -117,7 +116,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   protected getBudgetsEndpoint(
     userId: string,
     costCenterCode: string,
-    params?: B2BSearchConfig | { budgetCode: string }
+    params?: SearchConfig | { budgetCode: string }
   ): string {
     return this.occEndpoints.getUrl(
       'costCenterBudgets',

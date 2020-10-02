@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-
-import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/my-account/organization/core';
+import { Converter, ConverterService, Occ } from '@spartacus/core';
 import {
-  Converter,
-  Occ,
   OrderApprovalPermissionType,
-  ConverterService,
-} from '@spartacus/core';
+  PERMISSION_TYPE_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
 
 @Injectable()
 export class OccPermissionTypeListNormalizer

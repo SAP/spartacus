@@ -1,22 +1,18 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { B2BUser, EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import {
-  EntitiesModel,
-  Permission,
-  B2BUser,
-  normalizeHttpError,
-} from '@spartacus/core';
-import {
-  UserGroupActions,
-  PermissionActions,
-  B2BUserActions,
-} from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
-import { UserGroup } from '../../model/user-group.model';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
+import {
+  B2BUserActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../actions/index';
 
 @Injectable()
 export class UserGroupEffects {
@@ -83,35 +79,40 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
     map((action: UserGroupActions.LoadPermissions) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector
-        .getAvailableOrderApprovalPermissions(
-          payload.userId,
-          payload.userGroupId,
-          payload.params
-        )
-        .pipe(
-          switchMap((permissions: EntitiesModel<Permission>) => {
-            const { values, page } = normalizeListPage(permissions, 'code');
-            return [
-              new PermissionActions.LoadPermissionSuccess(values),
-              new UserGroupActions.LoadPermissionsSuccess({
-                userGroupId: payload.userGroupId,
-                page,
-                params: payload.params,
-              }),
-            ];
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new UserGroupActions.LoadPermissionsFail({
-                userGroupId: payload.userGroupId,
-                params: payload.params,
-                error: normalizeHttpError(error),
-              })
+    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
+    mergeMap((group) =>
+      group.pipe(
+        switchMap((payload) =>
+          this.userGroupConnector
+            .getAvailableOrderApprovalPermissions(
+              payload.userId,
+              payload.userGroupId,
+              payload.params
             )
-          )
+            .pipe(
+              switchMap((permissions: EntitiesModel<Permission>) => {
+                const { values, page } = normalizeListPage(permissions, 'code');
+                return [
+                  new PermissionActions.LoadPermissionSuccess(values),
+                  new UserGroupActions.LoadPermissionsSuccess({
+                    userGroupId: payload.userGroupId,
+                    page,
+                    params: payload.params,
+                  }),
+                ];
+              }),
+              catchError((error: HttpErrorResponse) =>
+                of(
+                  new UserGroupActions.LoadPermissionsFail({
+                    userGroupId: payload.userGroupId,
+                    params: payload.params,
+                    error: normalizeHttpError(error),
+                  })
+                )
+              )
+            )
         )
+      )
     )
   );
 
@@ -123,35 +124,43 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
     map((action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector
-        .getAvailableOrgCustomers(
-          payload.userId,
-          payload.userGroupId,
-          payload.params
-        )
-        .pipe(
-          switchMap((customers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(customers, 'customerId');
-            return [
-              new B2BUserActions.LoadB2BUserSuccess(values),
-              new UserGroupActions.LoadAvailableOrgCustomersSuccess({
-                userGroupId: payload.userGroupId,
-                page,
-                params: payload.params,
-              }),
-            ];
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new UserGroupActions.LoadAvailableOrgCustomersFail({
-                userGroupId: payload.userGroupId,
-                params: payload.params,
-                error: normalizeHttpError(error),
-              })
+    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
+    mergeMap((group) =>
+      group.pipe(
+        switchMap((payload) =>
+          this.userGroupConnector
+            .getAvailableOrgCustomers(
+              payload.userId,
+              payload.userGroupId,
+              payload.params
             )
-          )
+            .pipe(
+              switchMap((customers: EntitiesModel<B2BUser>) => {
+                const { values, page } = normalizeListPage(
+                  customers,
+                  'customerId'
+                );
+                return [
+                  new B2BUserActions.LoadB2BUserSuccess(values),
+                  new UserGroupActions.LoadAvailableOrgCustomersSuccess({
+                    userGroupId: payload.userGroupId,
+                    page,
+                    params: payload.params,
+                  }),
+                ];
+              }),
+              catchError((error: HttpErrorResponse) =>
+                of(
+                  new UserGroupActions.LoadAvailableOrgCustomersFail({
+                    userGroupId: payload.userGroupId,
+                    params: payload.params,
+                    error: normalizeHttpError(error),
+                  })
+                )
+              )
+            )
         )
+      )
     )
   );
 
@@ -232,7 +241,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .assignOrderApprovalPermission(
           payload.userId,
@@ -266,7 +275,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .assignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
@@ -296,7 +305,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .unassignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
@@ -327,7 +336,7 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
-    switchMap((payload) =>
+    mergeMap((payload) =>
       this.userGroupConnector
         .unassignOrderApprovalPermission(
           payload.userId,

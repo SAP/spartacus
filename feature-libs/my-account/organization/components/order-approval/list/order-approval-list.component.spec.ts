@@ -5,23 +5,23 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   EntitiesModel,
   I18nTestingModule,
-  OrderApproval,
   RoutingService,
+  SearchConfig,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import {
-  B2BSearchConfig,
+  OrderApproval,
   OrderApprovalService,
 } from '@spartacus/my-account/organization/core';
-import { OrderApprovalListComponent } from './order-approval-list.component';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { OrderApprovalListComponent } from './order-approval-list.component';
 import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
@@ -87,9 +87,9 @@ class MockSortingComponent {
 class MockOrderApprovalService {
   orderApprovalList = new BehaviorSubject(mockOrderApprovals);
 
-  loadOrderApprovals(_searchConfig: B2BSearchConfig): void {}
+  loadOrderApprovals(_searchConfig: SearchConfig): void {}
   getList(
-    _searchConfig: B2BSearchConfig
+    _searchConfig: SearchConfig
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.orderApprovalList;
   }
@@ -99,14 +99,14 @@ class MockRoutingService {
   go = createSpy('go').and.stub();
 }
 
-describe('OrderApprovalListComponent', () => {
+describe('OrderApprovalListComponent?', () => {
   let component: OrderApprovalListComponent;
   let fixture: ComponentFixture<OrderApprovalListComponent>;
   let orderApprovalService: OrderApprovalService | MockOrderApprovalService;
   let routingService: RoutingService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -124,9 +124,7 @@ describe('OrderApprovalListComponent', () => {
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(OrderApprovalListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -171,7 +169,7 @@ describe('OrderApprovalListComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
 
-    const orderNumberSearchConfig: B2BSearchConfig = {
+    const orderNumberSearchConfig: SearchConfig = {
       pageSize: 5,
       currentPage: 0,
       sort: 'byOrderNumber',
@@ -188,7 +186,7 @@ describe('OrderApprovalListComponent', () => {
     component.sortType = 'byDate';
     component.pageChange(1);
 
-    const dateSearchConfig: B2BSearchConfig = {
+    const dateSearchConfig: SearchConfig = {
       pageSize: 5,
       currentPage: 1,
       sort: 'byDate',

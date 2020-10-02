@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -12,10 +12,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["esnext", "dom"],
-    "paths": {
-      "@spartacus/core": ["dist/core"]
-    }
+    "lib": ["esnext", "dom"]
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

@@ -1,11 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -36,7 +39,9 @@ import { SplitViewService } from '../split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SplitViewService],
 })
-export class SplitViewComponent implements OnDestroy {
+export class SplitViewComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
   /**
    * Sets the default hide mode for views. This mode is useful in case views are dynamically being created,
    * for example when they are created by router components.
@@ -57,15 +62,40 @@ export class SplitViewComponent implements OnDestroy {
   @HostBinding('attr.active-view')
   lastVisibleView = 1;
 
-  protected subscription: Subscription = this.splitService
-    .getActiveView()
-    .subscribe(
-      (lastVisible: number) => (this.lastVisibleView = lastVisible + 1)
-    );
+  constructor(
+    protected splitService: SplitViewService,
+    protected breakpointService: BreakpointService,
+    protected elementRef: ElementRef
+  ) {}
 
-  constructor(protected splitService: SplitViewService) {}
+  ngOnInit() {
+    this.subscription.add(
+      this.splitService
+        .getActiveView()
+        .subscribe(
+          (lastVisible: number) => (this.lastVisibleView = lastVisible + 1)
+        )
+    );
+    this.subscription.add(
+      this.breakpointService.breakpoint$.subscribe(() => {
+        this.splitService.updateSplitView(this.splitViewCount);
+      })
+    );
+  }
+
+  /**
+   * Returns the maximum number of views per split-view. The number is based on the
+   * CSS custom property `--cx-max-views`.
+   */
+  protected get splitViewCount(): number {
+    return Number(
+      getComputedStyle(this.elementRef.nativeElement).getPropertyValue(
+        '--cx-max-views'
+      )
+    );
+  }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

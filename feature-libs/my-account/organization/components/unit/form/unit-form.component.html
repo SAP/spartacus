@@ -1,5 +1,5 @@
-<form [formGroup]="form">
-  <div class="form-group">
+<cx-organization-form i18nRoot="unit">
+  <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
         'unit.name' | cxTranslate
@@ -13,9 +13,7 @@
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>
-  </div>
 
-  <div class="form-group">
     <label>
       <span class="label-content required">{{ 'unit.uid' | cxTranslate }}</span>
       <input
@@ -27,62 +25,50 @@
       />
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
     </label>
-  </div>
 
-  <div class="form-group">
-    <ng-container
-      *ngIf="approvalProcesses$ | async as approvalProcesses"
+    <label
       formGroupName="approvalProcess"
+      class="full-width"
+      aria-required="true"
     >
-      <div *ngIf="approvalProcesses.length !== 0">
-        <label aria-required="true">
-          <span class="label-content required">{{
-            'unit.approvalProcess' | cxTranslate
-          }}</span>
-          <ng-select
-            formControlName="code"
-            [searchable]="false"
-            [items]="approvalProcesses"
-            bindLabel="name"
-            bindValue="code"
-            [class.invalid]="isNotValid('approvalProcess')"
-            appendTo=".organization"
-          >
-          </ng-select>
-          <cx-form-errors
-            [control]="form.get('approvalProcess.code')"
-          ></cx-form-errors>
-        </label>
-      </div>
-    </ng-container>
-  </div>
+      <span class="label-content required">{{
+        'unit.approvalProcess' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="code"
+        [searchable]="false"
+        [items]="approvalProcess$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
+    </label>
 
-  <div class="form-group" *ngIf="form.get('parentOrgUnit')">
-    <ng-container
-      *ngIf="businessUnits$ | async as businessUnits"
+    <label
+      *ngIf="form.get('parentOrgUnit')"
+      aria-required="true"
       formGroupName="parentOrgUnit"
     >
-      <div *ngIf="businessUnits.length !== 0">
-        <label aria-required="true">
-          <span class="label-content required">{{
-            'unit.form.parentOrgUnit' | cxTranslate
-          }}</span>
-          <ng-select
-            formControlName="uid"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="businessUnits"
-            bindLabel="name"
-            bindValue="id"
-            [class.invalid]="isNotValid('parentOrgUnit')"
-            appendTo=".organization"
-          >
-          </ng-select>
-          <cx-form-errors
-            [control]="form.get('parentOrgUnit.uid')"
-          ></cx-form-errors>
-        </label>
-      </div>
-    </ng-container>
-  </div>
-</form>
+      <span class="label-content required">{{
+        'unit.form.parentOrgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('parentOrgUnit.uid')"
+      ></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-organization-form>

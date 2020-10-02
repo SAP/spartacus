@@ -1,138 +1,70 @@
-<cx-view #view>
-  <ng-container *ngIf="budget$ | async as budget">
-    <h3>
+<cx-organization-card *ngIf="model$ | async as model" i18nRoot="budget.details">
+  <a
+    actions
+    class="link"
+    [class.disabled]="!model.active"
+    [routerLink]="{ cxRoute: 'budgetEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-toggle-status actions i18nRoot="budget"></cx-toggle-status>
+
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'budget.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.amount' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.budget }} {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.unit' | cxTranslate }}</label>
       <a
-        class="link"
-        [routerLink]="{ cxRoute: 'budget' } | cxUrl"
-        (click)="view.toggle()"
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
       >
-        <cx-icon type="CARET_LEFT"></cx-icon>
-        {{ 'organization.close' | cxTranslate }}
-      </a>
-      <span>{{ budget.name }}</span>
-    </h3>
-    <div class="actions">
-      <a
-        class="link"
-        [class.disabled]="!budget.active"
-        [routerLink]="{ cxRoute: 'budgetEdit', params: budget } | cxUrl"
-      >
-        {{ 'organization.edit' | cxTranslate }}
+        {{ model.orgUnit?.name }}
       </a>
     </div>
-    <section>
-      <div class="details">
-        <div class="property">
-          <label>{{ 'budget.name' | cxTranslate }}</label>
-          <span class="value">
-            {{ budget.name }}
-          </span>
-        </div>
+  </section>
 
-        <div class="property">
-          <label>{{ 'budget.code' | cxTranslate }}</label>
-          <span class="value">
-            {{ budget.code }}
-          </span>
-        </div>
-
-        <div class="property">
-          <label>{{ 'budget.amount' | cxTranslate }}</label>
-          <span class="value">
-            {{ budget.budget }}
-          </span>
-        </div>
-
-        <div class="property">
-          <label>{{ 'budget.currency' | cxTranslate }}</label>
-          <span class="value">
-            {{ budget.currency?.isocode }}
-          </span>
-        </div>
-
-        <div class="property">
-          <label>{{ 'budget.unit' | cxTranslate }}</label>
-          <a
-            class="value"
-            [routerLink]="
-              {
-                cxRoute: 'orgUnitDetails',
-                params: budget.orgUnit
-              } | cxUrl
-            "
-          >
-            {{ budget.orgUnit?.name }}
-            <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="
-              { cxRoute: 'budgetCostCenters', params: budget } | cxUrl
-            "
-          >
-            {{ 'budget.costCenters.link' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
-      </div>
-    </section>
-
-    <section>
-      <div class="property">
-        <label>{{ 'organization.status' | cxTranslate }}</label>
-        <span class="value">
-          <ng-container *ngIf="budget.active; else disabled">
-            {{ 'organization.enabled' | cxTranslate }}
-            <button
-              class="button active icon"
-              (click)="openModal(confirmDisable)"
-            >
-              {{ 'organization.disable' | cxTranslate }}
-              <!--              <cx-icon type="ON"></cx-icon>-->
-            </button>
-          </ng-container>
-          <ng-template #disabled>
-            {{ 'organization.disabled' | cxTranslate }}
-            <button
-              class="button icon"
-              [disabled]="!budget.orgUnit?.active"
-              (click)="update({ code: budget.code, active: true })"
-            >
-              {{ 'organization.enable' | cxTranslate }}
-              <!--              <cx-icon type="OFF"></cx-icon>-->
-            </button>
-          </ng-template>
-        </span>
-        <p class="instruction" *ngIf="!budget.orgUnit?.active">
-          {{ 'budget.messages.disabledUnit' | cxTranslate }}
-        </p>
-        <p class="instruction">
-          <ng-container *ngIf="budget.active; else inactiveInstruction">
-            {{ 'budget.messages.enabled' | cxTranslate }}
-          </ng-container>
-          <ng-template #inactiveInstruction>
-            {{ 'budget.messages.disabled' | cxTranslate }}
-          </ng-template>
-        </p>
-      </div>
-    </section>
-  </ng-container>
-</cx-view>
-
-<router-outlet></router-outlet>
-
-<ng-template #confirmDisable>
-  <cx-confirm-modal
-    *ngIf="budget$ | async as budget"
-    [title]="'budget.messages.deactivateHeader' | cxTranslate"
-    [message]="'budget.messages.deactivate' | cxTranslate"
-    (confirm)="update({ code: budget.code, active: false })"
-  ></cx-confirm-modal>
-</ng-template>
+  <section main class="link-list">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'budget.links.costCenters' | cxTranslate }}
+    </a>
+  </section>
+</cx-organization-card>

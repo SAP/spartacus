@@ -1,114 +1,56 @@
-import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ModalService, TableModule } from '@spartacus/storefront';
+import { Budget } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
-import { CurrentBudgetService } from '../current-budget.service';
+import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 
-const budgetCode = 'b1';
+const mockCode = 'b1';
 
-const mockBudget: Budget = {
-  code: budgetCode,
-  name: 'budget',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-};
-
-class MockCurrentBudgetService implements Partial<CurrentBudgetService> {
-  key$ = of(budgetCode);
+class MockBudgetItemService
+  implements Partial<OrganizationItemService<Budget>> {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
 }
-
-class MockBudgetService implements Partial<BudgetService> {
-  loadBudget = createSpy('loadBudget');
-  update = createSpy('update');
-  get = createSpy('get').and.returnValue(of(mockBudget));
-}
-
-class MockModalService {
-  open() {}
-}
-
-@Component({
-  selector: 'cx-budget-cost-center-list',
-  template: '',
-})
-export class MockBudgetCostCenterListComponent {}
 
 describe('BudgetDetailsComponent', () => {
   let component: BudgetDetailsComponent;
   let fixture: ComponentFixture<BudgetDetailsComponent>;
-  let budgetService: BudgetService;
+  let itemService: OrganizationItemService<Budget>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        SplitViewTestingModule,
-        TableModule,
-        IconTestingModule,
+        OrganizationCardTestingModule,
+        MessageTestingModule,
       ],
-      declarations: [BudgetDetailsComponent, MockBudgetCostCenterListComponent],
+      declarations: [BudgetDetailsComponent],
       providers: [
-        { provide: BudgetService, useClass: MockBudgetService },
-        { provide: ModalService, useClass: MockModalService },
+        { provide: OrganizationItemService, useClass: MockBudgetItemService },
       ],
-    })
-      .overrideComponent(BudgetDetailsComponent, {
-        set: {
-          providers: [
-            {
-              provide: CurrentBudgetService,
-              useClass: MockCurrentBudgetService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
 
-    budgetService = TestBed.inject(BudgetService);
-  }));
-
-  beforeEach(() => {
+    itemService = TestBed.inject(OrganizationItemService);
     fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update costCenter', () => {
-    component.update(mockBudget);
-    expect(budgetService.update).toHaveBeenCalledWith(
-      mockBudget.code,
-      mockBudget
-    );
-  });
-  it('should trigger reload of cost center model on each code change', () => {
-    expect(budgetService.loadBudget).toHaveBeenCalledWith(mockBudget.code);
-  });
-
-  describe('costCenter$', () => {
-    it('should emit current cost center model', () => {
-      let result;
-      component.budget$.subscribe((r) => (result = r)).unsubscribe();
-      expect(result).toBe(mockBudget);
-    });
+  it('should trigger reload of model on each code change', () => {
+    expect(itemService.load).toHaveBeenCalledWith(mockCode);
   });
 });

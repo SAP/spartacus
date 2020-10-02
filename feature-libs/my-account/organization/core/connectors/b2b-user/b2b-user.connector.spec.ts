@@ -1,14 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
-
-import { B2BUser, Permission } from '@spartacus/core';
-import {
-  B2BSearchConfig,
-  UserGroup,
-} from '@spartacus/my-account/organization/core';
+import { B2BUser, SearchConfig } from '@spartacus/core';
+import { Permission, UserGroup } from '@spartacus/my-account/organization/core';
+import { of } from 'rxjs';
 import { B2BUserAdapter } from './b2b-user.adapter';
 import { B2BUserConnector } from './b2b-user.connector';
+
 import createSpy = jasmine.createSpy;
 
 const customerId = 'userId';
@@ -92,7 +89,7 @@ describe('B2BUserConnector', () => {
   });
 
   it('should load b2bUsers', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(customerId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(customerId, params);
   });
@@ -112,7 +109,7 @@ describe('B2BUserConnector', () => {
   });
 
   it('should load approvers', () => {
-    const params: B2BSearchConfig = { sort: 'email' };
+    const params: SearchConfig = { sort: 'email' };
     service.getApprovers(customerId, orgUnitCustomerId, params);
     expect(adapter.loadApprovers).toHaveBeenCalledWith(
       customerId,
@@ -140,7 +137,7 @@ describe('B2BUserConnector', () => {
   });
 
   it('should load permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getPermissions(customerId, orgUnitCustomerId, params);
     expect(adapter.loadPermissions).toHaveBeenCalledWith(
       customerId,
@@ -168,7 +165,7 @@ describe('B2BUserConnector', () => {
   });
 
   it('should load UserGroups', () => {
-    const params: B2BSearchConfig = { sort: 'name' };
+    const params: SearchConfig = { sort: 'name' };
     service.getUserGroups(customerId, orgUnitCustomerId, params);
     expect(adapter.loadUserGroups).toHaveBeenCalledWith(
       customerId,

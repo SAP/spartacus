@@ -1,10 +1,9 @@
 import { InjectionToken } from '@angular/core';
+import { Converter, EntitiesModel } from '@spartacus/core';
 import {
-  Converter,
-  Permission,
-  EntitiesModel,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+  Permission,
+} from '../../model/permission.model';
 
 export const PERMISSION_NORMALIZER = new InjectionToken<
   Converter<any, Permission>

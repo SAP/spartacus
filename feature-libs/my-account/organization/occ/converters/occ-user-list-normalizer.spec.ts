@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, OccConfig, Occ, B2BUser } from '@spartacus/core';
+import { B2BUser, EntitiesModel, Occ, OccConfig } from '@spartacus/core';
 import { OccUserListNormalizer } from './occ-user-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -39,7 +38,7 @@ describe('UserListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(OccUserListNormalizer as Type<OccUserListNormalizer>);
+    service = TestBed.inject(OccUserListNormalizer);
   });
 
   it('should inject OccUserListNormalizer', inject(

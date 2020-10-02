@@ -1,65 +1,54 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import {
-  B2BUnitNode,
-  Currency,
-  CurrencyService,
-  I18nTestingModule,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PermissionFormComponent } from './permission-form.component';
-import {
   OrgUnitService,
   PermissionService,
 } from '@spartacus/my-account/organization/core';
+import {
+  DateTimePickerModule,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
+import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { PermissionItemService } from '../services/permission-item.service';
+import { PermissionFormComponent } from './permission-form.component';
+
 import createSpy = jasmine.createSpy;
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-  {
-    active: true,
-    children: [],
-    id: 'unitNode2',
-    name: 'Org Unit 2',
-    parent: 'parentUnit',
-  },
-];
+const mockForm = new FormGroup({
+  code: new FormControl(),
+  periodRange: new FormControl(),
+  threshold: new FormControl(),
+  orderApprovalPermissionType: new FormGroup({
+    code: new FormControl(),
+  }),
+  currency: new FormGroup({
+    isocode: new FormControl(),
+  }),
+  orgUnit: new FormGroup({
+    uid: new FormControl(),
+  }),
+});
 
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  getList = createSpy('getList');
-  loadList = createSpy('loadList');
-  getActiveUnitList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+class MockOrgUnitService {
+  getActiveUnitList() {
+    return of([]);
+  }
+  loadList() {}
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
-  loadList = jasmine.createSpy('loadList');
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
+class MockCurrencyService {
+  getAll() {}
 }
 
+class MockOrganizationItemService {
+  getForm() {}
+}
 const mockPermissionTypes: OrderApprovalPermissionType[] = [
   {
     code: 'type1',
@@ -77,69 +66,76 @@ class MockPermissionService {
 describe('PermissionFormComponent', () => {
   let component: PermissionFormComponent;
   let fixture: ComponentFixture<PermissionFormComponent>;
-  let orgUnitService: OrgUnitService;
   let currencyService: CurrencyService;
-  let permissionService: PermissionService;
+  let b2bUnitService: OrgUnitService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
+        DateTimePickerModule,
+        OrganizationFormTestingModule,
       ],
       declarations: [PermissionFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        {
+          provide: PermissionItemService,
+          useClass: MockOrganizationItemService,
+        },
         { provide: PermissionService, useClass: MockPermissionService },
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.inject(OrgUnitService);
     currencyService = TestBed.inject(CurrencyService);
-    permissionService = TestBed.inject(PermissionService);
-  }));
+    b2bUnitService = TestBed.inject(OrgUnitService);
+
+    spyOn(currencyService, 'getAll').and.callThrough();
+    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
+    spyOn(b2bUnitService, 'loadList').and.callThrough();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PermissionFormComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render form groups', () => {
-    component.form = new FormGroup({ code: new FormControl() });
+  it('should render form controls', () => {
+    component.form = mockForm;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBeGreaterThan(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBeGreaterThan(0);
   });
 
-  it('should not render any form groups if the form is falsy', () => {
+  it('should not render any form controls if the form is falsy', () => {
     component.form = undefined;
     fixture.detectChanges();
-    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
-    expect(formGroups.length).toBe(0);
+    const formControls = fixture.debugElement.queryAll(By.css('input'));
+    expect(formControls.length).toBe(0);
   });
 
-  it('should load all currencies', () => {
-    component.form = new FormGroup({});
-    fixture.detectChanges();
+  it('should get currencies from service', () => {
+    component.form = mockForm;
     expect(currencyService.getAll).toHaveBeenCalled();
   });
 
-  it('should load all permission types', () => {
-    component.form = new FormGroup({});
-    fixture.detectChanges();
-    expect(permissionService.getTypes).toHaveBeenCalled();
+  it('should get active b2bUnits from service', () => {
+    component.form = mockForm;
+    expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 
-  it('should load active units', () => {
-    component.form = new FormGroup({});
+  it('should load list of b2bUnits on subscription', () => {
+    component.form = mockForm;
     fixture.detectChanges();
-    expect(orgUnitService.getList).toHaveBeenCalled();
+    expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 });

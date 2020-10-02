@@ -13,7 +13,9 @@ export abstract class ExistOrganizationItemGuard<T> implements CanActivate {
     activatedRoute: ActivatedRouteSnapshot
   ): Observable<boolean | UrlTree> {
     const urlParams = {
-      code: activatedRoute.params[this.code],
+      code:
+        activatedRoute.params[this.code] ??
+        activatedRoute.parent?.params[this.code],
     };
 
     return this.getItem(urlParams.code).pipe(

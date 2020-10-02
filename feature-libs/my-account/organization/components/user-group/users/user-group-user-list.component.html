@@ -1,0 +1,8 @@
+<cx-organization-sub-list [previous]="false">
+  <button actions (click)="unassignAll()" class="link">
+    {{ 'userGroupUsers.unassignAll' | cxTranslate }}
+  </button>
+  <a actions class="link" routerLink="../">
+    {{ 'organization.done' | cxTranslate }}
+  </a>
+</cx-organization-sub-list>

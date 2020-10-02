@@ -1,8 +1,9 @@
-import { Permission, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
 import {
+  B2BUserActions,
   PermissionActions,
   UserGroupActions,
-  B2BUserActions,
 } from '../actions/index';
 
 export const permissionInitialState = {};

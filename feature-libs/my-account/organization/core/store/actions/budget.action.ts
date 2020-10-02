@@ -1,8 +1,7 @@
-import { StateUtils, ListModel } from '@spartacus/core';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
-import { B2BSearchConfig } from '../../model/search-config';
+import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
+import { serializeSearchConfig } from '../../utils/serializer';
+import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -51,17 +50,17 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params));
+    super(BUDGET_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
-    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params), payload.error);
+  constructor(public payload: { params: SearchConfig; error: any }) {
+    super(BUDGET_LIST, serializeSearchConfig(payload.params), payload.error);
   }
 }
 
@@ -70,10 +69,10 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params));
+    super(BUDGET_LIST, serializeSearchConfig(payload.params));
   }
 }
 

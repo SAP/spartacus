@@ -1,34 +1,32 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
 import {
   AuthService,
   B2BUser,
-  Permission,
   EntitiesModel,
+  SearchConfig,
 } from '@spartacus/core';
-import { B2BUserService } from './b2b-user.service';
+import { of } from 'rxjs';
+import { Permission } from '../model/permission.model';
+import { UserGroup } from '../model/user-group.model';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
 import {
-  StateWithOrganization,
   ORGANIZATION_FEATURE,
+  StateWithOrganization,
 } from '../store/organization-state';
-import { B2BSearchConfig } from '../model/search-config';
-import { UserGroup } from '../model/user-group.model';
+import * as fromReducers from '../store/reducers/index';
+import { B2BUserService } from './b2b-user.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';
 const permissionId = 'permissionId';
 const permissionId2 = 'permissionId2';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const permission: Permission = {
   active: true,
   code: permissionId,
@@ -95,9 +93,9 @@ describe('B2BUserService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(B2BUserService as Type<B2BUserService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(B2BUserService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

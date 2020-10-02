@@ -11,16 +11,27 @@ import {
   B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   CostCenter,
   ListModel,
-  OrderApproval,
-  OrderApprovalPermissionType,
-  Permission,
   StateUtils,
 } from '@spartacus/core';
-
+import { Budget } from '../../model/budget.model';
+import { OrderApproval } from '../../model/order-approval.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { UserGroup } from '../../model/user-group.model';
+import {
+  B2BUserActions,
+  BudgetActions,
+  CostCenterActions,
+  OrgUnitActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../actions';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -87,8 +98,6 @@ import {
   userGroupEntitiesReducer,
   userGroupsListReducer,
 } from './user-group.reducer';
-import { Budget } from '../../model/budget.model';
-import { UserGroup } from '../../model/user-group.model';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -217,6 +226,76 @@ export function clearOrganizationState(
   reducer: ActionReducer<OrganizationState, Action>
 ): ActionReducer<OrganizationState, Action> {
   return function (state, action) {
+    const allowedActionsForClear = [
+      BudgetActions.CREATE_BUDGET_FAIL,
+      BudgetActions.CREATE_BUDGET_SUCCESS,
+      BudgetActions.UPDATE_BUDGET_FAIL,
+      BudgetActions.UPDATE_BUDGET_SUCCESS,
+
+      CostCenterActions.CREATE_COST_CENTER_FAIL,
+      CostCenterActions.CREATE_COST_CENTER_SUCCESS,
+      CostCenterActions.UPDATE_COST_CENTER_FAIL,
+      CostCenterActions.UPDATE_COST_CENTER_SUCCESS,
+      CostCenterActions.ASSIGN_BUDGET_FAIL,
+      CostCenterActions.ASSIGN_BUDGET_SUCCESS,
+      CostCenterActions.UNASSIGN_BUDGET_FAIL,
+      CostCenterActions.UNASSIGN_BUDGET_SUCCESS,
+
+      OrgUnitActions.CREATE_ORG_UNIT_FAIL,
+      OrgUnitActions.CREATE_ORG_UNIT_SUCCESS,
+      OrgUnitActions.UPDATE_ORG_UNIT_FAIL,
+      OrgUnitActions.UPDATE_ORG_UNIT_SUCCESS,
+      OrgUnitActions.ASSIGN_APPROVER_FAIL,
+      OrgUnitActions.ASSIGN_APPROVER_SUCCESS,
+      OrgUnitActions.UNASSIGN_APPROVER_FAIL,
+      OrgUnitActions.UNASSIGN_APPROVER_SUCCESS,
+      OrgUnitActions.CREATE_ADDRESS_FAIL,
+      OrgUnitActions.CREATE_ADDRESS_SUCCESS,
+      OrgUnitActions.UPDATE_ADDRESS_FAIL,
+      OrgUnitActions.UPDATE_ADDRESS_SUCCESS,
+
+      PermissionActions.CREATE_PERMISSION_FAIL,
+      PermissionActions.CREATE_PERMISSION_SUCCESS,
+      PermissionActions.UPDATE_PERMISSION_FAIL,
+      PermissionActions.UPDATE_PERMISSION_SUCCESS,
+
+      UserGroupActions.CREATE_USER_GROUP_FAIL,
+      UserGroupActions.CREATE_USER_GROUP_SUCCESS,
+      UserGroupActions.UPDATE_USER_GROUP_FAIL,
+      UserGroupActions.UPDATE_USER_GROUP_SUCCESS,
+      UserGroupActions.USER_GROUP_ASSIGN_MEMBER_FAIL,
+      UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS,
+      UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_FAIL,
+      UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS,
+      UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL,
+      UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS,
+      UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_FAIL,
+      UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS,
+      UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_FAIL,
+      UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS,
+      UserGroupActions.DELETE_USER_GROUP_FAIL,
+      UserGroupActions.DELETE_USER_GROUP_SUCCESS,
+
+      B2BUserActions.CREATE_B2B_USER_FAIL,
+      B2BUserActions.CREATE_B2B_USER_SUCCESS,
+      B2BUserActions.UPDATE_B2B_USER_FAIL,
+      B2BUserActions.UPDATE_B2B_USER_SUCCESS,
+      B2BUserActions.CREATE_B2B_USER_APPROVER_FAIL,
+      B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS,
+      B2BUserActions.DELETE_B2B_USER_APPROVER_FAIL,
+      B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS,
+      B2BUserActions.CREATE_B2B_USER_PERMISSION_FAIL,
+      B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS,
+      B2BUserActions.DELETE_B2B_USER_PERMISSION_FAIL,
+      B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS,
+      B2BUserActions.CREATE_B2B_USER_USER_GROUP_FAIL,
+      B2BUserActions.CREATE_B2B_USER_USER_GROUP_SUCCESS,
+      B2BUserActions.DELETE_B2B_USER_USER_GROUP_FAIL,
+      B2BUserActions.DELETE_B2B_USER_USER_GROUP_SUCCESS,
+    ];
+    if (allowedActionsForClear.includes(action.type)) {
+      state = undefined;
+    }
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }

@@ -1,12 +1,16 @@
-import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
+  CostCenter,
+  ListModel,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
+import { serializeSearchConfig } from '../../utils/serializer';
+import {
+  BUDGET_ENTITIES,
+  COST_CENTER_ASSIGNED_BUDGETS,
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
-  COST_CENTER_ASSIGNED_BUDGETS,
-  BUDGET_ENTITIES,
 } from '../organization-state';
-import { ListModel, StateUtils, CostCenter } from '@spartacus/core';
 
 export const LOAD_COST_CENTER = '[CostCenter] Load CostCenter Data';
 export const LOAD_COST_CENTER_FAIL = '[CostCenter] Load CostCenter Data Fail';
@@ -70,19 +74,19 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(COST_CENTER_LIST, serializeB2BSearchConfig(payload.params));
+    super(COST_CENTER_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadCostCentersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTERS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       COST_CENTER_LIST,
-      serializeB2BSearchConfig(payload.params),
+      serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -93,10 +97,10 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(COST_CENTER_LIST, serializeB2BSearchConfig(payload.params));
+    super(COST_CENTER_LIST, serializeSearchConfig(payload.params));
   }
 }
 
@@ -154,12 +158,12 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       costCenterCode: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
+      serializeSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }
@@ -169,13 +173,13 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       costCenterCode: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
       error: any;
     }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.costCenterCode),
+      serializeSearchConfig(payload.params, payload.costCenterCode),
       payload.error
     );
   }
@@ -187,12 +191,12 @@ export class LoadAssignedBudgetsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       costCenterCode: string;
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
+      serializeSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }

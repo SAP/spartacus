@@ -1,30 +1,25 @@
-import { EntitiesModel, ListModel, StateUtils } from '@spartacus/core';
-import { B2BSearchConfig } from '../model/search-config';
+import {
+  EntitiesModel,
+  ListModel,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
 import { Management } from '../store/organization-state';
 
-// TODO after update typescript to 3.7 it can be replaced by Nullish Coalescing (??) operator
-function nullish(param, defaultValue) {
-  return param !== null && param !== undefined ? param : defaultValue;
-}
+const ALL = 'all';
 
-export const ALL = 'all';
-
-export function serializeB2BSearchConfig(
-  config: B2BSearchConfig,
+export function serializeSearchConfig(
+  config: SearchConfig,
   id?: string
 ): string {
-  return `${nullish(id, '')}?pageSize=${nullish(
-    config.pageSize,
-    ''
-  )}&currentPage=${nullish(config.currentPage, '')}&sort=${nullish(
-    config.sort,
-    ''
-  )}`;
+  return `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
+    config.currentPage ?? ''
+  }&sort=${config.sort ?? ''}`;
 }
 
-export function denormalizeB2BSearch<T>(
+export function denormalizeSearch<T>(
   state: Management<T>,
-  params?: B2BSearchConfig
+  params?: SearchConfig
 ): StateUtils.LoaderState<EntitiesModel<T>> {
   return denormalizeCustomB2BSearch<T>(state.list, state.entities, params);
 }
@@ -32,12 +27,12 @@ export function denormalizeB2BSearch<T>(
 export function denormalizeCustomB2BSearch<T>(
   list: StateUtils.EntityLoaderState<ListModel>,
   entities: StateUtils.EntityLoaderState<T>,
-  params?: B2BSearchConfig,
+  params?: SearchConfig,
   id?: string
 ): StateUtils.LoaderState<EntitiesModel<T>> {
   const serializedList: any = StateUtils.entityLoaderStateSelector(
     list,
-    params ? serializeB2BSearchConfig(params, id) : id ?? ALL
+    params ? serializeSearchConfig(params, id) : id ?? ALL
   );
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
@@ -75,4 +70,11 @@ export function normalizeListPage<T>(
     page.sorts = list.sorts;
   }
   return { values, page };
+}
+
+export function serializeParams(
+  params: string | string[],
+  searchConfig: SearchConfig
+): string {
+  return [params, serializeSearchConfig(searchConfig)].toString();
 }

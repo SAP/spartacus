@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
-import { GlobalMessageType, Permission } from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
+import { Permission } from '@spartacus/my-account/organization/core';
 import { ExistPermissionGuard } from './exist-permission.guard';
 
 @Injectable({

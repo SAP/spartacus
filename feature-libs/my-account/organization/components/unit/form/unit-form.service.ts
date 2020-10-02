@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { B2BUnit } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitFormService {
-  getForm(model?: B2BUnit): FormGroup {
-    const form = new FormGroup({});
-    this.build(form);
-    if (model) {
-      form.patchValue(model);
-    }
-    // disable parent unit select for root units
-    if (model?.active && !model.parentOrgUnit?.uid) {
-      form.removeControl('parentOrgUnit');
-    }
-    return form;
+export class UnitFormService extends OrganizationFormService<B2BUnit> {
+  protected patchData(item?: B2BUnit) {
+    this.toggleParentUnit(item);
+    super.patchData(item);
   }
 
-  protected build(form: FormGroup) {
+  protected build(item?: B2BUnit) {
+    const form = new FormGroup({});
     form.setControl(
       'uid',
       new FormControl('', [
@@ -31,16 +25,26 @@ export class UnitFormService {
     form.setControl('name', new FormControl('', Validators.required));
 
     form.setControl(
-      'parentOrgUnit',
-      new FormGroup({
-        uid: new FormControl(null, Validators.required),
-      })
-    );
-    form.setControl(
       'approvalProcess',
       new FormGroup({
         code: new FormControl(null),
       })
     );
+
+    this.form = form;
+    this.toggleParentUnit(item);
+  }
+
+  protected toggleParentUnit(item?: B2BUnit): void {
+    if (item && !item.parentOrgUnit) {
+      this.form.removeControl('parentOrgUnit');
+    } else if (!this.form.get('parentOrgUnit')) {
+      this.form.setControl(
+        'parentOrgUnit',
+        new FormGroup({
+          uid: new FormControl(null, Validators.required),
+        })
+      );
+    }
   }
 }

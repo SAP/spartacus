@@ -1,20 +1,19 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import {
-  EntitiesModel,
   B2BApprovalProcess,
-  B2BUnitNode,
-  B2BUser,
   B2BUnit,
+  B2BUser,
+  EntitiesModel,
   normalizeHttpError,
 } from '@spartacus/core';
-
-import { B2BUserActions, OrgUnitActions } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
+import { Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
-import { HttpErrorResponse } from '@angular/common/http';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -189,34 +188,41 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
-    switchMap(({ userId, orgUnitId, roleId, params }) => {
-      return this.orgUnitConnector
-        .getUsers(userId, orgUnitId, roleId, params)
-        .pipe(
-          switchMap((users: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(users, 'customerId');
-            return [
-              new B2BUserActions.LoadB2BUserSuccess(values),
-              new OrgUnitActions.LoadAssignedUsersSuccess({
-                orgUnitId,
-                roleId,
-                page,
-                params,
+    groupBy(({ orgUnitId, roleId, params }) =>
+      serializeParams([orgUnitId, roleId], params)
+    ),
+    mergeMap((group) =>
+      group.pipe(
+        switchMap(({ userId, orgUnitId, roleId, params }) => {
+          return this.orgUnitConnector
+            .getUsers(userId, orgUnitId, roleId, params)
+            .pipe(
+              switchMap((users: EntitiesModel<B2BUser>) => {
+                const { values, page } = normalizeListPage(users, 'customerId');
+                return [
+                  new B2BUserActions.LoadB2BUserSuccess(values),
+                  new OrgUnitActions.LoadAssignedUsersSuccess({
+                    orgUnitId,
+                    roleId,
+                    page,
+                    params,
+                  }),
+                ];
               }),
-            ];
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new OrgUnitActions.LoadAssignedUsersFail({
-                orgUnitId,
-                roleId,
-                params,
-                error: normalizeHttpError(error),
-              })
-            )
-          )
-        );
-    })
+              catchError((error: HttpErrorResponse) =>
+                of(
+                  new OrgUnitActions.LoadAssignedUsersFail({
+                    orgUnitId,
+                    roleId,
+                    params,
+                    error: normalizeHttpError(error),
+                  })
+                )
+              )
+            );
+        })
+      )
+    )
   );
 
   @Effect()
@@ -281,7 +287,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
-    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
@@ -311,7 +317,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
-    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(

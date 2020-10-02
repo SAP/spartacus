@@ -2,7 +2,6 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { Config } from '../../config/config.module';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';
 import { SiteContextConfig } from '../../site-context';
@@ -11,6 +10,7 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
+import { Config } from '@spartacus/core';
 
 describe(`OccConfigLoaderService`, () => {
   let service: OccConfigLoaderService;

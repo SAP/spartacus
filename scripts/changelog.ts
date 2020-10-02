@@ -79,6 +79,7 @@ export default async function run(
     '@spartacus/my-account': 'feature-libs/my-account',
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/cdc': 'integration-libs/cdc',
+    '@spartacus/setup': 'core-libs/setup',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -291,7 +292,6 @@ if (typeof config.to === 'undefined') {
     case 'my-account':
     case '@spartacus/myaccount':
     case '@spartacus/my-account':
-    case '@spartacus/my-account/organization':
       config.library = '@spartacus/my-account';
       break;
     case 'product':
@@ -306,6 +306,10 @@ if (typeof config.to === 'undefined') {
     case 'cdc':
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
+      break;
+    case 'setup':
+    case '@spartacus/setup':
+      config.library = '@spartacus/setup';
       break;
     default:
       config.library = undefined;

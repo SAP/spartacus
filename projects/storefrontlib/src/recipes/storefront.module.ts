@@ -10,12 +10,12 @@ import {
   SiteContextModule,
   SmartEditModule,
 } from '@spartacus/core';
-import { StorefrontFoundationModule } from './storefront-foundation.module';
 import { AsmModule } from '../cms-components/asm/asm.module';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
 import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
+import { StorefrontFoundationModule } from './storefront-foundation.module';
 
 @NgModule({
   imports: [

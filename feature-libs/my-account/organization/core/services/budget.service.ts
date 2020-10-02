@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  AuthService,
+  CostCenter,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+  StateWithProcess,
+} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
-import { B2BSearchConfig } from '../model/search-config';
-
-import { StateWithOrganization, BudgetActions } from '../store/index';
-import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
-import {
-  EntitiesModel,
-  CostCenter,
-  AuthService,
-  StateWithProcess,
-  StateUtils,
-} from '@spartacus/core';
 import { Budget } from '../model/budget.model';
+import { BudgetActions, StateWithOrganization } from '../store/index';
+import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BudgetService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -28,7 +27,7 @@ export class BudgetService {
     );
   }
 
-  loadBudgets(params?: B2BSearchConfig): void {
+  loadBudgets(params?: SearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
@@ -59,7 +58,7 @@ export class BudgetService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<Budget>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<Budget>> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Budget>>) => {
