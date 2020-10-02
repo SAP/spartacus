@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -14,14 +14,12 @@ import {
   OccConfig,
   SearchConfig,
 } from '@spartacus/core';
-import {
-  B2BUnitNode,
-  OrgUnitConnector,
-} from '@spartacus/my-account/organization/core';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
+import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 
@@ -45,7 +43,7 @@ const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId = address.id;
 const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';

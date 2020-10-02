@@ -19,7 +19,7 @@ import {
   UserSignUp,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { sortTitles, CustomFormValidators } from '../../../shared/index';
 
 @Component({
@@ -72,11 +72,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
-      tap((titles) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      }),
       map((titles) => {
         return titles.sort(sortTitles);
       })

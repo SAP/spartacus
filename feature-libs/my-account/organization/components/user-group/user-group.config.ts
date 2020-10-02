@@ -16,12 +16,13 @@ import { OrganizationCellComponent } from '../shared/organization-table/organiza
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
-import { UserGroupFormComponent } from './form';
+import { UserGroupFormComponent } from './form/user-group-form.component';
 import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
-import { UserGroupPermissionListComponent } from './permissions';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
-import { UserGroupListService } from './services';
+import { UserGroupPermissionListComponent } from './permissions/user-group-permission-list.component';
 import { UserGroupItemService } from './services/user-group-item.service';
+import { UserGroupListService } from './services/user-group-list.service';
+import { UserGroupRoutePageMetaResolver } from './services/user-group-route-page-meta.resolver';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
 
@@ -82,39 +83,70 @@ export const userGroupCmsConfig: CmsConfig = {
           useExisting: UserGroupItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: UserGroupFormComponent,
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'userGroup.breadcrumbs.list',
+              resolver: UserGroupRoutePageMetaResolver,
+            },
+          },
         },
-        {
-          path: `:${ROUTE_PARAMS.userGroupCode}`,
-          component: UserGroupDetailsComponent,
-          canActivate: [ExistUserGroupGuard],
-          children: [
-            {
-              path: 'edit',
-              component: UserGroupFormComponent,
+        children: [
+          {
+            path: 'create',
+            component: UserGroupFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.userGroupCode}`,
+            component: UserGroupDetailsComponent,
+            canActivate: [ExistUserGroupGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.details' },
             },
-            {
-              path: 'users',
-              component: UserGroupAssignedUserListComponent,
-            },
-            {
-              path: 'users/assign',
-              component: UserGroupUserListComponent,
-            },
-            {
-              path: 'purchase-limits',
-              component: UserGroupAssignedPermissionListComponent,
-            },
-            {
-              path: 'purchase-limits/assign',
-              component: UserGroupPermissionListComponent,
-            },
-          ],
-        },
-      ],
+            children: [
+              {
+                path: 'edit',
+                component: UserGroupFormComponent,
+              },
+              {
+                path: 'users',
+                data: {
+                  cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.users' },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: UserGroupAssignedUserListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UserGroupUserListComponent,
+                  },
+                ],
+              },
+              {
+                path: 'purchase-limits',
+                data: {
+                  cxPageMeta: {
+                    breadcrumb: 'userGroup.breadcrumbs.permissions',
+                  },
+                },
+                children: [
+                  {
+                    path: '',
+                    component: UserGroupAssignedPermissionListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UserGroupPermissionListComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },

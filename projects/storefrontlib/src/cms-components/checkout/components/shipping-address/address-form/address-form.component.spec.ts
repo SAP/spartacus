@@ -185,12 +185,9 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', (done) => {
+  it('should call ngOnInit to get countries data even when they not exist', (done) => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
-
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'loadTitles').and.stub();
 
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
 
@@ -205,13 +202,6 @@ describe('AddressFormComponent', () => {
     component.countries$
       .subscribe(() => {
         expect(userAddressService.loadDeliveryCountries).toHaveBeenCalled();
-        done();
-      })
-      .unsubscribe();
-
-    component.titles$
-      .subscribe(() => {
-        expect(userService.loadTitles).toHaveBeenCalled();
         done();
       })
       .unsubscribe();

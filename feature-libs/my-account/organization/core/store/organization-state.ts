@@ -1,5 +1,5 @@
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -85,7 +85,7 @@ export interface OrgUnits {
   approvalProcesses: StateUtils.EntityLoaderState<B2BApprovalProcess[]>;
   users: StateUtils.EntityLoaderState<ListModel>;
   addressList: StateUtils.EntityLoaderState<ListModel>;
-  addressEntities: StateUtils.EntityLoaderState<B2BAddress>;
+  addressEntities: StateUtils.EntityLoaderState<Address>;
 }
 
 export interface UserGroupManagement extends Management<UserGroup> {

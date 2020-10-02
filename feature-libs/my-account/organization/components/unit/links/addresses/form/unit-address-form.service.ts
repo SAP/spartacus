@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  B2BAddress,
+  Address,
   Country,
   Region,
   Title,
@@ -10,14 +10,12 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { OrganizationFormService } from '../../../../shared/organization-form';
+import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressFormService extends OrganizationFormService<
-  B2BAddress
-> {
+export class UnitAddressFormService extends OrganizationFormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
     protected userService: UserService
