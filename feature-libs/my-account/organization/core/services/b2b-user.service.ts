@@ -276,9 +276,14 @@ export class B2BUserService {
 
   /**
    * Get list of all roles for B2BUser sorted by increasing privileges.
+   *
+   * This list is not driven by the backend (lack of API), but reflects roles
+   * from the backend: `b2badmingroup`, `b2bcustomergroup`, `b2bmanagergroup` and `b2bapprovergroup`.
+   *
+   * If you reconfigure those roles in the backend or extend the list, you should change
+   * this implementation accordingly.
    */
   getAllRoles(): B2BUserGroup[] {
-    // TODO: get the roles via the roles endpoint when they are available
     return [
       B2BUserGroup.B2B_CUSTOMER_GROUP,
       B2BUserGroup.B2B_MANAGER_GROUP,
