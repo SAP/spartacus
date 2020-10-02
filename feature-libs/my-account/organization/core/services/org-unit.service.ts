@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  Address,
   AuthService,
-  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
@@ -26,7 +27,6 @@ import {
   getOrgUnitList,
   getOrgUnitTree,
 } from '../store/selectors/org-unit.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -101,13 +101,13 @@ export class OrgUnitService {
 
   private getAddressesState(
     orgUnitId: string
-  ): Observable<StateUtils.LoaderState<EntitiesModel<B2BAddress>>> {
+  ): Observable<StateUtils.LoaderState<EntitiesModel<Address>>> {
     return this.store.select(getB2BAddresses(orgUnitId, null));
   }
 
   private getAddressState(
     addressId: string
-  ): Observable<StateUtils.LoaderState<B2BAddress>> {
+  ): Observable<StateUtils.LoaderState<Address>> {
     return this.store.select(getB2BAddress(addressId));
   }
 
@@ -317,7 +317,7 @@ export class OrgUnitService {
     );
   }
 
-  createAddress(orgUnitId: string, address: B2BAddress): void {
+  createAddress(orgUnitId: string, address: Address): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.CreateAddress({
@@ -329,7 +329,7 @@ export class OrgUnitService {
     );
   }
 
-  getAddresses(orgUnitId: string): Observable<EntitiesModel<B2BAddress>> {
+  getAddresses(orgUnitId: string): Observable<EntitiesModel<Address>> {
     return this.getAddressesState(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap((state) => {
@@ -342,7 +342,7 @@ export class OrgUnitService {
     );
   }
 
-  getAddress(orgUnitId: string, addressId: string): Observable<B2BAddress> {
+  getAddress(orgUnitId: string, addressId: string): Observable<Address> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
       tap((state) => {
@@ -355,11 +355,7 @@ export class OrgUnitService {
     );
   }
 
-  updateAddress(
-    orgUnitId: string,
-    addressId: string,
-    address: B2BAddress
-  ): void {
+  updateAddress(orgUnitId: string, addressId: string, address: Address): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UpdateAddress({
@@ -374,7 +370,7 @@ export class OrgUnitService {
 
   getAddressLoadingStatus(
     addressId: string
-  ): Observable<OrganizationItemStatus<B2BAddress>> {
+  ): Observable<OrganizationItemStatus<Address>> {
     return getItemStatus(this.getAddressState(addressId));
   }
 

@@ -48,6 +48,10 @@ export namespace Occ {
     regions?: Region[];
   }
 
+  export interface AddressList {
+    addresses?: Address[];
+  }
+
   /**
    *
    * An interface representing Address.
@@ -98,6 +102,10 @@ export namespace Occ {
      */
     phone?: string;
     /**
+     * @member {string} [town]
+     */
+    cellphone?: string;
+    /**
      * @member {string} [postalCode]
      */
     postalCode?: string;
@@ -105,6 +113,10 @@ export namespace Occ {
      * @member {Region} [region]
      */
     region?: Region;
+    /**
+     * @member {string} [town]
+     */
+    district?: string;
     /**
      * @member {boolean} [shippingAddress]
      */
@@ -4169,41 +4181,6 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  export interface B2BAddress {
-    cellphone?: string;
-    companyName?: string;
-    country?: {
-      isocode?: string;
-      name?: string;
-    };
-    defaultAddress?: true;
-    district?: string;
-    email?: string;
-    firstName?: string;
-    formattedAddress?: string;
-    id?: string;
-    lastName?: string;
-    line1?: string;
-    line2?: string;
-    phone?: string;
-    postalCode?: string;
-    region?: {
-      countryIso?: string;
-      isocode?: string;
-      isocodeShort?: string;
-      name?: string;
-    };
-    shippingAddress?: true;
-    title?: string;
-    titleCode?: string;
-    town?: string;
-    visibleInAddressBook?: true;
-  }
-
-  export interface B2BAddressList {
-    addresses?: B2BAddress[];
-  }
-
   export interface B2BUnitNode {
     active?: boolean;
     children?: B2BUnitNode[];
@@ -4241,7 +4218,7 @@ export namespace Occ {
 
   export interface B2BUnit {
     active?: boolean;
-    addresses?: B2BAddress[];
+    addresses?: Address[];
     uid?: string;
     name?: string;
     parentOrgUnit?: string;

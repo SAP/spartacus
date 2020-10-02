@@ -7,8 +7,8 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import {
+  Address,
   AuthActions,
-  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -146,7 +146,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities: StateUtils.entityLoaderReducer<B2BAddress>(
+      addressEntities: StateUtils.entityLoaderReducer<Address>(
         ADDRESS_ENTITIES
       ),
     }),
