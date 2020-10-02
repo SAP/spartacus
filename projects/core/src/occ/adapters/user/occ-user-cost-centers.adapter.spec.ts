@@ -24,7 +24,7 @@ class MockOccEndpointsService {
   );
 }
 
-fdescribe('OccUserCostCenterAdapter', () => {
+describe('OccUserCostCenterAdapter', () => {
   let service: OccUserCostCenterAdapter;
   let httpMock: HttpTestingController;
 
