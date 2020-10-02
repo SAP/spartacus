@@ -127,6 +127,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'orderType',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'orderType',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
       value: 'I am confirming that I have read and agreed with',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
@@ -163,6 +171,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Cordless screwdriver 2436',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'orderType',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'orderType',
+      type: TabbingOrderTypes.RADIO,
     },
     {
       value: 'I am confirming that I have read and agreed with',
