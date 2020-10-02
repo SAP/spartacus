@@ -8,6 +8,7 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
+    //' https://spartacus-legacy.eastus.cloudapp.azure.com:9002' ||
     'https://cpqteamserver.mo.sap.corp:39002' ||
     // 'https://dev-com-6.accdemo.b2c.ydev.hybris.com:9002' ||
     // 'https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002' ||
