@@ -43,7 +43,7 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationForm: {
+        ConfiguratorForm: {
           component: ConfiguratorFormComponent,
         },
       },

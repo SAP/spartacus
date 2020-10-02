@@ -8,7 +8,7 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationAddToCartButton: {
+        ConfiguratorAddToCartButton: {
           component: ConfiguratorAddToCartButtonComponent,
         },
       },

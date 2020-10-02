@@ -1,0 +1,116 @@
+<cx-organization-form i18nRoot="user">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'user.title' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="titleCode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="titles$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('titleCode')"></cx-form-errors>
+    </label>
+    <label>
+      <span class="label-content required">{{
+        'user.firstName' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'user.firstName' | cxTranslate }}"
+        formControlName="firstName"
+      />
+      <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'user.lastName' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'user.lastName' | cxTranslate }}"
+        formControlName="lastName"
+      />
+      <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'user.email' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="email"
+        required
+        placeholder="{{ 'user.email' | cxTranslate }}"
+        formControlName="email"
+      />
+      <cx-form-errors [control]="form.get('email')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true" class="full-width" formArrayName="roles">
+      <span class="label-content required">
+        {{ 'user.roles' | cxTranslate }}
+      </span>
+
+      <label
+        class="form-check"
+        *ngFor="let role of availableRoles; let i = index"
+      >
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [value]="role"
+          [checked]="roles.value?.includes(role)"
+          (change)="updateRoles($event)"
+        />
+        <span class="form-check-label">
+          {{ 'organization.userRoles.' + role | cxTranslate }}
+        </span>
+      </label>
+    </label>
+
+    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+      <span class="label-content required">{{
+        'user.orgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        [readonly]="form.get('orgUnit.uid').disabled"
+        appendTo=".organization"
+      >
+      </ng-select>
+    </label>
+
+    <label class="full-width">
+      <!-- <span class="label-content required">
+        {{ 'user.unitApprover' | cxTranslate }}
+      </span> -->
+      <label class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          formControlName="isAssignedToApprovers"
+        />
+        <span class="form-check-label">{{
+          'user.assignApprover' | cxTranslate
+        }}</span>
+      </label>
+    </label>
+  </ng-container>
+</cx-organization-form>

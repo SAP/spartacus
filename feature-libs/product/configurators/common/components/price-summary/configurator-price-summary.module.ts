@@ -9,7 +9,7 @@ import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationPriceSummary: {
+        ConfiguratorPriceSummary: {
           component: ConfiguratorPriceSummaryComponent,
         },
       },

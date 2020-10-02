@@ -1,0 +1,74 @@
+<cx-organization-form i18nRoot="unit">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'unit.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'unit.name' | cxTranslate }}"
+        formControlName="name"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{ 'unit.uid' | cxTranslate }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'unit.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+    </label>
+
+    <label
+      formGroupName="approvalProcess"
+      class="full-width"
+      aria-required="true"
+    >
+      <span class="label-content required">{{
+        'unit.approvalProcess' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="code"
+        [searchable]="false"
+        [items]="approvalProcess$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
+    </label>
+
+    <label
+      *ngIf="form.get('parentOrgUnit')"
+      aria-required="true"
+      formGroupName="parentOrgUnit"
+    >
+      <span class="label-content required">{{
+        'unit.form.parentOrgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        appendTo=".organization"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('parentOrgUnit.uid')"
+      ></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-organization-form>

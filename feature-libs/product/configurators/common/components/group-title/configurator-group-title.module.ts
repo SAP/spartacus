@@ -8,7 +8,7 @@ import { ConfiguratorGroupTitleComponent } from './configurator-group-title.comp
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VariantConfigurationGroupTitle: {
+        ConfiguratorGroupTitle: {
           component: ConfiguratorGroupTitleComponent,
         },
       },

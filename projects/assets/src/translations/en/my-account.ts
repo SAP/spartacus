@@ -3,6 +3,7 @@ export const myAccount = {
     orderId: 'Order #',
     purchaseOrderId: 'Purchase Order #',
     emptyPurchaseOrderId: 'None',
+    none: 'None {{value}}',
     placed: 'Placed',
     placedBy: 'Placed By',
     unit: 'Unit',
@@ -10,6 +11,7 @@ export const myAccount = {
     costCenterAndUnit: 'Cost Center / Unit',
     costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
     payByAccount: 'Pay by Account',
+    paidByCreditCard: '(paid by credit card)',
     status: 'Status',
     shippedOn: 'Shipped on',
     deliveryStatus_IN_TRANSIT: 'In Transit',
@@ -34,6 +36,21 @@ export const myAccount = {
     statusDisplay_Error: 'Pending',
     statusDisplay_processing: 'Pending',
     statusDisplay_open: 'Open',
+    statusDisplay_pending: {
+      approval: 'Pending Approval',
+      merchant: {
+        approval: 'Pending Merchant Approval',
+      },
+    },
+    statusDisplay_approved: 'Approved',
+    statusDisplay_rejected: 'Rejected',
+    statusDisplay_merchant: {
+      approved: 'Merchant Approved',
+      rejected: 'Merchant Rejected',
+    },
+    statusDisplay_assigned: {
+      admin: 'Assigned To Administrator',
+    },
     consignmentTracking: {
       action: 'Track package',
       dialog: {
@@ -61,6 +78,20 @@ export const myAccount = {
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
+    },
+    approvalDetails: {
+      header: 'Customer Approval Details',
+      permission: 'Permission',
+      approver: 'Approver',
+      status: 'Status',
+      approverComments: 'Approver Comments',
+      noApprovalNotes: 'None',
+      permissionType_B2BBudgetExceededPermission:
+        'The budget associated with chosen cost center has been exceeded',
+      permissionType_B2BOrderThresholdPermission:
+        'Order total exceeded per-order limit',
+      permissionType_B2BOrderThresholdTimespanPermission:
+        'Order total exceeded per-timespan limit',
     },
   },
   orderHistory: {

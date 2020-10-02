@@ -1,6 +1,6 @@
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
 import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
