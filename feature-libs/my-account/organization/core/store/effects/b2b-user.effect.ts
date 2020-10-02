@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   map,
@@ -24,6 +24,7 @@ import { UserGroup } from '../../model/user-group.model';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
+  OrganizationActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
@@ -83,7 +84,9 @@ export class B2BUserEffects {
 
   @Effect()
   updateB2BUser$: Observable<
-    B2BUserActions.UpdateB2BUserSuccess | B2BUserActions.UpdateB2BUserFail
+    | B2BUserActions.UpdateB2BUserSuccess
+    | B2BUserActions.UpdateB2BUserFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
@@ -92,14 +95,15 @@ export class B2BUserEffects {
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
           // TODO: change for 'payload: data' when backend API start to return user data on PATCH
-          map(() => new B2BUserActions.UpdateB2BUserSuccess(payload)),
+          switchMap(() => [new B2BUserActions.UpdateB2BUserSuccess(payload)]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -107,12 +111,14 @@ export class B2BUserEffects {
 
   @Effect()
   verifyB2BUserAfterUpdate$: Observable<
-    AuthActions.Logout | B2BUserActions.LoadB2BUser
+    | AuthActions.Logout
+    | B2BUserActions.LoadB2BUser
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
     map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
     withLatestFrom(this.userService.get()),
-    map(([payload, currentUser]) => {
+    switchMap(([payload, currentUser]) => {
       const currentUserEmailMatch =
         payload.orgCustomerId === currentUser.customerId &&
         payload.orgCustomer.email !== currentUser.displayUid;
@@ -121,8 +127,8 @@ export class B2BUserEffects {
         this.routingService.go({ cxRoute: 'login' });
       }
       return currentUserEmailMatch
-        ? new AuthActions.Logout()
-        : new B2BUserActions.LoadB2BUser(payload);
+        ? [new AuthActions.Logout()]
+        : from([new OrganizationActions.OrganizationClearData()]);
     })
   );
 
