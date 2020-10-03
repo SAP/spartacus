@@ -5,6 +5,9 @@
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
   "video": true,
+  "retries": {
+    "runMode": 3
+  },
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
