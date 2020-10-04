@@ -63,22 +63,16 @@ describe('TableComponent', () => {
     expect(tableComponent).toBeTruthy();
   });
 
-  it('should not render a table if there is no dataset', () => {
-    tableComponent.dataset = undefined;
-    fixture.detectChanges();
-    const table = fixture.debugElement.query(By.css('table'));
-    expect(table).toBeNull();
-  });
-
-  it('should not render a table if there is no dataset.structure', () => {
-    tableComponent.dataset = {} as Table;
+  it('should not render a table if there is no structure', () => {
+    tableComponent.structure = undefined;
     fixture.detectChanges();
     const table = fixture.debugElement.query(By.css('table'));
     expect(table).toBeNull();
   });
 
   it('should render table', () => {
-    tableComponent.dataset = mockDataset;
+    tableComponent.structure = mockDataset.structure;
+    tableComponent.data = mockDataset.data;
     fixture.detectChanges();
     const table = fixture.debugElement.query(By.css('table'));
     expect(table.nativeElement).toBeTruthy();
@@ -87,7 +81,7 @@ describe('TableComponent', () => {
   it('should add the table type to __cx-table-type attribute in devMode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
 
-    tableComponent.dataset = mockDataset;
+    tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
     const attr = (fixture.debugElement
       .nativeElement as HTMLElement).getAttribute('__cx-table-type');
@@ -96,10 +90,8 @@ describe('TableComponent', () => {
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-
-    tableComponent.dataset = mockDataset;
+    tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
-
     const attr = (fixture.debugElement
       .nativeElement as HTMLElement).getAttribute('__cx-table-type');
     expect(attr).toBeFalsy();
@@ -107,7 +99,8 @@ describe('TableComponent', () => {
 
   describe('table header', () => {
     beforeEach(() => {
-      tableComponent.dataset = mockDataset;
+      tableComponent.structure = mockDataset.structure;
+      tableComponent.data = mockDataset.data;
     });
 
     it('should delegate creation of table header outlet reference', () => {
@@ -156,7 +149,8 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     beforeEach(() => {
-      tableComponent.dataset = mockDataset;
+      tableComponent.structure = mockDataset.structure;
+      tableComponent.data = mockDataset.data;
     });
 
     it('should delegate creation of table data outlet reference', () => {
@@ -223,7 +217,8 @@ describe('TableComponent', () => {
       beforeEach(() => {
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.VERTICAL;
-        tableComponent.dataset = table;
+        tableComponent.structure = table.structure;
+        tableComponent.data = table.data;
         fixture.detectChanges();
       });
 
@@ -272,7 +267,8 @@ describe('TableComponent', () => {
       beforeEach(() => {
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.VERTICAL_STACKED;
-        tableComponent.dataset = table;
+        tableComponent.structure = table.structure;
+        tableComponent.data = table.data;
         fixture.detectChanges();
       });
 
@@ -321,7 +317,8 @@ describe('TableComponent', () => {
       beforeEach(() => {
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.HORIZONTAL;
-        tableComponent.dataset = table;
+        tableComponent.structure = table.structure;
+        tableComponent.data = table.data;
         fixture.detectChanges();
       });
 
