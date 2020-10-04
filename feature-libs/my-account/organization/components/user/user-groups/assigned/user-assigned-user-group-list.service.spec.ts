@@ -6,7 +6,7 @@ import {
   B2BUserService,
   UserGroup,
 } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserAssignedUserGroupListService } from './user-assigned-user-group-list.service';
 
@@ -66,10 +66,10 @@ describe('UserAssignedUserGroupListService', () => {
   });
 
   it('should filter selected budgets', () => {
-    let result: Table<UserGroup>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(2);
-    expect(result.data[0].uid).toEqual('first');
-    expect(result.data[1].uid).toEqual('third');
+    let result: EntitiesModel<UserGroup>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(2);
+    expect(result.values[0].uid).toEqual('first');
+    expect(result.values[1].uid).toEqual('third');
   });
 });

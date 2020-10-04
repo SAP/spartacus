@@ -53,6 +53,7 @@ export class TableComponent<T = any> {
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
     this._structure = structure;
+    this.init();
   }
   get structure(): TableStructure {
     return this._structure;
@@ -72,12 +73,12 @@ export class TableComponent<T = any> {
 
   constructor(protected rendererService: TableRendererService) {}
 
-  init(structure: TableStructure) {
+  init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;
     this.verticalStackedLayout = this.layout === TableLayout.VERTICAL_STACKED;
     this.horizontalLayout = this.layout === TableLayout.HORIZONTAL;
 
-    this.rendererService.add(structure);
+    this.rendererService.add(this.structure);
 
     this.addTableDebugInfo();
   }

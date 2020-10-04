@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { UserGroup } from '@spartacus/my-account/organization/core';
-import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../shared/organization.model';
@@ -14,11 +13,11 @@ export class UserAssignedUserGroupListService extends UserUserGroupListService {
   protected tableType = OrganizationTableType.USER_ASSIGNED_USER_GROUPS;
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<UserGroup>> {
     return super
-      .load(structure, code)
+      .load(pagination, code)
       .pipe(map((userGroups) => this.filterSelected(userGroups)));
   }
 }

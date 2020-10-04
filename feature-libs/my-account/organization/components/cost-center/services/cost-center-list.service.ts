@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CostCenter, EntitiesModel } from '@spartacus/core';
+import { CostCenter, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
@@ -39,12 +39,11 @@ export class CostCenterListService extends OrganizationListService<
   }
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     _params?
   ): Observable<EntitiesModel<CostCenterModel>> {
-    const paginationConfig = structure.options?.pagination;
     return this.costCenterService
-      .getList(paginationConfig)
+      .getList(pagination)
       .pipe(map((raw) => this.convertCostCenters(raw)));
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CostCenter, EntitiesModel } from '@spartacus/core';
+import { CostCenter, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
@@ -24,7 +24,7 @@ export class BudgetCostCenterListService extends OrganizationSubListService<
   }
 
   protected load(
-    _structure: TableStructure,
+    _pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<CostCenter>> {
     return this.budgetService
