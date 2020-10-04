@@ -45,9 +45,8 @@ export class UserGroupListService extends OrganizationListService<
   protected load(
     pagination: PaginationModel
   ): Observable<EntitiesModel<UserGroupModel>> {
-    const paginationConfig = pagination;
     return this.userGroupService
-      .getList(paginationConfig)
+      .getList(pagination)
       .pipe(map((raw) => this.convertUserGroups(raw)));
   }
 

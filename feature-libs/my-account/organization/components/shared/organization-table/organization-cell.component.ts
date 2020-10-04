@@ -21,7 +21,7 @@ export class OrganizationCellComponent {
   }
 
   get property(): string {
-    return this.model[this.outlet?.context?._field];
+    return this.model?.[this.outlet?.context?._field];
   }
 
   /**

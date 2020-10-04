@@ -7,7 +7,7 @@ import { OrganizationCellComponent } from '../organization-cell.component';
 })
 export class DateRangeCellComponent extends OrganizationCellComponent {
   get linkable(): boolean {
-    return this.cellOptions.linkable ?? true;
+    return this.hasRange && (this.cellOptions.linkable ?? true);
   }
 
   get hasRange(): boolean {
