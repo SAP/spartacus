@@ -6,6 +6,10 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateRangeCellComponent extends OrganizationCellComponent {
+  get linkable(): boolean {
+    return this.cellOptions.linkable ?? true;
+  }
+
   get hasRange(): boolean {
     return !!this.model.startDate && !!this.model.endDate;
   }
