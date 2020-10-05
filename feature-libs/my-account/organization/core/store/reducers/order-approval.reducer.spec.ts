@@ -1,4 +1,4 @@
-import { OrderApproval } from '@spartacus/core';
+import { OrderApproval } from '../../model/index';
 import { OrderApprovalActions } from '../actions/index';
 import {
   orderApprovalInitialState,

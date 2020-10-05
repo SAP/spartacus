@@ -1,4 +1,4 @@
-import { Permission } from '@spartacus/core';
+import { Permission } from '../../model/index';
 import {
   B2BUserActions,
   PermissionActions,
