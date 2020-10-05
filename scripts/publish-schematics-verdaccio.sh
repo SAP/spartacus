@@ -58,6 +58,7 @@ doItFor "core"
 doItFor "storefrontlib"
 doItFor "cds"
 doItFor "my-account"
+doItFor "setup"
 
 cd ../projects/storefrontstyles
 unpublish "styles" && publish "styles"
