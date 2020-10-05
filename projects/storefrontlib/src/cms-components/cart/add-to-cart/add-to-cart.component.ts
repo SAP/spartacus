@@ -9,7 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMapTo, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -35,7 +35,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
-  increment = false;
+
+  countBeforeAdd = 0;
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
@@ -94,40 +95,42 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
-    // check item is already present in the cart
-    // so modal will have proper header text displayed
     this.activeCartService
-      .getEntry(this.productCode)
-      .subscribe((entry) => {
-        // only for non-configurable products the quantity will be incremented
-        if (entry && entry.product.configurable === false) {
-          this.increment = true;
-        }
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        this.countBeforeAdd = entries.length;
         this.openModal();
         this.activeCartService.addEntry(this.productCode, quantity);
-        this.increment = false;
-      })
-      .unsubscribe();
+      });
   }
 
   private openModal() {
     let modalInstance: any;
-    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
+    this.activeCartService
+      .isStable()
+      .pipe(
+        filter((stable) => stable),
+        switchMapTo(this.activeCartService.getEntries()),
+        take(1)
+      )
+      .subscribe((entries) => {
+        this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
+          centered: true,
+          size: 'lg',
+        });
 
-    modalInstance = this.modalRef.componentInstance;
-    // For configurable products more than one entry for a product code can exist in the cart.
-    // Therefore we hand over last added entry of current product code to modalInstance so that
-    // correct configuration and error information can be displayed in the pop-up.
-    modalInstance.entry$ = this.activeCartService.getLastEntry(
-      this.productCode
-    );
-    modalInstance.cart$ = this.activeCartService.getActive();
-    modalInstance.loaded$ = this.activeCartService.isStable();
-    modalInstance.quantity = this.quantity;
-    modalInstance.increment = this.increment;
+        modalInstance = this.modalRef.componentInstance;
+        // Display last entry for new product code. This always corresponds to
+        // our new item, independently whether merging occured or not
+        modalInstance.entry$ = this.activeCartService.getLastEntry(
+          this.productCode
+        );
+        modalInstance.cart$ = this.activeCartService.getActive();
+        modalInstance.loaded$ = this.activeCartService.isStable();
+        modalInstance.quantity = this.quantity;
+        modalInstance.increment = entries.length === this.countBeforeAdd;
+      });
   }
 
   ngOnDestroy() {

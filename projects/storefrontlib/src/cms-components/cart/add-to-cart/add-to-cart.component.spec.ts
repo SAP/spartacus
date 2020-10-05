@@ -41,6 +41,9 @@ class MockActiveCartService {
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
@@ -192,11 +195,11 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
-    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
+    spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+    spyOn(service, 'isStable').and.returnValue(of(true));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();
-    addToCartComponent.cartEntry$.subscribe();
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
