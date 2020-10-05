@@ -11,6 +11,7 @@ import {
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import { CostCenterActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
@@ -18,7 +19,6 @@ import {
   getCostCenter,
   getCostCenterList,
 } from '../store/selectors/cost-center.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })

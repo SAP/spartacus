@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
@@ -25,11 +25,9 @@ export class BudgetListService extends OrganizationListService<Budget> {
   }
 
   protected load(
-    structure: TableStructure,
-    _params?
+    pagination: PaginationModel
   ): Observable<EntitiesModel<Budget>> {
-    const paginationConfig = structure.options?.pagination;
-    return this.budgetService.getList(paginationConfig).pipe(
+    return this.budgetService.getList(pagination).pipe(
       filter((list) => Boolean(list)),
       map((raw) => this.convertBudgets(raw))
     );

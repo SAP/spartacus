@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OutletService } from 'projects/storefrontlib/src/cms-structure';
-import { Table, TableHeader, TableService } from '.';
+import { TableHeader, TableService } from '.';
 import { TableConfig } from './config/table.config';
 import { TableRendererService } from './table-renderer.service';
 import { TableOptions, TableStructure } from './table.model';
@@ -25,41 +25,34 @@ class MockCodeRendererComponent {}
 const mockOptions: TableOptions = {
   cells: { key2: { label: { i18nKey: 'prop.key2' } } },
 };
-const emptyTableStructure: Table = {
-  structure: { type: 'mock' },
-  data: [],
+const emptyTableStructure: TableStructure = {
+  type: 'mock',
 };
-const mockTableWithHeaderComponent: Table = {
-  structure: {
-    type: 'mock',
-    cells: ['name'],
-    options: { headerComponent: MockHeaderComponent },
-  } as TableStructure,
-  data: [],
+const mockTableWithHeaderComponent: TableStructure = {
+  type: 'mock',
+  cells: ['name'],
+  options: { headerComponent: MockHeaderComponent },
 };
-const mockTableWithHeaderAndDataComponent: Table = {
-  structure: {
-    type: 'mock',
-    cells: ['name', 'code', 'unit'],
-    options: {
-      headerComponent: MockHeaderComponent,
-      dataComponent: MockDataComponent,
-      cells: {
-        code: {
-          dataComponent: MockCodeRendererComponent,
-        },
+const mockTableWithHeaderAndDataComponent: TableStructure = {
+  type: 'mock',
+  cells: ['name', 'code', 'unit'],
+  options: {
+    headerComponent: MockHeaderComponent,
+    dataComponent: MockDataComponent,
+    cells: {
+      code: {
+        dataComponent: MockCodeRendererComponent,
       },
     },
-  } as TableStructure,
-  data: [{ name: 'my name', code: '123' }],
+  },
+
+  // data: [{ name: 'my name', code: '123' }],
 };
 
-const mockTableWithoutHeaderAndDataComponent: Table = {
-  structure: {
-    type: 'mock',
-    cells: ['name', 'code', 'unit'],
-  } as TableStructure,
-  data: [{ name: 'my name', code: '123' }],
+const mockTableWithoutHeaderAndDataComponent: TableStructure = {
+  type: 'mock',
+  cells: ['name', 'code', 'unit'],
+  // data: [{ name: 'my name', code: '123' }],
 };
 
 class MockComponentFactoryResolver {
