@@ -574,6 +574,35 @@ export interface OccEndpoints {
    */
   costCenters?: string | OccEndpoint;
   /**
+   * Endpoint to schedule a replenishment order
+   *
+   * * @member {string}
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
+  /* Endpoint to get a replenishment order details
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetails?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetailsHistory?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  cancelReplenishmentOrder?: string | OccEndpoint;
+  /**
    * Endpoint for all costCenters
    *
    * @member {string}

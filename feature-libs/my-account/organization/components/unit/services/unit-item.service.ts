@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { B2BUnit, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  OrgUnitService,
+  OrganizationItemStatus,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitFormService } from '../form/unit-form.service';
@@ -30,8 +33,9 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
     return this.unitService.get(code);
   }
 
-  update(code, value: B2BUnit) {
+  update(code, value: B2BUnit): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.update(code, value);
+    return this.unitService.getLoadingStatus(code);
   }
 
   protected create(value: B2BUnit) {

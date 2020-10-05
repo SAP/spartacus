@@ -3,6 +3,7 @@ import {
   b2bAccountShipToUser,
   b2bProduct,
   cartWithB2bProduct,
+  order_type,
   POWERTOOLS_BASESITE,
 } from '../../../sample-data/b2b-checkout';
 
@@ -42,7 +43,12 @@ context('B2B - Account Checkout flow', () => {
   });
 
   it('should review and place order', () => {
-    b2bCheckout.placeAccountOrder(b2bAccountShipToUser, cartWithB2bProduct);
+    b2bCheckout.placeOrder(
+      b2bAccountShipToUser,
+      cartWithB2bProduct,
+      true,
+      order_type.place_order
+    );
   });
 
   it('should display summary page', () => {
