@@ -110,10 +110,12 @@ export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
 export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORG_UNIT_SUCCESS;
 
-  constructor(public payload: B2BUnit[]) {
+  constructor(public payload: B2BUnit | B2BUnit[]) {
     super(
       ORG_UNIT_ENTITIES,
-      payload.map((orgUnit) => orgUnit.uid)
+      Array.isArray(payload)
+        ? payload.map((orgUnit) => orgUnit?.uid)
+        : payload?.uid
     );
   }
 }
@@ -514,10 +516,12 @@ export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
 
 export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ADDRESS_SUCCESS;
-  constructor(public payload: Address[]) {
+  constructor(public payload: Address | Address[]) {
     super(
       ADDRESS_ENTITIES,
-      payload.map((address) => address.id)
+      Array.isArray(payload)
+        ? payload.map((address) => address?.id)
+        : payload?.id
     );
   }
 }
