@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { UnifiedInjector } from './unified-injector';
 import { LazyModulesService } from '@spartacus/core';
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { delay, take, tap, toArray } from 'rxjs/operators';
 
@@ -148,20 +148,20 @@ describe('UnifiedInjector', () => {
     });
 
     it('should re-emit new values if new instances are provided with new lazy module', (done) => {
+      const testLogic$ = of(null).pipe(
+        delay(0), // postpone next step to next macro task to trigger asap emissions
+        tap(() => {
+          lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
+        }),
+        delay(0), // postpone next step to next macro task to trigger asap emissions
+        tap(() => {
+          lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
+        })
+      );
+
       service
         .getMulti(TEST_MULTI_TOKEN)
-        .pipe(
-          delay(0), // postpone next step to next macro task to trigger asap emissions
-          tap(() => {
-            lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
-          }),
-          delay(0), // postpone next step to next macro task to trigger asap emissions
-          tap(() => {
-            lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
-          }),
-          take(3),
-          toArray()
-        )
+        .pipe(take(3), toArray())
         .subscribe((result) => {
           expect(result).toEqual([
             ['root1', 'root2'],
@@ -170,23 +170,25 @@ describe('UnifiedInjector', () => {
           ]);
           done();
         });
+
+      testLogic$.subscribe();
     });
 
     it('should not re-emit new values if no new instances exists in new lazy module', (done) => {
+      const testLogic$ = of(null).pipe(
+        delay(0), // postpone next step to next macro task to trigger asap emissions
+        tap(() => {
+          lazyModules.modules$.next(emptyModuleInstance);
+        }),
+        delay(0), // postpone next step to next macro task to trigger asap emissions
+        tap(() => {
+          lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
+        })
+      );
+
       service
         .getMulti(TEST_MULTI_TOKEN)
-        .pipe(
-          delay(0), // postpone next step to next macro task to trigger asap emissions
-          tap(() => {
-            lazyModules.modules$.next(emptyModuleInstance);
-          }),
-          delay(0), // postpone next step to next macro task to trigger asap emissions
-          tap(() => {
-            lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
-          }),
-          take(2),
-          toArray()
-        )
+        .pipe(take(2), toArray())
         .subscribe((result) => {
           expect(result).toEqual([
             ['root1', 'root2'],
@@ -194,6 +196,8 @@ describe('UnifiedInjector', () => {
           ]);
           done();
         });
+
+      testLogic$.subscribe();
     });
   });
 });

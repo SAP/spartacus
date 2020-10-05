@@ -54,6 +54,8 @@ export class UnifiedInjector {
         injector.get<T>(
           token,
           notFoundValue ?? NOT_FOUND_SYMBOL,
+          // we want to ges only Self instances from all injectors except the
+          // first one, which is a root injector
           index ? InjectFlags.Self : undefined
         )
       ),
