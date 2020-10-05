@@ -56,27 +56,33 @@ export class B2BUserEffects {
 
   @Effect()
   createB2BUser$: Observable<
-    B2BUserActions.CreateB2BUserSuccess | B2BUserActions.CreateB2BUserFail
+    | B2BUserActions.CreateB2BUserSuccess
+    | B2BUserActions.CreateB2BUserFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER),
     map((action: B2BUserActions.CreateB2BUser) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
-        map((data) => {
+        switchMap((data) => {
           this.routingService.go({
             cxRoute: 'userDetails',
             params: { customerId: data.customerId },
           });
-          return new B2BUserActions.CreateB2BUserSuccess(data);
+          return [
+            new B2BUserActions.CreateB2BUserSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ];
         }),
 
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new B2BUserActions.CreateB2BUserFail({
               orgCustomerId: payload.orgCustomer.customerId,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -128,7 +134,7 @@ export class B2BUserEffects {
       }
       return currentUserEmailMatch
         ? [new AuthActions.Logout()]
-        : from([new OrganizationActions.OrganizationClearData()]);
+        : [new OrganizationActions.OrganizationClearData()];
     })
   );
 
@@ -308,6 +314,7 @@ export class B2BUserEffects {
   assignApproverToB2BUser$: Observable<
     | B2BUserActions.CreateB2BUserApproverSuccess
     | B2BUserActions.CreateB2BUserApproverFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
     map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
@@ -319,22 +326,23 @@ export class B2BUserEffects {
           payload.approverId
         )
         .pipe(
-          map(
-            (data) =>
-              new B2BUserActions.CreateB2BUserApproverSuccess({
-                // Occ returned email, but we use customerId in store
-                approverId: payload.approverId,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new B2BUserActions.CreateB2BUserApproverSuccess({
+              // Occ returned email, but we use customerId in store
+              approverId: payload.approverId,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.CreateB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
                 approverId: payload.approverId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -344,6 +352,7 @@ export class B2BUserEffects {
   unassignApproverFromB2BUser$: Observable<
     | B2BUserActions.DeleteB2BUserApproverSuccess
     | B2BUserActions.DeleteB2BUserApproverFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
@@ -355,22 +364,23 @@ export class B2BUserEffects {
           payload.approverId
         )
         .pipe(
-          map(
-            (data) =>
-              new B2BUserActions.DeleteB2BUserApproverSuccess({
-                // Occ returned email, but we use customerId in store
-                approverId: payload.approverId,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new B2BUserActions.DeleteB2BUserApproverSuccess({
+              // Occ returned email, but we use customerId in store
+              approverId: payload.approverId,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.DeleteB2BUserApproverFail({
                 orgCustomerId: payload.orgCustomerId,
                 approverId: payload.approverId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -380,6 +390,7 @@ export class B2BUserEffects {
   assignPermissionToB2BUser$: Observable<
     | B2BUserActions.CreateB2BUserPermissionSuccess
     | B2BUserActions.CreateB2BUserPermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
@@ -391,21 +402,22 @@ export class B2BUserEffects {
           payload.permissionId
         )
         .pipe(
-          map(
-            (data) =>
-              new B2BUserActions.CreateB2BUserPermissionSuccess({
-                permissionId: data.id,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new B2BUserActions.CreateB2BUserPermissionSuccess({
+              permissionId: data.id,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.CreateB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
                 permissionId: payload.permissionId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -415,6 +427,7 @@ export class B2BUserEffects {
   unassignPermissionFromB2BUser$: Observable<
     | B2BUserActions.DeleteB2BUserPermissionSuccess
     | B2BUserActions.DeleteB2BUserPermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
@@ -426,21 +439,22 @@ export class B2BUserEffects {
           payload.permissionId
         )
         .pipe(
-          map(
-            (data) =>
-              new B2BUserActions.DeleteB2BUserPermissionSuccess({
-                permissionId: data.id,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new B2BUserActions.DeleteB2BUserPermissionSuccess({
+              permissionId: data.id,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.DeleteB2BUserPermissionFail({
                 orgCustomerId: payload.orgCustomerId,
                 permissionId: payload.permissionId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -450,6 +464,7 @@ export class B2BUserEffects {
   assignUserGroupToB2BUser$: Observable<
     | B2BUserActions.CreateB2BUserUserGroupSuccess
     | B2BUserActions.CreateB2BUserUserGroupFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
@@ -461,21 +476,22 @@ export class B2BUserEffects {
           payload.userGroupId
         )
         .pipe(
-          map(
-            (data) =>
-              new B2BUserActions.CreateB2BUserUserGroupSuccess({
-                uid: data.id,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new B2BUserActions.CreateB2BUserUserGroupSuccess({
+              uid: data.id,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.CreateB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,
                 userGroupId: payload.userGroupId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -485,6 +501,7 @@ export class B2BUserEffects {
   unassignUserGroupFromB2BUser$: Observable<
     | B2BUserActions.DeleteB2BUserUserGroupSuccess
     | B2BUserActions.DeleteB2BUserUserGroupFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
@@ -496,27 +513,30 @@ export class B2BUserEffects {
           payload.userGroupId
         )
         .pipe(
-          map(
+          switchMap(
             // TODO: Workaround because occ doesn't respond here
             // (data) =>
             //   new B2BUserActions.DeleteB2BUserUserGroupSuccess({
             //     uid: data.id,
             //     selected: data.selected,
             //   })
-            () =>
+            () => [
               new B2BUserActions.DeleteB2BUserUserGroupSuccess({
                 uid: payload.userGroupId,
                 selected: false,
-              })
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ]
           ),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.DeleteB2BUserUserGroupFail({
                 orgCustomerId: payload.orgCustomerId,
                 userGroupId: payload.userGroupId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )

@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import { EntitiesModel, CostCenter, normalizeHttpError } from '@spartacus/core';
-import { CostCenterActions, BudgetActions } from '../actions/index';
+import {
+  CostCenterActions,
+  BudgetActions,
+  OrganizationActions,
+} from '../actions/index';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import { Budget } from '../../model/budget.model';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
@@ -71,19 +75,24 @@ export class CostCenterEffects {
   createCostCenter$: Observable<
     | CostCenterActions.CreateCostCenterSuccess
     | CostCenterActions.CreateCostCenterFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(CostCenterActions.CREATE_COST_CENTER),
     map((action: CostCenterActions.CreateCostCenter) => action.payload),
     switchMap((payload) =>
       this.costCenterConnector.create(payload.userId, payload.costCenter).pipe(
-        map((data) => new CostCenterActions.CreateCostCenterSuccess(data)),
+        switchMap((data) => [
+          new CostCenterActions.CreateCostCenterSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new CostCenterActions.CreateCostCenterFail({
               costCenterCode: payload.costCenter.code,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -93,6 +102,7 @@ export class CostCenterEffects {
   updateCostCenter$: Observable<
     | CostCenterActions.UpdateCostCenterSuccess
     | CostCenterActions.UpdateCostCenterFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(CostCenterActions.UPDATE_COST_CENTER),
     map((action: CostCenterActions.UpdateCostCenter) => action.payload),
@@ -100,14 +110,18 @@ export class CostCenterEffects {
       this.costCenterConnector
         .update(payload.userId, payload.costCenterCode, payload.costCenter)
         .pipe(
-          map((data) => new CostCenterActions.UpdateCostCenterSuccess(data)),
+          switchMap((data) => [
+            new CostCenterActions.UpdateCostCenterSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new CostCenterActions.UpdateCostCenterFail({
                 costCenterCode: payload.costCenter.code,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -158,7 +172,9 @@ export class CostCenterEffects {
 
   @Effect()
   assignBudgetToCostCenter$: Observable<
-    CostCenterActions.AssignBudgetSuccess | CostCenterActions.AssignBudgetFail
+    | CostCenterActions.AssignBudgetSuccess
+    | CostCenterActions.AssignBudgetFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
@@ -166,20 +182,21 @@ export class CostCenterEffects {
       this.costCenterConnector
         .assignBudget(userId, costCenterCode, budgetCode)
         .pipe(
-          map(
-            () =>
-              new CostCenterActions.AssignBudgetSuccess({
-                code: budgetCode,
-                selected: true,
-              })
-          ),
+          switchMap(() => [
+            new CostCenterActions.AssignBudgetSuccess({
+              code: budgetCode,
+              selected: true,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new CostCenterActions.AssignBudgetFail({
                 budgetCode,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -189,6 +206,7 @@ export class CostCenterEffects {
   unassignBudgetToCostCenter$: Observable<
     | CostCenterActions.UnassignBudgetSuccess
     | CostCenterActions.UnassignBudgetFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
@@ -196,20 +214,21 @@ export class CostCenterEffects {
       this.costCenterConnector
         .unassignBudget(userId, costCenterCode, budgetCode)
         .pipe(
-          map(
-            () =>
-              new CostCenterActions.UnassignBudgetSuccess({
-                code: budgetCode,
-                selected: false,
-              })
-          ),
+          switchMap(() => [
+            new CostCenterActions.UnassignBudgetSuccess({
+              code: budgetCode,
+              selected: false,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new CostCenterActions.UnassignBudgetFail({
                 budgetCode,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
