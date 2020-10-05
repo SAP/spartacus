@@ -3,7 +3,7 @@ import { CostCenter, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -39,12 +39,12 @@ export class CostCenterListService extends OrganizationListService<
   }
 
   protected load(
-    pagination: PaginationModel,
-    _params?
+    pagination: PaginationModel
   ): Observable<EntitiesModel<CostCenterModel>> {
-    return this.costCenterService
-      .getList(pagination)
-      .pipe(map((raw) => this.convertCostCenters(raw)));
+    return this.costCenterService.getList(pagination).pipe(
+      filter((list) => Boolean(list)),
+      map((raw) => this.convertCostCenters(raw))
+    );
   }
 
   /**

@@ -3,7 +3,7 @@ import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -42,9 +42,10 @@ export class UserListService extends OrganizationListService<UserModel> {
   protected load(
     pagination: PaginationModel
   ): Observable<EntitiesModel<UserModel>> {
-    return this.userService
-      .getList(pagination)
-      .pipe(map((raw) => this.convertUsers(raw)));
+    return this.userService.getList(pagination).pipe(
+      filter((list) => Boolean(list)),
+      map((raw) => this.convertUsers(raw))
+    );
   }
 
   /**

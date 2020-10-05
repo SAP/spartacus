@@ -6,7 +6,7 @@ import {
 } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 /**
@@ -45,9 +45,10 @@ export class UserGroupListService extends OrganizationListService<
   protected load(
     pagination: PaginationModel
   ): Observable<EntitiesModel<UserGroupModel>> {
-    return this.userGroupService
-      .getList(pagination)
-      .pipe(map((raw) => this.convertUserGroups(raw)));
+    return this.userGroupService.getList(pagination).pipe(
+      filter((list) => Boolean(list)),
+      map((raw) => this.convertUserGroups(raw))
+    );
   }
 
   /**
