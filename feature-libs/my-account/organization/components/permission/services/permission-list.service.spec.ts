@@ -7,7 +7,10 @@ import {
 } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PermissionListService } from './permission-list.service';
+import {
+  PermissionListService,
+  PermissionModel,
+} from './permission-list.service';
 
 const code = 'permission';
 const mockPermissionEntities: EntitiesModel<Permission> = {
@@ -61,10 +64,9 @@ describe('PermissionListService', () => {
     });
 
     it('should populate object to string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
-
-      expect(result.data[0].code).toEqual(code);
+      let result: EntitiesModel<PermissionModel>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].code).toEqual(code);
     });
   });
 });
