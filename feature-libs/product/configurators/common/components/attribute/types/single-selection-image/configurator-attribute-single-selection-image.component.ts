@@ -22,37 +22,25 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   /**
-   * Fired on key board events, checks for 'enter' and 'space' and delegates to onClick.
+   * Submits a value.
    *
-   * @param event
-   * @param index Index of selected value
+   * @param {string} value - Selected value
    */
-  onKeyUp(event: KeyboardEvent, index: number): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
-      this.onClick(index);
-    }
-  }
-
-  /**
-   * Fired when value was selected
-   * @param index Index of selected value
-   */
-  onClick(index: number): void {
+  onClick(value: string): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
-        selectedSingleValue: this.attribute.values[index].valueCode,
+        selectedSingleValue: value,
         uiType: this.attribute.uiType,
         groupId: this.attribute.groupId,
       },
