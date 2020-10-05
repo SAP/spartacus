@@ -21,7 +21,6 @@ export class UserIdService {
   private _userId = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
   public setUserId(userId: string): void {
-    console.log('ds', userId);
     this._userId.next(userId);
   }
 

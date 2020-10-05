@@ -64,8 +64,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.sub = this.auth.isUserLoggedIn().subscribe((isLoggedIn) => {
         if (isLoggedIn) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          // TODO: This redirect should be part of the auth services
-          this.authRedirectService.redirect();
         }
       });
     }

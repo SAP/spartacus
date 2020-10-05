@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthStorageService } from '../facade/auth-storage.service';
@@ -59,6 +59,8 @@ export class BasicAuthService {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
         this.store.dispatch(new AuthActions.Login());
+
+        this.authRedirectService.redirect();
       })
       .catch(() => {});
   }
@@ -88,7 +90,8 @@ export class BasicAuthService {
    */
   public isUserLoggedIn(): Observable<boolean> {
     return this.getToken().pipe(
-      map((userToken) => Boolean(userToken?.access_token))
+      map((userToken) => Boolean(userToken?.access_token)),
+      distinctUntilChanged()
     );
   }
 }
