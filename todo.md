@@ -21,31 +21,16 @@
 
 
 
+import { defaultB2bOccConfig } from '@spartacus/setup';
+import { OrganizationModule } from '@spartacus/my-account/organization';
 
+@NgModule({
+  imports: [
+    OrganizationModule,
+  ],
+  providers: [
+    provideDefaultConfig(defaultB2bOccConfig),
+  ],
+})
 
-
-
-
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
-    "stripInternal": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "downlevelIteration": true,
-    "outDir": "../../out-tsc/lib",
-    "sourceMap": true,
-    "inlineSources": true,
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "include": ["migrations/**/*.ts", "schematics/**/*.ts"],
-  "exclude": ["**/*.spec.ts"],
-  "angularCompilerOptions": {
-    "skipMetadataEmit": true,
-    "enableSummariesForJit": false,
-    "enableIvy": false
-  }
-}
+4. Have a "core" stuff in spartacus/schematics, and that can be included in other schematcics.

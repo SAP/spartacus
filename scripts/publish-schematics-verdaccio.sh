@@ -51,6 +51,7 @@ fi
 cd ../projects/schematics
 yarn && yarn build
 cd ../../dist
+yarn build:myaccount:schematics
 
 doItFor "assets"
 doItFor "core"
