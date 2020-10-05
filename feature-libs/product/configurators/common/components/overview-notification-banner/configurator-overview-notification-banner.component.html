@@ -7,8 +7,8 @@
         </div>
         <div class="cx-error-msg-container">
           {{
-            getIssueMessageKey(numberOfIssues)
-              | cxTranslate: { issues: numberOfIssues }
+            'configurator.notificationBanner.numberOfIssues'
+              | cxTranslate: { count: numberOfIssues }
           }}
           <button
             class="link cx-action-link"

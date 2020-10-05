@@ -85,14 +85,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     });
     return numberOfIssues;
   }
-
-  /**
-   * Retrieves a certain issue message key depending on the number of issues for translation.
-   *
-   * @param numberOfErrors - number of errors
-   * @return {string} - the error message key
-   */
-  getIssueMessageKey(numberOfErrors: number): string {
-    return this.genericConfigUtilsService.getIssueMessageKey(numberOfErrors);
-  }
 }
