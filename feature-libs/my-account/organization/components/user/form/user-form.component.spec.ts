@@ -7,8 +7,16 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, Title, UserService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import {
+  B2BUserGroup,
+  I18nTestingModule,
+  Title,
+  UserService,
+} from '@spartacus/core';
+import {
+  B2BUserService,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,
@@ -39,6 +47,17 @@ class MockUserService {
   }
 
   loadTitles(): void {}
+}
+
+class MockB2BUserService implements Partial<B2BUserService> {
+  getAllRoles() {
+    return [
+      B2BUserGroup.B2B_CUSTOMER_GROUP,
+      B2BUserGroup.B2B_MANAGER_GROUP,
+      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserGroup.B2B_ADMIN_GROUP,
+    ];
+  }
 }
 
 class MockOrgUnitService {
@@ -72,6 +91,7 @@ describe('UserFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserItemService, useClass: MockOrganizationItemService },
         { provide: UserService, useClass: MockUserService },
+        { provide: B2BUserService, useClass: MockB2BUserService },
       ],
     }).compileComponents();
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
   UserGroup,
 } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -26,10 +27,12 @@ export class UserUserGroupListService extends OrganizationSubListService<
   }
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<UserGroup>> {
-    return this.userService.getUserGroups(code, structure.options?.pagination);
+    return this.userService
+      .getUserGroups(code, pagination)
+      .pipe(filter((list) => Boolean(list)));
   }
 
   /**

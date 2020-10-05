@@ -18,6 +18,15 @@ export abstract class OrganizationSubListService<
     options: { layout: TableLayout.VERTICAL },
   };
 
+  protected ghostData = {
+    values: [{}, {}, {}],
+    pagination: {
+      totalPages: 1,
+      sort: ' ',
+    },
+    sorts: [],
+  } as EntitiesModel<T>;
+
   // TODO: abstract
   assign(_key: string, ..._args: any) {}
   unassign(_key: string, ..._args: any) {}
@@ -25,11 +34,13 @@ export abstract class OrganizationSubListService<
   /**
    * As we can't filter with the backend API, we do this client side.
    */
-  protected filterSelected({
-    pagination,
-    sorts,
-    values,
-  }: EntitiesModel<T>): EntitiesModel<T> {
+  protected filterSelected(list: EntitiesModel<T>): EntitiesModel<T> {
+    if (!list) {
+      return list;
+    }
+
+    const { pagination, sorts, values } = list;
+
     return {
       pagination,
       sorts,

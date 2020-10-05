@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { AdminGuard } from './admin.guard';
-import createSpy = jasmine.createSpy;
 import {
+  B2BUserGroup,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -9,7 +8,8 @@ import {
   UserService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { UserRole } from '@spartacus/my-account/organization/core';
+import { AdminGuard } from './admin.guard';
+import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
   firstName: 'test',
@@ -59,7 +59,10 @@ describe('AdminGuard', () => {
 
   it('should return true when admin role found', () => {
     let result: boolean;
-    mockUserDetails.roles = [UserRole.APPROVER, UserRole.ADMIN];
+    mockUserDetails.roles = [
+      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserGroup.B2B_ADMIN_GROUP,
+    ];
 
     guard
       .canActivate()
@@ -71,7 +74,7 @@ describe('AdminGuard', () => {
 
   it('should return false when admin role not found', () => {
     let result: boolean;
-    mockUserDetails.roles = [UserRole.APPROVER];
+    mockUserDetails.roles = [B2BUserGroup.B2B_APPROVER_GROUP];
 
     guard
       .canActivate()
