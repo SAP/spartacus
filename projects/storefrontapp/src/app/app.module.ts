@@ -51,6 +51,7 @@ if (environment.cdc) {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
     JsonLdBuilderModule,
+
     ConfigModule.withConfig({
       backend: {
         occ: {
@@ -82,7 +83,18 @@ if (environment.cdc) {
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-
+    // Auth demo - Resource Owner Password Flow
+    // Add `refresh_token` in backoffice OAuth client
+    ConfigModule.withConfig({
+      authentication: {
+        client_id: 'client4kyma',
+        client_secret: 'secret',
+      },
+    }),
+    // Auth demo - Implicit Flow
+    // Auth demo - Authorization Code
+    // Auth demo - id token
+    // Auth demo - external IdP
     ...devImports,
   ],
 
