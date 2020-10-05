@@ -50,18 +50,16 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    */
   protected abstract tableType: OrganizationTableType;
 
-  get domain() {
-    return this.domainType;
-  }
+  /**
+   * The domain type is used to bind fields to localized fields based on the domain.
+   * This type differs from the `viewType`, which is related to a specific view
+   * configuration.
+   */
+  protected domainType: string;
+
   get viewType(): OrganizationTableType {
     return this.tableType;
   }
-
-  /**
-   * Bind to the domain specific fields and routing.
-   * TODO: abstract
-   */
-  protected domainType: string;
 
   /**
    * The pagination state of the listing.
@@ -110,10 +108,16 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    * The `defaultTableStructure` is deep merged as a fallback configuration.
    */
   getStructure(): Observable<TableStructure> {
-    return this.tableService.buildStructure(
-      this.viewType,
-      this.defaultTableStructure
-    );
+    return this.tableService
+      .buildStructure(this.viewType, this.defaultTableStructure)
+      .pipe(
+        map((structure) => ({
+          ...structure,
+          // while the `viewType` is used to build the structure, we
+          // use prioritize the `domainType` for further usage of the type.
+          type: this.domainType ?? this.viewType,
+        }))
+      );
   }
 
   /**
