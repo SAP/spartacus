@@ -115,6 +115,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     const action = new CheckoutActions.PlaceOrder({
       cartId: '',
       userId: '',
+      termsChecked: true,
     });
     const completion = new ConfiguratorActions.RemoveConfiguration({
       ownerKey: ['cartEntry/1', 'cartEntry/3'],
@@ -134,6 +135,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     const action = new CheckoutActions.PlaceOrder({
       cartId: '',
       userId: '',
+      termsChecked: true,
     });
     const completion = new ConfiguratorActions.RemoveConfiguration({
       ownerKey: [],
