@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrganizationTableType } from '../organization.model';
 import { OrganizationListService } from './organization-list.service';
@@ -11,11 +11,10 @@ const mockValues = [{ foo: 'bar' }];
 @Injectable()
 class SampleListService extends OrganizationListService<any> {
   tableType = 'mockTableType' as OrganizationTableType;
-  load(structure: TableStructure): Observable<EntitiesModel<any>> {
+  load(pagination: PaginationModel): Observable<EntitiesModel<any>> {
     return of({
-      ...structure,
       values: mockValues,
-      pagination: structure.options?.pagination,
+      pagination,
     });
   }
 }
@@ -54,50 +53,64 @@ describe('OrganizationListService', () => {
     expect(service.key()).toEqual('code');
   });
 
-  describe('getTable', () => {
-    it('should call load method', () => {
+  describe('getData', () => {
+    it('should call load method to get data', () => {
       spyOn(service, 'load').and.callThrough();
-      service.getTable().subscribe();
+      service.getData().subscribe();
       expect(service.load).toHaveBeenCalled();
     });
 
-    it('should return structure.values', () => {
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
-      expect(result.data).toEqual(mockValues);
+    it('should return values', () => {
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
+      expect(result.values).toEqual(mockValues);
+    });
+
+    it('should default to pageSize=10', () => {
+      let result: EntitiesModel<any>;
+      service
+        .getData()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+      expect(result.pagination.pageSize).toEqual(10);
+    });
+
+    it('should use pageSize=3 from configurable structure', () => {
+      let result: EntitiesModel<any>;
+      spyOn(service, 'getStructure').and.returnValue(
+        of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
+      );
+      service
+        .getData()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+      expect(result.pagination.pageSize).toEqual(3);
     });
   });
 
   describe('getStructure()', () => {
-    it('should merge page structure pagination and runtime pagination', () => {
-      const mockPagination: PaginationModel = { currentPage: 1, totalPages: 9 };
-      service.view(mockPagination, 5);
-
+    it('should build structure with tableService', () => {
       spyOn(tableService, 'buildStructure').and.returnValue(
-        of({ type: 'unknown', pagination: mockPagination }) as Observable<
-          TableStructure
-        >
+        of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
       );
-
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
-      expect(result.pagination.currentPage).toEqual(5);
+      service.getStructure().subscribe().unsubscribe();
+      expect(tableService.buildStructure).toHaveBeenCalled();
     });
   });
 
   describe('view()', () => {
     it('should paginate to page 5', () => {
       service.view({ currentPage: 1 }, 5);
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
       expect(result.pagination.currentPage).toEqual(5);
     });
 
     // TODO: drop as soon as we dropped the method
     it('should paginate to page 5', () => {
       service.viewPage({ currentPage: 1 }, 5);
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
       expect(result.pagination.currentPage).toEqual(5);
     });
   });
@@ -105,15 +118,15 @@ describe('OrganizationListService', () => {
   describe('sort()', () => {
     it('should sort by sortCode', () => {
       service.sort({ currentPage: 7, sort: 'byCode' });
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
       expect(result.pagination.sort).toEqual('byCode');
     });
 
     it('should reset currentPage', () => {
       service.sort({ currentPage: 7 }, 'byCode');
-      let result: Table<any>;
-      service.getTable().subscribe((data) => (result = data));
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
       expect(result.pagination.currentPage).toEqual(0);
     });
   });

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
@@ -15,7 +15,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
   // temp as long as unit tree is not merged
   @HostBinding('class.organization') orgCls = true;
 
-  @HostBinding('class.ghost') loading: boolean;
+  @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
     protected service: OrganizationListService<T, P>,
@@ -27,6 +27,8 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
     return this.service.viewType;
   }
 
+  sortCode: string;
+
   /**
    * The current key represents the current selected item from the dataset.
    * This key is used to load the item details as well as highlight the item in
@@ -34,11 +36,16 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    */
   readonly currentKey$ = this.organizationItemService.key$;
 
-  readonly dataTable$: Observable<Table> = this.service
-    .getTable()
-    .pipe(tap((table) => (this.loading = table.structure.isLoading)));
+  readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
-  notification$: Observable<string> = this.service.notification$;
+  readonly listData$: Observable<
+    EntitiesModel<T>
+  > = this.service.getData().pipe(
+    tap((data) => {
+      this.sortCode = data.pagination?.sort;
+      this.hasGhostData = this.service.hasGhostData(data);
+    })
+  );
 
   get key(): string {
     return this.service.key();
@@ -69,6 +76,9 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    * Sorts the list.
    */
   sort(pagination: P): void {
-    this.service.sort(pagination);
+    this.service.sort({
+      ...pagination,
+      ...({ sort: this.sortCode } as PaginationModel),
+    });
   }
 }
