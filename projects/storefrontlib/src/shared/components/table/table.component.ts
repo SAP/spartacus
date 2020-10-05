@@ -9,26 +9,25 @@ import {
 } from '@angular/core';
 import { TableRendererService } from './table-renderer.service';
 import {
-  Table,
   TableDataOutletContext,
   TableHeaderOutletContext,
   TableLayout,
+  TableStructure,
 } from './table.model';
 
 /**
- * The table component provides a generic DOM structure based on the `dataset` input.
- * The `Table` dataset contains a type, table structure and table data.
+ * The table component provides a generic table DOM structure, with 3 layout types:
+ * horizontal, vertical and _stacked vertical_ layout. The layout is driven by the
+ * table structure.
  *
- * The table component only supports horizontal, vertical and stacked table layout.
+ * The implementation is fairly "dumb" and only renders string based content for TH
+ * and TD elements. The actual cell rendering is delegated to a (configurable) cell
+ * component. Additionally, each cell is registered as an outlet, so that customizations
+ * can be done by both outlet templates and components.
  *
- * The implementation is fairly "dumb" and only renders string based content for TH and TD elements.
- * The actual cell rendering is delegated to a (configurable) cell component. Additionally, each cell
- * is registered as an outlet, so that customizations can be done by both outlet templates
- * and components.
- *
- * The outlet references are concatenated from the table `type` and header `key`. The following
- * snippet shows an outlet generated for a table header, for the table type "cost-center" with
- * a header key "name":
+ * The outlet references are concatenated from the table `type` and header `key`. The
+ * following snippet shows an outlet generated for a table header, for the table type
+ * "cost-center" with a header key "name":
  *
  * ```
  * <th>
@@ -45,20 +44,22 @@ import {
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent {
+export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
 
-  private _dataset: Table;
-  @Input() set dataset(value) {
-    this._dataset = value;
-    this.init(value);
+  private _structure: TableStructure;
+  @Input() set structure(structure: TableStructure) {
+    this._structure = structure;
+    this.init();
   }
-  get dataset(): Table {
-    return this._dataset;
+  get structure(): TableStructure {
+    return this._structure;
   }
+
+  @Input() data: T[];
 
   /**
    * Provides a mechanism to compare a matching value for each item.
@@ -72,12 +73,12 @@ export class TableComponent {
 
   constructor(protected rendererService: TableRendererService) {}
 
-  init(dataset: Table) {
+  init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;
     this.verticalStackedLayout = this.layout === TableLayout.VERTICAL_STACKED;
     this.horizontalLayout = this.layout === TableLayout.HORIZONTAL;
 
-    this.rendererService.add(dataset);
+    this.rendererService.add(this.structure);
 
     this.addTableDebugInfo();
   }
@@ -154,17 +155,17 @@ export class TableComponent {
    * Helper method to return the deeply nested orientation configuration.
    */
   private get layout() {
-    return this.dataset?.structure?.options?.layout;
+    return this.structure?.options?.layout;
   }
 
   /**
    * Helper method to return the deeply nested type.
    */
   private get type() {
-    return this.dataset?.structure?.type;
+    return this.structure?.type;
   }
 
   private get options() {
-    return this.dataset?.structure?.options;
+    return this.structure?.options;
   }
 }

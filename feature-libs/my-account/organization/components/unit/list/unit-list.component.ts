@@ -9,8 +9,8 @@ import { UnitTreeService } from '../services/unit-tree.service';
 })
 export class UnitListComponent {
   root$ = this.unitListService
-    .getTable()
-    .pipe(map((list) => list.data?.[0].id));
+    .getData()
+    .pipe(map((list) => list.values?.[0].id));
 
   constructor(
     protected unitListService: UnitListService,

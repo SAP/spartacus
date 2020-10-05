@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Permission } from '@spartacus/my-account/organization/core';
-import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../shared/organization.model';
@@ -17,11 +16,11 @@ export class UserGroupAssignedPermissionsListService extends UserGroupPermission
    * Load all b2b users assigned to the given user group
    */
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<Permission>> {
     return super
-      .load(structure, code)
+      .load(pagination, code)
       .pipe(map((users) => this.filterSelected(users)));
   }
 }

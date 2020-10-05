@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { UserGroupService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
@@ -30,11 +30,10 @@ export class UserGroupUserListService extends OrganizationSubListService<
    * @param code The user group code.
    */
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    const config = structure.options?.pagination;
-    return this.userGroupService.getAvailableOrgCustomers(code, config);
+    return this.userGroupService.getAvailableOrgCustomers(code, pagination);
   }
 
   /**

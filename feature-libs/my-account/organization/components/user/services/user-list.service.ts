@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
@@ -40,11 +40,9 @@ export class UserListService extends OrganizationListService<UserModel> {
   }
 
   protected load(
-    structure: TableStructure,
-    _params?
+    pagination: PaginationModel
   ): Observable<EntitiesModel<UserModel>> {
-    const paginationConfig = structure.options?.pagination;
-    return this.userService.getList(paginationConfig).pipe(
+    return this.userService.getList(pagination).pipe(
       filter((list) => Boolean(list)),
       map((raw) => this.convertUsers(raw))
     );
