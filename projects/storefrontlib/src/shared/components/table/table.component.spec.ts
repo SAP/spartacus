@@ -36,8 +36,8 @@ class MockTableRendererService {
 }
 
 describe('TableComponent', () => {
-  let fixture: ComponentFixture<TableComponent>;
-  let tableComponent: TableComponent;
+  let fixture: ComponentFixture<TableComponent<any>>;
+  let tableComponent: TableComponent<any>;
   let tableRendererService: TableRendererService;
 
   beforeEach(() => {

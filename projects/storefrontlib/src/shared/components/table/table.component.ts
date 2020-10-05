@@ -44,7 +44,7 @@ import {
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T = any> {
+export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
