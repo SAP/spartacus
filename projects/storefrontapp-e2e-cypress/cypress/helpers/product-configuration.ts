@@ -380,14 +380,16 @@ export function selectAttribute(
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
+      cy.get(`#${valueId}`).click({ force: true });
+      break;
     case 'single_selection_image':
-      cy.get(`#${valueId}`)
+      const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
+      cy.log('labelId: ' + labelId);
+      cy.get(`#${labelId}`)
         .click({ force: true })
         .then(() => {
-          if (uiType !== 'single_selection_image') {
-            isUpdatingMessageNotDisplayed();
-            cy.get(`#${valueId}`).should('be.checked');
-          }
+          isUpdatingMessageNotDisplayed();
+          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
@@ -428,6 +430,7 @@ export function isImageSelected(
 ) {
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
+  cy.log('valueId: ' + valueId);
   cy.get(`#${valueId}`).should('be.checked');
 }
 
