@@ -8,7 +8,7 @@ import {
   TableStructure,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
 
 /**
@@ -96,6 +96,7 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
             // if we have ghost data, we add the ghost class
             structure.isLoading = data === this.ghostData;
           }),
+          filter((list) => Boolean(list)),
           map(
             ({ values, pagination, sorts }) =>
               ({
