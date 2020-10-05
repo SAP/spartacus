@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { B2BAddress, RoutingService } from '@spartacus/core';
+import { Address, RoutingService } from '@spartacus/core';
 import {
-  OrgUnitService,
   OrganizationItemStatus,
+  OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  pluck,
+  tap,
+} from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
@@ -14,9 +20,7 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressItemService extends OrganizationItemService<
-  B2BAddress
-> {
+export class UnitAddressItemService extends OrganizationItemService<Address> {
   constructor(
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
@@ -30,21 +34,23 @@ export class UnitAddressItemService extends OrganizationItemService<
     .getParams()
     .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
 
-  load(unitUid: string, addressId: string): Observable<B2BAddress> {
-    return this.unitService.getAddress(unitUid, addressId);
+  load(unitUid: string, addressId: string): Observable<Address> {
+    return this.unitService
+      .getAddress(unitUid, addressId)
+      .pipe(filter((list) => Boolean(list)));
   }
 
   update(
     addressCode: string,
-    address: B2BAddress
-  ): Observable<OrganizationItemStatus<B2BAddress>> {
+    address: Address
+  ): Observable<OrganizationItemStatus<Address>> {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
       this.unitService.updateAddress(unitCode, addressCode, address);
     });
     return this.unitService.getAddressLoadingStatus(addressCode);
   }
 
-  protected create(value: B2BAddress) {
+  protected create(value: Address) {
     this.unitRouteParam$
       .pipe(first(), tap(console.log))
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
@@ -59,7 +65,7 @@ export class UnitAddressItemService extends OrganizationItemService<
     this.unitService.deleteAddress(unitUid, addressId);
   }
 
-  launchDetails(item: B2BAddress): void {
+  launchDetails(item: Address): void {
     if (!item.id) {
       // since the ID is generated in the backend
       // we redirect to the list instead.

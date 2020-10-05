@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BAddress, I18nTestingModule } from '@spartacus/core';
+import { Address, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUnitAddressService } from '../links/addresses/services/current-unit-address.service';
 import { UnitAddressRoutePageMetaResolver } from './unit-address-route-page-meta.resolver';
 
 class MockCurrentItemService implements Partial<CurrentUnitAddressService> {
-  item$: Observable<B2BAddress> = of({ formattedAddress: 'testAddress' });
+  item$: Observable<Address> = of({ formattedAddress: 'testAddress' });
 }
 
 describe('UnitAddressRoutePageMetaResolver', () => {
