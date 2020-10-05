@@ -3,12 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideDefaultConfigFactory } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { AUTH_FEATURE } from './auth-state';
 import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 
 export function authStoreConfigFactory(): StateConfig {
   // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object

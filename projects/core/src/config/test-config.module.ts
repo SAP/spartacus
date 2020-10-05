@@ -5,8 +5,8 @@ import {
   NgModule,
   PLATFORM_ID,
 } from '@angular/core';
-import { provideConfigFactory } from './config.module';
 import { getCookie } from './utils/get-cookie';
+import { provideConfigFactory } from './config-providers';
 
 export const TEST_CONFIG_COOKIE_NAME = new InjectionToken<string>(
   'TEST_CONFIG_COOKIE_NAME'

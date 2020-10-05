@@ -1,25 +1,25 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
-import { TableConfig } from './config/table.config';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import {
+  ResponsiveTableConfiguration,
+  TableConfig,
+} from './config/table.config';
 import { TableStructure, TableStructureConfiguration } from './table.model';
 
 /**
  * Responsive table service.
  *
- * The `TableService` is used to generate a `TableStructure` based on configuration. The table
- * structure configuration allows for breakpoint specific configuration, so that the table
- * experience can be differentiated various screen sizes.
+ * The `TableService` is used to build a `TableStructure` by configuration. The configuration
+ * allows for breakpoint specific configuration, so that the table can differentiate for
+ * various screen sizes.
  *
- * The table structure configuration is driven by a table type. The various supported
- * table types are exposed in feature libraries.
+ * While there are some global options, the configuration is mainly driven by the table _type_.
  *
  * If there is no table configuration for the given type found, a table header structure
- * is generated based on the actual data or randomly (in case no data is passed in) by
- * generating 5 headers. In case of a generated header, we warn the developer in devMode that
- * there is no configuration available.
+ * is generated based on the actual data (if available) or randomly by generating 5 random headers.
  */
 @Injectable({
   providedIn: 'root',
@@ -31,16 +31,19 @@ export class TableService {
   ) {}
 
   /**
-   * Builds the table structure. The table structure can be created by the help of
-   * the `tableType`. The `tableType` can be used in the configuration `TableConfig`,
-   * so that the table headers can be defined.
+   * Builds the table structure.
+   *
+   * @param tableType The table type is used  to find the specific table configuration.
+   * @param defaultStructure (optional) Default table structure that contains fallback options. More specific options are merged with the default structure.
+   * @param data$ (optional) The actual data can be passed in to generate the table structure based on actual data.
    */
   buildStructure(
     tableType: string,
+    defaultStructure?: ResponsiveTableConfiguration,
     data$?: Observable<any>
   ): Observable<TableStructure> {
     if (this.hasTableConfig(tableType)) {
-      return this.buildStructureFromConfig(tableType);
+      return this.buildStructureFromConfig(tableType, defaultStructure);
     } else {
       if (data$) {
         return this.buildStructureFromData(tableType, data$);
@@ -57,98 +60,121 @@ export class TableService {
    *
    * The breakpoint is resolved by teh `BreakpointService`.
    */
-  protected buildStructureFromConfig(type: string): Observable<TableStructure> {
+  protected buildStructureFromConfig(
+    type: string,
+    defaultStructure?: ResponsiveTableConfiguration
+  ): Observable<TableStructure> {
     return this.breakpointService.breakpoint$.pipe(
-      map((breakpoint) => ({ ...this.getTableConfig(type, breakpoint), type }))
+      map((breakpoint) => ({
+        ...this.getTableConfig(type, breakpoint, defaultStructure),
+        type,
+      }))
     );
   }
 
   /**
-   * This method generates a table structure by the help of the first data row.
+   * Finds all applicable table configuration for the given type and breakpoint.
+   * The default table configuration is merged with all relevant breakpoint
+   * configurations.
+   *
+   * This allows to have some default configurations that apply to all screens, and
+   * add configuration options for some screens.
+   */
+  protected getTableConfig(
+    type: string,
+    breakpoint: BREAKPOINT,
+    defaultStructure?: ResponsiveTableConfiguration
+  ): TableStructureConfiguration {
+    if (!this.config.table?.[type]) {
+      return null;
+    }
+
+    const relevant = this.findRelevantBreakpoints(breakpoint);
+
+    const closestBreakpoint = [...relevant]
+      .reverse()
+      .find((br) => !!this.config.table[type][br]?.cells);
+    const cells =
+      this.config.table[type][closestBreakpoint]?.cells ||
+      this.config.table[type].cells ||
+      defaultStructure?.cells;
+
+    // add all default table configurations
+    let options = {
+      ...defaultStructure?.options,
+      ...this.config.table[type].options,
+    };
+
+    // We merge all table options for smaller breakpoints into the global
+    // options, so we inherit options.
+    relevant.forEach((br) => {
+      options = {
+        ...options,
+        ...defaultStructure?.[br]?.options,
+        ...this.config.table[type]?.[br]?.options,
+      };
+    });
+
+    return { cells, options };
+  }
+
+  /**
+   * Generates the table structure by the help of the first data row.
    */
   protected buildStructureFromData(
     type: string,
     data$: Observable<any>
   ): Observable<TableStructure> {
-    this.warn(
+    this.logWarning(
       `No table configuration found to render table with type "${type}". The table header for "${type}" is generated by the help of the first data item`
     );
     return data$.pipe(
       map((data: any[]) => {
-        const headers = Object.keys(data?.[0]).map((key) => ({
-          key,
-          label: key,
-        }));
-        return {
-          type: type,
-          headers,
-        } as TableStructure;
+        const cells = Object.keys(data?.[0]).map((key) => key);
+        return { type, cells } as TableStructure;
       })
     );
   }
 
   /**
-   * As a last resort, the table structure is randomly created. We add 5 unknown headers
-   * and use the `hideHeader` to avoid the unknown headers to be rendered.
+   * As a last resort, the table structure is randomly created. The random structure
+   * contains 5 headers, so that some of the unknown data is visualized.
    */
   protected buildRandomStructure(type: string): Observable<TableStructure> {
-    this.warn(
+    this.logWarning(
       `No data available for "${type}", a random structure is generated (with hidden table headers).`
     );
-
     return of({
       type,
-      headers: [
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-        { key: 'unknown' },
-      ],
-      hideHeader: true,
+      cells: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
     });
   }
 
   /**
-   * Finds the best applicable table configuration for the given type
-   * and breakpoint. If there is no configuration available for the breakpoint,
-   * the best match will be returned, using mobile first approach.
+   * Finds all the breakpoints can contribute to the table configuration, from small
+   * to current.
    *
-   * If there is no match for any breakpoint, the fallback is a configuration
-   * without the notion of a breakpoint. Otherwise we fallback to the first
-   * available config.
+   * For example, if the current breakpoint is `MD`, this returns `[XS, SM, MD]`.
    */
-  protected getTableConfig(
-    type: string,
-    breakpoint: BREAKPOINT
-  ): TableStructureConfiguration {
-    const tableConfig = this.config.table[type];
-
-    // find all relevant breakpoints
+  protected findRelevantBreakpoints(breakpoint: BREAKPOINT): BREAKPOINT[] {
     const current = this.breakpointService.breakpoints.indexOf(breakpoint);
-    const relevant = this.breakpointService.breakpoints
-      .slice(0, current + 1)
-      .reverse();
-
-    const bestMatch: BREAKPOINT = relevant.find(
-      (br) => !!tableConfig.find((structure) => structure.breakpoint === br)
-    );
-
-    return bestMatch
-      ? tableConfig.find((config) => config.breakpoint === bestMatch)
-      : tableConfig.find((structure) => !structure.breakpoint) ||
-          tableConfig[0];
+    return this.breakpointService.breakpoints.slice(0, current + 1);
   }
 
+  /**
+   * Indicates if the there is a configuration for the table available.
+   */
   protected hasTableConfig(tableType: string): boolean {
     return !!this.config.table?.[tableType];
   }
 
   /**
-   * Prints a convenient message in the console to increase developer experience.
+   * Logs a message in the console to increase developer experience.
+   *
+   * The message is only logged in dev mode.
    */
-  private warn(message) {
-    if (isDevMode) {
+  private logWarning(message) {
+    if (isDevMode()) {
       console.warn(message);
     }
   }

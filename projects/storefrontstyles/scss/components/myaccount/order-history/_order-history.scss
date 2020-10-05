@@ -5,6 +5,7 @@
       padding: 0;
     }
   }
+
   .cx-order-history-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
@@ -156,13 +157,12 @@
 
     &.bottom {
       display: flex;
-      justify-content: space-between;
-      padding: 2rem 0 1rem 0;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
       margin: 0;
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding-top: 0;
       }
     }
   }
@@ -187,5 +187,25 @@
     .btn {
       margin: 1.25rem 0;
     }
+  }
+
+  .cx-replenishment-details-order-history-header {
+    margin-top: 30px;
+    padding: 20px;
+
+    background-color: var(--cx-color-background);
+
+    h4 {
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  }
+
+  .cx-replenishment-details-order-history-no-order {
+    display: flex;
+    justify-content: center;
+
+    padding: 40px 0 0 0;
+    min-height: 0;
   }
 }

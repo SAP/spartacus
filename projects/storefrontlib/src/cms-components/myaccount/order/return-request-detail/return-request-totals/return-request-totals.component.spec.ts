@@ -8,10 +8,12 @@ const mockReturnRequest: ReturnRequest = {
   rma: 'test',
   returnEntries: [],
 };
-class MockCheckoutService {
+
+class MockReturnRequestService {
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
+  clearReturnRequest() {}
 }
 
 describe('ReturnRequestTotalsComponent', () => {
@@ -23,7 +25,7 @@ describe('ReturnRequestTotalsComponent', () => {
       imports: [I18nTestingModule],
       declarations: [ReturnRequestTotalsComponent],
       providers: [
-        { provide: ReturnRequestService, useClass: MockCheckoutService },
+        { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],
     }).compileComponents();
   }));
