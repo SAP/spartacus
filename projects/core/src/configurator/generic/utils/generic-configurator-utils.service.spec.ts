@@ -73,16 +73,6 @@ describe('GenericConfiguratorUtilsService', () => {
     }).toThrow();
   });
 
-  it('should return a singular issue message key for one issue', () => {
-    const result = classUnderTest.getIssueMessageKey(1);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssue');
-  });
-
-  it('should return a plural issue message key for more than one issue', () => {
-    const result = classUnderTest.getIssueMessageKey(3);
-    expect(result).toEqual('configurator.notificationBanner.numberOfIssues');
-  });
-
   it('should throw an error if for owner type CART_ENTRY no cart entry link is present', () => {
     owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
     expect(function () {

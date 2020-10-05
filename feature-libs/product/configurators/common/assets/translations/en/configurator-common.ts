@@ -17,8 +17,9 @@ export const configurator = {
       overview: 'Overview',
     },
     notificationBanner: {
-      numberOfIssue: 'Issue must be resolved before checkout.',
-      numberOfIssues: '{{issues}} issues must be resolved before checkout.',
+      numberOfIssues: '{{count}} issue must be resolved before checkout.',
+      numberOfIssues_plural:
+        '{{count}} issues must be resolved before checkout.',
     },
     attribute: {
       caption: 'Attributes',
