@@ -221,21 +221,13 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   it('should render button that is not disabled in case there are no pending changes', () => {
     initialize();
-    expect(
-      htmlElem
-        .querySelector('.cx-configurator-add-to-cart-btn')
-        .innerHTML.includes('disabled')
-    ).toBe(false);
+    expect(htmlElem.querySelector('button').disabled).toBe(false);
   });
 
   it('should render disabled button in case there are pending changes', () => {
     pendingChangesObservable = of(true);
     initialize();
-    expect(
-      htmlElem
-        .querySelector('.cx-configurator-add-to-cart-btn')
-        .innerHTML.includes('disabled')
-    ).toBe(true);
+    expect(htmlElem.querySelector('button').disabled).toBe(true);
   });
 
   describe('onAddToCart', () => {
