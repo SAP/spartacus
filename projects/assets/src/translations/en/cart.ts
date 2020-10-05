@@ -25,6 +25,7 @@ export const cart = {
     salesTax: 'Sales Tax:',
     grossTax: 'The order total does not include tax of',
     total: 'Total:',
+    TBD: 'To be determined',
   },
   voucher: {
     coupon: 'Have a coupon?',
