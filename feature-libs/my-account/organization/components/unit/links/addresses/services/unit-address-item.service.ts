@@ -5,7 +5,13 @@ import {
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, first, pluck, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  pluck,
+  tap,
+} from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
@@ -29,7 +35,9 @@ export class UnitAddressItemService extends OrganizationItemService<Address> {
     .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
 
   load(unitUid: string, addressId: string): Observable<Address> {
-    return this.unitService.getAddress(unitUid, addressId);
+    return this.unitService
+      .getAddress(unitUid, addressId)
+      .pipe(filter((list) => Boolean(list)));
   }
 
   update(

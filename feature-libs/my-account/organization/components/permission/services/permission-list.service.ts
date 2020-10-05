@@ -6,7 +6,7 @@ import {
 } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -47,9 +47,10 @@ export class PermissionListService extends OrganizationListService<
     _params?
   ): Observable<EntitiesModel<PermissionModel>> {
     const paginationConfig = structure.options?.pagination;
-    return this.permissionsService
-      .getList(paginationConfig)
-      .pipe(map((raw) => this.convertPermissions(raw)));
+    return this.permissionsService.getList(paginationConfig).pipe(
+      filter((list) => Boolean(list)),
+      map((raw) => this.convertPermissions(raw))
+    );
   }
 
   /**

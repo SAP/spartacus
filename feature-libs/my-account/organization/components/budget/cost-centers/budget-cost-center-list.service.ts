@@ -3,7 +3,7 @@ import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -27,9 +27,10 @@ export class BudgetCostCenterListService extends OrganizationSubListService<
     _structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<CostCenter>> {
-    return this.budgetService
-      .getCostCenters(code)
-      .pipe(map((costCenter) => this.filterSelected(costCenter)));
+    return this.budgetService.getCostCenters(code).pipe(
+      filter((list) => Boolean(list)),
+      map((costCenter) => this.filterSelected(costCenter))
+    );
   }
 
   /**
