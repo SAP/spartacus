@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, B2BUserGroup, EntitiesModel } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUserGroup,
+  EntitiesModel,
+  PaginationModel,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
@@ -23,13 +28,13 @@ export class UnitApproverListService extends OrganizationSubListService<
   }
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
     return this.unitService.getUsers(
       code,
       B2BUserGroup.B2B_APPROVER_GROUP,
-      structure.options?.pagination
+      pagination
     );
   }
 
