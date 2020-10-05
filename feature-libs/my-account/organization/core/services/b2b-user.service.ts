@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AuthService,
   B2BUser,
+  B2BUserGroup,
   EntitiesModel,
   SearchConfig,
   StateUtils,
@@ -10,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { B2BUserActions } from '../store/actions/index';
@@ -21,6 +23,7 @@ import {
   getB2BUserUserGroups,
   getUserList,
 } from '../store/selectors/b2b-user.selector';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class B2BUserService {
@@ -98,6 +101,12 @@ export class B2BUserService {
         })
       )
     );
+  }
+
+  getLoadingStatus(
+    orgCustomerId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    return getItemStatus(this.getB2BUserState(orgCustomerId));
   }
 
   loadApprovers(orgCustomerId: string, params: SearchConfig): void {
@@ -265,16 +274,22 @@ export class B2BUserService {
     );
   }
 
-  getB2BUserRoles() {
-    // TODO: get the roles via the roles endpoint when they are available
-    const roles = [
-      { name: 'buyer', id: 'b2bcustomergroup', selected: false },
-      { name: 'manager', id: 'b2bmanagergroup', selected: false },
-      { name: 'approver', id: 'b2bapprovergroup', selected: false },
-      { name: 'administrator', id: 'b2badmingroup', selected: false },
+  /**
+   * Get list of all roles for B2BUser sorted by increasing privileges.
+   *
+   * This list is not driven by the backend (lack of API), but reflects roles
+   * from the backend: `b2badmingroup`, `b2bcustomergroup`, `b2bmanagergroup` and `b2bapprovergroup`.
+   *
+   * If you reconfigure those roles in the backend or extend the list, you should change
+   * this implementation accordingly.
+   */
+  getAllRoles(): B2BUserGroup[] {
+    return [
+      B2BUserGroup.B2B_CUSTOMER_GROUP,
+      B2BUserGroup.B2B_MANAGER_GROUP,
+      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserGroup.B2B_ADMIN_GROUP,
     ];
-
-    return roles;
   }
 
   private getB2BUserApproverList(

@@ -100,21 +100,4 @@ export class GenericConfiguratorUtilsService {
     });
     return numberOfIssues;
   }
-
-  /**
-   * Retrieves a certain issue message key depending on the number of issues for translation.
-   *
-   * @param numberOfErrors - number of errors
-   * @return {string} - the error message key
-   */
-  getIssueMessageKey(numberOfErrors: number): string {
-    if (numberOfErrors && numberOfErrors !== 0) {
-      if (numberOfErrors === 1) {
-        return 'configurator.notificationBanner.numberOfIssue';
-      } else {
-        return 'configurator.notificationBanner.numberOfIssues';
-      }
-    }
-    return '';
-  }
 }

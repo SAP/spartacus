@@ -42,16 +42,13 @@ context('Product Configuration', () => {
         RADIO_GROUP,
         CAMERA_MODE_PROFESSIONAL
       );
-      configuration.clickAddToCartBtn();
+      configuration.navigateToOverviewPage();
       // TODO: Replace implicit wait
       cy.wait(2000);
 
       configuration.isGlobalMessageNotDisplayed();
       configuration.isUpdatingMessageNotDisplayed();
       configurationOverview.isConfigOverviewPageDisplayed();
-      configurationOverview.isContinueToCartBtnDisplayed();
-      configuration.isGlobalMessageNotDisplayed();
-      configuration.isUpdatingMessageNotDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview

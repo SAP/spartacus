@@ -103,7 +103,7 @@ context('Product Configuration', () => {
 
     // Failing test
     it('should be able to navigate from the cart', () => {
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
@@ -111,7 +111,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      productSearch.searchForProduct(testProduct);
+      productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();

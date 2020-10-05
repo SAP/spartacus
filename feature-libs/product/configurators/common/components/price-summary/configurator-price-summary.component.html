@@ -1,30 +1,32 @@
-<div class="cx-total">
-  <ng-container *ngIf="configuration$ | async as configuration">
-    <div class="cx-summary-row row">
-      <div class="col-6 cx-summary-label">
-        {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:
+<div class="cx-configurator-price-summary-container">
+  <div class="cx-total">
+    <ng-container *ngIf="configuration$ | async as configuration">
+      <div class="cx-summary-row row">
+        <div class="col-6 cx-summary-label">
+          {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ configuration?.priceSummary?.basePrice?.formattedValue }}
+        </div>
       </div>
-      <div class="col-6 cx-summary-amount">
-        {{ configuration?.priceSummary?.basePrice?.formattedValue }}
-      </div>
-    </div>
 
-    <div class="cx-summary-row row">
-      <div class="col-6 cx-summary-label">
-        {{ 'configurator.priceSummary.selectedOptions' | cxTranslate }}:
+      <div class="cx-summary-row row">
+        <div class="col-6 cx-summary-label">
+          {{ 'configurator.priceSummary.selectedOptions' | cxTranslate }}:
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ configuration?.priceSummary?.selectedOptions?.formattedValue }}
+        </div>
       </div>
-      <div class="col-6 cx-summary-amount">
-        {{ configuration?.priceSummary?.selectedOptions?.formattedValue }}
-      </div>
-    </div>
 
-    <div class="cx-summary-row row cx-price-summary-total-price">
-      <div class="col-6 cx-summary-label">
-        {{ 'configurator.priceSummary.totalPrice' | cxTranslate }}:
+      <div class="cx-summary-row row cx-price-summary-total-price">
+        <div class="col-6 cx-summary-label">
+          {{ 'configurator.priceSummary.totalPrice' | cxTranslate }}:
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ configuration?.priceSummary?.currentTotal?.formattedValue }}
+        </div>
       </div>
-      <div class="col-6 cx-summary-amount">
-        {{ configuration?.priceSummary?.currentTotal?.formattedValue }}
-      </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>

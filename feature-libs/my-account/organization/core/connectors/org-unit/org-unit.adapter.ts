@@ -1,5 +1,5 @@
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -72,20 +72,20 @@ export abstract class OrgUnitAdapter {
   abstract loadAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<EntitiesModel<B2BAddress>>;
+  ): Observable<EntitiesModel<Address>>;
 
   abstract createAddress(
     userId: string,
     orgUnitId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress>;
+    address: Address
+  ): Observable<Address>;
 
   abstract updateAddress(
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress>;
+    address: Address
+  ): Observable<Address>;
 
   abstract deleteAddress(
     userId: string,

@@ -20,6 +20,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
   checkoutReviewOrder: { paths: ['checkout/review-order'] },
   orderConfirmation: { paths: ['order-confirmation'] },
+  replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
 
   // plp routes
   search: { paths: ['search/:query'] },
@@ -85,6 +86,13 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   configureTEXTFIELD: {
     paths: ['configure/textfield/:ownerType/entityKey/:entityKey'],
+  },
+  replenishmentOrders: {
+    paths: ['my-account/my-replenishments'],
+  },
+  replenishmentDetails: {
+    paths: ['my-account/my-replenishment/:replenishmentOrderCode'],
+    paramsMapping: { replenishmentOrderCode: 'replenishmentOrderCode' },
   },
 };
 
