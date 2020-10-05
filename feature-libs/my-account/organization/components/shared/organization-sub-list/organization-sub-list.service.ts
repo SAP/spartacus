@@ -25,11 +25,13 @@ export abstract class OrganizationSubListService<
   /**
    * As we can't filter with the backend API, we do this client side.
    */
-  protected filterSelected({
-    pagination,
-    sorts,
-    values,
-  }: EntitiesModel<T>): EntitiesModel<T> {
+  protected filterSelected(list: EntitiesModel<T>): EntitiesModel<T> {
+    if (!list) {
+      return list;
+    }
+
+    const { pagination, sorts, values } = list;
+
     return {
       pagination,
       sorts,
