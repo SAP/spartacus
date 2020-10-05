@@ -1,12 +1,12 @@
 import {
-  Component,
-  Input,
   ChangeDetectionStrategy,
+  Component,
   HostBinding,
+  Input,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 /**
  * This component renders form errors.
@@ -19,6 +19,9 @@ import { startWith, map } from 'rxjs/operators';
 export class FormErrorsComponent {
   _control: FormControl;
   errors$: Observable<string[]>;
+
+  @Input()
+  translationParams: { [key: string]: string };
 
   @Input()
   set control(control: FormControl) {
@@ -40,12 +43,12 @@ export class FormErrorsComponent {
   }
 
   @HostBinding('class.control-invalid') get invalid() {
-    return this.control.invalid;
+    return this.control?.invalid;
   }
   @HostBinding('class.control-dirty') get dirty() {
-    return this.control.dirty;
+    return this.control?.dirty;
   }
   @HostBinding('class.control-touched') get touched() {
-    return this.control.touched;
+    return this.control?.touched;
   }
 }

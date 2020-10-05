@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, LanguageService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
+import { Observable, of } from 'rxjs';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/my-account",
-  "version": "3.0.0-next.0",
+  "version": "3.0.0-next.2",
   "description": "My Account library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -22,7 +22,7 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.0",
-    "@spartacus/storefront": "3.0.0-next.0"
+    "@spartacus/core": "3.0.0-next.2",
+    "@spartacus/storefront": "3.0.0-next.2"
   }
 }

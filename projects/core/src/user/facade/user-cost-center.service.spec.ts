@@ -1,13 +1,14 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AuthService } from '../../auth/facade/auth.service';
+import { Address } from '../../model/address.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserCostCenterService } from './user-cost-center.service';
-import { CostCenter, B2BAddress } from '../../model/org-unit.model';
 
 const userId = 'testUserId';
 class MockAuthService {
@@ -88,7 +89,7 @@ describe('PaymentTypeService', () => {
       ])
     );
 
-    let addresses: B2BAddress[];
+    let addresses: Address[];
     service
       .getCostCenterAddresses('account')
       .subscribe((data) => {
