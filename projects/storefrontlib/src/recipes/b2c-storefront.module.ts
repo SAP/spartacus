@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   provideConfig,
   provideDefaultConfig,
@@ -13,6 +14,11 @@ import { StorefrontModule } from './storefront.module';
 @NgModule({
   imports: [
     StorefrontModule,
+
+    RouterModule.forRoot([], {
+      anchorScrolling: 'enabled',
+      relativeLinkResolution: 'corrected',
+    }),
 
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
