@@ -85,14 +85,12 @@
           <cx-configurator-attribute-multi-selection-image
             *ngIf="attribute.uiType === uiType.MULTI_SELECTION_IMAGE"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-multi-selection-image>
           <cx-configurator-attribute-single-selection-image
             *ngIf="attribute.uiType === uiType.SINGLE_SELECTION_IMAGE"
             [attribute]="attribute"
-            [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-single-selection-image>
