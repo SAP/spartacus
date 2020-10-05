@@ -120,7 +120,7 @@ describe('LazyModulesService', () => {
       });
     });
 
-    it('should emit when new nodule is initialized', () => {
+    it('should emit when new module is initialized', () => {
       const modules = [];
 
       service.modules$.pipe(take(2)).subscribe((module) => {
