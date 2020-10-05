@@ -72,7 +72,9 @@ export class UnifiedInjector {
     return this.get(token as any, []).pipe(
       filter((instances) => {
         if (!Array.isArray(instances)) {
-          throw new Error("Can't mix multi-providers with single providers!");
+          throw new Error(
+            `Multi-providers mixed with single providers for ${token.toString()}!`
+          );
         }
         return instances.length > 0;
       }),
