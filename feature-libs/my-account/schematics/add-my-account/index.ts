@@ -1,9 +1,12 @@
 import {
+  chain,
+  noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addSymbolToNgModuleMetadata,
   insertImport,
@@ -16,6 +19,11 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
+import {
+  addPackageJsonDependency,
+  NodeDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   ProjectType,
@@ -24,11 +32,76 @@ import {
   WorkspaceTargets,
 } from '@schematics/angular/utility/workspace-models';
 import * as ts from 'typescript';
+import { version } from '../../package.json';
 import { Schema as MyAccountOptions } from './schema';
 
 export function addSpartacus(options: MyAccountOptions): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const packageJson = readPackageJson(tree);
+    validateSpartacusInstallation(packageJson);
+
+    return chain([
+      addPackageJsonDependencies(packageJson),
+      updateAppModule(options),
+      installPackageJsonDependencies(),
+    ]);
+  };
+}
+
+function addPackageJsonDependencies(packageJson: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (packageJson.dependencies.hasOwnProperty(`@spartacus/setup`)) {
+      noop();
+    }
+
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+
+    // TODO: create constant
+    const spartacusSetupDependency: NodeDependency = {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      // TODO: create constant
+      name: `@spartacus/setup`,
+    };
+    addPackageJsonDependency(tree, spartacusSetupDependency);
+    context.logger.info(
+      `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
+    );
+
+    return tree;
+  };
+}
+
+function validateSpartacusInstallation(packageJson: any): void {
+  // TODO: use constants
+  if (!packageJson.dependencies.hasOwnProperty(`@spartacus/core`)) {
+    throw new SchematicsException(
+      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
+    To see more options, please check our documentation.`
+    );
+  }
+}
+
+function installPackageJsonDependencies(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    context.addTask(new NodePackageInstallTask());
+    context.logger.log('info', `🔍 Installing packages...`);
+    return tree;
+  };
+}
+
+function readPackageJson(tree: Tree): any {
+  const pkgPath = '/package.json';
+  const buffer = tree.read(pkgPath);
+  if (!buffer) {
+    throw new SchematicsException('Could not find package.json');
+  }
+
+  return JSON.parse(buffer.toString(UTF_8));
+}
+
+function updateAppModule(options: MyAccountOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    // find app module
     const projectTargets = getProjectTargets(host, options.project);
 
     if (!projectTargets.build) {
@@ -62,8 +135,6 @@ export function addSpartacus(options: MyAccountOptions): Rule {
     addToModuleImportsAndCommitChanges(host, modulePath, `OrganizationModule`);
   };
 }
-
-function validateSpartacusInstalled(): void {}
 
 // TODO: use from `@spartacus/schematics`
 function getProjectTargets(
@@ -223,4 +294,9 @@ function addToMetadata(
     metadataType,
     importText
   ) as InsertChange[];
+}
+
+// TODO: use from `@spartacus/schematics`
+export function getSpartacusSchematicsVersion(): string {
+  return version;
 }
