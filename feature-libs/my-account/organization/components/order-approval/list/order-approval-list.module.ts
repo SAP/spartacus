@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -23,7 +22,6 @@ import { ListNavigationModule } from '@spartacus/storefront';
       },
     }),
     UrlModule,
-    RouterModule,
     ListNavigationModule,
     I18nModule,
   ],

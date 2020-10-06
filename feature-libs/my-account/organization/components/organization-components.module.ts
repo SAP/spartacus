@@ -27,10 +27,6 @@ import { defaultOrganizationLayoutConfig } from './config/default-organization-l
           organization: {
             paths: ['organization'],
           },
-          orderApprovalDetails: {
-            paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
-          },
         },
       },
     }),
