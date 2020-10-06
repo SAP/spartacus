@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel } from '@spartacus/core';
+import { Currency, EntitiesModel } from '@spartacus/core';
 import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -59,9 +59,9 @@ describe('BudgetListService', () => {
     });
 
     it('should populate currency object to currency string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
-      expect(result.data[0].currency).toEqual('USD');
+      let result: EntitiesModel<Budget>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].currency).toEqual('USD' as Currency);
     });
   });
 });

@@ -67,6 +67,7 @@ describe('TableHeaderCellComponent', () => {
               context: {
                 _type: 'table',
                 _field: 'name2',
+                _i18nRoot: 'i18nRoot',
                 _options: mockOptions,
               } as TableHeaderOutletContext,
             },
@@ -82,7 +83,7 @@ describe('TableHeaderCellComponent', () => {
     });
 
     it('should resolve static header', () => {
-      expect(component.localizedHeader).toEqual('table.name2');
+      expect(component.localizedHeader).toEqual('i18nRoot.name2');
     });
   });
 

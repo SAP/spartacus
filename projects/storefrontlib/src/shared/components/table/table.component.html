@@ -1,7 +1,7 @@
-<table *ngIf="dataset?.structure as structure">
+<table *ngIf="structure">
   <ng-container *ngIf="verticalStackedLayout">
     <tbody
-      *ngFor="let item of dataset.data; trackBy: trackData"
+      *ngFor="let item of data; trackBy: trackData"
       (click)="launchItem(item)"
       [class.is-current]="isCurrentItem(item)"
     >
@@ -42,7 +42,7 @@
     </thead>
 
     <tr
-      *ngFor="let item of dataset.data; trackBy: trackData"
+      *ngFor="let item of data; trackBy: trackData"
       [class.is-current]="isCurrentItem(item)"
       (click)="launchItem(item)"
     >
@@ -68,7 +68,7 @@
         </ng-template>
       </th>
       <td
-        *ngFor="let item of dataset.data; trackBy: trackData"
+        *ngFor="let item of data; trackBy: trackData"
         [class.is-current]="isCurrentItem(item)"
         (click)="launchItem(item)"
       >

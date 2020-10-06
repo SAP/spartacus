@@ -25,6 +25,12 @@
 
         td {
           position: relative;
+
+          .text {
+            min-height: 74px;
+            display: flex;
+          }
+
           &:before {
             content: '';
             position: absolute;
@@ -51,6 +57,11 @@
         }
       }
     }
+  }
+
+  cx-organization-sub-list.ghost cx-table.vertical table td:before {
+    width: calc(100% - 50px);
+    left: 25px;
   }
 }
 
@@ -282,6 +293,7 @@
     width: 100%;
 
     &.vertical td .content-wrapper {
+      display: flex;
       align-items: center;
       height: 74px;
       padding-inline-start: 20px;
