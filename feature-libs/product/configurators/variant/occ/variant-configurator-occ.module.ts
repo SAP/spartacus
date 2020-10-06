@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ConfigModule } from '@spartacus/core';
+import { ConfigModule, provideDefaultConfig } from '@spartacus/core';
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
@@ -17,6 +17,7 @@ import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-confi
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-variant-serializer';
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './converters/occ-configurator-variant-update-cart-entry-serializer';
+import { defaultOccConfiguratorProductConfig } from './default-occ-configurator-product-config';
 import { defaultOccVariantConfiguratorConfigFactory } from './default-occ-configurator-variant-config';
 import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapter';
 
@@ -27,6 +28,7 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
     ConfigModule.withConfigFactory(defaultOccVariantConfiguratorConfigFactory),
   ],
   providers: [
+    provideDefaultConfig(defaultOccConfiguratorProductConfig),
     {
       provide: ConfiguratorCommonsAdapter,
       useClass: OccConfiguratorVariantAdapter,
