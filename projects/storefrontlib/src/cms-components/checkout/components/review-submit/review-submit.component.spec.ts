@@ -26,6 +26,7 @@ import { PromotionsModule } from '../../..';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
 import { CheckoutStep, CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
@@ -204,7 +205,12 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+      ],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
