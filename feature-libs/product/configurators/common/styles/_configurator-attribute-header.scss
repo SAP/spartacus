@@ -1,10 +1,10 @@
 %cx-configurator-attribute-header {
   .cx-configurator-attribute-label {
     @include type('5');
-    padding-top: 10px;
-    padding-right: 6px;
+    padding-block-start: 10px;
+    padding-inline-end: 6px;
     display: block;
-    max-width: 66%;
+    max-inline-size: 66%;
   }
 
   .cx-configurator-attribute-label-required-icon {
@@ -25,7 +25,7 @@
     display: flex;
 
     .cx-configurator-attribute-conflict-icon-container {
-      padding-right: 15px;
+      padding-inline-end: 15px;
       .cx-configurator-attribute-conflict-icon {
         color: var(--cx-color-warning);
         font-size: 20px;

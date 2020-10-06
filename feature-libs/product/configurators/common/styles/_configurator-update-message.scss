@@ -1,8 +1,8 @@
 %cx-configurator-update-message {
   .wrapper {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
     pointer-events: none;
     z-index: 99;
 
@@ -15,7 +15,7 @@
       @include type('6', 'semi');
       padding: var(--cx-padding, 0 4rem 0 20px);
       line-height: var(--cx-line-height, 1.5);
-      min-height: 70px;
+      min-block-size: 70px;
       flex-direction: row;
       align-items: center;
       display: none;
@@ -28,20 +28,20 @@
       }
 
       %cx-spinner {
-        margin-right: 20px;
+        margin-inline-end: 20px;
 
         .loader-container {
-          height: 40px;
-          width: 40px;
+          block-size: 40px;
+          inline-size: 40px;
           margin: 0 auto;
 
           .loader {
-            height: 40px;
-            width: 40px;
+            block-size: 40px;
+            inline-size: 40px;
 
             &::before {
-              height: 40px;
-              width: 40px;
+              block-size: 40px;
+              inline-size: 40px;
               border-width: 5px;
             }
           }

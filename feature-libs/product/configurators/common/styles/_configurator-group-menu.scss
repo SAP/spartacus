@@ -41,11 +41,11 @@
 
         .groupIndicator {
           float: right;
-          width: 75px;
+          inline-size: 75px;
           display: flex;
 
           .groupStatusIndicator {
-            width: 25px;
+            inline-size: 25px;
             cx-icon.ERROR,
             cx-icon.WARNING,
             cx-icon.COMPLETE {
@@ -65,14 +65,14 @@
           }
 
           .subGroupIndicator {
-            width: 25px;
+            inline-size: 25px;
             cx-icon {
               margin-left: 5px;
             }
           }
 
           .conflictNumberIndicator {
-            width: 25px;
+            inline-size: 25px;
           }
         }
       }
@@ -112,8 +112,8 @@
       }
 
       cx-icon {
-        margin-top: 5px;
-        margin-right: 5px;
+        margin-block-start: 5px;
+        margin-inline-end: 5px;
         float: left;
       }
     }

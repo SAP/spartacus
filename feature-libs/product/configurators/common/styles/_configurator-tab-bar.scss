@@ -1,7 +1,7 @@
 %cx-configurator-tab-bar {
-  max-width: 1140px;
+  max-inline-size: 1140px;
   .nav {
-    margin-bottom: 2rem;
+    margin-block-end: 2rem;
 
     border-width: 0 0 1px 0;
     border-style: solid;
@@ -13,15 +13,15 @@
     }
 
     @include media-breakpoint-down(md) {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
 
     div {
-      margin-bottom: -1px;
-      width: 50%;
+      margin-block-end: -1px;
+      inline-size: 50%;
 
       @include media-breakpoint-up(sm) {
-        max-width: 200px;
+        max-inline-size: 200px;
       }
 
       a {
@@ -35,12 +35,12 @@
           content: '';
           display: block;
           margin: 7px auto auto auto;
-          height: 5px;
+          block-size: 5px;
           background: var(--cx-color-primary);
 
           // the tab hover effect uses a border in the :after pseudo
           // that is animated from 0% to 100% width
-          width: 0;
+          inline-size: 0;
           opacity: 0;
           transition: all 0.6s;
         }
@@ -52,7 +52,7 @@
 
         &.active:after,
         &:hover:after {
-          width: 100%;
+          inline-size: 100%;
         }
         &.active:after,
         &.active:hover:after {
