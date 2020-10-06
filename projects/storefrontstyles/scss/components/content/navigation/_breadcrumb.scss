@@ -9,15 +9,11 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   color: currentcolor;
   background-color: var(--cx-color-background);
 
-  // TODO: with 3.0 the default padding should be replaced with the new spatial
-  padding: 20px 0;
-  @include forVersion(2.1) {
-    padding: var(--cx-spatial-base);
-    h1 {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  padding: var(--cx-spatial-base);
+  h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   nav {
@@ -27,11 +23,9 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     display: flex;
     justify-content: center;
 
-    @include forVersion(2.1) {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
       color: var(--cx-color-secondary);
