@@ -16,7 +16,7 @@ import { OrganizationTableType } from '../../../../shared/organization.model';
 })
 export class UnitUserListService extends OrganizationSubListService<B2BUser> {
   protected tableType = OrganizationTableType.UNIT_USERS;
-  protected domainType = OrganizationTableType.USER;
+  protected _domainType = OrganizationTableType.USER;
 
   constructor(
     protected tableService: TableService,

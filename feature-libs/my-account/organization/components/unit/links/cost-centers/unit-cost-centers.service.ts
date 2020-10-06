@@ -13,7 +13,7 @@ export class UnitCostCenterListService extends OrganizationSubListService<
   B2BUser
 > {
   protected tableType = OrganizationTableType.UNIT_COST_CENTERS;
-  protected domainType = OrganizationTableType.COST_CENTER;
+  protected _domainType = OrganizationTableType.COST_CENTER;
 
   constructor(
     protected tableService: TableService,

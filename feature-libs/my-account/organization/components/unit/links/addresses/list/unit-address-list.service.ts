@@ -13,7 +13,7 @@ export class UnitAddressListService extends OrganizationSubListService<
   Address
 > {
   protected tableType = OrganizationTableType.UNIT_ADDRESS;
-  protected domainType = OrganizationTableType.UNIT_ADDRESS;
+  protected _domainType = OrganizationTableType.UNIT_ADDRESS;
 
   constructor(
     protected tableService: TableService,

@@ -16,7 +16,7 @@ export class UnitChildrenService extends OrganizationSubListService<
   B2BUnitNode
 > {
   protected tableType = OrganizationTableType.UNIT_CHILDREN;
-  protected domainType = OrganizationTableType.UNIT;
+  protected _domainType = OrganizationTableType.UNIT;
 
   constructor(
     protected tableService: TableService,
