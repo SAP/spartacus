@@ -231,6 +231,7 @@ describe('TableService', () => {
 
         it('should generate random table structure', () => {
           let result: TableStructure;
+          spyOn(console, 'warn').and.stub();
           tableService
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));

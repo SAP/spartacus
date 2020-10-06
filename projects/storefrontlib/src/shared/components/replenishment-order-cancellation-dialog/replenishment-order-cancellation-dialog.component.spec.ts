@@ -7,6 +7,7 @@ import {
   Translatable,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
@@ -57,7 +58,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
       declarations: [ReplenishmentOrderCancellationDialogComponent],
       providers: [
         {
