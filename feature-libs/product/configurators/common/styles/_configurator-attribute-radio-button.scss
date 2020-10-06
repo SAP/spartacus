@@ -1,4 +1,7 @@
 %cx-configurator-attribute-radio-button {
+  display: flex;
+  flex-direction: row;
+
   .form-check {
     &:last-child {
       margin-block-end: 9px;

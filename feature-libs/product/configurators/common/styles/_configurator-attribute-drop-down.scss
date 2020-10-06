@@ -1,4 +1,7 @@
 %cx-configurator-attribute-drop-down {
+  display: flex;
+  flex-direction: row;
+
   .form-group {
     margin-block-end: 0.5rem;
   }

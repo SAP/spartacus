@@ -1,4 +1,7 @@
 %cx-configurator-attribute-input-field {
+  display: flex;
+  flex-direction: row;
+
   .form-group {
     margin-block-end: 0.5rem;
   }

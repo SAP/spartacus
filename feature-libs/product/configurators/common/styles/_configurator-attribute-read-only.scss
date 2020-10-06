@@ -1,5 +1,8 @@
 %cx-configurator-attribute-read-only {
-  .cx-configurator-attribute-value-label-read-only {
+  display: flex;
+  flex-direction: row;
+
+  .cx-read-only-label {
     padding-inline-start: 20px;
   }
 }

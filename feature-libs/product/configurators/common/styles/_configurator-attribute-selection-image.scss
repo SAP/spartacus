@@ -1,4 +1,6 @@
 @mixin cx-configurator-attribute-selection-image {
+  display: flex;
+  flex-direction: row;
   margin-inline-start: 20px;
 
   .cx-configurator-select {
