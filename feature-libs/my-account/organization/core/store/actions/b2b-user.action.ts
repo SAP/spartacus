@@ -96,10 +96,12 @@ export class LoadB2BUserFail extends StateUtils.EntityFailAction {
 
 export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USER_SUCCESS;
-  constructor(public payload: B2BUser[]) {
+  constructor(public payload: B2BUser | B2BUser[]) {
     super(
       B2B_USER_ENTITIES,
-      payload.map((orgUnitCustomer) => orgUnitCustomer.customerId)
+      Array.isArray(payload)
+        ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId)
+        : payload?.customerId
     );
   }
 }

@@ -52,10 +52,12 @@ export class LoadPermissionFail extends StateUtils.EntityFailAction {
 
 export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_PERMISSION_SUCCESS;
-  constructor(public payload: Permission[]) {
+  constructor(public payload: Permission | Permission[]) {
     super(
       PERMISSION_ENTITIES,
-      payload.map((permission) => permission.code)
+      Array.isArray(payload)
+        ? payload.map((permission) => permission?.code)
+        : payload?.code
     );
   }
 }

@@ -35,10 +35,12 @@ export class LoadBudgetFail extends StateUtils.EntityFailAction {
 
 export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
-  constructor(public payload: Budget[]) {
+  constructor(public payload: Budget | Budget[]) {
     super(
       BUDGET_ENTITIES,
-      payload.map((budget) => budget.code)
+      Array.isArray(payload)
+        ? payload.map((budget) => budget?.code)
+        : payload?.code
     );
   }
 }
