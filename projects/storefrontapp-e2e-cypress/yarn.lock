@@ -109,15 +109,16 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@testing-library/cypress@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-7.0.1.tgz#2843033acaefe96cb4cf789f16e98d957383e59d"
-  integrity sha512-LtggqG/7Hdc1EiKdmqXQwxWOO3ET1dkZtq0S8mIe8o+xaOtaVLrdCn0dE8Bi4Aj7z3w51w6wN9STdYymnUPlnQ==
+"@testing-library/cypress@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-6.0.1.tgz#c924a69617db6a403c498abcb63759b79318fc76"
+  integrity sha512-hcPu2OnVuSTX1yDubEe7TBRD6mP2VgyopP1WTBIrJP79INPZdgOAX+TMNH68uZ/r5b4C7100IB4hjPIEQ+/Xog==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@testing-library/dom" "^7.22.2"
+    "@types/testing-library__cypress" "^5.0.6"
 
-"@testing-library/dom@^7.22.2":
+"@testing-library/dom@^7.11.0", "@testing-library/dom@^7.22.2":
   version "7.24.3"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.24.3.tgz#dae3071463cf28dc7755b43d9cf2202e34cbb85d"
   integrity sha512-6eW9fUhEbR423FZvoHRwbWm9RUUByLWGayYFNVvqTnQLYvsNpBS4uEuKH9aqr3trhxFwGVneJUonehL3B1sHJw==
@@ -173,6 +174,14 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
+
+"@types/testing-library__cypress@^5.0.6":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@types/testing-library__cypress/-/testing-library__cypress-5.0.8.tgz#6a8effce8218c5be42c1775b26dcbdcc273fda62"
+  integrity sha512-1dTaoaCR6PWVRKXZAHcWvnAzHpTDKUKWw1pq4yzyoyI/RQ4KRySA9EFLwS0uEugTIPPgBaPUnXK5OwTaQoQp7g==
+  dependencies:
+    "@testing-library/dom" "^7.11.0"
+    cypress "*"
 
 "@types/yargs-parser@*":
   version "15.0.0"
@@ -496,7 +505,7 @@ cross-spawn@^7.0.0:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-cypress@^5.3.0:
+cypress@*, cypress@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-5.3.0.tgz#91122219ae66ab910058970dbf36619ab0fbde6c"
   integrity sha512-XgebyqL7Th6/8YenE1ddb7+d4EiCG2Jvg/5c8+HPfFFY/gXnOVhoCVUU3KW8qg3JL7g0B+iJbHd5hxuCqbd1RQ==
