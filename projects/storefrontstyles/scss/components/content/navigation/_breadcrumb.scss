@@ -1,8 +1,10 @@
+html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
+  content: '\\';
+}
+
 %cx-breadcrumb {
   display: flex;
   flex-direction: column;
-
-  text-align: center;
 
   color: currentcolor;
   background-color: var(--cx-color-background);
@@ -21,6 +23,9 @@
   nav {
     font-size: 0.85rem;
     padding: 5px 0;
+
+    display: flex;
+    justify-content: center;
 
     @include forVersion(2.1) {
       white-space: nowrap;
