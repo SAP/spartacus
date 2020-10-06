@@ -160,16 +160,18 @@ export function addProductToCart(product: TestProduct) {
 
   cy.wait('@add_to_cart');
 
+  const cartPage = waitForPage('/cart', 'getCartPage');
+
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-dialog-buttons>.btn-primary').click({ force: true });
   });
+
+  cy.wait(`@${cartPage}`);
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-code').should('contain', product.code);
     cy.get('cx-item-counter input').should('have.value', '1');
   });
-
-  verifyProductInWishList(product);
 }
 
 export function checkWishListPersisted(product: TestProduct) {
@@ -217,7 +219,7 @@ export function checkoutFromCart(checkoutProducts: TestProduct[]) {
 
 function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
   const cartPage = waitForPage('/cart', 'getCartPage');
-  cy.get('cx-mini-cart').click();
+  cy.visit('/cart');
   cy.wait(`@${cartPage}`);
 
   for (const product of checkoutProducts) {
@@ -261,13 +263,6 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
   }
 
-  cy.getByText('Terms & Conditions')
-    .should('have.attr', 'target', '_blank')
-    .should(
-      'have.attr',
-      'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
-    );
   cy.get('.form-check-input').check();
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
