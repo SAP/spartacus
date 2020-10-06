@@ -103,9 +103,15 @@ export class TableRendererService {
   getHeaderOutletContext(
     type: string,
     options: TableOptions,
+    i18nRoot: string,
     field: string
   ): TableHeaderOutletContext {
-    return { _type: type, _options: options, _field: field };
+    return {
+      _type: type,
+      _options: options,
+      _field: field,
+      _i18nRoot: i18nRoot,
+    };
   }
 
   /**
@@ -124,9 +130,16 @@ export class TableRendererService {
   getDataOutletContext(
     type: string,
     options: TableOptions,
+    i18nRoot: string,
     field: string,
     data: any
   ): TableDataOutletContext {
-    return { ...data, _type: type, _options: options, _field: field };
+    return {
+      ...data,
+      _type: type,
+      _options: options,
+      _field: field,
+      _i18nRoot: i18nRoot,
+    };
   }
 }
