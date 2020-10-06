@@ -1,14 +1,14 @@
 %cx-configurator-attribute-header {
-  .cx-configurator-attribute-label {
+  label {
     @include type('5');
     padding-block-start: 10px;
     padding-inline-end: 6px;
-    display: block;
-    max-inline-size: 66%;
+    display: flex;
+    flex-direction: row;
   }
 
-  .cx-configurator-attribute-label-required-icon {
-    display: inline-block;
+  .cx-required-icon {
+    display: inline-flex;
 
     &:after {
       content: '*';
@@ -16,25 +16,34 @@
     }
   }
 
-  .cx-configurator-attribute-label-required-error-msg {
+  .cx-required-error-msg {
+    display: flex;
+    flex-direction: row;
     color: var(--cx-color-danger);
     font-size: 14px;
+
+    cx-icon {
+      padding-inline-end: 5px;
+    }
   }
 
-  .cx-configurator-attribute-conflict-container {
+  .cx-conflict-container {
     display: flex;
+    flex-direction: row;
 
-    .cx-configurator-attribute-conflict-icon-container {
+    cx-icon {
+      color: var(--cx-color-warning);
+      font-size: 20px;
       padding-inline-end: 15px;
-      .cx-configurator-attribute-conflict-icon {
-        color: var(--cx-color-warning);
-        font-size: 20px;
-      }
+      display: flex;
+      flex-direction: column;
     }
 
-    .cx-configurator-attribute-label-conflict-msg {
+    .cx-conflict-msg {
       color: var(--cx-color-text);
       font-size: 14px;
+      display: flex;
+      flex-direction: column;
     }
   }
 }
