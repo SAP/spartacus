@@ -104,9 +104,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(
-      htmlElem.querySelectorAll('.cx-configurator-attribute-value-img').length
-    ).toBe(4);
+    expect(htmlElem.querySelectorAll('.cx-img').length).toBe(4);
   });
 
   it('should mark two values as selected', () => {

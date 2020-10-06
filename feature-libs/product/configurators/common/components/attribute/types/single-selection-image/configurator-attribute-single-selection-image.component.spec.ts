@@ -104,9 +104,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(
-      htmlElem.querySelectorAll('.cx-configurator-attribute-value-img').length
-    ).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-img').length).toBe(3);
   });
 
   it('should init with val3', () => {
