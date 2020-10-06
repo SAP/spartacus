@@ -9,6 +9,9 @@ import { MULTI_CART_DATA } from '../multi-cart-state';
 export const CREATE_BUNDLE = '[Cart] Create Bundle';
 export const CREATE_BUNDLE_SUCCESS = '[Cart] Create Bundle Success';
 export const CREATE_BUNDLE_FAIL = '[Cart] Create Bundle Fail';
+export const GET_BUNDLES = '[Cart] Get Bundles';
+export const GET_BUNDLES_SUCCESS = '[Cart] Get Bundles Success';
+export const GET_BUNDLES_FAIL = '[Cart] Get Bundles Fail';
 export const UPDATE_BUNDLE = '[Cart] Update Bundle';
 export const UPDATE_BUNDLE_SUCCESS = '[Cart] Update Bundle Success';
 export const UPDATE_BUNDLE_FAIL = '[Cart] Update Bundle Fail';
@@ -58,6 +61,52 @@ export class CreateBundleFail extends EntityProcessesDecrementAction {
       cartId: string;
       productCode: string;
       quantity: number;
+      error: any;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class GetBundles extends EntityProcessesIncrementAction {
+  readonly type = GET_BUNDLES;
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class GetBundlesSuccess extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLES_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      // productCode: string;
+      // quantity: number;
+      // deliveryModeChanged: boolean;
+      // entry: OrderEntry;
+      // quantityAdded: number;
+      statusCode: string;
+      statusMessage: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class GetBundlesFail extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLES_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      // productCode: string;
+      // quantity: number;
       error: any;
     }
   ) {

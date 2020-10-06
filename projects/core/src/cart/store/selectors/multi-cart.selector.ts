@@ -3,7 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart } from '../../../model/cart.model';
+import { Cart, EntryGroup } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { entityValueSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
@@ -74,6 +74,14 @@ export const getCartEntriesSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(getCartSelectorFactory(cartId), (state: Cart) => {
     return state && state.entries ? state.entries : [];
+  });
+};
+
+export const getCartEntryGroupsSelectorFactory = (
+  cartId: string
+): MemoizedSelector<StateWithMultiCart, EntryGroup[]> => {
+  return createSelector(getCartSelectorFactory(cartId), (state: Cart) => {
+    return state && state.entryGroups ? state.entryGroups : [];
   });
 };
 

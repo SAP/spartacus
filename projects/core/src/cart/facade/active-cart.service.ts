@@ -13,7 +13,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { Cart } from '../../model/cart.model';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import {
@@ -150,6 +150,16 @@ export class ActiveCartService implements OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartService.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entries
+   */
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartService.getEntryGroups(cartId)),
       distinctUntilChanged()
     );
   }
@@ -440,5 +450,24 @@ export class ActiveCartService implements OnDestroy {
       this.previousUserId !== userId && // *just* logged in
       this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
     );
+  }
+
+  /**
+   * Start bundle
+   *
+   * @param productCode
+   * @param quantity
+   * @param templateId
+   */
+  startBundle(productCode: string, quantity: number, templateId: string) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.multiCartService.startBundle(
+        getCartIdByUserId(cartState.value, this.userId),
+        this.userId,
+        productCode,
+        quantity,
+        templateId
+      );
+    });
   }
 }

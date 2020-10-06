@@ -21,6 +21,14 @@ export abstract class CartBundleAdapter {
   ): Observable<CartModification>;
 
   /**
+   * Abstract method used to add entry to cart
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract getAll(userId: string, cartId: string): Observable<CartModification>;
+
+  /**
    * Abstract method used to update entry in cart
    * @param userId
    * @param cartId

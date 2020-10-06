@@ -26,6 +26,10 @@ export class CartBundleConnector {
     );
   }
 
+  public getAll(userId: string, cartId: string): Observable<CartModification> {
+    return this.adapter.getAll(userId, cartId);
+  }
+
   public update(
     userId: string,
     cartId: string,

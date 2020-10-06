@@ -43,7 +43,7 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
-  public view(userId: string, cartId: string): Observable<CartModification> {
+  public getAll(userId: string, cartId: string): Observable<CartModification> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

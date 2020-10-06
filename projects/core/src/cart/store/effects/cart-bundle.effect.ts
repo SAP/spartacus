@@ -61,6 +61,42 @@ export class CartBundleEffects {
   );
 
   @Effect()
+  getBundles$: Observable<
+    | CartActions.GetBundlesSuccess
+    | CartActions.GetBundlesFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.GET_BUNDLES),
+    map((action: CartActions.GetBundles) => action.payload),
+    concatMap((payload) => {
+      return this.cartBundleConnector
+        .getAll(payload.userId, payload.cartId)
+        .pipe(
+          map(
+            (cartModification: CartModification) =>
+              new CartActions.GetBundlesSuccess({
+                ...payload,
+                ...(cartModification as Required<CartModification>),
+              })
+          ),
+          catchError((error) =>
+            from([
+              new CartActions.GetBundlesFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  );
+
+  @Effect()
   removeBundle$: Observable<
     | CartActions.RemoveBundleSuccess
     | CartActions.RemoveBundleFail

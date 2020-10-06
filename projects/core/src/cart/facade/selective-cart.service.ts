@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Cart } from '../../model/cart.model';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
@@ -98,6 +98,10 @@ export class SelectiveCartService {
     return this.multiCartService.getEntries(this.cartId);
   }
 
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.multiCartService.getEntryGroups(this.cartId);
+  }
+
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
       map((cart) => (cart.success || cart.error) && !cart.loading)
@@ -182,5 +186,31 @@ export class SelectiveCartService {
 
   private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
+  }
+
+  startBundle(productCode: string, quantity: number, templateId: string): void {
+    let loadAttempted = false;
+    this.cartSelector$
+      .pipe(
+        filter(() => !loadAttempted),
+        switchMap((cartState) => {
+          if (this.isEmpty(cartState.value) && !cartState.loading) {
+            loadAttempted = true;
+            this.load();
+          }
+          return of(cartState);
+        }),
+        filter((cartState) => !this.isEmpty(cartState.value)),
+        take(1)
+      )
+      .subscribe(() => {
+        this.multiCartService.startBundle(
+          this.cartId,
+          this.userId,
+          productCode,
+          quantity,
+          templateId
+        );
+      });
   }
 }

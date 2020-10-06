@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged } from 'rxjs/operators';
-import { Cart } from '../../model/cart.model';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { CartActions } from '../store/actions/index';
@@ -156,6 +156,16 @@ export class MultiCartService {
   }
 
   /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  getEntryGroups(cartId: string): Observable<EntryGroup[]> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntryGroupsSelectorFactory(cartId))
+    );
+  }
+
+  /**
    * Add entry to cart
    *
    * @param userId
@@ -290,6 +300,33 @@ export class MultiCartService {
       new CartActions.DeleteCart({
         userId,
         cartId,
+      })
+    );
+  }
+
+  /**
+   * Start bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param productCode
+   * @param quantity
+   * @param templateId
+   */
+  startBundle(
+    cartId: string,
+    userId: string,
+    productCode: string,
+    quantity: number,
+    templateId: string
+  ) {
+    this.store.dispatch(
+      new CartActions.CreateBundle({
+        cartId,
+        userId,
+        productCode,
+        quantity,
+        templateId,
       })
     );
   }
