@@ -53,12 +53,14 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should review and place order', () => {
-    b2bCheckout.placeOrder(
+    b2bCheckout.reviewB2bReviewOrderPage(
       user,
       cartWithB2bProduct,
       false,
-      order_type.place_order
+      order_type.PLACE_ORDER
     );
+
+    b2bCheckout.placeOrder('/order-confirmation');
   });
 
   it('should display summary page', () => {
