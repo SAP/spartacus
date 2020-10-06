@@ -1,8 +1,10 @@
 %cx-configurator-attribute-input-field {
   display: flex;
   flex-direction: row;
+  inline-size: 75%;
 
   .form-group {
     margin-block-end: 0.5rem;
+    inline-size: 100%;
   }
 }
