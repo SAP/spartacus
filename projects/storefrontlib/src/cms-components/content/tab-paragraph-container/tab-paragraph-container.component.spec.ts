@@ -107,6 +107,8 @@ describe('TabParagraphContainerComponent', () => {
     component = fixture.componentInstance;
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
+
+    spyOn(console, 'warn');
   });
 
   it('should create', () => {

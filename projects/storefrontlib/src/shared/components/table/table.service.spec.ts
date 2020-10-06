@@ -232,6 +232,7 @@ describe('TableService', () => {
         describe('"unknown" table type', () => {
           it('should generate table structure based on first data item', () => {
             let result: TableStructure;
+            spyOn(console, 'warn').and.stub();
             tableService
               .buildStructure(
                 'unknown',
@@ -247,6 +248,7 @@ describe('TableService', () => {
 
         it('should generate random table structure', () => {
           let result: TableStructure;
+          spyOn(console, 'warn').and.stub();
           tableService
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));
