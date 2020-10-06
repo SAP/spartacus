@@ -1,11 +1,12 @@
 @mixin cx-configurator-attribute-selection-image {
-  display: flex;
-  flex-direction: row;
+  display: flow-root;
+  margin-inline-start: 17px;
+  padding: 10px 34px 0 0;
 
   .cx-row {
     display: flex;
     flex-direction: row;
-    inline-size: 100%;
+    flex-wrap: wrap;
 
     .cx-configurator-select {
       padding: 5px;

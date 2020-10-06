@@ -1,7 +1,11 @@
 %cx-configurator-attribute-footer {
+  display: flex;
+  flex-direction: row;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
   .cx-required-error-msg {
-    display: flex;
-    flex-direction: row;
+    display: flow-root;
     color: var(--cx-color-danger);
     font-size: 14px;
 

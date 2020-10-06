@@ -1,10 +1,13 @@
 %cx-configurator-attribute-header {
+  display: flow-root;
+  flex-direction: row;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
   label {
     @include type('5');
     padding-block-start: 10px;
     padding-inline-end: 6px;
-    display: flex;
-    flex-direction: row;
   }
 
   .cx-required-icon {
@@ -17,8 +20,6 @@
   }
 
   .cx-required-error-msg {
-    display: flex;
-    flex-direction: row;
     color: var(--cx-color-danger);
     font-size: 14px;
 
@@ -28,22 +29,17 @@
   }
 
   .cx-conflict-container {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
 
     cx-icon {
       color: var(--cx-color-warning);
       font-size: 20px;
-      padding-inline-end: 15px;
-      display: flex;
-      flex-direction: column;
+      padding-inline-end: 5px;
     }
 
     .cx-conflict-msg {
       color: var(--cx-color-text);
       font-size: 14px;
-      display: flex;
-      flex-direction: column;
     }
   }
 }

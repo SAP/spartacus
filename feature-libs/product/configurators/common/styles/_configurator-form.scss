@@ -1,26 +1,7 @@
 %cx-configurator-form {
-  .cx-configurator-attribute-header {
-    margin-inline-start: 17px;
-    margin-inline-end: 17px;
-  }
-
-  .cx-configurator-attribute-footer {
-    margin-inline-start: 17px;
-    margin-inline-end: 17px;
-  }
-
-  .cx-configurator-attribute-value {
-    margin-inline-start: 17px;
-    padding: 10px 34px 0 0;
-    clear: both;
-    display: block;
-  }
-
-  .cx-configurator-attribute-value-multi {
-    display: inline-block;
-  }
-
-  .cx-configurator-group-attribute {
-    padding: 6px 10px;
+  .cx-group-attribute {
+    display: flow-root;
+    flex-direction: row;
+    padding: 12px 20px;
   }
 }

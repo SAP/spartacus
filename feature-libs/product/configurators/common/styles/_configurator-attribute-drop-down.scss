@@ -1,6 +1,9 @@
 %cx-configurator-attribute-drop-down {
   display: flex;
   flex-direction: row;
+  margin-inline-start: 17px;
+  padding: 10px 34px 0 0;
+
   inline-size: 75%;
 
   .form-group {
