@@ -1,6 +1,6 @@
 import { DatePickerFormatterService } from './date-picker-formatter.service';
 
-fdescribe('DatePickerFormatter Service', () => {
+describe('DatePickerFormatter Service', () => {
   let service: DatePickerFormatterService;
 
   beforeEach(() => {
