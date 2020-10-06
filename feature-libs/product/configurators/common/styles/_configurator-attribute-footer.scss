@@ -1,6 +1,12 @@
 %cx-configurator-attribute-footer {
-  .cx-configurator-attribute-footer-required-error-msg {
+  .cx-required-error-msg {
+    display: flex;
+    flex-direction: row;
     color: var(--cx-color-danger);
     font-size: 14px;
+
+    cx-icon {
+      padding-inline-end: 5px;
+    }
   }
 }

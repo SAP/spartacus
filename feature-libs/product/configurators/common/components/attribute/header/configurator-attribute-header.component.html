@@ -1,9 +1,7 @@
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-icon]="attribute.required"
-  [class.cx-required-error]="
-    showRequiredMessageForDomainAttribute$ | async
-  "
+  [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
   [attr.aria-label]="
     !attribute.required
       ? attribute.label
@@ -12,17 +10,14 @@
   "
   >{{ attribute.label }}</label
 >
-<div
-  *ngIf="attribute.hasConflicts"
-  class="cx-conflict-container"
->
-    <cx-icon
-      *ngIf="isAttributeGroup(groupType)"
-      [type]="iconTypes.WARNING"
-    ></cx-icon>
-    <div class="cx-conflict-msg">
-      {{ getConflictMessageKey(groupType) | cxTranslate }}
-    </div>
+<div *ngIf="attribute.hasConflicts" class="cx-conflict-container">
+  <cx-icon
+    *ngIf="isAttributeGroup(groupType)"
+    [type]="iconTypes.WARNING"
+  ></cx-icon>
+  <div class="cx-conflict-msg">
+    {{ getConflictMessageKey(groupType) | cxTranslate }}
+  </div>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"

@@ -104,17 +104,13 @@ describe('ConfigAttributeHeaderComponent', () => {
         'label',
         'label of attribute'
       );
-      const id = htmlElem
-        .querySelector('label')
-        .getAttribute('id');
+      const id = htmlElem.querySelector('label').getAttribute('id');
       expect(id.indexOf('123')).toBeGreaterThan(
         0,
         'id of label does not contain the StdAttrCode'
       );
       expect(
-        htmlElem
-          .querySelector('label')
-          .getAttribute('aria-label')
+        htmlElem.querySelector('label').getAttribute('aria-label')
       ).toEqual(classUnderTest.attribute.label);
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
