@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
@@ -56,6 +56,8 @@ describe(`DeliveryModeSetGuard`, () => {
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+
+    spyOn(console, 'warn');
   });
 
   describe(`delivery mode step is disabled`, () => {
@@ -97,7 +99,6 @@ describe(`DeliveryModeSetGuard`, () => {
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(''));
-    spyOn(console, 'warn');
     mockCheckoutConfig.checkout.steps = [];
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {

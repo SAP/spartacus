@@ -13,19 +13,10 @@ import {
   I18nTestingModule,
   Voucher,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
-import { CartCouponComponent } from './cart-coupon.component';
 import { FormErrorsModule } from '../../../shared/index';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
+import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-applied-coupons',
@@ -88,11 +79,7 @@ describe('CartCouponComponent', () => {
         FeaturesConfigModule,
         FormErrorsModule,
       ],
-      declarations: [
-        CartCouponComponent,
-        MockAppliedCouponsComponent,
-        MockCxIconComponent,
-      ],
+      declarations: [CartCouponComponent, MockAppliedCouponsComponent],
       providers: [
         { provide: ActiveCartService, useValue: mockActiveCartService },
         { provide: AuthService, useValue: mockAuthService },

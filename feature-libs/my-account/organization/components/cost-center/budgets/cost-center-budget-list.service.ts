@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   Budget,
   CostCenterService,
 } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
@@ -16,7 +16,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
   Budget
 > {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
-  protected domainType = OrganizationTableType.BUDGET;
+  protected _domainType = OrganizationTableType.BUDGET;
 
   constructor(
     protected tableService: TableService,
@@ -26,13 +26,10 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
   }
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<Budget>> {
-    return this.costCenterService.getBudgets(
-      code,
-      structure.options?.pagination
-    );
+    return this.costCenterService.getBudgets(code, pagination);
   }
 
   /**

@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
 const MockRoutesConfig: RoutesConfig = JSON.parse(
@@ -58,6 +58,8 @@ describe(`ShippingAddressSetGuard`, () => {
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+
+    spyOn(console, 'warn');
   });
 
   describe(`shipping address step is disabled`, () => {
@@ -99,7 +101,6 @@ describe(`ShippingAddressSetGuard`, () => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
-      spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe((result) => {
