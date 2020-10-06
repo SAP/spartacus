@@ -1,6 +1,6 @@
 import { DatePickerFormatterService } from './date-picker-formatter.service';
 
-describe('DatePickerFormatter Service', () => {
+fdescribe('DatePickerFormatter Service', () => {
   let service: DatePickerFormatterService;
 
   beforeEach(() => {
@@ -45,6 +45,20 @@ describe('DatePickerFormatter Service', () => {
       expect(service.toModel('2034-07-12', true)).toEqual(
         '2034-07-12T23:59:59+0000'
       );
+    });
+  });
+
+  describe('toISOString', () => {
+    it('should return null if value is empty', () => {
+      expect(service.toISOString(undefined)).toEqual(null);
+      expect(service.toISOString(null)).toEqual(null);
+      expect(service.toISOString('')).toEqual(null);
+    });
+
+    it('should convert value to ISO 8601 format', () => {
+      const mockDate = '2010-01-01';
+
+      expect(service.toISOString(mockDate)).toEqual(mockDate + 'T00:00:00Z');
     });
   });
 });

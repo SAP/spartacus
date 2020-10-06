@@ -23,4 +23,9 @@ export class DatePickerFormatterService {
       return date;
     }
   }
+
+  toISOString(value: string): string {
+    const dateTime = '00:00:00';
+    return value ? this.toNative(value) + 'T' + dateTime + 'Z' : null;
+  }
 }

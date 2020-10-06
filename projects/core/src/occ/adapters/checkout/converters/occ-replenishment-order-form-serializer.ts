@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
+import { DatePickerFormatterService } from '../../../../util/date-picker-formatter.service';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderFormSerializer
   implements
     Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm> {
-  constructor() {}
+  constructor(
+    protected datePickerFormatterService: DatePickerFormatterService
+  ) {}
 
   convert(
     source: Occ.ScheduleReplenishmentForm,
@@ -27,10 +30,10 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Converts the date string to the Standard ISO 8601 format
+   * Converts the date string to the Standard ISO 8601 format using DatePickerFormatterService
+   * Eg date format: 1994-01-11T00:00:00Z
    */
   private convertDate(date: string): string {
-    const dateTime = '00:00:00';
-    return new Date(date).toISOString().split('T')[0] + 'T' + dateTime + 'Z';
+    return this.datePickerFormatterService.toISOString(date);
   }
 }
