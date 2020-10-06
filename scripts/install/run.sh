@@ -74,8 +74,6 @@ function update_projects_versions {
 function npm_install {
     pre_install
 
-    clone_repo
-
     create_apps
 }
 

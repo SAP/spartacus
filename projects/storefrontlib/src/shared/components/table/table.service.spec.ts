@@ -229,23 +229,6 @@ describe('TableService', () => {
           });
         });
 
-        describe('"unknown" table type', () => {
-          it('should generate table structure based on first data item', () => {
-            let result: TableStructure;
-            spyOn(console, 'warn').and.stub();
-            tableService
-              .buildStructure(
-                'unknown',
-                {},
-                of([{ firstUnknown: 'foo', lastUnknown: 'bar' }])
-              )
-              .subscribe((structure) => (result = structure));
-
-            expect(result.cells[0]).toEqual('firstUnknown');
-            expect(result.cells[1]).toEqual('lastUnknown');
-          });
-        });
-
         it('should generate random table structure', () => {
           let result: TableStructure;
           spyOn(console, 'warn').and.stub();
