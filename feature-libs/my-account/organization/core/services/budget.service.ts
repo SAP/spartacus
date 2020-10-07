@@ -46,7 +46,7 @@ export class BudgetService {
   }
 
   private getBudgetValue(budgetCode: string): Observable<Budget> {
-    return this.store.select(getBudgetValue(budgetCode));
+    return this.store.select(getBudgetValue(budgetCode)).pipe(filter(Boolean));
   }
 
   private getBudgetList(
@@ -89,9 +89,12 @@ export class BudgetService {
 
   getCostCenters(budgetCode: string): Observable<EntitiesModel<CostCenter>> {
     return this.get(budgetCode).pipe(
-      map((budget) => ({
-        values: budget.costCenters ?? [],
-      }))
+      map(
+        (budget) =>
+          ({
+            values: budget.costCenters ?? [],
+          } as EntitiesModel<CostCenter>)
+      )
     );
   }
 
