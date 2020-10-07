@@ -36,7 +36,7 @@ export abstract class OrganizationItemService<T> {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
     } else {
-      const formValue = form.value;
+      const formValue = form.getRawValue();
       form.disable();
 
       if (key) {
