@@ -9,6 +9,11 @@
     "storefront",
     "my account"
   ],
+  "scripts": {
+    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "build:schematics": "tsc -p ./tsconfig.schematics.json",
+    "test:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.spec.json && jasmine \"schematics/**/*_spec.js\""
+  },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

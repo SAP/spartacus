@@ -34,7 +34,7 @@ describe('Spartacus My Account schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       '@spartacus/schematics',
-      'projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json'
     );
     appTree = await schematicRunner
       .runExternalSchematicAsync(

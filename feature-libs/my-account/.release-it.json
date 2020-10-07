@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/my-account"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build my-account --prod && yarn build:myaccount:schematics"
+    "after:version:bump": "cd ../.. && ng build my-account --prod && yarn build:schematics"
   },
   "github": {
     "release": true,

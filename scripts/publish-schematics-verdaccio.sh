@@ -50,8 +50,10 @@ fi
 
 cd ../projects/schematics
 yarn && yarn build
+cd ../../
+cd feature-libs/my-account
+yarn build:schematics
 cd ../../dist
-yarn build:myaccount:schematics
 
 doItFor "assets"
 doItFor "core"

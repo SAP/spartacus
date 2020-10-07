@@ -49,7 +49,9 @@ if [[ -n "$coverage" ]]; then
     exit 1
 fi
 echo "Running unit tests for my-account schematics"
-yarn test:myaccount:schematics
+cd feature-libs/my-account
+yarn test:schematics
+cd ../../
 
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
