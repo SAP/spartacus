@@ -1,0 +1,22 @@
+<a
+  *ngIf="linkable; else threshold"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabindex]="tabIndex"
+>
+  <ng-container *ngTemplateOutlet="threshold"></ng-container>
+</a>
+
+<ng-template #threshold>
+  <span class="text" *ngIf="isTimeSpanThreshold">
+    {{ model.threshold }} {{ model.currency?.symbol }}
+    {{ 'permission.per.' + model.periodRange | cxTranslate }}
+  </span>
+
+  <span class="text" *ngIf="isOrderThreshold">
+    {{ model.threshold }} {{ model.currency?.symbol }}
+  </span>
+
+  <span class="text" *ngIf="isExceedPermission">
+    {{ model.orderApprovalPermissionType.name }}
+  </span>
+</ng-template>

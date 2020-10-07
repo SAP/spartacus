@@ -7,7 +7,7 @@
     <label>
       <input
         formControlName="termsAndConditions"
-        class="form-check-input"
+        class="scaled-input form-check-input"
         type="checkbox"
       />
       <span class="form-check-label">
@@ -20,13 +20,14 @@
           {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
         </a>
       </span>
-      <cx-form-errors
-        [control]="checkoutSubmitForm.get('termsAndConditions')"
-      ></cx-form-errors>
     </label>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-block">
+  <button
+    type="submit"
+    class="btn btn-primary btn-block"
+    [disabled]="termsAndConditionInvalid || (daysOfWeekNotChecked$ | async)"
+  >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>
 </form>

@@ -59,6 +59,12 @@ class MockUserService {
 }
 
 @Component({
+  selector: 'cx-asm-toggle-ui',
+  template: '',
+})
+class MockAsmToggleUiComponent {}
+
+@Component({
   selector: 'cx-asm-session-timer',
   template: '',
 })
@@ -130,6 +136,7 @@ describe('AsmMainUiComponent', () => {
       imports: [I18nTestingModule],
       declarations: [
         AsmMainUiComponent,
+        MockAsmToggleUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
         MockAsmSessionTimerComponent,

@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app-server",
     "baseUrl": ".",
-    "module": "commonjs",
     "types": ["node"],
     "esModuleInterop": true,
     "paths": {
@@ -12,6 +11,9 @@
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/cds": ["../../projects/cds/public_api"],
       "@spartacus/my-account": ["../../feature-libs/my-account/public_api"],
+      "@spartacus/my-account/organization": [
+        "../../feature-libs/my-account/organization/public_api"
+      ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "../../feature-libs/product/configurators/public_api"
@@ -28,7 +30,8 @@
       "@spartacus/product/configurators/textfield": [
         "../../feature-libs/product/configurators/textfield/public_api"
       ],
-      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"]
+      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/setup": ["../../core-libs/setup/public_api"]
     }
   },
   "angularCompilerOptions": {

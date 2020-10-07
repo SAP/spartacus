@@ -15,7 +15,7 @@ export class SplitViewService {
    */
   defaultHideMode = true;
 
-  protected _splitViewCount = 2;
+  protected splitViewCount = 1;
 
   protected _views$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
@@ -25,12 +25,26 @@ export class SplitViewService {
    * property is provided by the `defaultHideMode`, unless it's the first view (position: 0).
    */
   add(position: number, initialState?: SplitViewState) {
+    const state: SplitViewState = {
+      ...{ hidden: position === 0 ? false : this.defaultHideMode },
+      ...initialState,
+    };
     if (!this.views[position]) {
-      this.views[position] = {
-        ...{ hidden: position === 0 ? false : this.defaultHideMode },
-        ...initialState,
-      };
+      this.views[position] = state;
+      this.updateState(position, state.hidden);
       this._views$.next(this.views);
+    }
+  }
+
+  /**
+   * The split view is based on a number of views that can be used next to each other.
+   * When the number changes (i.e. if the screen goes from wide to small), the visibility state
+   * of the views should be updated.
+   */
+  updateSplitView(splitViewCount: number) {
+    if (splitViewCount !== this.splitViewCount) {
+      this.splitViewCount = splitViewCount;
+      this.updateState();
     }
   }
 
@@ -69,7 +83,7 @@ export class SplitViewService {
     const activePosition = this.getActive(this.views);
     this._views$.next(this.views.splice(0, position));
     if (activePosition >= position) {
-      this.updateState(position - 1);
+      this.updateState(position);
     }
   }
 
@@ -107,20 +121,38 @@ export class SplitViewService {
       position--;
     }
 
-    this.updateState(position, forceHide);
+    this.updateState(position, forceHide === true);
   }
 
-  protected updateState(position: number, hide?: boolean) {
+  /**
+   * Updates the hidden state of all the views.
+   */
+  protected updateState(position?: number, hide?: boolean) {
     const views = [...this.views];
-    const split: number = this._splitViewCount - 1;
-    // toggle the hidden state per view, based on the next position and number of views per split view
-    views.forEach((view, pos) => {
-      if (pos === position) {
-        view.hidden = hide ?? !(pos >= position - split && pos <= position);
+    if (hide !== undefined && views[position]) {
+      views[position].hidden = hide;
+    }
+    let lastVisible =
+      views.length - [...views].reverse().findIndex((view) => !view.hidden) - 1;
+
+    if (lastVisible === views.length) {
+      if (position) {
+        // When there's only 1 view (mobile), we might not find any active
+        // if the user navigates back.
+        lastVisible = position - 1;
       } else {
-        view.hidden = !(pos >= position - split && pos <= position);
+        lastVisible = views.length - 1;
+      }
+    }
+
+    views.forEach((view, pos) => {
+      if (view && pos !== position) {
+        // hide other views that are outside the split view
+        view.hidden =
+          pos > lastVisible || pos < lastVisible - (this.splitViewCount - 1);
       }
     });
+
     this._views$.next(views);
   }
 
@@ -134,15 +166,6 @@ export class SplitViewService {
       .findIndex((view: SplitViewState) => !view.hidden);
     const last = l === -1 ? 0 : views.length - l - 1;
     return last;
-  }
-
-  /**
-   * Sets the view count for the split view.
-   *
-   * Defaults to 2.
-   */
-  set splitViewCount(count: number) {
-    this._splitViewCount = count;
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.1.0-next.0",
+  "version": "3.0.0-next.2",
   "description": "Spartacus schematics",
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
@@ -17,14 +17,14 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.1.7",
-    "@angular-devkit/schematics": "^9.1.7",
-    "@angular/cdk": "^9.2.4",
-    "@angular/localize": "^9.1.9",
-    "@angular/pwa": "^0.901.7",
-    "@nguniversal/express-engine": "^9.1.1",
-    "@schematics/angular": "^9.1.7",
-    "@schematics/update": "^0.901.7"
+    "@angular-devkit/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/cdk": "^10.2.0",
+    "@angular/localize": "^10.1.0",
+    "@angular/pwa": "^0.1001.0",
+    "@nguniversal/express-engine": "^10.1.0",
+    "@schematics/angular": "^10.1.0",
+    "@schematics/update": "^0.1001.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",
@@ -33,7 +33,7 @@
     "jasmine": "^3.5.0",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.3",
-    "typescript": "~3.8.3"
+    "typescript": "~4.0.2"
   },
   "ng-add": {
     "save": "devDependencies"
@@ -49,7 +49,8 @@
       "@spartacus/incubator",
       "@spartacus/my-account",
       "@spartacus/product",
-      "@spartacus/cdc"
+      "@spartacus/cdc",
+      "@spartacus/setup"
     ]
   },
   "main": "src/public_api.js"

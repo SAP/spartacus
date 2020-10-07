@@ -76,7 +76,7 @@ export function addToWishListAnonymous(product: TestProduct) {
 
   cy.get('cx-breadcrumb > h1').should('contain', 'Login');
 
-  cy.get('cx-login-form .btn-register').click({ force: true });
+  cy.get('cx-login-register .btn-register').click({ force: true });
 
   registerWishListUser();
 

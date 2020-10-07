@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input, NgModule, Injectable } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
@@ -41,6 +41,7 @@ class MockDynamicSlotComponent {
   @Input() isPageFold;
 }
 
+@Injectable()
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
@@ -61,6 +62,7 @@ class MockCmsService {
   }
 }
 
+@Injectable()
 class MockPageLayoutService {
   getSlots(section?: string): Observable<string[]> {
     if (section) {
@@ -78,6 +80,7 @@ class MockPageLayoutService {
   }
 }
 
+@Injectable()
 class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);

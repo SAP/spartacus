@@ -2,7 +2,10 @@
   // @extend %pageBody !optional;
 
   max-width: 1140px;
-  padding: 2rem 1.5rem 0 1.5rem;
+  padding-top: 2rem;
+  padding-inline-end: 1.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.5rem;
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -20,20 +23,49 @@
     }
 
     &.BodyContent {
-      flex: 0 68%;
+      flex: 0 63%;
     }
 
     &.SideContent {
-      flex: 0 0 30%;
+      flex: 0 0 35%;
       flex-direction: column;
       justify-content: flex-start;
 
       cx-checkout-order-summary {
         flex: unset;
+
+        cx-order-summary {
+          padding-top: 1rem;
+          padding-inline-start: 2.5rem;
+          padding-bottom: 0;
+          padding-inline-end: 0;
+
+          @include media-breakpoint-down(md) {
+            padding: 1rem 0 0 0;
+          }
+        }
       }
-      cx-place-order {
+
+      cx-schedule-replenishment-order {
+        @include media-breakpoint-down(md) {
+          width: 50%;
+        }
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      cx-place-order,
+      cx-schedule-replenishment-order {
         flex: unset;
-        padding: 1rem 2.5rem 0;
+        padding-top: 1rem;
+        padding-inline-start: 2.5rem;
+        padding-bottom: 0;
+        padding-inline-end: 0;
+
+        @include media-breakpoint-down(md) {
+          padding: 1rem 0 0 0;
+        }
       }
 
       @include media-breakpoint-down(md) {
@@ -43,16 +75,19 @@
         flex-direction: column;
 
         cx-checkout-order-summary {
-          max-width: 50%;
+          width: 50%;
           padding-top: 1rem;
           cx-order-summary {
             padding: 1rem 2.5rem 0;
+
+            @include media-breakpoint-down(md) {
+              padding: 1rem 0 0 0;
+            }
           }
         }
         cx-place-order {
           max-width: 50%;
           padding-bottom: 2rem;
-          padding-top: 0;
         }
       }
 
@@ -61,7 +96,7 @@
         align-items: normal;
 
         cx-checkout-order-summary {
-          max-width: 100%;
+          min-width: 100%;
         }
         cx-place-order {
           max-width: 100%;

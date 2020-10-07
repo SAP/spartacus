@@ -144,7 +144,11 @@ describe('HttpErrorInterceptor', () => {
           .pipe(catchError((error: any) => throwError(error)))
           .subscribe(
             (_result) => {},
-            (error) => (this.error = error)
+            (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            })
           );
 
         httpMock
@@ -166,7 +170,11 @@ describe('HttpErrorInterceptor', () => {
           .pipe(catchError((error: any) => throwError(error)))
           .subscribe(
             (_result) => {},
-            (error) => (this.error = error)
+            (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            })
           );
 
         const mockReq = httpMock.expectOne((req) => {

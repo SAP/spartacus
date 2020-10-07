@@ -8,6 +8,9 @@
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/my-account": ["../../dist/my-account"],
+      "@spartacus/my-account/organization": [
+        "../../dist/my-account/organization"
+      ],
       "@spartacus/product": ["../../dist/product"],
       "@spartacus/product/configurators": ["../../dist/product/configurators"],
       "@spartacus/product/configurators/common": [
@@ -22,7 +25,8 @@
       "@spartacus/product/configurators/textfield": [
         "../../dist/product/configurators/textfield"
       ],
-      "@spartacus/cdc": ["../../dist/cdc"]
+      "@spartacus/cdc": ["../../dist/cdc"],
+      "@spartacus/setup": ["../../dist/setup"]
     }
   }
 }
