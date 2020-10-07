@@ -113,14 +113,14 @@ export const user = {
 export const userAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Unit assigned successfully',
-  unassigned: 'Unit unassigned successfully',
+  assigned: 'Approver assigned successfully',
+  unassigned: 'Approver unassigned successfully',
 };
 export const userApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Unit assigned successfully',
-  unassigned: 'Unit unassigned successfully',
+  assigned: 'Approver assigned successfully',
+  unassigned: 'Approver unassigned successfully',
 };
 
 export const userAssignedPermissions = {
