@@ -48,6 +48,8 @@ if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
     exit 1
 fi
+echo "Running unit tests for my-account schematics"
+yarn test:myaccount:schematics
 
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
