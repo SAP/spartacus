@@ -47,4 +47,12 @@ export class CartBundleConnector {
   ): Observable<CartModification> {
     return this.adapter.remove(userId, cartId, entryGroupId);
   }
+
+  public getBundleAllowedProducts(
+    userId: string,
+    cartId: string,
+    entryGroupId: number
+  ): Observable<CartModification> {
+    return this.adapter.getBundleAllowedProducts(userId, cartId, entryGroupId);
+  }
 }

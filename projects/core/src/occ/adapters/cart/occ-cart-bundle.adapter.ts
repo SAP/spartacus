@@ -104,4 +104,24 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
       .delete<CartModification>(url, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
+
+  public getBundleAllowedProducts(
+    userId: string,
+    cartId: string,
+    entryGroupId: number
+  ): Observable<CartModification> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const url = this.occEndpointsService.getUrl('bundleAllowedProductsSearch', {
+      userId,
+      cartId,
+      entryGroupId,
+    });
+
+    return this.http
+      .get<CartModification>(url, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
 }

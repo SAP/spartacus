@@ -613,4 +613,10 @@ export interface OccEndpoints {
    * @member {string} [cart]
    */
   editBundle?: string | OccEndpoint;
+  /**
+   * Search for allowed products for a given entryGroup
+   *
+   * @member {string} [cart]
+   */
+  bundleAllowedProductsSearch?: string | OccEndpoint;
 }

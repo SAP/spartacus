@@ -330,4 +330,25 @@ export class MultiCartService {
       })
     );
   }
+
+  /**
+   * Start bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  getBundleAllowedProducts(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number
+  ) {
+    this.store.dispatch(
+      new CartActions.GetBundleAllowedProducts({
+        cartId,
+        userId,
+        entryGroupNumber,
+      })
+    );
+  }
 }

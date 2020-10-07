@@ -1,4 +1,3 @@
-import { OrderEntry } from 'projects/core/src/model/order.model';
 import { Product } from 'projects/core/src/model/product.model';
 import {
   EntityProcessesDecrementAction,
@@ -18,6 +17,11 @@ export const UPDATE_BUNDLE_FAIL = '[Cart] Update Bundle Fail';
 export const REMOVE_BUNDLE = '[Cart] Remove Bundle';
 export const REMOVE_BUNDLE_SUCCESS = '[Cart] Remove Bundle Success';
 export const REMOVE_BUNDLE_FAIL = '[Cart] Remove Bundle Fail';
+export const GET_BUNDLE_ALLOWED_PRODUCTS = '[Cart] Get Bundle Allowed Products';
+export const GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS =
+  '[Cart] Get Bundle Allowed Products Success';
+export const GET_BUNDLE_ALLOWED_PRODUCTS_FAIL =
+  '[Cart] Get Bundle Allowed Products Fail';
 
 export class CreateBundle extends EntityProcessesIncrementAction {
   readonly type = CREATE_BUNDLE;
@@ -40,11 +44,11 @@ export class CreateBundleSuccess extends EntityProcessesDecrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      productCode: string;
-      quantity: number;
-      deliveryModeChanged: boolean;
-      entry: OrderEntry;
-      quantityAdded: number;
+      // productCode: string;
+      // quantity: number;
+      // deliveryModeChanged: boolean;
+      // entry: OrderEntry;
+      // quantityAdded: number;
       statusCode: string;
       statusMessage: string;
     }
@@ -192,6 +196,55 @@ export class UpdateBundleFail extends EntityProcessesDecrementAction {
   }
 }
 
+export class GetBundleAllowedProducts extends EntityProcessesIncrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS;
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+      entryGroupNumber: number;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class GetBundleAllowedProductsSuccess extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entryGroupNumber: number;
+      // productCode: string;
+      // quantity: number;
+      // deliveryModeChanged: boolean;
+      // entry: OrderEntry;
+      // quantityAdded: number;
+      statusCode: string;
+      statusMessage: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class GetBundleAllowedProductsFail extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entryGroupNumber: number;
+      // productCode: string;
+      // quantity: number;
+      error: any;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
 export type CartBundleAction =
   | CreateBundle
   | CreateBundleSuccess
@@ -201,4 +254,7 @@ export type CartBundleAction =
   | UpdateBundleFail
   | RemoveBundle
   | RemoveBundleSuccess
-  | RemoveBundleFail;
+  | RemoveBundleFail
+  | GetBundleAllowedProducts
+  | GetBundleAllowedProductsSuccess
+  | GetBundleAllowedProductsFail;

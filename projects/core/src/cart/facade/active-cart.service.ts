@@ -470,4 +470,19 @@ export class ActiveCartService implements OnDestroy {
       );
     });
   }
+
+  /**
+   * Get allowed Bundle Products
+   *
+   * @param entryGroupNumber
+   */
+  getBundleAllowedProducts(entryGroupNumber: number) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.multiCartService.getBundleAllowedProducts(
+        getCartIdByUserId(cartState.value, this.userId),
+        this.userId,
+        entryGroupNumber
+      );
+    });
+  }
 }

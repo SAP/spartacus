@@ -170,6 +170,46 @@ export class CartBundleEffects {
     withdrawOn(this.contextChange$)
   );
 
+  @Effect()
+  getBundleAllowedProducts$: Observable<
+    | CartActions.GetBundleAllowedProductsSuccess
+    | CartActions.GetBundleAllowedProductsFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.GET_BUNDLE_ALLOWED_PRODUCTS),
+    map((action: CartActions.GetBundleAllowedProducts) => action.payload),
+    concatMap((payload) => {
+      return this.cartBundleConnector
+        .getBundleAllowedProducts(
+          payload.userId,
+          payload.cartId,
+          payload.entryGroupNumber
+        )
+        .pipe(
+          map(
+            (cartModification: CartModification) =>
+              new CartActions.GetBundleAllowedProductsSuccess({
+                ...payload,
+                ...(cartModification as Required<CartModification>),
+              })
+          ),
+          catchError((error) =>
+            from([
+              new CartActions.GetBundleAllowedProductsFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  );
+
   constructor(
     private actions$: Actions,
     private cartBundleConnector: CartBundleConnector

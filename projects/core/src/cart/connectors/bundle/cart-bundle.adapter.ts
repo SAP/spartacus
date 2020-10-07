@@ -56,4 +56,17 @@ export abstract class CartBundleAdapter {
     cartId: string,
     entryGroupId: string
   ): Observable<any>;
+
+  /**
+   * Abstract method used to get allowed products in entryGroup
+   *
+   * @param userId
+   * @param cartId
+   * @param entryGroupId
+   */
+  abstract getBundleAllowedProducts(
+    userId: string,
+    cartId: string,
+    entryGroupId: number
+  ): Observable<any>;
 }
