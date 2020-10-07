@@ -16,12 +16,14 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
-import { merge, Observable, of, zip } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   map,
   mapTo,
+  pairwise,
+  startWith,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -120,23 +122,28 @@ export class ProfileTagPushEventsService {
    */
 
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
-    let currentRoute;
-    let previousRoute;
-    const pageEvents$ = this.eventService.get(PageEvent).pipe(
-      tap((pageEvent) => {
-        previousRoute = currentRoute;
-        currentRoute = pageEvent.semanticRoute;
-      })
-    );
-    return zip(
-      this.eventService.get(CategoryPageResultsEvent),
-      pageEvents$
-    ).pipe(
+    return this.eventService.get(CategoryPageResultsEvent).pipe(
+      tap((_) => {
+        console.log(_);
+      }),
+      withLatestFrom(
+        this.eventService.get(PageEvent).pipe(
+          startWith(<PageEvent>null), // https://github.com/ReactiveX/rxjs/issues/4772
+          pairwise(),
+          tap((_) => {
+            console.log(_);
+          })
+        )
+      ),
       distinctUntilChanged(
-        ([previouslyEmittedCategoryPage], [currentCategoryPage]) => {
+        (
+          [previouslyEmittedCategoryPage],
+          [currentCategoryPage, [previousRoute, currentRoute]]
+        ) => {
           return (
             previouslyEmittedCategoryPage.categoryCode ===
-              currentCategoryPage.categoryCode && previousRoute === currentRoute
+              currentCategoryPage.categoryCode &&
+            previousRoute.semanticRoute === currentRoute.semanticRoute
           ); // A true means that this item is not unique, so this is hard to wrap your head around.
           // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
           // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode

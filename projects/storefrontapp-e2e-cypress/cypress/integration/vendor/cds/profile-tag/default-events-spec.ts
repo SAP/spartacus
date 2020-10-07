@@ -26,7 +26,7 @@ describe('Profile-tag events', () => {
     profileTagHelper.waitForCMSComponents();
     anonymousConsents.clickAllowAllFromBanner();
   });
-  describe.only('cart events', () => {
+  describe('cart events', () => {
     it('should send a AddedToCart event on adding an item to cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();

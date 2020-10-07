@@ -7,7 +7,7 @@ import { TrackingService } from './tracking.service';
       multi: true,
       provide: APP_INITIALIZER,
       useFactory: (trackingService: TrackingService) => () => {
-        trackingService.subcribeToTrackingEvents();
+        trackingService.trackEvents();
       },
       deps: [TrackingService],
     },

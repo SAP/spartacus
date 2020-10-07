@@ -69,7 +69,7 @@ describe('TrackingService', () => {
   });
 
   it('Should notify profile tag of consent granted', () => {
-    trackingService.subcribeToTrackingEvents();
+    trackingService.trackEvents();
     consentBehavior.next(new ConsentChangedPushEvent(true));
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
@@ -81,7 +81,7 @@ describe('TrackingService', () => {
   });
 
   it('Should notify profile tag of when push events happen', () => {
-    trackingService.subcribeToTrackingEvents();
+    trackingService.trackEvents();
     consentBehavior.next(new ConsentChangedPushEvent(true));
     const testEvent = new HomePageViewPushEvent();
     pushEvents.next(testEvent);
@@ -94,7 +94,7 @@ describe('TrackingService', () => {
   });
 
   it('Should notify profile tag of page loaded', () => {
-    trackingService.subcribeToTrackingEvents();
+    trackingService.trackEvents();
     consentBehavior.next(new ConsentChangedPushEvent(true));
     pushEvents.next(new NavigatedPushEvent('test'));
     expect(

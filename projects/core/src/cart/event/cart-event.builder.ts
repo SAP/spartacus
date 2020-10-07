@@ -41,7 +41,7 @@ export class CartEventBuilder {
   /**
    * Register events for adding entry to the active cart
    */
-  protected registerAddEntry() {
+  protected registerAddEntry(): void {
     this.registerMapped({
       action: CartActions.CART_ADD_ENTRY,
       event: CartAddEntryEvent,
@@ -56,14 +56,14 @@ export class CartEventBuilder {
     });
   }
 
-  protected registerRemoveEntry() {
+  protected registerRemoveEntry(): void {
     this.registerMapped({
       action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
       event: CartRemoveEntrySuccessEvent,
     });
   }
 
-  protected registerUpdateEntry() {
+  protected registerUpdateEntry(): void {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
       event: CartUpdateEntrySuccessEvent,

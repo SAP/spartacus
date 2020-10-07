@@ -15,7 +15,7 @@ export class TrackingService {
     protected profileTagPushEventsService: ProfileTagPushEventsService,
     private profileTagEventTracker: ProfileTagEventService
   ) {}
-  subcribeToTrackingEvents(): void {
+  trackEvents(): void {
     merge(
       this.profileTagPushEventsService.getPushEvents(),
       this.profileTagLifecycleService.consentGranted()
