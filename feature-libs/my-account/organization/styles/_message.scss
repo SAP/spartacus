@@ -1,3 +1,10 @@
+// As the inset-inline-end logical properties is lacking, we need to add
+// alternative rules.
+html[dir='rtl'] cx-organization-list cx-message .close {
+  left: 20px;
+  right: auto;
+}
+
 %organizationMessage {
   cx-message {
     position: absolute;
@@ -32,9 +39,10 @@
 
     .close {
       position: absolute;
-      margin-inline-end: 20px;
+      right: 20px;
       margin-top: -5px;
     }
+
     p {
       margin: 0;
     }

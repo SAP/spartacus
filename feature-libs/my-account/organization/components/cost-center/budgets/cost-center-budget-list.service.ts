@@ -16,7 +16,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
   Budget
 > {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
-  protected domainType = OrganizationTableType.BUDGET;
+  protected _domainType = OrganizationTableType.BUDGET;
 
   constructor(
     protected tableService: TableService,

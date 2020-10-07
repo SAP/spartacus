@@ -10,6 +10,7 @@ let service: CmsComponentsService;
 
 const mockConfig: CmsConfig = {
   cmsComponents: {
+    testCode: {},
     exampleMapping1: {
       component: 'selector-1',
       i18nKeys: ['key-1'],
