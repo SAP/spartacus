@@ -65,7 +65,7 @@ export class CartItemListComponent {
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
   private resolveItems(items: Item[]): void {
-    if (items == null) {
+    if (!items) {
       this._items = [];
       return;
     }

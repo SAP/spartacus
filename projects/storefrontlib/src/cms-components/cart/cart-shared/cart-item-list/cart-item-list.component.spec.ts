@@ -238,9 +238,9 @@ describe('CartItemListComponent', () => {
   });
 
   it('should handle null item lists properly', () => {
-    const mockItems = undefined;
-    component.items = mockItems;
+    const nullItemsArray = undefined;
+    component.items = nullItemsArray;
     const itemCount = component.items.length;
-    expect(itemCount == 0).toBeTruthy();
+    expect(itemCount === 0).toBeTruthy();
   });
 });
