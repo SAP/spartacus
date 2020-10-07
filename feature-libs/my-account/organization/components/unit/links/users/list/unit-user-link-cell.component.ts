@@ -16,7 +16,12 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
       "
     >
       <ul class="text">
-        <li *ngFor="let role of roles" [innerText]="role"></li>
+        <li
+          *ngFor="let role of roles"
+          class="li"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="roles?.length === 0">-</li>
       </ul>
     </a>
   `,

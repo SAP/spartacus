@@ -35,7 +35,6 @@ import { UnitListService } from './services/unit-list.service';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -286,10 +285,6 @@ export const unitsTableConfig: TableConfig = {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
         cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-            linkable: false,
-          },
           active: {
             dataComponent: StatusCellComponent,
             linkable: false,
@@ -306,8 +301,8 @@ export const unitsTableConfig: TableConfig = {
             dataComponent: AssignCellComponent,
           },
           orgUnit: {
-            linkable: false,
             dataComponent: UnitCellComponent,
+            linkable: false,
           },
         },
       },

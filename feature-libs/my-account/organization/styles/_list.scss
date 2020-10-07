@@ -333,6 +333,10 @@
       padding-inline-end: 40px;
     }
 
+    td:last-child span {
+      padding-inline-end: 20px;
+    }
+
     &.vertical-stacked tbody {
       display: table;
     }
@@ -405,7 +409,8 @@
     }
 
     // highlight active values
-    .active a {
+    .active span {
+      padding: 5px;
       color: var(--cx-color-alert, var(--cx-color-danger));
       &.is-active {
         color: var(--cx-color-success);
