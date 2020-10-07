@@ -23,9 +23,9 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
   ) {}
 
   @HostBinding('class')
-  get viewType() {
-    return this.service.viewType;
-  }
+  viewType = this.service.viewType;
+
+  domainType = this.service.domainType;
 
   sortCode: string;
 

@@ -8,7 +8,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { IconModule } from '../../../misc/index';
+import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
 
@@ -48,7 +48,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, IconModule],
+      imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
       declarations: [ScheduleReplenishmentOrderComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },

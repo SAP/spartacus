@@ -18,7 +18,7 @@ export class UnitApproverListService extends OrganizationSubListService<
   B2BUser
 > {
   protected tableType = OrganizationTableType.UNIT_APPROVERS;
-  protected domainType = OrganizationTableType.USER;
+  protected _domainType = OrganizationTableType.USER;
 
   constructor(
     protected tableService: TableService,

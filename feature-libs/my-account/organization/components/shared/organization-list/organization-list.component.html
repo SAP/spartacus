@@ -41,6 +41,7 @@
         *ngIf="data.values?.length > 0; else emptyList"
         [structure]="structure"
         [data]="data.values"
+        [i18nRoot]="domainType"
         [currentItem]="{ property: key, value: currentKey$ | async }"
         (launch)="launchItem($event)"
         [cxFocus]="{ trap: 'start' }"

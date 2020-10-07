@@ -14,7 +14,6 @@ import { OrganizationTableType } from '../organization.model';
  * The `OrganizationListService` deals with the table structure, list data and
  * pagination of tables inside the b2b organization.
  *
- *
  * @property {OrganizationTableType} tableType
  *   Used to load the table structure configuration and generate table outlets.
  * @property {PaginationModel} pagination$
@@ -50,18 +49,20 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
    */
   protected abstract tableType: OrganizationTableType;
 
-  get domain() {
-    return this.domainType;
-  }
+  /**
+   * The domain type is used to bind fields to localized fields based on the domain.
+   * This type differs from the `viewType`, which is related to a specific view
+   * configuration.
+   */
+  protected _domainType: string;
+
   get viewType(): OrganizationTableType {
     return this.tableType;
   }
 
-  /**
-   * Bind to the domain specific fields and routing.
-   * TODO: abstract
-   */
-  protected domainType: string;
+  get domainType(): string {
+    return this._domainType ?? this.viewType;
+  }
 
   /**
    * The pagination state of the listing.
@@ -123,11 +124,6 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     this.pagination$.next({ ...pagination, currentPage: nextPage });
   }
 
-  // tmp keep this method till all is migrated to view()
-  viewPage(pagination: P, nextPage?: number) {
-    this.view(pagination, nextPage);
-  }
-
   /**
    * Updates the sort code for the PaginationModel.
    *
@@ -137,6 +133,14 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     this.view(pagination, 0);
   }
 
+  /**
+   * Indicates whether the given data equals to the ghost data.
+   *
+   * This is used to validate the initial loading state, which is
+   * different from the loading state; the loading state occurs
+   * while sorting and paginating, where as the initial loading state
+   * only happens at the very first load.
+   */
   hasGhostData(data: EntitiesModel<T>): boolean {
     return data === this.ghostData;
   }

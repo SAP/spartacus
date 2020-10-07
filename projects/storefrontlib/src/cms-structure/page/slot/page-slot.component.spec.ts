@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Directive, Input, Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -82,7 +82,12 @@ class MockDeferLoaderService {
 class MockCmsComponentsService {
   getDeferLoadingStrategy = () => {};
 }
-
+@Directive({
+  selector: '[cxComponentWrapper]',
+})
+class MockComponentWrapperDirective {
+  @Input() cxComponentWrapper;
+}
 const providers = [
   Renderer2,
   {
@@ -123,6 +128,7 @@ describe('PageSlotComponent', () => {
         SkipLinkDirective,
         MockHostComponent,
         MockHostWithDivComponent,
+        MockComponentWrapperDirective,
       ],
       providers,
     }).compileComponents();

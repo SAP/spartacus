@@ -17,8 +17,8 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CardComponent } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';
-import { PaymentMethodComponent } from './payment-method.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
+import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -61,6 +61,7 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+  paymentProcessSuccess() {}
 }
 class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<PaymentDetails> {
