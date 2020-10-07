@@ -1,6 +1,5 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   SchematicsException,
@@ -50,23 +49,34 @@ export function addSpartacusMyAccount(options: MyAccountOptions): Rule {
 
 function addPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (packageJson.dependencies.hasOwnProperty(`@spartacus/setup`)) {
-      noop();
-    }
-
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
     // TODO: create constant
-    const spartacusSetupDependency: NodeDependency = {
+    const spartacusMyAccountDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       // TODO: create constant
-      name: `@spartacus/setup`,
+      name: `@spartacus/my-account`,
     };
-    addPackageJsonDependency(tree, spartacusSetupDependency);
+    addPackageJsonDependency(tree, spartacusMyAccountDependency);
     context.logger.info(
-      `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
+      `✅️ Added '${spartacusMyAccountDependency.name}' into ${spartacusMyAccountDependency.type}`
     );
+
+    if (!packageJson.dependencies.hasOwnProperty(`@spartacus/setup`)) {
+      // TODO: create constant
+      const spartacusSetupDependency: NodeDependency = {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        // TODO: create constant
+        name: `@spartacus/setup`,
+      };
+
+      addPackageJsonDependency(tree, spartacusSetupDependency);
+      context.logger.info(
+        `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
+      );
+    }
 
     return tree;
   };
