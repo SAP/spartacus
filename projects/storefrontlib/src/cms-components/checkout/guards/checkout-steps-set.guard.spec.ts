@@ -179,7 +179,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     describe('step1 (shipping address) data set', () => {
       beforeEach(() => {
         spyOn(checkoutDetailsService, 'getDeliveryAddress').and.returnValue(
-          of({ id: 'test-ddress' })
+          of({ id: 'test-address' })
         );
       });
 
@@ -266,6 +266,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     describe('PAYMENT_DETAILS is not valid any more', () => {
       it('go to step3 (payment details), should return to checkout', (done) => {
+        spyOn(console, 'warn');
         guard
           .canActivate(<any>{ url: ['checkout', 'route3'] }, undefined)
           .subscribe((result) => {
@@ -342,7 +343,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     describe('step1 (shipping address) data set', () => {
       beforeEach(() => {
         spyOn(checkoutDetailsService, 'getDeliveryAddress').and.returnValue(
-          of({ id: 'test-ddress' })
+          of({ id: 'test-address' })
         );
       });
 

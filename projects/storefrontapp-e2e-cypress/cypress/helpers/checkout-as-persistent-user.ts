@@ -99,13 +99,13 @@ export function goToProductPageFromCategory() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter').getByText('+').click();
+  cy.get('cx-item-counter').findByText('+').click();
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
 }
@@ -162,7 +162,7 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, EntitiesModel, User } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -58,10 +58,9 @@ describe('UserListService', () => {
     });
 
     it('should populate object to string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
-
-      expect(result.data[0].uid).toEqual(uid);
+      let result: EntitiesModel<User>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].uid).toEqual(uid);
     });
   });
 });
