@@ -65,6 +65,11 @@ export class CartItemListComponent {
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
   private resolveItems(items: Item[]): void {
+    if (items == null) {
+      this._items = [];
+      return;
+    }
+
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
