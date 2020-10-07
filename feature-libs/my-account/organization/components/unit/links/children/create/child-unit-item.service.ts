@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
 import { UnitFormService } from '../../../form/unit-form.service';
@@ -16,6 +17,11 @@ export class ChildUnitItemService extends UnitItemService {
     protected unitService: OrgUnitService
   ) {
     super(currentItemService, routingService, formService, unitService);
+  }
+
+  save(form: FormGroup, key?: string) {
+    form.get('parentOrgUnit').enable();
+    super.save(form, key);
   }
 
   /**

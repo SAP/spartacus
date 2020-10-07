@@ -36,9 +36,6 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
   }
 
   protected toggleParentUnit(item?: B2BUnit): void {
-    if (!item?.parentOrgUnit && item?.['orgUnit']) {
-      item.parentOrgUnit = item?.['orgUnit'];
-    }
     if (item && !item.parentOrgUnit) {
       this.form.removeControl('parentOrgUnit');
     } else if (!this.form.get('parentOrgUnit')) {
@@ -48,10 +45,10 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
           uid: new FormControl(null, Validators.required),
         })
       );
-      // We disable the parentOrgUnit when it's given by the data.
-      if (item?.parentOrgUnit) {
-        this.form.get('parentOrgUnit').disable();
-      }
+    }
+    // We disable the parentOrgUnit when it's given by the data.
+    if (item?.uid === undefined && item?.parentOrgUnit) {
+      this.form.get('parentOrgUnit').disable();
     }
   }
 }
