@@ -4,6 +4,7 @@ import { UnitListService } from '../services/unit-list.service';
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
+  selector: 'cx-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

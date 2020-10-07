@@ -12,7 +12,7 @@ cx-page-layout.CompanyPageTemplate {
   @extend %CompanyPageTemplate !optional;
 }
 
-.organization, // tmp selector for as long as unit tree is not merged
+cx-unit-list,
 cx-organization-list {
   // https://yoksel.github.io/url-encoder/
   // <?xml version="1.0" encoding="utf-8"?>
