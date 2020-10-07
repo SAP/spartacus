@@ -1,66 +1,61 @@
 %cx-configurator-tab-bar {
   max-inline-size: 1140px;
-  .nav {
-    margin-block-end: 2rem;
 
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-block-end: 2rem;
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
-    justify-content: flex-start !important;
 
-    @include media-breakpoint-down(xs) {
-      justify-content: center !important;
-    }
+    a {
+      color: black;
+      cursor: pointer;
+      padding: 0.5rem 0 0 0;
+      text-align: center;
 
-    @include media-breakpoint-down(md) {
-      margin-block-end: 0;
-    }
-
-    div {
-      margin-block-end: -1px;
-      inline-size: 50%;
-
-      @include media-breakpoint-up(sm) {
-        max-inline-size: 200px;
+      @include media-breakpoint-up(md) {
+        flex-basis: 200px;
       }
 
-      a {
-        color: black;
-        cursor: pointer;
-        padding: 0.5rem 0 0 0;
-        text-align: center;
+      @include media-breakpoint-down(sm) {
+        inline-size: 50%;
+      }
 
-        // border effect
-        &:after {
-          content: '';
-          display: block;
-          margin: 7px auto auto auto;
-          block-size: 5px;
-          background: var(--cx-color-primary);
+      // border effect
+      &:after {
+        content: '';
+        display: block;
+        margin: 7px auto auto auto;
+        block-size: 5px;
+        background: var(--cx-color-primary);
 
-          // the tab hover effect uses a border in the :after pseudo
-          // that is animated from 0% to 100% width
-          inline-size: 0;
-          opacity: 0;
-          transition: all 0.6s;
-        }
+        // the tab hover effect uses a border in the :after pseudo
+        // that is animated from 0% to 100% width
+        inline-size: 0;
+        opacity: 0;
+        transition: all 0.6s;
+      }
 
-        &.active,
-        &:hover {
-          color: var(--cx-color-primary);
-        }
+      &.active,
+      &:hover {
+        color: var(--cx-color-primary);
+      }
 
-        &.active:after,
-        &:hover:after {
-          inline-size: 100%;
-        }
-        &.active:after,
-        &.active:hover:after {
-          opacity: 1;
-        }
-        &:not(.active):hover:after {
-          opacity: 0.5;
-        }
+      &.active:after,
+      &:hover:after {
+        inline-size: 100%;
+      }
+
+      &.active:after,
+      &.active:hover:after {
+        opacity: 1;
+      }
+
+      &:not(.active):hover:after {
+        opacity: 0.5;
       }
     }
   }
