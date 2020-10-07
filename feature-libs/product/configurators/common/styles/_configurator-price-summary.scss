@@ -1,43 +1,25 @@
 %cx-configurator-price-summary {
   .cx-total-summary-container {
-    padding: 15px;
-    margin: 0 auto;
-    margin-block-start: 15px;
-    max-inline-size: 1140px;
-    display: flex;
-    justify-content: flex-end;
-
-    @include media-breakpoint-down(sm) {
-      padding: 20px;
-    }
+    @include cx-configurator-footer-container();
 
     .cx-total-summary {
-      @include media-breakpoint-down(sm) {
-        inline-size: 100%;
-        clear: both;
-      }
-
-      padding-inline-start: 15px;
-      padding-inline-end: 15px;
-      inline-size: 400px;
+      @include cx-configurator-footer-container-item();
 
       .cx-summary-row {
         display: flex;
-        flex-flow: row nowrap;
+        flex-direction: row;
+        flex-wrap: wrap;
         padding-block-start: 10px;
         padding-block-end: 10px;
 
         .cx-label {
-          flex-direction: column;
           flex-grow: 1;
         }
 
         .cx-amount {
           word-wrap: break-word;
           text-align: end;
-          flex-direction: column;
           flex-grow: 1;
-          flex-shrink: 2;
         }
       }
 

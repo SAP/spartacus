@@ -1,25 +1,9 @@
 %cx-configurator-add-to-cart-button {
   .cx-add-to-cart-btn-container {
-    padding: 15px;
-    margin: 0 auto;
-    margin-block-start: 15px;
-    max-inline-size: 1140px;
-    display: flex;
-    justify-content: flex-end;
-
-    @include media-breakpoint-down(sm) {
-      padding: 20px;
-    }
+    @include cx-configurator-footer-container();
 
     button.cx-add-to-cart-btn {
-      @include media-breakpoint-down(sm) {
-        inline-size: 100%;
-        clear: both;
-      }
-
-      padding-inline-start: 15px;
-      padding-inline-end: 15px;
-      inline-size: 400px;
+      @include cx-configurator-footer-container-item();
     }
   }
 }
