@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
@@ -11,6 +16,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
+  selector: 'cx-unit-form',
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -21,6 +27,7 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitFormComponent implements OnInit {
+  @Input() i18nRoot = 'unit';
   form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService
