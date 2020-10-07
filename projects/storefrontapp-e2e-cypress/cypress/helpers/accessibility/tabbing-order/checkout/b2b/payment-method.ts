@@ -3,7 +3,7 @@ import {
   selectAccountPayment,
 } from '../../../../b2b/b2b-checkout';
 import { waitForPage } from '../../../../checkout-flow';
-import { verifyTabbingOrder } from '../../../tabbing-order';
+import { checkoutNextStep, verifyTabbingOrder } from '../../../tabbing-order';
 import { TabElement } from '../../../tabbing-order.model';
 
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
@@ -25,4 +25,5 @@ export function checkoutPaymentMethodTabbingOrder(
   }
 
   verifyTabbingOrder(containerSelector, config);
+  checkoutNextStep('/checkout/shipping-address');
 }

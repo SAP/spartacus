@@ -9,21 +9,6 @@ import { TabElement } from '../../tabbing-order.model';
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
-  cy.server();
-  cy.visit('/checkout/payment-details');
-
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cardtypes*`
-  ).as('cardTypes');
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/countries?type=BILLING*`
-  ).as('countries');
-
-  cy.wait('@cardTypes');
-  cy.wait('@countries');
-
   const { payment, fullName } = user;
   fillPaymentDetails({ payment, fullName }, null, false);
 

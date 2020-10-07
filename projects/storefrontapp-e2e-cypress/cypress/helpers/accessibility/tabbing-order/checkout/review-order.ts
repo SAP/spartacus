@@ -8,8 +8,6 @@ export function checkoutReviewOrderTabbingOrder(
   config: TabElement[],
   checkout: boolean = false
 ) {
-  cy.visit('/checkout/review-order');
-
   cy.getAllByText(/I am confirming that I have read and agreed with/i)
     .first()
     .parent()

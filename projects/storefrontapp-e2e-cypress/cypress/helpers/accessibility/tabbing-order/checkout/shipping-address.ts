@@ -7,8 +7,6 @@ import { TabElement } from '../../tabbing-order.model';
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
-  cy.visit('/checkout/shipping-address');
-
   const { firstName, lastName, phone, address } = user;
   fillShippingAddress({ firstName, lastName, phone, address }, false);
 
@@ -19,17 +17,6 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
-  cy.visit('/checkout/shipping-address');
-
-  cy.get('cx-card').within(() => {
-    cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
-  });
-
-  verifyTabbingOrder(containerSelector, config);
-}
-
-export function checkoutShippingAddressAccount(config: TabElement[]) {
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddress'
@@ -37,6 +24,18 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
   cy.visit('/checkout/shipping-address');
   cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
 
+  cy.get('cx-card').within(() => {
+    cy.get('.cx-card-label-bold').should('not.be.empty');
+    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
+  });
+
+  cy.get('cx-card .card-header').should('contain', 'Selected');
+
+  verifyTabbingOrder(containerSelector, config);
+  checkoutNextStep('/checkout/delivery-mode');
+}
+
+export function checkoutShippingAddressAccount(config: TabElement[]) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
