@@ -2,18 +2,12 @@
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
-      "factory": "./add-my-account/index#addSpartacus",
+      "factory": "./add-my-account/index#addSpartacusMyAccount",
       "description": "Add and configure Spartacus' My Account library",
       "schema": "./add-my-account/schema.json",
       "private": true,
       "hidden": true,
       "aliases": ["install"]
-    },
-    "add-my-account": {
-      "description": "Add My Account library to the Spartacus project.",
-      "factory": "./add-my-account/index#addSpartacus",
-      "schema": "./add-my-account/schema.json",
-      "aliases": ["myacc"]
     }
   }
 }

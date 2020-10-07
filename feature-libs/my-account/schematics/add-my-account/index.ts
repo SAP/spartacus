@@ -35,7 +35,7 @@ import * as ts from 'typescript';
 import { version } from '../../package.json';
 import { Schema as MyAccountOptions } from './schema';
 
-export function addSpartacus(options: MyAccountOptions): Rule {
+export function addSpartacusMyAccount(options: MyAccountOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
