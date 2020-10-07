@@ -203,6 +203,7 @@ describe('AddToCartComponent', () => {
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(addToCartComponent.numberOfEntriesBeforeAdd).toBe(1);
   });
 
   describe('UI', () => {
