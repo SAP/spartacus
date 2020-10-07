@@ -85,7 +85,7 @@ export class AssignCellComponent<T> implements OnDestroy {
     if (!this.outlet.context) {
       return null;
     }
-    const { _field, _options, _type, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
     return all as T;
   }
 
