@@ -14,6 +14,8 @@ It can also:
 
 ## How to install
 
+Checkout and pull the latest maintenance branch corresponding to the version being released. For example for new `next` release it's `develop` but for `2.1.x` patch release it's `release/2.1.x`.
+
 Installation directory for SpartacusScript's output directory is set as below (related to script's root, `./scripts/install`):
 
 ```bash
