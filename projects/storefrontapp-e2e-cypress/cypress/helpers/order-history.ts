@@ -43,7 +43,7 @@ export const orderHistoryTest = {
   checkStartShoppingButton() {
     it('should be able to start shopping from an empty Order History', () => {
       cy.get('.btn.btn-primary.btn-block.active')
-        .getByText('Start Shopping')
+        .findByText('Start Shopping')
         .click();
 
       checkBanner();
