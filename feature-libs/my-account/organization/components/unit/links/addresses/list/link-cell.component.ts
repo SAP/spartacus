@@ -32,7 +32,7 @@ export class LinkCellComponent extends OrganizationCellComponent {
     return 0;
   }
 
-  getRouterModel(uid: string) {
+  getRouterModel(uid: string): any {
     return { ...this.outlet.context, uid };
   }
 }

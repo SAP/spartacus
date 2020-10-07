@@ -60,10 +60,9 @@ describe('UserGroupListService', () => {
     });
 
     it('should populate object to string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
-
-      expect(result.data[0].uid).toEqual(uid);
+      let result: EntitiesModel<UserGroup>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].uid).toEqual(uid);
     });
   });
 });

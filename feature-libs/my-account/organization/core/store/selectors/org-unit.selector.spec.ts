@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { B2BAddress, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
+import { Address, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 import {
@@ -19,7 +19,7 @@ describe('OrgUnit Selectors', () => {
 
   const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
   const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
-  const address: Partial<B2BAddress> = { id: 'addressId' };
+  const address: Partial<Address> = { id: 'addressId' };
 
   const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
@@ -32,7 +32,7 @@ describe('OrgUnit Selectors', () => {
     },
   };
 
-  const b2bAddress: B2BAddress = { id: 'addressId' };
+  const b2bAddress: Address = { id: 'addressId' };
   const addressId: string = b2bAddress.id;
 
   const page: ListModel = {
@@ -119,7 +119,7 @@ describe('OrgUnit Selectors', () => {
 
   describe('getAddressesState', () => {
     it('should get addresses state', () => {
-      let result: StateUtils.EntityLoaderState<B2BAddress>;
+      let result: StateUtils.EntityLoaderState<Address>;
       store
         .pipe(select(OrgUnitSelectors.getAddressesState))
         .subscribe((value) => (result = value));
@@ -135,7 +135,7 @@ describe('OrgUnit Selectors', () => {
 
   describe('getB2BAddress', () => {
     it('should get B2B Address', () => {
-      let result: StateUtils.LoaderState<B2BAddress>;
+      let result: StateUtils.LoaderState<Address>;
       store
         .pipe(select(OrgUnitSelectors.getB2BAddress(addressId)))
         .subscribe((value) => (result = value));

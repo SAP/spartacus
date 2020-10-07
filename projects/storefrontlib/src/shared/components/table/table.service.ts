@@ -39,17 +39,12 @@ export class TableService {
    */
   buildStructure(
     tableType: string,
-    defaultStructure?: ResponsiveTableConfiguration,
-    data$?: Observable<any>
+    defaultStructure?: ResponsiveTableConfiguration
   ): Observable<TableStructure> {
     if (this.hasTableConfig(tableType)) {
       return this.buildStructureFromConfig(tableType, defaultStructure);
     } else {
-      if (data$) {
-        return this.buildStructureFromData(tableType, data$);
-      } else {
-        return this.buildRandomStructure(tableType);
-      }
+      return this.buildRandomStructure(tableType);
     }
   }
 

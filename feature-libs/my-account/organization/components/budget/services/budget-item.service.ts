@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  BudgetService,
+  OrganizationItemStatus,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { BudgetFormService } from '../form/budget-form.service';
@@ -30,8 +34,9 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     return this.budgetService.get(code);
   }
 
-  update(code, value: Budget) {
+  update(code, value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.update(code, value);
+    return this.budgetService.getLoadingStatus(code);
   }
 
   protected create(value: Budget) {

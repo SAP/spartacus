@@ -42,4 +42,9 @@ export const permission = {
     QUARTER: 'per quarter',
     YEAR: 'per year',
   },
+
+  breadcrumbs: {
+    list: 'All purchase limits',
+    details: '{{code}}',
+  },
 };

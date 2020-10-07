@@ -2,6 +2,7 @@ import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
 import * as checkout from '../../../helpers/checkout-flow';
 import {
   cartWithB2bProduct,
+  order_type,
   POWERTOOLS_BASESITE,
   POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
@@ -52,7 +53,14 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should review and place order', () => {
-    checkout.placeOrderWithCheapProduct(user, cartWithB2bProduct);
+    b2bCheckout.reviewB2bReviewOrderPage(
+      user,
+      cartWithB2bProduct,
+      false,
+      order_type.PLACE_ORDER
+    );
+
+    b2bCheckout.placeOrder('/order-confirmation');
   });
 
   it('should display summary page', () => {

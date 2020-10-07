@@ -3,33 +3,34 @@ import { TestBed } from '@angular/core/testing';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepType } from '../model';
-import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutStepService } from './checkout-step.service';
 
 import createSpy = jasmine.createSpy;
 
-class MockCheckoutConfigService {
-  steps = [
-    {
-      id: 'step0',
-      name: 'step 0',
-      routeName: 'route0',
-      type: [CheckoutStepType.PAYMENT_TYPE],
-    },
-    {
-      id: 'step1',
-      name: 'step 1',
-      routeName: 'route1',
-      type: [CheckoutStepType.SHIPPING_ADDRESS],
-    },
-    {
-      id: 'step2',
-      name: 'step 2',
-      routeName: 'route2',
-      type: [CheckoutStepType.DELIVERY_MODE],
-    },
-  ];
-}
+const checkoutConfig = {
+  checkout: {
+    steps: [
+      {
+        id: 'step0',
+        name: 'step 0',
+        routeName: 'route0',
+        type: [CheckoutStepType.PAYMENT_TYPE],
+      },
+      {
+        id: 'step1',
+        name: 'step 1',
+        routeName: 'route1',
+        type: [CheckoutStepType.SHIPPING_ADDRESS],
+      },
+      {
+        id: 'step2',
+        name: 'step 2',
+        routeName: 'route2',
+        type: [CheckoutStepType.DELIVERY_MODE],
+      },
+    ],
+  },
+};
 
 class MockRoutingConfigService {
   getRouteConfig(stepRoute) {
@@ -57,33 +58,28 @@ class MockRoutingService {
   }
 }
 
-describe('CheckoutStpService', () => {
+describe('CheckoutStepService', () => {
   let service: CheckoutStepService;
   let routingService: RoutingService;
   let routingConfigService: RoutingConfigService;
-  let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutStepService,
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    checkoutConfigService = TestBed.inject(
-      CheckoutConfigService as Type<CheckoutConfigService>
-    );
     routingConfigService = TestBed.inject(
       RoutingConfigService as Type<RoutingConfigService>
     );
 
     service = new CheckoutStepService(
       routingService,
-      checkoutConfigService,
+      checkoutConfig,
       routingConfigService
     );
   });
@@ -155,18 +151,20 @@ describe('CheckoutStpService', () => {
 
   it('should get checkout step by type', () => {
     expect(service.getCheckoutStep(CheckoutStepType.SHIPPING_ADDRESS)).toEqual(
-      checkoutConfigService.steps[1]
+      checkoutConfig.checkout.steps[1]
     );
   });
 
   it('should get checkout step route by type', () => {
     expect(
       service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
-    ).toEqual('route1');
+    ).toEqual(checkoutConfig.checkout.steps[1].routeName);
   });
 
   it('should get first checkout step route', () => {
-    expect(service.getFirstCheckoutStepRoute()).toEqual('route0');
+    expect(service.getFirstCheckoutStepRoute()).toEqual(
+      checkoutConfig.checkout.steps[0].routeName
+    );
   });
 
   it('should be able to get next enabled checkout step url', () => {
@@ -186,7 +184,7 @@ describe('CheckoutStpService', () => {
     );
   });
 
-  it('should be able to get prevous enabled checkout step url', () => {
+  it('should be able to get previous enabled checkout step url', () => {
     const mockActivatedRoute = {
       snapshot: {
         url: ['checkout', 'route2'],
@@ -210,6 +208,15 @@ describe('CheckoutStpService', () => {
       },
     };
     expect(service.getCurrentStepIndex(<any>mockActivatedRoute)).toBe(2);
+  });
+
+  it('should return null when step is not found', () => {
+    const mockActivatedRoute = {
+      snapshot: {
+        url: ['null', 'null'],
+      },
+    };
+    expect(service.getCurrentStepIndex(<any>mockActivatedRoute)).toBe(null);
   });
 
   it('should go to the requested step', () => {

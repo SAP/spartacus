@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BAddress, EntitiesModel } from '@spartacus/core';
+import { Address, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitAddressListService } from './unit-address-list.service';
 
-const mockUnitAddressEntities: EntitiesModel<B2BAddress> = {
+const mockUnitAddressEntities: EntitiesModel<Address> = {
   values: [
     {
       id: 'first',
@@ -22,7 +22,7 @@ const mockUnitAddressEntities: EntitiesModel<B2BAddress> = {
 };
 
 class MockUnitAddressListService {
-  getAddresses(): Observable<EntitiesModel<B2BAddress>> {
+  getAddresses(): Observable<EntitiesModel<Address>> {
     return of(mockUnitAddressEntities);
   }
 }
@@ -59,11 +59,11 @@ describe('UnitAddressListService', () => {
   });
 
   it('should load addresses', () => {
-    let result: Table<B2BAddress>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
-    expect(result.data[0].id).toEqual('first');
-    expect(result.data[1].id).toEqual('second');
-    expect(result.data[2].id).toEqual('third');
+    let result: EntitiesModel<Address>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
+    expect(result.values[0].id).toEqual('first');
+    expect(result.values[1].id).toEqual('second');
+    expect(result.values[2].id).toEqual('third');
   });
 });

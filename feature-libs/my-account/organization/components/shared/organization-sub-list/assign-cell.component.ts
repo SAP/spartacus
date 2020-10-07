@@ -10,7 +10,7 @@ import { OrganizationSubListService } from '../organization-sub-list/organizatio
 
 @Component({
   template: `
-    <button (click)="toggleAssign()" class="link">
+    <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
       {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,
@@ -29,8 +29,15 @@ export class AssignCellComponent<T> implements OnDestroy {
     protected organizationSubListService: OrganizationListService<T>
   ) {}
 
+  /**
+   * Indicates whether the item is loaded.
+   */
+  get hasItem(): boolean {
+    return !!this.item && Object.keys(this.item).length > 0;
+  }
+
   get isAssigned(): boolean {
-    return this.outlet.context.selected;
+    return (this.item as any)?.selected;
   }
 
   toggleAssign() {
@@ -72,6 +79,14 @@ export class AssignCellComponent<T> implements OnDestroy {
       this.outlet.context.customerId ??
       this.outlet.context.uid
     );
+  }
+
+  protected get item(): T | null {
+    if (!this.outlet.context) {
+      return null;
+    }
+    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    return all as T;
   }
 
   ngOnDestroy() {

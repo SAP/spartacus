@@ -7,8 +7,8 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import {
+  Address,
   AuthActions,
-  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -78,6 +78,7 @@ import {
 import { budgetsEntitiesReducer, budgetsListReducer } from './budget.reducer';
 import {
   costCenterAssignedBudgetsListReducer,
+  costCentersEntitiesReducer,
   costCentersListReducer,
 } from './cost-center.reducer';
 import {
@@ -86,6 +87,7 @@ import {
 } from './order-approval.reducer';
 import {
   orgUnitAddressListReducer,
+  orgUnitEntitiesReducer,
   orgUnitUserListReducer,
 } from './org-unit.reducer';
 import {
@@ -125,7 +127,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       >(PERMISSION_TYPES_LIST),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<B2BUnit>(ORG_UNIT_ENTITIES),
+      entities: StateUtils.entityLoaderReducer<B2BUnit>(
+        ORG_UNIT_ENTITIES,
+        orgUnitEntitiesReducer
+      ),
       availableOrgUnitNodes: StateUtils.entityLoaderReducer<B2BUnitNode[]>(
         ORG_UNIT_NODE_LIST
       ),
@@ -141,7 +146,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities: StateUtils.entityLoaderReducer<B2BAddress>(
+      addressEntities: StateUtils.entityLoaderReducer<Address>(
         ADDRESS_ENTITIES
       ),
     }),
@@ -165,7 +170,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<CostCenter>(
-        COST_CENTER_ENTITIES
+        COST_CENTER_ENTITIES,
+        costCentersEntitiesReducer
       ),
       list: StateUtils.entityLoaderReducer<ListModel>(
         COST_CENTER_LIST,

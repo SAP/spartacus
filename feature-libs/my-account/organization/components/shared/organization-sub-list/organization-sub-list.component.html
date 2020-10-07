@@ -2,22 +2,26 @@
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
 
-  <ng-container main *ngIf="dataTable$ | async as dataTable">
-    <section>
-      <cx-table
-        *ngIf="dataTable.data?.length > 0; else emptyList"
-        [dataset]="dataTable"
-        [currentItem]="{ property: key, value: currentKey$ | async }"
-      >
-      </cx-table>
-    </section>
+  <ng-container main *ngIf="dataStructure$ | async as structure">
+    <ng-container *ngIf="listData$ | async as data">
+      <section>
+        <cx-table
+          *ngIf="data.values?.length > 0; else emptyList"
+          [structure]="structure"
+          [data]="data.values"
+          [i18nRoot]="domainType"
+          [currentItem]="{ property: key, value: currentKey$ | async }"
+        >
+        </cx-table>
+      </section>
 
-    <div class="footer" *ngIf="dataTable.pagination?.totalPages > 1">
-      <cx-pagination
-        [pagination]="dataTable.pagination"
-        (viewPageEvent)="browse(dataTable.pagination, $event)"
-      ></cx-pagination>
-    </div>
+      <div class="footer" *ngIf="data.pagination?.totalPages > 1">
+        <cx-pagination
+          [pagination]="data.pagination"
+          (viewPageEvent)="browse(data.pagination, $event)"
+        ></cx-pagination>
+      </div>
+    </ng-container>
   </ng-container>
 </cx-organization-card>
 
