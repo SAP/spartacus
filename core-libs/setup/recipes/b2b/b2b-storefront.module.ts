@@ -20,12 +20,12 @@ import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
 
 @NgModule({
   imports: [
-    StorefrontModule,
-
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
     }),
+
+    StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,

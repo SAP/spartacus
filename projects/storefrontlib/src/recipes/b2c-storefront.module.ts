@@ -13,12 +13,12 @@ import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
-    StorefrontModule,
-
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
     }),
+
+    StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
