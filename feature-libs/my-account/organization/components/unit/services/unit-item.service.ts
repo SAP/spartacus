@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from '../services/current-unit.service';
-import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +40,6 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
 
   protected create(value: B2BUnit) {
     this.unitService.create(value);
-  }
-
-  protected save(form: FormGroup, key?: string) {
-    form.get('parentOrgUnit').enable();
-    super.save(form, key);
   }
 
   /**
