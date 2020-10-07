@@ -62,6 +62,12 @@ export class TableComponent<T> {
   @Input() data: T[];
 
   /**
+   * The i18nRoot is passed into the table cell context, so that
+   * cell components can concatenate the i18n root and label.
+   */
+  @Input() i18nRoot: string;
+
+  /**
    * Provides a mechanism to compare a matching value for each item.
    *
    * The `property` refers to the dataset.value property, and the value tot the
@@ -114,6 +120,7 @@ export class TableComponent<T> {
     return this.rendererService.getHeaderOutletContext(
       this.type,
       this.options,
+      this.i18nRoot,
       field
     );
   }
@@ -132,6 +139,7 @@ export class TableComponent<T> {
     return this.rendererService.getDataOutletContext(
       this.type,
       this.options,
+      this.i18nRoot,
       field,
       data
     );

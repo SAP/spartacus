@@ -190,6 +190,7 @@ describe('TableRendererService', () => {
         const context = service.getHeaderOutletContext(
           'test-1',
           mockOptions,
+          'i18nRoot',
           'key2'
         );
         expect(context._field).toEqual('key2');
@@ -205,9 +206,15 @@ describe('TableRendererService', () => {
       });
 
       it('should generate a table data (td) outlet context', () => {
-        const context = service.getDataOutletContext('test-1', {}, 'key2', {
-          foo: 'bar',
-        });
+        const context = service.getDataOutletContext(
+          'test-1',
+          {},
+          'i18nRoot',
+          'key2',
+          {
+            foo: 'bar',
+          }
+        );
         expect(context._field).toEqual('key2');
         expect(context['foo']).toEqual('bar');
       });

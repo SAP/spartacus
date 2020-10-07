@@ -61,10 +61,12 @@ export class LoadCostCenterFail extends StateUtils.EntityFailAction {
 
 export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_COST_CENTER_SUCCESS;
-  constructor(public payload: CostCenter[]) {
+  constructor(public payload: CostCenter | CostCenter[]) {
     super(
       COST_CENTER_ENTITIES,
-      payload.map((costCenter) => costCenter.code)
+      Array.isArray(payload)
+        ? payload.map((costCenter) => costCenter?.code)
+        : payload?.code
     );
   }
 }

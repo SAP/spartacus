@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   ReplenishmentOrder,
@@ -31,6 +32,7 @@ class MockUserReplenishmentOrderService {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }
+  clearReplenishmentOrderDetails() {}
 }
 
 class MockReplenishmentOrderCancellationLaunchDialogService {
@@ -52,7 +54,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
       providers: [
         {
