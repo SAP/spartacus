@@ -1,17 +1,15 @@
 @mixin cx-configurator-attribute-selection-image {
-  display: flow-root;
-  margin-inline-start: 17px;
-  padding: 10px 34px 0 0;
+  @include cx-configurator-attribute-type();
 
   .cx-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: baseline;
 
     .cx-configurator-select {
       padding: 5px;
-      display: flex;
-      flex-direction: column;
 
       input[type='checkbox'].form-input,
       input[type='radio'].form-input {

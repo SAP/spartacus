@@ -1,3 +1,4 @@
+@import './mixins/mixins';
 @import 'configurator-attribute-radio-button';
 @import 'configurator-attribute-drop-down';
 @import 'configurator-attribute-input-field';
@@ -17,7 +18,6 @@
 @import 'configurator-add-to-cart-button';
 @import 'configurator-price-summary';
 @import 'configurator-tab-bar';
-@import 'configurator-attribute-selection-image';
 @import 'configurator-attribute-multi-selection-image';
 @import 'configurator-attribute-single-selection-image';
 @import 'configurator-update-message';

@@ -1,4 +1,7 @@
 %cx-configurator-conflict-suggestion {
+  display: flex;
+  flex-direction: row;
+
   .cx-configurator-conflict-suggestion {
     padding: 15px;
     background-color: mix(#ffffff, theme-color('light'), 90%);

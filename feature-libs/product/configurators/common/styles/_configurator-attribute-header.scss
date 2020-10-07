@@ -1,6 +1,6 @@
 %cx-configurator-attribute-header {
-  display: flow-root;
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
   margin-inline-start: 17px;
   margin-inline-end: 17px;
 
@@ -11,22 +11,13 @@
   }
 
   .cx-required-icon {
-    display: inline-flex;
-
     &:after {
       content: '*';
       color: var(--cx-color-danger);
     }
   }
 
-  .cx-required-error-msg {
-    color: var(--cx-color-danger);
-    font-size: 14px;
-
-    cx-icon {
-      padding-inline-end: 5px;
-    }
-  }
+  @include cx-required-error-msg();
 
   .cx-conflict-container {
     display: inline-flex;

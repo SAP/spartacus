@@ -1,0 +1,12 @@
+@mixin cx-configurator-form-group {
+  .form-group {
+    margin-block-end: 0.5rem;
+
+    @include media-breakpoint-up(md) {
+      inline-size: 75%;
+    }
+    @include media-breakpoint-down(sm) {
+      inline-size: 100%;
+    }
+  }
+}

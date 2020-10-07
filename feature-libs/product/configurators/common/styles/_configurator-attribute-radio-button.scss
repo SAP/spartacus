@@ -1,7 +1,5 @@
 %cx-configurator-attribute-radio-button {
-  display: flow-root;
-  margin-inline-start: 17px;
-  padding: 10px 34px 0 0;
+  @include cx-configurator-attribute-type();
 
   .form-check {
     &:last-child {

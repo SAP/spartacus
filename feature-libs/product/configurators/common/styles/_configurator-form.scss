@@ -1,7 +1,9 @@
 %cx-configurator-form {
   .cx-group-attribute {
-    display: flow-root;
-    flex-direction: row;
     padding: 12px 20px;
+
+    em {
+      @include cx-configurator-attribute-type();
+    }
   }
 }

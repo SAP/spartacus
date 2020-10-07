@@ -1,7 +1,8 @@
 @import './styles/index';
 
 $configurator-common-components: cx-configurator-attribute-header,
-  cx-configurator-form, cx-configurator-attribute-radio-button,
+  cx-configurator-form, cx-configurator-attribute-type, cx-required-error-msg,
+  cx-configurator-form-group, cx-configurator-attribute-radio-button,
   cx-configurator-attribute-footer, cx-configurator-attribute-drop-down,
   cx-configurator-attribute-read-only, cx-configurator-previous-next-buttons,
   cx-configurator-overview-form, cx-configurator-overview-attribute,
