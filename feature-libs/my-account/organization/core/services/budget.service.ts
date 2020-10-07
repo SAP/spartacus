@@ -8,12 +8,16 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Observable, queueScheduler, using } from 'rxjs';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { BudgetActions, StateWithOrganization } from '../store/index';
-import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
+import {
+  getBudget,
+  getBudgetList,
+  getBudgetValue,
+} from '../store/selectors/budget.selector';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -35,10 +39,14 @@ export class BudgetService {
     );
   }
 
-  private getBudget(
+  private getBudgetState(
     budgetCode: string
   ): Observable<StateUtils.LoaderState<Budget>> {
     return this.store.select(getBudget(budgetCode));
+  }
+
+  private getBudgetValue(budgetCode: string): Observable<Budget> {
+    return this.store.select(getBudgetValue(budgetCode));
   }
 
   private getBudgetList(
@@ -48,15 +56,18 @@ export class BudgetService {
   }
 
   get(budgetCode: string): Observable<Budget> {
-    return this.getBudget(budgetCode).pipe(
-      observeOn(queueScheduler),
+    const loading$ = this.getBudgetState(budgetCode).pipe(
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
-      }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      })
+    );
+
+    return using(
+      () => loading$.subscribe(),
+      () => this.getBudgetValue(budgetCode)
     );
   }
 
@@ -101,7 +112,7 @@ export class BudgetService {
   getLoadingStatus(
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
-    return getItemStatus(this.getBudget(budgetCode));
+    return getItemStatus(this.getBudgetState(budgetCode));
   }
 
   private withUserId(callback: (userId: string) => void): void {
