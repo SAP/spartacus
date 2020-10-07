@@ -27,6 +27,10 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     super(outlet);
   }
 
+  get combinedName() {
+    return this.property ? `${this.property} (${this.count})` : '';
+  }
+
   get tabIndex() {
     return 0;
   }
