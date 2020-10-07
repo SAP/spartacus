@@ -48,10 +48,6 @@ if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
     exit 1
 fi
-echo "Running unit tests for my-account schematics"
-cd feature-libs/my-account
-yarn test:schematics
-cd ../../
 
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
@@ -67,6 +63,10 @@ cd projects/schematics
 yarn
 yarn test
 cd ../..
+echo "Running unit tests for my-account schematics"
+cd feature-libs/my-account
+yarn test:schematics
+cd ../../
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
