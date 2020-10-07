@@ -38,6 +38,7 @@ export interface User {
   title?: string;
   titleCode?: string;
   uid?: string;
+  roles?: string[];
 }
 
 export interface ListModel {
@@ -46,6 +47,7 @@ export interface ListModel {
   sorts?: SortModel[];
 }
 
+// TODO(#8875): Do we need it here?
 export interface EntitiesModel<T> {
   values: T[];
   pagination?: PaginationModel;

@@ -6,8 +6,8 @@ import {
   PickupOrderEntryGroup,
   PromotionOrderEntryConsumed,
 } from './order.model';
-import { Price, Promotion } from './product.model';
 import { CostCenter } from './org-unit.model';
+import { Price, Promotion } from './product.model';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -117,7 +117,7 @@ export interface Cart {
   net?: boolean;
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
-  paymentType?: B2BPaymentType;
+  paymentType?: PaymentType;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];

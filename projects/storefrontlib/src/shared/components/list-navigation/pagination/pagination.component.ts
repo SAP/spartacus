@@ -59,7 +59,7 @@ export class PaginationComponent {
   }
 
   /**
-   * Inidicates whether the given item is the current item.
+   * Indicates whether the given item is the current item.
    *
    * @param item PaginationItem
    * @returns boolean

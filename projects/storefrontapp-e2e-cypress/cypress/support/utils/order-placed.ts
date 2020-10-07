@@ -40,7 +40,8 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter((order) => order.code === orderNumber)))
+            res.body.orders.filter((order) => order.code === orderNumber)
+              .length > 0))
       ) {
         startTime = 0;
         return;

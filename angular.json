@@ -30,7 +30,11 @@
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects",
+                "./projects/storefrontstyles/scss",
+                "./feature-libs"
+              ]
             },
             "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
@@ -168,7 +172,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
@@ -396,7 +400,7 @@
     "my-account": {
       "projectType": "library",
       "root": "feature-libs/my-account",
-      "sourceRoot": "feature-libs/my-account/src",
+      "sourceRoot": "feature-libs/my-account",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -414,7 +418,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/my-account/src/test.ts",
+            "main": "feature-libs/my-account/test.ts",
             "tsConfig": "feature-libs/my-account/tsconfig.spec.json",
             "karmaConfig": "feature-libs/my-account/karma.conf.js"
           }
@@ -540,9 +544,7 @@
               "core-libs/setup/tsconfig.lib.json",
               "core-libs/setup/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

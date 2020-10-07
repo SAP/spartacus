@@ -4,12 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { GeoPoint } from '../../../model/misc.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '../../../store-finder/connectors';
-import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../index';
 import { OccEndpointsService } from '../../services';
@@ -17,7 +17,7 @@ import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
-const mockSearchConfig: StoreFinderSearchConfig = { pageSize: 5 };
+const mockSearchConfig: SearchConfig = { pageSize: 5 };
 const longitudeLatitude: GeoPoint = {
   longitude: 10.1,
   latitude: 20.2,

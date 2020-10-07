@@ -368,7 +368,7 @@ export interface OccEndpoints {
    */
   placeOrder?: string | OccEndpoint;
   /**
-   * Endpoint for budget
+   * Endpoint for userGroupOrderApprovalPermission
    *
    * @member {string}
    */
@@ -506,6 +506,35 @@ export interface OccEndpoints {
    */
   costCenters?: string | OccEndpoint;
   /**
+   * Endpoint to schedule a replenishment order
+   *
+   * * @member {string}
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
+  /* Endpoint to get a replenishment order details
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetails?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetailsHistory?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  cancelReplenishmentOrder?: string | OccEndpoint;
+  /**
    * Endpoint for all costCenters
    *
    * @member {string}
@@ -619,4 +648,22 @@ export interface OccEndpoints {
    * @member {string} [cart]
    */
   bundleAllowedProductsSearch?: string | OccEndpoint;
+  /**
+   * Endpoint for order approvals
+   *
+   * @member {string}
+   */
+  orderApprovals?: string | OccEndpoint;
+  /**
+   * Endpoint for order approval
+   *
+   * @member {string}
+   */
+  orderApproval?: string | OccEndpoint;
+  /**
+   * Endpoint for order approval decision
+   *
+   * @member {string}
+   */
+  orderApprovalDecision?: string | OccEndpoint;
 }
