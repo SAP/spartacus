@@ -18,6 +18,8 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
     return this.model.depthLevel;
   }
 
+  @HostBinding('class.content-wrapper') cls = true;
+
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected unitTreeService: UnitTreeService

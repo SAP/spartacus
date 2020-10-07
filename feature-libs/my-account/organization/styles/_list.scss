@@ -224,26 +224,19 @@
   }
 
   &.unit {
-    .name {
-      ng-component {
-        display: block;
-        padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
-        button.tree-item-toggle {
-          padding-top: 2rem;
-          padding-bottom: 2rem;
-          margin-inline-start: -40px;
-
-          cx-icon {
-            transform: translate(0%, -50%);
+    .list > cx-table {
+      .name {
+        ng-component {
+          padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+          button.tree-item-toggle {
+            margin-inline-start: -40px;
           }
         }
-      }
 
-      @include media-breakpoint-down(md) {
-        height: 4rem;
-        ng-component {
-          display: block;
-          padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+        @include media-breakpoint-down(md) {
+          ng-component {
+            padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+          }
         }
       }
     }
