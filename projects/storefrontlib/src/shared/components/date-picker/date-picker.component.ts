@@ -11,7 +11,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
-import { DatePickerFormatterService } from '../../../../../core/src/util/date-picker-formatter.service';
+import { DatePickerFormatterService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-date-picker',

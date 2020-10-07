@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatePickerComponent } from '.';
-import { DatePickerFormatterService } from '../../../../../core/src/util/date-picker-formatter.service';
+import { DatePickerFormatterService } from '@spartacus/core';
 
 import createSpy = jasmine.createSpy;
 
