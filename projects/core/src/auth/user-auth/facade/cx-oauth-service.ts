@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
+import { WindowRef } from '../../../window/window-ref';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthStorageService } from './auth-storage.service';
@@ -14,8 +16,11 @@ export class CxOAuthService {
     protected store: Store<StateWithClientAuth>,
     protected oAuthService: OAuthService,
     protected authStorageService: AuthStorageService,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    protected winRef: WindowRef
   ) {
+    const isSSR = isPlatformServer(this.platformId);
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginEndpoint(),
@@ -28,8 +33,9 @@ export class CxOAuthService {
         this.authConfigService.getOAuthLibConfig()?.issuer ??
         this.authConfigService.getBaseUrl(),
       redirectUri:
-        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        window.location.origin,
+        this.authConfigService.getOAuthLibConfig()?.redirectUri ?? !isSSR
+          ? this.winRef.nativeWindow.location.origin
+          : '',
       ...this.authConfigService.getOAuthLibConfig(),
     });
   }
