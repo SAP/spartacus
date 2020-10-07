@@ -1,21 +1,18 @@
 %cx-configurator-conflict-description {
-  .cx-configurator-conflict-description-container {
-    background-color: mix(#ffffff, theme-color('warning'), 78%);
-    padding: 5px;
-    margin: 0 -10px 15px -10px;
+  .cx-description-container {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    margin-block-end: 15px;
+    background-color: mix(#ffffff, theme-color('warning'), 78%);
 
-    .cx-configurator-conflict-icon-container {
+    cx-icon {
       padding: 5px 15px 5px 15px;
-      align-self: center;
-    }
-
-    .cx-configurator-conflict-description {
-      padding-block-start: 10px;
-    }
-    .cx-configurator-conflict-icon {
       color: theme-color('warning');
+      align-self: center;
       font-size: 30px;
+      padding-block-end: 10px;
     }
   }
 }

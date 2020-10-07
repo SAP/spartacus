@@ -1,15 +1,8 @@
 <div
   *ngIf="displayConflictDescription(currentGroup)"
-  class="cx-configurator-conflict-description-container"
+  class="cx-description-container"
   tabindex="0"
 >
-  <div class="cx-configurator-conflict-icon-container">
-    <cx-icon
-      class="cx-configurator-conflict-icon"
-      [type]="iconTypes.WARNING"
-    ></cx-icon>
-  </div>
-  <div class="cx-configurator-conflict-description">
-    {{ currentGroup.name }}
-  </div>
+  <cx-icon [type]="iconTypes.WARNING"></cx-icon>
+  {{ currentGroup.name }}
 </div>

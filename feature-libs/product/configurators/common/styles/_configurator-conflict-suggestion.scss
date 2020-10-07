@@ -1,18 +1,16 @@
 %cx-configurator-conflict-suggestion {
-  display: flex;
-  flex-direction: row;
-
-  .cx-configurator-conflict-suggestion {
+  .cx-suggestion-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     padding: 15px;
     background-color: mix(#ffffff, theme-color('light'), 90%);
     margin: 0 -20px 15px -20px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
+    border: 1px solid var(--cx-color-light);
     border-radius: 2px;
-    display: flex;
 
-    .bold {
+    .cx-bold {
       font-weight: bold;
       padding-inline-end: 5px;
     }
