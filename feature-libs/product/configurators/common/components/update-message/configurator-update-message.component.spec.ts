@@ -97,10 +97,9 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should contain d-none class
-    expect(
-      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-        .length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('#cx-update-message.visible').length).toBe(
+      0
+    );
   });
 
   it('should show update banner if pending changes is true', (done) => {
@@ -109,22 +108,18 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should be hidden first
-    expect(
-      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-        .length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('#cx-update-message.visible').length).toBe(
+      0
+    );
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-          .length
+        htmlElem.querySelectorAll('#cx-update-message.visible').length
       ).toBe(1);
 
-      expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message').length
-      ).toBe(1);
+      expect(htmlElem.querySelectorAll('#cx-update-message').length).toBe(1);
       done();
     }, 2000);
   });
@@ -135,22 +130,18 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should be hidden first
-    expect(
-      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-        .length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('#cx-update-message.visible').length).toBe(
+      0
+    );
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-          .length
+        htmlElem.querySelectorAll('#cx-update-message.visible').length
       ).toBe(1);
 
-      expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message').length
-      ).toBe(1);
+      expect(htmlElem.querySelectorAll('#cx-update-message').length).toBe(1);
       done();
     }, 2000);
   });
@@ -161,22 +152,18 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should be hidden first
-    expect(
-      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-        .length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('#cx-update-message.visible').length).toBe(
+      0
+    );
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-          .length
+        htmlElem.querySelectorAll('#cx-update-message.visible').length
       ).toBe(1);
 
-      expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message').length
-      ).toBe(1);
+      expect(htmlElem.querySelectorAll('#cx-update-message').length).toBe(1);
       done();
     }, 2000);
   });
@@ -188,22 +175,18 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should be hidden first
-    expect(
-      htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-        .length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('#cx-update-message.visible').length).toBe(
+      0
+    );
 
     //Should appear after a bit
     setTimeout(() => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message.visible')
-          .length
+        htmlElem.querySelectorAll('#cx-update-message.visible').length
       ).toBe(1);
 
-      expect(
-        htmlElem.querySelectorAll('#cx-configurator-update-message').length
-      ).toBe(1);
+      expect(htmlElem.querySelectorAll('#cx-update-message').length).toBe(1);
       done();
     }, 2000);
   });

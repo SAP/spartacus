@@ -2,6 +2,10 @@
   .cx-group-attribute {
     padding: 12px 20px;
 
+    @include media-breakpoint-down(sm) {
+      padding: 12px 0px;
+    }
+
     em {
       @include cx-configurator-attribute-type();
     }

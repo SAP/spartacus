@@ -10,6 +10,10 @@
     border: 1px solid var(--cx-color-light);
     border-radius: 2px;
 
+    @include media-breakpoint-down(sm) {
+      padding: 15px 35px;
+    }
+
     .cx-bold {
       font-weight: bold;
       padding-inline-end: 5px;
