@@ -65,6 +65,7 @@ yarn test
 cd ../..
 echo "Running unit tests for my-account schematics"
 cd feature-libs/my-account
+yarn
 yarn test:schematics
 cd ../../
 
