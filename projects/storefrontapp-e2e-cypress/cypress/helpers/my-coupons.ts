@@ -49,7 +49,7 @@ export function verifyPagingAndSorting() {
   cy.get('.cx-coupon-card').should('have.length', PageSize);
   cy.get('cx-pagination:last a').should('have.length', 4);
   cy.get('cx-pagination:last').within(() => {
-    cy.getByText('2').click();
+    cy.findByText('2').click();
   });
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
   cy.get('cx-pagination:last a:first').click();
@@ -190,7 +190,7 @@ export function verifyReadMore() {
 export function verifyFindProduct(couponCode: string, productNumber: number) {
   const productSearchPage = waitForPage('search', 'getProductSearchPage');
 
-  cy.getByText(couponCode)
+  cy.findByText(couponCode)
     .parent()
     .parent()
     .parent('.cx-coupon-data')

@@ -320,7 +320,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     before(() => {
       cy.restoreLocalStorage();
       addProduct();
-      cy.getAllByText(/Proceed to checkout/i)
+      cy.findAllByText(/Proceed to checkout/i)
         .first()
         .click(); // move to checkout
       cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout

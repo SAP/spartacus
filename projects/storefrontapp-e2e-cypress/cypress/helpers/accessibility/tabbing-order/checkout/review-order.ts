@@ -8,7 +8,7 @@ export function checkoutReviewOrderTabbingOrder(
   config: TabElement[],
   checkout: boolean = false
 ) {
-  cy.getAllByText(/I am confirming that I have read and agreed with/i)
+  cy.findAllByText(/I am confirming that I have read and agreed with/i)
     .first()
     .parent()
     .within(() => {
