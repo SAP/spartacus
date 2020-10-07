@@ -6,7 +6,7 @@
   "numTestsKeptInMemory": 1,
   "video": true,
   "retries": {
-    "runMode": 3
+    "runMode": 2
   },
   "env": {
     "CLIENT_ID": "mobile_android",
