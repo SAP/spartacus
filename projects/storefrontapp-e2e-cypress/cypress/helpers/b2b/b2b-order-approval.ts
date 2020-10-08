@@ -1,12 +1,12 @@
-import { AccountData } from '../../support/require-logged-in.commands';
-import { visitHomePage } from '../checkout-flow';
 import {
-  pendingOrder,
+  approvalOrderDetail,
   approvalOrderList,
   b2bApprover,
   b2bUser,
-  approvalOrderDetail,
+  pendingOrder,
 } from '../../sample-data/b2b-order-approval';
+import { AccountData } from '../../support/require-logged-in.commands';
+import { visitHomePage } from '../checkout-flow';
 
 export function loginB2bUser() {
   const user: AccountData = {
@@ -66,7 +66,7 @@ export function getOrderApprovalDetail() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/orderapprovals/${approvalOrderDetail.code}`,
+    )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     approvalOrderDetail
   );
 }
