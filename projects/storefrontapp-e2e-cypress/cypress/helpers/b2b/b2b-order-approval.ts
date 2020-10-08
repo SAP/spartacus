@@ -5,6 +5,7 @@ import {
   approvalOrderList,
   b2bApprover,
   b2bUser,
+  approvalOrderDetail,
 } from '../../sample-data/b2b-order-approval';
 
 export function loginB2bUser() {
@@ -56,5 +57,16 @@ export function getOrderApprovalList() {
       'BASE_SITE'
     )}/users/current/orderapprovals?*`,
     approvalOrderList
+  );
+}
+
+export function getOrderApprovalDetail() {
+  cy.server();
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orderapprovals/${approvalOrderDetail.code}`,
+    approvalOrderDetail
   );
 }
