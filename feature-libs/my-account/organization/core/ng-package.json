@@ -3,7 +3,9 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
-      "@spartacus/core": "core"
+      "@spartacus/core": "core",
+      "@ngrx/effects": "effects",
+      "@ngrx/store": "store"
     }
   }
 }
