@@ -18,6 +18,7 @@ export function checkoutPaymentMethodTabbingOrder(
   );
   cy.visit('/checkout/payment-type');
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+
   enterPONumber();
 
   if (selectAccount) {

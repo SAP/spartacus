@@ -8,6 +8,14 @@ export function checkoutReviewOrderTabbingOrder(
   config: TabElement[],
   checkout: boolean = false
 ) {
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.visit('/checkout/review-order');
+
+  cy.wait(`@${reviewPage}`);
+
+  cy.get('cx-review-submit .cx-review-title').should('exist');
+
   cy.findAllByText(/I am confirming that I have read and agreed with/i)
     .first()
     .parent()
