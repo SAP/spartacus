@@ -154,18 +154,18 @@ describe('UnitListService', () => {
     });
 
     it('should get collapsed all items structure', () => {
-      let result: Table;
+      let result: Table<B2BUnitTreeNode>;
 
-      service.getTable().subscribe((table) => (result = table));
+      service.getData().subscribe((table) => (result = table));
       verifyCollapsedAll(result);
     });
 
     it('should get expanded all items structure', () => {
-      let result: Table;
+      let result: Table<B2BUnitTreeNode>;;
 
       treeService.isExpanded = createSpy().and.returnValue(true);
 
-      service.getTable().subscribe((table) => (result = table));
+      service.getData().subscribe((table) => (result = table));
       verifyExpandedAll(result);
     });
   });
