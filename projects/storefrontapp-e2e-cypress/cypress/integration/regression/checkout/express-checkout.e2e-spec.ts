@@ -42,7 +42,7 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should redirect to review order page with Standard Delivery', () => {
@@ -69,7 +69,7 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should redirect to review order page with Premium Delivery', () => {
@@ -83,7 +83,7 @@ context('Express checkout', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
-      cy.getAllByText('Delete').first().click({ force: true });
+      cy.findAllByText('Delete').first().click({ force: true });
       cy.get('.btn-primary').click({ force: true });
     });
 
@@ -92,7 +92,7 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should verify Shipping Address page', () => {

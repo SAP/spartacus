@@ -24,7 +24,6 @@ import {
   mapTo,
   pairwise,
   startWith,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -123,16 +122,10 @@ export class ProfileTagPushEventsService {
 
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(CategoryPageResultsEvent).pipe(
-      tap((_) => {
-        console.log(_);
-      }),
       withLatestFrom(
         this.eventService.get(PageEvent).pipe(
           startWith(<PageEvent>null), // https://github.com/ReactiveX/rxjs/issues/4772
-          pairwise(),
-          tap((_) => {
-            console.log(_);
-          })
+          pairwise()
         )
       ),
       distinctUntilChanged(

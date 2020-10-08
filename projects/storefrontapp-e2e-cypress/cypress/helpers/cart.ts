@@ -216,7 +216,7 @@ export function removeAllItemsFromCart() {
 
 export function removeCartItem(product) {
   getCartItem(product.name).within(() => {
-    cy.getByText('Remove').click();
+    cy.findByText('Remove').click();
   });
 }
 

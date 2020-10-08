@@ -49,7 +49,7 @@ export class PaginationBuilder {
   /**
    * Builds a list of `PaginationItem`. The give pageCount and current are used
    * to build out the full pagination. There are various {@link PaginationConfig} options
-   * which can be used to configure the behaviour of the build. Alternatively, CSS
+   * which can be used to configure the behavior of the build. Alternatively, CSS
    * can be used to further specialize visibility of the pagination.
    *
    * @param pageCount The total number of pages
@@ -84,7 +84,6 @@ export class PaginationBuilder {
   ): void {
     const start = this.getStartOfRange(pageCount, current);
     const max = Math.min(this.config.rangeCount, pageCount);
-
     Array.from(Array(max)).forEach((_, i) => {
       pages.push({
         number: i + start,

@@ -1,36 +1,84 @@
-<table *ngIf="dataset?.structure as structure">
-  <thead *ngIf="!structure.hideHeader">
-    <tr>
-      <th
-        scope="col"
-        *ngFor="let header of structure.headers; let i = index"
-        [class]="header.key"
-      >
-        <!-- render an outlet for each column header -->
+<table *ngIf="structure">
+  <ng-container *ngIf="verticalStackedLayout">
+    <tbody
+      *ngFor="let item of data; trackBy: trackData"
+      (click)="launchItem(item)"
+      [class.is-current]="isCurrentItem(item)"
+    >
+      <tr *ngFor="let cell of structure.cells" [class]="cell">
+        <th>
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+        <td>
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ item[cell] }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+
+  <!-- vertical tables render the item  -->
+  <ng-container *ngIf="verticalLayout">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let cell of structure.cells" [class]="cell">
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+
+    <tr
+      *ngFor="let item of data; trackBy: trackData"
+      [class.is-current]="isCurrentItem(item)"
+      (click)="launchItem(item)"
+    >
+      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
         <ng-template
-          [cxOutlet]="
-            'table.' + structure.type + '.header.' + (header.key || i)
-          "
-          [cxOutletContext]="header"
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
         >
-          <!-- Render the label by default, fallback to localize the label by it's key -->
-          {{
-            header.label || (structure.type + '.' + header.key | cxTranslate)
-          }}
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
+
+  <ng-container *ngIf="horizontalLayout">
+    <tr *ngFor="let cell of structure.cells" [class]="cell">
+      <th scope="col">
+        <ng-template
+          [cxOutlet]="getHeaderOutletRef(cell)"
+          [cxOutletContext]="getHeaderOutletContext(cell)"
+        >
+          {{ cell }}
         </ng-template>
       </th>
-    </tr>
-  </thead>
-
-  <tr *ngFor="let row of dataset.data$ | async">
-    <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
-      <!-- render an outlet for each cell -->
-      <ng-template
-        [cxOutlet]="'table.' + structure.type + '.data.' + (col.key || i)"
-        [cxOutletContext]="row"
+      <td
+        *ngFor="let item of data; trackBy: trackData"
+        [class.is-current]="isCurrentItem(item)"
+        (click)="launchItem(item)"
       >
-        {{ getDataValue(row, col.key, i) }}
-      </ng-template>
-    </td>
-  </tr>
+        <ng-template
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
+        >
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
 </table>
