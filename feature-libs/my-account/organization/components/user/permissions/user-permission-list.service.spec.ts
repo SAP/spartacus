@@ -6,7 +6,7 @@ import {
   B2BUserService,
   Permission,
 } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserPermissionListService } from './user-permission-list.service';
 
@@ -70,12 +70,12 @@ describe('UserApproverListService', () => {
   });
 
   it('should not filter selected permissions', () => {
-    let result: Table<Permission>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    let result: EntitiesModel<Permission>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
+    expect(result.values[0].code).toEqual('first');
+    expect(result.values[1].code).toEqual('second');
+    expect(result.values[2].code).toEqual('third');
   });
 
   it('should assign permission', () => {

@@ -18,6 +18,15 @@ export abstract class OrganizationSubListService<
     options: { layout: TableLayout.VERTICAL },
   };
 
+  protected ghostData = {
+    values: [{}, {}, {}],
+    pagination: {
+      totalPages: 1,
+      sort: ' ',
+    },
+    sorts: [],
+  } as EntitiesModel<T>;
+
   // TODO: abstract
   assign(_key: string, ..._args: any) {}
   unassign(_key: string, ..._args: any) {}

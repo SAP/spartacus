@@ -6,7 +6,7 @@ import {
   Permission,
   UserGroupService,
 } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
 
@@ -72,9 +72,9 @@ describe('UserGroupPermissionListService', () => {
   });
 
   it('should not filter selected permissions', () => {
-    let result: Table<Permission>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
+    let result: EntitiesModel<Permission>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
   });
 
   it('should assign permission', () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -16,7 +16,7 @@ export class UnitChildrenService extends OrganizationSubListService<
   B2BUnitNode
 > {
   protected tableType = OrganizationTableType.UNIT_CHILDREN;
-  protected domainType = OrganizationTableType.UNIT;
+  protected _domainType = OrganizationTableType.UNIT;
 
   constructor(
     protected tableService: TableService,
@@ -27,7 +27,7 @@ export class UnitChildrenService extends OrganizationSubListService<
 
   // method to be adjusted for proper children list when ready
   protected load(
-    _structure,
+    _pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUnitNode>> {
     return this.orgUnitService.getChildUnits(code);
