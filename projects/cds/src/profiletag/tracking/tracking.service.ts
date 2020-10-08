@@ -15,8 +15,11 @@ export class TrackingService {
     protected profileTagPushEventsService: ProfileTagPushEventsService,
     private profileTagEventTracker: ProfileTagEventService
   ) {}
-  static factory(trackingService: TrackingService): void {
-    trackingService.trackEvents();
+  static factory(trackingService: TrackingService): () => void {
+    const factoryFunction = () => {
+      trackingService.trackEvents();
+    };
+    return factoryFunction;
   }
   trackEvents(): void {
     merge(
