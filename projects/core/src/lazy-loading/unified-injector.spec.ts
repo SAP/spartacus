@@ -140,9 +140,13 @@ describe('UnifiedInjector', () => {
 
       service
         .getMulti(TEST_MULTI_TOKEN)
-        .pipe(take(1))
+        .pipe(take(2), toArray())
         .subscribe((instances) => {
-          expect(instances).toEqual(['root1', 'root2', 'lazy1', 'lazy2']);
+          console.log(instances);
+          expect(instances).toEqual([
+            ['root1', 'root2'],
+            ['root1', 'root2', 'lazy1', 'lazy2'],
+          ]);
           done();
         });
     });

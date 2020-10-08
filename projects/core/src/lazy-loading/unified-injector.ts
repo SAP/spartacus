@@ -7,8 +7,8 @@ import {
   Type,
 } from '@angular/core';
 import { LazyModulesService } from './lazy-modules.service';
-import { asapScheduler, Observable } from 'rxjs';
-import { auditTime, filter, map, scan, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, scan, startWith } from 'rxjs/operators';
 
 const NOT_FOUND_SYMBOL: any = {};
 
@@ -80,8 +80,7 @@ export class UnifiedInjector {
         }
         return instances.length > 0;
       }),
-      scan((acc, services) => [...acc, ...services], []),
-      auditTime(0, asapScheduler)
+      scan((acc, services) => [...acc, ...services], [])
     );
   }
 }
