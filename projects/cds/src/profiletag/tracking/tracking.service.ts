@@ -15,6 +15,9 @@ export class TrackingService {
     protected profileTagPushEventsService: ProfileTagPushEventsService,
     private profileTagEventTracker: ProfileTagEventService
   ) {}
+  static factory(trackingService: TrackingService): void {
+    trackingService.trackEvents();
+  }
   trackEvents(): void {
     merge(
       this.profileTagPushEventsService.getPushEvents(),
