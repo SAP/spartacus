@@ -61,7 +61,7 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
   public update(
     userId: string,
     cartId: string,
-    entryGroupId: string,
+    entryGroupNumber: number,
     product: Product,
     quantity: number
   ): Observable<CartModification> {
@@ -77,18 +77,18 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
     const url = this.occEndpointsService.getUrl('editBundle', {
       userId,
       cartId,
-      entryGroupId,
+      entryGroupNumber,
     });
 
     return this.http
-      .put<CartModification>(url, toAdd, { headers })
+      .post<CartModification>(url, toAdd, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public remove(
     userId: string,
     cartId: string,
-    entryGroupId: string
+    entryGroupNumber: number
   ): Observable<CartModification> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
     const url = this.occEndpointsService.getUrl('editBundle', {
       userId,
       cartId,
-      entryGroupId,
+      entryGroupNumber,
     });
 
     return this.http

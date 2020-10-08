@@ -32,14 +32,14 @@ export abstract class CartBundleAdapter {
    * Abstract method used to update entry in cart
    * @param userId
    * @param cartId
-   * @param entryGroupId
+   * @param entryGroupNumber
    * @param product
    * @param quantity
    */
   abstract update(
     userId: string,
     cartId: string,
-    entryGroupId: string,
+    entryGroupNumber: number,
     product: Product,
     quantity: number
   ): Observable<CartModification>;
@@ -54,7 +54,7 @@ export abstract class CartBundleAdapter {
   abstract remove(
     userId: string,
     cartId: string,
-    entryGroupId: string
+    entryGroupNumber: number
   ): Observable<any>;
 
   /**

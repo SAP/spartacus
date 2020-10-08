@@ -7,7 +7,10 @@ export const wishListInitialState = '';
 
 export function activeCartReducer(
   state = activeCartInitialState,
-  action: CartActions.CartAction | CartActions.MultiCartActions
+  action:
+    | CartActions.CartAction
+    | CartActions.MultiCartActions
+    | CartActions.CartBundleAction
 ): string {
   switch (action.type) {
     case CartActions.LOAD_CART_SUCCESS:
@@ -45,8 +48,18 @@ export function cartEntitiesReducer(
     case CartActions.CREATE_WISH_LIST_SUCCESS:
     case CartActions.LOAD_WISH_LIST_SUCCESS:
     case CartActions.SET_TEMP_CART:
-    case CartActions.CREATE_BUNDLE_SUCCESS:
       return action.payload.cart;
+    case CartActions.GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS:
+      console.log(action);
+      return {
+        ...state,
+        ...{
+          entryGroups: [
+            ...state.entryGroups,
+            { allowedProducts: action.payload },
+          ],
+        },
+      };
   }
   return state;
 }
@@ -61,6 +74,21 @@ export function wishListReducer(
       return action.meta.entityId as string;
     case CartActions.CLEAR_CART_STATE:
       return wishListInitialState;
+  }
+  return state;
+}
+
+export function cartBundlesReducer(
+  state = cartEntitiesInitialState,
+  action: LoaderAction
+): Cart {
+  switch (action.type) {
+    case CartActions.LOAD_CART_SUCCESS:
+    case CartActions.CREATE_CART_SUCCESS:
+    case CartActions.CREATE_WISH_LIST_SUCCESS:
+    case CartActions.LOAD_WISH_LIST_SUCCESS:
+    case CartActions.SET_TEMP_CART:
+      return action.payload.cart;
   }
   return state;
 }

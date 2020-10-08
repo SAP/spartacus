@@ -33,19 +33,25 @@ export class CartBundleConnector {
   public update(
     userId: string,
     cartId: string,
-    entryGroupId: string,
+    entryGroupNumber: number,
     product: Product,
     quantity: number
   ): Observable<CartModification> {
-    return this.adapter.update(userId, cartId, entryGroupId, product, quantity);
+    return this.adapter.update(
+      userId,
+      cartId,
+      entryGroupNumber,
+      product,
+      quantity
+    );
   }
 
   public remove(
     userId: string,
     cartId: string,
-    entryGroupId: string
+    entryGroupNumber: number
   ): Observable<CartModification> {
-    return this.adapter.remove(userId, cartId, entryGroupId);
+    return this.adapter.remove(userId, cartId, entryGroupNumber);
   }
 
   public getBundleAllowedProducts(

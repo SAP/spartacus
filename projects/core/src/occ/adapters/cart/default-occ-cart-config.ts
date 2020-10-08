@@ -22,7 +22,7 @@ export const defaultOccCartConfig: OccConfig = {
         viewBundles:
           'users/${userId}/carts/${cartId}?fields=entryGroups(entries,DEFAULT)',
         editBundle:
-          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}',
+          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
         bundleAllowedProductsSearch:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch',
         // TODO: startCheckout: ''

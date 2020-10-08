@@ -121,7 +121,7 @@ export class GetBundlesFail extends EntityProcessesDecrementAction {
 export class RemoveBundle extends EntityProcessesIncrementAction {
   readonly type = REMOVE_BUNDLE;
   constructor(
-    public payload: { cartId: string; userId: string; entryGroupId: string }
+    public payload: { cartId: string; userId: string; entryGroupNumber: number }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -130,7 +130,7 @@ export class RemoveBundle extends EntityProcessesIncrementAction {
 export class RemoveBundleSuccess extends EntityProcessesDecrementAction {
   readonly type = REMOVE_BUNDLE_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; entryGroupId: string }
+    public payload: { userId: string; cartId: string; entryGroupNumber: number }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -143,7 +143,7 @@ export class RemoveBundleFail extends EntityProcessesDecrementAction {
       error: any;
       cartId: string;
       userId: string;
-      entryGroupId: string;
+      entryGroupNumber: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -156,7 +156,7 @@ export class UpdateBundle extends EntityProcessesIncrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      entryGroupId: string;
+      entryGroupNumber: number;
       product: Product;
       quantity: number;
     }
@@ -171,9 +171,11 @@ export class UpdateBundleSuccess extends EntityProcessesDecrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      entryGroupId: string;
+      entryGroupNumber: number;
       product: Product;
       quantity: number;
+      statusCode: string;
+      statusMessage: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -187,7 +189,7 @@ export class UpdateBundleFail extends EntityProcessesDecrementAction {
       error: any;
       userId: string;
       cartId: string;
-      entryGroupId: string;
+      entryGroupNumber: number;
       product: Product;
       quantity: number;
     }

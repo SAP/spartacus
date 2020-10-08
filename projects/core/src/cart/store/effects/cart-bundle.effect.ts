@@ -106,7 +106,7 @@ export class CartBundleEffects {
     map((action: CartActions.RemoveBundle) => action.payload),
     concatMap((payload) =>
       this.cartBundleConnector
-        .remove(payload.userId, payload.cartId, payload.entryGroupId)
+        .remove(payload.userId, payload.cartId, payload.entryGroupNumber)
         .pipe(
           map(() => {
             return new CartActions.RemoveBundleSuccess({
@@ -143,14 +143,15 @@ export class CartBundleEffects {
         .update(
           payload.userId,
           payload.cartId,
-          payload.entryGroupId,
+          payload.entryGroupNumber,
           payload.product,
           payload.quantity
         )
         .pipe(
-          map(() => {
+          map((cartModification: CartModification) => {
             return new CartActions.UpdateBundleSuccess({
               ...payload,
+              ...(cartModification as Required<CartModification>),
             });
           }),
           catchError((error) =>

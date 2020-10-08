@@ -16,6 +16,7 @@ import { AuthService } from '../../auth/index';
 import { Cart, EntryGroup } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
+import { Product } from '../../model/product.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -482,6 +483,39 @@ export class ActiveCartService implements OnDestroy {
         getCartIdByUserId(cartState.value, this.userId),
         this.userId,
         entryGroupNumber
+      );
+    });
+  }
+
+  /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  removeBundle(entryGroupNumber: number) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.multiCartService.removeBundle(
+        getCartIdByUserId(cartState.value, this.userId),
+        this.userId,
+        entryGroupNumber
+      );
+    });
+  }
+
+  /**
+   * Add Product to bundle
+   *
+   * @param entryGroupNumber
+   * @param product
+   */
+  addProductToBundle(entryGroupNumber: number, product: Product) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.multiCartService.addProductToBundle(
+        getCartIdByUserId(cartState.value, this.userId),
+        this.userId,
+        entryGroupNumber,
+        product,
+        1
       );
     });
   }
