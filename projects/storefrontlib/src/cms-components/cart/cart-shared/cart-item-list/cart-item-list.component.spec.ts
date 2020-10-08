@@ -220,10 +220,10 @@ describe('CartItemListComponent', () => {
     component.items = multipleMockItems;
     fixture.detectChanges();
     expect(
-      component.form.controls[multipleMockItems[0].product.code]
+      component.form.controls[component.getControlName(multipleMockItems[0])]
     ).toBeDefined();
     expect(
-      component.form.controls[multipleMockItems[1].product.code]
+      component.form.controls[component.getControlName(multipleMockItems[1])]
     ).toBeDefined();
   });
 
@@ -231,9 +231,13 @@ describe('CartItemListComponent', () => {
     component.options = { isSaveForLater: true };
     fixture.detectChanges();
     const item = mockItems[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
+    expect(
+      component.form.controls[component.getControlName(item)]
+    ).toBeDefined();
     component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
+    expect(
+      component.form.controls[component.getControlName(item)]
+    ).toBeUndefined();
   });
 });
