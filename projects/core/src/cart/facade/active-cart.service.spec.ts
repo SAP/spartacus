@@ -267,6 +267,22 @@ describe('ActiveCartService', () => {
       expect(service['guestCartMerge']).toHaveBeenCalledWith('cartId');
     });
 
+    it('should dispatch load for current -> emulated user switch', () => {
+      service['userId'] = 'fdsfds-fsdfsd-fdsfsd-fsd';
+      service['previousUserId'] = 'current';
+
+      spyOn(multiCartService, 'loadCart').and.callThrough();
+
+      service['loadOrMerge']('cartId');
+      expect(multiCartService['loadCart']).toHaveBeenCalledWith({
+        userId: 'fdsfds-fsdfsd-fdsfsd-fsd',
+        cartId: 'cartId',
+        extraData: {
+          active: true,
+        },
+      });
+    });
+
     it('should dispatch merge for non guest cart', () => {
       spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
 
