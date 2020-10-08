@@ -6,26 +6,27 @@ import {
   B2BUnitTreeNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitListService } from './unit-list.service';
 import { UnitItemService } from './unit-item.service';
 import { UnitTreeService } from './unit-tree.service';
 import { TREE_TOGGLE } from './unit-tree.model';
 import createSpy = jasmine.createSpy;
+import { EntitiesModel } from '@spartacus/core';
 
-function verifyExpandedAll({ data }: Table<B2BUnitTreeNode>) {
-  expect(data.length).toEqual(7);
-  data.forEach((element) => {
+function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
+  expect(values.length).toEqual(7);
+  values.forEach((element) => {
     expect(element.expanded).toBeTrue();
   });
 }
 
-function verifyCollapsedAll({ data }: Table<B2BUnitTreeNode>) {
-  console.log(data);
-  const root = data[0];
+function verifyCollapsedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
+  console.log(values);
+  const root = values[0];
 
-  expect(data.length).toEqual(1);
+  expect(values.length).toEqual(1);
   expect(root.uid).toEqual(mockedTree.id);
   expect(root.expanded).toBeFalse();
   expect(root.depthLevel).toEqual(0);
@@ -154,14 +155,14 @@ describe('UnitListService', () => {
     });
 
     it('should get collapsed all items structure', () => {
-      let result: Table<B2BUnitTreeNode>;
+      let result: EntitiesModel<B2BUnitTreeNode>;
 
       service.getData().subscribe((table) => (result = table));
       verifyCollapsedAll(result);
     });
 
     it('should get expanded all items structure', () => {
-      let result: Table<B2BUnitTreeNode>;;
+      let result: EntitiesModel<B2BUnitTreeNode>;
 
       treeService.isExpanded = createSpy().and.returnValue(true);
 

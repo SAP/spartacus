@@ -50,7 +50,7 @@
 
       <div class="footer">
         <cx-pagination
-          *ngIf="data.pagination && data.pagination.currentPage"
+          *ngIf="data.pagination?.currentPage >= 0"
           [pagination]="data.pagination"
           (viewPageEvent)="browse(data.pagination, $event)"
         ></cx-pagination>

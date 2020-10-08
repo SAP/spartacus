@@ -18,6 +18,7 @@ class MockUnitService {
   load() {}
   update() {}
   create() {}
+  getLoadingStatus() {}
 }
 
 class MockUnitFormService {}

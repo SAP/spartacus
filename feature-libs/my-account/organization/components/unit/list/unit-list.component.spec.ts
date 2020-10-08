@@ -18,7 +18,7 @@ class MockOrganizationListComponent {}
 const id = 'TEST';
 
 class MockUnitListService {
-  getTable = createSpy('getTable').and.returnValue(of({ data: [{ id }] }));
+  getData = createSpy('getData').and.returnValue(of({ values: [{ id }] }));
 }
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');
