@@ -82,7 +82,7 @@ export class CartItemListComponent {
   private createForm(): void {
     this.form = new FormGroup({});
     this._items.forEach((item) => {
-      const code = this.getControlName(item);
+      const controlName = this.getControlName(item);
       const group = new FormGroup({
         entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
@@ -90,11 +90,11 @@ export class CartItemListComponent {
       if (!item.updateable || this.readonly) {
         group.disable();
       }
-      this.form.addControl(code, group);
+      this.form.addControl(controlName, group);
     });
   }
 
-  getControlName(item: Item): string {
+  protected getControlName(item: Item): string {
     return item.entryNumber.toString();
   }
 
