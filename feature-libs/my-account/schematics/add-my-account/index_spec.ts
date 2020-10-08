@@ -59,16 +59,44 @@ describe('Spartacus My Account schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+
+    appTree = await schematicRunner
+      .runSchematicAsync('ng-add', defaultOptions, appTree)
+      .toPromise();
   });
 
   it('should add my-account deps', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('ng-add', defaultOptions, appTree)
-      .toPromise();
-    const packageJson = tree.readContent('/package.json');
+    const packageJson = appTree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
     expect(depPackageList.includes('@spartacus/my-account')).toBe(true);
     expect(depPackageList.includes('@spartacus/setup')).toBe(true);
+  });
+
+  // TODO: use from `@spartacus/schematics`
+  const UTF_8 = 'utf-8';
+  describe('styling', () => {
+    it('should add create /src/assets/styles/my-account.scss', async () => {
+      const buffer = appTree.read('/src/assets/styles/my-account.scss');
+      expect(buffer).toBeTruthy();
+      const content = buffer?.toString(UTF_8);
+      expect(content).toEqual(`@import "@spartacus/my-account";`);
+    });
+
+    it('should add update angular.json with my-account.scss', async () => {
+      const buffer = appTree.read('/angular.json');
+      expect(buffer).toBeTruthy();
+      if (!buffer) {
+        throw new Error('angular.json missing?');
+      }
+
+      const angularJson = JSON.parse(buffer.toString(UTF_8));
+      const angularJsonStyles: string[] =
+        angularJson.projects['schematics-test'].architect.build.options.styles;
+      expect(angularJsonStyles).toEqual([
+        'src/styles.scss',
+        'src/assets/styles/my-account.scss',
+      ]);
+    });
   });
 });
