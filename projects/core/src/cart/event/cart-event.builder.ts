@@ -87,9 +87,9 @@ export class CartEventBuilder {
           ...action.payload,
           entry: action.payload.entry
             ? action.payload.entry
-            : activeCart.entries[action.payload.entryNumber],
+            : activeCart.entries[Number(action.payload.entryNumber)],
         })
-      ) //temp code so update entries has a productCode
+      )
     );
     return this.event.register(mapping.event, eventStream$);
   }
