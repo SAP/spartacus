@@ -38,7 +38,7 @@ SKIP_BUILD="$1"
 cd ..
 if [[ -z "$SKIP_BUILD" ]]; then
   rm -rf dist
-  yarn build:core:lib:cds
+  yarn build:libs
 fi
 cd dist
 
@@ -50,12 +50,17 @@ fi
 
 cd ../projects/schematics
 yarn && yarn build
+cd ../../
+cd feature-libs/my-account
+yarn build:schematics
 cd ../../dist
 
 doItFor "assets"
 doItFor "core"
 doItFor "storefrontlib"
 doItFor "cds"
+doItFor "my-account"
+doItFor "setup"
 
 cd ../projects/storefrontstyles
 unpublish "styles" && publish "styles"
