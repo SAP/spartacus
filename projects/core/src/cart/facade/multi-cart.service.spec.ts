@@ -14,7 +14,10 @@ const testCart: Cart = {
   code: 'xxx',
   guid: 'xxx',
   totalItems: 0,
-  entries: [{ entryNumber: 0, product: { code: '1234' } }],
+  entries: [
+    { entryNumber: 0, product: { code: '1234' } },
+    { entryNumber: 1, product: { code: '1234' } },
+  ],
   totalPrice: {
     currencyIso: 'USD',
     value: 0,
@@ -105,6 +108,30 @@ describe('MultiCartService', () => {
         value: testCart,
         processesCount: 0,
       });
+    });
+  });
+
+  describe('getLastEntry', () => {
+    it('should return last cart entry', () => {
+      let result;
+      service.getLastEntry('xxx', '1234').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entries[1]);
     });
   });
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { debounce, distinctUntilChanged } from 'rxjs/operators';
+import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
@@ -152,6 +152,31 @@ export class MultiCartService {
   getEntries(cartId: string): Observable<OrderEntry[]> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId))
+    );
+  }
+
+  /**
+   * Get last entry for specific product code from cart.
+   * Needed to cover processes where multiple entries can share the same product code
+   * (e.g. promotions or configurable products)
+   *
+   * @param cartId
+   * @param productCode
+   */
+  getLastEntry(
+    cartId: string,
+    productCode: string
+  ): Observable<OrderEntry | null> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
+      map((entries) => {
+        const filteredEntries = entries.filter(
+          (entry) => entry.product.code === productCode
+        );
+        return filteredEntries.length > 0
+          ? filteredEntries[filteredEntries.length - 1]
+          : undefined;
+      })
     );
   }
 

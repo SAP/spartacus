@@ -9,7 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -35,7 +35,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
-  increment = false;
+  numberOfEntriesBeforeAdd = 0;
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
@@ -94,19 +94,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
-    // check item is already present in the cart
-    // so modal will have proper header text displayed
     this.activeCartService
-      .getEntry(this.productCode)
-      .subscribe((entry) => {
-        if (entry) {
-          this.increment = true;
-        }
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        this.numberOfEntriesBeforeAdd = entries.length;
         this.openModal();
         this.activeCartService.addEntry(this.productCode, quantity);
-        this.increment = false;
-      })
-      .unsubscribe();
+      });
   }
 
   private openModal() {
@@ -117,11 +112,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     });
 
     modalInstance = this.modalRef.componentInstance;
-    modalInstance.entry$ = this.cartEntry$;
+    // Display last entry for new product code. This always corresponds to
+    // our new item, independently whether merging occured or not
+    modalInstance.entry$ = this.activeCartService.getLastEntry(
+      this.productCode
+    );
     modalInstance.cart$ = this.activeCartService.getActive();
     modalInstance.loaded$ = this.activeCartService.isStable();
     modalInstance.quantity = this.quantity;
-    modalInstance.increment = this.increment;
+    modalInstance.numberOfEntriesBeforeAdd = this.numberOfEntriesBeforeAdd;
   }
 
   ngOnDestroy() {
