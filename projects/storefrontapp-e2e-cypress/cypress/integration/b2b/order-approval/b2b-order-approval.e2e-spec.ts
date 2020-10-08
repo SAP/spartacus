@@ -1,9 +1,9 @@
 import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
-import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { signOutUser } from '../../../helpers/login';
+import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import {
-  pendingOrder,
   ORDER_CODE,
+  pendingOrder,
 } from '../../../sample-data/b2b-order-approval';
 
 context('B2B - Order Approval', () => {

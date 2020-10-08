@@ -37,6 +37,9 @@ export const approvalOrderList = {
       approvalDecisionRequired: false,
       code: '0000008V',
       order: {
+        totalPrice: {
+          formattedValue: '$5,509.99',
+        },
         code: ORDER_CODE,
         created: '2020-10-07T21:15:27+0000',
         statusDisplay: 'pending.approval',
