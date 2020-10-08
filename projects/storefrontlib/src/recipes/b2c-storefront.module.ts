@@ -1,9 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   provideConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
+  SiteContextModule,
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
@@ -13,10 +13,7 @@ import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([], {
-      anchorScrolling: 'enabled',
-      relativeLinkResolution: 'corrected',
-    }),
+    SiteContextModule.forRoot(),
 
     StorefrontModule,
 

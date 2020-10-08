@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -18,6 +19,11 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
 
 @NgModule({
   imports: [
+    RouterModule.forRoot([], {
+      anchorScrolling: 'enabled',
+      relativeLinkResolution: 'corrected',
+    }),
+
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
