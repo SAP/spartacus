@@ -2,12 +2,15 @@ import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 import {
-  addressBookDirectoryTabbingOrder,
-  addressBookFormTabbingOrder,
-  setupForAddressBookTests,
-} from '../../helpers/accessibility/tabbing-order/my-account/address-book';
+  asmTabbingOrderNoSelectedUser,
+  asmTabbingOrderNotLoggedIn,
+  asmTabbingOrderWithSelectedUser,
+} from '../../helpers/accessibility/tabbing-order/asm';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
+import {
+  checkoutAppliedCouponsTabbingOrder,
+  checkoutCouponsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
@@ -18,8 +21,10 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
-import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
+import {
+  consignmentTrackingEventsTabbingOrder,
+  consignmentTrackingTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import {
   headerTabbingOrder,
@@ -27,6 +32,18 @@ import {
 } from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
+import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
+import {
+  addressBookDirectoryTabbingOrder,
+  addressBookFormTabbingOrder,
+  setupForAddressBookTests,
+} from '../../helpers/accessibility/tabbing-order/my-account/address-book';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
+import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
+import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
@@ -34,6 +51,9 @@ import {
 } from '../../helpers/accessibility/tabbing-order/my-account/order-history';
 import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/payment-details';
 import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/personal-details';
+import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
+import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
+import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
@@ -43,39 +63,19 @@ import {
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
-import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
-import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
-import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
-import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
-import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
-import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
-import {
-  checkoutAppliedCouponsTabbingOrder,
-  checkoutCouponsTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
-import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
-import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
-import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
-import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
-import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
-import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
 import {
-  stockNotificationNotLoginTabbingOrder,
   stockNotificationDialogTabbingOrder,
-  stockNotificationTabbingOrderNotificationsNotAllowed,
+  stockNotificationNotLoginTabbingOrder,
   stockNotificationTabbingOrderNotificationsAllowed,
+  stockNotificationTabbingOrderNotificationsNotAllowed,
   stockNotificationTabbingOrderProductSubscribed,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
-import {
-  consignmentTrackingTabbingOrder,
-  consignmentTrackingEventsTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
-import {
-  asmTabbingOrderNotLoggedIn,
-  asmTabbingOrderNoSelectedUser,
-  asmTabbingOrderWithSelectedUser,
-} from '../../helpers/accessibility/tabbing-order/asm';
+import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
+import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
+import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
+import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
+import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -320,7 +320,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     before(() => {
       cy.restoreLocalStorage();
       addProduct();
-      cy.getAllByText(/Proceed to checkout/i)
+      cy.findAllByText(/Proceed to checkout/i)
         .first()
         .click(); // move to checkout
       cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout

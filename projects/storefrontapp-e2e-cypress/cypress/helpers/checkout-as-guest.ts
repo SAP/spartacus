@@ -7,7 +7,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
     'getguestLoginPage'
   );
   cy.get('.register')
-    .getByText(/Guest Checkout/i)
+    .findByText(/Guest Checkout/i)
     .click();
   cy.wait(`@${guestLoginPage}`).its('status').should('eq', 200);
   cy.get('cx-checkout-login').within(() => {
