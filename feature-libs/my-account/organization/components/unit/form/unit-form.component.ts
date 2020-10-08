@@ -40,7 +40,7 @@ export class UnitFormComponent implements OnInit {
     B2BApprovalProcess[]
   > = this.unitService
     .getApprovalProcesses()
-    .pipe(filter((items) => items.length > 0));
+    .pipe(filter((items) => items?.length > 0));
 
   constructor(
     protected itemService: OrganizationItemService<B2BUnit>,
