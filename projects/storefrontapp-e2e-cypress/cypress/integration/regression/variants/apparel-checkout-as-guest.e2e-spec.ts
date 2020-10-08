@@ -166,7 +166,7 @@ context('Apparel - checkout as guest', () => {
       );
 
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-      cy.getByText(/Sign in \/ Register/i).click();
+      cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
       login(variantUser.email, variantUser.password);
