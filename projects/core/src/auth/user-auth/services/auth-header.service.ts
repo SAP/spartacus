@@ -75,6 +75,7 @@ export class AuthHeaderService {
     // Logout user
     this.authService.logout();
     this.routingService.go({ cxRoute: 'login' });
+    // TODO: Should we show here the global message that session ended and please login again?
   }
 
   protected handleExpiredToken(): Observable<AuthToken> {
