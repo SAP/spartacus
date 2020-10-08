@@ -105,7 +105,31 @@ function addStyles(): Rule {
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
 
     const architect = angularJson.projects[defaultProject].architect;
+
+    // `build` architect section
     const architectBuild = architect?.build;
+    const buildOptions = {
+      ...architectBuild?.options,
+      styles: [
+        ...(architectBuild?.options?.styles
+          ? architectBuild?.options?.styles
+          : []),
+        myAccountScssPath,
+      ],
+    };
+
+    // `test` architect section
+    const architectTest = architect?.test;
+    const testOptions = {
+      ...architectTest?.options,
+      styles: [
+        ...(architectTest?.options?.styles
+          ? architectTest?.options?.styles
+          : []),
+        myAccountScssPath,
+      ],
+    };
+
     const updatedAngularJson = {
       ...angularJson,
       projects: {
@@ -116,15 +140,11 @@ function addStyles(): Rule {
             ...architect,
             build: {
               ...architectBuild,
-              options: {
-                ...architectBuild?.options,
-                styles: [
-                  ...(architectBuild?.options?.styles
-                    ? architectBuild?.options?.styles
-                    : []),
-                  myAccountScssPath,
-                ],
-              },
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
             },
           },
         },

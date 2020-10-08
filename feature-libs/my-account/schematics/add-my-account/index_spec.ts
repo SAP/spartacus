@@ -91,9 +91,16 @@ describe('Spartacus My Account schematics: ng-add', () => {
       }
 
       const angularJson = JSON.parse(buffer.toString(UTF_8));
-      const angularJsonStyles: string[] =
+      const buildStyles: string[] =
         angularJson.projects['schematics-test'].architect.build.options.styles;
-      expect(angularJsonStyles).toEqual([
+      expect(buildStyles).toEqual([
+        'src/styles.scss',
+        'src/assets/styles/my-account.scss',
+      ]);
+
+      const testStyles: string[] =
+        angularJson.projects['schematics-test'].architect.test.options.styles;
+      expect(testStyles).toEqual([
         'src/styles.scss',
         'src/assets/styles/my-account.scss',
       ]);
