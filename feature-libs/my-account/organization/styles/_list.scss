@@ -66,16 +66,17 @@
 }
 
 %organizationList {
-  ng-component {
-    display: contents;
-  }
-
+  // A lot of components that are inside the split view should disappear, so that the
+  // alignment of nested cx-view elements will flow nicely.
+  ng-component,
   cx-organization-sub-list,
   form,
   cx-organization-view,
   cx-organization-card,
   cx-organization-card-list,
-  cx-organization-form {
+  cx-organization-form,
+  // we have only a few components that have specific selectors that should disappear
+  cx-unit-form {
     display: contents;
   }
 
