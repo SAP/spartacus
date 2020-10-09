@@ -1,0 +1,129 @@
+import {
+  b2bProduct,
+  POWERTOOLS_BASESITE,
+} from '../../sample-data/b2b-checkout';
+import * as alerts from '../global-message';
+import { doPlaceOrder } from '../order-history';
+import {
+  replenishmentCancelDialogSelector,
+  replenishmentOrderHistorySelector,
+  visitReplenishmentHistory,
+} from './b2b-replenishment-order-history';
+
+export let replenishmentOrderDetailsUrl = (replenishmentOrderCode: string) =>
+  `/${POWERTOOLS_BASESITE}/en/USD/my-account/my-replenishment/${replenishmentOrderCode}`;
+
+export const orderOverviewSelector = 'cx-order-overview';
+export const cartListItemSelector = 'cx-cart-item-list';
+export const orderHistorySelector = 'cx-order-history';
+export const cancellationSelector = 'cx-replenishment-order-cancellation';
+
+export function waitForReplenishmentDetailsRequest(
+  replenishmentOrderCode: string
+) {
+  const replenishmentDetailsAlias = 'replenishmentDetailsAlias';
+
+  cy.server();
+
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/replenishmentOrders/${replenishmentOrderCode}*`
+  ).as(replenishmentDetailsAlias);
+
+  return `@${replenishmentDetailsAlias}`;
+}
+
+export function clickReplenishmentDetails(replenishmentOrderCode: string) {
+  const replenishmentDetails = waitForReplenishmentDetailsRequest(
+    replenishmentOrderCode
+  );
+
+  cy.get(
+    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code a`
+  )
+    .click()
+    .should('have.attr', 'href')
+    .and('eq', replenishmentOrderDetailsUrl(replenishmentOrderCode));
+
+  cy.wait(replenishmentDetails).its('status').should('eq', 200);
+
+  return replenishmentDetails;
+}
+
+export function cancelReplenishmentDetails() {
+  doPlaceOrder(b2bProduct).then((orderData: any) => {
+    cy.waitForOrderToBePlacedRequest(
+      POWERTOOLS_BASESITE,
+      undefined,
+      orderData.body.replenishmentOrderCode
+    );
+
+    visitReplenishmentHistory();
+
+    const replenishmentDetails = clickReplenishmentDetails(
+      orderData.body.replenishmentOrderCode
+    );
+
+    cy.get(replenishmentDetails).then((xhr) => {
+      const body = xhr.response.body;
+
+      expect(body.replenishmentOrderCode).to.eq(
+        orderData.body.replenishmentOrderCode
+      );
+
+      expect(body.active).to.equal(true);
+    });
+
+    verifyOrderOverviewIsNotCancelled();
+
+    cy.get(`${cartListItemSelector} .cx-link`).should(
+      'contain',
+      orderData.body.entries[0].product.name
+    );
+
+    cy.get(orderHistorySelector).should('exist');
+
+    cancellationButtons(2);
+
+    cy.get(cancellationSelector)
+      .contains('Cancel')
+      .should('be.visible')
+      .click();
+    cy.get(`${replenishmentCancelDialogSelector}`)
+      .should('exist')
+      .then((_) => {
+        cy.get(`${replenishmentCancelDialogSelector} .btn-primary`).click();
+      });
+
+    alerts
+      .getSuccessAlert()
+      .contains(
+        `Replenishment order #${orderData.body.replenishmentOrderCode} has been successfully cancelled`
+      );
+    cancellationButtons(1);
+
+    verifyOrderOverviewIsCancelled();
+  });
+}
+
+export function verifyOrderOverviewIsNotCancelled() {
+  cy.get(`${orderOverviewSelector} .cx-card-title`)
+    .parent()
+    .find('.cx-card-label')
+    .should('not.contain', 'Cancelled');
+}
+
+export function verifyOrderOverviewIsCancelled() {
+  cy.get(`${orderOverviewSelector} .cx-card-title`)
+    .parent()
+    .find('.cx-card-label')
+    .should('contain', 'Cancelled');
+}
+
+export function cancellationButtons(numberOfButton: number) {
+  cy.get(`${cancellationSelector} .cx-cancel-replenishment-btns`)
+    .children()
+    .should('have.length', numberOfButton);
+}

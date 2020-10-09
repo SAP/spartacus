@@ -1,11 +1,12 @@
-import { user } from '../sample-data/checkout-flow';
+import { SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
 
-export function doPlaceOrder() {
+export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
 
   return cy
@@ -13,7 +14,7 @@ export function doPlaceOrder() {
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       stateAuth = auth;
-      return cy.requireProductAddedToCart(stateAuth);
+      return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
       cy.requireShippingAddressAdded(user.address, stateAuth);
@@ -33,19 +34,22 @@ export const orderHistoryTest = {
       cy.get('cx-login').should('contain', 'Sign In / Register');
     });
   },
-  checkRedirectLoggedInUser() {
+  checkRedirectLoggedInUser(sampleUser: SampleUser = user) {
     it('should go to Order History once user has logged in', () => {
-      login(user.email, user.password);
+      login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', orderHistoryLink);
       cy.get('.cx-order-history-header h3').should('contain', 'Order history');
     });
   },
   checkStartShoppingButton() {
     it('should be able to start shopping from an empty Order History', () => {
+      const homePage = waitForPage('homepage', 'getHomePage');
+
       cy.get('.btn.btn-primary.btn-block.active')
         .findByText('Start Shopping')
         .click();
 
+      cy.wait(`@${homePage}`).its('status').should('eq', 200);
       checkBanner();
     });
   },
