@@ -75,6 +75,7 @@ class MockTableComponent {
   @Input() data;
   @Input() structure;
   @Input() currentItem;
+  @Input() i18nRoot;
   @Output() launch = new EventEmitter();
 }
 

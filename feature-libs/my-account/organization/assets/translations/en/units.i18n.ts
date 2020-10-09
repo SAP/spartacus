@@ -38,9 +38,12 @@ export const unit = {
     collapseAll: 'Collapse all',
   },
   children: {
-    header: 'Child Units in {{code}}',
-    newChild: 'New child unit',
+    create: {
+      title: 'Create child unit',
+      subtitle: '',
+    },
   },
+
   form: {
     parentOrgUnit: 'Parent business unit',
     create: 'Create Unit',
