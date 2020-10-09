@@ -100,11 +100,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
     patch[this.key] = item[this.key];
-    if ((item as any).type === 'b2BCostCenterWsDTO') {
-      (patch as any).activeFlag = !item.active;
-    } else {
-      patch.active = !item.active;
-    }
+    patch.active = !item.active;
+    // active flag is used still by cost center
+    (patch as any).activeFlag = !item.active;
     return patch as T;
   }
 

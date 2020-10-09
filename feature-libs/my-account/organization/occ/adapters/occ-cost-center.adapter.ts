@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   ConverterService,
   CostCenter,
+  COST_CENTERS_NORMALIZER,
+  COST_CENTER_NORMALIZER,
   EntitiesModel,
   Occ,
   OccEndpointsService,
@@ -12,8 +14,6 @@ import {
   Budget,
   BUDGETS_NORMALIZER,
   CostCenterAdapter,
-  COST_CENTERS_NORMALIZER,
-  COST_CENTER_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 

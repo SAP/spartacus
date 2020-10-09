@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConverterService, provideDefaultConfig } from '@spartacus/core';
+import {
+  ConverterService,
+  CostCenterOccModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -54,7 +58,7 @@ import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
 import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, CostCenterOccModule],
   providers: [
     provideDefaultConfig(defaultOccOrganizationConfig),
     {
