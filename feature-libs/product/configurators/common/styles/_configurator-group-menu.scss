@@ -60,7 +60,7 @@
             }
 
             cx-icon.COMPLETE {
-              color: var(--cx-color-text) !important;
+              color: var(--cx-color-text);
             }
           }
 
@@ -80,7 +80,7 @@
       &.ERROR cx-icon.ERROR,
       &.WARNING cx-icon.WARNING,
       &.COMPLETE cx-icon.COMPLETE {
-        display: inline-block !important;
+        display: inline-block;
       }
 
       &.cx-configurator-menu-conflict {
