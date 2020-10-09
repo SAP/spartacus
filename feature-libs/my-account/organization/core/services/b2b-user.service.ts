@@ -9,8 +9,8 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Observable, queueScheduler, using } from 'rxjs';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
@@ -22,6 +22,7 @@ import {
   getB2BUserState,
   getB2BUserUserGroups,
   getUserList,
+  getB2BUserValue,
 } from '../store/selectors/b2b-user.selector';
 import { getItemStatus } from '../utils/get-item-status';
 
@@ -49,16 +50,25 @@ export class B2BUserService {
     );
   }
 
+  private getB2BUserValue(orgCustomerId: string): Observable<B2BUser> {
+    return this.store
+      .select(getB2BUserValue(orgCustomerId))
+      .pipe(filter(Boolean));
+  }
+
   get(orgCustomerId: string): Observable<B2BUser> {
-    return this.getB2BUserState(orgCustomerId).pipe(
-      observeOn(queueScheduler),
+    const loading$ = this.getB2BUserState(orgCustomerId).pipe(
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.load(orgCustomerId);
         }
-      }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      })
+    );
+
+    return using(
+      () => loading$.subscribe(),
+      () => this.getB2BUserValue(orgCustomerId)
     );
   }
 
