@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 export interface Item {
+  entryNumber?: number;
   product?: any;
   quantity?: any;
   basePrice?: any;
