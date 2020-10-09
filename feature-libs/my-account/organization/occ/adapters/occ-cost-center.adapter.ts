@@ -5,6 +5,7 @@ import {
   CostCenter,
   COST_CENTERS_NORMALIZER,
   COST_CENTER_NORMALIZER,
+  COST_CENTER_SERIALIZER,
   EntitiesModel,
   Occ,
   OccEndpointsService,
@@ -41,6 +42,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   }
 
   create(userId: string, costCenter: CostCenter): Observable<CostCenter> {
+    costCenter = this.converter.convert(costCenter, COST_CENTER_SERIALIZER);
     return this.http
       .post<Occ.CostCenter>(this.getCostCentersEndpoint(userId), costCenter)
       .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
@@ -51,6 +53,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     costCenterCode: string,
     costCenter: CostCenter
   ): Observable<CostCenter> {
+    costCenter = this.converter.convert(costCenter, COST_CENTER_SERIALIZER);
     return this.http
       .patch<Occ.CostCenter>(
         this.getCostCenterEndpoint(userId, costCenterCode),

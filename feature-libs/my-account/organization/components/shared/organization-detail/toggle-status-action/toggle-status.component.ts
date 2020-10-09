@@ -101,8 +101,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
     const patch: BaseItem = {};
     patch[this.key] = item[this.key];
     patch.active = !item.active;
-    // active flag is used still by cost center
-    (patch as any).activeFlag = !item.active;
     return patch as T;
   }
 
