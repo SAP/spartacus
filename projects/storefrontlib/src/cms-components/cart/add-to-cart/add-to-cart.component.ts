@@ -35,7 +35,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
-  numberOfEntriesBeforeAdd = 0;
+  protected numberOfEntriesBeforeAdd = 0;
 
   subscription: Subscription;
 

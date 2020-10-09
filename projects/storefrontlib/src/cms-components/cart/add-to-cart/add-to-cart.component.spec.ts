@@ -93,7 +93,10 @@ describe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
+        {
+          provide: ModalService,
+          useValue: { open: () => ({ componentInstance: {} }) },
+        },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
@@ -111,7 +114,7 @@ describe('AddToCartComponent', () => {
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
-    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
+    spyOn(modalInstance, 'open').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -198,7 +201,9 @@ describe('AddToCartComponent', () => {
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
-    expect(addToCartComponent.numberOfEntriesBeforeAdd).toBe(1);
+    expect(
+      addToCartComponent.modalRef.componentInstance.numberOfEntriesBeforeAdd
+    ).toBe(1);
   });
 
   describe('UI', () => {
