@@ -7,8 +7,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, OrderEntry, Product } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { ActiveCartService, Product } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
@@ -36,7 +36,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   numberOfEntriesBeforeAdd = 0;
-  cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
 
@@ -54,11 +53,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.product) {
       this.productCode = this.product.code;
-      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
-      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
@@ -70,7 +67,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .subscribe((product: Product) => {
           this.productCode = product.code;
           this.setStockInfo(product);
-          this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
           this.cd.markForCheck();
         });
     }
@@ -113,7 +109,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     modalInstance = this.modalRef.componentInstance;
     // Display last entry for new product code. This always corresponds to
-    // our new item, independently whether merging occured or not
+    // our new item, independently of whether merging occured or not
     modalInstance.entry$ = this.activeCartService.getLastEntry(
       this.productCode
     );

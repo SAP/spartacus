@@ -173,7 +173,7 @@ export class MultiCartService {
         const filteredEntries = entries.filter(
           (entry) => entry.product.code === productCode
         );
-        return filteredEntries.length > 0
+        return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
           : undefined;
       })
@@ -274,7 +274,7 @@ export class MultiCartService {
   }
 
   /**
-   * Get specific entry from cart
+   * Get first entry from cart matching the specified product code
    *
    * @param cartId
    * @param productCode

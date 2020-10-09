@@ -122,11 +122,9 @@ describe('AddToCartComponent', () => {
   describe('Product code provided', () => {
     it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
-      spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
-      let result: OrderEntry;
-      addToCartComponent.cartEntry$.subscribe((entry) => (result = entry));
-      expect(result).toEqual(mockCartEntry);
+      expect(addToCartComponent.hasStock).toBe(true);
+      expect(addToCartComponent.quantity).toBe(1);
     });
 
     it('should load entry by product code from currentProductService', () => {

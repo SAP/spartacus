@@ -4,7 +4,7 @@
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
-          ((addedEntryWasMerged$ | async)
+          (increment || (addedEntryWasMerged$ | async)
             ? 'addToCart.itemsIncrementedInYourCart'
             : 'addToCart.itemsAddedToYourCart'
           ) | cxTranslate
