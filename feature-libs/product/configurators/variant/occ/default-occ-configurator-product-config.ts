@@ -8,8 +8,6 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
           configurator:
             'products/${productCode}?fields=configurable,configuratorType',
         },
-        productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType, price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
       },
     },
     loadingScopes: {
