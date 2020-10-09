@@ -17,7 +17,7 @@ export class UserUserGroupListService extends OrganizationSubListService<
   UserGroup
 > {
   protected tableType = OrganizationTableType.USER_USER_GROUPS;
-  protected domainType = OrganizationTableType.USER_GROUP;
+  protected _domainType = OrganizationTableType.USER_GROUP;
 
   constructor(
     protected tableService: TableService,

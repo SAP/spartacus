@@ -13,7 +13,7 @@ export class UserGroupUserListService extends OrganizationSubListService<
   B2BUser
 > {
   protected tableType = OrganizationTableType.USER_GROUP_USERS;
-  protected domainType = OrganizationTableType.USER;
+  protected _domainType = OrganizationTableType.USER;
 
   constructor(
     protected tableService: TableService,

@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
   BreakPoint,
   BREAKPOINT,
@@ -81,7 +81,6 @@ export class BreakpointService {
    */
   isDown(breakpoint: BREAKPOINT): Observable<boolean> {
     return this.breakpoint$.pipe(
-      tap((br) => console.log('isDown', br, this.breakpoints)),
       map((br) =>
         this.breakpoints
           .slice(0, this.breakpoints.indexOf(breakpoint) + 1)

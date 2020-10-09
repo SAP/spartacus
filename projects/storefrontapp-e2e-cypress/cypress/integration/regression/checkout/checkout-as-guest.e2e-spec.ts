@@ -20,7 +20,7 @@ context('Checkout as guest', () => {
     });
 
     it('should show the guest checkout button', () => {
-      cy.get('.register').getByText(/Guest Checkout/i);
+      cy.get('.register').findByText(/Guest Checkout/i);
     });
   });
 
@@ -122,7 +122,7 @@ context('Checkout as guest', () => {
       );
 
       const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.getByText(/Sign in \/ Register/i).click();
+      cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
       login(user.email, user.password);

@@ -101,6 +101,7 @@ describe('TableComponent', () => {
     beforeEach(() => {
       tableComponent.structure = mockDataset.structure;
       tableComponent.data = mockDataset.data;
+      tableComponent.i18nRoot = 'i18nRoot';
     });
 
     it('should delegate creation of table header outlet reference', () => {
@@ -117,6 +118,7 @@ describe('TableComponent', () => {
       expect(tableRendererService.getHeaderOutletContext).toHaveBeenCalledWith(
         'test-1',
         mockDataset.structure.options,
+        'i18nRoot',
         'key1'
       );
     });
@@ -151,6 +153,7 @@ describe('TableComponent', () => {
     beforeEach(() => {
       tableComponent.structure = mockDataset.structure;
       tableComponent.data = mockDataset.data;
+      tableComponent.i18nRoot = 'i18nRoot';
     });
 
     it('should delegate creation of table data outlet reference', () => {
@@ -169,6 +172,7 @@ describe('TableComponent', () => {
       expect(tableRendererService.getDataOutletContext).toHaveBeenCalledWith(
         'test-1',
         mockDataset.structure.options,
+        'i18nRoot',
         'key1',
         {
           foo: 'bar',
