@@ -40,9 +40,17 @@ export const unit = {
     collapseAll: 'Collapse all',
     upOneLevel: 'Up one level',
   },
+
   children: {
     create: {
       title: 'Create child unit',
+      subtitle: '',
+    },
+  },
+
+  costCenters: {
+    create: {
+      title: 'Create cost center',
       subtitle: '',
     },
   },
@@ -77,10 +85,6 @@ export const unit = {
       changes: 'Changes are saved automatically.',
     },
   },
-  // costCenters: {
-  //   header: 'Cost centers in {{code}}',
-  //   new: 'New cost center',
-  // },
 
   breadcrumbs: {
     list: 'All units',
@@ -90,6 +94,7 @@ export const unit = {
     approvers: 'Approvers',
     addresses: 'Shipping addresses',
     addressDetails: '{{formattedAddress}}',
+    costCenters: 'Cost Centers',
   },
 };
 

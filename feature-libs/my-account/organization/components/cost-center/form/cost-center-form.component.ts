@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
@@ -10,6 +10,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
+  selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -19,8 +20,8 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
     },
   ],
 })
-export class CostCenterFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+export class CostCenterFormComponent {
+  form: FormGroup = this.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
@@ -31,7 +32,9 @@ export class CostCenterFormComponent implements OnInit {
     protected currencyService: CurrencyService
   ) {}
 
-  ngOnInit(): void {
-    this.unitService.loadList();
+  protected getForm(): FormGroup {
+    const form = this.itemService.getForm();
+    form?.get('unit')?.disable();
+    return form;
   }
 }

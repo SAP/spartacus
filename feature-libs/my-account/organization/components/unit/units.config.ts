@@ -17,6 +17,7 @@ import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
 import { ActiveUnitGuard } from './guards/active-unit.guard';
 import { ExistUnitGuard } from './guards/exist-unit.guard';
+import { UnitCostCenterCreateComponent } from './links';
 import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
 import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
@@ -101,6 +102,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       orgUnitCostCenters: {
         paths: [`${listPath}/cost-centers`],
+        paramsMapping,
+      },
+      orgUnitCreateCostCenter: {
+        paths: [`${listPath}/cost-centers/create`],
         paramsMapping,
       },
     },
@@ -193,6 +198,15 @@ export const unitsCmsConfig: CmsConfig = {
               {
                 path: 'cost-centers',
                 component: UnitCostCenterListComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.costCenters' },
+                },
+                children: [
+                  {
+                    path: 'create',
+                    component: UnitCostCenterCreateComponent,
+                  },
+                ],
               },
               {
                 path: 'addresses',

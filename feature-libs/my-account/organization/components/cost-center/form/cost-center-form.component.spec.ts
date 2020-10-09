@@ -33,11 +33,15 @@ class MockOrgUnitService {
 }
 
 class MockCurrencyService {
-  getAll() {}
+  getAll() {
+    return of();
+  }
 }
 
 class MockOrganizationItemService {
-  getForm() {}
+  getForm() {
+    return mockForm;
+  }
 }
 
 describe('CostCenterFormComponent', () => {
@@ -78,7 +82,6 @@ describe('CostCenterFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterFormComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -86,7 +89,6 @@ describe('CostCenterFormComponent', () => {
   });
 
   it('should render form controls', () => {
-    component.form = mockForm;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBeGreaterThan(0);
@@ -100,18 +102,10 @@ describe('CostCenterFormComponent', () => {
   });
 
   it('should get currencies from service', () => {
-    component.form = mockForm;
     expect(currencyService.getAll).toHaveBeenCalled();
   });
 
   it('should get active units from service', () => {
-    component.form = mockForm;
     expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
-  });
-
-  it('should load list of b2bUnits on subscription', () => {
-    component.form = mockForm;
-    fixture.detectChanges();
-    expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 });
