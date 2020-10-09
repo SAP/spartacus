@@ -76,7 +76,7 @@ describe('Spartacus My Account schematics: ng-add', () => {
   // TODO: use from `@spartacus/schematics`
   const UTF_8 = 'utf-8';
   describe('styling', () => {
-    it('should add create /src/assets/styles/my-account.scss', async () => {
+    it('should add style import to /src/assets/styles/my-account.scss', async () => {
       const buffer = appTree.read('/src/assets/styles/my-account.scss');
       expect(buffer).toBeTruthy();
       const content = buffer?.toString(UTF_8);
