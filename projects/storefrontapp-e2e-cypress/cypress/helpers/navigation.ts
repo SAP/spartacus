@@ -12,8 +12,14 @@ export const navigation = {
         : `?${queryStringParams}`;
     return cy.visit(`/${queryStringParams ? queryStringParams : ''}`, options);
   },
-  goToProduct(id): Cypress.Chainable<Window> {
-    return cy.visit(`/product/${id}`);
+  goToProduct(
+    id = 266685,
+    options?: Partial<Cypress.VisitOptions>
+  ): Cypress.Chainable<string> {
+    cy.visit(`/product/${id}`, options);
+    return cy
+      .location('pathname', { timeout: 10000 })
+      .should('include', `/product/${id}`);
   },
   waitForPage(page: string): Cypress.Chainable<Cypress.WaitXHR> {
     return cy

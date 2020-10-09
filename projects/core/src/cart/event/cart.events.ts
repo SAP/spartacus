@@ -33,3 +33,16 @@ export class CartAddEntryFailEvent implements CartEvent {
   productCode: string;
   quantity: number;
 }
+
+export class CartRemoveEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  userId: string;
+  entry: OrderEntry;
+}
+
+export class CartUpdateEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  userId: string;
+  quantity: number;
+  entry: OrderEntry;
+}
