@@ -9,6 +9,8 @@ export const defaultOccSiteContextConfig: OccConfig = {
         countries: 'countries',
         regions:
           'countries/${isoCode}/regions?fields=regions(name,isocode,isocodeShort)',
+        basesites:
+          'basesites?fields=DEFAULT,baseSites(defaultPreviewCategoryCode,defaultPreviewProductCode)',
       },
     },
   },

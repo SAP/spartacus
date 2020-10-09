@@ -16,7 +16,7 @@ describe('BaseSite Effects', () => {
   let connector: SiteConnector;
   let effects: fromEffects.BaseSiteEffects;
 
-  const baseSite: BaseSite = { uid: 'test-site' };
+  const baseSites: BaseSite[] = [{ uid: 'test-site' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,18 +31,18 @@ describe('BaseSite Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.BaseSiteEffects);
 
-    spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
+    spyOn(connector, 'getBaseSites').and.returnValue(of(baseSites));
   });
 
-  describe('loadBaseSite$', () => {
-    it('should populate base site details data', () => {
-      const action = new SiteContextActions.LoadBaseSite();
-      const completion = new SiteContextActions.LoadBaseSiteSuccess(baseSite);
+  describe('loadBaseSites$', () => {
+    it('should populate all base site data', () => {
+      const action = new SiteContextActions.LoadBaseSites();
+      const completion = new SiteContextActions.LoadBaseSitesSuccess(baseSites);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(effects.loadBaseSite$).toBeObservable(expected);
+      expect(effects.loadBaseSites$).toBeObservable(expected);
     });
   });
 });

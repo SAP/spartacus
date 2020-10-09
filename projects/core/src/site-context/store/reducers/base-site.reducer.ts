@@ -1,20 +1,34 @@
+import { BaseSite } from 'projects/core/src/model';
 import { SiteContextActions } from '../actions/index';
-import { BaseSiteState } from '../state';
+import { BaseSitesState } from '../state';
 
-export const initialState: BaseSiteState = {
-  details: {},
-  activeSite: '',
+export const initialState: BaseSitesState = {
+  entities: null,
+  activeSite: null,
 };
 
 export function reducer(
   state = initialState,
   action: SiteContextActions.BaseSiteAction
-): BaseSiteState {
+): BaseSitesState {
   switch (action.type) {
-    case SiteContextActions.LOAD_BASE_SITE_SUCCESS: {
+    case SiteContextActions.LOAD_BASE_SITES_SUCCESS: {
+      const sites: BaseSite[] = action.payload;
+      const entities = sites.reduce(
+        (siteEntities: { [uid: string]: BaseSite }, site: BaseSite) => {
+          return {
+            ...siteEntities,
+            [site.uid]: site,
+          };
+        },
+        {
+          ...state.entities,
+        }
+      );
+
       return {
         ...state,
-        details: action.payload,
+        entities,
       };
     }
 

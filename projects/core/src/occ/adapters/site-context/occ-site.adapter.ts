@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
   REGION_NORMALIZER,
+  BASE_SITE_NORMALIZER,
 } from '../../../site-context/connectors/converters';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -67,22 +68,14 @@ export class OccSiteAdapter implements SiteAdapter {
       );
   }
 
-  loadBaseSite(): Observable<BaseSite> {
-    const baseUrl = this.occEndpointsService.getBaseEndpoint();
-    const urlSplits = baseUrl.split('/');
-    const activeSite = urlSplits.pop();
-    const url = urlSplits.join('/') + '/basesites';
-
-    const params = new HttpParams({
-      fromString: 'fields=FULL',
-    });
-
+  loadBaseSites(): Observable<BaseSite[]> {
     return this.http
-      .get<{ baseSites: BaseSite[] }>(url, { params: params })
+      .get<{ baseSites: BaseSite[] }>(
+        this.occEndpointsService.getOccEndpoint('basesites')
+      )
       .pipe(
-        map((siteList) => {
-          return siteList.baseSites.find((site) => site.uid === activeSite);
-        })
+        map((baseSiteList) => baseSiteList.baseSites),
+        this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
       );
   }
 }

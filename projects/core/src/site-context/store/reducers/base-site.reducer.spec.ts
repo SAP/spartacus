@@ -23,18 +23,25 @@ describe('BaseSite Reducer', () => {
     });
   });
 
-  describe('LOAD_BASE_SITE_SUCCESS action', () => {
-    it('should populate the active baseSite data', () => {
-      const payload: BaseSite = {
-        uid: 'test',
-        defaultPreviewCategoryCode: 'test category code',
-        defaultPreviewProductCode: 'test product code',
+  describe('LOAD_BASE_SITES_SUCCESS action', () => {
+    it('should populate all baseSite data', () => {
+      const payload: BaseSite[] = [
+        {
+          uid: 'test',
+          defaultPreviewCategoryCode: 'test category code',
+          defaultPreviewProductCode: 'test product code',
+        },
+      ];
+
+      const entities: { [key: string]: BaseSite } = {
+        test: payload[0],
       };
+
       const { initialState } = fromBaseSite;
-      const action = new SiteContextActions.LoadBaseSiteSuccess(payload);
+      const action = new SiteContextActions.LoadBaseSitesSuccess(payload);
       const state = fromBaseSite.reducer(initialState, action);
 
-      expect(state.details).toEqual(payload);
+      expect(state.entities).toEqual(entities);
     });
   });
 });

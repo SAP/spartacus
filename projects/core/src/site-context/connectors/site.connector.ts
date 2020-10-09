@@ -26,7 +26,7 @@ export class SiteConnector {
     return this.adapter.loadRegions(countryIsoCode);
   }
 
-  getBaseSite(): Observable<BaseSite> {
-    return this.adapter.loadBaseSite();
+  getBaseSites(): Observable<BaseSite[]> {
+    return this.adapter.loadBaseSites();
   }
 }

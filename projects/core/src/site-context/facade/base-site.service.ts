@@ -32,8 +32,21 @@ export class BaseSiteService implements SiteContext<string> {
    * We currently don't support switching baseSite at run time
    */
   getAll(): Observable<string[]> {
+    console.log('here');
     return this.getActive().pipe(map((baseSite) => [baseSite]));
   }
+
+  /*getAll(): Observable<Currency[]> {
+    return this.store.pipe(
+      select(SiteContextSelectors.getAllCurrencies),
+      tap((currencies) => {
+        if (!currencies) {
+          this.store.dispatch(new SiteContextActions.LoadCurrencies());
+        }
+      }),
+      filter((currenies) => Boolean(currenies))
+    );
+  }*/
 
   setActive(baseSite: string): Subscription {
     return this.store
@@ -70,12 +83,14 @@ export class BaseSiteService implements SiteContext<string> {
    */
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
-      select(SiteContextSelectors.getBaseSiteData),
-      tap((baseSite) => {
-        if (Object.keys(baseSite).length === 0) {
-          this.store.dispatch(new SiteContextActions.LoadBaseSite());
-        }
-      })
+      select(
+        SiteContextSelectors.getActiveBaseSiteData,
+        tap((baseSite) => {
+          if (Object.keys(baseSite).length === 0) {
+            this.store.dispatch(new SiteContextActions.LoadBaseSites());
+          }
+        })
+      )
     );
   }
 }

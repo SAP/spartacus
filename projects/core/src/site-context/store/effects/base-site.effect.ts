@@ -9,16 +9,19 @@ import { SiteContextActions } from '../actions/index';
 @Injectable()
 export class BaseSiteEffects {
   @Effect()
-  loadBaseSite$: Observable<
-    SiteContextActions.LoadBaseSiteSuccess | SiteContextActions.LoadBaseSiteFail
+  loadBaseSites$: Observable<
+    | SiteContextActions.LoadBaseSitesSuccess
+    | SiteContextActions.LoadBaseSitesFail
   > = this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_BASE_SITE),
+    ofType(SiteContextActions.LOAD_BASE_SITES),
     exhaustMap(() => {
-      return this.siteConnector.getBaseSite().pipe(
-        map((baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
+      return this.siteConnector.getBaseSites().pipe(
+        map(
+          (baseSites) => new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        ),
         catchError((error) =>
           of(
-            new SiteContextActions.LoadBaseSiteFail(
+            new SiteContextActions.LoadBaseSitesFail(
               makeErrorSerializable(error)
             )
           )
