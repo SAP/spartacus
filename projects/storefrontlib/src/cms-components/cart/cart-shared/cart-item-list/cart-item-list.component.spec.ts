@@ -227,24 +227,6 @@ describe('CartItemListComponent', () => {
     ).toBeDefined();
   });
 
-  it('should compile control name from items entry number', () => {
-    fixture.detectChanges();
-    const multipleMockItems = [
-      {
-        id: 1,
-        quantity: 5,
-        entryNumber: 0,
-      },
-      {
-        id: 2,
-        quantity: 3,
-        entryNumber: 999,
-      },
-    ];
-    expect(component.createControlName(multipleMockItems[0])).toBe('0');
-    expect(component.createControlName(multipleMockItems[1])).toBe('999');
-  });
-
   it('remove entry for save for later', () => {
     component.options = { isSaveForLater: true };
     fixture.detectChanges();
