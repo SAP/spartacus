@@ -12,6 +12,7 @@ export class OccCostCenterSerializer
         ...(source as any),
         activeFlag: source.active,
       };
+      delete target.active;
     }
     return target;
   }
