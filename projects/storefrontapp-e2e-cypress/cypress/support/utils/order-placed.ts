@@ -25,7 +25,9 @@ export function waitForOrderToBePlacedRequest(
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
-    )}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
+    )}/${contentCatalog}/users/${userId}/${Cypress.env(
+      'ORDER'
+    )}?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
@@ -41,7 +43,14 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders.length &&
           (!orderNumber ||
             res.body.orders.filter((order) => order.code === orderNumber)
-              .length > 0))
+              .length > 0)) ||
+        (res.status === 200 &&
+          res.body.replenishmentOrders &&
+          res.body.replenishmentOrders.length &&
+          (!orderNumber ||
+            res.body.replenishmentOrders.filter(
+              (order) => order.replenishmentOrderCode === orderNumber
+            ).length > 0))
       ) {
         startTime = 0;
         return;
