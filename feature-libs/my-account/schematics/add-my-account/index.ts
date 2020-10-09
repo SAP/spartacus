@@ -98,7 +98,7 @@ function addStyles(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const myAccountScssPath = `${getSourceRoot(
       tree
-    )}/assets/styles/my-account.scss`;
+    )}/styles/lib-my-account.scss`;
     tree.create(myAccountScssPath, `@import "@spartacus/my-account";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);

@@ -76,14 +76,14 @@ describe('Spartacus My Account schematics: ng-add', () => {
   // TODO: use from `@spartacus/schematics`
   const UTF_8 = 'utf-8';
   describe('styling', () => {
-    it('should add style import to /src/assets/styles/my-account.scss', async () => {
-      const buffer = appTree.read('/src/assets/styles/my-account.scss');
+    it('should add style import to /src/styles/lib-my-account.scss', async () => {
+      const buffer = appTree.read('/src/styles/lib-my-account.scss');
       expect(buffer).toBeTruthy();
       const content = buffer?.toString(UTF_8);
       expect(content).toEqual(`@import "@spartacus/my-account";`);
     });
 
-    it('should add update angular.json with my-account.scss', async () => {
+    it('should add update angular.json with lib-my-account.scss', async () => {
       const buffer = appTree.read('/angular.json');
       expect(buffer).toBeTruthy();
       if (!buffer) {
@@ -95,14 +95,14 @@ describe('Spartacus My Account schematics: ng-add', () => {
         angularJson.projects['schematics-test'].architect.build.options.styles;
       expect(buildStyles).toEqual([
         'src/styles.scss',
-        'src/assets/styles/my-account.scss',
+        'src/styles/lib-my-account.scss',
       ]);
 
       const testStyles: string[] =
         angularJson.projects['schematics-test'].architect.test.options.styles;
       expect(testStyles).toEqual([
         'src/styles.scss',
-        'src/assets/styles/my-account.scss',
+        'src/styles/lib-my-account.scss',
       ]);
     });
   });
