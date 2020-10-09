@@ -1,17 +1,8 @@
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { AuthGuard, provideDefaultConfig } from '@spartacus/core';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-
-export function alaFactory() {
-  console.log('ala ma kota');
-  return { alamakota: 'ala-ma-kota' };
-}
 
 @NgModule({
   imports: [
@@ -46,7 +37,6 @@ export function alaFactory() {
         },
       },
     }),
-    provideDefaultConfigFactory(alaFactory),
   ],
 })
 export class OrganizationRootModule {}
