@@ -6,23 +6,55 @@
     --cx-color-transparent: transparent;
     --cx-color-primary: #2480c5;
     --cx-color-secondary: #a1aabf;
-    --cx-color-success: #5dac06;
-    --cx-color-info: #17a2b8;
-    --cx-color-warning: #ffc107;
-    --cx-color-danger: #db0002;
-    --cx-color-light: #d3d6db;
+    --cx-buttons-border-radius: 27px;
     --cx-color-dark: #212738;
-    --cx-color-visual-focus: #6d9df7;
-    --cx-color-background-focus: rgba(80, 176, 244, 0.1);
-    --cx-font-weight-light: 300;
-    --cx-font-weight-normal: 400;
-    --cx-font-weight-semi: 600;
-    --cx-font-weight-bold: 700;
-    --cx-direction: ltr;
-    --cx-transition-duration: 0.5s;
-    --cx-animation-duration: 1s;
-    --cx-border-radius: 1em;
-    --cx-buttons-border-radius: 0.25rem;
-    --cx-border-style: solid;
+  }
+
+  cx-site-context-selector {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+  }
+
+  header {
+    background-color: var(--cx-color-background);
+
+    cx-link a {
+      color: var(--cx-color-primary);
+    }
+
+    .NavigationBar {
+      background-color: var(--cx-color-dark);
+    }
+  }
+
+  cx-searchbox {
+    > * {
+      @include media-breakpoint-up(md) {
+        background-color: var(--cx-color-inverse);
+      }
+    }
+    label {
+      border: 1px solid var(--cx-color-secondary);
+      input,
+      cx-icon {
+        color: var(--cx-color-secondary);
+      }
+    }
+  }
+
+  cx-login {
+    .cx-login-greet,
+    cx-navigation-ui.flyout h5 {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-breadcrumb nav span a {
+    color: var(--cx-color-primary);
   }
 }
