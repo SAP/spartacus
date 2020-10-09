@@ -3,7 +3,9 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
+  EntryGroup,
   OrderEntry,
+  Product,
   PromotionLocation,
   PromotionResult,
   RoutingService,
@@ -22,6 +24,7 @@ import { Item } from '../cart-shared/cart-item/cart-item.component';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
+  entryGroups$: Observable<EntryGroup[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   orderPromotions$: Observable<PromotionResult[]>;
@@ -44,6 +47,10 @@ export class CartDetailsComponent implements OnInit {
     this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
+
+    this.entryGroups$ = this.activeCartService
+      .getEntryGroups()
+      .pipe(filter((groups) => groups.length > 0));
 
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
@@ -74,5 +81,18 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  getBundleAllowedProducts(entryGroupNumber: number) {
+    this.activeCartService.getBundleAllowedProducts(entryGroupNumber);
+  }
+
+  removeBundle(entryGroupNumber: number) {
+    this.activeCartService.removeBundle(entryGroupNumber);
+  }
+
+  addProductToBundle(entryGroupNumber, product: Product) {
+    console.log(entryGroupNumber, product);
+    this.activeCartService.addProductToBundle(entryGroupNumber, product);
   }
 }

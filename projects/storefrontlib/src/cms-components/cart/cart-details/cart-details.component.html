@@ -22,6 +22,36 @@
   </ng-container>
 </ng-container>
 
+<ng-container *ngIf="entryGroups$ | async as entryGroups">
+  <div *ngFor="let entryGroup of entryGroups">
+    <div *ngIf="entryGroup.allowedProducts as allowed">
+      <h1>Choose product to add:</h1>
+      <button
+        *ngFor="let product of allowed.products"
+        (click)="addProductToBundle(allowed.entryGroupNumber, product)"
+      >
+        Add {{ product.name }}
+      </button>
+    </div>
+    <ng-container *ngIf="!entryGroup.allowedProducts">
+      <h2>{{ entryGroup.entryGroupNumber }}: {{ entryGroup.label }}</h2>
+      <button (click)="removeBundle(entryGroup.entryGroupNumber)">
+        Remove Bundle
+      </button>
+      <div *ngFor="let subGroup of entryGroup.entryGroups">
+        <h3>{{ subGroup.label }}</h3>
+        <button (click)="getBundleAllowedProducts(subGroup.entryGroupNumber)">
+          {{
+            subGroup.entries.length > 0
+              ? subGroup.entries[0].product.name
+              : 'Choose Product'
+          }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
 <ng-template let-ctx #saveForLaterBtn>
   <div
     *ngIf="selectiveCartEnabled"
