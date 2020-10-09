@@ -1,15 +1,12 @@
 import { Address } from './address.model';
-import { Currency, User } from './misc.model';
+import { User } from './misc.model';
 
 // TODO(#8876): Should we simplify the models only for the fields required by the B2B checkout?
 export interface CostCenter {
   active?: boolean;
-  activeFlag?: boolean;
   code?: string;
   name?: string;
-  originalCode?: string;
   unit?: B2BUnit;
-  currency?: Currency;
 }
 
 export enum B2BUserGroup {

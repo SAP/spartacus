@@ -7,7 +7,12 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OrganizationItemStatus, Permission, UserGroup } from '../model';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
+import { Permission } from '../model/permission.model';
+import { UserGroup } from '../model/user-group.model';
 import {
   B2BUserActions,
   PermissionActions,
@@ -19,7 +24,6 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { UserGroupService } from './user-group.service';
-import { LoadStatus } from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
