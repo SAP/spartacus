@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Params } from '@angular/router';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 
@@ -9,13 +8,8 @@ const mockCode = 'b1';
 const PARAM = 'myParam';
 
 const mockParams = new Subject();
-const mockState = new Subject();
 
 class MockRoutingService {
-  getRouterState() {
-    return mockState;
-  }
-
   getParams() {
     return mockParams;
   }
@@ -58,30 +52,25 @@ describe('CurrentOrganizationItemService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('parentUnit$', () => {
-    it('should resolve parentUnit from  query parameters', () => {
+  describe('b2bUnit$', () => {
+    it('should resolve b2bUnit from route parameter', () => {
       let result;
-      service.b2bUnit$.subscribe((unit) => (result = unit));
-      mockState.next({
-        state: {
-          queryParams: {
-            parentUnit: 'ppp',
-          } as Params,
-        },
-      } as RouterState);
-      expect(result).toEqual('ppp');
+      service.b2bUnit$.subscribe((value) => (result = value));
+      mockParams.next({ unitCode: 'unit1' });
+      expect(result).toEqual('unit1');
     });
 
-    it('should not resolve parentUnit from query parameters', () => {
-      mockState.next({
-        state: {
-          queryParams: {
-            foo: 'bar',
-          } as Params,
-        },
-      } as RouterState);
+    it('should resolve b2bUnit among other route parameters', () => {
       let result;
-      service.b2bUnit$.subscribe((unit) => (result = unit));
+      service.b2bUnit$.subscribe((value) => (result = value));
+      mockParams.next({ unitCode: 'unit2', foo: 'bar' });
+      expect(result).toEqual('unit2');
+    });
+
+    it('should resolve b2bUnit from route parameter', () => {
+      let result;
+      service.b2bUnit$.subscribe((value) => (result = value));
+      mockParams.next({ foo: 'bar' });
       expect(result).toBeFalsy();
     });
   });
