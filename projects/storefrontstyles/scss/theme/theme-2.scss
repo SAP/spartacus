@@ -1,0 +1,61 @@
+.theme-2 {
+  --cx-color-background: #f1f1f1;
+  --cx-color-text: #212738;
+  --cx-color-inverse: #ffffff;
+  --cx-color-transparent: transparent;
+  --cx-color-primary: #2480c5;
+  --cx-color-secondary: #a1aabf;
+  --cx-buttons-border-radius: 27px;
+  --cx-color-dark: #212738;
+
+  cx-site-context-selector {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+  }
+
+  header {
+    background-image: linear-gradient(
+      var(--cx-color-background) 123px,
+      var(--cx-color-dark) 0
+    );
+
+    cx-link a {
+      color: var(--cx-color-primary);
+    }
+
+    .NavigationBar {
+      background-color: var(--cx-color-dark);
+    }
+  }
+
+  cx-searchbox {
+    > * {
+      @include media-breakpoint-up(md) {
+        background-color: var(--cx-color-inverse);
+      }
+    }
+    label {
+      border: 1px solid var(--cx-color-secondary);
+      input,
+      cx-icon {
+        color: var(--cx-color-secondary);
+      }
+    }
+  }
+
+  cx-login {
+    .cx-login-greet,
+    cx-navigation-ui.flyout h5 {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-breadcrumb nav span a {
+    color: var(--cx-color-primary);
+  }
+}
