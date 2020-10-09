@@ -6,7 +6,7 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export interface Item {
-  entryNumber?: any;
+  entryNumber?: number;
   product?: any;
   quantity?: any;
   basePrice?: any;

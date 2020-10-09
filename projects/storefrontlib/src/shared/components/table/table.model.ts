@@ -135,11 +135,6 @@ export interface TableStructure extends TableStructureConfiguration {
    * configuration and is used to generate a unique outlet reference.
    */
   type: string;
-
-  /**
-   * Indicates that the table is loading. This is useful to add a loading indicator or skeleton
-   */
-  isLoading?: boolean;
 }
 
 /**
@@ -163,6 +158,14 @@ export interface TableHeaderOutletContext {
   _type: string;
   _field: string;
   _options?: TableOptions;
+  /**
+   * The i18nRoot is used to build localized table headers. The i18nRoot
+   * is used as a prefix for the `_field`. Table header labels wil use the
+   * following locales:
+   *
+   * `[i18nRoot].[_field]`
+   */
+  _i18nRoot?: string;
 }
 
 // tslint:disable-next-line: no-empty-interface

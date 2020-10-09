@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUnit, B2BUser, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
 
@@ -62,10 +62,10 @@ describe('UnitAssignedApproverListService', () => {
   });
 
   it('should filter selected approvers', () => {
-    let result: Table<B2BUser>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(2);
-    expect(result.data[0].uid).toEqual('first');
-    expect(result.data[1].uid).toEqual('third');
+    let result: EntitiesModel<B2BUser>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(2);
+    expect(result.values[0].uid).toEqual('first');
+    expect(result.values[1].uid).toEqual('third');
   });
 });

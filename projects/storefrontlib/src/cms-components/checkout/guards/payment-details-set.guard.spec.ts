@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 
 // deep copy to avoid issues with mutating imported symbols
@@ -59,6 +59,9 @@ describe(`PaymentDetailsSetGuard`, () => {
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+
+    // suppress warnings in test console
+    spyOn(console, 'warn');
   });
 
   describe(`when there is NO payment details present`, () => {
@@ -87,7 +90,6 @@ describe(`PaymentDetailsSetGuard`, () => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
-      spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe((result) => {

@@ -1,32 +1,32 @@
+html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
+  content: '\\';
+}
+
 %cx-breadcrumb {
   display: flex;
   flex-direction: column;
 
-  text-align: center;
-
   color: currentcolor;
   background-color: var(--cx-color-background);
 
-  // TODO: with 3.0 the default padding should be replaced with the new spatial
-  padding: 20px 0;
-  @include forVersion(2.1) {
-    padding: var(--cx-spatial-base);
-    h1 {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  padding: var(--cx-spatial-base);
+  h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
   }
 
   nav {
     font-size: 0.85rem;
     padding: 5px 0;
 
-    @include forVersion(2.1) {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    display: flex;
+    justify-content: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
       color: var(--cx-color-secondary);

@@ -67,6 +67,11 @@ cd projects/schematics
 yarn
 yarn test
 cd ../..
+echo "Running unit tests for my-account schematics"
+cd feature-libs/my-account
+yarn
+yarn test:schematics
+cd ../../
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"

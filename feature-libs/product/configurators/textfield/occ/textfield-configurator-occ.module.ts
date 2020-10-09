@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ConfigModule } from '@spartacus/core';
 import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';
@@ -17,7 +16,7 @@ import { OccConfiguratorTextfieldAdapter } from './occ-configurator-textfield.ad
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
+
     ConfigModule.withConfigFactory(
       defaultOccConfiguratorTextfieldConfigFactory
     ),

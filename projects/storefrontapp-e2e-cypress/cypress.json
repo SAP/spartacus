@@ -2,6 +2,9 @@
   "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
   "requestTimeout": 15000,
+  "retries": {
+    "runMode": 2
+  },
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",

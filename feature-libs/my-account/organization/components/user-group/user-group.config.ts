@@ -176,7 +176,7 @@ export const userGroupTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_GROUP_ASSIGNED_USERS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
         cells: {
           actions: {
@@ -190,7 +190,7 @@ export const userGroupTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.USER_GROUP_USERS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
         cells: {
           actions: {
