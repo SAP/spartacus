@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
-import { take, map, filter } from 'rxjs/operators';
-import { StateWithProcess } from '../../process/store/process-state';
-import { AuthService } from '../../auth/facade/auth.service';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { StateWithProcess } from '../../process/store/process-state';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';

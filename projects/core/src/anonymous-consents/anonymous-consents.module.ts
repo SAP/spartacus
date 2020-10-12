@@ -1,12 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { UserAuthModule } from '../auth/user-auth/user-auth.module';
+import { provideDefaultConfig } from '../config/config-providers';
 import { defaultAnonymousConsentsConfig } from './config/default-anonymous-consents-config';
 import { AnonymousConsentsService } from './facade/anonymous-consents.service';
 import { interceptors } from './http-interceptors/index';
 import { AnonymousConsentsStoreModule } from './store/anonymous-consents-store.module';
-import { provideDefaultConfig } from '../config/config-providers';
 
 @NgModule({
-  imports: [AnonymousConsentsStoreModule],
+  imports: [AnonymousConsentsStoreModule, UserAuthModule.forRoot()],
 })
 export class AnonymousConsentsModule {
   static forRoot(): ModuleWithProviders<AnonymousConsentsModule> {

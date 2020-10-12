@@ -9,7 +9,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../../auth/facade/auth.service';
+import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';

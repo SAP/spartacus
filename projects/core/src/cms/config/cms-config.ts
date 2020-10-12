@@ -1,9 +1,9 @@
 import { Injectable, StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
-import { AuthConfig } from '../../auth/config/auth-config';
+import { AuthConfig } from '../../auth/user-auth/config/auth-config';
+import { Config } from '../../config/config-tokens';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Config } from '../../config/config-tokens';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthStorageService } from '../../auth/facade/auth-storage.service';
-import { AuthService } from '../../auth/facade/auth.service';
-import { CxOAuthService } from '../../auth/facade/cx-oauth-service';
-import { UserIdService } from '../../auth/facade/user-id.service';
-import { UserToken } from '../../auth/models/token-types.model';
+import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { UserToken } from '../../auth/user-auth/models/user-token.model';
 import { AsmActions, StateWithAsm } from '../store';
 
 @Injectable({
