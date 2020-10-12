@@ -9,6 +9,10 @@ import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { AuthRedirectService } from '../../auth/user-auth/guards/auth-redirect.service';
 import { BasicAuthService } from '../../auth/user-auth/services/basic-auth.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../global-message/index';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { UserService } from '../../user/facade/user.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
@@ -23,7 +27,8 @@ export class AsmAuthService extends BasicAuthService {
     protected cxOAuthService: CxOAuthService,
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService
   ) {
     super(
       store,
@@ -35,8 +40,9 @@ export class AsmAuthService extends BasicAuthService {
   }
 
   public authorize(userId: string, password: string): void {
-    let tokenTarget;
-    let token;
+    let tokenTarget: TokenTarget;
+    let token: AuthToken;
+
     this.authStorageService
       .getToken()
       .subscribe((tok) => (token = tok))
@@ -46,7 +52,12 @@ export class AsmAuthService extends BasicAuthService {
       .subscribe((tokTarget) => (tokenTarget = tokTarget))
       .unsubscribe();
     if (Boolean(token?.access_token) && tokenTarget === TokenTarget.CSAgent) {
-      // TODO: Show the warning that you cannot login when you are already logged in
+      this.globalMessageService.add(
+        {
+          key: 'asm.auth.agentLoggedInError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     } else {
       super.authorize(userId, password);
     }
@@ -56,7 +67,8 @@ export class AsmAuthService extends BasicAuthService {
    * Logout a storefront customer
    */
   public logout(): Promise<any> {
-    let isEmulated;
+    let isEmulated: boolean;
+
     this.userIdService
       .isEmulated()
       .subscribe((emulated) => (isEmulated = emulated))
@@ -92,7 +104,8 @@ export class AsmAuthService extends BasicAuthService {
 
   initImplicit() {
     setTimeout(() => {
-      let tokenTarget;
+      let tokenTarget: TokenTarget;
+
       this.authStorageService
         .getTokenTarget()
         .subscribe((target) => {
