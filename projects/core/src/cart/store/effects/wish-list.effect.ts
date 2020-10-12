@@ -9,7 +9,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../../auth/user-auth/facade/user-id.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
@@ -119,7 +119,7 @@ export class WishListEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     withLatestFrom(
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
       this.store.pipe(select(MultiCartSelectors.getWishListId))
     ),
     switchMap(([, userId, wishListId]) => {
@@ -151,7 +151,7 @@ export class WishListEffects {
     private actions$: Actions,
     private cartConnector: CartConnector,
     private saveCartConnector: SaveCartConnector,
-    private authService: AuthService,
+    private userIdService: UserIdService,
     private store: Store<StateWithMultiCart>
   ) {}
 }

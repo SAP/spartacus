@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -21,8 +21,8 @@ import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
-class AuthServiceStub {
-  getOccUserId(): Observable<string> {
+class UserIdServiceStub {
+  getUserId(): Observable<string> {
     return userId$.asObservable();
   }
 }
@@ -75,7 +75,7 @@ describe('ActiveCartService', () => {
       providers: [
         ActiveCartService,
         { provide: MultiCartService, useClass: MultiCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
     service = TestBed.inject(ActiveCartService);

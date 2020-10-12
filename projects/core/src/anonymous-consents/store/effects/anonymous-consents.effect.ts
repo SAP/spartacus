@@ -11,7 +11,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthActions, AuthService } from '../../../auth/index';
+import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -127,7 +127,7 @@ export class AnonymousConsentsEffects {
     switchMap(() =>
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
@@ -182,7 +182,7 @@ export class AnonymousConsentsEffects {
     concatMap(() =>
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.userConsentService.getConsents(),
           this.authService.isUserLoggedIn()
         ),
@@ -230,7 +230,8 @@ export class AnonymousConsentsEffects {
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private userIdService: UserIdService
   ) {}
 
   /**

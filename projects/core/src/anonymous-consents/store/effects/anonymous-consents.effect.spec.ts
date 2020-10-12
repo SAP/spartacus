@@ -3,7 +3,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AuthActions, AuthService } from '../../../auth/user-auth/index';
+import {
+  AuthActions,
+  AuthService,
+  UserIdService,
+} from '../../../auth/user-auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -48,8 +52,10 @@ class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
+}
 
-  getOccUserId(): Observable<string> {
+class MockUserIdService {
+  getUserId(): Observable<string> {
     return of();
   }
 }
@@ -139,6 +145,7 @@ describe('AnonymousConsentsEffects', () => {
   let connector: AnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
   let authService: AuthService;
+  let userIdService: UserIdService;
   let anonymousConsentService: AnonymousConsentsService;
   let userConsentService: UserConsentService;
 
@@ -149,6 +156,10 @@ describe('AnonymousConsentsEffects', () => {
         {
           provide: AuthService,
           useClass: MockAuthService,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
         },
         {
           provide: AnonymousConsentTemplatesConnector,
@@ -175,6 +186,7 @@ describe('AnonymousConsentsEffects', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authService = TestBed.inject(AuthService);
     userConsentService = TestBed.inject(UserConsentService);
+    userIdService = TestBed.inject(UserIdService);
   });
 
   describe('checkConsentVersions$', () => {
@@ -258,7 +270,7 @@ describe('AnonymousConsentsEffects', () => {
         of(mockTemplateList)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
       const registerSuccessAction = new UserActions.RegisterUserSuccess();
@@ -290,7 +302,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 
@@ -326,7 +338,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'loadConsents').and.stub();
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 
@@ -369,7 +381,7 @@ describe('AnonymousConsentsEffects', () => {
       );
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 

@@ -12,7 +12,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
@@ -57,7 +57,7 @@ export class ActiveCartService implements OnDestroy {
 
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected authService: AuthService,
+    protected userIdService: UserIdService,
     protected multiCartService: MultiCartService
   ) {
     this.initActiveCart();
@@ -69,7 +69,7 @@ export class ActiveCartService implements OnDestroy {
 
   protected initActiveCart() {
     this.subscription.add(
-      this.authService.getOccUserId().subscribe((userId) => {
+      this.userIdService.getUserId().subscribe((userId) => {
         this.userId = userId;
         if (this.userId !== OCC_USER_ID_ANONYMOUS) {
           if (this.isJustLoggedIn(userId)) {

@@ -1,16 +1,16 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
-import { PaymentType } from '../../model/cart.model';
-import { CheckoutActions } from '../store/actions/index';
-import { AuthService } from '../../auth';
+import { PROCESS_FEATURE } from '@spartacus/core';
+import { of } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart';
+import { PaymentType } from '../../model/cart.model';
+import * as fromProcessReducers from '../../process/store/reducers/index';
+import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
-import { PROCESS_FEATURE } from '@spartacus/core';
 import { PaymentTypeService } from './payment-type.service';
-import * as fromProcessReducers from '../../process/store/reducers/index';
 
 const userId = 'testUserId';
 const cart = {
@@ -29,7 +29,7 @@ class ActiveCartServiceStub {
   }
 }
 
-class AuthServiceStub {
+class UserIdServiceStub {
   userId;
   invokeWithUserId(cb) {
     cb(userId);
@@ -52,7 +52,7 @@ describe('PaymentTypeService', () => {
       providers: [
         PaymentTypeService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 

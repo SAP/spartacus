@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
@@ -39,10 +39,10 @@ export class SelectiveCartService {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
-    protected authService: AuthService,
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService,
-    protected cartConfigService: CartConfigService
+    protected cartConfigService: CartConfigService,
+    protected userIdService: UserIdService
   ) {
     combineLatest([
       this.userService.get(),
@@ -56,7 +56,7 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getOccUserId().subscribe((userId) => {
+    this.userIdService.getUserId().subscribe((userId) => {
       this.userId = userId;
 
       if (this.isJustLoggedIn(userId)) {

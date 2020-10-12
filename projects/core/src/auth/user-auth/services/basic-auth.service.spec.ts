@@ -145,18 +145,6 @@ describe('BasicAuthService', () => {
     // );
   });
 
-  it('should return user id from userIdService', () => {
-    spyOn(userIdService, 'getUserId').and.returnValue(of('userId123'));
-
-    let result: string;
-    service
-      .getOccUserId()
-      .subscribe((userId) => (result = userId))
-      .unsubscribe();
-
-    expect(result).toEqual('userId123');
-  });
-
   describe('isUserLoggedIn', () => {
     it('should return false if the userToken is not present', () => {
       spyOn(service, 'getToken').and.returnValue(of(null));

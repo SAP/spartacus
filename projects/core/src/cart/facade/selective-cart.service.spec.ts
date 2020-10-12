@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry, User } from '../../model';
 import {
@@ -33,8 +33,8 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
-class AuthServiceStub {
-  getOccUserId(): Observable<string> {
+class UserIdServiceStub {
+  getUserId(): Observable<string> {
     return new BehaviorSubject<string>(OCC_USER_ID_CURRENT).asObservable();
   }
 }
@@ -95,7 +95,7 @@ describe('Selective Cart Service', () => {
       providers: [
         SelectiveCartService,
         { provide: MultiCartService, useClass: MultiCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: UserService, useClass: UserServiceStup },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: CartConfigService, useClass: CartConfigServiceStub },

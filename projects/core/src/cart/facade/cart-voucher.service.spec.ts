@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import {
   PROCESS_FEATURE,
@@ -14,8 +14,8 @@ import { CartVoucherService } from './cart-voucher.service';
 
 const userId = 'testUserId';
 
-class AuthServiceStub {
-  getOccUserId(): Observable<string> {
+class UserIdServiceStub {
+  getUserId(): Observable<string> {
     return of(userId);
   }
 }
@@ -44,7 +44,7 @@ describe('CartVoucherService', () => {
       ],
       providers: [
         CartVoucherService,
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
