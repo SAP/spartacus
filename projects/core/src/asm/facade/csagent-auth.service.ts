@@ -41,6 +41,8 @@ export class CsAgentAuthService {
   public startCustomerEmulationSession(customerId: string): void {
     this.authStorageService.copyCSAgentTokenForUser();
     this.authStorageService.switchToEmulated();
+
+    // OCC specific user id handling. Customize when implementing different backend
     this.userIdService.setUserId(customerId);
   }
 

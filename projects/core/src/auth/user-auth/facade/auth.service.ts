@@ -28,8 +28,9 @@ export class AuthService {
    */
   authorize(userId: string, password: string): void {
     this.oAuthService.authorizeWithPasswordFlow(userId, password).then(() => {
-      // TODO: Remove occ specifics
+      // OCC specific user id handling. Customize when implementing different backend
       this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
       this.store.dispatch(new AuthActions.Login());
     });
   }
