@@ -4,18 +4,8 @@ export const defaultAuthConfig: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
     client_secret: 'secret',
-    tokenEndpoint: '/oauth/token',
-    revokeEndpoint: '/oauth/revoke',
-    loginEndpoint: '/oauth/authorize',
-    OAuthLibConfig: {
-      scope: '',
-      customTokenParameters: ['token_type'],
-      strictDiscoveryDocumentValidation: false,
-      skipIssuerCheck: true,
-      disablePKCE: true,
-      responseType: 'code',
-      oidc: false,
-      clearHashAfterLogin: true,
-    },
+    tokenEndpoint: '/authorizationserver/oauth/token',
+    revokeEndpoint: '/authorizationserver/oauth/revoke',
+    loginEndpoint: '/authorizationserver/oauth/authorize',
   },
 };
