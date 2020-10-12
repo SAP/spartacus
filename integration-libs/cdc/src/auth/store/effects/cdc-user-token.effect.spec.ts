@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import {
   AuthActions,
+  AuthToken,
   ErrorModel,
   GlobalMessageService,
-  UserToken,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
@@ -14,7 +14,7 @@ import { CdcUserAuthenticationTokenService } from '../../services/user-authentic
 import { CdcAuthActions } from '../actions';
 import { CdcUserTokenEffects } from './cdc-user-token.effect';
 
-const testToken: UserToken = {
+const testToken: AuthToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
@@ -30,7 +30,7 @@ class CdcUserAuthenticationTokenServiceMock {
     _signatureTimestamp: string,
     _idToken: string,
     _baseSite: string
-  ): Observable<UserToken> {
+  ): Observable<AuthToken> {
     return;
   }
 }

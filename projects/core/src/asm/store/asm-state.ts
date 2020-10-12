@@ -3,7 +3,6 @@ import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
 export const ASM_FEATURE = 'asm';
 export const CUSTOMER_SEARCH_DATA = '[asm] Customer search data';
-export const CSAGENT_TOKEN_DATA = '[Auth] Customer Support Agent Token Data';
 
 export interface StateWithAsm {
   [ASM_FEATURE]: AsmState;

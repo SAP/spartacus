@@ -3,17 +3,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { UserToken } from '../../auth/user-auth/models/user-token.model';
-import { AsmAuthStorageService } from '../services/asm-auth-storage.service';
 import { AsmActions } from '../store/actions';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { CsAgentAuthService } from './csagent-auth.service';
-
-const mockToken = {
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as UserToken;
 
 class MockUserIdService {
   isCustomerEmulated() {}
@@ -25,7 +18,6 @@ describe('CsAgentAuthService', () => {
   let service: CsAgentAuthService;
   let store: Store<AsmState>;
   let userIdService: UserIdService;
-  let asmAuthStorageService: AsmAuthStorageService;
   // let authService: AuthService;
 
   beforeEach(() => {
@@ -39,27 +31,12 @@ describe('CsAgentAuthService', () => {
 
     service = TestBed.inject(CsAgentAuthService);
     userIdService = TestBed.inject(UserIdService);
-    asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     // authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should get the Customer Support Agent token', () => {
-    // store.dispatch(new AsmActions.SetCSAgentTokenData(mockToken));
-
-    let result: UserToken;
-    const subscription = service
-      .getCustomerSupportAgentToken()
-      .subscribe((token) => {
-        result = token;
-      });
-    subscription.unsubscribe();
-
-    expect(result).toEqual(mockToken);
   });
 
   // it('should get the Customer Support Agent token loading status', () => {
@@ -100,9 +77,6 @@ describe('CsAgentAuthService', () => {
 
   it('should dispatch proper action for logoutCustomerSupportAgent', () => {
     spyOn(store, 'dispatch').and.stub();
-    spyOn(service, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
-    );
     service.logoutCustomerSupportAgent();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.LogoutCustomerSupportAgent()
@@ -114,7 +88,7 @@ describe('CsAgentAuthService', () => {
 
   it('isCustomerEmulated should return value from asmAuthStorageService.isEmulated', () => {
     const result = [];
-    spyOn(asmAuthStorageService, 'isEmulated').and.returnValue(of(true, false));
+    spyOn(userIdService, 'isEmulated').and.returnValue(of(true, false));
     service
       .isCustomerEmulated()
       .pipe(take(2))

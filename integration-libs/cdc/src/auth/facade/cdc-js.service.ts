@@ -118,7 +118,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected registerEventListeners(baseSite: string): void {
     this.subscription.add(
-      this.auth.getUserToken().subscribe((data) => {
+      this.auth.getToken().subscribe((data) => {
         if (data && data.access_token) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();

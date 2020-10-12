@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { UserToken } from '../models/user-token.model';
+import { AuthToken } from '../models/auth-token.model';
 
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAuthState {
@@ -16,7 +16,9 @@ export interface SyncedAuthState {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthStatePersistenceService {
+export class AuthStatePersistenceService implements OnDestroy {
+  protected subscription = new Subscription();
+
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
@@ -26,16 +28,18 @@ export class AuthStatePersistenceService {
   protected key = 'auth';
 
   public sync() {
-    this.statePersistenceService.syncWithStorage({
-      key: this.key,
-      state$: this.getAuthState(),
-      onRead: (state) => this.onRead(state),
-    });
+    this.subscription.add(
+      this.statePersistenceService.syncWithStorage({
+        key: this.key,
+        state$: this.getAuthState(),
+        onRead: (state) => this.onRead(state),
+      })
+    );
   }
 
   protected getAuthState(): Observable<SyncedAuthState> {
     return combineLatest([
-      this.authStorageService.getUserToken().pipe(
+      this.authStorageService.getToken().pipe(
         filter((state) => !!state),
         map((state) => {
           return {
@@ -47,6 +51,7 @@ export class AuthStatePersistenceService {
     ]).pipe(map(([token, userId]) => ({ ...token, userId })));
   }
 
+  // TODO: Should we still omit refresh_token as before?
   protected onRead(state: SyncedAuthState) {
     if (state) {
       const tokenData = Object.fromEntries(
@@ -55,14 +60,18 @@ export class AuthStatePersistenceService {
           return key !== 'userId';
         })
       );
-      this.authStorageService.setUserToken(tokenData as UserToken);
+      this.authStorageService.setToken(tokenData as AuthToken);
       this.userIdService.setUserId(state.userId);
     }
   }
 
-  readStateFromStorage() {
+  public readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

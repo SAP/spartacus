@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OccEndpointsService, UserToken } from '@spartacus/core';
+import { AuthConfig, AuthToken, OccEndpointsService } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -27,7 +27,7 @@ export class CdcUserAuthenticationTokenService {
     signatureTimestamp: string,
     idToken: string,
     baseSite: string
-  ): Observable<UserToken> {
+  ): Observable<AuthToken> {
     const url = this.occEndpointsService.getRawEndpoint('login');
     const params = new HttpParams()
       .set('client_id', this.config.authentication.client_id)
@@ -40,7 +40,7 @@ export class CdcUserAuthenticationTokenService {
       .set('baseSite', baseSite);
 
     return this.http
-      .post<UserToken>(url, params)
+      .post<AuthToken>(url, params)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

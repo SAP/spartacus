@@ -7,7 +7,7 @@ import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { UserToken } from '../models/user-token.model';
+import { AuthToken } from '../models/auth-token.model';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
 
 class MockUserIdService {
@@ -18,10 +18,10 @@ class MockUserIdService {
 }
 
 class MockAuthStorageService {
-  getUserToken() {
+  getToken() {
     return of({});
   }
-  setUserToken() {}
+  setToken() {}
 }
 
 describe('AuthStatePersistenceService', () => {
@@ -60,7 +60,7 @@ describe('AuthStatePersistenceService', () => {
 
   it('state should be updated after read from storage', () => {
     spyOn(userIdService, 'setUserId').and.stub();
-    spyOn(authStorageService, 'setUserToken').and.callThrough();
+    spyOn(authStorageService, 'setToken').and.callThrough();
 
     service['onRead']({
       userId: 'userId',
@@ -72,7 +72,7 @@ describe('AuthStatePersistenceService', () => {
       refresh_token: 'refresh',
     });
 
-    expect(authStorageService.setUserToken).toHaveBeenCalledWith({
+    expect(authStorageService.setToken).toHaveBeenCalledWith({
       refresh_token: 'refresh',
       access_token: 'access_token',
       expires_at: '1000',
@@ -99,8 +99,8 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('should return state from auth state and userId service', () => {
-    spyOn(authStorageService, 'getUserToken').and.returnValue(
-      of({ access_token: 'token', refresh_token: 'refresh_token' } as UserToken)
+    spyOn(authStorageService, 'getToken').and.returnValue(
+      of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
 
     service['getAuthState']()

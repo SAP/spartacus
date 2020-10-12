@@ -1,99 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
-import { UserToken } from '../../auth/user-auth/models/user-token.model';
+import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 
-enum TokenTarget {
+export enum TokenTarget {
   CSAgent = 'CSAgent',
   User = 'User',
-  Emulated = 'Emulated',
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
-  protected stream$: Observable<UserToken> = this._userToken$.asObservable();
-
   protected _tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
+  protected emulatedUserToken: AuthToken;
 
-  protected _csAgentToken$ = new BehaviorSubject<UserToken>({} as UserToken);
-
-  /** Async API for spartacus use */
-  getCSAgentToken(): Observable<UserToken> {
-    return this._csAgentToken$.asObservable();
+  public getTokenTarget(): Observable<TokenTarget> {
+    return this._tokenTarget$.asObservable();
   }
 
-  setCSAgentToken(csAgentToken: UserToken): void {
-    this._userToken$.next(csAgentToken);
+  public getEmulatedUserToken(): AuthToken {
+    return this.emulatedUserToken;
   }
 
-  copyCSAgentTokenForUser(): void {
-    this._userToken$.next(this._csAgentToken$.value);
+  public setEmulatedUserToken(token: AuthToken): void {
+    this.emulatedUserToken = token;
   }
 
-  switchToCSAgent(): void {
-    this.stream$ = this._csAgentToken$.asObservable();
+  public setTokenTarget(tokenTarget: TokenTarget): void {
+    this._tokenTarget$.next(tokenTarget);
+  }
+
+  public switchTokenTargetToCSAgent(): void {
     this._tokenTarget$.next(TokenTarget.CSAgent);
   }
 
-  switchToEmulated(): void {
-    this.stream$ = this._userToken$.asObservable();
-    this._tokenTarget$.next(TokenTarget.Emulated);
-  }
-
-  switchToUser(): void {
-    this.stream$ = this._userToken$.asObservable();
+  public switchTokenTargetToUser(): void {
     this._tokenTarget$.next(TokenTarget.User);
   }
 
-  isEmulated(): Observable<boolean> {
-    return this._tokenTarget$
-      .asObservable()
-      .pipe(map((tokenTarget) => tokenTarget === TokenTarget.Emulated));
-  }
-
-  protected getToken(): Observable<UserToken> {
-    let token;
-    this.stream$.pipe(take(1)).subscribe((tok) => (token = tok));
-    return token;
-  }
-
-  /** Sync API for oAuth lib use */
-  getItem(key: string): any {
-    return this.decode(key, this.getToken()[key]);
-  }
-
-  removeItem(key: string): void {
-    if (this._tokenTarget$.value !== TokenTarget.User) {
-      const val = { ...this._csAgentToken$.value };
-      delete val[key];
-      this._csAgentToken$.next({
-        ...val,
-      });
-    }
-    if (this._tokenTarget$.value !== TokenTarget.CSAgent) {
-      const val = { ...this._userToken$.value };
-      delete val[key];
-      this._userToken$.next({
-        ...val,
-      });
-    }
-  }
-
-  setItem(key: string, data: any): void {
-    if (this._tokenTarget$.value !== TokenTarget.User) {
-      this._csAgentToken$.next({
-        ...this._csAgentToken$.value,
-        [key]: this.encode(key, data),
-      });
-    }
-    if (this._tokenTarget$.value !== TokenTarget.CSAgent) {
-      this._userToken$.next({
-        ...this._userToken$.value,
-        [key]: this.encode(key, data),
-      });
-    }
+  /**
+   * When we start emulation from the UI (not by ASM login) we can't restore user session on cs agent logout.
+   * That's why we clear it, to not restore user session that happened before cs agent login.
+   */
+  public clearEmulatedUserToken(): void {
+    this.emulatedUserToken = undefined;
   }
 }

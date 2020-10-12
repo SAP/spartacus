@@ -7,7 +7,7 @@ import {
   CLIENT_AUTH_FEATURE,
 } from '../../client-auth/store/client-auth-state';
 import * as fromReducers from '../../client-auth/store/reducers/index';
-import { UserToken } from '../models/user-token.model';
+import { AuthToken } from '../models/auth-token.model';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
@@ -15,7 +15,7 @@ import { UserIdService } from './user-id.service';
 const mockToken = {
   refresh_token: 'foo',
   access_token: 'testToken-access-token',
-} as UserToken;
+} as AuthToken;
 
 class MockUserIdService {
   getUserId(): Observable<string> {
@@ -57,9 +57,9 @@ describe('AuthService', () => {
   it('should return a user token', () => {
     // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
 
-    let result: UserToken;
+    let result: AuthToken;
     service
-      .getUserToken()
+      .getToken()
       .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken);
@@ -68,8 +68,8 @@ describe('AuthService', () => {
   it('should expose userToken state', () => {
     // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
 
-    let result: UserToken;
-    const subscription = service.getUserToken().subscribe((token) => {
+    let result: AuthToken;
+    const subscription = service.getToken().subscribe((token) => {
       result = token;
     });
     subscription.unsubscribe();
@@ -112,7 +112,7 @@ describe('AuthService', () => {
   it('should dispatch proper actions for logout when user token exists', () => {
     spyOn(store, 'dispatch').and.stub();
     const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
+    spyOn(service, 'getToken').and.returnValue(of(testToken));
     spyOn(userIdService, 'clearUserId').and.stub();
 
     service.logout();
@@ -130,7 +130,7 @@ describe('AuthService', () => {
   it('should dispatch proper action for logout when user token does not exist', () => {
     spyOn(store, 'dispatch').and.stub();
     const testToken = undefined;
-    spyOn(service, 'getUserToken').and.returnValue(of(testToken as UserToken));
+    spyOn(service, 'getToken').and.returnValue(of(testToken as AuthToken));
     spyOn(userIdService, 'clearUserId').and.stub();
 
     service.logout();
@@ -159,7 +159,7 @@ describe('AuthService', () => {
 
   describe('isUserLoggedIn', () => {
     it('should return false if the userToken is not present', () => {
-      spyOn(service, 'getUserToken').and.returnValue(of(null));
+      spyOn(service, 'getToken').and.returnValue(of(null));
       let result = true;
       service
         .isUserLoggedIn()
@@ -168,7 +168,7 @@ describe('AuthService', () => {
       expect(result).toEqual(false);
     });
     it('should return false if the userToken is present but userToken.access_token is not', () => {
-      spyOn(service, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(service, 'getToken').and.returnValue(of({} as AuthToken));
       let result = true;
       service
         .isUserLoggedIn()
@@ -177,8 +177,8 @@ describe('AuthService', () => {
       expect(result).toEqual(false);
     });
     it('should return true if the userToken and userToken.access_token are present', () => {
-      spyOn(service, 'getUserToken').and.returnValue(
-        of({ access_token: 'xxx' } as UserToken)
+      spyOn(service, 'getToken').and.returnValue(
+        of({ access_token: 'xxx' } as AuthToken)
       );
       let result = false;
       service

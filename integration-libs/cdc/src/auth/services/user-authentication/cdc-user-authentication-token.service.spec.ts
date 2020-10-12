@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig, OccEndpointsService, UserToken } from '@spartacus/core';
+import { AuthConfig, AuthToken, OccEndpointsService } from '@spartacus/core';
 import { CdcUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
 
 const UID = 'sampleUID';
@@ -15,7 +15,7 @@ const baseSite = 'sampleBaseSite';
 
 const loginEndpoint = '/authorizationserver/oauth/token';
 
-const token: UserToken = {
+const token: AuthToken = {
   access_token: 'mockToken',
   token_type: 'mock',
   refresh_token: '',
