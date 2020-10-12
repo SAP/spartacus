@@ -2,8 +2,6 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CsAgentAuthService } from '../../../asm/facade/csagent-auth.service';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
@@ -16,10 +14,8 @@ import { AuthToken } from '../models/auth-token.model';
 export class AuthHeaderService {
   constructor(
     protected authService: AuthService,
-    protected asmAuthService: CsAgentAuthService,
     protected cxOAuthService: CxOAuthService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
     protected occEndpoints: OccEndpointsService
   ) {}
 
