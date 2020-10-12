@@ -54,7 +54,7 @@ export class UnifiedInjector {
         injector.get<T>(
           token,
           notFoundValue ?? NOT_FOUND_SYMBOL,
-          // we want to ges only Self instances from all injectors except the
+          // we want to get only Self instances from all injectors except the
           // first one, which is a root injector
           index ? InjectFlags.Self : undefined
         )
@@ -70,8 +70,12 @@ export class UnifiedInjector {
    */
   getMulti<T>(
     token: Type<T> | InjectionToken<T> | AbstractType<T>
-  ): Observable<T | T[]> {
-    return this.get(token as any, []).pipe(
+  ): Observable<T[]>;
+  getMulti<T>(token: any): Observable<T>;
+  getMulti<T>(
+    token: Type<T> | InjectionToken<T> | AbstractType<T> | any
+  ): Observable<T[]> {
+    return this.get(token, []).pipe(
       filter((instances) => {
         if (!Array.isArray(instances)) {
           throw new Error(
