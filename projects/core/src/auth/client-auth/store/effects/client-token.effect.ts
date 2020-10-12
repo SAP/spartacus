@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../../util/normalize-http-error';
 import { ClientToken } from '../../../client-auth/models/client-token.model';
 import { ClientAuthenticationTokenService } from '../../services/client-authentication-token.service';
 import { ClientAuthActions } from '../actions/index';
@@ -24,7 +24,7 @@ export class ClientTokenEffect {
           catchError((error) =>
             of(
               new ClientAuthActions.LoadClientTokenFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
