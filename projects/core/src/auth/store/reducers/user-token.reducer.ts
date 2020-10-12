@@ -11,13 +11,6 @@ export function reducer(
     | fromUpdateEmailAction.UpdateEmailSuccessAction
 ): UserToken {
   switch (action.type) {
-    case AuthActions.LOAD_USER_TOKEN:
-    case AuthActions.REFRESH_USER_TOKEN: {
-      return {
-        ...state,
-      };
-    }
-
     case AuthActions.LOAD_USER_TOKEN_SUCCESS:
     case AuthActions.REFRESH_USER_TOKEN_SUCCESS: {
       return {
@@ -26,10 +19,9 @@ export function reducer(
       };
     }
 
-    case AuthActions.LOAD_USER_TOKEN_FAIL:
-    case AuthActions.REFRESH_USER_TOKEN_FAIL: {
+    case AuthActions.CLEAR_USER_TOKEN: {
       return {
-        ...state,
+        ...initialState,
       };
     }
   }

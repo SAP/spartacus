@@ -5,8 +5,8 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 @Injectable({
@@ -21,15 +21,15 @@ export class AsmComponentService {
   ) {}
 
   logoutCustomerSupportAgentAndCustomer(): void {
-    this.authService
-      .getUserToken()
+    let isCustomerEmulated;
+    this.asmAuthService
+      .isCustomerEmulated()
       .pipe(take(1))
-      .subscribe((token) => {
-        if (this.asmAuthService.isCustomerEmulationToken(token)) {
-          this.logoutCustomer();
-        }
-        this.asmAuthService.logoutCustomerSupportAgent();
-      });
+      .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
+    if (isCustomerEmulated) {
+      this.logoutCustomer();
+    }
+    this.asmAuthService.logoutCustomerSupportAgent();
   }
 
   logoutCustomer(): void {
@@ -38,13 +38,7 @@ export class AsmComponentService {
   }
 
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
-    return this.authService
-      .getUserToken()
-      .pipe(
-        mergeMap((userToken) =>
-          of(this.asmAuthService.isCustomerEmulationToken(userToken))
-        )
-      );
+    return this.asmAuthService.isCustomerEmulated();
   }
 
   /**

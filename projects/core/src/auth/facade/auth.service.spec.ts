@@ -1,18 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { Observable, of } from 'rxjs';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
-import { AUTH_FEATURE, AuthState } from '../store/auth-state';
+import { AuthState, AUTH_FEATURE } from '../store/auth-state';
 import * as fromReducers from '../store/reducers/index';
 import { AuthService } from './auth.service';
+import { UserIdService } from './user-id.service';
 
 const mockToken = {
-  userId: 'user@sap.com',
   refresh_token: 'foo',
   access_token: 'testToken-access-token',
 } as UserToken;
@@ -21,9 +18,17 @@ const mockClientToken = {
   access_token: 'testToken',
 } as ClientToken;
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of('');
+  }
+  clearUserId() {}
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let store: Store<AuthState>;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,10 +36,17 @@ describe('AuthService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(AUTH_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
     });
 
     service = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
   });
 
@@ -132,25 +144,39 @@ describe('AuthService', () => {
     );
   });
 
-  it('should dispatch proper actions for logout standard customer', () => {
+  it('should dispatch proper actions for logout when user token exists', () => {
     spyOn(store, 'dispatch').and.stub();
     const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
     spyOn(service, 'getUserToken').and.returnValue(of(testToken));
+    spyOn(userIdService, 'clearUserId').and.stub();
+
     service.logout();
+
+    expect(userIdService.clearUserId).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.ClearUserToken()
+    );
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.RevokeUserToken(testToken)
     );
   });
 
-  it('should dispatch proper action for logout an emulated customer', () => {
+  it('should dispatch proper action for logout when user token does not exist', () => {
     spyOn(store, 'dispatch').and.stub();
-    const testToken = { ...mockToken, userId: '123-445-678-90' };
-    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
+    const testToken = undefined;
+    spyOn(service, 'getUserToken').and.returnValue(of(testToken as UserToken));
+    spyOn(userIdService, 'clearUserId').and.stub();
+
     service.logout();
+
+    expect(userIdService.clearUserId).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.ClearUserToken()
+    );
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     expect(store.dispatch).not.toHaveBeenCalledWith(
-      new AuthActions.RevokeUserToken(testToken)
+      new AuthActions.RevokeUserToken(testToken as UserToken)
     );
   });
 
@@ -167,24 +193,16 @@ describe('AuthService', () => {
     );
   });
 
-  it('should return anonymous userid when no user token exists', () => {
-    let result: string;
-    service
-      .getOccUserId()
-      .subscribe((token) => (result = token))
-      .unsubscribe();
-    expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
-  });
-
-  it('should return the token userid when a user token exists', () => {
-    store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
+  it('should return user id from userIdService', () => {
+    spyOn(userIdService, 'getUserId').and.returnValue(of('userId123'));
 
     let result: string;
     service
       .getOccUserId()
-      .subscribe((token) => (result = token))
+      .subscribe((userId) => (result = userId))
       .unsubscribe();
-    expect(result).toEqual(mockToken.userId);
+
+    expect(result).toEqual('userId123');
   });
 
   describe('isUserLoggedIn', () => {

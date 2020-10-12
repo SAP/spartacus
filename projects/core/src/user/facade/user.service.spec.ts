@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
@@ -16,6 +17,9 @@ import { UserService } from './user.service';
 class MockAuthService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
+  }
+  getOccUserId() {
+    return of('');
   }
 }
 

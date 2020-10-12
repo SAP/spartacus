@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserIdService } from '../../facade/user-id.service';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
 import { AuthActions } from '../actions/index';
@@ -20,7 +21,11 @@ export class UserTokenEffects {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time = date.toJSON();
-          token.userId = OCC_USER_ID_CURRENT;
+          // TODO: move this out of the effect for extensibility
+          // TODO: Set user after we set token
+          setTimeout(() => {
+            this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+          }, 0);
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
         catchError((error) =>
@@ -79,6 +84,7 @@ export class UserTokenEffects {
 
   constructor(
     private actions$: Actions,
-    private userTokenService: UserAuthenticationTokenService
+    private userTokenService: UserAuthenticationTokenService,
+    private userIdService: UserIdService
   ) {}
 }

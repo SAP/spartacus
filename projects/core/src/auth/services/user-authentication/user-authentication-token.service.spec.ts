@@ -21,7 +21,6 @@ const token: UserToken = {
   refresh_token: refreshToken,
   expires_in: 12342,
   scope: ['mock', 'scope'],
-  userId: 'dsfk32df34',
 };
 
 const MockAuthConfig: AuthConfig = {

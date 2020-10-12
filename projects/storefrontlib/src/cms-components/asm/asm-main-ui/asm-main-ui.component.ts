@@ -48,10 +48,10 @@ export class AsmMainUiComponent implements OnInit {
   ngOnInit(): void {
     this.csAgentToken$ = this.asmAuthService.getCustomerSupportAgentToken();
     this.csAgentTokenLoading$ = this.asmAuthService.getCustomerSupportAgentTokenLoading();
-    this.customer$ = this.authService.getUserToken().pipe(
-      switchMap((token) => {
-        if (token && !!token.access_token) {
-          this.handleCustomerSessionStartRedirection(token);
+    this.customer$ = this.authService.isUserLoggedIn().pipe(
+      switchMap((isLoggedIn) => {
+        if (isLoggedIn) {
+          this.handleCustomerSessionStartRedirection();
           return this.userService.get();
         } else {
           return of(undefined);
@@ -63,11 +63,13 @@ export class AsmMainUiComponent implements OnInit {
       .pipe(map((uiState) => uiState.collapsed));
   }
 
-  private handleCustomerSessionStartRedirection(token: UserToken): void {
-    if (
-      this.startingCustomerSession &&
-      this.asmAuthService.isCustomerEmulationToken(token)
-    ) {
+  private handleCustomerSessionStartRedirection(): void {
+    let isCustomerEmulated;
+    this.asmAuthService
+      .isCustomerEmulated()
+      .pipe(take(1))
+      .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
+    if (this.startingCustomerSession && isCustomerEmulated) {
       this.startingCustomerSession = false;
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
       this.routingService.go('/');
