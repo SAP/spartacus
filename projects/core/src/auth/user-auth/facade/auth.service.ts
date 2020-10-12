@@ -51,7 +51,7 @@ export class AuthService {
   /**
    * Loads a new user token
    * @param userId
-   * @param password
+   * @param passwordW
    */
   public authorize(userId: string, password: string): void {
     this.cxOAuthService.authorizeWithPasswordFlow(userId, password).then(() => {
