@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig, AuthToken, OccEndpointsService } from '@spartacus/core';
+import { AuthConfigService, AuthToken } from '@spartacus/core';
 import { CdcUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
 
 const UID = 'sampleUID';
@@ -16,61 +16,49 @@ const baseSite = 'sampleBaseSite';
 const loginEndpoint = '/authorizationserver/oauth/token';
 
 const token: AuthToken = {
-  access_token: 'mockToken',
-  token_type: 'mock',
-  refresh_token: '',
-  expires_in: 12342,
-  scope: ['mock', 'scope'],
-  userId: 'dsfk32df34',
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: 'xxx',
+  expires_at: '1000',
+  granted_scopes: [],
+  access_token_stored_at: '230',
 };
 
-const MockAuthConfig: AuthConfig = {
-  authentication: {
-    client_id: '',
-    client_secret: '',
-  },
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-      endpoints: {
-        login: loginEndpoint,
-      },
-    },
-  },
-};
-
-class MockOccEndpointsService {
-  getRawEndpoint(endpoint: string) {
-    return (
-      MockAuthConfig.backend.occ.baseUrl +
-      MockAuthConfig.backend.occ.endpoints[endpoint]
-    );
+class MockAuthConfigService {
+  getTokenEndpoint() {
+    return loginEndpoint;
+  }
+  getClientId() {
+    return 'some_client_id';
+  }
+  getClientSecret() {
+    return 'some_client_secret';
   }
 }
 
 describe('CdcUserAuthenticationTokenService', () => {
   let authTokenService: CdcUserAuthenticationTokenService;
   let httpMock: HttpTestingController;
-  let occEndpointsService: OccEndpointsService;
+  let authConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         CdcUserAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig },
         {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
         },
       ],
     });
 
     authTokenService = TestBed.inject(CdcUserAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
-    occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
+    authConfigService = TestBed.inject(AuthConfigService);
+    spyOn(authConfigService, 'getTokenEndpoint').and.callThrough();
+    spyOn(authConfigService, 'getClientId').and.callThrough();
+    spyOn(authConfigService, 'getClientSecret').and.callThrough();
   });
 
   afterEach(() => {
@@ -99,7 +87,9 @@ describe('CdcUserAuthenticationTokenService', () => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
-      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
+      expect(authConfigService.getTokenEndpoint).toHaveBeenCalled();
+      expect(authConfigService.getClientId).toHaveBeenCalled();
+      expect(authConfigService.getClientSecret).toHaveBeenCalled();
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
     });
@@ -125,7 +115,7 @@ describe('CdcUserAuthenticationTokenService', () => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
-      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
+      expect(authConfigService.getTokenEndpoint).toHaveBeenCalledWith();
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush({ status: 400, statusText: 'Error' });
