@@ -24,6 +24,7 @@ export class UnauthorizedErrorHandler extends HttpErrorHandler {
     super(globalMessageService);
   }
 
+  // TODO(#8243): Replace occEndpoints later with auth configuration check
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     const isNotTokenRevokeRequest =
       response.url !== this.authConfigService.getRevokeEndpoint();
