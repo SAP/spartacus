@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { AuthConfig } from '../config/auth-config';
+import { AuthConfig, AuthLibConfig } from '../config/auth-config';
 
 @Injectable({
   providedIn: 'root',
@@ -11,34 +11,55 @@ export class AuthConfigService {
     protected occConfig: OccConfig
   ) {}
 
-  protected getBaseUrl() {
+  public getClientId(): string {
+    return this.authConfig.authentication.client_id ?? '';
+  }
+
+  public getClientSecret(): string {
+    return this.authConfig.authentication.client_secret ?? '';
+  }
+
+  public getBaseUrl(): string {
     return (
       this.authConfig.authentication.baseUrl ??
-      this.occConfig.backend.occ.baseUrl
+      this.occConfig.backend.occ.baseUrl + '/authorizationserver'
     );
   }
 
-  getTokenEndpoint() {
-    let tokenEndpoint = this.authConfig.authentication.tokenEndpoint;
-    if (!tokenEndpoint.startsWith('/')) {
-      tokenEndpoint = '/' + tokenEndpoint;
-    }
-    return `${this.getBaseUrl()}${tokenEndpoint}`;
+  public getTokenEndpoint(): string {
+    const tokenEndpoint = this.authConfig.authentication.tokenEndpoint;
+    return this.prefixEndpoint(tokenEndpoint);
   }
 
-  getLoginEndpoint() {
-    let loginEndpoint = this.authConfig.authentication.loginEndpoint;
-    if (!loginEndpoint.startsWith('/')) {
-      loginEndpoint = '/' + loginEndpoint;
-    }
-    return `${this.getBaseUrl()}${loginEndpoint}`;
+  public getLoginEndpoint(): string {
+    const loginEndpoint = this.authConfig.authentication.loginEndpoint;
+    return this.prefixEndpoint(loginEndpoint);
   }
 
-  getRevokeEndpoint() {
-    let revokeEndpoint = this.authConfig.authentication.revokeEndpoint;
-    if (!revokeEndpoint.startsWith('/')) {
-      revokeEndpoint = '/' + revokeEndpoint;
+  public getRevokeEndpoint(): string {
+    const revokeEndpoint = this.authConfig.authentication.revokeEndpoint;
+    return this.prefixEndpoint(revokeEndpoint);
+  }
+
+  public getLogoutUrl(): string {
+    const logoutUrl = this.authConfig.authentication.logoutUrl;
+    return this.prefixEndpoint(logoutUrl);
+  }
+
+  public getUserinfoEndpoint(): string {
+    const userinfoEndpoint = this.authConfig.authentication.userinfoEndpoint;
+    return this.prefixEndpoint(userinfoEndpoint);
+  }
+
+  public getOAuthLibConfig(): AuthLibConfig {
+    return this.authConfig.authentication?.OAuthLibConfig;
+  }
+
+  protected prefixEndpoint(endpoint: string): string {
+    let url = endpoint;
+    if (!url.startsWith('/')) {
+      url = '/' + url;
     }
-    return `${this.getBaseUrl()}${revokeEndpoint}`;
+    return `${this.getBaseUrl()}${url}`;
   }
 }

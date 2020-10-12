@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthConfig } from '../../user-auth/config/auth-config';
 import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 import { ClientToken } from '../models/client-token.model';
 
@@ -10,7 +9,6 @@ import { ClientToken } from '../models/client-token.model';
 })
 export class ClientAuthenticationTokenService {
   constructor(
-    protected config: AuthConfig,
     protected http: HttpClient,
     protected authConfigService: AuthConfigService
   ) {}
@@ -20,11 +18,11 @@ export class ClientAuthenticationTokenService {
     const params = new HttpParams()
       .set(
         'client_id',
-        encodeURIComponent(this.config.authentication.client_id)
+        encodeURIComponent(this.authConfigService.getClientId())
       )
       .set(
         'client_secret',
-        encodeURIComponent(this.config.authentication.client_secret)
+        encodeURIComponent(this.authConfigService.getClientSecret())
       )
       .set('grant_type', 'client_credentials');
 

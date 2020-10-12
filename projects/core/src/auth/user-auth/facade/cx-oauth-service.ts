@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { AuthConfig } from '../config/auth-config';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthStorageService } from './auth-storage.service';
 
@@ -15,25 +14,23 @@ export class CxOAuthService {
     protected store: Store<StateWithClientAuth>,
     protected oAuthService: OAuthService,
     protected authStorageService: AuthStorageService,
-    protected config: AuthConfig,
     protected authConfigService: AuthConfigService
   ) {
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginEndpoint(),
-      clientId: this.config.authentication.client_id,
-      dummyClientSecret: this.config.authentication.client_secret,
-      scope: '', // Add openid to get id_token in case of password flow
-      customTokenParameters: ['token_type', ''], // Add id_token to store id_token in case of password flow
-      strictDiscoveryDocumentValidation: false,
-      skipIssuerCheck: true,
-      disablePKCE: true,
-      responseType: 'code',
-      oidc: false,
-      clearHashAfterLogin: true,
+      clientId: this.authConfigService.getClientId(),
+      dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
-      redirectUri: window.location.origin,
-      issuer: this.config.authentication.baseUrl + '/authorizationserver',
+      logoutUrl: this.authConfigService.getLogoutUrl(),
+      userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
+      issuer:
+        this.authConfigService.getOAuthLibConfig()?.issuer ??
+        this.authConfigService.getBaseUrl(),
+      redirectUri:
+        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
+        window.location.origin,
+      ...this.authConfigService.getOAuthLibConfig(),
     });
   }
 
