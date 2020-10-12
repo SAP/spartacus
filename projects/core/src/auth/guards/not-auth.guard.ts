@@ -16,16 +16,17 @@ export class NotAuthGuard implements CanActivate {
     private authRedirectService: AuthRedirectService
   ) {}
 
+  // TODO: It should return UrlTree instead of doing manual redirect
   canActivate(): Observable<boolean> {
     this.authRedirectService.reportNotAuthGuard();
 
     // redirect, if user is already logged in:
-    return this.authService.getUserToken().pipe(
-      map((token) => {
-        if (token.access_token) {
+    return this.authService.isUserLoggedIn().pipe(
+      map((isLoggedIn) => {
+        if (isLoggedIn) {
           this.routingService.go({ cxRoute: 'home' });
         }
-        return !token.access_token;
+        return !isLoggedIn;
       })
     );
   }

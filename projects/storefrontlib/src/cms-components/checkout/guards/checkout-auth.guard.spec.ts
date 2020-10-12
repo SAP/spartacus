@@ -5,31 +5,21 @@ import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
+  B2BUserGroup,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   UrlCommands,
   User,
-  UserToken,
   UserService,
-  GlobalMessageService,
-  GlobalMessageType,
-  B2BUserGroup,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
-const mockUserToken = {
-  access_token: 'Mock Access Token',
-  token_type: 'test',
-  refresh_token: 'test',
-  expires_in: 1,
-  scope: ['test'],
-  userId: 'test',
-} as UserToken;
-
 class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
@@ -124,9 +114,7 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: undefined } as UserToken)
-      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     describe('and cart does NOT have a user, ', () => {
@@ -184,7 +172,7 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     describe('and cart does NOT have a user, ', () => {

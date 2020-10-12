@@ -18,16 +18,17 @@ export class NotCheckoutAuthGuard implements CanActivate {
     protected activeCartService: ActiveCartService
   ) {}
 
+  // TODO: Return UrlTree instead of doing manual redirects
   canActivate(): Observable<boolean> {
-    return this.authService.getUserToken().pipe(
-      map((token) => {
-        if (token.access_token) {
+    return this.authService.isUserLoggedIn().pipe(
+      map((isLoggedIn) => {
+        if (isLoggedIn) {
           this.routingService.go({ cxRoute: 'home' });
         } else if (this.activeCartService.isGuestCart()) {
           this.routingService.go({ cxRoute: 'cart' });
           return false;
         }
-        return !token.access_token;
+        return !isLoggedIn;
       })
     );
   }

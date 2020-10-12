@@ -8,7 +8,6 @@ import {
   FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -25,8 +24,8 @@ class MockUrlPipe implements PipeTransform {
 
 class MockAuthService {
   authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 

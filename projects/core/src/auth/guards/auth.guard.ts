@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { UserToken } from '../models/token-types.model';
 import { AuthRedirectService } from './auth-redirect.service';
 
 @Injectable({
@@ -18,14 +17,15 @@ export class AuthGuard implements CanActivate {
     protected router: Router
   ) {}
 
+  // TODO: It should return UrlTree instead of doing manual redirect
   canActivate(): Observable<boolean> {
-    return this.authService.getUserToken().pipe(
-      map((token: UserToken) => {
-        if (!token.access_token) {
+    return this.authService.isUserLoggedIn().pipe(
+      map((isLoggedIn) => {
+        if (!isLoggedIn) {
           this.authRedirectService.reportAuthGuard();
           this.routingService.go({ cxRoute: 'login' });
         }
-        return !!token.access_token;
+        return isLoggedIn;
       })
     );
   }

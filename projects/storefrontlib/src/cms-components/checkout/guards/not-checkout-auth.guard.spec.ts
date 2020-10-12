@@ -6,22 +6,12 @@ import {
   AuthService,
   RoutingService,
   UrlCommands,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
-const mockUserToken = {
-  access_token: 'Mock Access Token',
-  token_type: 'test',
-  refresh_token: 'test',
-  expires_in: 1,
-  scope: ['test'],
-  userId: 'test',
-} as UserToken;
-
 class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
@@ -61,7 +51,7 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     it('should return false', () => {
@@ -83,9 +73,7 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized, but user is guest', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: undefined } as UserToken)
-      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     it('should return false', () => {
@@ -107,9 +95,7 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: undefined } as UserToken)
-      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
       spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
     });
 

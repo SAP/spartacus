@@ -4,14 +4,13 @@ import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  RoutingService,
-  User,
-  UserToken,
-  UserService,
   B2BUser,
+  B2BUserGroup,
   GlobalMessageService,
   GlobalMessageType,
-  B2BUserGroup,
+  RoutingService,
+  User,
+  UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -31,14 +30,15 @@ export class CheckoutAuthGuard implements CanActivate {
     protected globalMessageService: GlobalMessageService
   ) {}
 
+  // TODO: Return UrlTree instead of doing manual redirects
   canActivate(): Observable<boolean> {
     return combineLatest([
-      this.authService.getUserToken(),
+      this.authService.isUserLoggedIn(),
       this.activeCartService.getAssignedUser(),
       this.userService.get(),
     ]).pipe(
-      map(([token, cartUser, user]: [UserToken, User, User | B2BUser]) => {
-        if (!token.access_token) {
+      map(([isLoggedIn, cartUser, user]: [boolean, User, User | B2BUser]) => {
+        if (!isLoggedIn) {
           if (this.activeCartService.isGuestCart()) {
             return Boolean(cartUser);
           }
@@ -60,7 +60,7 @@ export class CheckoutAuthGuard implements CanActivate {
             return false;
           }
         }
-        return !!token.access_token;
+        return isLoggedIn;
       })
     );
   }

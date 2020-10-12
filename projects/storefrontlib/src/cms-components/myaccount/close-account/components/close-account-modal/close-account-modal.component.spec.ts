@@ -6,7 +6,6 @@ import {
   I18nTestingModule,
   RoutingService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
@@ -40,7 +39,7 @@ class MockUserService {
 }
 
 class MockAuthService {
-  getUserToken(): Observable<UserToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
