@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/facade/user-id.service';
 import { UserToken } from '../../auth/models/token-types.model';
+import { AsmActions } from '../store/actions';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmAuthService } from './asm-auth.service';
@@ -71,13 +72,12 @@ describe('AsmAuthService', () => {
     spyOn(store, 'dispatch').and.stub();
 
     service.authorizeCustomerSupportAgent('user', 'password');
-    expect(store.dispatch)
-      .toHaveBeenCalledWith
-      // new AsmActions.SetCSAgentTokenData({
-      //   userId: 'user',
-      //   password: 'password',
-      // })
-      ();
+    // expect(store.dispatch).toHaveBeenCalledWith(
+    //   new AsmActions.SetCSAgentTokenData({
+    //     userId: 'user',
+    //     password: 'password',
+    //   })
+    // );
   });
 
   it('should set userId and tokens when starting emulation', () => {
@@ -101,10 +101,9 @@ describe('AsmAuthService', () => {
       of(mockToken)
     );
     service.logoutCustomerSupportAgent();
-    expect(store.dispatch)
-      .toHaveBeenCalledWith
-      // new AsmActions.LogoutCustomerSupportAgent()
-      ();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.LogoutCustomerSupportAgent()
+    );
     // expect(store.dispatch).toHaveBeenCalledWith(
     //   new AuthActions.RevokeUserToken(mockToken)
     // );

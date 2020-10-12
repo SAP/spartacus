@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { OccEndpointsService } from '../../occ/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { StateWithAuth } from '../store/auth-state';
 import { AuthStorageService } from './auth-storage.service';
 import { UserIdService } from './user-id.service';

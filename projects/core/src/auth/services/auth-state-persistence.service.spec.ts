@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
+import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthActions, AUTH_FEATURE, StateWithAuth } from '../store';
+import { UserToken } from '../models/token-types.model';
+import { AUTH_FEATURE } from '../store';
 import * as fromAuthReducers from '../store/reducers/index';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
 
@@ -15,11 +17,18 @@ class MockUserIdService {
   }
 }
 
+class MockAuthStorageService {
+  getUserToken() {
+    return of({});
+  }
+  setUserToken() {}
+}
+
 describe('AuthStatePersistenceService', () => {
   let service: AuthStatePersistenceService;
   let persistenceService: StatePersistenceService;
-  let store: Store<StateWithAuth>;
   let userIdService: UserIdService;
+  let authStorageService: AuthStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +39,7 @@ describe('AuthStatePersistenceService', () => {
       providers: [
         AuthStatePersistenceService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
         StatePersistenceService,
       ],
     });
@@ -37,8 +47,7 @@ describe('AuthStatePersistenceService', () => {
     service = TestBed.inject(AuthStatePersistenceService);
     persistenceService = TestBed.inject(StatePersistenceService);
     userIdService = TestBed.inject(UserIdService);
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.stub();
+    authStorageService = TestBed.inject(AuthStorageService);
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
 
@@ -48,6 +57,7 @@ describe('AuthStatePersistenceService', () => {
 
   it('state should be updated after read from storage', () => {
     spyOn(userIdService, 'setUserId').and.stub();
+    spyOn(authStorageService, 'setUserToken').and.callThrough();
 
     service['onRead']({
       userId: 'userId',
@@ -59,17 +69,14 @@ describe('AuthStatePersistenceService', () => {
       refresh_token: 'refresh',
     });
 
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.SetUserTokenData({
-        refresh_token: 'refresh',
-        access_token: 'access_token',
-        expires_at: '1000',
-        access_token_stored_at: '900',
-        granted_scopes: [],
-        token_type: 'bearer',
-      })
-    );
+    expect(authStorageService.setUserToken).toHaveBeenCalledWith({
+      refresh_token: 'refresh',
+      access_token: 'access_token',
+      expires_at: '1000',
+      access_token_stored_at: '900',
+      granted_scopes: [],
+      token_type: 'bearer',
+    });
     expect(userIdService.setUserId).toHaveBeenCalledWith('userId');
   });
 
@@ -89,12 +96,17 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('should return state from auth state and userId service', () => {
+    spyOn(authStorageService, 'getUserToken').and.returnValue(
+      of({ access_token: 'token', refresh_token: 'refresh_token' } as UserToken)
+    );
+
     service['getAuthState']()
       .pipe(take(1))
       .subscribe((state) => {
         expect(state).toEqual({
           userId: 'userId',
-          // TODO: There should also be token state, but it is empty at the moment
+          access_token: 'token',
+          refresh_token: 'refresh_token',
         } as any);
       });
   });

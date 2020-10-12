@@ -5,7 +5,6 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
-import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
@@ -78,12 +77,13 @@ export function getBrowserTransferStateReducer(
           state = reducer(state, action);
         }
 
+        // TODO(#8289): Check this condition with new auth architecture
         // we should not utilize transfer state if user is logged in
-        const authState = (state as StateWithAuth)[AUTH_FEATURE];
-        const isLoggedIn =
-          authState && authState.userToken && authState.userToken.token;
+        // const authState = (state as StateWithAuth)[AUTH_FEATURE];
+        // const isLoggedIn =
+        //   authState && authState.userToken && authState.userToken.token;
 
-        if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
+        if (transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
           const transferredStateSlice = getStateSlice(
             transferStateKeys,

@@ -3,15 +3,13 @@ import {
   Action,
   ActionReducer,
   ActionReducerMap,
-  combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { AuthActions } from '../../../auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CustomerSearchPage } from '../../models/asm.models';
+import { AsmActions } from '../actions';
 import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
-import * as fromCSAgentTokenReducer from './csagent-token.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
@@ -19,7 +17,6 @@ export function getReducers(): ActionReducerMap<AsmState> {
       CUSTOMER_SEARCH_DATA
     ),
     asmUi: fromAsmUiReducer.reducer,
-    csagentToken: combineReducers({ token: fromCSAgentTokenReducer.reducer }),
   };
 }
 
@@ -36,11 +33,10 @@ export function clearCustomerSupportAgentAsmState(
   reducer: ActionReducer<AsmState, Action>
 ): ActionReducer<AsmState, Action> {
   return function (state, action) {
-    if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
+    if (action.type === AsmActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
       state = {
         ...state,
         customerSearchResult: undefined,
-        csagentToken: undefined,
       };
     }
     return reducer(state, action);

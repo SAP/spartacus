@@ -1,4 +1,3 @@
-import { UserToken } from '../../auth';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
@@ -13,5 +12,4 @@ export interface StateWithAsm {
 export interface AsmState {
   customerSearchResult: LoaderState<CustomerSearchPage>;
   asmUi: AsmUi;
-  csagentToken: { token: UserToken };
 }

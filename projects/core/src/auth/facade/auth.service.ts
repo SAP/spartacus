@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
-import { AuthSelectors } from '../store/selectors/index';
 import { AuthStorageService } from './auth-storage.service';
 import { CxOAuthService } from './cx-oauth-service';
 import { UserIdService } from './user-id.service';
@@ -64,7 +63,7 @@ export class AuthService {
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
-    return this.store.pipe(select(AuthSelectors.getUserToken));
+    return this.authStorageService.getUserToken();
   }
 
   /**

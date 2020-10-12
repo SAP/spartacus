@@ -52,7 +52,7 @@ describe('AuthService', () => {
   });
 
   it('should return a user token', () => {
-    store.dispatch(new AuthActions.SetUserTokenData(mockToken));
+    // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
 
     let result: UserToken;
     service
@@ -63,7 +63,7 @@ describe('AuthService', () => {
   });
 
   it('should expose userToken state', () => {
-    store.dispatch(new AuthActions.SetUserTokenData(mockToken));
+    // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
 
     let result: UserToken;
     const subscription = service.getUserToken().subscribe((token) => {

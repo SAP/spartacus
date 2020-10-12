@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
+import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthActions, AuthSelectors, StateWithAuth } from '../store';
+import { UserToken } from '../models/token-types.model';
 
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAuthState {
@@ -18,8 +18,8 @@ export interface SyncedAuthState {
 export class AuthStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAuth>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected authStorageService: AuthStorageService
   ) {}
 
   public sync() {
@@ -32,8 +32,7 @@ export class AuthStatePersistenceService {
 
   protected getAuthState(): Observable<SyncedAuthState> {
     return combineLatest([
-      this.store.pipe(
-        select(AuthSelectors.getUserToken),
+      this.authStorageService.getUserToken().pipe(
         filter((state) => !!state),
         map((state) => {
           return {
@@ -53,11 +52,7 @@ export class AuthStatePersistenceService {
           return key !== 'userId';
         })
       );
-      this.store.dispatch(
-        new AuthActions.SetUserTokenData({
-          ...tokenData,
-        })
-      );
+      this.authStorageService.setUserToken(tokenData as UserToken);
       this.userIdService.setUserId(state.userId);
     }
   }
