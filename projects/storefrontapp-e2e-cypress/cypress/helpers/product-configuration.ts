@@ -3,17 +3,16 @@ import Chainable = Cypress.Chainable;
 import { navigation } from './navigation';
 
 const nextBtnSelector =
-  'cx-configurator-previous-next-buttons div div:last button';
+  'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
-  'cx-configurator-previous-next-buttons div div:first button';
+  'cx-configurator-previous-next-buttons button:contains("Previous")';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
 const email = 'test-user-for-variant-configuration@ydev.hybris.com';
 const password = 'Password123.';
 const user = 'Variant Configuration';
 
-const conflictDetectedMsgSelector =
-  '.cx-configurator-attribute-conflict-container';
+const conflictDetectedMsgSelector = '.cx-conflict-container';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu li.cx-configurator-menu-conflict';
 
@@ -49,7 +48,7 @@ export function isGlobalMessageNotDisplayed() {
  * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
 export function isUpdatingMessageNotDisplayed() {
-  cy.get('div#cx-configurator-update-message').should('not.be.visible');
+  cy.get('div#cx-update-message').should('not.be.visible');
 }
 
 /**
@@ -108,7 +107,7 @@ export function checkFocus(
  */
 function isCurrentGroupActive(currentGroup: string) {
   cy.get(
-    'cx-configurator-group-title .cx-configurator-group-title:contains(' +
+    'cx-configurator-group-title div.cx-group-title-container:contains(' +
       `${currentGroup}` +
       ')'
   ).should('be.visible');
@@ -482,7 +481,7 @@ export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
  * @return - 'True' if the expected conflict description equals the actual one, otherwise 'false'
  */
 export function isConflictDescriptionDisplayed(description: string) {
-  cy.get('.cx-configurator-conflict-description').should(($div) => {
+  cy.get('cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
   });
 }
@@ -725,7 +724,9 @@ export function isCategoryNavigationNotDisplayed() {
  * @return - 'True' if the expected total price equals the actual one, otherwise 'false'
  */
 export function isTotalPrice(formattedPrice: string) {
-  cy.get('cx-price-summary-total-price cx-summary-amount').should(($div) => {
+  cy.get(
+    'cx-configurator-price-summary div.cx-total-price div.cx-amount'
+  ).should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
 }
@@ -734,7 +735,7 @@ export function isTotalPrice(formattedPrice: string) {
  * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage(): void {
-  cy.get('cx-configurator-tab-bar div div:last a').click({
+  cy.get('cx-configurator-tab-bar a:contains("Overview")').click({
     force: true,
   });
 }
