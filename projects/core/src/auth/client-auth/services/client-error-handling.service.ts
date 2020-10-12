@@ -2,8 +2,8 @@ import { HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { ClientToken } from '../../models/client-token.model';
-import { ClientTokenService } from '../client-token.service';
+import { ClientToken } from '../models/client-token.model';
+import { ClientTokenService } from './client-token.service';
 
 @Injectable({
   providedIn: 'root',

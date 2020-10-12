@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ClientToken } from '../../../client-auth/models/client-token.model';
-import { ClientAuthenticationTokenService } from '../../services/client-authentication/client-authentication-token.service';
+import { ClientAuthenticationTokenService } from '../../services/client-authentication-token.service';
 import { ClientAuthActions } from '../actions/index';
 
 @Injectable()

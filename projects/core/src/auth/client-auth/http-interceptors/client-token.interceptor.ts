@@ -14,15 +14,15 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
 import { ClientToken } from '../models/client-token.model';
-import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
   constructor(
-    private clientTokenService: ClientTokenService,
-    private clientErrorHandlingService: ClientErrorHandlingService,
-    private occEndpoints: OccEndpointsService
+    protected clientTokenService: ClientTokenService,
+    protected clientErrorHandlingService: ClientErrorHandlingService,
+    protected occEndpoints: OccEndpointsService
   ) {}
 
   intercept(
@@ -71,7 +71,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private getClientToken(
+  protected getClientToken(
     isClientTokenRequest: boolean
   ): Observable<ClientToken> {
     if (isClientTokenRequest) {
@@ -80,7 +80,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     return of(null);
   }
 
-  private isClientTokenRequest(request: HttpRequest<any>): boolean {
+  protected isClientTokenRequest(request: HttpRequest<any>): boolean {
     const isRequestMapping = InterceptorUtil.getInterceptorParam(
       USE_CLIENT_TOKEN,
       request.headers
@@ -88,7 +88,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     return Boolean(isRequestMapping);
   }
 
-  private isExpiredToken(resp: HttpErrorResponse): boolean {
+  protected isExpiredToken(resp: HttpErrorResponse): boolean {
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }
