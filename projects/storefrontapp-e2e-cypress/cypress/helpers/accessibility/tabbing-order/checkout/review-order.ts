@@ -6,7 +6,7 @@ const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 export function checkoutReviewOrderTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/review-order');
 
-  cy.getAllByText(/I am confirming that I have read and agreed with/i)
+  cy.findAllByText(/I am confirming that I have read and agreed with/i)
     .first()
     .parent()
     .within(() => {

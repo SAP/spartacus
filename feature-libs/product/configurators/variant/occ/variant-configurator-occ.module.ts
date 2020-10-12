@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ConfigModule } from '@spartacus/core';
 import {
@@ -23,7 +22,7 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
+
     ConfigModule.withConfigFactory(defaultOccVariantConfiguratorConfigFactory),
   ],
   providers: [
