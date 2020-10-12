@@ -37,6 +37,7 @@ describe('OrganizationFormComponent', () => {
         },
       ],
     }).compileComponents();
+
     fixture = TestBed.createComponent(OrganizationFormComponent);
     component = fixture.componentInstance;
   });

@@ -23,6 +23,7 @@ import {
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
+
 import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({

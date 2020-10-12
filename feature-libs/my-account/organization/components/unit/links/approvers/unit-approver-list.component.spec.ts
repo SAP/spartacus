@@ -26,6 +26,7 @@ describe('UnitApproverListComponent', () => {
       ],
       declarations: [UnitApproverListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UnitApproverListComponent);
     component = fixture.componentInstance;
   });

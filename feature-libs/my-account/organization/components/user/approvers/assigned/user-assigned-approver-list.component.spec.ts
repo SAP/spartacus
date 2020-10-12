@@ -26,6 +26,7 @@ describe('UserAssignedApproverListComponent', () => {
       ],
       declarations: [UserAssignedApproverListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UserAssignedApproverListComponent);
     component = fixture.componentInstance;
   });

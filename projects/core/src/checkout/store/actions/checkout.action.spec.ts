@@ -6,7 +6,6 @@ import {
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
-  SET_COST_CENTER_PROCESS_ID,
 } from '@spartacus/core';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';

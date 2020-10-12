@@ -26,6 +26,7 @@ describe('UnitCostCenterListComponent', () => {
       ],
       declarations: [UnitCostCenterListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UnitCostCenterListComponent);
     component = fixture.componentInstance;
   });

@@ -26,6 +26,7 @@ describe('UserGroupPermissionListComponent', () => {
       ],
       declarations: [UserGroupPermissionListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UserGroupPermissionListComponent);
     component = fixture.componentInstance;
   });

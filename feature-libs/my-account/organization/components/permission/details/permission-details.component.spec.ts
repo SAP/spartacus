@@ -45,6 +45,7 @@ describe('PermissionDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
+
     fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -26,6 +26,7 @@ describe('UnitUserListComponent', () => {
       ],
       declarations: [UnitUserListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UnitUserListComponent);
     component = fixture.componentInstance;
   });

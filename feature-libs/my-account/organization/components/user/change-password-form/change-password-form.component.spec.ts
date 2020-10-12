@@ -50,6 +50,7 @@ describe('ChangePasswordFormComponent', () => {
       ],
     }).compileComponents();
     formService = TestBed.inject(ChangePasswordFormService);
+
     fixture = TestBed.createComponent(ChangePasswordFormComponent);
     component = fixture.componentInstance;
   });

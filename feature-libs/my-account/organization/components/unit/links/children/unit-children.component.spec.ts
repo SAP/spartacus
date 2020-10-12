@@ -26,6 +26,7 @@ describe('UnitChildrenComponent', () => {
       ],
       declarations: [UnitChildrenComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;
   });

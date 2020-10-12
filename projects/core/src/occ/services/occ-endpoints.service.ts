@@ -7,7 +7,6 @@ import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { HttpParamsURIEncoder } from '../../util/http-params-uri.encoder';
 import { OccConfig } from '../config/occ-config';
 import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
-import { CustomEncoder } from '../adapters/cart/custom.encoder';
 
 @Injectable({
   providedIn: 'root',

@@ -26,6 +26,7 @@ describe('CostCenterBudgetListComponent', () => {
       ],
       declarations: [CostCenterBudgetListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(CostCenterBudgetListComponent);
     component = fixture.componentInstance;
   });

@@ -105,6 +105,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);
     getOrderApproval$.next(mockOrderApproval);
+
     fixture = TestBed.createComponent(OrderApprovalDetailFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

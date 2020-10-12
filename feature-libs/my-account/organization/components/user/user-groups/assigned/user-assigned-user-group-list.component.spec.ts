@@ -26,6 +26,7 @@ describe('UserAssignedUserGroupListComponent', () => {
       ],
       declarations: [UserAssignedUserGroupListComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UserAssignedUserGroupListComponent);
     component = fixture.componentInstance;
   });

@@ -42,6 +42,7 @@ describe('UserGroupDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
+
     fixture = TestBed.createComponent(UserGroupDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

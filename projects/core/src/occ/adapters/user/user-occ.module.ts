@@ -33,7 +33,6 @@ import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
-import { provideDefaultConfig } from '../../../config/config-providers';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

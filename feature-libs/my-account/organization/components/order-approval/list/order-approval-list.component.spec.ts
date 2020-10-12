@@ -124,6 +124,7 @@ describe('OrderApprovalListComponent?', () => {
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);
+
     fixture = TestBed.createComponent(OrderApprovalListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
