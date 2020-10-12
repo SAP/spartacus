@@ -113,4 +113,22 @@ describe('AuthStatePersistenceService', () => {
         } as any);
       });
   });
+
+  it('readStateFromStorage should return state from localStorage', () => {
+    spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
+      access_token: 'token',
+      userId: 'userId',
+    });
+
+    expect(service.readStateFromStorage()).toEqual({
+      access_token: 'token',
+      userId: 'userId',
+    });
+
+    expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        key: 'auth',
+      })
+    );
+  });
 });

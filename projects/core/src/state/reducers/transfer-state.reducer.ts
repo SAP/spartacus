@@ -5,6 +5,7 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
+import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
@@ -14,19 +15,17 @@ export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 export function getTransferStateReducer(
   platformId,
   transferState?: TransferState,
-  config?: StateConfig
+  config?: StateConfig,
+  authStatePersistenceService?: AuthStatePersistenceService
 ) {
-  if (
-    transferState &&
-    config &&
-    config.state &&
-    config.state.ssrTransfer &&
-    config.state.ssrTransfer.keys
-  ) {
+  if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
       return getBrowserTransferStateReducer(
         transferState,
-        config.state.ssrTransfer.keys
+        config.state.ssrTransfer.keys,
+        Boolean(
+          authStatePersistenceService?.readStateFromStorage()?.access_token
+        )
       );
     } else if (isPlatformServer(platformId)) {
       return getServerTransferStateReducer(
@@ -63,7 +62,8 @@ export function getServerTransferStateReducer(
 
 export function getBrowserTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType }
+  keys: { [key: string]: StateTransferType },
+  isLoggedIn: boolean
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
@@ -77,13 +77,7 @@ export function getBrowserTransferStateReducer(
           state = reducer(state, action);
         }
 
-        // TODO(#8289): Check this condition with new auth architecture
-        // we should not utilize transfer state if user is logged in
-        // const authState = (state as StateWithAuth)[AUTH_FEATURE];
-        // const isLoggedIn =
-        //   authState && authState.userToken && authState.userToken.token;
-
-        if (transferState.hasKey(CX_KEY)) {
+        if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
           const transferredStateSlice = getStateSlice(
             transferStateKeys,
