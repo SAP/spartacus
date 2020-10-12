@@ -9,7 +9,7 @@ import {
   StateWithProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { UserGroupActions } from '../store/actions/index';
@@ -87,7 +87,7 @@ export class UserGroupService {
 
   get(userGroupUid: string): Observable<UserGroup> {
     const loading$ = this.getUserGroup(userGroupUid).pipe(
-      observeOn(queueScheduler),
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.load(userGroupUid);
