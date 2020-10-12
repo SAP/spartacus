@@ -31,7 +31,9 @@ export class CsAgentAuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(userId: string, password: string): void {
+  authorizeCustomerSupportAgent(): void;
+  authorizeCustomerSupportAgent(userId: string, password: string): void;
+  authorizeCustomerSupportAgent(userId?: string, password?: string): void {
     let userToken;
     this.authStorageService
       .getToken()
@@ -39,17 +41,21 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     this.authStorageService.switchTokenTargetToCSAgent();
-    this.cxOAuthService
-      .authorizeWithPasswordFlow(userId, password)
-      .then(() => {
-        // Set previous user token for restoration after asm agent logout
-        // TODO: Get user id for emulation and set it in user id service
-        // TODO: With different OAuth flows extract this common emulation start to separate method
-        this.authStorageService.setEmulatedUserToken(userToken);
-      })
-      .catch(() => {
-        this.authStorageService.switchTokenTargetToUser();
-      });
+    if (userId && password) {
+      this.cxOAuthService
+        .authorizeWithPasswordFlow(userId, password)
+        .then(() => {
+          // Set previous user token for restoration after asm agent logout
+          // TODO: Get user id for emulation and set it in user id service
+          // TODO: With different OAuth flows extract this common emulation start to separate method
+          this.authStorageService.setEmulatedUserToken(userToken);
+        })
+        .catch(() => {
+          this.authStorageService.switchTokenTargetToUser();
+        });
+    } else {
+      this.authService.loginWithImplicitFlow();
+    }
   }
 
   /**

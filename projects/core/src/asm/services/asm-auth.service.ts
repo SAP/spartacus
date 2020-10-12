@@ -6,7 +6,12 @@ import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-st
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { AuthRedirectService } from '../../auth/user-auth/guards/auth-redirect.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 @Injectable({
@@ -17,9 +22,16 @@ export class AsmAuthService extends AuthService {
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
-    protected authStorageService: AsmAuthStorageService
+    protected authStorageService: AsmAuthStorageService,
+    protected authRedirectService: AuthRedirectService
   ) {
-    super(store, userIdService, cxOAuthService, authStorageService);
+    super(
+      store,
+      userIdService,
+      cxOAuthService,
+      authStorageService,
+      authRedirectService
+    );
   }
 
   public authorize(userId: string, password: string): void {
@@ -76,5 +88,38 @@ export class AsmAuthService extends AuthService {
             isEmulated)
       )
     );
+  }
+
+  initImplicit() {
+    setTimeout(() => {
+      let tokenTarget;
+      this.authStorageService
+        .getTokenTarget()
+        .subscribe((target) => {
+          tokenTarget = target;
+        })
+        .unsubscribe();
+
+      // TODO: For csagent target store emulated token
+
+      this.cxOAuthService.tryLogin().then((result) => {
+        console.log(result);
+        if (result) {
+          if (tokenTarget === TokenTarget.User) {
+            this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+            this.store.dispatch(new AuthActions.Login());
+            // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
+            setTimeout(() => {
+              this.authRedirectService.redirect();
+            }, 10);
+          } else {
+            // TODO: Set emulated token and try to start the emulated session instantly
+            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+          }
+        } else {
+          // this.cxOAuthService.silentRefresh();
+        }
+      });
+    });
   }
 }

@@ -23,12 +23,16 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
     if (isTokenRevocationRequest) {
+      let token;
+      this.authStorageService
+        .getToken()
+        .subscribe((tok) => (token = tok))
+        .unsubscribe();
       request = request.clone({
         setHeaders: {
-          Authorization: `${
-            JSON.parse(this.authStorageService.getItem('token_type')) ||
-            'Bearer'
-          } ${this.authStorageService.getItem('access_token')}`,
+          Authorization: `${token.token_type || 'Bearer'} ${
+            token.access_token
+          }`,
         },
       });
     }

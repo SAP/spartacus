@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +19,12 @@ export class AuthRedirectService {
    *    but is automatically redirected to the login page by the AuthGuard, and he signs in
    *    -> Then we should redirect to the my-account page, not the product page
    */
-  constructor(private routing: RoutingService, private router: Router) {}
+  constructor(
+    protected routing: RoutingService,
+    protected router: Router,
+    protected authRedirectStorageService: AuthRedirectStorageService
+  ) {}
 
-  private redirectUrl: string;
   private ignoredUrls = new Set<string>();
   private lastAuthGuardNavigation: {
     url: string;
@@ -28,19 +32,25 @@ export class AuthRedirectService {
   };
 
   redirect() {
-    if (this.redirectUrl === undefined) {
+    let redirectUrl;
+    this.authRedirectStorageService
+      .getRedirectUrl()
+      .subscribe((url) => (redirectUrl = url))
+      .unsubscribe();
+    if (redirectUrl === undefined) {
       this.routing.go('/');
     } else {
-      this.routing.goByUrl(this.redirectUrl);
+      this.routing.goByUrl(redirectUrl);
     }
-    this.redirectUrl = undefined;
+    this.authRedirectStorageService.setRedirectUrl(undefined);
+
     this.lastAuthGuardNavigation = undefined;
   }
 
   reportAuthGuard() {
     const { url, navigationId } = this.getCurrentNavigation();
     this.lastAuthGuardNavigation = { url, navigationId };
-    this.redirectUrl = url;
+    this.authRedirectStorageService.setRedirectUrl(url);
   }
 
   reportNotAuthGuard() {
@@ -56,10 +66,16 @@ export class AuthRedirectService {
         !this.lastAuthGuardNavigation ||
         this.lastAuthGuardNavigation.navigationId < navigationId - 1
       ) {
-        this.redirectUrl = initialUrl;
+        this.authRedirectStorageService.setRedirectUrl(initialUrl);
+
         this.lastAuthGuardNavigation = undefined;
       }
     }
+  }
+
+  setCurrentUrlAsRedirectUrl(): void {
+    const url = this.router.url;
+    this.authRedirectStorageService.setRedirectUrl(url);
   }
 
   private getCurrentNavigation(): {

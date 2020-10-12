@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthRedirectService } from '../guards/auth-redirect.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthStorageService } from './auth-storage.service';
@@ -18,7 +19,8 @@ export class AuthService {
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
-    protected authStorageService: AuthStorageService
+    protected authStorageService: AuthStorageService,
+    protected authRedirectService: AuthRedirectService
   ) {
     this.initImplicit();
   }
@@ -29,8 +31,11 @@ export class AuthService {
         console.log(result);
         if (result) {
           this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-
           this.store.dispatch(new AuthActions.Login());
+          // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
+          setTimeout(() => {
+            this.authRedirectService.redirect();
+          }, 10);
         } else {
           // this.cxOAuthService.silentRefresh();
         }
@@ -39,13 +44,14 @@ export class AuthService {
   }
 
   loginWithImplicitFlow() {
+    this.authRedirectService.setCurrentUrlAsRedirectUrl();
     this.cxOAuthService.loginWithImplicitFlow();
   }
 
   /**
    * Loads a new user token
    * @param userId
-   * @param password
+   * @param passwordW
    */
   public authorize(userId: string, password: string): void {
     this.cxOAuthService.authorizeWithPasswordFlow(userId, password).then(() => {

@@ -7,6 +7,7 @@ import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
+import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
 
@@ -24,11 +25,19 @@ class MockAuthStorageService {
   setToken() {}
 }
 
+class MockAuthRedirectStorageService {
+  getRedirectUrl() {
+    of(undefined);
+  }
+  setRedirectUrl() {}
+}
+
 describe('AuthStatePersistenceService', () => {
   let service: AuthStatePersistenceService;
   let persistenceService: StatePersistenceService;
   let userIdService: UserIdService;
   let authStorageService: AuthStorageService;
+  let authRedirectStorageService: AuthRedirectStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +52,10 @@ describe('AuthStatePersistenceService', () => {
         AuthStatePersistenceService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
+        {
+          provide: AuthRedirectStorageService,
+          useClass: MockAuthRedirectStorageService,
+        },
         StatePersistenceService,
       ],
     });
@@ -51,6 +64,7 @@ describe('AuthStatePersistenceService', () => {
     persistenceService = TestBed.inject(StatePersistenceService);
     userIdService = TestBed.inject(UserIdService);
     authStorageService = TestBed.inject(AuthStorageService);
+    authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
 
@@ -61,6 +75,7 @@ describe('AuthStatePersistenceService', () => {
   it('state should be updated after read from storage', () => {
     spyOn(userIdService, 'setUserId').and.stub();
     spyOn(authStorageService, 'setToken').and.callThrough();
+    spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
 
     service['onRead']({
       userId: 'userId',
@@ -70,6 +85,7 @@ describe('AuthStatePersistenceService', () => {
       granted_scopes: [],
       token_type: 'bearer',
       refresh_token: 'refresh',
+      redirectUrl: 'some_url',
     });
 
     expect(authStorageService.setToken).toHaveBeenCalledWith({
@@ -81,6 +97,9 @@ describe('AuthStatePersistenceService', () => {
       token_type: 'bearer',
     });
     expect(userIdService.setUserId).toHaveBeenCalledWith('userId');
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      'some_url'
+    );
   });
 
   it('should call persistenceService with correct attributes', () => {
@@ -102,6 +121,9 @@ describe('AuthStatePersistenceService', () => {
     spyOn(authStorageService, 'getToken').and.returnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
+    spyOn(authRedirectStorageService, 'getRedirectUrl').and.returnValue(
+      of('redirect_url')
+    );
 
     service['getAuthState']()
       .pipe(take(1))
@@ -110,6 +132,7 @@ describe('AuthStatePersistenceService', () => {
           userId: 'userId',
           access_token: 'token',
           refresh_token: 'refresh_token',
+          redirectUrl: 'redirect_url',
         } as any);
       });
   });
@@ -118,11 +141,13 @@ describe('AuthStatePersistenceService', () => {
     spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
       access_token: 'token',
       userId: 'userId',
+      redirectUrl: 'redirect_url',
     });
 
     expect(service.readStateFromStorage()).toEqual({
       access_token: 'token',
       userId: 'userId',
+      redirectUrl: 'redirect_url',
     });
 
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(

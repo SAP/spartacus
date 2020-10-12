@@ -9,4 +9,5 @@
   <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
     'miniLogin.signInRegister' | cxTranslate
   }}</a>
+  <button (click)="loginWithImplicitFlow()">Implicit flow login</button>
 </ng-template>

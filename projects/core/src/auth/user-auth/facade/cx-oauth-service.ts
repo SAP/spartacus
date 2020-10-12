@@ -19,7 +19,8 @@ export class CxOAuthService {
     protected authConfigService: AuthConfigService
   ) {
     this.oAuthService.configure({
-      tokenEndpoint: this.authConfigService.getLoginEndpoint(),
+      tokenEndpoint: this.authConfigService.getTokenEndpoint(),
+      loginUrl: this.authConfigService.getLoginEndpoint(),
       clientId: this.config.authentication.client_id,
       dummyClientSecret: this.config.authentication.client_secret,
       scope: '', // Add openid to get id_token in case of password flow
@@ -93,8 +94,11 @@ export class CxOAuthService {
     return this.oAuthService.initLoginFlow();
   }
 
+  // TODO: We don't load discovery document, because it doesn't contain revoke endpoint information
   tryLogin() {
-    return this.oAuthService.loadDiscoveryDocumentAndTryLogin({});
+    return this.oAuthService.tryLogin({
+      disableOAuth2StateCheck: true,
+    });
   }
 
   silentRefresh() {

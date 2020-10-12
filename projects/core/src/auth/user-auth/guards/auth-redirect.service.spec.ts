@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService {
@@ -13,6 +15,7 @@ describe('AuthRedirectService', () => {
   let service: AuthRedirectService;
   let routingService: RoutingService;
   let router: Router;
+  let authRedirectStorageService: AuthRedirectStorageService;
 
   beforeEach(() => {
     const mockRouter = {
@@ -24,6 +27,7 @@ describe('AuthRedirectService', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthRedirectService,
+        AuthRedirectStorageService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -34,6 +38,7 @@ describe('AuthRedirectService', () => {
     });
     service = TestBed.inject(AuthRedirectService);
     routingService = TestBed.inject(RoutingService);
+    authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
     router = TestBed.inject(Router);
   });
 
@@ -116,6 +121,22 @@ describe('AuthRedirectService', () => {
       it('should redirect to the previous url', () => {
         expect(routingService.goByUrl).toHaveBeenCalledWith('/test2');
       });
+    });
+  });
+
+  describe('setCurrentUrlAsRedirectUrl', () => {
+    it('should set current url in auth redirect storage service', () => {
+      spyOn(authRedirectStorageService, 'getRedirectUrl').and.callThrough();
+      (router as any).url = '/test';
+
+      service.setCurrentUrlAsRedirectUrl();
+
+      authRedirectStorageService
+        .getRedirectUrl()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe('/test');
+        });
     });
   });
 });
