@@ -6,8 +6,9 @@ const testToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
-  expires_in: 1000,
-  scope: ['xxx'],
+  expires_at: '900',
+  access_token_stored_at: '800',
+  granted_scopes: [],
 };
 
 describe('UserToken reducer', () => {
@@ -21,36 +22,14 @@ describe('UserToken reducer', () => {
     });
   });
 
-  describe('LOAD_USER_TOKEN_SUCCESS action', () => {
+  describe('SET_USER_TOKEN_DATA action', () => {
     it('should store a user token', () => {
       const { initialState } = fromUserToken;
 
-      const action = new AuthActions.LoadUserTokenSuccess(testToken);
+      const action = new AuthActions.SetUserTokenData(testToken);
       const state = fromUserToken.reducer(initialState, action);
 
       expect(state).toEqual(testToken);
-    });
-  });
-
-  describe('REFRESH_USER_TOKEN_SUCCESS action', () => {
-    it('should store a user token', () => {
-      const { initialState } = fromUserToken;
-
-      const action = new AuthActions.RefreshUserTokenSuccess(testToken);
-      const state = fromUserToken.reducer(initialState, action);
-
-      expect(state).toEqual(testToken);
-    });
-  });
-
-  describe('CLEAR_USER_TOKEN action', () => {
-    it('should reset state', () => {
-      const { initialState } = fromUserToken;
-      const preState = { ...initialState, access_token: 'access_token' };
-      const action = new AuthActions.ClearUserToken();
-      const state = fromUserToken.reducer(preState, action);
-
-      expect(state).toEqual(initialState);
     });
   });
 });

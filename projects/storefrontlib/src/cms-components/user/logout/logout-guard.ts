@@ -8,8 +8,8 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 /**
  * Guards the _logout_ route.
@@ -31,20 +31,26 @@ export class LogoutGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<any> {
-    this.logout();
-
-    return this.cms
-      .hasPage({
-        id: this.semanticPathService.get('logout'),
-        type: PageType.CONTENT_PAGE,
+    /**
+     * First we want to complete logout process before redirecting to logout page
+     * We want to avoid errors like `token is no longer valid`
+     */
+    return from(this.auth.logout()).pipe(
+      switchMap(() => {
+        return this.cms
+          .hasPage({
+            id: this.semanticPathService.get('logout'),
+            type: PageType.CONTENT_PAGE,
+          })
+          .pipe(
+            tap((hasPage) => {
+              if (!hasPage) {
+                this.redirect();
+              }
+            })
+          );
       })
-      .pipe(
-        tap((hasPage) => {
-          if (!hasPage) {
-            this.redirect();
-          }
-        })
-      );
+    );
   }
 
   /**
@@ -57,14 +63,5 @@ export class LogoutGuard implements CanActivate {
   protected redirect(): void {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
     this.routing.go({ cxRoute });
-  }
-
-  /**
-   * Log user out.
-   *
-   * This is delegated to the `AuthService`.
-   */
-  protected logout(): void {
-    this.auth.logout();
   }
 }

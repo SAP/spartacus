@@ -1,4 +1,8 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,10 +10,14 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
-import { AuthService } from '../facade/auth.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { ClientTokenService } from '../services/client-token.service';
 import { ClientToken } from './../models/token-types.model';
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
@@ -22,9 +30,15 @@ const testToken = {
   scope: '',
 } as ClientToken;
 
-class MockAuthService {
-  getClientToken(): Observable<ClientToken> {
-    return of();
+class MockClientTokenService {
+  getClientToken() {
+    return of(testToken);
+  }
+}
+
+class MockClientErrorHandlingService {
+  handleExpiredClientToken(req, next) {
+    return of(next.handle(req));
   }
 }
 
@@ -42,14 +56,19 @@ const MockAuthModuleConfig: OccConfig = {
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
-  let authService: AuthService;
+  let clientTokenService: ClientTokenService;
+  let clientErrorHandlingService: ClientErrorHandlingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         { provide: OccConfig, useValue: MockAuthModuleConfig },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: ClientTokenService, useClass: MockClientTokenService },
+        {
+          provide: ClientErrorHandlingService,
+          useClass: MockClientErrorHandlingService,
+        },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
@@ -58,14 +77,17 @@ describe('ClientTokenInterceptor', () => {
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);
-    authService = TestBed.inject(AuthService);
+    clientTokenService = TestBed.inject(ClientTokenService);
+    clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
   });
 
   describe('Client Token', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(authService, 'getClientToken').and.returnValue(of(testToken));
+        spyOn(clientTokenService, 'getClientToken').and.returnValue(
+          of(testToken)
+        );
 
         http
           .get(`${OccUrl}/test`)
@@ -116,4 +138,39 @@ describe('ClientTokenInterceptor', () => {
       }
     ));
   });
+
+  it(`should catch 401 error for a client token`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
+      const options = {
+        headers,
+      };
+      http.get('/test', options).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
+      spyOn(
+        clientErrorHandlingService,
+        'handleExpiredClientToken'
+      ).and.callThrough();
+
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidTokenError',
+              message: 'Invalid access token: some token',
+            },
+          ],
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        clientErrorHandlingService.handleExpiredClientToken
+      ).toHaveBeenCalled();
+    }
+  ));
 });

@@ -11,17 +11,10 @@ export function reducer(
     | fromUpdateEmailAction.UpdateEmailSuccessAction
 ): UserToken {
   switch (action.type) {
-    case AuthActions.LOAD_USER_TOKEN_SUCCESS:
-    case AuthActions.REFRESH_USER_TOKEN_SUCCESS: {
+    case AuthActions.SET_USER_TOKEN_DATA: {
       return {
         ...state,
         ...action.payload,
-      };
-    }
-
-    case AuthActions.CLEAR_USER_TOKEN: {
-      return {
-        ...initialState,
       };
     }
   }

@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AuthActions, AuthService, UserToken } from '../../../auth/index';
+import { AuthActions, AuthService } from '../../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -111,10 +111,6 @@ const mockAnonymousConsents: AnonymousConsent[] = [
     templateVersion: 0,
   },
 ];
-
-const mockUserToken = {
-  access_token: 'yyy',
-} as UserToken;
 
 const mockAnonymousConsentsConfig = {
   anonymousConsents: {
@@ -244,12 +240,10 @@ describe('AnonymousConsentsEffects', () => {
 
   describe('transferAnonymousConsentsToUser$', () => {
     it('should not return TransferAnonymousConsent if RegisterUserSuccess was not dispatched', () => {
-      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
-        mockUserToken
-      );
+      const loginAction = new AuthActions.Login();
 
       actions$ = hot('-a', {
-        a: loadUserTokenSuccessAction,
+        a: loginAction,
       });
       const expected = cold('----');
 
@@ -266,9 +260,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
-      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
-        mockUserToken
-      );
+      const loginAction = new AuthActions.Login();
       const registerSuccessAction = new UserActions.RegisterUserSuccess();
 
       const completion = new UserActions.TransferAnonymousConsent({
@@ -279,7 +271,7 @@ describe('AnonymousConsentsEffects', () => {
 
       actions$ = hot('-(ab)', {
         a: registerSuccessAction,
-        b: loadUserTokenSuccessAction,
+        b: loginAction,
       });
       const expected = cold('-c', { c: completion });
 
@@ -300,9 +292,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
-      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
-        mockUserToken
-      );
+      const loginAction = new AuthActions.Login();
 
       const completion1 = new UserActions.GiveUserConsent({
         userId: 'current',
@@ -317,7 +307,7 @@ describe('AnonymousConsentsEffects', () => {
       });
 
       actions$ = hot('-a', {
-        a: loadUserTokenSuccessAction,
+        a: loginAction,
       });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
@@ -338,9 +328,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
-      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
-        mockUserToken
-      );
+      const loginAction = new AuthActions.Login();
 
       const completion1 = new UserActions.GiveUserConsent({
         userId: 'current',
@@ -355,7 +343,7 @@ describe('AnonymousConsentsEffects', () => {
       });
 
       actions$ = hot('-a', {
-        a: loadUserTokenSuccessAction,
+        a: loginAction,
       });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
@@ -383,12 +371,10 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
-      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
-        mockUserToken
-      );
+      const loginAction = new AuthActions.Login();
 
       actions$ = hot('-a', {
-        a: loadUserTokenSuccessAction,
+        a: loginAction,
       });
       const expected = cold('');
 

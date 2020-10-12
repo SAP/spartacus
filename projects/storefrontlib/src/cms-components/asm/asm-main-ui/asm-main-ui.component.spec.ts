@@ -196,7 +196,6 @@ describe('AsmMainUiComponent', () => {
     const testCustomerId = 'customerid1234567890';
     component.startCustomerEmulationSession({ customerId: testCustomerId });
     expect(asmAuthService.startCustomerEmulationSession).toHaveBeenCalledWith(
-      mockToken,
       testCustomerId
     );
   });

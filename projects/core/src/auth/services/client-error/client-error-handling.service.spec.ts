@@ -2,8 +2,8 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../facade/auth.service';
 import { ClientToken } from '../../models/token-types.model';
+import { ClientTokenService } from '../client-token.service';
 import { ClientErrorHandlingService } from './client-error-handling.service';
 
 class MockHttpHandler extends HttpHandler {
@@ -12,8 +12,7 @@ class MockHttpHandler extends HttpHandler {
   }
 }
 
-class AuthServiceStub {
-  clientToken$: Observable<ClientToken>;
+class MockClientTokenService {
   refreshClientToken(): Observable<ClientToken> {
     return of({
       access_token: 'refreshToken',
@@ -23,13 +22,6 @@ class AuthServiceStub {
     });
   }
 }
-
-const clientToken: ClientToken = {
-  access_token: 'xxx',
-  token_type: 'bearer',
-  expires_in: 1000,
-  scope: 'xxx',
-};
 
 const newClientToken: ClientToken = {
   access_token: 'xxx yyy zzz',
@@ -42,20 +34,20 @@ describe('ClientErrorHandlingService', () => {
   let httpRequest = new HttpRequest('GET', '/');
   let service: ClientErrorHandlingService;
   let httpHandler: HttpHandler;
-  let authService: AuthService | AuthServiceStub;
+  let clientTokenService: ClientTokenService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
         ClientErrorHandlingService,
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ClientTokenService, useClass: MockClientTokenService },
         { provide: HttpHandler, useClass: MockHttpHandler },
       ],
     });
 
     service = TestBed.inject(ClientErrorHandlingService);
-    authService = TestBed.inject(AuthService);
+    clientTokenService = TestBed.inject(ClientTokenService);
     httpHandler = TestBed.inject(HttpHandler);
 
     spyOn(httpHandler, 'handle').and.callThrough();
@@ -63,15 +55,14 @@ describe('ClientErrorHandlingService', () => {
 
   describe(`handleExpiredClientToken`, () => {
     it('should get a new client token and resend the request', () => {
-      spyOn(authService, 'refreshClientToken').and.returnValue(
+      spyOn(clientTokenService, 'refreshClientToken').and.returnValue(
         of(newClientToken)
       );
-      (authService as AuthServiceStub).clientToken$ = of(clientToken);
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)
         .subscribe();
-      expect(authService.refreshClientToken).toHaveBeenCalled();
+      expect(clientTokenService.refreshClientToken).toHaveBeenCalled();
 
       httpRequest = httpRequest.clone({
         setHeaders: {

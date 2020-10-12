@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { UserToken } from '../../models/token-types.model';
-import { AuthActions } from '../actions/index';
+import { AuthActions } from '../actions';
 import { StateWithAuth } from '../auth-state';
 import * as fromReducers from '../reducers/index';
 import { AuthSelectors } from '../selectors/index';
@@ -34,10 +34,12 @@ describe('UserToken Selectors', () => {
         access_token: 'xxx',
         token_type: 'bearer',
         refresh_token: 'xxx',
-        expires_in: 1000,
+        expires_at: '1000',
+        granted_scopes: [],
+        access_token_stored_at: '900',
         scope: ['xxx'],
       };
-      store.dispatch(new AuthActions.LoadUserTokenSuccess(testToken));
+      store.dispatch(new AuthActions.SetUserTokenData(testToken));
 
       expect(result).toEqual(testToken);
     });

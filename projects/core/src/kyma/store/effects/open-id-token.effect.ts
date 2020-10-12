@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { KymaActions } from '../actions/index';
 
 @Injectable()
 export class OpenIdTokenEffect {
-  @Effect()
-  triggerOpenIdTokenLoading$: Observable<
-    KymaActions.LoadOpenIdToken
-  > = this.actions$.pipe(
-    ofType<KymaActions.LoadOpenIdTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
-    withLatestFrom(
-      this.actions$.pipe(
-        ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
-      )
-    ),
-    map(
-      ([, loginAction]) =>
-        new KymaActions.LoadOpenIdToken({
-          username: loginAction.payload.userId,
-          password: loginAction.payload.password,
-        })
-    )
-  );
+  // TODO(#8247): Fix kyma to work with the OAuth library out of the box
+  // @Effect()
+  // triggerOpenIdTokenLoading$: Observable<
+  //   KymaActions.LoadOpenIdToken
+  // > = this.actions$.pipe(
+  //   ofType<KymaActions.LoadOpenIdTokenSuccess>(
+  //     AuthActions.LOAD_USER_TOKEN_SUCCESS
+  //   ),
+  //   withLatestFrom(
+  //     this.actions$.pipe(
+  //       ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
+  //     )
+  //   ),
+  //   map(
+  //     ([, loginAction]) =>
+  //       new KymaActions.LoadOpenIdToken({
+  //         username: loginAction.payload.userId,
+  //         password: loginAction.payload.password,
+  //       })
+  //   )
+  // );
 
   @Effect()
   loadOpenIdToken$: Observable<
