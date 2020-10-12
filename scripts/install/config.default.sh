@@ -11,11 +11,14 @@ BACKEND_URL="https://localhost:9002"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
-        "core"
-        "assets"
-        "storefrontlib"
-        "storefrontstyles"
-        "schematics"
+        "projects/core"
+        "projects/assets"
+        "projects/storefrontlib"
+        "projects/storefrontstyles"
+        "projects/schematics"
+        "projects/cds"
+        "core-libs/setup"
+        "feature-libs/my-account"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"

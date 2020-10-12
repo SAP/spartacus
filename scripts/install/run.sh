@@ -67,7 +67,7 @@ function update_projects_versions {
     fi
     for i in $projects
         do
-            (cd "${CLONE_DIR}/projects/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
@@ -94,15 +94,18 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} \
+        && ng add @spartacus/my-account && ng add @spartacus/setup)
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr \
+        && ng add @spartacus/my-account && ng add @spartacus/setup )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa )
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa \
+        && ng add @spartacus/my-account && ng add @spartacus/setup )
 }
 
 function create_apps {
@@ -168,6 +171,15 @@ function local_install {
 
     printh "Creating schematics npm package"
     ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating cds npm package"
+    ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating setup npm package"
+    ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating my-account npm package"
+    ( cd ${CLONE_DIR}/dist/my-account && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 
