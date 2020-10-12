@@ -4,7 +4,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { SharedOrganizationModule } from '../shared/shared-organization.module';
-import { CostCenterBudgetsModule } from './budgets/cost-centers-budgets.module';
+import { CostCenterBudgetListModule } from './budgets/cost-center-budget-list.module';
 import {
   costCenterCmsConfig,
   costCenterRoutingConfig,
@@ -18,7 +18,7 @@ import { CostCenterFormModule } from './form/cost-center-form.module';
     SharedOrganizationModule,
     CostCenterDetailsModule,
     CostCenterFormModule,
-    CostCenterBudgetsModule,
+    CostCenterBudgetListModule,
   ],
   providers: [
     provideDefaultConfig(costCenterRoutingConfig),

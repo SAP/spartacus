@@ -1,12 +1,14 @@
 import {
-  PROCESS_FEATURE,
   ListModel,
+  PROCESS_FEATURE,
+  SearchConfig,
   StateUtils,
+} from '@spartacus/core';
+import {
   OrderApproval,
   OrderApprovalDecision,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+} from '../../model/order-approval.model';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,
@@ -49,10 +51,12 @@ export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
 
 export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORDER_APPROVAL_SUCCESS;
-  constructor(public payload: OrderApproval[]) {
+  constructor(public payload: OrderApproval | OrderApproval[]) {
     super(
       ORDER_APPROVAL_ENTITIES,
-      payload.map((orderApproval) => orderApproval.code)
+      Array.isArray(payload)
+        ? payload.map((orderApproval) => orderApproval?.code)
+        : payload?.code
     );
   }
 }
@@ -62,19 +66,19 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeB2BSearchConfig(payload.params));
+    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
-  constructor(public payload: { params: B2BSearchConfig; error: any }) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       ORDER_APPROVAL_LIST,
-      serializeB2BSearchConfig(payload.params),
+      serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -85,10 +89,10 @@ export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeB2BSearchConfig(payload.params));
+    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
   }
 }
 

@@ -18,12 +18,12 @@ import {
 @NgModule({
   imports: [
     OrganizationListModule,
-    UserDetailsModule,
     ChangePasswordFormModule,
+    UserDetailsModule,
     UserFormModule,
+    UserPermissionListModule,
     UserUserGroupsModule,
     UserApproverListModule,
-    UserPermissionListModule,
   ],
   providers: [
     provideDefaultConfig(userRoutingConfig),

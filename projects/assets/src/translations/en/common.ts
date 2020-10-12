@@ -53,6 +53,8 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
     rma: 'Return Number',
+    replenishmentNumber: 'Replenishment Number',
+    nextOrderDate: 'Next Order Date',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',

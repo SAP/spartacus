@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -17,11 +17,11 @@ class MockOrganizationItemService {
   unit$ = of();
 }
 
-describe('OrganizationEditComponent', () => {
+describe('OrganizationFormComponent', () => {
   let component: OrganizationFormComponent<any>;
   let fixture: ComponentFixture<OrganizationFormComponent<any>>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -37,9 +37,6 @@ describe('OrganizationEditComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(OrganizationFormComponent);
     component = fixture.componentInstance;
   });

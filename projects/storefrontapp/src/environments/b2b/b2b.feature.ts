@@ -1,5 +1,9 @@
-import { translationChunksConfig, translations } from '@spartacus/assets';
-import { environment } from '../environment';
+import { B2bStorefrontModule } from '@spartacus/setup';
+import { OrganizationModule } from '@spartacus/my-account/organization';
+import {
+  organizationTranslationChunksConfig,
+  organizationTranslations,
+} from '@spartacus/my-account/organization/assets';
 import { FeatureEnvironment } from '../models/feature.model';
 import {
   organizationTranslationChunksConfig,
@@ -11,39 +15,15 @@ import { B2bStorefrontModule } from '@spartacus/my-account';
 export const b2bFeature: FeatureEnvironment = {
   imports: [
     B2bStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: ['powertools-spa'],
       },
 
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
       i18n: {
-        resources: {
-          en: { ...translations.en, ...organizationTranslations.en },
-        },
-        chunks: {
-          ...translationChunksConfig,
-          ...organizationTranslationChunksConfig,
-        },
+        resources: organizationTranslations,
+        chunks: organizationTranslationChunksConfig,
         fallbackLang: 'en',
-      },
-
-      features: {
-        level: '2.1',
       },
     }),
 

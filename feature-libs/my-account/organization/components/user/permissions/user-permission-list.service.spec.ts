@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  B2BUserService,
+  Permission,
+} from '@spartacus/my-account/organization/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserPermissionListService } from './user-permission-list.service';
 
@@ -33,7 +36,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -67,12 +70,12 @@ describe('UserApproverListService', () => {
   });
 
   it('should not filter selected permissions', () => {
-    let result: Table<Permission>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    let result: EntitiesModel<Permission>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
+    expect(result.values[0].code).toEqual('first');
+    expect(result.values[1].code).toEqual('second');
+    expect(result.values[2].code).toEqual('third');
   });
 
   it('should assign permission', () => {

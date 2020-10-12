@@ -4,7 +4,10 @@ import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CostCenterListService } from './cost-center-list.service';
+import {
+  CostCenterListService,
+  CostCenterModel,
+} from './cost-center-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [
@@ -23,7 +26,7 @@ class MockCostCenterService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -59,10 +62,10 @@ describe('CostCenterListService', () => {
     });
 
     it('should populate currency object to currency string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
+      let result: EntitiesModel<CostCenterModel>;
+      service.getData().subscribe((table) => (result = table));
 
-      expect(result.data[0].currency).toEqual('USD');
+      expect(result.values[0].currency).toEqual('USD');
     });
   });
 });

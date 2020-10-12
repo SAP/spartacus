@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { CostCenter, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CostCenter, EntitiesModel } from '@spartacus/core';
-import { CostCenterAdapter } from './cost-center.adapter';
-import { B2BSearchConfig } from '../../model/search-config';
 import { Budget } from '../../model/budget.model';
+import { CostCenterAdapter } from './cost-center.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,7 @@ export class CostCenterConnector {
 
   getList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<CostCenter>> {
     return this.adapter.loadList(userId, params);
   }
@@ -37,7 +36,7 @@ export class CostCenterConnector {
   getBudgets(
     userId: string,
     costCenterCode: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Budget>> {
     return this.adapter.loadBudgets(userId, costCenterCode, params);
   }

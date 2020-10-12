@@ -2,10 +2,10 @@ import { ComponentFactoryResolver, Injectable, Type } from '@angular/core';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { TableConfig } from './config/table.config';
 import {
-  Table,
   TableDataOutletContext,
   TableHeaderOutletContext,
   TableOptions,
+  TableStructure,
 } from './table.model';
 
 /**
@@ -33,16 +33,16 @@ export class TableRendererService {
   /**
    * Adds the configured table component for the header and data.
    */
-  add(dataset: Table): void {
-    dataset.structure?.cells?.forEach((field) => {
-      const thRenderer = this.getHeaderRenderer(dataset, field);
+  add(structure: TableStructure): void {
+    structure?.cells?.forEach((field) => {
+      const thRenderer = this.getHeaderRenderer(structure, field);
       if (thRenderer) {
-        const ref = this.getHeaderOutletRef(dataset.structure.type, field);
+        const ref = this.getHeaderOutletRef(structure.type, field);
         this.render(ref, thRenderer);
       }
-      const tdRenderer = this.getDataRenderer(dataset, field);
+      const tdRenderer = this.getDataRenderer(structure, field);
       if (tdRenderer) {
-        const ref = this.getDataOutletRef(dataset.structure.type, field);
+        const ref = this.getDataOutletRef(structure.type, field);
         this.render(ref, tdRenderer);
       }
     });
@@ -62,10 +62,13 @@ export class TableRendererService {
   /**
    * Returns the header render component for the given field.
    */
-  protected getHeaderRenderer(dataset: Table, field: string): Type<any> {
+  protected getHeaderRenderer(
+    structure: TableStructure,
+    field: string
+  ): Type<any> {
     return (
-      dataset.structure.options?.cells?.[field]?.headerComponent ||
-      dataset.structure.options?.headerComponent ||
+      structure.options?.cells?.[field]?.headerComponent ||
+      structure.options?.headerComponent ||
       this.config.tableOptions?.headerComponent
     );
   }
@@ -73,10 +76,13 @@ export class TableRendererService {
   /**
    * Returns the data render component for the given field.
    */
-  protected getDataRenderer(dataset: Table, field: string): Type<any> {
+  protected getDataRenderer(
+    structure: TableStructure,
+    field: string
+  ): Type<any> {
     return (
-      dataset.structure.options?.cells?.[field]?.dataComponent ||
-      dataset.structure.options?.dataComponent ||
+      structure.options?.cells?.[field]?.dataComponent ||
+      structure.options?.dataComponent ||
       this.config.tableOptions?.dataComponent
     );
   }
@@ -97,9 +103,15 @@ export class TableRendererService {
   getHeaderOutletContext(
     type: string,
     options: TableOptions,
+    i18nRoot: string,
     field: string
   ): TableHeaderOutletContext {
-    return { _type: type, _options: options, _field: field };
+    return {
+      _type: type,
+      _options: options,
+      _field: field,
+      _i18nRoot: i18nRoot,
+    };
   }
 
   /**
@@ -108,7 +120,7 @@ export class TableRendererService {
    * The field is generated as:
    * `table.[tableType].data.[tableField]`
    */
-  getDataOutletRef(type, field: string): string {
+  getDataOutletRef(type: string, field: string): string {
     return `table.${type}.data.${field}`;
   }
 
@@ -118,9 +130,16 @@ export class TableRendererService {
   getDataOutletContext(
     type: string,
     options: TableOptions,
+    i18nRoot: string,
     field: string,
     data: any
   ): TableDataOutletContext {
-    return { ...data, _type: type, _options: options, _field: field };
+    return {
+      ...data,
+      _type: type,
+      _options: options,
+      _field: field,
+      _i18nRoot: i18nRoot,
+    };
   }
 }

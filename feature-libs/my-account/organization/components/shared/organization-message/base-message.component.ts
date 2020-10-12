@@ -1,45 +1,52 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
-  EventEmitter,
   HostBinding,
+  Inject,
   OnInit,
-  Output,
+  PLATFORM_ID,
 } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { MessageComponentData } from './message.model';
+import { MessageData } from './message.model';
 
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// tslint:disable-next-line: directive-class-suffix
 export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class') type: string;
   @HostBinding('class.terminated') terminated = false;
 
-  @Output() closeEvent: EventEmitter<boolean> = new EventEmitter();
-
   message: Translatable;
-  icon: ICON_TYPE;
 
-  constructor(protected messageData: MessageComponentData) {}
+  /**
+   * Icon used to display next to the message.
+   */
+  messageIcon: ICON_TYPE;
+
+  constructor(
+    protected messageData: MessageData,
+    @Inject(PLATFORM_ID) protected platformId: any
+  ) {}
 
   ngOnInit() {
-    this.message = this.messageData.message;
-    this.icon = ICON_TYPE.INFO;
+    this.message = this.messageData.message ?? {};
     this.type = this.resolveType();
+    this.messageIcon = this.messageData.messageIcon;
 
     if (this.messageData.timeout) {
-      setTimeout(() => {
-        this.close();
-      }, this.messageData.timeout);
+      this.handleAutoHide();
     }
   }
 
   close(): void {
-    this.closeEvent.emit(true);
+    this.messageData.events.next({ close: true });
   }
 
   protected resolveType(): string {
-    if (this.messageData.type === GlobalMessageType.MSG_TYPE_INFO) {
+    if (
+      !this.messageData.type ||
+      this.messageData.type === GlobalMessageType.MSG_TYPE_INFO
+    ) {
       return 'info';
     }
     if (this.messageData.type === GlobalMessageType.MSG_TYPE_ERROR) {
@@ -47,6 +54,15 @@ export abstract class BaseMessageComponent implements OnInit {
     }
     if (this.messageData.type === GlobalMessageType.MSG_TYPE_WARNING) {
       return 'warning';
+    }
+  }
+
+  protected handleAutoHide() {
+    if (isPlatformBrowser(this.platformId)) {
+      // we don't want to run this logic when doing SSR
+      setTimeout(() => {
+        this.close();
+      }, this.messageData.timeout);
     }
   }
 }

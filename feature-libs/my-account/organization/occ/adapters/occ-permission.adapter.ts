@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  B2BSearchConfig,
-  PERMISSION_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
-  PermissionAdapter,
-  PERMISSIONS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
   Occ,
   OccEndpointsService,
+  SearchConfig,
+} from '@spartacus/core';
+import {
   OrderApprovalPermissionType,
   Permission,
-} from '@spartacus/core';
+  PermissionAdapter,
+  PERMISSIONS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+} from '@spartacus/my-account/organization/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccPermissionAdapter implements PermissionAdapter {
@@ -34,7 +33,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   loadList(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.PermissionsList>(this.getPermissionsEndpoint(userId, params))
@@ -80,7 +79,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionsEndpoint(
     userId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): string {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
   }

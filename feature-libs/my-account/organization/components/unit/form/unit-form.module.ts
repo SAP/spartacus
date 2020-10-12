@@ -20,5 +20,6 @@ import { UnitFormComponent } from './unit-form.component';
     FormErrorsModule,
   ],
   declarations: [UnitFormComponent],
+  exports: [UnitFormComponent],
 })
 export class UnitFormModule {}

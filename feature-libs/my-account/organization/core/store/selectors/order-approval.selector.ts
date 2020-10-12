@@ -1,11 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { B2BSearchConfig } from '../../model/search-config';
-import { denormalizeB2BSearch } from '../../utils/serializer';
-import { StateUtils, EntitiesModel, OrderApproval } from '@spartacus/core';
+import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { OrderApproval } from '../../model/order-approval.model';
+import { denormalizeSearch } from '../../utils/serializer';
 import {
-  OrganizationState,
   OrderApprovalManagement,
   ORDER_APPROVAL_FEATURE,
+  OrganizationState,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
@@ -39,7 +39,7 @@ export const getOrderApproval = (
   );
 
 export const getOrderApprovalList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<OrderApproval>>
@@ -47,5 +47,5 @@ export const getOrderApprovalList = (
   createSelector(
     getOrderApprovalManagementState,
     (state: OrderApprovalManagement) =>
-      denormalizeB2BSearch<OrderApproval>(state, params)
+      denormalizeSearch<OrderApproval>(state, params)
   );

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/my-account/organization/core';
@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -23,7 +23,7 @@ describe('UserDetailsComponent', () => {
   let fixture: ComponentFixture<UserDetailsComponent>;
   let itemService: OrganizationItemService<Budget>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -31,7 +31,7 @@ describe('UserDetailsComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
       ],
       declarations: [UserDetailsComponent],
       providers: [
@@ -40,9 +40,6 @@ describe('UserDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ViewComponent } from '@spartacus/storefront';
+import { SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { ViewComponent } from 'projects/storefrontlib/src/shared/components/split-view/view/view.component';
 import { of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationMessageTestingModule } from '../organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationCardComponent } from './organization-card.component';
 import createSpy = jasmine.createSpy;
 
@@ -24,25 +24,26 @@ describe('OrganizationCardComponent', () => {
   let component: OrganizationCardComponent<any>;
   let fixture: ComponentFixture<OrganizationCardComponent<any>>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        SplitViewTestingModule,
+        // SplitViewTestingModule,
         IconTestingModule,
         I18nTestingModule,
         RouterTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
       ],
-      declarations: [OrganizationCardComponent],
+      declarations: [OrganizationCardComponent, ViewComponent],
       providers: [
         {
           provide: OrganizationItemService,
           useClass: MockOrganizationItemService,
         },
+        SplitViewService,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrganizationCardComponent);
@@ -61,18 +62,6 @@ describe('OrganizationCardComponent', () => {
     let result;
     component.item$.subscribe((item) => (result = item)).unsubscribe();
     expect(result).toEqual(mockItem);
-  });
-
-  it('should close the view ', () => {
-    const ev = {
-      stopPropagation: () => {},
-    };
-    const view = {
-      toggle: (_force?: boolean) => {},
-    };
-    spyOn(view, 'toggle');
-    component.closeView(view as ViewComponent, ev as MouseEvent);
-    expect(view.toggle).toHaveBeenCalledWith(true);
   });
 
   describe('UI', () => {
@@ -114,6 +103,18 @@ describe('OrganizationCardComponent', () => {
           .nativeElement;
         expect(el.innerText).toContain('organization.assign');
       });
+    });
+  });
+
+  describe('close', () => {
+    it('should close the view', () => {
+      fixture.detectChanges();
+      const ev = {
+        stopPropagation: () => {},
+      };
+      spyOn(component.view, 'toggle');
+      component.closeView(ev as MouseEvent);
+      expect(component.view.toggle).toHaveBeenCalledWith(true);
     });
   });
 });

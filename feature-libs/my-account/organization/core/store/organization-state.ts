@@ -1,18 +1,20 @@
 import {
-  B2BAddress,
+  Address,
   B2BApprovalProcess,
   B2BUnit,
-  B2BUnitNode,
   B2BUser,
   CostCenter,
   ListModel,
-  OrderApproval,
-  OrderApprovalPermissionType,
-  Permission,
   StateUtils,
 } from '@spartacus/core';
-import { UserGroup } from '../model/user-group.model';
 import { Budget } from '../model/budget.model';
+import { OrderApproval } from '../model/order-approval.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../model/permission.model';
+import { B2BUnitNode } from '../model/unit-node.model';
+import { UserGroup } from '../model/user-group.model';
 
 export const ORGANIZATION_FEATURE = 'organization';
 
@@ -83,7 +85,7 @@ export interface OrgUnits {
   approvalProcesses: StateUtils.EntityLoaderState<B2BApprovalProcess[]>;
   users: StateUtils.EntityLoaderState<ListModel>;
   addressList: StateUtils.EntityLoaderState<ListModel>;
-  addressEntities: StateUtils.EntityLoaderState<B2BAddress>;
+  addressEntities: StateUtils.EntityLoaderState<Address>;
 }
 
 export interface UserGroupManagement extends Management<UserGroup> {

@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  PermissionService,
+} from '@spartacus/my-account/organization/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PermissionListService } from './permission-list.service';
+import {
+  PermissionListService,
+  PermissionModel,
+} from './permission-list.service';
 
 const code = 'permission';
 const mockPermissionEntities: EntitiesModel<Permission> = {
@@ -22,7 +28,7 @@ class MockPermissionService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -58,10 +64,9 @@ describe('PermissionListService', () => {
     });
 
     it('should populate object to string literal', () => {
-      let result;
-      service.getTable().subscribe((table) => (result = table));
-
-      expect(result.data[0].code).toEqual(code);
+      let result: EntitiesModel<PermissionModel>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].code).toEqual(code);
     });
   });
 });

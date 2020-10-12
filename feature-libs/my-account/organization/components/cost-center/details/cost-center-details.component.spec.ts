@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { OrganizationMessageTestingModule } from '../../shared/organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -22,7 +22,7 @@ describe('CostCenterDetailsComponent', () => {
   let fixture: ComponentFixture<CostCenterDetailsComponent>;
   let itemService: OrganizationItemService<CostCenter>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -30,7 +30,7 @@ describe('CostCenterDetailsComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
       ],
       declarations: [CostCenterDetailsComponent],
       providers: [
@@ -39,9 +39,6 @@ describe('CostCenterDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

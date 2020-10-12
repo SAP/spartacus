@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EntitiesModel, Permission } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
 
@@ -35,7 +38,7 @@ class MockUserGroupService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -67,10 +70,10 @@ describe('UserGroupAssignedPermissionsListService', () => {
   });
 
   it('should filter selected permissions', () => {
-    let result: Table<Permission>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(2);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('third');
+    let result: EntitiesModel<Permission>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(2);
+    expect(result.values[0].code).toEqual('first');
+    expect(result.values[1].code).toEqual('third');
   });
 });

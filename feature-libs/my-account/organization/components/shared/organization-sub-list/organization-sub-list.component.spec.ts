@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { EventEmitter } from 'events';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
-import { Table } from 'projects/storefrontlib/src/shared/components/table/table.model';
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
-import { OrganizationMessageTestingModule } from '../organization-message/organization-message.testing.module';
+import { MessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 import createSpy = jasmine.createSpy;
 
-const mockList: Table<any> = {
-  data: [
+const mockList: EntitiesModel<any> = {
+  values: [
     {
       code: 'c1',
     },
@@ -25,12 +24,10 @@ const mockList: Table<any> = {
     },
   ],
   pagination: { totalPages: 2, totalResults: 1, sort: 'byCode' },
-  structure: { type: 'MockTable' },
 };
 
-const mockEmptyList: Table<any> = {
-  data: [],
-  structure: { type: 'MockTable' },
+const mockEmptyList: EntitiesModel<any> = {
+  values: [],
 };
 
 @Component({
@@ -38,19 +35,27 @@ const mockEmptyList: Table<any> = {
   template: '',
 })
 class MockTableComponent {
-  @Input() dataset;
+  @Input() data;
+  @Input() structure;
   @Input() currentItem;
+  @Input() i18nRoot;
   @Output() launch = new EventEmitter();
 }
 
 class MockBaseOrganizationListService {
   view = createSpy('view');
   sort = createSpy('sort');
-  getTable() {
+  getData() {
     return of(null);
+  }
+  getStructure() {
+    return of({});
   }
   key() {
     return 'code';
+  }
+  hasGhostData() {
+    return false;
   }
 }
 
@@ -64,12 +69,12 @@ describe('OrganizationSubListComponent', () => {
   let fixture: ComponentFixture<OrganizationSubListComponent>;
   let organizationListService: OrganizationListService<any>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
         OrganizationCardTestingModule,
-        OrganizationMessageTestingModule,
+        MessageTestingModule,
         I18nTestingModule,
         RouterTestingModule,
         PaginationTestingModule,
@@ -87,15 +92,15 @@ describe('OrganizationSubListComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     organizationListService = TestBed.inject(OrganizationListService);
   });
 
-  describe('with table data', () => {
+  describe('with  data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getTable').and.returnValue(of(mockList));
+      spyOn(organizationListService, 'getData').and.returnValue(of(mockList));
       fixture = TestBed.createComponent(OrganizationSubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -127,9 +132,9 @@ describe('OrganizationSubListComponent', () => {
     });
   });
 
-  describe('without table data', () => {
+  describe('without data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getTable').and.returnValue(
+      spyOn(organizationListService, 'getData').and.returnValue(
         of(mockEmptyList)
       );
       fixture = TestBed.createComponent(OrganizationSubListComponent);

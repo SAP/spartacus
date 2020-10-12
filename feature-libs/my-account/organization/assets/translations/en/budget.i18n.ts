@@ -37,8 +37,13 @@ export const budget = {
     confirmDisabled: 'Budget disabled successfully',
   },
 
-  costCenters: {
-    link: 'Cost Centers',
+  links: {
+    costCenters: 'Cost Centers',
+  },
+
+  breadcrumbs: {
+    list: 'All budgets',
+    details: '{{name}}',
   },
 };
 

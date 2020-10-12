@@ -1,6 +1,6 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, OccConfig, Occ, OrderApproval } from '@spartacus/core';
+import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
+import { OrderApproval } from '../../core/model/order-approval.model';
 import { OccOrderApprovalListNormalizer } from './occ-order-approval-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -39,9 +39,7 @@ describe('OrderApprovalsListNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(
-      OccOrderApprovalListNormalizer as Type<OccOrderApprovalListNormalizer>
-    );
+    service = TestBed.inject(OccOrderApprovalListNormalizer);
   });
 
   it('should inject OccOrderApprovalListNormalizer', inject(

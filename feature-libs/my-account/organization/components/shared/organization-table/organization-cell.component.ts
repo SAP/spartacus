@@ -21,7 +21,7 @@ export class OrganizationCellComponent {
   }
 
   get property(): string {
-    return this.model[this.outlet?.context?._field];
+    return this.model?.[this.outlet?.context?._field];
   }
 
   /**
@@ -33,7 +33,7 @@ export class OrganizationCellComponent {
    * Defaults to `true`.
    */
   get linkable(): boolean {
-    return this.cellOptions.linkable ?? true;
+    return this.property !== undefined && (this.cellOptions.linkable ?? true);
   }
 
   /**

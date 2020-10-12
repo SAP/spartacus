@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
+import { OrganizationItemStatus } from '@spartacus/my-account/organization/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
@@ -22,9 +23,15 @@ export abstract class OrganizationItemService<T> {
 
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
+
+  /**
+   * Returns the current business unit code.
+   *
+   * The current unit is driven by the route parameter.
+   */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
-  save(form: FormGroup, key?: string) {
+  save(form: FormGroup, key?: string): void {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
@@ -57,7 +64,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Updates an existing item.
    */
-  abstract update(key: string, value: T): void;
+  abstract update(key: string, value: T): Observable<OrganizationItemStatus<T>>;
 
   /**
    * Returns the detailed cxRoute for the organization item.
@@ -73,8 +80,22 @@ export abstract class OrganizationItemService<T> {
    */
   launchDetails(item: T): void {
     const cxRoute = this.getDetailsRoute();
-    if (cxRoute) {
-      this.routingService.go({ cxRoute, params: item });
+    const params = this.getRouteParams(item);
+    if (cxRoute && Object.keys(item).length > 0) {
+      this.routingService.go({ cxRoute, params });
     }
+  }
+
+  /**
+   * Returns the route parameters that are used when launching the
+   * details page. The route parameters default to the actual item,
+   * but can be further populated in implementations.
+   *
+   * Customized route parameters are useful in case the actual item
+   * doesn't match the expected route parameters. You can manipulate
+   * the parameter data.
+   */
+  protected getRouteParams(item: T): any {
+    return item;
   }
 }

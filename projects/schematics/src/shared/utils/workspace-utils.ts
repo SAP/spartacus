@@ -1,5 +1,12 @@
 import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
+import {
+  ProjectType,
+  WorkspaceProject,
+  WorkspaceSchema,
+  WorkspaceTargets,
+} from '@schematics/angular/utility/workspace-models';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 
 import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';

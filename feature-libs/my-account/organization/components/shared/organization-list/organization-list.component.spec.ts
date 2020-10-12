@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
@@ -21,8 +22,8 @@ interface Mock {
   code: string;
 }
 
-const mockList: Table<Mock> = {
-  data: [
+const mockList: EntitiesModel<Mock> = {
+  values: [
     {
       code: 'c1',
     },
@@ -31,20 +32,26 @@ const mockList: Table<Mock> = {
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byCode' },
-  structure: { type: 'MockTable' },
 };
 
-const mockEmptyList: Table<Mock> = {
-  data: [],
-  structure: { type: 'MockTable' },
+const mockEmptyList: EntitiesModel<Mock> = {
+  values: [],
 };
 
 class MockBaseOrganizationListService {
   view = createSpy('view');
   sort = createSpy('sort');
-  getTable() {}
+  getData() {
+    return of();
+  }
+  getStructure() {
+    return of({});
+  }
   key() {
     return 'code';
+  }
+  hasGhostData() {
+    return false;
   }
 }
 
@@ -58,8 +65,10 @@ class MockOrganizationItemService {
   template: '',
 })
 class MockTableComponent {
-  @Input() dataset;
+  @Input() data;
+  @Input() structure;
   @Input() currentItem;
+  @Input() i18nRoot;
   @Output() launch = new EventEmitter();
 }
 
@@ -81,7 +90,7 @@ describe('OrganizationListComponent', () => {
   let service: OrganizationListService<Mock>;
   let itemService: OrganizationItemService<any>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -93,6 +102,7 @@ describe('OrganizationListComponent', () => {
         IconTestingModule,
         NgSelectModule,
         FormsModule,
+        KeyboardFocusTestingModule,
       ],
       declarations: [MockListComponent, MockTableComponent],
       providers: [
@@ -109,11 +119,11 @@ describe('OrganizationListComponent', () => {
 
     service = TestBed.inject(OrganizationListService);
     itemService = TestBed.inject(OrganizationItemService);
-  }));
+  });
 
   describe('with table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getTable').and.returnValue(of(mockList));
+      spyOn(service, 'getData').and.returnValue(of(mockList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -143,12 +153,15 @@ describe('OrganizationListComponent', () => {
     });
 
     it('should delegate launch to service.launch', () => {
-      component.launchItem(mockList.data[0]);
-      expect(itemService.launchDetails).toHaveBeenCalledWith(mockList.data[0]);
+      component.launchItem(mockList.values[0]);
+      expect(itemService.launchDetails).toHaveBeenCalledWith(
+        mockList.values[0]
+      );
     });
 
     it('should delegate sorting to service.sort', () => {
-      component.sort({ sort: 'sortCode', currentPage: 3 });
+      component.sortCode = 'sortCode';
+      component.sort({ sort: 'previousSortCode', currentPage: 3 });
       expect(service.sort).toHaveBeenCalledWith({
         sort: 'sortCode',
         currentPage: 3,
@@ -175,7 +188,7 @@ describe('OrganizationListComponent', () => {
 
   describe('without table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getTable').and.returnValue(of(mockEmptyList));
+      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

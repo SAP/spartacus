@@ -1,25 +1,24 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
-import { cold, hot } from 'jasmine-marbles';
-import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-import { normalizeHttpError, OccConfig } from '@spartacus/core';
-import * as fromEffects from './user-group.effect';
+import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
-  B2BSearchConfig,
   UserGroup,
   UserGroupConnector,
 } from '@spartacus/my-account/organization/core';
+import { cold, hot } from 'jasmine-marbles';
+import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
+import { Observable, of, throwError } from 'rxjs';
+import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions';
-import { defaultOccOrganizationConfig } from '@spartacus/my-account/organization/occ';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import * as fromEffects from './user-group.effect';
 import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
@@ -157,7 +156,7 @@ describe('UserGroup Effects', () => {
   });
 
   describe('loadList$', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('should return LoadUserGroupSuccess action', () => {
       const action = new UserGroupActions.LoadUserGroups({
@@ -316,7 +315,7 @@ describe('UserGroup Effects', () => {
   });
 
   describe('loadAvailableOrderApprovalPermissions$', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('should return LoadPermissionSuccess action', () => {
       const action = new UserGroupActions.LoadPermissions({
@@ -457,7 +456,7 @@ describe('UserGroup Effects', () => {
   });
 
   describe('loadAvailableOrgCustomers$', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
 
     it('should return LoadUserGroupAvailableOrgCustomersSuccess action', () => {
       const action = new UserGroupActions.LoadAvailableOrgCustomers({

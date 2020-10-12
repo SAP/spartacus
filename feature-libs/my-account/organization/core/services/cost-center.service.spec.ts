@@ -1,19 +1,25 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import * as fromReducers from '../store/reducers/index';
-import { CostCenterActions, BudgetActions } from '../store/actions/index';
-import { CostCenterService } from './cost-center.service';
-import { B2BSearchConfig } from '../model/search-config';
-import { CostCenter, EntitiesModel, AuthService } from '@spartacus/core';
-import { Budget } from '../model/budget.model';
 import {
-  StateWithOrganization,
+  AuthService,
+  CostCenter,
+  EntitiesModel,
+  SearchConfig,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { Budget } from '../model/budget.model';
+import { BudgetActions, CostCenterActions } from '../store/actions/index';
+import {
   ORGANIZATION_FEATURE,
+  StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { CostCenterService } from './cost-center.service';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';
@@ -60,9 +66,9 @@ describe('CostCenterService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(CostCenterService as Type<CostCenterService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(CostCenterService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -111,7 +117,7 @@ describe('CostCenterService', () => {
   });
 
   describe('get costCenters', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load costCenters when they are not present in the store', () => {
       let costCenters: EntitiesModel<CostCenter>;
@@ -186,7 +192,7 @@ describe('CostCenterService', () => {
   });
 
   describe('get budgets', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getBudgets() should trigger load budgets when they are not present in the store', () => {
       let budgets: EntitiesModel<Budget>;
@@ -264,6 +270,45 @@ describe('CostCenterService', () => {
           budgetCode,
         })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<CostCenter>;
+      store.dispatch(
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+      );
+      service
+        .getLoadingStatus(costCenterCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new CostCenterActions.LoadCostCenterSuccess([costCenter]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: costCenter,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<CostCenter>;
+      store.dispatch(
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+      );
+      service
+        .getLoadingStatus(costCenterCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new CostCenterActions.LoadCostCenterFail({
+          costCenterCode,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

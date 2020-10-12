@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { B2BUnit, B2BUnitNode, EntitiesModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { B2BUnit, EntitiesModel } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -67,10 +70,5 @@ export class UnitListService extends OrganizationListService<B2BUnit> {
     };
     this.flatten(unitModels.values, root.children, level + 1, pagination);
     return unitModels;
-  }
-
-  toggle(_event: Event) {
-    // here's the place to update your local subject
-    console.log(_event);
   }
 }

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { OrgUnitAdapter } from './org-unit.adapter';
 import {
-  B2BUnitNode,
-  B2BUnit,
+  Address,
   B2BApprovalProcess,
+  B2BUnit,
   B2BUser,
-  B2BAddress,
   EntitiesModel,
+  SearchConfig,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
+import { Observable } from 'rxjs';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { OrgUnitAdapter } from './org-unit.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -49,7 +49,7 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadUsers(userId, orgUnitId, roleId, params);
   }
@@ -101,15 +101,15 @@ export class OrgUnitConnector {
   getAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<EntitiesModel<B2BAddress>> {
+  ): Observable<EntitiesModel<Address>> {
     return this.adapter.loadAddresses(userId, orgUnitId);
   }
 
   createAddress(
     userId: string,
     orgUnitId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.adapter.createAddress(userId, orgUnitId, address);
   }
 
@@ -117,8 +117,8 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress> {
+    address: Address
+  ): Observable<Address> {
     return this.adapter.updateAddress(userId, orgUnitId, addressId, address);
   }
 

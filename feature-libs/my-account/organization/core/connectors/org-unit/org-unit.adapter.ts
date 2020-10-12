@@ -1,13 +1,13 @@
-import { Observable } from 'rxjs';
 import {
-  B2BUnitNode,
-  B2BUnit,
+  Address,
   B2BApprovalProcess,
+  B2BUnit,
   B2BUser,
-  B2BAddress,
   EntitiesModel,
+  SearchConfig,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
+import { Observable } from 'rxjs';
+import { B2BUnitNode } from '../../model/unit-node.model';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -40,7 +40,7 @@ export abstract class OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: B2BSearchConfig
+    params?: SearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignRole(
@@ -72,20 +72,20 @@ export abstract class OrgUnitAdapter {
   abstract loadAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<EntitiesModel<B2BAddress>>;
+  ): Observable<EntitiesModel<Address>>;
 
   abstract createAddress(
     userId: string,
     orgUnitId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress>;
+    address: Address
+  ): Observable<Address>;
 
   abstract updateAddress(
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: B2BAddress
-  ): Observable<B2BAddress>;
+    address: Address
+  ): Observable<Address>;
 
   abstract deleteAddress(
     userId: string,

@@ -23,6 +23,7 @@ import { ActiveBudgetGuard } from './guards/active-budget.guard';
 import { ExistBudgetGuard } from './guards/exist-budget.guard';
 import { BudgetItemService } from './services/budget-item.service';
 import { BudgetListService } from './services/budget-list.service';
+import { BudgetRoutePageMetaResolver } from './services/budget-route-page-meta.resolver';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
@@ -68,28 +69,43 @@ export const budgetCmsConfig: CmsConfig = {
           useExisting: BudgetItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: BudgetFormComponent,
-        },
-        {
-          path: `:${ROUTE_PARAMS.budgetCode}`,
-          component: BudgetDetailsComponent,
-          canActivate: [ExistBudgetGuard],
-          children: [
-            {
-              path: `edit`,
-              component: BudgetFormComponent,
-              canActivate: [ActiveBudgetGuard],
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'budget.breadcrumbs.list',
+              resolver: BudgetRoutePageMetaResolver,
             },
-            {
-              path: 'cost-centers',
-              component: BudgetCostCenterListComponent,
-            },
-          ],
+          },
         },
-      ],
+        children: [
+          {
+            path: 'create',
+            component: BudgetFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.budgetCode}`,
+            component: BudgetDetailsComponent,
+            canActivate: [ExistBudgetGuard],
+            data: {
+              cxPageMeta: {
+                breadcrumb: 'budget.breadcrumbs.details',
+              },
+            },
+            children: [
+              {
+                path: `edit`,
+                component: BudgetFormComponent,
+                canActivate: [ActiveBudgetGuard],
+              },
+              {
+                path: 'cost-centers',
+                component: BudgetCostCenterListComponent,
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },

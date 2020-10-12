@@ -1,19 +1,17 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BAddress, B2BApprovalProcess } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
+import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
+import { of } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
 import createSpy = jasmine.createSpy;
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';
 const approvalProcessCode = 'approvalProcessCode';
 const roleId = 'testRoleId';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const orgCustomerId = 'testCustomerId';
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 
 const orgUnitNode = {
@@ -61,8 +59,8 @@ describe('OrgUnitConnector', () => {
       ],
     });
 
-    service = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
-    adapter = TestBed.get(OrgUnitAdapter as Type<OrgUnitAdapter>);
+    service = TestBed.inject(OrgUnitConnector);
+    adapter = TestBed.inject(OrgUnitAdapter);
   });
 
   it('should be created', () => {

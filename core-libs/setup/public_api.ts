@@ -1,1 +1,1 @@
-export const dummy = {};
+export * from './recipes/index';

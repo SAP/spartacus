@@ -1,11 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
-
+import { SearchConfig } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CostCenterAdapter } from './cost-center.adapter';
 import { CostCenterConnector } from './cost-center.connector';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const costCenterCode = 'costCenterCode';
@@ -49,8 +47,8 @@ describe('CostCenterConnector', () => {
       ],
     });
 
-    service = TestBed.get(CostCenterConnector as Type<CostCenterConnector>);
-    adapter = TestBed.get(CostCenterAdapter as Type<CostCenterAdapter>);
+    service = TestBed.inject(CostCenterConnector);
+    adapter = TestBed.inject(CostCenterAdapter);
   });
 
   it('should be created', () => {
@@ -63,7 +61,7 @@ describe('CostCenterConnector', () => {
   });
 
   it('should load costCenters', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });
@@ -83,7 +81,7 @@ describe('CostCenterConnector', () => {
   });
 
   it('should load budgets assigned to costCenter', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     service.getBudgets(userId, costCenterCode, params);
     expect(adapter.loadBudgets).toHaveBeenCalledWith(
       userId,

@@ -1,32 +1,40 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  Address,
   AuthService,
-  B2BUnit,
-  B2BUnitNode,
   B2BApprovalProcess,
+  B2BUnit,
   B2BUser,
-  B2BAddress,
+  CostCenter,
   EntitiesModel,
   ListModel,
-  CostCenter,
+  SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
+import { B2BUnitNode } from '../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
-import { OrgUnitService } from './org-unit.service';
-import createSpy = jasmine.createSpy;
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
-import { B2BSearchConfig } from '../model/search-config';
+import * as fromReducers from '../store/reducers/index';
+import { OrgUnitService } from './org-unit.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
-const orgUnit: Partial<B2BUnit> = { uid: orgUnitId, costCenters: [] };
+const addressId = 'testAddressId';
+const address: Address = { id: addressId };
+const orgUnit: Partial<B2BUnit> = {
+  uid: orgUnitId,
+  costCenters: [],
+  addresses: [address],
+};
 
 const mockedTree = {
   active: true,
@@ -86,8 +94,6 @@ const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
-const address: B2BAddress = { id: 'adrId' };
-const addressId = 'testAddressId';
 const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';
 const unit: B2BUnit = { uid: 'testUid' };
@@ -116,9 +122,9 @@ describe('OrgUnitService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(OrgUnitService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -278,7 +284,7 @@ describe('OrgUnitService', () => {
 
   describe('get Addresses', () => {
     it('getAddresses() should trigger loadAddresses when they are not present in the store', () => {
-      let fetchedAddress: EntitiesModel<B2BAddress>;
+      let fetchedAddress: EntitiesModel<Address>;
       service
         .getAddresses(orgUnitId)
         .subscribe((data) => {
@@ -445,7 +451,7 @@ describe('OrgUnitService', () => {
   });
 
   describe('get Users', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
     const customerId = 'customerId';
     const customerId2 = 'customerId2';
     const user1 = {
@@ -602,6 +608,88 @@ describe('OrgUnitService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadTree({ userId })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUnit>;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getLoadingStatus(orgUnitId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: orgUnit,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUnit>;
+      store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }));
+      service
+        .getLoadingStatus(orgUnitId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new OrgUnitActions.LoadOrgUnitFail({
+          orgUnitId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
+    });
+  });
+
+  describe('get loading status for address', () => {
+    it('getAddressLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<Address>;
+      store.dispatch(
+        new OrgUnitActions.CreateAddress({
+          userId,
+          orgUnitId,
+          address,
+        })
+      );
+      service
+        .getAddressLoadingStatus(addressId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new OrgUnitActions.CreateAddressSuccess(address));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: address,
+      });
+    });
+
+    it('getAddressLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<Address>;
+      store.dispatch(
+        new OrgUnitActions.CreateAddress({
+          userId,
+          orgUnitId,
+          address,
+        })
+      );
+      service
+        .getAddressLoadingStatus(addressId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new OrgUnitActions.CreateAddressFail({
+          addressId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: undefined,
+      });
     });
   });
 });

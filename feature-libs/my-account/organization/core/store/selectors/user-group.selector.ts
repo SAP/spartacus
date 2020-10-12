@@ -1,25 +1,25 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
+  B2BUser,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import {
+  denormalizeCustomB2BSearch,
+  denormalizeSearch,
+} from '../../utils/serializer';
+import {
   OrganizationState,
   StateWithOrganization,
   UserGroupManagement,
   USER_GROUP_FEATURE,
 } from '../organization-state';
-import { getOrganizationState } from './feature.selector';
-import {
-  denormalizeB2BSearch,
-  denormalizeCustomB2BSearch,
-} from '../../utils/serializer';
-import {
-  StateUtils,
-  EntitiesModel,
-  Permission,
-  B2BUser,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-import { getPermissionsState } from './permission.selector';
 import { getB2BUsersState } from './b2b-user.selector';
-import { UserGroup } from '../../model/user-group.model';
+import { getOrganizationState } from './feature.selector';
+import { getPermissionsState } from './permission.selector';
 
 export const getUserGroupManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -47,18 +47,18 @@ export const getUserGroup = (
   );
 
 export const getUserGroupList = (
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<UserGroup>>
 > =>
   createSelector(getUserGroupManagementState, (state: UserGroupManagement) =>
-    denormalizeB2BSearch<UserGroup>(state, params)
+    denormalizeSearch<UserGroup>(state, params)
   );
 
 export const getAvailableOrgCustomers = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
@@ -74,7 +74,7 @@ export const getAvailableOrgCustomers = (
 
 export const getAvailableOrderApprovalPermissions = (
   code: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>

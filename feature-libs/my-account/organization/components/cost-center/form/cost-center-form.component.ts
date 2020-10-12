@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
-  CostCenter,
-  Currency,
-  CurrencyService,
-} from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+  OrgUnitService,
+} from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';

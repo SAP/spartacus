@@ -1,15 +1,15 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 import {
-  ORGANIZATION_FEATURE,
   OrderApprovalManagement,
+  ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { OrderApprovalSelectors } from '../selectors/index';
-import { StateUtils, OrderApproval } from '@spartacus/core';
 
 describe('OrderApproval Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -48,7 +48,7 @@ describe('OrderApproval Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

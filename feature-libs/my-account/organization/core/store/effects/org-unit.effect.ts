@@ -1,20 +1,19 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import {
-  EntitiesModel,
   B2BApprovalProcess,
-  B2BUnitNode,
-  B2BUser,
   B2BUnit,
+  B2BUser,
+  EntitiesModel,
   normalizeHttpError,
 } from '@spartacus/core';
-
-import { B2BUserActions, OrgUnitActions } from '../actions/index';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
+import { Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
-import { HttpErrorResponse } from '@angular/common/http';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -367,8 +366,9 @@ export class OrgUnitEffects {
 
   @Effect()
   updateAddress$: Observable<
-    // OrgUnitActions.UpdateAddressSuccess |
-    OrgUnitActions.LoadAddresses | OrgUnitActions.UpdateAddressFail
+    | OrgUnitActions.UpdateAddressSuccess
+    | OrgUnitActions.LoadAddresses
+    | OrgUnitActions.UpdateAddressFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),

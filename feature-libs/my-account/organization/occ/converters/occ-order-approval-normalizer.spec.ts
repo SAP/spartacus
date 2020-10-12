@@ -1,12 +1,12 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import {
-  OccConfig,
-  Occ,
-  OrderApproval,
-  ORDER_NORMALIZER,
   ConverterService,
+  Occ,
+  OccConfig,
+  ORDER_NORMALIZER,
 } from '@spartacus/core';
+import { OrderApproval } from '../../core/model/order-approval.model';
 import { OccOrderApprovalNormalizer } from './occ-order-approval-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

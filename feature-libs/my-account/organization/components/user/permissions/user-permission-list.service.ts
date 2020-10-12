@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel, Permission } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  B2BUserService,
+  Permission,
+} from '@spartacus/my-account/organization/core';
+import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../shared/organization-sub-list';
+import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({
@@ -13,7 +16,7 @@ export class UserPermissionListService extends OrganizationSubListService<
   Permission
 > {
   protected tableType = OrganizationTableType.USER_PERMISSIONS;
-  protected domainType = OrganizationTableType.PERMISSION;
+  protected _domainType = OrganizationTableType.PERMISSION;
 
   constructor(
     protected tableService: TableService,
@@ -23,10 +26,10 @@ export class UserPermissionListService extends OrganizationSubListService<
   }
 
   protected load(
-    structure: TableStructure,
+    pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.userService.getPermissions(code, structure.options?.pagination);
+    return this.userService.getPermissions(code, pagination);
   }
 
   /**

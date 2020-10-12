@@ -1,6 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { Address, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -9,13 +10,6 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { OrgUnitSelectors } from '../selectors/index';
-import {
-  ListModel,
-  B2BAddress,
-  B2BUnit,
-  B2BUnitNode,
-  StateUtils,
-} from '@spartacus/core';
 
 describe('OrgUnit Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -25,7 +19,7 @@ describe('OrgUnit Selectors', () => {
 
   const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
   const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
-  const address: Partial<B2BAddress> = { id: 'addressId' };
+  const address: Partial<Address> = { id: 'addressId' };
 
   const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
@@ -38,7 +32,7 @@ describe('OrgUnit Selectors', () => {
     },
   };
 
-  const b2bAddress: B2BAddress = { id: 'addressId' };
+  const b2bAddress: Address = { id: 'addressId' };
   const addressId: string = b2bAddress.id;
 
   const page: ListModel = {
@@ -66,7 +60,7 @@ describe('OrgUnit Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -125,7 +119,7 @@ describe('OrgUnit Selectors', () => {
 
   describe('getAddressesState', () => {
     it('should get addresses state', () => {
-      let result: StateUtils.EntityLoaderState<B2BAddress>;
+      let result: StateUtils.EntityLoaderState<Address>;
       store
         .pipe(select(OrgUnitSelectors.getAddressesState))
         .subscribe((value) => (result = value));
@@ -141,7 +135,7 @@ describe('OrgUnit Selectors', () => {
 
   describe('getB2BAddress', () => {
     it('should get B2B Address', () => {
-      let result: StateUtils.LoaderState<B2BAddress>;
+      let result: StateUtils.LoaderState<Address>;
       store
         .pipe(select(OrgUnitSelectors.getB2BAddress(addressId)))
         .subscribe((value) => (result = value));

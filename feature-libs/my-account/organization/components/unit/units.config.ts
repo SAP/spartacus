@@ -11,6 +11,7 @@ import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
@@ -20,16 +21,19 @@ import { UnitAddressDetailsComponent } from './links/addresses/details/unit-addr
 import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
 import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
-import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned/unit-assigned-approver-list.component';
+import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
+import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
 import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
 import { UnitListComponent } from './list/unit-list.component';
+import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
+import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -117,75 +121,117 @@ export const unitsCmsConfig: CmsConfig = {
           useExisting: UnitItemService,
         },
       ],
-      childRoutes: [
-        {
-          path: 'create',
-          component: UnitFormComponent,
+      childRoutes: {
+        parent: {
+          data: {
+            cxPageMeta: {
+              breadcrumb: 'unit.breadcrumbs.list',
+              resolver: UnitRoutePageMetaResolver,
+            },
+          },
         },
-        {
-          path: `:${ROUTE_PARAMS.unitCode}`,
-          component: UnitDetailsComponent,
-          canActivate: [ExistUnitGuard],
-          children: [
-            {
-              path: 'edit',
-              component: UnitFormComponent,
-              canActivate: [ActiveUnitGuard],
+        children: [
+          {
+            path: 'create',
+            component: UnitFormComponent,
+          },
+          {
+            path: `:${ROUTE_PARAMS.unitCode}`,
+            component: UnitDetailsComponent,
+            canActivate: [ExistUnitGuard],
+            data: {
+              cxPageMeta: { breadcrumb: 'unit.breadcrumbs.details' },
             },
-            {
-              path: 'children',
-              component: UnitChildrenComponent,
-              children: [
-                {
-                  path: 'create',
-                  component: UnitFormComponent,
+            children: [
+              {
+                path: 'edit',
+                component: UnitFormComponent,
+                canActivate: [ActiveUnitGuard],
+              },
+              {
+                path: 'children',
+                component: UnitChildrenComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.children' },
                 },
-              ],
-            },
-            {
-              path: 'approvers',
-              component: UnitAssignedApproverListComponent,
-            },
-            {
-              path: 'approvers/assign',
-              component: UnitApproverListComponent,
-            },
-            {
-              path: 'users',
-              component: UnitUserListComponent,
-              children: [
-                {
-                  path: ':userCode/roles',
-                  component: UnitUserRolesFormComponent,
+                children: [
+                  {
+                    path: 'create',
+                    component: ChildUnitCreateComponent,
+                  },
+                ],
+              },
+              {
+                path: 'approvers',
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.approvers' },
                 },
-              ],
-            },
-            {
-              path: 'cost-centers',
-              component: UnitCostCenterListComponent,
-            },
-            {
-              path: 'addresses',
-              component: UnitAddressListComponent,
-              children: [
-                {
-                  path: 'create',
-                  component: UnitAddressFormComponent,
+                children: [
+                  {
+                    path: '',
+                    component: UnitAssignedApproverListComponent,
+                  },
+                  {
+                    path: 'assign',
+                    component: UnitApproverListComponent,
+                  },
+                ],
+              },
+              {
+                path: 'users',
+                component: UnitUserListComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.users' },
                 },
-                {
-                  path: ':addressId',
-                  component: UnitAddressDetailsComponent,
+                children: [
+                  {
+                    path: `:${ROUTE_PARAMS.userCode}/roles`,
+                    component: UnitUserRolesFormComponent,
+                  },
+                ],
+              },
+              {
+                path: 'cost-centers',
+                component: UnitCostCenterListComponent,
+              },
+              {
+                path: 'addresses',
+                component: UnitAddressListComponent,
+                data: {
+                  cxPageMeta: {
+                    breadcrumb: 'unit.breadcrumbs.addresses',
+                    resolver: UnitAddressRoutePageMetaResolver,
+                  },
                 },
-                {
-                  path: ':addressId/edit',
-                  component: UnitAddressFormComponent,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-
+                children: [
+                  {
+                    path: 'create',
+                    component: UnitAddressFormComponent,
+                  },
+                  {
+                    path: `:${ROUTE_PARAMS.addressCode}`,
+                    data: {
+                      cxPageMeta: {
+                        breadcrumb: 'unit.breadcrumbs.addressDetails',
+                      },
+                    },
+                    children: [
+                      {
+                        path: '',
+                        component: UnitAddressDetailsComponent,
+                      },
+                      {
+                        path: 'edit',
+                        component: UnitAddressFormComponent,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       guards: [AuthGuard, AdminGuard],
     },
   },
@@ -227,18 +273,22 @@ export const unitsTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.UNIT_APPROVERS]: {
-      cells: ['name', 'actions'],
+      cells: ['name', 'orgUnit', 'actions'],
       options: {
         cells: {
           actions: {
             dataComponent: AssignCellComponent,
+          },
+          orgUnit: {
+            linkable: false,
+            dataComponent: UnitCellComponent,
           },
         },
       },
     },
 
     [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
-      cells: ['name', 'actions'],
+      cells: ['name', 'orgUnit', 'actions'],
       options: {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
@@ -246,6 +296,9 @@ export const unitsTableConfig: TableConfig = {
         cells: {
           actions: {
             dataComponent: AssignCellComponent,
+          },
+          orgUnit: {
+            dataComponent: UnitCellComponent,
           },
         },
       },

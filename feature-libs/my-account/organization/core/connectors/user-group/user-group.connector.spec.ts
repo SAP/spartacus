@@ -1,11 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
-
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
+import { SearchConfig } from '@spartacus/core';
+import { of } from 'rxjs';
 import { UserGroupAdapter } from './user-group.adapter';
 import { UserGroupConnector } from './user-group.connector';
+import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const userGroupId = 'userGroupId';
@@ -72,7 +71,7 @@ describe('UserGroupConnector', () => {
   });
 
   it('should load userGroup', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });
@@ -93,7 +92,7 @@ describe('UserGroupConnector', () => {
   });
 
   it('should load permissions assigned to userGroup', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
     service.getAvailableOrderApprovalPermissions(userId, userGroupId, params);
     expect(adapter.loadAvailableOrderApprovalPermissions).toHaveBeenCalledWith(
       userId,
@@ -121,7 +120,7 @@ describe('UserGroupConnector', () => {
   });
 
   it('should load members assigned to userGroup', () => {
-    const params: B2BSearchConfig = { sort: 'uid' };
+    const params: SearchConfig = { sort: 'uid' };
     service.getAvailableOrgCustomers(userId, userGroupId, params);
     expect(adapter.loadAvailableOrgCustomers).toHaveBeenCalledWith(
       userId,

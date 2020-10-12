@@ -7,22 +7,25 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:run:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --spec \"cypress/integration/!(vendor)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --spec \"cypress/integration/!(vendor)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --spec \"cypress/integration/!(vendor)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --tag \"1905,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --tag \"2005,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --tag \"ccv2,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
     "cy:run:mobile": "cypress run --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:mobile:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:regression": "cypress run --spec \"cypress/integration/regression/**/*\"",
     "cy:cds:run:vendor": "cypress run --spec \"cypress/integration/vendor/cds/**/*\"",
     "cy:run:regression:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/regression/**/*\"",
     "cy:run:smoke": "cypress run --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --spec \"cypress/integration/smoke/**/*\""
+    "cy:run:smoke:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --tag \"1905,smoke\" --spec \"cypress/integration/smoke/**/*\"",
+    "cy:run:smoke:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --tag \"2005,smoke\" --spec \"cypress/integration/smoke/**/*\"",
+    "cy:run:smoke:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --tag \"ccv2,smoke\" --spec \"cypress/integration/smoke/**/*\"",
+    "cy:run:b2b": "cypress run --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true --spec \"cypress/integration/b2b/**/*\"",
+    "cy:run:b2b:ci": "cypress run --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true --record --key $CYPRESS_KEY --tag \"2005,b2b\" --spec \"cypress/integration/b2b/**/*\"",
+    "cy:open:b2b": "cypress open --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true --config testFiles=**/b2b/**/*"
   },
   "devDependencies": {
-    "@cypress/webpack-preprocessor": "^4.0.3",
-    "@testing-library/cypress": "^4.2.0",
-    "cypress": "^4.11.0"
+    "@cypress/webpack-preprocessor": "^5.4.6",
+    "@testing-library/cypress": "^6.0.1",
+    "cypress": "^5.3.0"
   }
 }

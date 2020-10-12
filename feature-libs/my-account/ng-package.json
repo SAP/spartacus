@@ -9,5 +9,6 @@
       "@ng-select/ng-select": "ng-select",
       "rxjs": "rxjs"
     }
-  }
+  },
+  "assets": ["**/*.scss", "migrations/**/*.json", "schematics/**/*.json"]
 }

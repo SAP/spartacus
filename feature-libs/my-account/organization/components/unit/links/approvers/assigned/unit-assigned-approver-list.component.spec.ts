@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrganizationSubListTestingModule } from 'feature-libs/my-account/organization/components/shared/organization-sub-list/organization-sub-list.testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -11,7 +11,7 @@ describe('UnitAssignedApproverListComponent', () => {
   let component: UnitAssignedApproverListComponent;
   let fixture: ComponentFixture<UnitAssignedApproverListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         OrganizationSubListTestingModule,
@@ -26,9 +26,6 @@ describe('UnitAssignedApproverListComponent', () => {
       ],
       declarations: [UnitAssignedApproverListComponent],
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(UnitAssignedApproverListComponent);
     component = fixture.componentInstance;
   });

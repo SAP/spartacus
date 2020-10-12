@@ -10,7 +10,7 @@ import { OrganizationSubListService } from '../organization-sub-list/organizatio
 
 @Component({
   template: `
-    <button (click)="toggleAssign()" class="link">
+    <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
       {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,
@@ -29,8 +29,15 @@ export class AssignCellComponent<T> implements OnDestroy {
     protected organizationSubListService: OrganizationListService<T>
   ) {}
 
+  /**
+   * Indicates whether the item is loaded.
+   */
+  get hasItem(): boolean {
+    return !!this.item && Object.keys(this.item).length > 0;
+  }
+
   get isAssigned(): boolean {
-    return this.outlet.context.selected;
+    return (this.item as any)?.selected;
   }
 
   toggleAssign() {
@@ -74,17 +81,28 @@ export class AssignCellComponent<T> implements OnDestroy {
     );
   }
 
+  protected get item(): T | null {
+    if (!this.outlet.context) {
+      return null;
+    }
+    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    return all as T;
+  }
+
   ngOnDestroy() {
-    // We're playing a dirty trick here; The store is not equipped with a selector to select
-    // any updated assignments. Moreover, as soon as an item is unassigned, it might not
-    // be available anymore. This is why we add the message when this action is destroyed.
+    // We're playing a dirty trick here; The store is not equipped with a
+    // selector to select any updated assignments. Moreover, as soon as
+    // an item is unassigned, it might not be available anymore. This is
+    // why we add the message when this action is destroyed.
     if (this.notify) {
-      this.messageService.notify({
-        key: this.outlet.context.selected
-          ? this.organizationSubListService.viewType + '.unassigned'
-          : this.organizationSubListService.viewType + '.assigned',
-        params: {
-          item: this.outlet.context,
+      this.messageService.add({
+        message: {
+          key: this.outlet.context.selected
+            ? this.organizationSubListService.viewType + '.unassigned'
+            : this.organizationSubListService.viewType + '.assigned',
+          params: {
+            item: this.outlet.context,
+          },
         },
       });
     }

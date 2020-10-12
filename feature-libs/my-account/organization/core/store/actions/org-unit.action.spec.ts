@@ -1,12 +1,13 @@
 import {
-  ListModel,
-  B2BUnit,
-  B2BUnitNode,
+  Address,
   B2BApprovalProcess,
-  B2BAddress,
+  B2BUnit,
+  ListModel,
+  SearchConfig,
   StateUtils,
 } from '@spartacus/core';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -21,7 +22,6 @@ import {
   ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
 import { OrgUnitActions } from './index';
-import { B2BSearchConfig } from '@spartacus/my-account/organization/core';
 
 const orgUnitId = 'testOrgUnitId';
 const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
@@ -40,13 +40,13 @@ const roleId = 'testRoleId';
 const uid = 'testUid';
 const selected = true;
 
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 const page: ListModel = {
   ids: [addressId],
   sorts: [{ code: 'code' }],
 };
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const unit: B2BUnit = { uid: 'testUid' };
 const unitCode: string = unit.uid;
 
@@ -679,7 +679,7 @@ describe('OrgUnit Actions', () => {
         payload: { userId, orgUnitId, roleId, params },
         meta: StateUtils.entityLoadMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+          serializeSearchConfig(params, `${orgUnitId},${roleId}`)
         ),
       });
     });
@@ -697,7 +697,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, params, error },
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`),
+          serializeSearchConfig(params, `${orgUnitId},${roleId}`),
           error
         ),
       });
@@ -716,7 +716,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, page, params },
         meta: StateUtils.entitySuccessMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+          serializeSearchConfig(params, `${orgUnitId},${roleId}`)
         ),
       });
     });

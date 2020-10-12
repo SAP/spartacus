@@ -2,24 +2,23 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  B2BAddress,
+  Address,
+  ADDRESS_LIST_NORMALIZER,
+  ADDRESS_SERIALIZER,
   ConverterService,
   OccEndpointsService,
+  SearchConfig,
 } from '@spartacus/core';
-import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import {
-  B2B_ADDRESS_LIST_NORMALIZER,
-  B2B_ADDRESS_NORMALIZER,
-  B2B_USERS_NORMALIZER,
-  B2BSearchConfig,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2B_USERS_NORMALIZER,
 } from '@spartacus/my-account/organization/core';
+import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import createSpy = jasmine.createSpy;
 
 const orgUnitId = 'testId';
@@ -29,9 +28,9 @@ const orgUnit = {
   name: 'testOrgUnit',
 };
 const roleId = 'testRoleId';
-const params: B2BSearchConfig = { sort: 'code' };
+const params: SearchConfig = { sort: 'code' };
 const orgCustomerId = 'testCustomerId';
-const address: B2BAddress = { id: 'testAddressId' };
+const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 
 class MockOccEndpointsService {
@@ -57,11 +56,9 @@ describe('OccOrgUnitAdapter', () => {
         },
       ],
     });
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(OccOrgUnitAdapter as Type<OccOrgUnitAdapter>);
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
+    converterService = TestBed.inject(ConverterService);
+    service = TestBed.inject(OccOrgUnitAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
@@ -246,7 +243,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_LIST_NORMALIZER
+        ADDRESS_LIST_NORMALIZER
       );
     });
   });
@@ -264,7 +261,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });
@@ -279,7 +276,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });
@@ -294,7 +291,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_ADDRESS_NORMALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });

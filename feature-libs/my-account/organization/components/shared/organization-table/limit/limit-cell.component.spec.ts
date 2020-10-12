@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Permission } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
+import { Permission } from 'feature-libs/my-account/organization/core/model/permission.model';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { LimitCellComponent } from '..';
 

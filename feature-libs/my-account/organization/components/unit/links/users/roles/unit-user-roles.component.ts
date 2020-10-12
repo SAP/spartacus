@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser } from '@spartacus/core';
-import {
-  B2BUserService,
-  UserRole,
-} from '@spartacus/my-account/organization/core';
-import { MessageService } from '../../../../shared/organization-message/services/message.service';
+import { B2BUser, B2BUserGroup } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 import { UnitUserItemService } from '../services/unit-user-item.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 
@@ -41,12 +38,7 @@ export class UnitUserRolesFormComponent {
     map((item) => this.formService.getForm(item))
   );
 
-  availableRoles = [
-    UserRole.CUSTOMER,
-    UserRole.MANAGER,
-    UserRole.APPROVER,
-    UserRole.ADMIN,
-  ];
+  availableRoles: B2BUserGroup[] = this.userService.getAllRoles();
 
   constructor(
     protected itemService: OrganizationItemService<B2BUser>,
@@ -61,9 +53,11 @@ export class UnitUserRolesFormComponent {
   }
 
   protected notify(item: B2BUser) {
-    this.messageService.notify({
-      key: 'unitUserRoles.messages.rolesUpdated',
-      params: { item: item },
+    this.messageService.add({
+      message: {
+        key: 'unitUserRoles.messages.rolesUpdated',
+        params: { item: item },
+      },
     });
   }
 }

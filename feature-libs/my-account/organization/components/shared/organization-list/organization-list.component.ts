@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from './organization-list.service';
-
-const BASE_CLASS = 'organization';
 
 @Component({
   selector: 'cx-organization-list',
@@ -13,16 +12,22 @@ const BASE_CLASS = 'organization';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationListComponent<T = any, P = PaginationModel> {
-  @HostBinding('class') hostClass = BASE_CLASS;
+  // temp as long as unit tree is not merged
+  @HostBinding('class.organization') orgCls = true;
+
+  @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
     protected service: OrganizationListService<T, P>,
     protected organizationItemService: OrganizationItemService<T>
   ) {}
 
-  get viewType() {
-    return this.service.viewType;
-  }
+  @HostBinding('class')
+  viewType = this.service.viewType;
+
+  domainType = this.service.domainType;
+
+  sortCode: string;
 
   /**
    * The current key represents the current selected item from the dataset.
@@ -31,9 +36,16 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    */
   readonly currentKey$ = this.organizationItemService.key$;
 
-  readonly dataTable$: Observable<Table> = this.service.getTable();
+  readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
-  notification$: Observable<string> = this.service.notification$;
+  readonly listData$: Observable<
+    EntitiesModel<T>
+  > = this.service.getData().pipe(
+    tap((data) => {
+      this.sortCode = data.pagination?.sort;
+      this.hasGhostData = this.service.hasGhostData(data);
+    })
+  );
 
   get key(): string {
     return this.service.key();
@@ -64,6 +76,9 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
    * Sorts the list.
    */
   sort(pagination: P): void {
-    this.service.sort(pagination);
+    this.service.sort({
+      ...pagination,
+      ...({ sort: this.sortCode } as PaginationModel),
+    });
   }
 }

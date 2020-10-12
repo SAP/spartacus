@@ -1,19 +1,21 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
-import { AuthService, EntitiesModel } from '@spartacus/core';
+import { Budget } from '../model/budget.model';
 import { BudgetActions } from '../store/actions/index';
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
-import { B2BSearchConfig } from '../model/search-config';
-import { Budget } from '../model/budget.model';
-import {
-  StateWithOrganization,
-  ORGANIZATION_FEATURE,
-} from '../store/organization-state';
 
 import createSpy = jasmine.createSpy;
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 
 const userId = 'current';
 const budgetCode = 'testBudget';
@@ -51,9 +53,9 @@ describe('BudgetService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(BudgetService as Type<BudgetService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(BudgetService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -100,7 +102,7 @@ describe('BudgetService', () => {
   });
 
   describe('get budgets', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
       let budgets: EntitiesModel<Budget>;
@@ -165,6 +167,38 @@ describe('BudgetService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<Budget>;
+      store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
+      service
+        .getLoadingStatus(budgetCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: budget,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<Budget>;
+      store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }));
+      service
+        .getLoadingStatus(budgetCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new BudgetActions.LoadBudgetFail({ budgetCode, error: new Error() })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

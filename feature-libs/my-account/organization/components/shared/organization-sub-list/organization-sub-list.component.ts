@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Table } from '@spartacus/storefront';
-import { Observable } from 'rxjs/internal/Observable';
-import { map, switchMap } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
+import { EntitiesModel } from '@spartacus/core';
+import { TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 
 @Component({
@@ -14,9 +20,18 @@ export class OrganizationSubListComponent extends OrganizationListComponent {
 
   @Input() previous: boolean | string = true;
 
-  readonly dataTable$: Observable<Table> = this.currentKey$.pipe(
-    switchMap((key) => this.service.getTable(key))
+  @HostBinding('class.ghost') hasGhostData = false;
+
+  readonly listData$: Observable<EntitiesModel<any>> = this.currentKey$.pipe(
+    switchMap((key) => this.service.getData(key)),
+    tap((data) => {
+      this.hasGhostData = this.service.hasGhostData(data);
+    })
   );
+
+  readonly dataStructure$: Observable<
+    TableStructure
+  > = this.service.getStructure();
 
   getRouteParam(): Observable<any> {
     return this.currentKey$.pipe(

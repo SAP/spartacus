@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import {
-  StateWithProcess,
   AuthService,
   B2BUser,
-  Permission,
   EntitiesModel,
+  SearchConfig,
   StateUtils,
+  StateWithProcess,
 } from '@spartacus/core';
-
-import { StateWithOrganization } from '../store/organization-state';
-import { UserGroupActions } from '../store/actions/index';
-import { B2BSearchConfig } from '../model/search-config';
+import { Observable, queueScheduler } from 'rxjs';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
+import { UserGroupActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
 import {
+  getAvailableOrderApprovalPermissions,
+  getAvailableOrgCustomers,
   getUserGroup,
   getUserGroupList,
-  getAvailableOrgCustomers,
-  getAvailableOrderApprovalPermissions,
 } from '../store/selectors/user-group.selector';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
@@ -40,7 +41,7 @@ export class UserGroupService {
     );
   }
 
-  loadList(params?: B2BSearchConfig) {
+  loadList(params?: SearchConfig) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -89,7 +90,7 @@ export class UserGroupService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<UserGroup>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<UserGroup>> {
     return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) => {
@@ -128,6 +129,12 @@ export class UserGroupService {
     );
   }
 
+  getLoadingStatus(
+    budgetCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
+    return getItemStatus(this.getUserGroup(budgetCode));
+  }
+
   delete(userGroupId: string) {
     this.withUserId((userId) =>
       this.store.dispatch(
@@ -139,7 +146,7 @@ export class UserGroupService {
     );
   }
 
-  loadAvailableOrgCustomers(userGroupId: string, params: B2BSearchConfig) {
+  loadAvailableOrgCustomers(userGroupId: string, params: SearchConfig) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomers({
@@ -153,7 +160,7 @@ export class UserGroupService {
 
   loadAvailableOrderApprovalPermissions(
     userGroupId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ) {
     this.withUserId((userId) =>
       this.store.dispatch(
@@ -168,7 +175,7 @@ export class UserGroupService {
 
   getAvailableOrgCustomers(
     userGroupId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.getAvailableOrgCustomersList(userGroupId, params).pipe(
       observeOn(queueScheduler),
@@ -187,7 +194,7 @@ export class UserGroupService {
 
   getAvailableOrderApprovalPermissions(
     userGroupId: string,
-    params: B2BSearchConfig
+    params: SearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.getAvailableOrderApprovalPermissionsList(
       userGroupId,

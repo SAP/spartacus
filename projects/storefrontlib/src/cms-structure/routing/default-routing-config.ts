@@ -20,6 +20,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
   checkoutReviewOrder: { paths: ['checkout/review-order'] },
   orderConfirmation: { paths: ['order-confirmation'] },
+  replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
 
   // plp routes
   search: { paths: ['search/:query'] },
@@ -72,12 +73,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
   },
-  organization: {
-    paths: ['organization'],
+  replenishmentOrders: {
+    paths: ['my-account/my-replenishments'],
   },
-  orderApprovalDetails: {
-    paths: ['my-account/approval/:approvalCode'],
-    paramsMapping: { approvalCode: 'approvalCode' },
+  replenishmentDetails: {
+    paths: ['my-account/my-replenishment/:replenishmentOrderCode'],
+    paramsMapping: { replenishmentOrderCode: 'replenishmentOrderCode' },
   },
 };
 

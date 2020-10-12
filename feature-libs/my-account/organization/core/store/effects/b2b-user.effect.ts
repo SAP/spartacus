@@ -1,23 +1,23 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  B2BUser,
+  EntitiesModel,
+  normalizeHttpError,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, mergeMap, groupBy } from 'rxjs/operators';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
+import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
-import {
-  Permission,
-  B2BUser,
-  EntitiesModel,
-  RoutingService,
-  normalizeHttpError,
-} from '@spartacus/core';
-import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
-import { UserGroup } from '../../model/user-group.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class B2BUserEffects {

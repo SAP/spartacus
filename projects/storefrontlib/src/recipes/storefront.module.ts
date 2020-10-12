@@ -20,8 +20,8 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
 @NgModule({
   imports: [
     RouterModule.forRoot([], {
-      // scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
+      relativeLinkResolution: 'corrected',
     }),
 
     StoreModule.forRoot({}),

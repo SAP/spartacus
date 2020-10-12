@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { Subscription } from 'rxjs';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -86,18 +87,16 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   /**
    * Returns the maximum number of views per split-view. The number is based on the
    * CSS custom property `--cx-max-views`.
-   *
-   * Defaults to `1`.
    */
   protected get splitViewCount(): number {
     return Number(
-      getComputedStyle(this.elementRef.nativeElement)
-        .getPropertyValue('--cx-max-views')
-        .trim() || 1
+      getComputedStyle(this.elementRef.nativeElement).getPropertyValue(
+        '--cx-max-views'
+      )
     );
   }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

@@ -4,7 +4,9 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { b2cLayoutConfig, mediaConfig } from './config/index';
+import { CmsLibModule } from '../cms-components/cms-lib.module';
+import { StorefrontConfig } from '../storefront-config';
+import { layoutConfig, mediaConfig } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
 import { StorefrontConfig } from '../storefront-config';
@@ -24,7 +26,7 @@ import { CmsLibModule } from '../cms-components/cms-lib.module';
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],

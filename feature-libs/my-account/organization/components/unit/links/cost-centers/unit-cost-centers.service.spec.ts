@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitCostCenterListService } from '.';
 
@@ -28,7 +28,7 @@ class MockUnitCostCentersService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -60,11 +60,11 @@ describe('UnitCostCenterListService', () => {
   });
 
   it('should load cost centers', () => {
-    let result: Table<CostCenter>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    let result: EntitiesModel<CostCenter>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
+    expect(result.values[0].code).toEqual('first');
+    expect(result.values[1].code).toEqual('second');
+    expect(result.values[2].code).toEqual('third');
   });
 });

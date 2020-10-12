@@ -1,27 +1,26 @@
 import {
-  B2BUnit,
-  B2BUnitNode,
+  Address,
   B2BApprovalProcess,
-  B2BAddress,
+  B2BUnit,
   ListModel,
+  SearchConfig,
   StateUtils,
 } from '@spartacus/core';
-import { B2BSearchConfig } from '../../model/search-config';
-
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { serializeSearchConfig } from '../../utils/serializer';
 import {
-  ORG_UNIT_NODE_LIST,
-  ORG_UNIT_ENTITIES,
-  ORG_UNIT_TREE_ENTITY,
-  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-  ORG_UNIT_TREE,
-  ORG_UNIT_APPROVAL_PROCESSES,
-  ORG_UNIT_NODES,
-  ORG_UNIT_ASSIGNED_USERS,
-  B2B_USER_ENTITIES,
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
+  B2B_USER_ENTITIES,
+  ORG_UNIT_APPROVAL_PROCESSES,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_ASSIGNED_USERS,
+  ORG_UNIT_ENTITIES,
+  ORG_UNIT_NODES,
+  ORG_UNIT_NODE_LIST,
+  ORG_UNIT_TREE,
+  ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnit] Load B2BUnit Data Fail';
@@ -111,10 +110,12 @@ export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
 export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORG_UNIT_SUCCESS;
 
-  constructor(public payload: B2BUnit[]) {
+  constructor(public payload: B2BUnit | B2BUnit[]) {
     super(
       ORG_UNIT_ENTITIES,
-      payload.map((orgUnit) => orgUnit.uid)
+      Array.isArray(payload)
+        ? payload.map((orgUnit) => orgUnit?.uid)
+        : payload?.uid
     );
   }
 }
@@ -243,12 +244,12 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
       userId: string;
       orgUnitId: string;
       roleId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -262,13 +263,13 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
     public payload: {
       orgUnitId: string;
       roleId: string;
-      params: B2BSearchConfig;
+      params: SearchConfig;
       error: any;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       ),
@@ -284,12 +285,12 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
       orgUnitId: string;
       roleId: string;
       page: ListModel;
-      params: B2BSearchConfig;
+      params: SearchConfig;
     }
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeB2BSearchConfig(
+      serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -438,7 +439,7 @@ export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
 export class CreateAddress extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ADDRESS;
   constructor(
-    public payload: { userId: string; orgUnitId: string; address: B2BAddress }
+    public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
     super(ADDRESS_ENTITIES, payload.address.id);
   }
@@ -453,7 +454,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
 
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id, payload);
   }
 }
@@ -465,7 +466,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
       userId: string;
       orgUnitId: string;
       addressId: string;
-      address: B2BAddress;
+      address: Address;
     }
   ) {
     super(ADDRESS_ENTITIES, payload.address.id);
@@ -481,7 +482,7 @@ export class UpdateAddressFail extends StateUtils.EntityFailAction {
 
 export class UpdateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id, payload);
   }
 }
@@ -508,17 +509,19 @@ export class DeleteAddressFail extends StateUtils.EntityFailAction {
 
 export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress) {
+  constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id);
   }
 }
 
 export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ADDRESS_SUCCESS;
-  constructor(public payload: B2BAddress[]) {
+  constructor(public payload: Address | Address[]) {
     super(
       ADDRESS_ENTITIES,
-      payload.map((address) => address.id)
+      Array.isArray(payload)
+        ? payload.map((address) => address?.id)
+        : payload?.id
     );
   }
 }

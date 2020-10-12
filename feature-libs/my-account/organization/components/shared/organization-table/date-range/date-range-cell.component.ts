@@ -5,4 +5,12 @@ import { OrganizationCellComponent } from '../organization-cell.component';
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateRangeCellComponent extends OrganizationCellComponent {}
+export class DateRangeCellComponent extends OrganizationCellComponent {
+  get linkable(): boolean {
+    return this.hasRange && (this.cellOptions.linkable ?? true);
+  }
+
+  get hasRange(): boolean {
+    return !!this.model.startDate && !!this.model.endDate;
+  }
+}

@@ -1,26 +1,26 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  OrgUnits,
-  OrganizationState,
-  StateWithOrganization,
-  ORG_UNIT_FEATURE,
-  ORG_UNIT_TREE,
-  ORG_UNIT_APPROVAL_PROCESSES,
-  ORG_UNIT_NODES,
-} from '../organization-state';
-import { getOrganizationState } from './feature.selector';
-import { B2BSearchConfig } from '../../model/search-config';
-import { denormalizeCustomB2BSearch } from '../../utils/serializer';
-import { getB2BUsersState } from './b2b-user.selector';
-import {
-  StateUtils,
-  EntitiesModel,
+  Address,
   B2BApprovalProcess,
-  B2BUnitNode,
   B2BUnit,
   B2BUser,
-  B2BAddress,
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
 } from '@spartacus/core';
+import { B2BUnitNode } from '../../model/unit-node.model';
+import { denormalizeCustomB2BSearch } from '../../utils/serializer';
+import {
+  OrganizationState,
+  OrgUnits,
+  ORG_UNIT_APPROVAL_PROCESSES,
+  ORG_UNIT_FEATURE,
+  ORG_UNIT_NODES,
+  ORG_UNIT_TREE,
+  StateWithOrganization,
+} from '../organization-state';
+import { getB2BUsersState } from './b2b-user.selector';
+import { getOrganizationState } from './feature.selector';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -56,7 +56,7 @@ export const getOrgUnitsTreeState: MemoizedSelector<
 
 export const getAddressesState: MemoizedSelector<
   StateWithOrganization,
-  StateUtils.EntityLoaderState<B2BAddress>
+  StateUtils.EntityLoaderState<Address>
 > = createSelector(
   getB2BOrgUnitState,
   (state: OrgUnits) => state && state.addressEntities
@@ -112,7 +112,7 @@ export const getApprovalProcesses = (): MemoizedSelector<
 export const getAssignedUsers = (
   orgUnitId: string,
   roleId: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
@@ -131,10 +131,10 @@ export const getAssignedUsers = (
 
 export const getB2BAddresses = (
   orgUnitId: string,
-  params: B2BSearchConfig
+  params: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
-  StateUtils.LoaderState<EntitiesModel<B2BAddress>>
+  StateUtils.LoaderState<EntitiesModel<Address>>
 > =>
   createSelector(getB2BOrgUnitState, (state: OrgUnits) =>
     denormalizeCustomB2BSearch(
@@ -147,12 +147,9 @@ export const getB2BAddresses = (
 
 export const getB2BAddress = (
   addressId: string
-): MemoizedSelector<
-  StateWithOrganization,
-  StateUtils.LoaderState<B2BAddress>
-> =>
+): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<Address>> =>
   createSelector(
     getAddressesState,
-    (state: StateUtils.EntityLoaderState<B2BAddress>) =>
+    (state: StateUtils.EntityLoaderState<Address>) =>
       StateUtils.entityLoaderStateSelector(state, addressId)
   );

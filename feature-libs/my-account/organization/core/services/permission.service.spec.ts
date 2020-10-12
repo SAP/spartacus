@@ -1,22 +1,23 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '@spartacus/core';
+import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   OrderApprovalPermissionType,
   Permission,
-  EntitiesModel,
-} from '@spartacus/core';
-import { B2BSearchConfig } from '../model/search-config';
+} from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
-import { PermissionService } from './permission.service';
-import * as fromReducers from '../store/reducers/index';
-import createSpy = jasmine.createSpy;
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../store/organization-state';
+import * as fromReducers from '../store/reducers/index';
+import { PermissionService } from './permission.service';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const permissionCode = 'testPermission';
@@ -59,9 +60,9 @@ describe('PermissionService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.get(PermissionService as Type<PermissionService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(PermissionService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -110,7 +111,7 @@ describe('PermissionService', () => {
   });
 
   describe('get permissions', () => {
-    const params: B2BSearchConfig = { sort: 'code' };
+    const params: SearchConfig = { sort: 'code' };
 
     it('getList() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
@@ -216,6 +217,45 @@ describe('PermissionService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
       );
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<Permission>;
+      store.dispatch(
+        new PermissionActions.LoadPermission({ userId, permissionCode })
+      );
+      service
+        .getLoadingStatus(permissionCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new PermissionActions.LoadPermissionSuccess([permission]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: permission,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<Permission>;
+      store.dispatch(
+        new PermissionActions.LoadPermission({ userId, permissionCode })
+      );
+      service
+        .getLoadingStatus(permissionCode)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new PermissionActions.LoadPermissionFail({
+          permissionCode,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

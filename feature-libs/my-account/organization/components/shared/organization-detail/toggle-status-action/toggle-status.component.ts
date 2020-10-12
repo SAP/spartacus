@@ -1,18 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Subject } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
+import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
+import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
 import { MessageService } from '../../organization-message/services/message.service';
 import { BaseItem } from '../../organization.model';
-import { PromptMessageComponent } from './prompt/prompt.component';
-import { MessagePromptData } from './prompt/prompt.model';
 
+/**
+ * Reusable component in the my-company are to toggle the disabled state for
+ * my company entities.
+ */
 @Component({
   selector: 'cx-toggle-status',
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem> {
+export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -22,88 +31,108 @@ export class ToggleStatusComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
 
   /**
-   * While most _organization_ entities use the `code` key, we have some variations. The key input
-   * can be used to add a custom key.
+   * The key input can be used to add a custom key.
+   *
+   * Most _organization_ entities use the `code` key, but there is some variations.
    */
   @Input() key = 'code';
 
   /**
-   * The disabled state is calculated by default but can be provided as well.
+   * The disabled state is calculated but can be provided as well.
    */
   @Input() disabled: boolean;
 
-  protected item: T;
+  /**
+   * resolves the current item.
+   */
+  current$ = this.itemService.current$.pipe(tap((item) => this.notify(item)));
 
-  current$ = this.itemService.current$.pipe(
-    tap((current) => (this.item = current))
-  );
+  protected itemActiveState: T;
+
+  protected subscription = new Subscription();
+  protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 
-  toggleActive(item: T) {
-    this.messageService.clear();
-
-    if (item.active) {
-      const prompt = new Subject<boolean>();
-      prompt.pipe(first()).subscribe(() => {
-        this.messageService.clear();
-        this.update(item);
-      });
-
-      this.messageService.add<MessagePromptData<T>>(
-        {
+  toggle(item: T) {
+    if (!item.active) {
+      // we do ask for confirmation when the entity gets activated
+      this.update(item);
+    } else {
+      if (!this.confirmation) {
+        this.confirmation = this.messageService.add({
           message: {
             key: this.i18nRoot + '.messages.deactivate',
           },
-          item: item,
-          confirm: prompt,
-        },
-        PromptMessageComponent
-      );
-    } else {
-      this.update(item);
+          component: ConfirmationMessageComponent,
+        });
+
+        this.subscription.add(
+          this.confirmation.pipe(first()).subscribe((event) => {
+            if (event.close) {
+              this.confirmation = null;
+            }
+            if (event.confirm) {
+              this.messageService.close(this.confirmation);
+              this.update(item);
+              this.confirmation = null;
+            }
+          })
+        );
+      }
     }
   }
 
   /**
    * Indicates whether the status can be toggled or not.
    */
-  isDisabled(item): boolean {
-    return this.disabled ?? !(item.orgUnit || item.unit)?.active;
+  isDisabled(item: T): boolean {
+    return this.disabled ?? !(item.orgUnit || (item as any).unit)?.active;
   }
 
-  protected update(model: T): void {
-    this.itemService.update(model[this.key], this.getPatchedModel(model));
-    this.confirmMessage(model);
+  protected update(item: T): void {
+    this.itemService.update(item[this.key], this.getPatchedItem(item));
   }
 
-  protected getPatchedModel(model: T): T {
+  protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
-    if ((model as any).type === 'b2BCostCenterWsDTO') {
-      (patch as any).activeFlag = !model.active;
+    patch[this.key] = item[this.key];
+    if ((item as any).type === 'b2BCostCenterWsDTO') {
+      (patch as any).activeFlag = !item.active;
     } else {
-      patch.active = !model.active;
+      patch.active = !item.active;
     }
-    patch[this.key] = model[this.key];
     return patch as T;
   }
 
-  protected confirmMessage(model: T): void {
-    this.messageService.clear();
-    this.current$
-      .pipe(first((update) => update.active === model.active))
-      .subscribe((update) => {
-        this.messageService.notify({
-          key: update.active
+  protected notify(item: T) {
+    if (this.isChanged(item)) {
+      this.messageService.add({
+        message: {
+          key: item.active
             ? this.i18nRoot + '.messages.confirmDisabled'
             : this.i18nRoot + '.messages.confirmEnabled',
           params: {
-            item: model,
+            item: item,
           },
-        });
+        },
       });
+    }
+    this.itemActiveState = { ...item };
+  }
+
+  protected isChanged(item: T) {
+    return (
+      this.itemActiveState &&
+      item[this.key] === this.itemActiveState[this.key] &&
+      item.active !== this.itemActiveState.active
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

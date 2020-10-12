@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, EntitiesModel, Permission } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { B2BUser, EntitiesModel } from '@spartacus/core';
+import {
+  Permission,
+  UserGroupService,
+} from '@spartacus/my-account/organization/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupUserListService } from './user-group-user-list.service';
 
@@ -33,7 +36,7 @@ class MockUserGroupService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -67,9 +70,9 @@ describe('UserGroupUserListService', () => {
   });
 
   it('should not filter selected permissions', () => {
-    let result: Table<Permission>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
+    let result: EntitiesModel<Permission>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
   });
 
   it('should assign permission', () => {

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import { BudgetService } from '@spartacus/my-account/organization/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
@@ -47,7 +47,7 @@ class MockBudgetService {
 }
 
 @Injectable()
-export class MockTableService {
+class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
   }
@@ -81,22 +81,22 @@ describe('BudgetCostCenterListService', () => {
   });
 
   it('should have all cost-centers', () => {
-    let result: Table<CostCenter>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    let result: EntitiesModel<CostCenter>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(3);
+    expect(result.values[0].code).toEqual('first');
+    expect(result.values[1].code).toEqual('second');
+    expect(result.values[2].code).toEqual('third');
   });
 
   it('should filter selected cost-centers', () => {
     spyOn(budgetService, 'getCostCenters').and.returnValue(
       of(mockCostCenterEntities2)
     );
-    let result: Table<CostCenter>;
-    service.getTable().subscribe((table) => (result = table));
-    expect(result.data.length).toEqual(2);
-    expect(result.data).not.toContain({
+    let result: EntitiesModel<CostCenter>;
+    service.getData().subscribe((table) => (result = table));
+    expect(result.values.length).toEqual(2);
+    expect(result.values).not.toContain({
       code: 'second',
     });
   });

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnitNode } from '@spartacus/core';
 import {
+  B2BUnitNode,
   OrgUnitService,
   UserGroup,
 } from '@spartacus/my-account/organization/core';
