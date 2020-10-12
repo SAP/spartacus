@@ -28,27 +28,12 @@ export class CxOAuthService {
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
       disablePKCE: true,
-      responseType: 'token',
+      responseType: 'code',
       oidc: false,
       clearHashAfterLogin: true,
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
       redirectUri: window.location.origin,
       issuer: this.config.authentication.baseUrl + '/authorizationserver',
-    });
-    this.oAuthService.events.subscribe((event) => {
-      console.log(event);
-      setTimeout(() => {
-        console.group('events');
-        console.warn(event);
-        console.log(this.oAuthService.getAccessToken());
-        console.log(this.oAuthService.getAccessTokenExpiration());
-        console.log(this.oAuthService.getGrantedScopes());
-        console.log(this.oAuthService.getIdToken());
-        console.log(this.oAuthService.getIdTokenExpiration());
-        console.log(this.oAuthService.getIdentityClaims());
-        console.log(this.oAuthService.getRefreshToken());
-        console.groupEnd();
-      });
     });
   }
 
@@ -56,12 +41,7 @@ export class CxOAuthService {
     userId: string,
     password: string
   ): Promise<TokenResponse> {
-    return this.oAuthService
-      .fetchTokenUsingPasswordFlow(userId, password)
-      .then((res) => {
-        console.log(res);
-        return res;
-      });
+    return this.oAuthService.fetchTokenUsingPasswordFlow(userId, password);
   }
 
   refreshToken(): void {
@@ -86,11 +66,12 @@ export class CxOAuthService {
     this.oAuthService.logOut();
   }
 
+  // TODO: Play more with id token stuff
   getIdToken(): string {
     return this.oAuthService.getIdToken();
   }
 
-  loginWithImplicitFlow() {
+  initLoginFlow() {
     return this.oAuthService.initLoginFlow();
   }
 
@@ -99,9 +80,5 @@ export class CxOAuthService {
     return this.oAuthService.tryLogin({
       disableOAuth2StateCheck: true,
     });
-  }
-
-  silentRefresh() {
-    return this.oAuthService.silentRefresh();
   }
 }
