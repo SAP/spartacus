@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { AuthConfigService } from '../../../../auth/user-auth/services/auth-config.service';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
@@ -24,6 +25,13 @@ const MockErrorWithDescriptionResponse = {
 class MockGlobalMessageService {
   add() {}
 }
+
+class MockAuthConfigService {
+  getRevokeEndpoint() {
+    return 'revoke';
+  }
+}
+
 describe('UnauthorizedErrorHandler', () => {
   let service: UnauthorizedErrorHandler;
   let globalMessageService: GlobalMessageService;
@@ -35,6 +43,10 @@ describe('UnauthorizedErrorHandler', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
+        },
+        {
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
         },
       ],
     });
@@ -62,6 +74,13 @@ describe('UnauthorizedErrorHandler', () => {
         { key: 'httpHandlers.unauthorized.common' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+
+    it('should not show common error in case of revoke endpoint', () => {
+      spyOn(globalMessageService, 'add');
+      service.handleError(MockRequest, { ...MockEmptyResponse, url: 'revoke' });
+
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 

@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { OccEndpointsService } from 'projects/core/src/occ';
+import { AuthConfigService } from 'projects/core/src/auth/user-auth/services/auth-config.service';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageService } from '../../../facade/global-message.service';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -19,16 +19,16 @@ export class UnauthorizedErrorHandler extends HttpErrorHandler {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected occEndpoints: OccEndpointsService
+    protected authConfigService: AuthConfigService
   ) {
     super(globalMessageService);
   }
 
   // TODO(#8243): Replace occEndpoints later with auth configuration check
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    const isNotTokenRevokeRequest = !response.url.includes(
-      this.occEndpoints.getRawEndpoint('revoke')
-    );
+    const isNotTokenRevokeRequest =
+      response.url !== this.authConfigService.getRevokeEndpoint();
+    console.log(isNotTokenRevokeRequest);
     if (isDevMode() && isNotTokenRevokeRequest) {
       console.warn(
         `There's a problem with the "Oauth client" configuration. You must configure a matching Oauth client in the backend and Spartacus.`

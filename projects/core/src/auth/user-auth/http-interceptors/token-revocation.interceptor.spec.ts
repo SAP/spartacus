@@ -6,15 +6,9 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Subscription } from 'rxjs';
-import { OccEndpointsService } from '../../../occ';
 import { AuthStorageService } from '../facade/auth-storage.service';
+import { AuthConfigService } from '../services/auth-config.service';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
-
-class MockOccEndpointsService {
-  getRawEndpoint() {
-    return '/revoke';
-  }
-}
 
 class MockAuthStorageService {
   getItem(a) {
@@ -23,6 +17,12 @@ class MockAuthStorageService {
     } else if (a === 'access_token') {
       return 'acc_token';
     }
+  }
+}
+
+class MockAuthConfigService {
+  getRevokeEndpoint() {
+    return '/revoke';
   }
 }
 
@@ -40,8 +40,8 @@ describe('TokenRevocationInterceptor', () => {
           multi: true,
         },
         {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
         },
         {
           provide: AuthStorageService,

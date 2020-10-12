@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OccEndpointsService } from '../../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../../user-auth/config/auth-config';
+import { AuthConfigService } from '../../../user-auth/services/auth-config.service';
 import { ClientToken } from '../../models/client-token.model';
 
 @Injectable({
@@ -12,11 +12,11 @@ export class ClientAuthenticationTokenService {
   constructor(
     protected config: AuthConfig,
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected authConfigService: AuthConfigService
   ) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {
-    const url: string = this.occEndpointsService.getRawEndpoint('login');
+    const url: string = this.authConfigService.getLoginEndpoint();
     const params = new HttpParams()
       .set(
         'client_id',
