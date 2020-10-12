@@ -8,7 +8,7 @@ git:
 branches:
   only:
     - develop
-    - "/^hotfix\\/.*$/"	
+    - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
 env:
   - TEST_SUITE="./build.sh sonar"
