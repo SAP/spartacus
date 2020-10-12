@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { UserToken } from '../../../auth/models/token-types.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { AsmActions } from '../actions/index';
 import { StateWithAsm } from '../asm-state';
 import * as fromReducers from '../reducers/index';
