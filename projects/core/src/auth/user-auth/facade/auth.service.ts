@@ -69,29 +69,14 @@ export class AuthService {
   /**
    * Logout a storefront customer
    */
-  logout(skipRevocation = false): Promise<any> {
-    let isEmulated;
-    this.userIdService
-      .isCustomerEmulated()
-      .pipe(take(1))
-      .subscribe((isCustomerEmulated) => (isEmulated = isCustomerEmulated));
-
+  logout(): Promise<any> {
     this.userIdService.clearUserId();
-    if (isEmulated || skipRevocation) {
-      return new Promise((resolve) => {
-        this.authStorageService.switchToUser();
-        this.oAuthService.logout();
+    return new Promise((resolve) => {
+      this.oAuthService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
         resolve();
       });
-    } else {
-      return new Promise((resolve) => {
-        this.oAuthService.revokeAndLogout().finally(() => {
-          this.store.dispatch(new AuthActions.Logout());
-          resolve();
-        });
-      });
-    }
+    });
   }
 
   /**

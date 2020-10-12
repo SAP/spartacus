@@ -5,9 +5,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  AsmAuthService,
   AsmService,
   AuthService,
+  CsAgentAuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -37,7 +37,7 @@ export class AsmMainUiComponent implements OnInit {
 
   constructor(
     protected authService: AuthService,
-    protected asmAuthService: AsmAuthService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
@@ -46,8 +46,8 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.csAgentToken$ = this.asmAuthService.getCustomerSupportAgentToken();
-    this.csAgentTokenLoading$ = this.asmAuthService.getCustomerSupportAgentTokenLoading();
+    this.csAgentToken$ = this.csAgentAuthService.getCustomerSupportAgentToken();
+    this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {
@@ -65,7 +65,7 @@ export class AsmMainUiComponent implements OnInit {
 
   private handleCustomerSessionStartRedirection(): void {
     let isCustomerEmulated;
-    this.asmAuthService
+    this.csAgentAuthService
       .isCustomerEmulated()
       .pipe(take(1))
       .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
@@ -83,7 +83,7 @@ export class AsmMainUiComponent implements OnInit {
     userId: string;
     password: string;
   }): void {
-    this.asmAuthService.authorizeCustomerSupportAgent(userId, password);
+    this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
   logout(): void {
@@ -91,7 +91,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
-    this.asmAuthService.startCustomerEmulationSession(customerId);
+    this.csAgentAuthService.startCustomerEmulationSession(customerId);
     this.startingCustomerSession = true;
   }
 

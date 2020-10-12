@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { UserToken } from '../../auth/user-auth/models/user-token.model';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
+import { AsmAuthStorageService } from './asm-auth-storage.service';
 
 // TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAsmState {
@@ -14,6 +14,7 @@ export interface SyncedAsmState {
   token: {
     [token_param: string]: any;
   };
+  isEmulated: boolean;
 }
 
 @Injectable({
@@ -23,7 +24,7 @@ export class AsmStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithAsm>,
-    protected authStorageService: AuthStorageService
+    protected authStorageService: AsmAuthStorageService
   ) {}
 
   public sync() {
@@ -38,7 +39,8 @@ export class AsmStatePersistenceService {
     return combineLatest([
       this.store.pipe(select(AsmSelectors.getAsmUi)),
       this.authStorageService.getCSAgentToken(),
-    ]).pipe(map(([ui, token]) => ({ ui, token })));
+      this.authStorageService.isEmulated(),
+    ]).pipe(map(([ui, token, isEmulated]) => ({ ui, token, isEmulated })));
   }
 
   protected onRead(state: SyncedAsmState) {
@@ -48,6 +50,9 @@ export class AsmStatePersistenceService {
       }
       if (state.token) {
         this.authStorageService.setCSAgentToken(state.token as UserToken);
+      }
+      if (state.isEmulated) {
+        this.authStorageService.switchToEmulated();
       }
     }
   }

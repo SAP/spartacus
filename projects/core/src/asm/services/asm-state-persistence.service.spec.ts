@@ -2,17 +2,21 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { UserToken } from '../../auth/user-auth/models/user-token.model';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
 import * as fromAsmReducers from '../store/reducers/index';
+import { AsmAuthStorageService } from './asm-auth-storage.service';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
 
-class MockAuthStorageService {
+class MockAsmAuthStorageService {
   setCSAgentToken() {}
   getCSAgentToken() {
     return of({});
+  }
+  switchToEmulated() {}
+  isEmulated() {
+    return of(false);
   }
 }
 
@@ -20,7 +24,7 @@ describe('AsmStatePersistenceService', () => {
   let service: AsmStatePersistenceService;
   let persistenceService: StatePersistenceService;
   let store: Store<StateWithAsm>;
-  let authStorageService: AuthStorageService;
+  let asmAuthStorageService: AsmAuthStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,14 +35,14 @@ describe('AsmStatePersistenceService', () => {
       providers: [
         AsmStatePersistenceService,
         StatePersistenceService,
-        { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AsmAuthStorageService, useClass: MockAsmAuthStorageService },
       ],
     });
 
     service = TestBed.inject(AsmStatePersistenceService);
     persistenceService = TestBed.inject(StatePersistenceService);
     store = TestBed.inject(Store);
-    authStorageService = TestBed.inject(AuthStorageService);
+    asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     spyOn(store, 'dispatch').and.stub();
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
@@ -48,11 +52,13 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('state should be updated after read from storage', () => {
-    spyOn(authStorageService, 'setCSAgentToken').and.callThrough();
+    spyOn(asmAuthStorageService, 'setCSAgentToken').and.callThrough();
+    spyOn(asmAuthStorageService, 'switchToEmulated').and.callThrough();
 
     service['onRead']({
       ui: { collapsed: true },
       token: { access_token: 'token' },
+      isEmulated: true,
     });
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
@@ -60,8 +66,11 @@ describe('AsmStatePersistenceService', () => {
       new AsmActions.AsmUiUpdate({ collapsed: true })
     );
     expect(
-      authStorageService.setCSAgentToken({ access_token: 'token' } as UserToken)
+      asmAuthStorageService.setCSAgentToken({
+        access_token: 'token',
+      } as UserToken)
     );
+    expect(asmAuthStorageService.switchToEmulated).toHaveBeenCalled();
   });
 
   it('should call persistenceService with correct attributes', () => {
@@ -80,12 +89,13 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('should return state from asm store', () => {
-    spyOn(authStorageService, 'getCSAgentToken').and.returnValue(
+    spyOn(asmAuthStorageService, 'getCSAgentToken').and.returnValue(
       of({
         access_token: 'token',
         refresh_token: 'refresh_token',
       } as UserToken)
     );
+    spyOn(asmAuthStorageService, 'isEmulated').and.returnValue(of(false));
 
     service['getAsmState']()
       .pipe(take(1))
@@ -93,6 +103,7 @@ describe('AsmStatePersistenceService', () => {
         expect(state).toEqual({
           ui: { collapsed: false },
           token: { access_token: 'token', refresh_token: 'refresh_token' },
+          isEmulated: false,
         } as any);
       });
   });
