@@ -12,7 +12,7 @@ const email = 'test-user-for-variant-configuration@ydev.hybris.com';
 const password = 'Password123.';
 const user = 'Variant Configuration';
 
-const conflictDetectedMsgSelector = '.cx-conflict-container';
+const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu li.cx-configurator-menu-conflict';
 
@@ -107,9 +107,7 @@ export function checkFocus(
  */
 function isCurrentGroupActive(currentGroup: string) {
   cy.get(
-    'cx-configurator-group-title div.cx-group-title-container:contains(' +
-      `${currentGroup}` +
-      ')'
+    'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
   cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
 }

@@ -1,34 +1,32 @@
 %cx-configurator-price-summary {
-  .cx-total-summary-container {
-    @include cx-configurator-footer-container();
+  @include cx-configurator-footer-container();
 
-    .cx-total-summary {
-      @include cx-configurator-footer-container-item();
+  .cx-total-summary {
+    @include cx-configurator-footer-container-item();
 
-      .cx-summary-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding-block-start: 10px;
-        padding-block-end: 10px;
+    .cx-summary-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-block-start: 10px;
+      padding-block-end: 10px;
 
-        .cx-label {
-          flex-grow: 1;
-        }
-
-        .cx-amount {
-          word-wrap: break-word;
-          text-align: end;
-          flex-grow: 1;
-        }
+      .cx-label {
+        flex-grow: 1;
       }
 
-      .cx-total-price {
-        border-block-start: 1px solid var(--cx-color-light);
+      .cx-amount {
+        word-wrap: break-word;
+        text-align: end;
+        flex-grow: 1;
+      }
+    }
 
-        .cx-label {
-          font-weight: bold;
-        }
+    .cx-total-price {
+      border-block-start: 1px solid var(--cx-color-light);
+
+      .cx-label {
+        font-weight: bold;
       }
     }
   }

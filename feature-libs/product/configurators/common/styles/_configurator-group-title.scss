@@ -1,13 +1,11 @@
 %cx-configurator-group-title {
-  .cx-group-title-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 15px;
-    margin: 0 0 15px 0;
-    font-weight: bold;
-    background-color: var(--cx-color-background);
-    border: 1px solid var(--cx-color-light);
-    border-radius: 2px;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  margin: 0 0 15px 0;
+  font-weight: bold;
+  background-color: var(--cx-color-background);
+  border: 1px solid var(--cx-color-light);
+  border-radius: 2px;
 }

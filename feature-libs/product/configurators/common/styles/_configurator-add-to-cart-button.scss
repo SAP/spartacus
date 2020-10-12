@@ -1,9 +1,7 @@
 %cx-configurator-add-to-cart-button {
-  .cx-add-to-cart-btn-container {
-    @include cx-configurator-footer-container();
+  @include cx-configurator-footer-container();
 
-    button.cx-add-to-cart-btn {
-      @include cx-configurator-footer-container-item();
-    }
+  button.cx-add-to-cart-btn {
+    @include cx-configurator-footer-container-item();
   }
 }

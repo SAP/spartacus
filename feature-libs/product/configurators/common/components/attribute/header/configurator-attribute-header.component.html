@@ -10,7 +10,7 @@
   "
   >{{ attribute.label }}</label
 >
-<div *ngIf="attribute.hasConflicts" class="cx-conflict-container">
+<div *ngIf="attribute.hasConflicts" class="cx-conflict-msg">
   <cx-icon
     *ngIf="isAttributeGroup(groupType)"
     [type]="iconTypes.WARNING"

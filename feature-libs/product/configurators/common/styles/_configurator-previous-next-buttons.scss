@@ -1,21 +1,19 @@
 %cx-configurator-previous-next-buttons {
-  .cx-previous-next-btns-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 16px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 15px;
+
+  @include media-breakpoint-down(sm) {
+    padding: 20px;
+  }
+
+  .btn-action,
+  .btn-secondary {
+    inline-size: 25%;
 
     @include media-breakpoint-down(sm) {
-      padding: 20px;
-    }
-
-    .btn-action,
-    .btn-secondary {
-      inline-size: 25%;
-
-      @include media-breakpoint-down(sm) {
-        inline-size: 45%;
-      }
+      inline-size: 45%;
     }
   }
 }

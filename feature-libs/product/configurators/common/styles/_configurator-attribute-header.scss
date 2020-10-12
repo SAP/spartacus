@@ -19,7 +19,7 @@
 
   @include cx-required-error-msg();
 
-  .cx-conflict-container {
+  .cx-conflict-msg {
     display: inline-flex;
 
     cx-icon {
