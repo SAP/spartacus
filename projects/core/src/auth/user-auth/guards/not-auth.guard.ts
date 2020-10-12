@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
@@ -11,20 +11,20 @@ import { AuthRedirectService } from './auth-redirect.service';
 })
 export class NotAuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
     protected authService: AuthService,
-    private authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {}
 
-  // TODO: It should return UrlTree instead of doing manual redirect
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean | UrlTree> {
     this.authRedirectService.reportNotAuthGuard();
 
     // redirect, if user is already logged in:
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
-          this.routingService.go({ cxRoute: 'home' });
+          return this.router.parseUrl(this.semanticPathService.get('home'));
         }
         return !isLoggedIn;
       })

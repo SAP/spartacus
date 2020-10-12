@@ -1,8 +1,15 @@
-import { ProductVariantGuard } from '@spartacus/storefront';
-import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  Product,
+  ProductService,
+  RoutingConfig,
+  SemanticPathService,
+} from '@spartacus/core';
+import { ProductVariantGuard } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 const mockPurchasableProduct = {
   name: 'purchasableProduct',
@@ -26,20 +33,11 @@ const mockNonPurchasableProduct = {
   ],
 };
 
-class MockRoutingService {
-  getRouterState(): Observable<any> {
-    return of({
-      nextState: {
-        params: {
-          productCode: 'test123',
-        },
-      },
-    });
-  }
-  go() {
-    return of();
-  }
-}
+const activatedRoute = ({
+  params: {
+    productCode: 'test123',
+  },
+} as unknown) as ActivatedRouteSnapshot;
 
 class MockProductService {
   get(): Observable<Product> {
@@ -50,63 +48,72 @@ class MockProductService {
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
   let productService: ProductService;
-  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: RoutingConfig,
+          useValue: {
+            routing: {
+              routes: {
+                product: {
+                  paths: ['product/:productCode/:name'],
+                },
+              },
+            },
+          },
         },
         {
           provide: ProductService,
           useClass: MockProductService,
         },
+        SemanticPathService,
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(ProductVariantGuard);
     productService = TestBed.inject(ProductService);
-    routingService = TestBed.inject(RoutingService);
   });
 
   it('should return true if product is purchasable', (done) => {
     spyOn(productService, 'get').and.returnValue(of(mockPurchasableProduct));
 
-    guard.canActivate().subscribe((val) => {
-      expect(val).toBeTruthy();
-      done();
-    });
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
+      });
   });
 
-  it('should return false and redirect if product is non-purchasable', (done) => {
+  it('should return url for product variant if product is non-purchasable', (done) => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
-    spyOn(routingService, 'go').and.stub();
 
-    guard.canActivate().subscribe((val) => {
-      expect(val).toBeFalsy();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'product',
-        params: mockNonPurchasableProduct,
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val.toString()).toEqual(
+          '/product/purchasableTest123/nonPurchasableProduct'
+        );
+        done();
       });
-      done();
-    });
   });
 
   it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of({
-        nextState: {
-          params: {},
-        },
-      } as any)
-    );
+    const activatedRouteWithoutParams = ({
+      params: {},
+    } as unknown) as ActivatedRouteSnapshot;
 
-    guard.canActivate().subscribe((val) => {
-      expect(val).toBeTruthy();
-      done();
-    });
+    guard
+      .canActivate(activatedRouteWithoutParams)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
+      });
   });
 });

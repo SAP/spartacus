@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService } from '@spartacus/core';
+import { SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderReturnGuard } from './order-return.guard';
 import { OrderReturnService } from './order-return.service';
@@ -11,27 +12,28 @@ const mockForm = new FormGroup({
   any: mockControl,
 });
 
-class MockRoutingService {
-  go() {}
-}
-
 class MockOrderReturnService {
   getForm(): Observable<FormGroup> {
     return of(new FormGroup({}));
   }
 }
 
+class MockSemanticPathService {
+  get(a: string) {
+    return `/${a}`;
+  }
+}
+
 describe(`OrderReturnGuard`, () => {
   let guard: OrderReturnGuard;
   let service: OrderReturnService;
-  let routing: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: SemanticPathService,
+          useClass: MockSemanticPathService,
         },
         {
           provide: OrderReturnService,
@@ -43,30 +45,26 @@ describe(`OrderReturnGuard`, () => {
 
     guard = TestBed.inject(OrderReturnGuard);
     service = TestBed.inject(OrderReturnService);
-    routing = TestBed.inject(RoutingService);
 
     spyOn(service, 'getForm').and.returnValue(of(mockForm));
-    spyOn(routing, 'go').and.stub();
   });
 
   it(`should redirect to the order detail page`, () => {
-    let result;
+    let result: boolean | UrlTree;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result).toBeFalsy();
-    expect(routing.go).toHaveBeenCalled();
+    expect(result.toString()).toEqual('/orders');
   });
 
   it(`should not redirect to the order detail page`, () => {
     mockControl.setValue(100);
-    let result;
+    let result: boolean | UrlTree;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
     expect(result).toBeTruthy();
-    expect(routing.go).not.toHaveBeenCalled();
   });
 });

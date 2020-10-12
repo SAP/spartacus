@@ -6,7 +6,7 @@ import {
   AuthService,
   CmsService,
   ProtectedRoutesService,
-  RoutingService,
+  RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -32,14 +32,6 @@ class MockCmsService {
   refreshLatestPage(): void {}
 }
 
-class MockRoutingService {
-  go = jasmine.createSpy();
-}
-
-class MockSemanticPathService {
-  get() {}
-}
-
 class MockProtectedRoutesService {
   get shouldProtect() {
     return false;
@@ -49,7 +41,6 @@ class MockProtectedRoutesService {
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
-  let routingService: RoutingService;
   let protectedRoutesService: ProtectedRoutesService;
 
   let zone: NgZone;
@@ -68,22 +59,37 @@ describe('LogoutGuard', () => {
       ],
       declarations: [MockPageLayoutComponent],
       providers: [
+        {
+          provide: RoutingConfig,
+          useValue: {
+            routing: {
+              routes: {
+                login: {
+                  paths: ['login'],
+                },
+                home: {
+                  paths: [''],
+                },
+                logout: {
+                  paths: ['logout'],
+                },
+              },
+            },
+          },
+        },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: SemanticPathService, useClass: MockSemanticPathService },
         {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
         },
+        SemanticPathService,
       ],
     });
     authService = TestBed.inject(AuthService);
     logoutGuard = TestBed.inject(LogoutGuard);
-    routingService = TestBed.inject(RoutingService);
     router = TestBed.inject(Router);
     protectedRoutesService = TestBed.inject(ProtectedRoutesService);
-
     zone = TestBed.inject(NgZone);
   });
 
@@ -92,22 +98,12 @@ describe('LogoutGuard', () => {
       spyOn(authService, 'logout').and.callThrough();
     });
 
-    it('should return false', (done) => {
-      logoutGuard
-        .canActivate()
-        .pipe(take(1))
-        .subscribe((value) => {
-          expect(value).toBe(false);
-          done();
-        });
-    });
-
     it('should logout and clear user state', async () => {
       await zone.run(() => router.navigateByUrl('/logout'));
       expect(authService.logout).toHaveBeenCalled();
     });
 
-    it('should redirect to home page if app not protected', (done) => {
+    it('should return redirect url to home page if app not protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         false
       );
@@ -115,15 +111,13 @@ describe('LogoutGuard', () => {
       logoutGuard
         .canActivate()
         .pipe(take(1))
-        .subscribe(() => {
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'home',
-          });
+        .subscribe((result) => {
+          expect(result.toString()).toBe('/');
           done();
         });
     });
 
-    it('should redirect to login page if app protected', (done) => {
+    it('should return redirect url to login page if app protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         true
       );
@@ -131,10 +125,8 @@ describe('LogoutGuard', () => {
       logoutGuard
         .canActivate()
         .pipe(take(1))
-        .subscribe(() => {
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'login',
-          });
+        .subscribe((result) => {
+          expect(result.toString()).toBe('/login');
           done();
         });
     });

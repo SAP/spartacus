@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
   ActiveCartService,
   AuthService,
-  RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,20 +13,19 @@ import { map } from 'rxjs/operators';
 })
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
     protected authService: AuthService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {}
 
-  // TODO: Return UrlTree instead of doing manual redirects
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean | UrlTree> {
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
-          this.routingService.go({ cxRoute: 'home' });
+          return this.router.parseUrl(this.semanticPathService.get('home'));
         } else if (this.activeCartService.isGuestCart()) {
-          this.routingService.go({ cxRoute: 'cart' });
-          return false;
+          return this.router.parseUrl(this.semanticPathService.get('cart'));
         }
         return !isLoggedIn;
       })
