@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
@@ -11,7 +11,9 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
 @Injectable({
   providedIn: 'root',
 })
-export class MultiCartStatePersistenceService {
+export class MultiCartStatePersistenceService implements OnDestroy {
+  protected subscription = new Subscription();
+
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithMultiCart>,
@@ -19,12 +21,16 @@ export class MultiCartStatePersistenceService {
   ) {}
 
   public sync() {
-    this.statePersistenceService.syncWithStorage({
-      key: 'cart',
-      state$: this.getCartState(),
-      context$: this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]),
-      onRead: (state) => this.onRead(state),
-    });
+    this.subscription.add(
+      this.statePersistenceService.syncWithStorage({
+        key: 'cart',
+        state$: this.getCartState(),
+        context$: this.siteContextParamsService.getValues([
+          BASE_SITE_CONTEXT_ID,
+        ]),
+        onRead: (state) => this.onRead(state),
+      })
+    );
   }
 
   protected getCartState(): Observable<{ active: string }> {
@@ -45,5 +51,9 @@ export class MultiCartStatePersistenceService {
     if (state) {
       this.store.dispatch(new CartActions.SetActiveCartId(state.active));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
