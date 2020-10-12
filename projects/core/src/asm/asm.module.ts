@@ -6,7 +6,6 @@ import { AuthService } from '../auth/user-auth/facade/auth.service';
 import { AuthHeaderService } from '../auth/user-auth/services/auth-header/auth-header.service';
 import { provideDefaultConfig } from '../config/config-providers';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { interceptors } from './http-interceptors/index';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthHeaderService } from './services/asm-auth.header.service';
 import { AsmAuthService } from './services/asm-auth.service';
@@ -29,7 +28,6 @@ export class AsmModule {
       ngModule: AsmModule,
       providers: [
         provideDefaultConfig(defaultAsmConfig),
-        ...interceptors,
         {
           provide: AuthStorageService,
           useExisting: AsmAuthStorageService,
