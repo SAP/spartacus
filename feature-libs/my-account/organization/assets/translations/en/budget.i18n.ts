@@ -22,10 +22,12 @@ export const budget = {
     title: 'Budget Details',
     subtitle: 'Budget: {{ item.name }}',
   },
+
   edit: {
     title: 'Edit Budget',
     subtitle: 'Budget: {{ item.name }}',
   },
+
   create: {
     title: 'Create Budget',
     subtitle: '',

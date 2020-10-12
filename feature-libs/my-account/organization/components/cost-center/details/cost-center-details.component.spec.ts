@@ -39,6 +39,7 @@ describe('CostCenterDetailsComponent', () => {
     }).compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
+
     fixture = TestBed.createComponent(CostCenterDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
