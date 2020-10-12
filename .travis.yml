@@ -8,6 +8,8 @@ git:
 branches:
   only:
     - develop
+    - "/^hotfix\\/.*$/"	
+    - "/^release\\/.*$/"
 env:
   - TEST_SUITE="./build.sh sonar"
   - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
