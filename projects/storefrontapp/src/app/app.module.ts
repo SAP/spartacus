@@ -16,7 +16,6 @@ import {
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
-import { cdcFeature } from '../environments/cdc/cdc.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -42,9 +41,9 @@ if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2cFeature.imports];
 }
 
-if (environment.cdc) {
-  additionalImports = [...additionalImports, ...cdcFeature.imports];
-}
+// if (environment.cdc) {
+//   additionalImports = [...additionalImports, ...cdcFeature.imports];
+// }
 
 @NgModule({
   imports: [
