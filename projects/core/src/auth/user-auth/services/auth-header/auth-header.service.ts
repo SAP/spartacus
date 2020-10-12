@@ -1,9 +1,8 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AsmAuthService } from 'projects/core/src/asm';
-import { RoutingService } from 'projects/core/src/routing';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { AsmAuthService } from '../../../../asm/facade/asm-auth.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,6 +12,7 @@ import {
   USE_CLIENT_TOKEN,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../../../occ/utils/interceptor-util';
+import { RoutingService } from '../../../../routing/facade/routing.service';
 import { AuthService } from '../../facade/auth.service';
 import { CxOAuthService } from '../../facade/cx-oauth-service';
 import { UserToken } from '../../models/user-token.model';

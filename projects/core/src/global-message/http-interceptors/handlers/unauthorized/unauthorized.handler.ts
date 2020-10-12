@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { AuthConfigService } from 'projects/core/src/auth/user-auth/services/auth-config.service';
+import { AuthConfigService } from '../../../../auth/user-auth/services/auth-config.service';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageService } from '../../../facade/global-message.service';
 import { GlobalMessageType } from '../../../models/global-message.model';
