@@ -25,7 +25,7 @@ export class AsmComponentService {
 
   // TODO: Why we redirect to homepage?
   logoutCustomer(): void {
-    this.authService.logout();
+    this.authService.logout(true);
     this.routingService.go({ cxRoute: 'home' });
   }
 
