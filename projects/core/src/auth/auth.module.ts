@@ -13,9 +13,9 @@ import { UserAuthModule } from './user-auth/user-auth.module';
   ],
 })
 export class AuthModule {
-  static forRoot(): ModuleWithProviders<UserAuthModule> {
+  static forRoot(): ModuleWithProviders<AuthModule> {
     return {
-      ngModule: UserAuthModule,
+      ngModule: AuthModule,
     };
   }
 }

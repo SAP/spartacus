@@ -12,7 +12,6 @@ export * from './src/event/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';
 export * from './src/i18n/index';
-export * from './src/kyma/index';
 export * from './src/model/index';
 export * from './src/cost-center/index';
 export * from './src/occ/index';
