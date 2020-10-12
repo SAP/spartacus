@@ -7,8 +7,10 @@ function cleanup {
     echo '--> Cleaning up spartacus workspace'
     delete_file docs.tar.gz
     delete_file docs.zip
-    delete_file spartacussampledataaddon.zip
-    delete_file spartacussampledataaddon.tar.gz
+    delete_file spartacussampledataaddon.1905.zip
+    delete_file spartacussampledataaddon.1905.tar.gz
+    delete_file spartacussampledata.2005.zip
+    delete_file spartacussampledata.2005.tar.gz
 
     delete_dir coverage
     delete_dir dist
