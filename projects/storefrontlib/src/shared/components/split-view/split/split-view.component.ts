@@ -7,7 +7,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { Subscription } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { SplitViewService } from '../split-view.service';

@@ -23,12 +23,6 @@ class MockBreakpointService {
   }
 }
 
-class MockBreakpointService {
-  get breakpoint$(): Observable<BREAKPOINT> {
-    return of();
-  }
-}
-
 describe('SplitViewComponent', () => {
   let component: SplitViewComponent;
   let fixture: ComponentFixture<SplitViewComponent>;
@@ -84,13 +78,5 @@ describe('SplitViewComponent', () => {
     );
     fixture.detectChanges();
     expect(splitViewService.updateSplitView).toHaveBeenCalled();
-  });
-
-  it('should update splitViewService when screen changes to xs', () => {
-    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-      of(BREAKPOINT.xs)
-    );
-    fixture.detectChanges();
-    expect(splitViewService.updateSplitView).toHaveBeenCalledWith(1);
   });
 });

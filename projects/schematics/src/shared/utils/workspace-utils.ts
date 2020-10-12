@@ -9,14 +9,6 @@ import {
 } from '@schematics/angular/utility/workspace-models';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 
-import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
-import {
-  WorkspaceProject,
-  WorkspaceSchema,
-  WorkspaceTargets,
-  ProjectType,
-} from '@schematics/angular/utility/workspace-models';
-
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
 export function getSourceRoot(

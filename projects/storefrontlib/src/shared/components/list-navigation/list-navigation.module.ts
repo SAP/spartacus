@@ -5,8 +5,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { PaginationComponent, PaginationModule } from './pagination/index';
 import { SortingComponent } from './sorting/sorting.component';
-import { SearchComponent } from './search/search.component';
-import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 
 @NgModule({
   imports: [

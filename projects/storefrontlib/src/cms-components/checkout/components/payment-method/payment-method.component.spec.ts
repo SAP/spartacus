@@ -19,7 +19,6 @@ import { CardComponent } from '../../../../shared/components/card/card.component
 import { ICON_TYPE } from '../../../misc/index';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentMethodComponent } from './payment-method.component';
-import { CheckoutStepService } from '../../services/checkout-step.service';
 import createSpy = jasmine.createSpy;
 
 @Component({

@@ -1,7 +1,5 @@
 import { B2cStorefrontModule } from '@spartacus/storefront';
 import { FeatureEnvironment } from '../models/feature.model';
-import { environment } from '../environment';
-import { B2cStorefrontModule } from 'projects/storefrontlib/src/recipes/b2c-storefront.module';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [

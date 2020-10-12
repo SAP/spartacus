@@ -11,7 +11,6 @@ $product-components-whitelist: () !default;
 $user-components-whitelist: () !default;
 $myaccount-components-whitelist: () !default;
 $cart-components-whitelist: () !default;
-$organization-components-whitelist: () !default;
 $checkout-components-whitelist: () !default;
 $store-finder-components-whitelist: () !default;
 $content-components-whitelist: () !default;
@@ -28,7 +27,6 @@ $selectors: mergeAll(
     $content-components-whitelist,
     $product-components-whitelist,
     $cart-components-whitelist,
-    $organization-components-whitelist,
     $checkout-components-whitelist,
     $user-components-whitelist,
     $myaccount-components-whitelist,

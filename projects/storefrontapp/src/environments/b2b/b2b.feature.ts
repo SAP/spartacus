@@ -5,12 +5,6 @@ import {
   organizationTranslations,
 } from '@spartacus/my-account/organization/assets';
 import { FeatureEnvironment } from '../models/feature.model';
-import {
-  organizationTranslationChunksConfig,
-  organizationTranslations,
-} from '@spartacus/my-account/organization/assets';
-import { OrganizationModule } from '@spartacus/my-account/organization';
-import { B2bStorefrontModule } from '@spartacus/my-account';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [

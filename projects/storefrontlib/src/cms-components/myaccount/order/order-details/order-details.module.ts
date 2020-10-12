@@ -75,9 +75,6 @@ const moduleComponents = [
         AccountOrderDetailsApprovalDetailsComponent: {
           component: OrderDetailApprovalDetailsComponent,
         },
-        AccountOrderDetailsApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
-        },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
         },
