@@ -82,16 +82,20 @@ export class CartItemListComponent {
   private createForm(): void {
     this.form = new FormGroup({});
     this._items.forEach((item) => {
-      const { code } = item.product;
+      const controlName = this.getControlName(item);
       const group = new FormGroup({
-        entryNumber: new FormControl((<any>item).entryNumber),
+        entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
       if (!item.updateable || this.readonly) {
         group.disable();
       }
-      this.form.addControl(code, group);
+      this.form.addControl(controlName, group);
     });
+  }
+
+  protected getControlName(item: Item): string {
+    return item.entryNumber.toString();
   }
 
   removeEntry(item: Item): void {
@@ -100,11 +104,11 @@ export class CartItemListComponent {
     } else {
       this.activeCartService.removeEntry(item);
     }
-    delete this.form.controls[item.product.code];
+    delete this.form.controls[this.getControlName(item)];
   }
 
   getControl(item: Item): Observable<FormGroup> {
-    return this.form.get(item.product.code).valueChanges.pipe(
+    return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),
       map((value) => {
@@ -117,7 +121,7 @@ export class CartItemListComponent {
           this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),
-      map(() => <FormGroup>this.form.get(item.product.code))
+      map(() => <FormGroup>this.form.get(this.getControlName(item)))
     );
   }
 }
