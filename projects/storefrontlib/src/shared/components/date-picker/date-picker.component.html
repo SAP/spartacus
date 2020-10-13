@@ -1,0 +1,12 @@
+<input
+  #inputElement
+  type="date"
+  class="form-control"
+  (blur)="onTouched()"
+  (input)="onInput($event)"
+  [value]="nativeValue"
+  [required]="required"
+  [class.is-invalid]="invalid"
+  [min]="getMin()"
+  [max]="getMax()"
+/>

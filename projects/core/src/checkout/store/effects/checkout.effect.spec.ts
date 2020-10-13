@@ -24,6 +24,8 @@ import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
+const termsChecked = true;
+
 const address: Address = {
   id: 'testAddressId',
   firstName: 'John',
@@ -71,6 +73,7 @@ class MockCheckoutConnector {
   clearCheckoutDeliveryAddress = () => of({});
   clearCheckoutDeliveryMode = () => of({});
 }
+
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -362,8 +365,9 @@ describe('Checkout effect', () => {
   describe('placeOrder$', () => {
     it('should place order', () => {
       const action = new CheckoutActions.PlaceOrder({
-        userId: userId,
-        cartId: cartId,
+        userId,
+        cartId,
+        termsChecked,
       });
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(

@@ -17,7 +17,6 @@ import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
@@ -75,7 +74,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.AddDeliveryAddressFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -115,7 +114,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.SetDeliveryAddressFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -141,7 +140,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.LoadSupportedDeliveryModesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -213,9 +212,7 @@ export class CheckoutEffects {
           }),
           catchError((error) =>
             of(
-              new CheckoutActions.SetDeliveryModeFail(
-                makeErrorSerializable(error)
-              )
+              new CheckoutActions.SetDeliveryModeFail(normalizeHttpError(error))
             )
           )
         );
@@ -249,7 +246,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.CreatePaymentDetailsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -278,7 +275,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.SetPaymentDetailsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -298,14 +295,14 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap((payload) => {
       return this.checkoutConnector
-        .placeOrder(payload.userId, payload.cartId)
+        .placeOrder(payload.userId, payload.cartId, payload.termsChecked)
         .pipe(
           switchMap((data) => [
             new CartActions.RemoveCart({ cartId: payload.cartId }),
             new CheckoutActions.PlaceOrderSuccess(data),
           ]),
           catchError((error) =>
-            of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
+            of(new CheckoutActions.PlaceOrderFail(normalizeHttpError(error)))
           )
         );
     }),
@@ -330,7 +327,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.LoadCheckoutDetailsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -371,7 +368,7 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.ClearCheckoutDeliveryAddressFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -403,7 +400,7 @@ export class CheckoutEffects {
             from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,

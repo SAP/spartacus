@@ -15,6 +15,7 @@ docs.zip
 
 # spartacussampledataaddon
 spartacussampledataaddon.*
+spartacussampledata.*
 
 # dependencies
 node_modules/
@@ -55,3 +56,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+**/git-ignore

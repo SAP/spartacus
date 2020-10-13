@@ -44,11 +44,11 @@ export function registerUser(
   sampleUser: SampleUser = user
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/Sign in \/ Register/i).click();
+  cy.findByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
 
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.getByText('Register').click();
+  cy.findByText('Register').click();
   cy.wait(`@${registerPage}`);
 
   register(sampleUser, giveRegistrationConsent);
@@ -58,7 +58,7 @@ export function registerUser(
 
 export function signInUser(sampleUser: SampleUser = user) {
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/Sign in \/ Register/i).click();
+  cy.findByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
   login(sampleUser.email, sampleUser.password);
 }
@@ -85,13 +85,13 @@ export function goToProductDetailsPage() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter').getByText('+').click();
+  cy.get('cx-item-counter').findByText('+').click();
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.getByText(/proceed to checkout/i).click();
+    cy.findByText(/proceed to checkout/i).click();
   });
 }
 
@@ -143,15 +143,15 @@ export function placeOrder() {
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText(user.fullName);
-      cy.getByText(user.address.line1);
-      cy.getByText(user.address.line2);
+      cy.findByText(user.fullName);
+      cy.findByText(user.address.line1);
+      cy.findByText(user.address.line2);
     });
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText('Standard Delivery');
+      cy.findByText('Standard Delivery');
     });
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
@@ -163,7 +163,7 @@ export function placeOrder() {
     'contain',
     cart.totalAndShipping
   );
-  cy.getByText('Terms & Conditions')
+  cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should(
       'have.attr',
@@ -190,7 +190,7 @@ export function goToPaymentDetails() {
 }
 
 export function clickAddNewPayment() {
-  cy.getByText('Add New Payment').click();
+  cy.findByText('Add New Payment').click();
 }
 
 export function goToCheapProductDetailsPage(
@@ -221,7 +221,7 @@ export function addCheapProductToCartAndLogin(
 ) {
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
   const shippingPage = waitForPage(
@@ -237,7 +237,7 @@ export function addCheapProductToCartAndProceedToCheckout(
 ) {
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 }
 
@@ -249,7 +249,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
     '/checkout/shipping-address',
     'getShippingPage'
   );
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
@@ -257,7 +257,7 @@ export function addCheapProductToCart(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', sampleProduct.name);
@@ -305,15 +305,15 @@ export function placeOrderWithCheapProduct(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText(sampleUser.fullName);
-      cy.getByText(sampleUser.address.line1);
-      cy.getByText(sampleUser.address.line2);
+      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.address.line1);
+      cy.findByText(sampleUser.address.line2);
     });
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText('Standard Delivery');
+      cy.findByText('Standard Delivery');
     });
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
@@ -325,7 +325,7 @@ export function placeOrderWithCheapProduct(
     'contain',
     cartData.totalAndShipping
   );
-  cy.getByText('Terms & Conditions')
+  cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should(
       'have.attr',
@@ -349,8 +349,8 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .container').within(() => {
-    cy.get('.summary-card:nth-child(1)').within(() => {
+  cy.get('.cx-order-summary .container').within(() => {
+    cy.get('.cx-summary-card:nth-child(1)').within(() => {
       cy.get('cx-card:nth-child(1)').within(() => {
         cy.get('.cx-card-title').should('contain', 'Order Number');
         cy.get('.cx-card-label').should('not.be.empty');
@@ -364,12 +364,12 @@ export function verifyOrderConfirmationPageWithCheapProduct(
         cy.get('.cx-card-label').should('not.be.empty');
       });
     });
-    cy.get('.summary-card:nth-child(2) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
       cy.contains('Standard Delivery');
     });
-    cy.get('.summary-card:nth-child(3) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
     });

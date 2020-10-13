@@ -74,8 +74,6 @@ describe('CheckoutProgressComponent', () => {
     fixture = TestBed.createComponent(CheckoutProgressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    component.ngOnInit();
   });
 
   it('should create', () => {
