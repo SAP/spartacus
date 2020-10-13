@@ -1,33 +1,27 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="numberOfIssues$ | async as numberOfIssues">
-    <div class="row">
-      <div class="cx-error-container">
-        <div class="cx-error-icon-container">
-          <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
-        </div>
-        <div class="cx-error-msg-container">
-          {{
-            'configurator.notificationBanner.numberOfIssues'
-              | cxTranslate: { count: numberOfIssues }
-          }}
-          <button
-            class="link cx-action-link"
-            [routerLink]="
-              {
-                cxRoute: 'configure' + routerData.configuratorType,
-                params: {
-                  entityKey: routerData.owner.id,
-                  ownerType: routerData.owner.type
-                }
-              } | cxUrl
-            "
-            [queryParams]="{ resolveIssues: true }"
-            cxAutoFocus
-          >
-            {{ 'configurator.header.resolveIssues' | cxTranslate }}
-          </button>
-        </div>
-      </div>
+    <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+    <div class="cx-error-msg">
+      {{
+        'configurator.notificationBanner.numberOfIssues'
+          | cxTranslate: { count: numberOfIssues }
+      }}
+      <button
+        class="link cx-action-link"
+        [routerLink]="
+          {
+            cxRoute: 'configure' + routerData.configuratorType,
+            params: {
+              entityKey: routerData.owner.id,
+              ownerType: routerData.owner.type
+            }
+          } | cxUrl
+        "
+        [queryParams]="{ resolveIssues: true }"
+        cxAutoFocus
+      >
+        {{ 'configurator.header.resolveIssues' | cxTranslate }}
+      </button>
     </div>
   </ng-container>
 </ng-container>
