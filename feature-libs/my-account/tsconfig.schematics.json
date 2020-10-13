@@ -12,7 +12,10 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@spartacus/schematics": ["..projects/schematics/src/public_api"]
+    }
   },
   "include": ["schematics/**/*"],
   "exclude": ["**/*.spec.ts"],
