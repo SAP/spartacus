@@ -10,6 +10,7 @@ import { ConfirmationMessageData } from '../../organization-message/confirmation
 import { MessageService } from '../../organization-message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
 import { ConfirmationMessageComponent } from '@spartacus/my-account/organization/components';
+import createSpy = jasmine.createSpy;
 
 class MockMessageService {
   add() {
@@ -123,8 +124,8 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should display notification for enabled item', () => {
-      const mockItem = { code: 'b1', active: false, foo: 'bar' };
-      const updatedItem = { code: 'b1', active: true, foo: 'bar' };
+      const mockItem = { code: 'b1', active: false };
+      const updatedItem = { code: 'b1', active: true };
       spyOn(messageService, 'add').and.returnValue(new Subject());
       spyOn(organizationItemService, 'update').and.returnValue(
         of({ status: LoadStatus.SUCCESS, item: updatedItem })
@@ -177,6 +178,24 @@ describe('ToggleStatusComponent', () => {
           active: false,
         }
       );
+    });
+
+    it('should display notification for disabled item', () => {
+      const eventData: Subject<ConfirmationMessageData> = new Subject();
+      const mockItem = { code: 'b2', active: true };
+      const updatedItem = { code: 'b1', active: false };
+      spyOn(messageService, 'add').and.returnValue(eventData);
+      organizationItemService.update = createSpy().and.returnValue(
+        of({ status: LoadStatus.SUCCESS, item: updatedItem })
+      );
+      component.toggle(mockItem);
+      eventData.next({ confirm: true });
+      expect(messageService.add).toHaveBeenCalledWith({
+        message: {
+          key: 'testRoot.messages.confirmDisabled',
+          params: { item: updatedItem },
+        },
+      });
     });
 
     it('should cancel disabling', () => {
