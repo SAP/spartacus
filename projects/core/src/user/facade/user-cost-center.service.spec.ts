@@ -1,7 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { B2BAddress, CostCenter } from '../../model/org-unit.model';
+import { Address } from '../../model/address.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -88,7 +89,7 @@ describe('PaymentTypeService', () => {
       ])
     );
 
-    let addresses: B2BAddress[];
+    let addresses: Address[];
     service
       .getCostCenterAddresses('account')
       .subscribe((data) => {

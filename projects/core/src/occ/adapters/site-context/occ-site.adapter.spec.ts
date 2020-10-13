@@ -8,7 +8,6 @@ import {
   ConverterService,
   CountryType,
   COUNTRY_NORMALIZER,
-  OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
 import {
@@ -19,6 +18,7 @@ import { defaultOccConfig } from '../../config/default-occ-config';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
+import { OccSiteAdapter } from './occ-site.adapter';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

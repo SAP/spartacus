@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
-  AuthService,
   Cart,
   CartVoucherService,
   CustomerCouponSearchResult,
@@ -13,19 +12,10 @@ import {
   I18nTestingModule,
   Voucher,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
-import { CartCouponComponent } from './cart-coupon.component';
 import { FormErrorsModule } from '../../../shared/index';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
+import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-applied-coupons',
@@ -51,8 +41,6 @@ describe('CartCouponComponent', () => {
     'getActiveCartId',
     'isStable',
   ]);
-
-  const mockAuthService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
 
   const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
     'addVoucher',
@@ -88,14 +76,9 @@ describe('CartCouponComponent', () => {
         FeaturesConfigModule,
         FormErrorsModule,
       ],
-      declarations: [
-        CartCouponComponent,
-        MockAppliedCouponsComponent,
-        MockCxIconComponent,
-      ],
+      declarations: [CartCouponComponent, MockAppliedCouponsComponent],
       providers: [
         { provide: ActiveCartService, useValue: mockActiveCartService },
-        { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
       ],
@@ -112,7 +95,6 @@ describe('CartCouponComponent', () => {
     );
     mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
-    mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartVoucherService.addVoucher.and.stub();
@@ -247,7 +229,7 @@ describe('CartCouponComponent', () => {
     expect(mockCustomerCouponService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
-  it('should reset state when ondestory is triggered', () => {
+  it('should reset state when on destroy is triggered', () => {
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(true));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();

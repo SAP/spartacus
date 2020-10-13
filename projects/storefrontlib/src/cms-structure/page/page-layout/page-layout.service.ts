@@ -185,7 +185,7 @@ export class PageLayoutService {
   }
 
   /**
-   * Returns a list of slots for a breakpoint specific configuratoin
+   * Returns a list of slots for a breakpoint specific configuration
    * If there's no specific configuration for the breakpoint,
    * the closest available configuration will be returned.
    */
@@ -212,7 +212,7 @@ export class PageLayoutService {
     // find closest config
     const all = this.breakpointService.breakpoints;
 
-    for (const br of all.splice(0, all.indexOf(breakpoint))) {
+    for (const br of all.slice(0, all.indexOf(breakpoint))) {
       if (
         layoutSlotConfig[br] &&
         layoutSlotConfig[br].hasOwnProperty(configAttribute)

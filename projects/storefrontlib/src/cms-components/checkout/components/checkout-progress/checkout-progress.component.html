@@ -1,7 +1,7 @@
 <section *ngIf="(activeStepIndex$ | async) !== undefined">
   <div class="cx-nav d-none d-lg-block d-xl-block">
     <ul class="cx-list">
-      <ng-container *ngFor="let step of steps; let i = index">
+      <ng-container *ngFor="let step of steps$ | async; let i = index">
         <li
           class="cx-item"
           [class.active]="isActive(i)"

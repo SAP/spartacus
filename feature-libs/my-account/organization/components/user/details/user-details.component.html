@@ -1,0 +1,88 @@
+<cx-organization-card *ngIf="model$ | async as model" i18nRoot="user.details">
+  <a
+    actions
+    class="link"
+    [class.disabled]="!model.active"
+    [routerLink]="{ cxRoute: 'userEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-toggle-status actions key="customerId" i18nRoot="user"></cx-toggle-status>
+
+  <section main class="details">
+    <div class="property">
+      <label>{{ 'user.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.roles' | cxTranslate }}</label>
+      <ul class="value">
+        <li
+          *ngFor="let role of model.roles; let isLast = last"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
+    </div>
+
+    <div class="property">
+      <label>{{ 'user.orgUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+    <div class="property">
+      <a
+        class="link"
+        [class.disabled]="!model.active"
+        [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
+      >
+        {{ 'user.links.password' | cxTranslate }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.approvers' | cxTranslate }}
+    </a>
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.userGroup' | cxTranslate }}
+    </a>
+
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'user.links.permission' | cxTranslate }}
+    </a>
+  </section>
+</cx-organization-card>

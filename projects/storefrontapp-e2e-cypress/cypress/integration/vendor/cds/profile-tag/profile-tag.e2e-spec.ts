@@ -47,7 +47,7 @@ describe('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item cx-item-counter').getByText('+').click();
+    cy.get('cx-cart-item cx-item-counter').findByText('+').click();
     cy.route(
       'GET',
       `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

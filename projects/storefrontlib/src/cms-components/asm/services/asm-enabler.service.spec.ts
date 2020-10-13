@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { LayoutConfig } from 'projects/storefrontlib/src/layout';
+import { LayoutConfig } from '../../../layout/config/layout-config';
 import { OutletService } from '../../../cms-structure/outlet/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';

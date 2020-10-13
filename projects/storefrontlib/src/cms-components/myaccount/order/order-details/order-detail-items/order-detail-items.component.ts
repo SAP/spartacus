@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Consignment,
-  Order,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
@@ -25,7 +24,7 @@ export class OrderDetailItemsComponent implements OnInit {
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   orderPromotions$: Observable<PromotionResult[]>;
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;

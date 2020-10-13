@@ -1,0 +1,10 @@
+<div class="inner" [cxFocus]="{ focusOnEscape: true }" (esc)="close()">
+  <div class="message">
+    <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
+    <p>{{ message | cxTranslate }}</p>
+  </div>
+  <div class="actions" [cxFocus]="{ autofocus: 'button.primary' }">
+    <button class="button cancel" (click)="close()">cancel</button
+    ><button class="button primary confirm" (click)="confirm()">confirm</button>
+  </div>
+</div>

@@ -12,8 +12,8 @@ export const environment: Environment = {
     'https://spartacus-dev3.eastus.cloudapp.azure.com:9002' ||
     // 'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com' ||
     build.process.env.SPARTACUS_BASE_URL,
-  occApiPrefix: '/occ/v2/',
-  b2b: false,
-  cds: false,
-  cdc: false,
+  occApiPrefix: build.process.env.SPARTACUS_API_PREFIX ?? '/occ/v2/',
+  cds: build.process.env.SPARTACUS_CDS ?? false,
+  b2b: build.process.env.SPARTACUS_B2B ?? false,
+  cdc: build.process.env.SPARTACUS_CDC ?? false,
 };
