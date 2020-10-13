@@ -58,4 +58,41 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+
+  orderApprovalForm: [
+    {
+      value: 'comment',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Approve',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  orderRejectionForm: [
+    {
+      value: 'comment',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Reject',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
