@@ -1,7 +1,7 @@
 import { Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import { Observable, OperatorFunction, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UnifiedInjector } from '../lazy-loading';
+import { UnifiedInjector } from '../lazy-loading/unified-injector';
 import { getLastValueSync } from './get-last-value-sync';
 
 /**
