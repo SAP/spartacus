@@ -1,10 +1,7 @@
 import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
 import { signOutUser } from '../../../helpers/login';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-import {
-  ORDER_CODE,
-  pendingOrder,
-} from '../../../sample-data/b2b-order-approval';
+import * as sampleData from '../../../sample-data/b2b-order-approval';
 
 context('B2B - Order Approval', () => {
   before(() => {
@@ -24,12 +21,15 @@ context('B2B - Order Approval', () => {
     orderApproval.loginB2bUser();
     orderApproval.getPendingOrderDetails();
 
-    cy.visit(`/my-account/order/${ORDER_CODE}`);
+    cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
     cy.get('cx-order-details-approval-details').within(() => {
-      cy.get('tr').should('have.length', pendingOrder.permissionResults.length);
+      cy.get('tr').should(
+        'have.length',
+        sampleData.pendingOrder.permissionResults.length
+      );
     });
 
-    pendingOrder.permissionResults.forEach((permission, index) => {
+    sampleData.pendingOrder.permissionResults.forEach((permission, index) => {
       cy.get('cx-order-details-approval-details tr')
         .eq(index)
         .within(() => {
@@ -49,7 +49,45 @@ context('B2B - Order Approval', () => {
     cy.visit(`/my-account/approval-dashboard`);
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .first()
-      .should('contain', ORDER_CODE);
+      .eq(0)
+      .should(
+        'contain',
+        sampleData.approvalOrderList.orderApprovals[0].order.code
+      );
+
+    cy.get('cx-order-approval-list a.cx-order-approval-value')
+      .eq(1)
+      .should('contain', 'None');
+
+    cy.get('cx-order-approval-list a.cx-order-approval-value')
+      .eq(2)
+      .should(
+        'contain',
+        sampleData.approvalOrderList.orderApprovals[0].order.orgCustomer.name
+      );
+
+    cy.get('cx-order-approval-list a.cx-order-approval-value')
+      .eq(3)
+      .should('contain', 'October 7, 2020');
+
+    cy.get('cx-order-approval-list a.cx-order-approval-value')
+      .eq(4)
+      .should('contain', 'Pending Approval');
+
+    cy.get('cx-order-approval-list a.cx-order-approval-value')
+      .eq(5)
+      .should(
+        'contain',
+        sampleData.approvalOrderList.orderApprovals[0].order.totalPrice
+          .formattedValue
+      );
+  });
+
+  it('TODO should approve the order', () => {
+    orderApproval.loginB2bApprover();
+  });
+
+  it('TODO should reject the order', () => {
+    orderApproval.loginB2bApprover();
   });
 });
