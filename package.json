@@ -126,7 +126,7 @@
     "@ngrx/store": "^10.0.0",
     "@nguniversal/express-engine": "^10.1.0",
     "@types/googlemaps": "^3.37.5",
-    "bootstrap": "4.5.2",
+    "bootstrap": "^4.5.2",
     "express": "^4.15.2",
     "hamburgers": "^1.1.3",
     "i18next": "^19.3.4",
