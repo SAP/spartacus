@@ -1,3 +1,9 @@
 %VariantConfigurationOverviewTemplate {
   @include cx-configurator-template();
+
+  cx-page-slot.VariantConfigOverviewBanner,
+  cx-page-slot.VariantConfigOverviewContent,
+  cx-page-slot.VariantConfigOverviewBottombar {
+    max-width: 1140px;
+  }
 }
