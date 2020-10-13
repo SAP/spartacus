@@ -6,6 +6,7 @@ import { Page } from '../../cms/model/page.model';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { BaseSite } from '../../model';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
@@ -78,11 +79,8 @@ export class SmartEditService {
   protected getDefaultPreviewCode() {
     this.baseSiteService
       .getBaseSiteData()
-      .pipe(
-        filter((site) => Object.keys(site).length !== 0),
-        take(1)
-      )
-      .subscribe((site) => {
+      .pipe(filter(Boolean), take(1))
+      .subscribe((site: BaseSite) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 

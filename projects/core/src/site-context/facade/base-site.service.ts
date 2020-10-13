@@ -60,7 +60,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
    */
   initialize(): void {
     let value;
-    this.getActive()
+    this.getBaseSiteData()
       .subscribe((val) => (value = val))
       .unsubscribe();
     if (value) {
