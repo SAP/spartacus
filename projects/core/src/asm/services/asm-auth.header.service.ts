@@ -82,7 +82,6 @@ export class AsmAuthHeaderService extends AuthHeaderService {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      this.routingService.go({ cxRoute: 'login' });
     } else {
       super.handleExpiredRefreshToken();
     }
