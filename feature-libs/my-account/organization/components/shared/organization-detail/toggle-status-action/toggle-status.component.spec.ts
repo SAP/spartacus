@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget, LoadStatus } from '@spartacus/my-account/organization/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
 import { MessageService } from '../../organization-message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
+import { ConfirmationMessageComponent } from '@spartacus/my-account/organization/components';
 
 class MockMessageService {
   add() {
@@ -27,7 +28,8 @@ class MockOrganizationItemService {
 describe('ToggleStatusComponent', () => {
   let component: ToggleStatusComponent<Budget>;
   let fixture: ComponentFixture<ToggleStatusComponent<Budget>>;
-
+  let organizationItemService: OrganizationItemService<Budget>;
+  let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -52,6 +54,7 @@ describe('ToggleStatusComponent', () => {
 
     fixture = TestBed.createComponent(ToggleStatusComponent);
     component = fixture.componentInstance;
+    component.i18nRoot = 'testRoot';
     fixture.detectChanges();
   });
 
@@ -88,10 +91,9 @@ describe('ToggleStatusComponent', () => {
   });
 
   describe('toggle inactive items', () => {
-    let organizationItemService: OrganizationItemService<Budget>;
-
     beforeEach(() => {
       organizationItemService = TestBed.inject(OrganizationItemService);
+      messageService = TestBed.inject(MessageService);
     });
 
     it('should enable inactive items right away', () => {
@@ -107,24 +109,23 @@ describe('ToggleStatusComponent', () => {
       );
     });
 
-    it('should only patch code and active flag', () => {
-      spyOn(organizationItemService, 'update').and.returnValue(of());
+    it('should display notification', () => {
       const mockItem = { code: 'b1', active: false, foo: 'bar' };
-      component.toggle(mockItem);
-      expect(organizationItemService.update).toHaveBeenCalledWith(
-        mockItem.code,
-        {
-          code: 'b1',
-          active: true,
-        }
+      spyOn(messageService, 'add').and.returnValue(new Subject());
+      spyOn(organizationItemService, 'update').and.returnValue(
+        of({ status: LoadStatus.SUCCESS, item: mockItem })
       );
+      component.toggle(mockItem);
+      expect(messageService.add).toHaveBeenCalledWith({
+        message: {
+          key: 'testRoot.messages.confirmDisabled',
+          params: { item: mockItem },
+        },
+      });
     });
   });
 
   describe('toggle active items', () => {
-    let organizationItemService: OrganizationItemService<Budget>;
-    let messageService: MessageService;
-
     beforeEach(() => {
       organizationItemService = TestBed.inject(OrganizationItemService);
       messageService = TestBed.inject(MessageService);
@@ -142,7 +143,10 @@ describe('ToggleStatusComponent', () => {
       spyOn(messageService, 'add').and.returnValue(new Subject());
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
-      expect(messageService.add).toHaveBeenCalled();
+      expect(messageService.add).toHaveBeenCalledWith({
+        message: { key: 'testRoot.messages.deactivate' },
+        component: ConfirmationMessageComponent,
+      });
       expect(organizationItemService.update).not.toHaveBeenCalled();
     });
 
