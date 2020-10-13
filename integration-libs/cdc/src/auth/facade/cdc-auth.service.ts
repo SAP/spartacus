@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  AsmAuthStorageService,
   AuthActions,
   AuthService,
   AuthStorageService,
   AuthToken,
   BasicAuthService,
   OCC_USER_ID_CURRENT,
+  TokenTarget,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
@@ -53,8 +55,27 @@ export class CdcAuthService extends AuthService {
     );
   }
 
-  // TODO: Consider consequences with ASM
   public loginWithToken(token: Partial<AuthToken>): void {
+    let tokenTarget: TokenTarget;
+    let currentToken: AuthToken;
+    if ('getTokenTarget' in this.authStorageService) {
+      (this.authStorageService as AsmAuthStorageService)
+        .getToken()
+        .subscribe((tok) => (currentToken = tok))
+        .unsubscribe();
+      (this.authStorageService as AsmAuthStorageService)
+        .getTokenTarget()
+        .subscribe((tokTarget) => (tokenTarget = tokTarget))
+        .unsubscribe();
+      if (
+        Boolean(currentToken?.access_token) &&
+        tokenTarget === TokenTarget.CSAgent
+      ) {
+        // TODO: Show the warning that you cannot login when you are already logged in
+        return;
+      }
+    }
+
     // Code mostly based on auth lib we use and the way it handles token properties
     this.authStorageService.setItem('access_token', token.access_token);
 
