@@ -5,7 +5,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { first, take, tap } from 'rxjs/operators';
+import { LoadStatus } from '@spartacus/my-account/organization/core';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
@@ -45,7 +46,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$ = this.itemService.current$.pipe(tap((item) => this.notify(item)));
+  current$ = this.itemService.current$;
 
   protected itemActiveState: T;
 
@@ -94,7 +95,17 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   }
 
   protected update(item: T): void {
-    this.itemService.update(item[this.key], this.getPatchedItem(item));
+    this.itemService
+      .update(item[this.key], this.getPatchedItem(item))
+      .pipe(
+        take(1),
+        tap((data) => {
+          if (data.status === LoadStatus.SUCCESS) {
+            this.notify(data.item);
+          }
+        })
+      )
+      .subscribe();
   }
 
   protected getPatchedItem(item: T): T {
@@ -109,12 +120,12 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   }
 
   protected notify(item: T) {
-    if (this.isChanged(item)) {
+    if (item) {
       this.messageService.add({
         message: {
           key: item.active
-            ? this.i18nRoot + '.messages.confirmDisabled'
-            : this.i18nRoot + '.messages.confirmEnabled',
+            ? this.i18nRoot + '.messages.confirmEnabled'
+            : this.i18nRoot + '.messages.confirmDisabled',
           params: {
             item: item,
           },
@@ -122,14 +133,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
       });
     }
     this.itemActiveState = { ...item };
-  }
-
-  protected isChanged(item: T) {
-    return (
-      this.itemActiveState &&
-      item[this.key] === this.itemActiveState[this.key] &&
-      item.active !== this.itemActiveState.active
-    );
   }
 
   ngOnDestroy() {
