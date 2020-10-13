@@ -1,18 +1,57 @@
 %cx-configurator-product-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   background-color: var(--cx-color-background);
   margin-block-end: 15px;
+  padding: 15px 0;
 
-  .cx-configurator-container {
-    padding: 15px 0;
-    margin: 0 auto;
-    border-width: 1px;
+  .cx-general-product-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 
-    .cx-configurator-product-title {
-      font-weight: bold;
-      text-align: center;
+    @include media-breakpoint-up(lg) {
+      width: 1140px;
     }
 
-    .cx-configurator-product-title-details {
+    .cx-title {
+      font-weight: bold;
+      align-self: center;
+    }
+
+    a {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-block-start: -25px;
+      margin-inline-end: 5px;
+      font-weight: normal;
+      color: var(--cx-color-text);
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      cx-icon {
+        margin-inline-start: 5px;
+      }
+
+      @include media-breakpoint-down(xs) {
+        margin-block-start: -20px;
+      }
+
+      .cx-toggle-details-link-text {
+        text-decoration: underline;
+        @include media-breakpoint-down(xs) {
+          display: none;
+        }
+      }
+    }
+
+    .cx-details {
       inline-size: 100%;
       max-block-size: 0;
       overflow: hidden;
@@ -30,58 +69,23 @@
         max-block-size: 400px;
       }
 
-      .cx-configurator-product-title-details-image {
+      .cx-details-image {
         margin-block-start: 15px;
         max-inline-size: 100px;
       }
 
-      .cx-configurator-product-title-details-content {
+      .cx-details-content {
+        display: flex;
+        flex-direction: column;
         margin: 15px 0 0 15px;
-        max-inline-size: 600px;
 
-        .cx-configurator-product-detail-title,
-        .cx-configurator-product-price {
+        .cx-detail-title,
+        .cx-price {
           font-weight: bold;
         }
 
-        .cx-configurator-product-code {
+        .cx-code {
           color: var(--cx-color-secondary);
-        }
-      }
-    }
-
-    .cx-configurator-product-title {
-      padding: 0 120px 0 120px;
-      @include media-breakpoint-down(xs) {
-        padding: 0 20px 0 20px;
-      }
-    }
-
-    a.cx-configurator-toogle-details-link {
-      float: right;
-      cursor: pointer;
-      display: inline-flex;
-      color: var(--cx-color-text);
-      font-weight: normal;
-      margin-block-start: -25px;
-      margin-inline-end: 5px;
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      cx-icon {
-        margin-inline-start: 5px;
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-block-start: -20px;
-      }
-
-      .cx-configurator-toogle-details-link-text {
-        text-decoration: underline;
-        @include media-breakpoint-down(xs) {
-          display: none;
         }
       }
     }
