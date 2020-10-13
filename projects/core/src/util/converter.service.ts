@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken, Injector, OnDestroy } from '@angular/core';
+import { Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import { Observable, OperatorFunction, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../lazy-loading';
@@ -29,11 +29,8 @@ export interface Converter<S, T> {
 export class ConverterService implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected injector: Injector,
-    protected unifiedInjector: UnifiedInjector
-  ) {
-    // Clear cached converters when mew injectors appear
+  constructor(protected unifiedInjector: UnifiedInjector) {
+    // Clear cached converters when new injectors appear
     const cacheResetLogic = this.unifiedInjector.injectors$.pipe(
       tap(() => this.converters.clear())
     );
