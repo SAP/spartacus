@@ -144,26 +144,26 @@ describe('ConfigurationOverviewFormComponent', () => {
     defaultConfigObservable = of(configCreate2);
     initialize();
 
-    expect(
-      htmlElem.querySelectorAll('.cx-configurator-overview-group').length
-    ).toBe(2);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(2);
 
-    expect(
-      htmlElem.querySelectorAll('cx-configurator-overview-attribute').length
-    ).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
+      3
+    );
   });
 
   it('should display no result text in case of empty configuration', () => {
     defaultConfigObservable = of(configInitial);
     initialize();
 
-    expect(
-      htmlElem.querySelectorAll('.cx-configurator-overview-group').length
-    ).toBe(0);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
+
+    expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
+      0
+    );
 
     expect(
-      htmlElem.querySelectorAll('cx-configurator-overview-attribute').length
-    ).toBe(0);
+      htmlElem.querySelectorAll('.cx-no-attribute-value-pairs').length
+    ).toBe(1);
   });
 
   it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {

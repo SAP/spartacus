@@ -27,7 +27,7 @@
           A larger value than the details need, this will be used to animate the closing/opening.
           If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
         */
-        max-border-left: 400px;
+        max-block-size: 400px;
       }
 
       .cx-configurator-product-title-details-image {
