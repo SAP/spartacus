@@ -8,12 +8,12 @@ import { NgModuleRef } from '@angular/core';
  */
 export class ModuleInitializedEvent {
   /**
-   * Name of the feature associated with this module.
+   * Name/identifier of the feature associated with this module.
    *
    * You can differentiate between feature and dependency modules, as the latter
    * won't have thus property set.
    */
-  featureName?: string;
+  feature?: string;
   /**
    * Reference fpr lazy loaded module instance
    */

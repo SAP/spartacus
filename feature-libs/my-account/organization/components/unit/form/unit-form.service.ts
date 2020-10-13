@@ -46,5 +46,9 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
         })
       );
     }
+    // We disable the parentOrgUnit when it's given by the data.
+    if (item?.uid === undefined && item?.parentOrgUnit) {
+      this.form.get('parentOrgUnit').disable();
+    }
   }
 }

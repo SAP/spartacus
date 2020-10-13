@@ -1,4 +1,4 @@
-import { ProfileTagEvent } from '../../../../profiletag/index';
+import { ProfileTagPushEvent } from '../../../../profiletag/index';
 import { MerchandisingMetadata } from '../../../model/index';
 
 export interface CarouselEvent {
@@ -8,7 +8,7 @@ export interface CarouselEvent {
   metadata?: MerchandisingMetadata;
 }
 
-export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselViewedEvent implements ProfileTagPushEvent {
   name = 'CarouselViewed';
   data: any;
   constructor(carouselEvent: CarouselEvent, productSkus: string[]) {
@@ -19,7 +19,7 @@ export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
   }
 }
 
-export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselClickedEvent implements ProfileTagPushEvent {
   name = 'CarouselClicked';
   data: any;
   constructor(
