@@ -18,12 +18,12 @@ export function addProductToCart(productCode: string) {
     .clear({ force: true })
     .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+    .findAllByText(/Add To Cart/i)
     .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
 }
 
@@ -39,7 +39,7 @@ export function verifyMyCoupons() {
 
 export function ApplyMyCoupons(couponCode: string) {
   cy.get('.cx-available-coupon').within(() => {
-    cy.getByText(couponCode).parent().click();
+    cy.findByText(couponCode).parent().click();
   });
   cy.get('cx-global-message').should(
     'contain',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { merge, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
-import { QUERY_PARAMS, ROUTE_PARAMS } from '../constants';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
+import { ROUTE_PARAMS } from '../constants';
 
 /**
  * Abstract Base class for all organization entities. This class simplifies
@@ -34,26 +34,12 @@ export abstract class CurrentOrganizationItemService<T> {
     switchMap((code: string) => (code ? this.getItem(code) : of(null)))
   );
 
-  protected unitRouteQueryParam$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map(
-        (routingData) =>
-          routingData.state.queryParams?.[QUERY_PARAMS.parentUnit]
-      )
-    );
-
-  protected unitRouteParam$ = this.routingService
+  /**
+   * Observes the b2bUnit based on the unitCode route parameter.
+   */
+  readonly b2bUnit$: Observable<string> = this.routingService
     .getParams()
     .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
-
-  /**
-   * Observes the b2bUnit based on the query parameters.
-   */
-  readonly b2bUnit$: Observable<string> = merge(
-    this.unitRouteQueryParam$,
-    this.unitRouteParam$
-  );
 
   /**
    * Returns the route parameter key for the item. The route parameter key differs

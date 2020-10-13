@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/my-account",
-  "version": "3.0.0-next.2",
+  "version": "3.0.0-next.3",
   "description": "My Account library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -9,20 +9,36 @@
     "storefront",
     "my account"
   ],
+  "scripts": {
+    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "build:schematics": "tsc -p ./tsconfig.schematics.json",
+    "test:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.spec.json && jasmine \"schematics/**/*_spec.js\""
+  },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/my-account",
+  "schematics": "./schematics/collection.json",
   "dependencies": {
     "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.5.0",
+    "@types/node": "^12.11.1",
+    "@types/shelljs": "^0.8.7",
+    "jasmine": "^3.5.0",
+    "rimraf": "^3.0.2",
+    "shelljs": "^0.8.3",
+    "typescript": "~4.0.2"
   },
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.2",
-    "@spartacus/storefront": "3.0.0-next.2"
+    "@spartacus/core": "3.0.0-next.3",
+    "@spartacus/storefront": "3.0.0-next.3"
   }
 }
