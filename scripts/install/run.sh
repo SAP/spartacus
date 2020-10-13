@@ -94,18 +94,27 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} \
-        && ng add @spartacus/my-account && ng add @spartacus/setup)
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX}
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            ( ng add @spartacus/setup && ng add @spartacus/my-account )
+        fi
+    )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr \
-        && ng add @spartacus/my-account && ng add @spartacus/setup )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            ( ng add @spartacus/setup && ng add @spartacus/my-account )
+        fi
+    )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa \
-        && ng add @spartacus/my-account && ng add @spartacus/setup )
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            ( ng add @spartacus/setup && ng add @spartacus/my-account )
+        fi
+    )
 }
 
 function create_apps {
