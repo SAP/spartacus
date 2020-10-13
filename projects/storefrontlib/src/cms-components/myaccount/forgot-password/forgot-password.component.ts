@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoutingService, UserService } from '@spartacus/core';
+import {
+  AuthConfigService,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
+import { OAuthFlow } from 'projects/core/src/auth/user-auth/models/oAuth-flow';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 @Component({
   selector: 'cx-forgot-password',
@@ -12,7 +17,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
@@ -29,9 +35,12 @@ export class ForgotPasswordComponent implements OnInit {
       this.userService.requestForgotPasswordEmail(
         this.forgotPasswordForm.value.userEmail
       );
-      // TODO: Should we do something different here in case of implicit/code flow
-      // Don't redirect in different flows
-      this.routingService.go({ cxRoute: 'login' });
+      if (
+        this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
+      ) {
+        this.routingService.go({ cxRoute: 'login' });
+      }
     } else {
       this.forgotPasswordForm.markAllAsTouched();
     }

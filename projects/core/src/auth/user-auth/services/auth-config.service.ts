@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { AuthConfig, AuthLibConfig } from '../config/auth-config';
+import { OAuthFlow } from '../models/oAuth-flow';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +63,22 @@ export class AuthConfigService {
       url = '/' + url;
     }
     return `${this.getBaseUrl()}${url}`;
+  }
+
+  // TODO: Should we consume directly from this service or should it go through a facade.
+  public getOAuthFlow(): OAuthFlow {
+    const responseType = this.authConfig.authentication?.OAuthLibConfig
+      ?.responseType;
+    if (responseType) {
+      const types = responseType.split(' ');
+      if (types.includes('code')) {
+        return OAuthFlow.AuthorizationCode;
+      } else if (types.includes('token')) {
+        return OAuthFlow.ImplicitFlow;
+      } else {
+        return OAuthFlow.ResourceOwnerPasswordFlow;
+      }
+    }
+    return OAuthFlow.ResourceOwnerPasswordFlow;
   }
 }
