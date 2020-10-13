@@ -48,8 +48,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    */
   current$ = this.itemService.current$;
 
-  protected itemActiveState: T;
-
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
 
@@ -132,7 +130,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
         },
       });
     }
-    this.itemActiveState = { ...item };
   }
 
   ngOnDestroy() {
