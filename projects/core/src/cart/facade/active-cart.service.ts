@@ -192,6 +192,20 @@ export class ActiveCartService implements OnDestroy {
       });
     } else if (this.isGuestCart()) {
       this.guestCartMerge(cartId);
+    } else if (
+      this.userId !== this.previousUserId &&
+      this.userId !== OCC_USER_ID_ANONYMOUS &&
+      this.previousUserId !== OCC_USER_ID_ANONYMOUS
+    ) {
+      // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
+      // Similarly when you are logged in as asm user and you logout and want to resume previous user session
+      this.multiCartService.loadCart({
+        userId: this.userId,
+        cartId,
+        extraData: {
+          active: true,
+        },
+      });
     } else {
       this.multiCartService.mergeToCurrentCart({
         userId: this.userId,
