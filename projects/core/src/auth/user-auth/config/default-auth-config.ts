@@ -13,7 +13,6 @@ export const defaultAuthConfig: AuthConfig = {
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
       disablePKCE: true,
-      responseType: 'code',
       oidc: false,
       clearHashAfterLogin: true,
     },
