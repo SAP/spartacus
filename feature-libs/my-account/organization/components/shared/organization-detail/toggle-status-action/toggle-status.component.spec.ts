@@ -109,17 +109,31 @@ describe('ToggleStatusComponent', () => {
       );
     });
 
-    it('should display notification', () => {
+    it('should only patch code and active flag', () => {
+      spyOn(organizationItemService, 'update').and.returnValue(of());
       const mockItem = { code: 'b1', active: false, foo: 'bar' };
+      component.toggle(mockItem);
+      expect(organizationItemService.update).toHaveBeenCalledWith(
+        mockItem.code,
+        {
+          code: 'b1',
+          active: true,
+        }
+      );
+    });
+
+    it('should display notification for enabled item', () => {
+      const mockItem = { code: 'b1', active: false, foo: 'bar' };
+      const updatedItem = { code: 'b1', active: true, foo: 'bar' };
       spyOn(messageService, 'add').and.returnValue(new Subject());
       spyOn(organizationItemService, 'update').and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: mockItem })
+        of({ status: LoadStatus.SUCCESS, item: updatedItem })
       );
       component.toggle(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
         message: {
-          key: 'testRoot.messages.confirmDisabled',
-          params: { item: mockItem },
+          key: 'testRoot.messages.confirmEnabled',
+          params: { item: updatedItem },
         },
       });
     });
