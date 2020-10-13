@@ -14,7 +14,10 @@ import {
   OccConfig,
   SearchConfig,
 } from '@spartacus/core';
-import { OrgUnitConnector } from '@spartacus/my-account/organization/core';
+import {
+  OrganizationActions,
+  OrgUnitConnector,
+} from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -172,7 +175,7 @@ describe('OrgUnit Effects', () => {
     it('should return CreateOrgUnitNodesSuccess action', () => {
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
       const completion1 = new OrgUnitActions.CreateUnitSuccess(orgUnit);
-      const completion2 = new OrgUnitActions.LoadTree({ userId });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion1, c: completion2 });
 
@@ -185,12 +188,13 @@ describe('OrgUnit Effects', () => {
         throwError(httpErrorResponse)
       );
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
-      const completion = new OrgUnitActions.CreateUnitFail({
+      const completion1 = new OrgUnitActions.CreateUnitFail({
         unitCode: orgUnitId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createUnit$).toBeObservable(expected);
       expect(orgUnitConnector.create).toHaveBeenCalledWith(userId, orgUnit);
@@ -226,12 +230,13 @@ describe('OrgUnit Effects', () => {
         unitCode: orgUnitId,
         unit: orgUnit,
       });
-      const completion = new OrgUnitActions.UpdateUnitFail({
+      const completion1 = new OrgUnitActions.UpdateUnitFail({
         unitCode: orgUnit.uid,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateUnit$).toBeObservable(expected);
       expect(orgUnitConnector.update).toHaveBeenCalledWith(
@@ -249,9 +254,10 @@ describe('OrgUnit Effects', () => {
         orgUnitId,
         address,
       });
-      const completion = new OrgUnitActions.CreateAddressSuccess(address);
+      const completion1 = new OrgUnitActions.CreateAddressSuccess(address);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createAddress$).toBeObservable(expected);
       expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
@@ -270,12 +276,13 @@ describe('OrgUnit Effects', () => {
         orgUnitId,
         address,
       });
-      const completion = new OrgUnitActions.CreateAddressFail({
+      const completion1 = new OrgUnitActions.CreateAddressFail({
         addressId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createAddress$).toBeObservable(expected);
       expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
@@ -294,15 +301,11 @@ describe('OrgUnit Effects', () => {
         addressId,
         address,
       });
-      // TODO: Workaround for empty PATCH response:
-      // const completion = new OrgUnitActions.UpdateAddressSuccess(address);
-      const completion = new OrgUnitActions.LoadAddresses({
-        userId,
-        orgUnitId,
-      });
+      const completion1 = new OrgUnitActions.UpdateAddressSuccess(address);
+      const completion2 = new OrganizationActions.OrganizationClearData();
 
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       //effect -> updateAddress is triggering LoadAddresses instead of UpdateAddressSuccess
       expect(effects.updateAddress$).toBeObservable(expected);
@@ -324,12 +327,13 @@ describe('OrgUnit Effects', () => {
         addressId,
         address,
       });
-      const completion = new OrgUnitActions.UpdateAddressFail({
+      const completion1 = new OrgUnitActions.UpdateAddressFail({
         addressId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateAddress$).toBeObservable(expected);
       expect(orgUnitConnector.updateAddress).toHaveBeenCalledWith(
@@ -348,9 +352,10 @@ describe('OrgUnit Effects', () => {
         orgUnitId,
         addressId,
       });
-      const completion = new OrgUnitActions.DeleteAddressSuccess(address);
+      const completion1 = new OrgUnitActions.DeleteAddressSuccess(address);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.deleteAddress$).toBeObservable(expected);
       expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
@@ -369,12 +374,13 @@ describe('OrgUnit Effects', () => {
         orgUnitId,
         addressId,
       });
-      const completion = new OrgUnitActions.DeleteAddressFail({
+      const completion1 = new OrgUnitActions.DeleteAddressFail({
         addressId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.deleteAddress$).toBeObservable(expected);
       expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
@@ -489,13 +495,14 @@ describe('OrgUnit Effects', () => {
         orgCustomerId,
         roleId,
       });
-      const completion = new OrgUnitActions.AssignApproverSuccess({
+      const completion1 = new OrgUnitActions.AssignApproverSuccess({
         uid: orgCustomerId,
         roleId,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignApprover).toBeObservable(expected);
       expect(orgUnitConnector.assignApprover).toHaveBeenCalledWith(
@@ -516,12 +523,13 @@ describe('OrgUnit Effects', () => {
         orgCustomerId,
         roleId,
       });
-      const completion = new OrgUnitActions.AssignApproverFail({
+      const completion1 = new OrgUnitActions.AssignApproverFail({
         orgCustomerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignApprover).toBeObservable(expected);
       expect(orgUnitConnector.assignApprover).toHaveBeenCalledWith(
@@ -541,13 +549,14 @@ describe('OrgUnit Effects', () => {
         orgCustomerId,
         roleId,
       });
-      const completion = new OrgUnitActions.UnassignApproverSuccess({
+      const completion1 = new OrgUnitActions.UnassignApproverSuccess({
         uid: orgCustomerId,
         roleId,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignApprover).toBeObservable(expected);
       expect(orgUnitConnector.unassignApprover).toHaveBeenCalledWith(
@@ -568,12 +577,13 @@ describe('OrgUnit Effects', () => {
         orgCustomerId,
         roleId,
       });
-      const completion = new OrgUnitActions.UnassignApproverFail({
+      const completion1 = new OrgUnitActions.UnassignApproverFail({
         orgCustomerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignApprover).toBeObservable(expected);
       expect(orgUnitConnector.unassignApprover).toHaveBeenCalledWith(

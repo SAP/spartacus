@@ -80,13 +80,18 @@ export class OrgUnitEffects {
 
   @Effect()
   createUnit$: Observable<
-    OrgUnitActions.CreateUnitFail | OrganizationActions.OrganizationClearData
+    | OrgUnitActions.CreateUnitFail
+    | OrgUnitActions.CreateUnitSuccess
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
     switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
-        switchMap(() => [new OrganizationActions.OrganizationClearData()]),
+        switchMap((data) => [
+          new OrgUnitActions.CreateUnitSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
           from([
             new OrgUnitActions.CreateUnitFail({

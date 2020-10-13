@@ -12,7 +12,10 @@ import {
   SearchConfig,
   UserService,
 } from '@spartacus/core';
-import { UserGroup } from '@spartacus/my-account/organization/core';
+import {
+  OrganizationActions,
+  UserGroup,
+} from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -269,9 +272,10 @@ describe('B2B User Effects', () => {
   describe('createB2BUser$', () => {
     it('should return CreateB2BUserSuccess action', () => {
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
-      const completion = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
+      const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.create).toHaveBeenCalledWith(userId, orgCustomer);
@@ -282,12 +286,13 @@ describe('B2B User Effects', () => {
         throwError(httpErrorResponse)
       );
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
-      const completion = new B2BUserActions.CreateB2BUserFail({
+      const completion1 = new B2BUserActions.CreateB2BUserFail({
         orgCustomerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.create).toHaveBeenCalledWith(userId, orgCustomer);
@@ -324,12 +329,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         orgCustomer,
       });
-      const completion = new B2BUserActions.UpdateB2BUserFail({
+      const completion1 = new B2BUserActions.UpdateB2BUserFail({
         orgCustomerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.update).toHaveBeenCalledWith(
@@ -348,7 +354,7 @@ describe('B2B User Effects', () => {
         orgCustomer,
       };
       const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
-      const completion = new B2BUserActions.LoadB2BUser(payload);
+      const completion = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -480,12 +486,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         approverId,
       });
-      const completion = new B2BUserActions.CreateB2BUserApproverSuccess({
+      const completion1 = new B2BUserActions.CreateB2BUserApproverSuccess({
         approverId,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignApproverToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignApprover).toHaveBeenCalledWith(
@@ -504,13 +511,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         approverId,
       });
-      const completion = new B2BUserActions.CreateB2BUserApproverFail({
+      const completion1 = new B2BUserActions.CreateB2BUserApproverFail({
         orgCustomerId,
         approverId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignApproverToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignApprover).toHaveBeenCalledWith(
@@ -528,12 +536,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         approverId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserApproverSuccess({
+      const completion1 = new B2BUserActions.DeleteB2BUserApproverSuccess({
         approverId,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignApproverFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignApprover).toHaveBeenCalledWith(
@@ -552,13 +561,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         approverId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserApproverFail({
+      const completion1 = new B2BUserActions.DeleteB2BUserApproverFail({
         orgCustomerId,
         approverId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignApproverFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignApprover).toHaveBeenCalledWith(
@@ -576,12 +586,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         permissionId,
       });
-      const completion = new B2BUserActions.CreateB2BUserPermissionSuccess({
+      const completion1 = new B2BUserActions.CreateB2BUserPermissionSuccess({
         permissionId,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignPermissionToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignPermission).toHaveBeenCalledWith(
@@ -600,13 +611,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         permissionId,
       });
-      const completion = new B2BUserActions.CreateB2BUserPermissionFail({
+      const completion1 = new B2BUserActions.CreateB2BUserPermissionFail({
         orgCustomerId,
         permissionId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignPermissionToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignPermission).toHaveBeenCalledWith(
@@ -624,12 +636,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         permissionId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserPermissionSuccess({
+      const completion1 = new B2BUserActions.DeleteB2BUserPermissionSuccess({
         permissionId,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignPermissionFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignPermission).toHaveBeenCalledWith(
@@ -648,13 +661,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         permissionId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserPermissionFail({
+      const completion1 = new B2BUserActions.DeleteB2BUserPermissionFail({
         orgCustomerId,
         permissionId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignPermissionFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignPermission).toHaveBeenCalledWith(
@@ -672,12 +686,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         userGroupId,
       });
-      const completion = new B2BUserActions.CreateB2BUserUserGroupSuccess({
+      const completion1 = new B2BUserActions.CreateB2BUserUserGroupSuccess({
         uid: userGroupId,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignUserGroupToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignUserGroup).toHaveBeenCalledWith(
@@ -696,13 +711,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         userGroupId,
       });
-      const completion = new B2BUserActions.CreateB2BUserUserGroupFail({
+      const completion1 = new B2BUserActions.CreateB2BUserUserGroupFail({
         orgCustomerId,
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignUserGroupToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignUserGroup).toHaveBeenCalledWith(
@@ -720,12 +736,13 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         userGroupId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+      const completion1 = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
         uid: userGroupId,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignUserGroupFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignUserGroup).toHaveBeenCalledWith(
@@ -744,13 +761,14 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         userGroupId,
       });
-      const completion = new B2BUserActions.DeleteB2BUserUserGroupFail({
+      const completion1 = new B2BUserActions.DeleteB2BUserUserGroupFail({
         orgCustomerId,
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignUserGroupFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignUserGroup).toHaveBeenCalledWith(
