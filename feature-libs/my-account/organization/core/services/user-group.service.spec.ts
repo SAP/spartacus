@@ -1,13 +1,14 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
   EntitiesModel,
   SearchConfig,
+  UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrganizationItemStatus, Permission, UserGroup } from '../model';
+import { LoadStatus } from '../model/organization-item-status';
 import {
   B2BUserActions,
   PermissionActions,
@@ -19,7 +20,6 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { UserGroupService } from './user-group.service';
-import { LoadStatus } from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -70,13 +70,13 @@ const memberList: EntitiesModel<B2BUser> = {
   sorts,
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService {
+  getUserId = createSpy().and.returnValue(of(userId));
 }
 
 describe('UserGroupService', () => {
   let service: UserGroupService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
 
   beforeEach(() => {
@@ -90,13 +90,13 @@ describe('UserGroupService', () => {
       ],
       providers: [
         UserGroupService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(UserGroupService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -117,7 +117,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(userGroupDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
@@ -139,7 +139,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(userGroupDetails).toEqual(userGroup);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
@@ -162,7 +162,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(userGroups).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -191,7 +191,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(userGroups).toEqual(userGroupList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -203,7 +203,7 @@ describe('UserGroupService', () => {
     it('create() should should dispatch CreateUserGroup action', () => {
       service.create(userGroup);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.CreateUserGroup({
           userId,
@@ -217,7 +217,7 @@ describe('UserGroupService', () => {
     it('update() should should dispatch UpdateUserGroup action', () => {
       service.update(userGroupId, userGroup);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UpdateUserGroup({
           userId,
@@ -232,7 +232,7 @@ describe('UserGroupService', () => {
     it('delete() should should dispatch UpdateUserGroup action', () => {
       service.delete(userGroupId);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.DeleteUserGroup({
           userId,
@@ -254,7 +254,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadPermissions({
@@ -288,7 +288,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -300,7 +300,7 @@ describe('UserGroupService', () => {
     it('assignPermission() should should dispatch CreateUserGroupOrderApprovalPermission action', () => {
       service.assignPermission(userGroupId, permissionUid);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignPermission({
           userId,
@@ -315,7 +315,7 @@ describe('UserGroupService', () => {
     it('unassignPermission() should should dispatch DeleteUserGroupOrderApprovalPermission action', () => {
       service.unassignPermission(userGroupId, permissionUid);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignPermission({
           userId,
@@ -338,7 +338,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(members).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadAvailableOrgCustomers({
@@ -370,7 +370,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(members).toEqual(memberList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUsers({ userId, params })
@@ -382,7 +382,7 @@ describe('UserGroupService', () => {
     it('assignMember() should should dispatch CreateUserGroupMember action', () => {
       service.assignMember(userGroupId, customerId);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignMember({
           userId,
@@ -397,7 +397,7 @@ describe('UserGroupService', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignMember(userGroupId, customerId);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignMember({
           userId,
@@ -412,7 +412,7 @@ describe('UserGroupService', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignAllMembers(userGroupId);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignAllMembers({
           userId,

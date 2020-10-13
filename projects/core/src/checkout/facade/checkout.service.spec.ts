@@ -10,7 +10,6 @@ import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '../../model/replenishment-order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import {
   PROCESS_FEATURE,
   StateWithProcess,
@@ -23,7 +22,6 @@ import { CheckoutService } from './checkout.service';
 
 const mockCartId = 'test-cart';
 const mockTermsChecked = true;
-const mockUserId = OCC_USER_ID_CURRENT;
 const mockError = 'test-error';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
@@ -49,6 +47,16 @@ class ActiveCartServiceStub {
   }
 }
 
+class UserIdServiceStub {
+  userId;
+  getUserId() {
+    return of(this.userId);
+  }
+  invokeWithUserId(cb) {
+    cb(this.userId);
+  }
+}
+
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
@@ -56,13 +64,6 @@ describe('CheckoutService', () => {
   let userIdService: UserIdService;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
-
-  class UserIdServiceStub {
-    userId;
-    getUserId() {
-      return of(userId);
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,7 +82,6 @@ describe('CheckoutService', () => {
         CheckoutService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
@@ -108,7 +108,7 @@ describe('CheckoutService', () => {
       service.loadCheckoutDetails(mockCartId);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.LoadCheckoutDetails({
-          userId: mockUserId,
+          userId: userId,
           cartId: mockCartId,
         })
       );
@@ -179,7 +179,7 @@ describe('CheckoutService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.PlaceOrder({
-          userId: mockUserId,
+          userId: userId,
           cartId: mockCartId,
           termsChecked: mockTermsChecked,
         })
@@ -250,7 +250,7 @@ describe('CheckoutService', () => {
           cartId: mockCartId,
           scheduleReplenishmentForm: mockReplenishmentOrderFormData,
           termsChecked: mockTermsChecked,
-          userId: mockUserId,
+          userId: userId,
         })
       );
     });

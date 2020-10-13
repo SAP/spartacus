@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  AuthService,
   EntitiesModel,
   ProcessSelectors,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pluck, take, tap } from 'rxjs/operators';
@@ -25,7 +25,7 @@ import { OrderApprovalSelectors } from '../store/selectors';
 export class OrderApprovalService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   loadOrderApproval(orderApprovalCode: string): void {
@@ -169,8 +169,8 @@ export class OrderApprovalService {
   }
 
   private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
   }

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import {
   OrderApprovalPermissionType,
   Permission,
@@ -20,14 +21,13 @@ import {
   getPermissionList,
   getPermissionTypes,
 } from '../store/selectors/permission.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   loadPermission(permissionCode: string): void {
@@ -143,8 +143,8 @@ export class PermissionService {
   }
 
   private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
   }

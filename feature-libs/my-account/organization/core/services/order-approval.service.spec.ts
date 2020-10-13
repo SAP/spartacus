@@ -1,10 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  AuthService,
   EntitiesModel,
   ProcessModule,
   SearchConfig,
+  UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
@@ -38,13 +38,13 @@ const orderApprovalDecision: OrderApprovalDecision = {
   comment: 'yeah',
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService {
+  getUserId = createSpy().and.returnValue(of(userId));
 }
 
 describe('OrderApprovalService', () => {
   let service: OrderApprovalService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
 
   beforeEach(() => {
@@ -59,13 +59,13 @@ describe('OrderApprovalService', () => {
       ],
       providers: [
         OrderApprovalService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(OrderApprovalService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -86,7 +86,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(orderApprovalDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApproval({
@@ -111,7 +111,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(orderApprovalDetails).toEqual(orderApproval);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApproval({
@@ -160,7 +160,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(orderApprovals).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -192,7 +192,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(orderApprovals).toEqual(orderApprovalList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -204,7 +204,7 @@ describe('OrderApprovalService', () => {
     it('update() should should dispatch MakeDecision action', () => {
       service.makeDecision(orderApprovalCode, orderApprovalDecision);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.MakeDecision({
           userId,

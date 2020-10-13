@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
   B2BUserGroup,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
@@ -29,7 +29,7 @@ import { getItemStatus } from '../utils/get-item-status';
 export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   load(orgCustomerId: string) {
@@ -326,8 +326,8 @@ export class B2BUserService {
   }
 
   private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
   }

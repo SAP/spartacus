@@ -1,8 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
+import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Budget } from '../model/budget.model';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import { BudgetActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -12,10 +16,6 @@ import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
 
 import createSpy = jasmine.createSpy;
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '../model/organization-item-status';
 
 const userId = 'current';
 const budgetCode = 'testBudget';
@@ -29,13 +29,13 @@ const budgetList: EntitiesModel<Budget> = {
   sorts,
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService {
+  getUserId = createSpy().and.returnValue(of(userId));
 }
 
 describe('BudgetService', () => {
   let service: BudgetService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
 
   beforeEach(() => {
@@ -49,13 +49,13 @@ describe('BudgetService', () => {
       ],
       providers: [
         BudgetService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(BudgetService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -76,7 +76,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(budgetDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
@@ -93,7 +93,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
@@ -113,7 +113,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(budgets).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -140,7 +140,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.getUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -152,7 +152,7 @@ describe('BudgetService', () => {
     it('create() should should dispatch CreateBudget action', () => {
       service.create(budget);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.CreateBudget({ userId, budget })
       );
@@ -163,7 +163,7 @@ describe('BudgetService', () => {
     it('update() should should dispatch UpdateBudget action', () => {
       service.update(budgetCode, budget);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.getUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );
