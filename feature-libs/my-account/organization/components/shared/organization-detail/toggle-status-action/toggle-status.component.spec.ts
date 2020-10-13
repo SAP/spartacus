@@ -19,7 +19,9 @@ class MockMessageService {
 
 class MockOrganizationItemService {
   current$ = of();
-  update() {}
+  update() {
+    return of();
+  }
 }
 
 describe('ToggleStatusComponent', () => {
@@ -93,7 +95,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should enable inactive items right away', () => {
-      spyOn(organizationItemService, 'update');
+      spyOn(organizationItemService, 'update').and.returnValue(of());
       const mockItem = { code: 'b1', active: false };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -106,7 +108,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should only patch code and active flag', () => {
-      spyOn(organizationItemService, 'update');
+      spyOn(organizationItemService, 'update').and.returnValue(of());
       const mockItem = { code: 'b1', active: false, foo: 'bar' };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -127,7 +129,7 @@ describe('ToggleStatusComponent', () => {
       organizationItemService = TestBed.inject(OrganizationItemService);
       messageService = TestBed.inject(MessageService);
 
-      spyOn(organizationItemService, 'update');
+      spyOn(organizationItemService, 'update').and.returnValue(of());
     });
 
     it('should not enable active items right away', () => {
