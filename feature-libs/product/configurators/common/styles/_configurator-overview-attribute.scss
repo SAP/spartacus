@@ -1,5 +1,23 @@
 %cx-configurator-overview-attribute {
-  .cx-configurator-overview-attribute-label {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  .cx-attribute-value {
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: 41.6666666667%;
+    }
+  }
+
+  .cx-attribute-label {
     color: var(--cx-color-secondary);
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: 58.3333333333%;
+    }
   }
 }
