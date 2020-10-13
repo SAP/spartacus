@@ -56,6 +56,7 @@ context('Product Configuration', () => {
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
       cy.server();
+
       cy.route(
         'PATCH',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -63,7 +64,17 @@ context('Product Configuration', () => {
         )}/ccpconfigurator/*`
       ).as('updateConfig');
 
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*/pricing*`
+      ).as('priceUpdate');
+
       configuration.goToConfigurationPage(testProduct);
+
+      cy.wait('@priceUpdate');
+
       configuration.selectAttribute(
         CAMERA_COLOR,
         RADIO_GROUP,
@@ -71,6 +82,7 @@ context('Product Configuration', () => {
       );
 
       cy.wait('@updateConfig');
+      cy.wait('@priceUpdate');
 
       configuration.checkFocus(
         CAMERA_COLOR,
@@ -86,6 +98,7 @@ context('Product Configuration', () => {
       );
 
       cy.wait('@updateConfig');
+      cy.wait('@priceUpdate');
 
       configuration.checkFocus(
         CAMERA_SD_CARD,
