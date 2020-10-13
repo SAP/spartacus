@@ -15,27 +15,27 @@ export class AsmAuthStorageService extends AuthStorageService {
   protected _tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
   protected emulatedUserToken: AuthToken;
 
-  public getTokenTarget(): Observable<TokenTarget> {
+  getTokenTarget(): Observable<TokenTarget> {
     return this._tokenTarget$.asObservable();
   }
 
-  public getEmulatedUserToken(): AuthToken {
-    return this.emulatedUserToken;
-  }
-
-  public setEmulatedUserToken(token: AuthToken): void {
-    this.emulatedUserToken = token;
-  }
-
-  public setTokenTarget(tokenTarget: TokenTarget): void {
+  setTokenTarget(tokenTarget: TokenTarget): void {
     this._tokenTarget$.next(tokenTarget);
   }
 
-  public switchTokenTargetToCSAgent(): void {
+  getEmulatedUserToken(): AuthToken {
+    return this.emulatedUserToken;
+  }
+
+  setEmulatedUserToken(token: AuthToken): void {
+    this.emulatedUserToken = token;
+  }
+
+  switchTokenTargetToCSAgent(): void {
     this._tokenTarget$.next(TokenTarget.CSAgent);
   }
 
-  public switchTokenTargetToUser(): void {
+  switchTokenTargetToUser(): void {
     this._tokenTarget$.next(TokenTarget.User);
   }
 
@@ -43,7 +43,7 @@ export class AsmAuthStorageService extends AuthStorageService {
    * When we start emulation from the UI (not by ASM login) we can't restore user session on cs agent logout.
    * That's why we clear it, to not restore user session that happened before cs agent login.
    */
-  public clearEmulatedUserToken(): void {
+  clearEmulatedUserToken(): void {
     this.emulatedUserToken = undefined;
   }
 }
