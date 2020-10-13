@@ -37,7 +37,7 @@ export const user = {
     password: 'Change password',
     approvers: 'Approvers',
     userGroup: 'User groups',
-    permission: 'Permission',
+    permission: 'Permissions',
   },
 
   messages: {
@@ -100,19 +100,27 @@ export const user = {
     newPassword: 'New password',
     confirmPassword: 'Retype new password',
   },
+
+  breadcrumbs: {
+    list: 'All users',
+    details: '{{name}}',
+    userGroups: 'User groups',
+    approvers: 'Approvers',
+    permissions: 'Permissions',
+  },
 };
 
 export const userAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Unit assigned successfully',
-  unassigned: 'Unit unassigned successfully',
+  assigned: 'Approver assigned successfully',
+  unassigned: 'Approver unassigned successfully',
 };
 export const userApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Unit assigned successfully',
-  unassigned: 'Unit unassigned successfully',
+  assigned: 'Approver assigned successfully',
+  unassigned: 'Approver unassigned successfully',
 };
 
 export const userAssignedPermissions = {

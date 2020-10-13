@@ -204,20 +204,6 @@ describe('RegisterComponent', () => {
       expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch titles if the state is empty', (done) => {
-      spyOn(userService, 'loadTitles').and.stub();
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-
-      component.ngOnInit();
-
-      component.titles$
-        .subscribe(() => {
-          expect(userService.loadTitles).toHaveBeenCalled();
-          done();
-        })
-        .unsubscribe();
-    });
-
     it('should fetch registerUser process loading state', () => {
       const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
       component.ngOnInit();

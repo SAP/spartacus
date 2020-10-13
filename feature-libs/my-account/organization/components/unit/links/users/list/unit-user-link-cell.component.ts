@@ -35,7 +35,7 @@ export class UnitUserRolesCellComponent extends OrganizationCellComponent {
     return (this.property as any) as string[];
   }
 
-  getRouterModel(uid: string) {
+  getRouterModel(uid: string): any {
     return { ...this.outlet.context, uid };
   }
 }

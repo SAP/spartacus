@@ -91,8 +91,8 @@ export function verifyPaymentCard(cardLength: number) {
 }
 
 export function setOtherPaymentToDefault() {
-  cy.get('cx-payment-methods .cx-card-link')
-    .getByText('Set as default')
+  cy.get('cx-payment-methods')
+    .findByText('Set as default')
     .click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
@@ -102,7 +102,7 @@ export function setOtherPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
 
   // should see confirmation message
   cy.get('.cx-card-delete-msg').should(
@@ -119,7 +119,7 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click({ force: true });
   cy.get('.cx-payment-card').should('have.length', 1);

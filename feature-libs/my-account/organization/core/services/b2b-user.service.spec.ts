@@ -3,10 +3,15 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
   B2BUser,
+  B2BUserGroup,
   EntitiesModel,
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import {
@@ -537,6 +542,52 @@ describe('B2BUserService', () => {
           userGroupId,
         })
       );
+    });
+  });
+
+  describe('getAllRoles()', () => {
+    it('should return all possible b2b user roles in order', () => {
+      expect(service.getAllRoles()).toEqual([
+        B2BUserGroup.B2B_CUSTOMER_GROUP,
+        B2BUserGroup.B2B_MANAGER_GROUP,
+        B2BUserGroup.B2B_APPROVER_GROUP,
+        B2BUserGroup.B2B_ADMIN_GROUP,
+      ]);
+    });
+  });
+
+  describe('get loading Status', () => {
+    it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUser>;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(new B2BUserActions.LoadB2BUserSuccess([b2bUser]));
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.SUCCESS,
+        item: b2bUser,
+      });
+    });
+
+    it('getLoadingStatus() should should be able to get status fail', () => {
+      let loadingStatus: OrganizationItemStatus<B2BUser>;
+      store.dispatch(new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }));
+      service
+        .getLoadingStatus(orgCustomerId)
+        .subscribe((status) => (loadingStatus = status));
+      expect(loadingStatus).toBeUndefined();
+      store.dispatch(
+        new B2BUserActions.LoadB2BUserFail({
+          orgCustomerId,
+          error: new Error(),
+        })
+      );
+      expect(loadingStatus).toEqual({
+        status: LoadStatus.ERROR,
+        item: {},
+      });
     });
   });
 });

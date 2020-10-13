@@ -5,8 +5,6 @@ export * from './occ-cost-center-list-normalizer';
 export * from './occ-order-approval-decision-normalizer';
 export * from './occ-order-approval-list-normalizer';
 export * from './occ-order-approval-normalizer';
-export * from './occ-org-unit-address-list-normalizer';
-export * from './occ-org-unit-address-normalizer';
 export * from './occ-org-unit-approval-processes-normalizer';
 export * from './occ-org-unit-node-list-normalizer';
 export * from './occ-org-unit-node-normalizer';
