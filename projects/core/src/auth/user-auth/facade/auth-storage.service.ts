@@ -71,9 +71,11 @@ export class AuthStorageService extends OAuthStorage {
   }
 
   setItem(key: string, data: any): void {
-    this._token$.next({
-      ...this._token$.value,
-      [key]: this.encode(key, data),
-    });
+    if (key) {
+      this._token$.next({
+        ...this._token$.value,
+        [key]: this.encode(key, data),
+      });
+    }
   }
 }
