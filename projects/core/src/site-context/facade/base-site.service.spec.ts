@@ -17,7 +17,10 @@ import createSpy = jasmine.createSpy;
 describe('BaseSiteService', () => {
   let service: BaseSiteService;
   const mockBaseSite = 'mock-base-site';
-  const mockBaseSiteSelect = createSpy('select').and.returnValue(() =>
+  const mockBaseSitesSelect = createSpy('select').and.returnValue(() =>
+    of([mockBaseSite])
+  );
+  const mockActiveBaseSiteSelect = createSpy('select').and.returnValue(() =>
     of(mockBaseSite)
   );
   const mockBaseSiteDetailsSelect = createSpy('select').and.returnValue(() =>
@@ -51,7 +54,9 @@ describe('BaseSiteService', () => {
   });
 
   it('getActive should return active baseSite uid', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      mockActiveBaseSiteSelect
+    );
 
     let result;
     service.getActive().subscribe((res) => (result = res));
@@ -60,7 +65,7 @@ describe('BaseSiteService', () => {
   });
 
   it('getAll should return active baseSite', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSitesSelect);
 
     let result;
     service.getAll().subscribe((res) => (result = res));
@@ -69,9 +74,11 @@ describe('BaseSiteService', () => {
 
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
+      spyOnProperty(ngrxStore, 'select').and.returnValues(
+        mockActiveBaseSiteSelect
+      );
       const connector = TestBed.inject(SiteConnector);
-      spyOn(connector, 'getBaseSite').and.returnValue(of({}));
+      spyOn(connector, 'getBaseSites').and.returnValue(of([{}]));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
         new SiteContextActions.SetActiveBaseSite('my-base-site')
@@ -79,7 +86,9 @@ describe('BaseSiteService', () => {
     });
 
     it('should not dispatch SetActiveBaseSite action if not changed', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
+      spyOnProperty(ngrxStore, 'select').and.returnValues(
+        mockActiveBaseSiteSelect
+      );
       service.setActive(mockBaseSite);
       expect(store.dispatch).not.toHaveBeenCalled();
     });
@@ -97,12 +106,12 @@ describe('BaseSiteService', () => {
 
   it('getBaseSiteData should load base site data if it does not exist', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
-      createSpy('select').and.returnValue(() => of({}))
+      createSpy('select').and.returnValue(() => of(undefined))
     );
 
     service.getBaseSiteData().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new SiteContextActions.LoadBaseSite()
+      new SiteContextActions.LoadBaseSites()
     );
   });
 });

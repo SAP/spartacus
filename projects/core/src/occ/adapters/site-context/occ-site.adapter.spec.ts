@@ -12,24 +12,9 @@ import {
   COUNTRY_NORMALIZER,
   REGION_NORMALIZER,
 } from '../../../site-context/connectors/converters';
-import { defaultOccConfig } from '../../config/default-occ-config';
-import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: 'base-url',
-      prefix: defaultOccConfig.backend.occ.prefix,
-    },
-  },
-
-  context: {
-    baseSite: ['test-site'],
-  },
-};
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -38,12 +23,8 @@ class MockOccEndpointsService {
   getEndpoint(url: string) {
     return url;
   }
-  getBaseEndpoint() {
-    return (
-      MockOccModuleConfig.backend.occ.baseUrl +
-      MockOccModuleConfig.backend.occ.prefix +
-      MockOccModuleConfig.context.baseSite
-    );
+  getOccEndpoint(url: string) {
+    return url;
   }
 }
 
@@ -70,6 +51,7 @@ describe('OccSiteAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'getOccEndpoint').and.callThrough();
   });
 
   afterEach(() => {

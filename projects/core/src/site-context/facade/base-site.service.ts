@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -78,14 +78,12 @@ export class BaseSiteService implements SiteContext<BaseSite> {
    */
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
-      select(
-        SiteContextSelectors.getActiveBaseSiteData,
-        tap((baseSite) => {
-          if (Object.keys(baseSite).length === 0) {
-            this.store.dispatch(new SiteContextActions.LoadBaseSites());
-          }
-        })
-      )
+      select(SiteContextSelectors.getActiveBaseSiteData),
+      tap((baseSite) => {
+        if (!baseSite) {
+          this.store.dispatch(new SiteContextActions.LoadBaseSites());
+        }
+      })
     );
   }
 }

@@ -40,5 +40,7 @@ export const getActiveBaseSiteData: MemoizedSelector<
   StateWithSiteContext,
   BaseSite
 > = createSelector(getBaseSitesState, (state) => {
-  return state.entities[state.activeSite];
+  return state.entities && state.activeSite
+    ? state.entities[state.activeSite]
+    : undefined;
 });
