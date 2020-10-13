@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { map, switchMap, switchMapTo, tap } from 'rxjs/operators';
+import { map, switchMapTo, tap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsConfig } from '../../../config/index';
 import { ProfileTagEventService } from '../../../profiletag/index';
@@ -63,12 +63,15 @@ export class MerchandisingCarouselComponentService {
         const items$ = this.mapStrategyProductsToCarouselItems(
           strategyProducts
         );
+        const productIds = this.mapStrategyProductsToProductIds(strategyProducts);
+        console.log("service.getMerchandisingCarouselModel")
         return {
           items$,
           metadata,
           title: cmsComponent.title,
           backgroundColor: cmsComponent.backgroundColour,
           textColor: cmsComponent.textColour,
+          productIds
         };
       })
     );
@@ -78,27 +81,20 @@ export class MerchandisingCarouselComponentService {
     merchandisingCarouselModel$: Observable<MerchandisingCarouselModel>
   ): Observable<void> {
     return merchandisingCarouselModel$.pipe(
-      switchMap((model) =>
-        combineLatest(model.items$).pipe(
-          map((items) => ({
-            ...model,
-            items: items.map((item) => item.code),
-          })),
           tap((merchandisingCarouselModel) => {
             const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
               merchandisingCarouselModel
             );
+            console.log(`service.sendCarouselViewEvent.tap : id='${carouselEvent.carouselId}' items count : '${merchandisingCarouselModel.productIds.length}'`)
             this.profileTagEventService.notifyProfileTagOfEventOccurence(
               new MerchandisingCarouselViewedEvent(
                 carouselEvent,
-                merchandisingCarouselModel.items
+                merchandisingCarouselModel.productIds
               )
             );
           }),
           switchMapTo(of())
-        )
-      )
-    );
+        );
   }
 
   sendCarouselItemClickedEvent(
@@ -158,6 +154,14 @@ export class MerchandisingCarouselComponentService {
         )
       : [EMPTY];
   }
+
+  private mapStrategyProductsToProductIds(
+    strategyProducts: StrategyProducts
+): string []{
+    return strategyProducts && strategyProducts.products ?
+      strategyProducts.products.map(strategyProduct=>strategyProduct.id)
+      : [];
+}
 
   private getCarouselItemMetadata(
     strategyProduct: StrategyProduct,
