@@ -123,7 +123,7 @@ describe('ToggleStatusComponent', () => {
       );
     });
 
-    it('should display notification for enabled item', () => {
+    it('should display confirmation for enabled item', () => {
       const mockItem = { code: 'b1', active: false };
       const updatedItem = { code: 'b1', active: true };
       spyOn(messageService, 'add').and.returnValue(new Subject());
@@ -154,7 +154,7 @@ describe('ToggleStatusComponent', () => {
       expect(organizationItemService.update).not.toHaveBeenCalled();
     });
 
-    it('should prompt a confirmation message', () => {
+    it('should prompt a disable confirmation prompt', () => {
       spyOn(messageService, 'add').and.returnValue(new Subject());
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
@@ -180,7 +180,7 @@ describe('ToggleStatusComponent', () => {
       );
     });
 
-    it('should display notification for disabled item', () => {
+    it('should display confirmation for disabled item', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
       const mockItem = { code: 'b2', active: true };
       const updatedItem = { code: 'b1', active: false };
