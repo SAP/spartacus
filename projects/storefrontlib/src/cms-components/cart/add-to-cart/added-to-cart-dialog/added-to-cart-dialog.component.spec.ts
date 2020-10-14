@@ -33,6 +33,10 @@ class MockActiveCartService {
   updateEntry(_entryNumber: string, _updatedQuantity: number): void {}
 
   removeEntry(_entry: OrderEntry): void {}
+
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 const mockOrderEntry: OrderEntry[] = [
@@ -205,7 +209,12 @@ describe('AddedToCartDialogComponent', () => {
     });
   });
 
-  it('should show added dialog title message', () => {
+  it('should show added dialog title message in case new entry appears in cart', () => {
+    component.entry$ = of(mockOrderEntry[0]);
+    component.loaded$ = of(true);
+    component.numberOfEntriesBeforeAdd = 1;
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -213,9 +222,12 @@ describe('AddedToCartDialogComponent', () => {
     );
   });
 
-  it('should show increment dialog title message', () => {
+  it('should show increment dialog title message in case no new entry appears in cart', () => {
     component.entry$ = of(mockOrderEntry[0]);
-    component.increment = true;
+    component.loaded$ = of(true);
+    component.numberOfEntriesBeforeAdd = 2;
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(

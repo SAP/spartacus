@@ -47,8 +47,8 @@ assignees: ''
 - [ ] Get the spartacussampledataaddon for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/2005/next.zip` -> `spartacussampledataaddon.2005.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/2005/next.tar.gz` -> `spartacussampledataaddon.2005.tar.gz`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.zip` -> `spartacussampledataaddon.2005.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.tar.gz` -> `spartacussampledataaddon.2005.tar.gz`
 
 ## For all operative systems
 
@@ -69,6 +69,8 @@ assignees: ''
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
+    - [ ] `npm run release:my-account:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
       - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.201.0-next.0 version)
 - [ ] Check that the release notes are populated on github (if they are not, update them)

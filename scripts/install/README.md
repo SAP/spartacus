@@ -14,6 +14,8 @@ It can also:
 
 ## How to install
 
+Checkout and pull the latest maintenance branch corresponding to the version being released. For example for new `next` release it's `develop` but for `2.1.x` patch release it's `release/2.1.x`.
+
 Installation directory for SpartacusScript's output directory is set as below (related to script's root, `./scripts/install`):
 
 ```bash
@@ -36,6 +38,7 @@ Before running the main script, please ensure that:
 - line `//localhost:4873/:_authToken="VNOlucnBmPrXVjzHVEHtWQ=="` is added to the `~/.npmrc` file
 - `ANGULAR_CLI_VERSION` variable is set properly in the `config.sh` file (it must meet project's `package.json` `@angular/cli` version requirement)
 - `OCC_PREFIX` variable is set to proper value (depends on backend version)
+- `ADD_B2B_LIBS` variable is set to true in case you want to add b2b libs (`setup` and `my-account` as for `3.0.0-next.1`) to the output apps
 - adjust any other variables available in the `config.default.sh` if needed (by setting them up in the `config.sh`)
 
 Once ready start the installation as below:

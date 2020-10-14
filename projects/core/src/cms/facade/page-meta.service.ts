@@ -1,20 +1,37 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
 import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PageMetaService {
+  private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
+    ? (this.unifiedInjector
+        .getMulti(PageMetaResolver)
+        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+        PageMetaResolver[]
+      >)
+    : of(this.resolvers);
+
   constructor(
     @Optional()
     @Inject(PageMetaResolver)
     protected resolvers: PageMetaResolver[],
-    protected cms: CmsService
+    protected cms: CmsService,
+    @Optional()
+    protected unifiedInjector?: UnifiedInjector
   ) {
     this.resolvers = this.resolvers || [];
   }
@@ -34,19 +51,13 @@ export class PageMetaService {
     robots: 'resolveRobots',
   };
 
-  getMeta(): Observable<PageMeta> {
+  getMeta(): Observable<PageMeta | null> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-      switchMap((page: Page) => {
-        const metaResolver = this.getMetaResolver(page);
-
-        if (metaResolver) {
-          return this.resolve(metaResolver);
-        } else {
-          // we do not have a page resolver
-          return of(null);
-        }
-      })
+      switchMap((page: Page) => this.getMetaResolver(page)),
+      switchMap((metaResolver: PageMetaResolver) =>
+        metaResolver ? this.resolve(metaResolver) : of(null)
+      )
     );
   }
 
@@ -80,7 +91,9 @@ export class PageMetaService {
    *
    * Resolvers match by default on `PageType` and `page.template`.
    */
-  protected getMetaResolver(page: Page): PageMetaResolver {
-    return resolveApplicable(this.resolvers, [page], [page]);
+  protected getMetaResolver(page: Page): Observable<PageMetaResolver> {
+    return this.resolvers$.pipe(
+      map((resolvers) => resolveApplicable(resolvers, [page], [page]))
+    );
   }
 }
