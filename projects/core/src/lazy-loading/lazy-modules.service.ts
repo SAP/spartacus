@@ -16,7 +16,7 @@ import {
   Subscription,
 } from 'rxjs';
 import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
-import { createFrom } from '../util';
+import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
 import { EventService } from '../event/event.service';
 
