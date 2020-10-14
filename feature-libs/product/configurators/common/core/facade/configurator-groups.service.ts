@@ -340,12 +340,9 @@ export class ConfiguratorGroupsService {
    * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
    */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    if (
+    return (
       groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP ||
       groupType === Configurator.GroupType.CONFLICT_GROUP
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 }

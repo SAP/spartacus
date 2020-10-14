@@ -1,8 +1,17 @@
 %cx-configurator-update-message {
   div {
     display: none;
+    position: relative;
+    /**
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: 99;
+    */
+
     &.visible {
-      display: flex;
+      display: inline-flex;
+      position: absolute;
       flex-direction: row;
       justify-content: center;
       inline-size: 100%;
@@ -14,7 +23,7 @@
       line-height: var(--cx-line-height, 1.5);
       min-block-size: 70px;
       align-items: center;
-      padding: 20px;
+      padding: 15px;
 
       cx-spinner {
         margin-inline-end: 20px;

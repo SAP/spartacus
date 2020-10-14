@@ -33,7 +33,7 @@ export class ConfiguratorUpdateMessageComponent {
                 this.config?.updateConfigurationMessage?.waitingTime || 1000
               )
             ) // delay information if its loading
-          : of(isLoading) // inform immediately if it's not loading anymore
+          : of(true) //of(isLoading) // inform immediately if it's not loading anymore
     )
   );
 

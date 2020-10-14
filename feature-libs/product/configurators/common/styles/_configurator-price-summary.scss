@@ -1,32 +1,36 @@
 %cx-configurator-price-summary {
-  @include cx-configurator-footer-container();
+  .cx-price-summary-container {
+    max-width: 1140px;
 
-  .cx-total-summary {
-    @include cx-configurator-footer-container-item();
+    @include cx-configurator-footer-container();
 
-    .cx-summary-row {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      padding-block-start: 10px;
-      padding-block-end: 10px;
+    .cx-total-summary {
+      @include cx-configurator-footer-container-item();
 
-      .cx-label {
-        flex-grow: 1;
+      .cx-summary-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-block-start: 10px;
+        padding-block-end: 10px;
+
+        .cx-label {
+          flex-grow: 1;
+        }
+
+        .cx-amount {
+          word-wrap: break-word;
+          text-align: end;
+          flex-grow: 1;
+        }
       }
 
-      .cx-amount {
-        word-wrap: break-word;
-        text-align: end;
-        flex-grow: 1;
-      }
-    }
+      .cx-total-price {
+        border-block-start: 1px solid var(--cx-color-light);
 
-    .cx-total-price {
-      border-block-start: 1px solid var(--cx-color-light);
-
-      .cx-label {
-        font-weight: bold;
+        .cx-label {
+          font-weight: bold;
+        }
       }
     }
   }

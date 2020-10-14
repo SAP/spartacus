@@ -31,8 +31,4 @@ export class ConfiguratorConflictDescriptionComponent {
   displayConflictDescription(group: Configurator.Group): boolean {
     return group.groupType === Configurator.GroupType.CONFLICT_GROUP;
   }
-
-  get tabIndex(): number {
-    return 0;
-  }
 }
