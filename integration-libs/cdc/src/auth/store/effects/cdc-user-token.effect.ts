@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
-  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
@@ -30,7 +29,7 @@ export class CdcUserTokenEffects {
           payload.baseSite
         )
         .pipe(
-          switchMap((token: Partial<AuthToken>) => {
+          switchMap((token) => {
             this.cdcAuthService.loginWithToken(token);
             return EMPTY;
           }),
