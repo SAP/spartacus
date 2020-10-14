@@ -238,7 +238,7 @@ describe('DeliveryModeComponent', () => {
       );
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      
+
       expect(component.next).toHaveBeenCalled();
     });
   });
@@ -252,7 +252,7 @@ describe('DeliveryModeComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      
+
       expect(component.back).toHaveBeenCalled();
     });
   });
