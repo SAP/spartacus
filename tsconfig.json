@@ -39,6 +39,9 @@
       "@spartacus/my-account/organization/assets": [
         "feature-libs/my-account/organization/assets/public_api"
       ],
+      "@spartacus/my-account/organization/root": [
+        "feature-libs/my-account/organization/root/public_api"
+      ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "feature-libs/product/configurators/public_api"

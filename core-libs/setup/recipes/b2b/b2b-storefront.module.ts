@@ -5,7 +5,6 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { OrganizationModule } from '@spartacus/my-account/organization';
 import {
   CmsLibModule,
   defaultCmsContentConfig,
@@ -24,7 +23,6 @@ import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
     CostCenterModule.forRoot(),
-    OrganizationModule,
   ],
   providers: [
     provideDefaultConfig(layoutConfig),

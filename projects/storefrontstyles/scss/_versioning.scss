@@ -1,13 +1,13 @@
 /**
- * The Spartacus team is cautious with introducing style changes in a
- * minor release, as it would conflict with the [semantic versioning](https://semver.org/)
- * model. To improve the style layer during minor releases, without breaking the versioning,
- * a version flag is used. The version is used to control breaking styles during the
- * lifecycle of a major version.
+ * The Spartacus team is cautious with introducing style changes in a minor release, 
+ * as it would conflict with the [semantic versioning](https://semver.org/)
+ * model. To improve the style layer during minor releases, without breaking the 
+ * versioning, a version flag is used. The version is used to control breaking styles 
+ * during the lifecycle of a major version.
  *
- * The breaking changes are added with the  `forVersion()` mixin. The mixin compares the
- * from version and (optional) to version, and will only add the mixin content if changes are
- * part of the stable release, or explicitly requested by the customer.
+ * Breaking changes are added with the `forVersion()` mixin. The mixin compares the
+ * from version and (optional) to version, and will only add the mixin content if changes 
+ * are part of the stable release, or explicitly requested by the customer.
  *
  * An example of the usage of the mixin is given below:
  *
@@ -22,30 +22,23 @@
  */
 
 /**
-  * The $version indicates the latest style version. This version is used to control the
-  * semantic versioning scheme of the final CSS, to avoid breaking changes in the style layer.
-  * This allows to introduce breaking changes during minor version, but only if customers explicitly
-  * enable this. It can be enabled by setting the `$useLatestStyles` to true, or `$styleVersion` to a
-  * specific version.
+  * Indicates the current major/minor version, which is used to avoid breaking changes. 
+  * Any CSS added later than this version is omitted by default, unless the `$useLatestStyles` 
+  * or `$styleVersion` are enabled.
   */
-$version: 2.1;
+$_fullVersion: 3.1;
 
 /**
- * The `$stableVersion` indicates the major version of the style library. Any
- * version related styles that are left over from previous stable releases will
- * always end up in the generated stylesheet.
- *
- * The `$stableVersion` variable cannot be redeclared by customers. This version
- * will be updated each time the major release number increases.
+ * The _global_ major version. Any (left over) styles from previous stable versions
+ * are processed to the final CSS.
  */
-@use 'sass:math';
-$stableStyleVersion: math.floor($version);
+$_majorVersion: 3;
 
 /**
- * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
- * the given style version. It must contain a floating number, such as `2.1`.
+ * The `$styleVersion` can be used by customers to explicitly opt-in to breaking style 
+ * changes till the given style version. It must contain a floating number, such as `2.1`.
  */
-$styleVersion: $stableStyleVersion !default;
+$styleVersion: $_majorVersion !default;
 
 /**
  * For Spartacus development or demo's, the usage of latest styles is recommended.
@@ -63,15 +56,16 @@ $useLatestStyles: false !default;
  * specific versions or from a specific version onwards.
  *
  * Examples
- * - `forVersion(2)` is valid from stable version 2 onwards.
- * - `forVersion(2.1)` Valid for version 2.1 and higher, but only added as breaking change or when stable version reaches 3.0.
+ * - `forVersion(2)` is valid from major version 2 onwards.
+ * - `forVersion(2.1)` Valid for version 2.1 and higher, but only added as breaking change 
+ *    or when major version reaches 3.0.
  * - `forVersion(2, 2.1)` Valid for version 2 and 2.1. Will no longer be available after 2.1.
  *
  * The version related content is only created if the user opt-in for breaking changes.
  */
 @mixin forVersion($from, $to: 0) {
   // We never create content that is part of future releases, this should not really happen.
-  @if ($from <= $version) {
+  @if ($from <= $_fullVersion) {
     @if (
       (isStableVersion($from, $to) and isValidVersion($from, $to)) or
         addBreakingChange($from, $to)
@@ -82,7 +76,7 @@ $useLatestStyles: false !default;
 }
 
 /**
- * Indicates that from and to versions are valid for the stable version.
+ * Indicates that from and to versions are valid for the major version.
  * - from 0.9 to 1.1 is valid for version 1
  * - from 1.0 to 1.2 is valid for version 1
  * - from 1.1 to 1.2 is not valid for version 1
@@ -90,9 +84,9 @@ $useLatestStyles: false !default;
  */
 @function isStableVersion($from, $to: 0) {
   @if ($to == 0) {
-    @return $from <= $stableStyleVersion;
+    @return $from <= $_majorVersion;
   } @else {
-    @return $from <= $stableStyleVersion and $to >= $stableStyleVersion;
+    @return $from <= $_majorVersion and $to >= $_majorVersion;
   }
 }
 
@@ -112,11 +106,14 @@ $useLatestStyles: false !default;
 @function isValidVersion($from, $to: 0) {
   @if ($to == 0) {
     // ensure that we opt-in the from version
-    @return ($useLatestStyles and $from <= $version) or
+    @return ($useLatestStyles and $from <= $_fullVersion) or
       ($useLatestStyles == false and $from <= $styleVersion);
   } @else {
     // ensure that we opt-in the from/to version
-    @return ($useLatestStyles and $from <= $version and $to >= $version) or
+    @return (
+        $useLatestStyles and $from <= $_fullVersion and $to >= $_fullVersion
+      )
+      or
       (
         $useLatestStyles == false and $from <= $styleVersion and $to >=
           $styleVersion
@@ -128,5 +125,5 @@ $useLatestStyles: false !default;
  * Indicates if breaking changes are requested.
  */
 @function useBreakingChanges() {
-  @return $useLatestStyles or $styleVersion > $stableStyleVersion;
+  @return $useLatestStyles or $styleVersion > $_majorVersion;
 }
