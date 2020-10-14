@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
@@ -31,7 +31,7 @@ export class UserGroupService {
   ) {}
 
   load(userGroupId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroup({
           userId,
@@ -42,7 +42,7 @@ export class UserGroupService {
   }
 
   loadList(params?: SearchConfig) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroups({ userId, params })
       )
@@ -107,7 +107,7 @@ export class UserGroupService {
   }
 
   create(userGroup: UserGroup) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.CreateUserGroup({
           userId,
@@ -118,7 +118,7 @@ export class UserGroupService {
   }
 
   update(userGroupId: string, userGroup: UserGroup) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.UpdateUserGroup({
           userId,
@@ -136,7 +136,7 @@ export class UserGroupService {
   }
 
   delete(userGroupId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.DeleteUserGroup({
           userId,
@@ -147,7 +147,7 @@ export class UserGroupService {
   }
 
   loadAvailableOrgCustomers(userGroupId: string, params: SearchConfig) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
@@ -162,7 +162,7 @@ export class UserGroupService {
     userGroupId: string,
     params: SearchConfig
   ) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadPermissions({
           userId,
@@ -215,7 +215,7 @@ export class UserGroupService {
   }
 
   assignMember(userGroupId: string, customerId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.AssignMember({
           userId,
@@ -227,7 +227,7 @@ export class UserGroupService {
   }
 
   unassignMember(userGroupId: string, customerId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.UnassignMember({
           userId,
@@ -239,7 +239,7 @@ export class UserGroupService {
   }
 
   unassignAllMembers(userGroupId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.UnassignAllMembers({
           userId,
@@ -250,7 +250,7 @@ export class UserGroupService {
   }
 
   assignPermission(userGroupId: string, permissionUid: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.AssignPermission({
           userId,
@@ -262,7 +262,7 @@ export class UserGroupService {
   }
 
   unassignPermission(userGroupId: string, permissionUid: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.UnassignPermission({
           userId,
@@ -271,12 +271,5 @@ export class UserGroupService {
         })
       )
     );
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

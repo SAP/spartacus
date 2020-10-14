@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
-import { of } from 'rxjs';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -37,7 +36,7 @@ const mockPermissionType: OrderApprovalPermissionType = {
 const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
 class MockUserIdService {
-  getUserId = createSpy().and.returnValue(of(userId));
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('PermissionService', () => {
@@ -83,7 +82,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(permissionDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermission({ userId, permissionCode })
@@ -102,7 +101,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(permissionDetails).toEqual(permission);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermission({ userId, permissionCode })
@@ -122,7 +121,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -151,7 +150,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -163,7 +162,7 @@ describe('PermissionService', () => {
     it('create() should should dispatch CreatePermission action', () => {
       service.create(permission);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.CreatePermission({ userId, permission })
       );
@@ -174,7 +173,7 @@ describe('PermissionService', () => {
     it('update() should should dispatch UpdatePermission action', () => {
       service.update(permissionCode, permission);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.UpdatePermission({
           userId,

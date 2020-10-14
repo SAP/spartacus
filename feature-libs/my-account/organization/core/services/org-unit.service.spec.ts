@@ -11,7 +11,6 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -99,7 +98,7 @@ const roleId = 'testRoleId';
 const unit: B2BUnit = { uid: 'testUid' };
 
 class MockUserIdService {
-  getUserId = createSpy().and.returnValue(of(userId));
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('OrgUnitService', () => {
@@ -145,7 +144,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(orgUnitDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
@@ -162,7 +161,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(orgUnitDetails).toEqual(orgUnit);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
@@ -195,7 +194,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(orgUnits).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
@@ -214,7 +213,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(orgUnits).toEqual(orgUnitList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
@@ -292,7 +291,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(fetchedAddress).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnit({
@@ -307,7 +306,7 @@ describe('OrgUnitService', () => {
     it('should create address', () => {
       service.createAddress(orgUnitId, address);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.CreateAddress({ userId, orgUnitId, address })
       );
@@ -318,7 +317,7 @@ describe('OrgUnitService', () => {
     it('should update address', () => {
       service.updateAddress(orgUnitId, addressId, address);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.UpdateAddress({
           userId,
@@ -334,7 +333,7 @@ describe('OrgUnitService', () => {
     it('should delete address', () => {
       service.deleteAddress(orgUnitId, addressId);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.DeleteAddress({
           userId,
@@ -349,7 +348,7 @@ describe('OrgUnitService', () => {
     it('should assign role', () => {
       service.assignRole(orgCustomerId, roleId);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.AssignRole({
           userId,
@@ -364,7 +363,7 @@ describe('OrgUnitService', () => {
     it('should unassign role', () => {
       service.unassignRole(orgCustomerId, roleId);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.UnassignRole({
           userId,
@@ -385,7 +384,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(approvalProcesses).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadApprovalProcesses({ userId })
@@ -411,7 +410,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(b2bApprovalProcesses).toEqual(b2bMockApprovalProcesses);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadApprovalProcesses({ userId })
@@ -423,7 +422,7 @@ describe('OrgUnitService', () => {
     it('should create unit', () => {
       service.create(unit);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.CreateUnit({
           userId,
@@ -439,7 +438,7 @@ describe('OrgUnitService', () => {
 
       service.update(unitCode, unit);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.UpdateUnit({
           userId,
@@ -481,7 +480,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(users).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadAssignedUsers({
@@ -511,7 +510,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(users.values).toEqual(mockedUsers);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadAssignedUsers({
@@ -528,7 +527,7 @@ describe('OrgUnitService', () => {
     it('should assign approver', () => {
       service.assignApprover(orgUnitId, orgCustomerId, roleId);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.AssignApprover({
           userId,
@@ -544,7 +543,7 @@ describe('OrgUnitService', () => {
     it('should unassign approver', () => {
       service.unassignApprover(orgUnitId, orgCustomerId, roleId);
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.UnassignApprover({
           userId,
@@ -583,7 +582,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalledWith();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(unitNode).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.LoadTree({ userId })
@@ -603,7 +602,7 @@ describe('OrgUnitService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(resultUnitNode).toEqual(resultUnitNode);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadTree({ userId })

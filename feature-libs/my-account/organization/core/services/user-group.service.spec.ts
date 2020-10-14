@@ -6,7 +6,6 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { OrganizationItemStatus, Permission, UserGroup } from '../model';
 import { LoadStatus } from '../model/organization-item-status';
 import {
@@ -71,7 +70,7 @@ const memberList: EntitiesModel<B2BUser> = {
 };
 
 class MockUserIdService {
-  getUserId = createSpy().and.returnValue(of(userId));
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('UserGroupService', () => {
@@ -117,7 +116,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(userGroupDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
@@ -139,7 +138,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(userGroupDetails).toEqual(userGroup);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
@@ -162,7 +161,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(userGroups).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -191,7 +190,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(userGroups).toEqual(userGroupList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -203,7 +202,7 @@ describe('UserGroupService', () => {
     it('create() should should dispatch CreateUserGroup action', () => {
       service.create(userGroup);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.CreateUserGroup({
           userId,
@@ -217,7 +216,7 @@ describe('UserGroupService', () => {
     it('update() should should dispatch UpdateUserGroup action', () => {
       service.update(userGroupId, userGroup);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UpdateUserGroup({
           userId,
@@ -232,7 +231,7 @@ describe('UserGroupService', () => {
     it('delete() should should dispatch UpdateUserGroup action', () => {
       service.delete(userGroupId);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.DeleteUserGroup({
           userId,
@@ -254,7 +253,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadPermissions({
@@ -288,7 +287,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -300,7 +299,7 @@ describe('UserGroupService', () => {
     it('assignPermission() should should dispatch CreateUserGroupOrderApprovalPermission action', () => {
       service.assignPermission(userGroupId, permissionUid);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignPermission({
           userId,
@@ -315,7 +314,7 @@ describe('UserGroupService', () => {
     it('unassignPermission() should should dispatch DeleteUserGroupOrderApprovalPermission action', () => {
       service.unassignPermission(userGroupId, permissionUid);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignPermission({
           userId,
@@ -338,7 +337,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(members).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadAvailableOrgCustomers({
@@ -370,7 +369,7 @@ describe('UserGroupService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(members).toEqual(memberList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUsers({ userId, params })
@@ -382,7 +381,7 @@ describe('UserGroupService', () => {
     it('assignMember() should should dispatch CreateUserGroupMember action', () => {
       service.assignMember(userGroupId, customerId);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignMember({
           userId,
@@ -397,7 +396,7 @@ describe('UserGroupService', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignMember(userGroupId, customerId);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignMember({
           userId,
@@ -412,7 +411,7 @@ describe('UserGroupService', () => {
     it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignAllMembers(userGroupId);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignAllMembers({
           userId,
