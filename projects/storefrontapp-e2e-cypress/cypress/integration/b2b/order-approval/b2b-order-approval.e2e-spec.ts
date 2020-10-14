@@ -40,7 +40,7 @@ context('B2B - Order Approval', () => {
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(1)
-      .should('contain', 'None');
+      .should('contain', sampleData.none);
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(2)
@@ -51,11 +51,11 @@ context('B2B - Order Approval', () => {
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(3)
-      .should('contain', 'October 7, 2020');
+      .should('contain', sampleData.orderPlacedDate);
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(4)
-      .should('contain', 'Pending Approval');
+      .should('contain', sampleData.statusPendingApproval);
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(5)
@@ -153,7 +153,7 @@ function assertOrderDetails() {
   // assert order status
   cy.get('cx-order-details-items .cx-list-status').should(
     'contain',
-    'Pending Approval'
+    sampleData.statusPendingApproval
   );
 
   // assert products
@@ -183,7 +183,7 @@ function assertOrderDetails() {
 
   cy.get('cx-order-overview cx-card')
     .eq(2)
-    .should('contain', 'Pending Approval');
+    .should('contain', sampleData.statusPendingApproval);
 
   cy.get('cx-order-overview cx-card')
     .eq(3)

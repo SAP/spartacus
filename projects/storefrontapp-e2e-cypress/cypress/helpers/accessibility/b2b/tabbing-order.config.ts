@@ -12,7 +12,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'None',
+      value: orderApprovalSampleData.none;
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -22,11 +22,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'October 7, 2020',
+      value: orderApprovalSampleData.orderPlacedDate,
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Pending Approval',
+      value: orderApprovalSampleData.statusPendingApproval,
       type: TabbingOrderTypes.LINK,
     },
     {

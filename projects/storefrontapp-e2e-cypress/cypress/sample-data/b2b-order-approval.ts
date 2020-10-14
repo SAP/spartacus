@@ -9,6 +9,10 @@ export const b2bUser = {
   uid: 'william.hunter@rustic-hw.com',
 };
 
+export const statusPendingApproval = 'Pending Approval';
+export const orderPlacedDate = 'October 7, 2020';
+export const none = 'None';
+
 export const pendingOrderPermissionResults = [
   {
     approverName: b2bApprover.name,
@@ -16,7 +20,7 @@ export const pendingOrderPermissionResults = [
       code: 'B2BBudgetExceededPermission',
       name: 'Budget Exceeded Permission',
     },
-    statusDisplay: 'Pending Approval',
+    statusDisplay: 'pending.approval',
   },
   {
     approverName: b2bApprover.name,
@@ -24,7 +28,7 @@ export const pendingOrderPermissionResults = [
       code: 'B2BOrderThresholdPermission',
       name: 'Allowed Order Threshold (per order)',
     },
-    statusDisplay: 'Pending Approval',
+    statusDisplay: 'pending.approval',
   },
 ];
 
