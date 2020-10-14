@@ -21,6 +21,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
   ],
 })
 export class CostCenterFormComponent {
+  form: FormGroup = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
    *
@@ -28,12 +29,10 @@ export class CostCenterFormComponent {
    */
   @Input() set unitKey(value: string) {
     if (value) {
-      this.itemService.getForm().get('unit.uid').setValue(value);
+      this.form?.get('unit.uid').setValue(value);
       this.form?.get('unit')?.disable();
     }
   }
-
-  form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();

@@ -17,7 +17,6 @@ import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
 import { ActiveUnitGuard } from './guards/active-unit.guard';
 import { ExistUnitGuard } from './guards/exist-unit.guard';
-import { UnitCostCenterCreateComponent } from './links';
 import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
 import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
@@ -27,6 +26,10 @@ import { UnitApproverListComponent } from './links/approvers/unit-approver-list.
 import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
+import {
+  UnitCostCenterCreateComponent,
+  UnitUserCreateComponent,
+} from './links/index';
 import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
@@ -70,6 +73,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       unitUserList: {
         paths: [`${listPath}/users`],
+        paramsMapping,
+      },
+      orgUnitCreateUser: {
+        paths: [`${listPath}/users/create`],
         paramsMapping,
       },
       unitUserRoles: {
@@ -189,6 +196,10 @@ export const unitsCmsConfig: CmsConfig = {
                   cxPageMeta: { breadcrumb: 'unit.breadcrumbs.users' },
                 },
                 children: [
+                  {
+                    path: 'create',
+                    component: UnitUserCreateComponent,
+                  },
                   {
                     path: `:${ROUTE_PARAMS.userCode}/roles`,
                     component: UnitUserRolesFormComponent,

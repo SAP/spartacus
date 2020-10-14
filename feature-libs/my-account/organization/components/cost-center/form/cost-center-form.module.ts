@@ -23,6 +23,5 @@ import { CostCenterFormComponent } from './cost-center-form.component';
   declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],
   providers: [CurrencyService, OrgUnitService],
-  entryComponents: [CostCenterFormComponent],
 })
 export class CostCenterFormModule {}

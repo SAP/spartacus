@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
-  Permission,
   OrganizationItemStatus,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
@@ -13,7 +12,7 @@ import { CurrentUserService } from './current-user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UserItemService extends OrganizationItemService<Permission> {
+export class UserItemService extends OrganizationItemService<B2BUser> {
   constructor(
     protected currentItemService: CurrentUserService,
     protected routingService: RoutingService,

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserGroup, Title, UserService } from '@spartacus/core';
 import {
@@ -11,6 +16,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
+  selector: 'cx-user-form',
   templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -22,6 +28,18 @@ import { UserItemService } from '../services/user-item.service';
 })
 export class UserFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
+
+  /**
+   * Initialize the business unit for the user.
+   *
+   * If there's a unit provided, we disable the unit form control.
+   */
+  @Input() set unitKey(value: string) {
+    if (value) {
+      this.form?.get('orgUnit.uid').setValue(value);
+      this.form?.get('orgUnit')?.disable();
+    }
+  }
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   titles$: Observable<Title[]> = this.userService.getTitles();

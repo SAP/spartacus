@@ -27,7 +27,7 @@ export class CurrentUserService extends CurrentOrganizationItemService<
     return ROUTE_PARAMS.userCode;
   }
 
-  protected getItem(code: string): Observable<CostCenter> {
+  protected getItem(code: string): Observable<B2BUser> {
     return this.b2bUserService.get(code);
   }
 }
