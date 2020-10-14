@@ -6,7 +6,6 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { Budget } from '../model/budget.model';
 import {
   LoadStatus,
@@ -43,7 +42,7 @@ const budgetList: EntitiesModel<Budget> = {
 };
 
 class MockUserIdService {
-  getUserId = createSpy().and.returnValue(of(userId));
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('CostCenterService', () => {
@@ -89,7 +88,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(costCenterDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
@@ -108,7 +107,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(costCenterDetails).toEqual(costCenter);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
@@ -128,7 +127,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(costCenters).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -157,7 +156,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(costCenters).toEqual(costCenterList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -169,7 +168,7 @@ describe('CostCenterService', () => {
     it('create() should should dispatch CreateCostCenter action', () => {
       service.create(costCenter);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
       );
@@ -180,7 +179,7 @@ describe('CostCenterService', () => {
     it('update() should should dispatch UpdateCostCenter action', () => {
       service.update(costCenterCode, costCenter);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.UpdateCostCenter({
           userId,
@@ -203,7 +202,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(budgets).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.LoadAssignedBudgets({
@@ -235,7 +234,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.getUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -247,7 +246,7 @@ describe('CostCenterService', () => {
     it('assignBudget() should should dispatch AssignBudget action', () => {
       service.assignBudget(costCenterCode, budgetCode);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.AssignBudget({
           userId,
@@ -262,7 +261,7 @@ describe('CostCenterService', () => {
     it('unassignBudget() should should dispatch UnassignBudget action', () => {
       service.unassignBudget(costCenterCode, budgetCode);
 
-      expect(userIdService.getUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.UnassignBudget({
           userId,
