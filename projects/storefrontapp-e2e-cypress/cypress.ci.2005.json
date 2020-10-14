@@ -15,6 +15,7 @@
     "OCC_PREFIX": "/occ/v2",
     "BASE_SITE": "electronics-spa",
     "USER": "users",
-    "ORDER": "orders"
+    "ORDER": "orders",
+    "B2B": false
   }
 }

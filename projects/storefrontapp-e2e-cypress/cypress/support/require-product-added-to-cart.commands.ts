@@ -15,7 +15,7 @@ declare global {
        */
       requireProductAddedToCart: (
         auth: {},
-        productData
+        productData?: {}
       ) => Cypress.Chainable<any>;
     }
   }

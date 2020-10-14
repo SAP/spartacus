@@ -5,7 +5,7 @@ import { OrganizationOccModule } from '@spartacus/my-account/organization/occ';
 
 @NgModule({
   imports: [
-    OrganizationCoreModule,
+    OrganizationCoreModule.forRoot(),
     OrganizationOccModule,
     OrganizationComponentsModule,
   ],

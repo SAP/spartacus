@@ -47,6 +47,12 @@ class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of();
   }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
+  getLastEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
 }
 
 class MockCurrentProductService {
@@ -87,7 +93,10 @@ describe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
+        {
+          provide: ModalService,
+          useValue: { open: () => ({ componentInstance: {} }) },
+        },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
@@ -105,7 +114,7 @@ describe('AddToCartComponent', () => {
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
-    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
+    spyOn(modalInstance, 'open').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -116,11 +125,9 @@ describe('AddToCartComponent', () => {
   describe('Product code provided', () => {
     it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
-      spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
-      let result: OrderEntry;
-      addToCartComponent.cartEntry$.subscribe((entry) => (result = entry));
-      expect(result).toEqual(mockCartEntry);
+      expect(addToCartComponent.hasStock).toBe(true);
+      expect(addToCartComponent.quantity).toBe(1);
     });
 
     it('should load entry by product code from currentProductService', () => {
@@ -186,14 +193,17 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
-    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
+    spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+    spyOn(service, 'isStable').and.returnValue(of(true));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();
-    addToCartComponent.cartEntry$.subscribe();
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(
+      addToCartComponent.modalRef.componentInstance.numberOfEntriesBeforeAdd
+    ).toBe(1);
   });
 
   describe('UI', () => {
