@@ -8,7 +8,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import {
   OrderApprovalPermissionType,
@@ -31,7 +31,7 @@ export class PermissionService {
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermission({
           userId,
@@ -42,7 +42,7 @@ export class PermissionService {
   }
 
   loadPermissions(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
       )
@@ -117,7 +117,7 @@ export class PermissionService {
   }
 
   create(permission: Permission): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.CreatePermission({ userId, permission })
       )
@@ -125,7 +125,7 @@ export class PermissionService {
   }
 
   update(permissionCode: string, permission: Permission): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.UpdatePermission({
           userId,
@@ -140,12 +140,5 @@ export class PermissionService {
     permissionCode: string
   ): Observable<OrganizationItemStatus<Permission>> {
     return getItemStatus(this.getPermission(permissionCode));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

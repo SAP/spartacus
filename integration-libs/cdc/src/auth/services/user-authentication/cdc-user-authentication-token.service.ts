@@ -26,7 +26,7 @@ export class CdcUserAuthenticationTokenService {
     signatureTimestamp: string,
     idToken: string,
     baseSite: string
-  ): Observable<AuthToken> {
+  ): Observable<Partial<AuthToken>> {
     const url = this.authConfigService.getTokenEndpoint();
     const params = new HttpParams()
       .set('client_id', this.authConfigService.getClientId())
@@ -39,7 +39,7 @@ export class CdcUserAuthenticationTokenService {
       .set('baseSite', baseSite);
 
     return this.http
-      .post<AuthToken>(url, params)
+      .post<Partial<AuthToken>>(url, params)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

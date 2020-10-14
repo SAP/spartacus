@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { CostCenterActions } from '../store/actions/index';
@@ -29,7 +29,7 @@ export class CostCenterService {
   ) {}
 
   load(costCenterCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
       )
@@ -37,7 +37,7 @@ export class CostCenterService {
   }
 
   loadList(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
       )
@@ -92,7 +92,7 @@ export class CostCenterService {
   }
 
   create(costCenter: CostCenter): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
       )
@@ -100,7 +100,7 @@ export class CostCenterService {
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UpdateCostCenter({
           userId,
@@ -118,7 +118,7 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
           userId,
@@ -149,7 +149,7 @@ export class CostCenterService {
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.AssignBudget({
           userId,
@@ -161,7 +161,7 @@ export class CostCenterService {
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UnassignBudget({
           userId,
@@ -170,12 +170,5 @@ export class CostCenterService {
         })
       )
     );
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

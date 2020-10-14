@@ -13,7 +13,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
@@ -37,31 +37,31 @@ export class OrgUnitService {
   ) {}
 
   load(orgUnitId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
   loadList(): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
   }
 
   loadTree(): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
     );
   }
 
   loadApprovalProcesses(): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
     );
   }
 
   loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.LoadAssignedUsers({
           userId,
@@ -74,7 +74,7 @@ export class OrgUnitService {
   }
 
   loadAddresses(orgUnitId: string): void {
-    this.withUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       // TODO: replace it after turn on loadAddresses$
       // this.store.dispatch(
       //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
@@ -240,13 +240,13 @@ export class OrgUnitService {
   }
 
   create(unit: B2BUnit): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
     );
   }
 
   update(unitCode: string, unit: B2BUnit): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
       )
@@ -260,7 +260,7 @@ export class OrgUnitService {
   }
 
   assignRole(orgCustomerId: string, roleId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.AssignRole({
           userId,
@@ -272,7 +272,7 @@ export class OrgUnitService {
   }
 
   unassignRole(orgCustomerId: string, roleId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UnassignRole({
           userId,
@@ -288,7 +288,7 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.AssignApprover({
           orgUnitId,
@@ -305,7 +305,7 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UnassignApprover({
           orgUnitId,
@@ -318,7 +318,7 @@ export class OrgUnitService {
   }
 
   createAddress(orgUnitId: string, address: Address): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,
@@ -356,7 +356,7 @@ export class OrgUnitService {
   }
 
   updateAddress(orgUnitId: string, addressId: string, address: Address): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UpdateAddress({
           userId,
@@ -375,7 +375,7 @@ export class OrgUnitService {
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.DeleteAddress({
           userId,
@@ -384,12 +384,5 @@ export class OrgUnitService {
         })
       )
     );
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { BudgetActions, StateWithOrganization } from '../store/index';
@@ -24,13 +24,13 @@ export class BudgetService {
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
     );
   }
 
   loadBudgets(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
   }
@@ -85,13 +85,13 @@ export class BudgetService {
   }
 
   create(budget: Budget): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
     );
   }
 
   update(budgetCode: string, budget: Budget): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       )
@@ -102,12 +102,5 @@ export class BudgetService {
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
     return getItemStatus(this.getBudget(budgetCode));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

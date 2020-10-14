@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pluck, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, pluck, tap } from 'rxjs/operators';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -29,7 +29,7 @@ export class OrderApprovalService {
   ) {}
 
   loadOrderApproval(orderApprovalCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.LoadOrderApproval({
           userId,
@@ -40,7 +40,7 @@ export class OrderApprovalService {
   }
 
   loadOrderApprovals(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
       )
@@ -106,7 +106,7 @@ export class OrderApprovalService {
     orderApprovalCode: string,
     orderApprovalDecision: OrderApprovalDecision
   ): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.MakeDecision({
           userId,
@@ -166,12 +166,5 @@ export class OrderApprovalService {
    */
   resetMakeDecisionProcessState(): void {
     this.store.dispatch(new OrderApprovalActions.MakeDecisionReset());
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.userIdService
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }
