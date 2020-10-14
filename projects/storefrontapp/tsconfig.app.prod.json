@@ -21,6 +21,9 @@
       "@spartacus/my-account/organization/assets": [
         "dist/my-account/organization/assets"
       ],
+      "@spartacus/my-account/organization/root": [
+        "dist/my-account/organization/root"
+      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/configurators": ["dist/product/configurators"],
       "@spartacus/product/configurators/common": [
