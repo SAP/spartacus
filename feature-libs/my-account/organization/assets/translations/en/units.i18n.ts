@@ -41,9 +41,12 @@ export const unit = {
     upOneLevel: 'Up one level',
   },
   children: {
-    header: 'Child Units in {{code}}',
-    newChild: 'New child unit',
+    create: {
+      title: 'Create child unit',
+      subtitle: '',
+    },
   },
+
   form: {
     parentOrgUnit: 'Parent business unit',
     create: 'Create Unit',

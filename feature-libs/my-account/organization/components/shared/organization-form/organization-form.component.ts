@@ -32,7 +32,7 @@ export class OrganizationFormComponent<T> {
           this.setI18nRoot(item);
           if (!item && unitUid) {
             // TODO: as long as we do not have harmonized unit property, we have to workaround here,
-            item = { orgUnit: { uid: unitUid } } as any;
+            item = { parentOrgUnit: { uid: unitUid } } as any;
           }
           return this.itemService.getForm(item);
         })
