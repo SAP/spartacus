@@ -10,7 +10,7 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
 @Component({
   template: `
     <a
-      *ngIf="unitKey$ | async as uid"
+      *ngIf="hasItem && unitKey$ | async as uid"
       [routerLink]="
         { cxRoute: 'unitUserRoles', params: getRouterModel(uid) } | cxUrl
       "

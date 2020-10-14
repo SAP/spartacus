@@ -7,6 +7,7 @@ import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
+import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
 
 @Component({
   template: `
@@ -16,7 +17,9 @@ import { OrganizationSubListService } from '../organization-sub-list/organizatio
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T> implements OnDestroy {
+export class AssignCellComponent<T>
+  extends OrganizationCellComponent
+  implements OnDestroy {
   /**
    * Indicates that we need to show a notification message.
    */
@@ -27,13 +30,8 @@ export class AssignCellComponent<T> implements OnDestroy {
     protected organizationItemService: OrganizationItemService<T>,
     protected messageService: MessageService,
     protected organizationSubListService: OrganizationListService<T>
-  ) {}
-
-  /**
-   * Indicates whether the item is loaded.
-   */
-  get hasItem(): boolean {
-    return !!this.item && Object.keys(this.item).length > 0;
+  ) {
+    super(outlet);
   }
 
   get isAssigned(): boolean {
@@ -79,14 +77,6 @@ export class AssignCellComponent<T> implements OnDestroy {
       this.outlet.context.customerId ??
       this.outlet.context.uid
     );
-  }
-
-  protected get item(): T | null {
-    if (!this.outlet.context) {
-      return null;
-    }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
-    return all as T;
   }
 
   ngOnDestroy() {
