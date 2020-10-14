@@ -1,10 +1,14 @@
 %cx-configurator-tab-bar {
   max-width: 1140px;
 
-  .nav {
+  nav {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-start;
+    padding-inline-start: 0px;
+    margin-block-end: 2rem;
+    list-style: none;
 
     @include media-breakpoint-up(lg) {
       margin-block-end: 2rem;
@@ -45,6 +49,7 @@
       &.active,
       &:hover {
         color: var(--cx-color-primary);
+        text-decoration: none;
       }
 
       &.active:after,

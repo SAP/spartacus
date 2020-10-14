@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
@@ -13,6 +18,8 @@ export class ConfiguratorConflictSuggestionComponent {
 
   groupType = Configurator.GroupType;
 
+  @HostBinding('tabindex') tabindex = '0';
+
   constructor() {}
 
   /**
@@ -26,5 +33,9 @@ export class ConfiguratorConflictSuggestionComponent {
       group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
       group.attributes?.length > 1
     );
+  }
+
+  get tabIndex(): number {
+    return 0;
   }
 }

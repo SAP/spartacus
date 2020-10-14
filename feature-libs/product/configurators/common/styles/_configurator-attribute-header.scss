@@ -17,7 +17,7 @@
     }
   }
 
-  @include cx-required-error-msg();
+  @include cx-configurator-required-error-msg();
 
   .cx-conflict-msg {
     display: inline-flex;

@@ -78,14 +78,14 @@ describe('ConfigTabBarComponent', () => {
 
   it('should render 2 navigation links per default', () => {
     fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(2);
+    expect(htmlElem.querySelectorAll('a').length).toEqual(2);
   });
 
   it('should render no links if router states displayOnly', () => {
     mockRouterState.state.params.displayOnly = true;
 
     fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(0);
+    expect(htmlElem.querySelectorAll('a').length).toEqual(0);
   });
 
   it('should tell from semantic route that we are on OV page', () => {

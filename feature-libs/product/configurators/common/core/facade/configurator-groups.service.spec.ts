@@ -17,6 +17,7 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
+import { Configurator } from '@spartacus/product/configurators/common';
 
 class MockActiveCartService {}
 class MockConfiguratorCartService {
@@ -295,5 +296,19 @@ describe('ConfiguratorGroupsService', () => {
       productConfiguration.groups[2]
     );
     expect(configFacadeUtilsService.hasSubGroups).toHaveBeenCalled();
+  });
+
+  it('should return true if groupType is a conflict group type otherwise false', () => {
+    expect(
+      classUnderTest.isConflictGroupType(
+        Configurator.GroupType.CONFLICT_HEADER_GROUP
+      )
+    ).toBe(true);
+    expect(
+      classUnderTest.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP)
+    ).toBe(true);
+    expect(
+      classUnderTest.isConflictGroupType(Configurator.GroupType.ATTRIBUTE_GROUP)
+    ).toBe(false);
   });
 });
