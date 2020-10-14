@@ -4,5 +4,5 @@
   margin-inline-start: 17px;
   margin-inline-end: 17px;
 
-  @include cx-required-error-msg();
+  @include cx-configurator-required-error-msg();
 }

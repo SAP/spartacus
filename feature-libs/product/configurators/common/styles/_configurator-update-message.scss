@@ -1,5 +1,5 @@
 %cx-configurator-update-message {
-  div#cx-update-message {
+  div {
     display: none;
     &.visible {
       display: flex;
@@ -16,7 +16,7 @@
       align-items: center;
       padding: 20px;
 
-      %cx-spinner {
+      cx-spinner {
         margin-inline-end: 20px;
 
         .loader-container {

@@ -1,8 +1,10 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="currentGroup$ | async as currentGroup">
-    <cx-configurator-conflict-description
-      [currentGroup]="currentGroup"
-    ></cx-configurator-conflict-description>
+    <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+      <cx-configurator-conflict-description
+        [currentGroup]="currentGroup"
+      ></cx-configurator-conflict-description>
+    </ng-container>
     <div
       class="cx-group-attribute"
       *ngFor="
@@ -10,11 +12,13 @@
         let indexOfAttribute = index
       "
     >
-      <cx-configurator-conflict-suggestion
-        [currentGroup]="currentGroup"
-        [attribute]="attribute"
-        [suggestionNumber]="indexOfAttribute"
-      ></cx-configurator-conflict-suggestion>
+      <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+        <cx-configurator-conflict-suggestion
+          [currentGroup]="currentGroup"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+        ></cx-configurator-conflict-suggestion>
+      </ng-container>
       <cx-configurator-attribute-header
         [attribute]="attribute"
         [owner]="configuration.owner"

@@ -1,12 +1,15 @@
 %cx-configurator-tab-bar {
-  .nav {
+  nav {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-start;
+    padding-inline-start: 0px;
     margin-block-end: 2rem;
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
+    list-style: none;
 
     a {
       color: black;
@@ -40,6 +43,7 @@
       &.active,
       &:hover {
         color: var(--cx-color-primary);
+        text-decoration: none;
       }
 
       &.active:after,
