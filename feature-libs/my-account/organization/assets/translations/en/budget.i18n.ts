@@ -35,8 +35,8 @@ export const budget = {
 
   messages: {
     deactivate: 'Are you sure you want to disable this budget?',
-    confirmEnabled: 'Budget enabled successfully',
-    confirmDisabled: 'Budget disabled successfully',
+    confirmEnabled: 'Budget {{ item.name }} enabled successfully',
+    confirmDisabled: 'Budget {{ item.name }} disabled successfully',
   },
 
   links: {
