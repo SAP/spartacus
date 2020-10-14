@@ -65,7 +65,7 @@ class MockCartItemComponent {
   };
 }
 
-describe('CartItemListComponent', () => {
+fdescribe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let activeCartService: ActiveCartService;
@@ -238,9 +238,8 @@ describe('CartItemListComponent', () => {
   });
 
   it('should handle null item lists properly', () => {
-    const nullItemsArray = undefined;
-    component.items = nullItemsArray;
+    component.items = undefined;
     const itemCount = component.items.length;
-    expect(itemCount === 0).toBeTruthy();
+    expect(itemCount).toEqual(0);
   });
 });
