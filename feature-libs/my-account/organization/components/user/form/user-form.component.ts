@@ -70,7 +70,7 @@ export class UserFormComponent implements OnInit {
     return this.form.get('roles') as FormArray;
   }
 
-  protected get isAssignedToApprovers(): FormControl {
+  get isAssignedToApprovers(): FormControl {
     return this.form.get('isAssignedToApprovers') as FormControl;
   }
 }
