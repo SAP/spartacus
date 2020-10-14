@@ -116,7 +116,7 @@ class MockConfiguratorGroupsService {
   setGroupStatus(): void {}
   navigateToConflictSolver(): void {}
   navigateToFirstIncompleteGroup(): void {}
-  isConflictGroupType(){}
+  isConflictGroupType() {}
 }
 function checkConfigurationObs(
   routerMarbels: string,
