@@ -379,7 +379,7 @@
     }
 
     // highlight active values
-    .active a {
+    .active a[tabindex='-1'] {
       color: var(--cx-color-alert, var(--cx-color-danger));
       &.is-active {
         color: var(--cx-color-success);
