@@ -4,14 +4,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitItemService } from '../services/unit-item.service';
 
@@ -28,13 +27,29 @@ import { UnitItemService } from '../services/unit-item.service';
 })
 export class UnitFormComponent implements OnInit {
   @Input() i18nRoot = 'unit';
-  form: FormGroup = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.unitService
-    .getActiveUnitList()
-    .pipe(
-      map((units) => units.filter((unit) => unit.id !== this.form?.value.uid))
-    );
+  @Input() createChildUnit = false;
+
+  form$: Observable<any> = this.itemService.unit$.pipe(
+    map((unit) => {
+      const form = this.itemService.getForm();
+      form.get('parentOrgUnit.uid')?.setValue(unit);
+      if (this.createChildUnit) {
+        form.get('parentOrgUnit')?.disable();
+      }
+      return form;
+    })
+  );
+
+  units$: Observable<B2BUnitNode[]> = this.form$.pipe(
+    switchMap((form) =>
+      this.unitService
+        .getActiveUnitList()
+        .pipe(
+          map((units) => units.filter((unit) => unit.id !== form?.value.uid))
+        )
+    )
+  );
 
   approvalProcess$: Observable<
     B2BApprovalProcess[]

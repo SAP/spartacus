@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
+import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
 
 @Component({
@@ -14,4 +15,7 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
     },
   ],
 })
-export class UnitCostCenterCreateComponent {}
+export class UnitCostCenterCreateComponent {
+  unitKey$ = this.unitService.key$;
+  constructor(protected unitService: CurrentUnitService) {}
+}

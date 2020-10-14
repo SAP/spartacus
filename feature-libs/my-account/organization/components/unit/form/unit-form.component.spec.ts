@@ -33,7 +33,12 @@ class MockOrgUnitService {
 }
 
 class MockOrganizationItemService {
-  getForm() {}
+  get unit$() {
+    return of('uid');
+  }
+  getForm() {
+    return mockForm;
+  }
 }
 
 describe('UnitFormComponent', () => {
@@ -67,7 +72,6 @@ describe('UnitFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitFormComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -75,33 +79,29 @@ describe('UnitFormComponent', () => {
   });
 
   it('should render form controls', () => {
-    component.form = mockForm;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBeGreaterThan(0);
   });
 
-  it('should not render any form controls if the form is falsy', () => {
-    component.form = undefined;
-    fixture.detectChanges();
-    const formControls = fixture.debugElement.queryAll(By.css('input'));
-    expect(formControls.length).toBe(0);
-  });
-
   it('should get active units from service', () => {
-    component.form = mockForm;
+    fixture.detectChanges();
     expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 
   it('should get currencies from service', () => {
-    component.form = mockForm;
     expect(b2bUnitService.getApprovalProcesses).toHaveBeenCalled();
   });
 
   it('should load list of b2bUnits on init', () => {
-    component.form = mockForm;
     component.ngOnInit();
-    fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
+  });
+
+  it('should disable parentOrgUnit form control', () => {
+    component.createChildUnit = true;
+    let result: FormGroup;
+    component.form$.subscribe((form) => (result = form)).unsubscribe();
+    expect(result.get('parentOrgUnit.uid').disabled).toBeTruthy();
   });
 });

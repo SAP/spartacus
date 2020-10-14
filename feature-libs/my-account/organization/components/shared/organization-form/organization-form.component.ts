@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 
 /**
@@ -25,24 +25,15 @@ export class OrganizationFormComponent<T> {
    */
   i18n: string;
 
-  form$: Observable<FormGroup> = this.itemService.unit$.pipe(
-    switchMap((unitUid) =>
-      this.itemService.current$.pipe(
-        map((item) => {
-          this.setI18nRoot(item);
-          if (!item && unitUid) {
-            // TODO: as long as we do not have harmonized unit property, we have to workaround here,
-            item = {
-              // used in unit->CostCenter
-              unit: { uid: unitUid },
-              // used in unit->childUnits
-              parentOrgUnit: { uid: unitUid },
-            } as any;
-          }
-          return this.itemService.getForm(item);
-        })
-      )
-    )
+  form$: Observable<FormGroup> = this.itemService.current$.pipe(
+    map((item) => {
+      this.setI18nRoot(item);
+      if (!item) {
+        // we trick the form builder...
+        item = {} as any;
+      }
+      return this.itemService.getForm(item);
+    })
   );
 
   constructor(protected itemService: OrganizationItemService<T>) {}
@@ -53,7 +44,7 @@ export class OrganizationFormComponent<T> {
     });
   }
 
-  protected setI18nRoot(item) {
+  protected setI18nRoot(item: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }

@@ -13,7 +13,7 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
     super.patchData(item);
   }
 
-  protected build(item?: B2BUnit) {
+  protected build() {
     const form = new FormGroup({});
     form.setControl(
       'uid',
@@ -31,13 +31,26 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
       })
     );
 
+    form.setControl(
+      'parentOrgUnit',
+      new FormGroup({
+        uid: new FormControl(null, Validators.required),
+      })
+    );
+
+    form.setControl(
+      'parentOrgUnit',
+      new FormGroup({
+        uid: new FormControl(null, Validators.required),
+      })
+    );
+
     this.form = form;
-    this.toggleParentUnit(item);
   }
 
   protected toggleParentUnit(item?: B2BUnit): void {
-    if (item && !item.parentOrgUnit) {
-      this.form.removeControl('parentOrgUnit');
+    if (this.isRootUnit(item)) {
+      this.form?.removeControl('parentOrgUnit');
     } else if (!this.form.get('parentOrgUnit')) {
       this.form.setControl(
         'parentOrgUnit',
@@ -46,9 +59,11 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
         })
       );
     }
-    // We disable the parentOrgUnit when it's given by the data.
-    if (item?.uid === undefined && item?.parentOrgUnit) {
-      this.form.get('parentOrgUnit').disable();
-    }
+  }
+
+  protected isRootUnit(item: B2BUnit): boolean {
+    return (
+      item?.uid && (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+    );
   }
 }

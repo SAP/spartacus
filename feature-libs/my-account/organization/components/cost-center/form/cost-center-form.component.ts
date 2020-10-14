@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
@@ -21,7 +21,19 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
   ],
 })
 export class CostCenterFormComponent {
-  form: FormGroup = this.getForm();
+  /**
+   * Initialize the business unit for the cost center.
+   *
+   * If there's a unit provided, we disable the form control.
+   */
+  @Input() set unitKey(value: string) {
+    if (value) {
+      this.itemService.getForm().get('unit.uid').setValue(value);
+      this.form?.get('unit')?.disable();
+    }
+  }
+
+  form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
@@ -31,10 +43,4 @@ export class CostCenterFormComponent {
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}
-
-  protected getForm(): FormGroup {
-    const form = this.itemService.getForm();
-    form?.get('unit')?.disable();
-    return form;
-  }
 }
