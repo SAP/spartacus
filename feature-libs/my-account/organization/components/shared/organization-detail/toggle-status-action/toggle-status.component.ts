@@ -5,7 +5,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { first, take, tap } from 'rxjs/operators';
+import { filter, first, take } from 'rxjs/operators';
 import { LoadStatus } from '@spartacus/my-account/organization/core';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
@@ -97,13 +97,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
       .update(item[this.key], this.getPatchedItem(item))
       .pipe(
         take(1),
-        tap((data) => {
-          if (data.status === LoadStatus.SUCCESS) {
-            this.notify(data.item);
-          }
-        })
+        filter((data) => data.status === LoadStatus.SUCCESS)
       )
-      .subscribe();
+      .subscribe((data) => this.notify(data.item));
   }
 
   protected getPatchedItem(item: T): T {
