@@ -10,8 +10,6 @@
     "CLIENT_SECRET": "secret",
     "API_URL": "https://spartacus-dev0.eastus.cloudapp.azure.com:9002",
     "OCC_PREFIX": "/occ/v2",
-    "BASE_SITE": "electronics-spa",
-    "USER": "users",
-    "ORDER": "orders"
+    "BASE_SITE": "electronics-spa"
   }
 }
