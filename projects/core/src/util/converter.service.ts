@@ -48,7 +48,7 @@ export class ConverterService implements OnDestroy {
   ): Converter<S, T>[] {
     if (!this.converters.has(injectionToken)) {
       const converters = getLastValueSync(
-        this.unifiedInjector.get<Converter<S, T>[]>(injectionToken, [])
+        this.unifiedInjector.getMulti(injectionToken)
       );
       this.converters.set(injectionToken, converters);
     }
