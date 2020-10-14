@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { B2BUnit } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/my-account/organization/core';
-
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -60,5 +60,18 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
    */
   get isSwitchable(): boolean {
     return this.count > 0;
+  }
+
+  // TODO: leverage these methods when available from future PR.
+  get hasItem(): boolean {
+    return !!this.item && Object.keys(this.item).length > 0;
+  }
+
+  protected get item(): B2BUnit | null {
+    if (!this.outlet.context) {
+      return null;
+    }
+    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    return all as B2BUnit;
   }
 }

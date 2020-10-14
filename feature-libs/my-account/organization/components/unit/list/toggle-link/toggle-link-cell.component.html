@@ -1,4 +1,5 @@
 <a
+  *ngIf="hasItem"
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
   [tabIndex]="tabIndex"
 >
