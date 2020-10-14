@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConverterService, provideDefaultConfig } from '@spartacus/core';
+import {
+  ConverterService,
+  CostCenterOccModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -13,7 +17,6 @@ import {
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
   CostCenterAdapter,
-  COST_CENTERS_NORMALIZER,
   OrderApprovalAdapter,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
@@ -39,7 +42,6 @@ import { defaultOccOrganizationConfig } from './config/default-occ-organization-
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
 import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
-import { OccCostCenterListNormalizer } from './converters/occ-cost-center-list-normalizer';
 import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
 import { OccOrderApprovalListNormalizer } from './converters/occ-order-approval-list-normalizer';
 import { OccOrderApprovalNormalizer } from './converters/occ-order-approval-normalizer';
@@ -56,7 +58,7 @@ import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
 import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, CostCenterOccModule],
   providers: [
     provideDefaultConfig(defaultOccOrganizationConfig),
     {
@@ -134,11 +136,6 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     {
       provide: CostCenterAdapter,
       useClass: OccCostCenterAdapter,
-    },
-    {
-      provide: COST_CENTERS_NORMALIZER,
-      useClass: OccCostCenterListNormalizer,
-      multi: true,
     },
     {
       provide: B2BUserAdapter,

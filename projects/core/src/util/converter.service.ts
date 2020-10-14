@@ -1,6 +1,8 @@
-import { Injectable, InjectionToken, Injector } from '@angular/core';
-import { Observable, OperatorFunction } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable, InjectionToken, OnDestroy } from '@angular/core';
+import { Observable, OperatorFunction, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { UnifiedInjector } from '../lazy-loading/unified-injector';
+import { getLastValueSync } from './get-last-value-sync';
 
 /**
  * Converter is used to convert source data model to target data model.
@@ -24,8 +26,17 @@ export interface Converter<S, T> {
 @Injectable({
   providedIn: 'root',
 })
-export class ConverterService {
-  constructor(protected injector: Injector) {}
+export class ConverterService implements OnDestroy {
+  protected subscriptions = new Subscription();
+
+  constructor(protected unifiedInjector: UnifiedInjector) {
+    // Clear cached converters when new injectors appear
+    const cacheResetLogic = this.unifiedInjector.injectors$.pipe(
+      tap(() => this.converters.clear())
+    );
+
+    this.subscriptions.add(cacheResetLogic.subscribe());
+  }
 
   private converters: Map<
     InjectionToken<Converter<any, any>>,
@@ -36,16 +47,9 @@ export class ConverterService {
     injectionToken: InjectionToken<Converter<S, T>>
   ): Converter<S, T>[] {
     if (!this.converters.has(injectionToken)) {
-      const converters = this.injector.get<Converter<S, T>[]>(
-        injectionToken,
-        []
+      const converters = getLastValueSync(
+        this.unifiedInjector.get<Converter<S, T>[]>(injectionToken, [])
       );
-      if (!Array.isArray(converters)) {
-        console.warn(
-          'Converter must be multi-provided, please use "multi: true" for',
-          injectionToken.toString()
-        );
-      }
       this.converters.set(injectionToken, converters);
     }
 
@@ -122,5 +126,9 @@ export class ConverterService {
     return this.getConverters(injectionToken).reduce((target, converter) => {
       return converter.convert(source, target);
     }, undefined as T);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
