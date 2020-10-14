@@ -1,8 +1,4 @@
-<div
-  *ngIf="displayConflictDescription(currentGroup)"
-  class="cx-description-msg"
-  tabindex="0"
->
+<ng-container *ngIf="displayConflictDescription(currentGroup)">
   <cx-icon [type]="iconTypes.WARNING"></cx-icon>
   {{ currentGroup.name }}
-</div>
+</ng-container>

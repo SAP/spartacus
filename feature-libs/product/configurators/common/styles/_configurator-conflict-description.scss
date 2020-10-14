@@ -1,18 +1,16 @@
 %cx-configurator-conflict-description {
-  .cx-description-msg {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 5px;
-    margin-block-end: 15px;
-    background-color: mix(#ffffff, theme-color('warning'), 78%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  margin-block-end: 15px;
+  background-color: mix(#ffffff, theme-color('warning'), 78%);
 
-    cx-icon {
-      padding: 5px 15px 5px 15px;
-      color: theme-color('warning');
-      align-self: center;
-      font-size: 30px;
-      padding-block-end: 10px;
-    }
+  cx-icon {
+    padding: 5px 15px 5px 15px;
+    color: theme-color('warning');
+    align-self: center;
+    font-size: 30px;
+    padding-block-end: 10px;
   }
 }

@@ -18,7 +18,6 @@ export class ConfiguratorConflictSuggestionComponent {
 
   groupType = Configurator.GroupType;
 
-  // required by esc focus
   @HostBinding('tabindex') tabindex = '0';
 
   constructor() {}
