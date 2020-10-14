@@ -65,12 +65,3 @@ export interface MyCompanyConfig {
    */
   canUnassignAll?: boolean;
 }
-
-export enum MyCompanySelectorSuffixes {
-  LIST = 'list',
-  DETAILS = 'details',
-  CREATE = 'create',
-  EDIT = 'edit',
-  FORM = 'form',
-  ASSIGN = 'assign',
-}

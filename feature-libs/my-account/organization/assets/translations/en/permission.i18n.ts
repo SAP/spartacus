@@ -14,8 +14,8 @@ export const permission = {
   actions: '',
 
   details: {
-    title: 'Purchase limits details',
-    subtitle: 'Purchase limits: {{ item.code }}',
+    title: 'Purchase Limit Details',
+    subtitle: 'Purchase Limit: {{ item.code }}',
   },
   edit: {
     title: 'Edit Purchase limit',

@@ -1,4 +1,4 @@
-import { MyCompanyConfig, MyCompanySelectorSuffixes } from './models/index';
+import { MyCompanyConfig } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
@@ -10,15 +10,15 @@ import { testList, testListSorting } from './my-company-list';
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((tab) => {
     let firstRow;
-    const selectorAssignment = `${config.selector}-${MyCompanySelectorSuffixes.ASSIGN}-${tab.selector}`;
-    const selectorList = `${config.selector}-${tab.selector}-${MyCompanySelectorSuffixes.LIST}`;
+    const selectorAssignment = `${config.selector}-assign-${tab.selector}`;
+    const selectorList = `${config.selector}-${tab.selector}-list`;
 
     describe(`${config.name} Assignment - ${tab.name}`, () => {
       let listData: any;
 
       before(() => {
         loginAsMyCompanyAdmin();
-        cy.visit(`${config.baseUrl}s`);
+        cy.visit(`${config.baseUrl}`);
       });
 
       beforeEach(() => {
@@ -45,7 +45,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             );
 
             // TODO: Should show all assigned items in details table
-          }, cy.get(`${config.selector}-${MyCompanySelectorSuffixes.LIST} a`).contains(tab.name).click({ force: true }));
+          }, cy.get(`${config.selector}-list a`).contains(tab.name).click({ force: true }));
         });
       });
 

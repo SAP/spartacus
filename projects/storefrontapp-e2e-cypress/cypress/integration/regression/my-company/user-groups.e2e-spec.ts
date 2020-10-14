@@ -1,6 +1,7 @@
 import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
 import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company';
 import { MyCompanyConfig } from '../../../helpers/my-company/models/MyCompanyConfig';
+import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'User Group',
@@ -12,27 +13,36 @@ const config: MyCompanyConfig = {
     {
       label: 'Name',
       variableName: 'name',
-      link: '/organization/user-groups/',
+      link: '/organization/budgets/',
       inputType: 'text',
-      createValue: 'Test Entity',
-      updateValue: 'Edited Test Entity',
+      createValue: `Test Entity ${randomString()}`,
+      updateValue: `Edited Test Entity ${randomString()}`,
+      sortLabel: 'name',
+      showInTable: true,
+      formControlName: 'name',
+      showInDetails: true,
     },
     {
       label: 'Code',
-      sortByUrl: '?sort=byUnitName',
+      sortLabel: 'name',
       variableName: 'uid',
       inputType: 'text',
-      createValue: 'test-entity',
-      updateValue: 'edited-user-group',
+      createValue: `test-entity-${randomString()}`,
+      updateValue: `edited-entity-${randomString()}`,
+      formControlName: 'code',
+      showInTable: true,
+      showInDetails: true,
     },
     {
-      label: 'Parent Unit',
-      sortByUrl: '?sort=byGroupID',
+      label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
       inputType: 'ngSelect',
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
+      showInTable: true,
+      formControlName: 'uid',
+      showInDetails: true,
     },
   ],
   subCategories: [
