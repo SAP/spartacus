@@ -11,14 +11,12 @@ import {
 } from '@spartacus/core';
 import {
   CartSharedModule,
-  CmsPageGuard,
   FormErrorsModule,
   OrderDetailApprovalDetailsComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
-  PageLayoutComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
@@ -33,14 +31,7 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
     UrlModule,
     FormErrorsModule,
     SpinnerModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'orderApprovalDetails' },
-      },
-    ]),
+    RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrderApprovalDetailTotalsComponent: {
