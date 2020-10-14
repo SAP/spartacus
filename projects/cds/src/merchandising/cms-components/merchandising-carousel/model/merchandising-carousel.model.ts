@@ -5,6 +5,7 @@ import {
 } from '../../../model/index';
 
 export interface MerchandisingCarouselModel {
+  id: string;
   items$: Observable<MerchandisingProduct>[];
   productIds: string [];
   metadata: MerchandisingMetadata;
