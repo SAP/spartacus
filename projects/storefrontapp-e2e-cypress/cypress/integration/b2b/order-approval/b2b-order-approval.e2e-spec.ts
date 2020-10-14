@@ -22,24 +22,7 @@ context('B2B - Order Approval', () => {
     orderApproval.getPendingOrderDetails();
 
     cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-    cy.get('cx-order-details-approval-details').within(() => {
-      cy.get('tr').should(
-        'have.length',
-        sampleData.pendingOrder.permissionResults.length
-      );
-    });
-
-    sampleData.pendingOrder.permissionResults.forEach((permission, index) => {
-      cy.get('cx-order-details-approval-details tr')
-        .eq(index)
-        .within(() => {
-          cy.get('.cx-approval-approverName').should(
-            'contain',
-            permission.approverName
-          );
-        });
-    });
-
+    assertPermissionResults();
     signOutUser();
   });
 
@@ -83,6 +66,27 @@ context('B2B - Order Approval', () => {
       );
   });
 
+  it('Should display approval detail page', () => {
+    orderApproval.loginB2bApprover();
+    orderApproval.getOrderApprovalDetail();
+    cy.visit(`/my-account/approval/${sampleData.approvalOrderDetail.code}`);
+
+    // assertions
+
+    // assert buttons
+    assertButtons();
+    // assert approval details
+    assertPermissionResults();
+
+    // assert order status
+
+    // assert products?
+
+    // asserts order details
+
+    // assert totals
+  });
+
   it('TODO should approve the order', () => {
     orderApproval.loginB2bApprover();
   });
@@ -91,3 +95,36 @@ context('B2B - Order Approval', () => {
     orderApproval.loginB2bApprover();
   });
 });
+
+function assertButtons() {
+  cy.get('cx-order-approval-detail-form a.btn').should(
+    'contain',
+    'Back To List'
+  );
+  cy.get('cx-order-approval-detail-form .btn-primary')
+    .eq(0)
+    .should('contain', ' Reject Order... ');
+  cy.get('cx-order-approval-detail-form .btn-primary')
+    .eq(1)
+    .should('contain', ' Approve Order... ');
+}
+
+function assertPermissionResults() {
+  cy.get('cx-order-details-approval-details').within(() => {
+    cy.get('tr').should(
+      'have.length',
+      sampleData.pendingOrder.permissionResults.length
+    );
+  });
+
+  sampleData.pendingOrder.permissionResults.forEach((permission, index) => {
+    cy.get('cx-order-details-approval-details tr')
+      .eq(index)
+      .within(() => {
+        cy.get('.cx-approval-approverName').should(
+          'contain',
+          permission.approverName
+        );
+      });
+  });
+}
