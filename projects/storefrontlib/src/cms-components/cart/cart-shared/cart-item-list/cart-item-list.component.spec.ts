@@ -65,7 +65,7 @@ class MockCartItemComponent {
   };
 }
 
-fdescribe('CartItemListComponent', () => {
+describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let activeCartService: ActiveCartService;
