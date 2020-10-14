@@ -2,17 +2,17 @@ import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b
 import { checkoutPaymentMethodTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/b2b/payment-method';
 import {
   checkoutDeliveryModeTabbingOrder,
-  checkoutDeliveryModeTabbingOrderAccount
+  checkoutDeliveryModeTabbingOrderAccount,
 } from '../../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
-  checkoutPaymentDetailsTabbingOrder
+  checkoutPaymentDetailsTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { checkoutReviewOrderTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/review-order';
 import {
   checkoutShippingAddressAccount,
   checkoutShippingAddressExistingTabbingOrder,
-  checkoutShippingAddressNewTabbingOrder
+  checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 import { loginB2bUser } from '../../../helpers/b2b/b2b-checkout';
 import { b2bProduct } from '../../../sample-data/b2b-checkout';
@@ -22,7 +22,7 @@ describe('Tabbing order for B2B checkout', () => {
     before(() => {
       cy.window().then((win) => {
         win.localStorage.clear();
-        win.sessionStorage.clear()
+        win.sessionStorage.clear();
       });
 
       loginB2bUser();
@@ -88,7 +88,7 @@ describe('Tabbing order for B2B checkout', () => {
     before(() => {
       cy.window().then((win) => {
         win.localStorage.clear();
-        win.sessionStorage.clear()
+        win.sessionStorage.clear();
       });
 
       loginB2bUser();
