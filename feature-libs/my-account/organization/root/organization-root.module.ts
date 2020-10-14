@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { AuthGuard, provideDefaultConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  provideDefaultConfig,
+  RoutingConfig,
+} from '@spartacus/core';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
@@ -34,6 +38,16 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
             'OrderApprovalDetailItemsComponent',
             'OrderApprovalDetailFormComponent',
           ],
+        },
+      },
+    }),
+    provideDefaultConfig(<RoutingConfig>{
+      routing: {
+        routes: {
+          orderApprovalDetails: {
+            paths: ['my-account/approval/:approvalCode'],
+            paramsMapping: { approvalCode: 'approvalCode' },
+          },
         },
       },
     }),

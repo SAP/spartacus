@@ -25,10 +25,6 @@ import { UserComponentsModule } from './user/user-components.module';
           organization: {
             paths: ['organization'],
           },
-          orderApprovalDetails: {
-            paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
-          },
         },
       },
     }),
