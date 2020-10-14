@@ -132,7 +132,7 @@ export class CsAgentAuthService {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.authStorageService.clearEmulatedUserToken();
       } else {
-        this.routingService.go({ cxRoute: 'logout' });
+        this.authService.initLogout();
       }
     });
   }

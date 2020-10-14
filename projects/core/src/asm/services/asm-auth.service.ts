@@ -14,6 +14,7 @@ import {
   GlobalMessageType,
 } from '../../global-message/index';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { UserService } from '../../user/facade/user.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
@@ -28,14 +29,16 @@ export class AsmAuthService extends BasicAuthService {
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected userService: UserService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService
   ) {
     super(
       store,
       userIdService,
       cxOAuthService,
       authStorageService,
-      authRedirectService
+      authRedirectService,
+      routingService
     );
   }
 
