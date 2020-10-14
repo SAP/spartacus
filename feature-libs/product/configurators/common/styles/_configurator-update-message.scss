@@ -1,47 +1,36 @@
 %cx-configurator-update-message {
-  .wrapper {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    pointer-events: none;
-    z-index: 99;
-
-    div#cx-configurator-update-message {
-      pointer-events: auto;
-      position: sticky;
-      top: 0;
+  div {
+    display: none;
+    &.visible {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      inline-size: 100%;
+      background-color: mix(#ffffff, theme-color('info'), 80%);
       text-align: var(--cx-text-align, center);
       color: var(--cx-color, var(--cx-color-text));
       @include type('6', 'semi');
       padding: var(--cx-padding, 0 4rem 0 20px);
       line-height: var(--cx-line-height, 1.5);
-      min-height: 70px;
-      flex-direction: row;
+      min-block-size: 70px;
       align-items: center;
-      display: none;
-      justify-content: center;
-      background-color: mix(#ffffff, theme-color('info'), 80%);
-      padding: $alert-padding-y;
+      padding: 20px;
 
-      &.visible {
-        display: flex;
-      }
-
-      %cx-spinner {
-        margin-right: 20px;
+      cx-spinner {
+        margin-inline-end: 20px;
 
         .loader-container {
-          height: 40px;
-          width: 40px;
+          block-size: 40px;
+          inline-size: 40px;
           margin: 0 auto;
 
           .loader {
-            height: 40px;
-            width: 40px;
+            block-size: 40px;
+            inline-size: 40px;
 
             &::before {
-              height: 40px;
-              width: 40px;
+              block-size: 40px;
+              inline-size: 40px;
               border-width: 5px;
             }
           }

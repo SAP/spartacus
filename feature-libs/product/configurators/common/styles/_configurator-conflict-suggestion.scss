@@ -1,17 +1,20 @@
 %cx-configurator-conflict-suggestion {
-  .cx-configurator-conflict-suggestion {
-    padding: 15px;
-    background-color: mix(#ffffff, theme-color('light'), 90%);
-    margin: 0 -20px 15px -20px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    border-radius: 2px;
-    display: flex;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 15px;
+  background-color: mix(#ffffff, theme-color('light'), 90%);
+  margin: 0 -20px 15px -20px;
+  border: 1px solid var(--cx-color-light);
+  border-radius: 2px;
 
-    .bold {
-      font-weight: bold;
-      padding-right: 5px;
-    }
+  @include media-breakpoint-down(sm) {
+    padding: 15px 35px;
+  }
+
+  .cx-title {
+    font-weight: bold;
+    padding-inline-end: 5px;
   }
 }

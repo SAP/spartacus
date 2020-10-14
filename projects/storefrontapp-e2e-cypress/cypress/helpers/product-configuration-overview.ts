@@ -44,7 +44,7 @@ export function isContinueToCartBtnDisplayed() {
  * Navigates to the configuration page via configuration tab.
  */
 export function navigateToConfigurationPage(): void {
-  cy.get('cx-configurator-tab-bar div div:first a').click({
+  cy.get('cx-configurator-tab-bar a:contains("Configuration")').click({
     force: true,
   });
 }

@@ -1,38 +1,34 @@
 %cx-configurator-attribute-header {
-  .cx-configurator-attribute-label {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
+  label {
     @include type('5');
-    padding-top: 10px;
-    padding-right: 6px;
-    display: block;
-    max-width: 66%;
+    padding-block-start: 10px;
+    padding-inline-end: 6px;
   }
 
-  .cx-configurator-attribute-label-required-icon {
-    display: inline-block;
-
+  .cx-required-icon {
     &:after {
       content: '*';
       color: var(--cx-color-danger);
     }
   }
 
-  .cx-configurator-attribute-label-required-error-msg {
-    color: var(--cx-color-danger);
-    font-size: 14px;
-  }
+  @include cx-configurator-required-error-msg();
 
-  .cx-configurator-attribute-conflict-container {
-    display: flex;
+  .cx-conflict-msg {
+    display: inline-flex;
 
-    .cx-configurator-attribute-conflict-icon-container {
-      padding-right: 15px;
-      .cx-configurator-attribute-conflict-icon {
-        color: var(--cx-color-warning);
-        font-size: 20px;
-      }
+    cx-icon {
+      color: var(--cx-color-warning);
+      font-size: 20px;
+      padding-inline-end: 5px;
     }
 
-    .cx-configurator-attribute-label-conflict-msg {
+    .cx-conflict-msg {
       color: var(--cx-color-text);
       font-size: 14px;
     }

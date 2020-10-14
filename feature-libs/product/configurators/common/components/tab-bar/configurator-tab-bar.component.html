@@ -1,42 +1,34 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="!routerData.displayOnly">
-    <div class="nav">
-      <div>
-        <a
-          class="nav-link"
-          tabindex="-1"
-          [class.active]="!(isOverviewPage$ | async)"
-          [routerLink]="
-            {
-              cxRoute: 'configure' + routerData.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
-          role="link"
-          >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
-        >
-      </div>
-      <div>
-        <a
-          class="nav-link"
-          tabindex="-1"
-          [class.active]="isOverviewPage$ | async"
-          [routerLink]="
-            {
-              cxRoute: 'configureOverview' + routerData.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
-          role="link"
-          >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
-        >
-      </div>
-    </div>
+    <a
+      tabindex="-1"
+      [class.active]="!(isOverviewPage$ | async)"
+      [routerLink]="
+        {
+          cxRoute: 'configure' + routerData.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type
+          }
+        } | cxUrl
+      "
+      role="link"
+      >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+    >
+    <a
+      tabindex="-1"
+      [class.active]="isOverviewPage$ | async"
+      [routerLink]="
+        {
+          cxRoute: 'configureOverview' + routerData.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type
+          }
+        } | cxUrl
+      "
+      role="link"
+      >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+    >
   </ng-container>
 </ng-container>

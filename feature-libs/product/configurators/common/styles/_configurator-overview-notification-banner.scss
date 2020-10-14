@@ -1,20 +1,20 @@
 %cx-configurator-overview-notification-banner {
-  margin-right: 15px;
-  margin-left: 15px;
+  margin-inline-start: 15px;
+  margin-inline-end: 15px;
 
   .cx-error-container {
     background-color: rgba(245, 206, 206, 1);
     padding: 5px;
-    margin-bottom: 1.25rem;
+    margin-block-end: 1.25rem;
     display: flex;
-    width: 100%;
+    inline-size: 100%;
 
     .cx-error-icon-container {
       padding: 5px 15px 5px 15px;
     }
 
     .cx-error-msg-container {
-      padding-top: 10px;
+      padding-block-start: 10px;
     }
 
     button.link {
@@ -23,7 +23,7 @@
       background-color: transparent;
       text-decoration: none;
       font-size: inherit;
-      width: max-content;
+      inline-size: max-content;
       text-decoration: underline;
 
       &:hover {

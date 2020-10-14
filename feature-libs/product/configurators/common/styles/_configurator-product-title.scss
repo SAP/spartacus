@@ -1,12 +1,11 @@
 %cx-configurator-product-title {
   background-color: var(--cx-color-background);
-  margin-bottom: 15px;
+  margin-block-end: 15px;
 
   .cx-configurator-container {
     padding: 15px 0;
     margin: 0 auto;
     border-width: 1px;
-    max-width: 1140px;
 
     .cx-configurator-product-title {
       font-weight: bold;
@@ -14,8 +13,8 @@
     }
 
     .cx-configurator-product-title-details {
-      width: 100%;
-      max-height: 0;
+      inline-size: 100%;
+      max-block-size: 0;
       overflow: hidden;
       display: flex;
       font-size: var(--cx-font-small, 0.8rem);
@@ -24,21 +23,21 @@
       -webkit-transition: all 0.7s ease-in-out;
 
       &.open {
-        /* 
-          A larger value than the details need, this will be used to animate the closing/opening. 
+        /*
+          A larger value than the details need, this will be used to animate the closing/opening.
           If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
         */
-        max-height: 400px;
+        max-border-left: 400px;
       }
 
       .cx-configurator-product-title-details-image {
-        margin-top: 15px;
-        max-width: 100px;
+        margin-block-start: 15px;
+        max-inline-size: 100px;
       }
 
       .cx-configurator-product-title-details-content {
         margin: 15px 0 0 15px;
-        max-width: 600px;
+        max-inline-size: 600px;
 
         .cx-configurator-product-detail-title,
         .cx-configurator-product-price {
@@ -64,19 +63,19 @@
       display: inline-flex;
       color: var(--cx-color-text);
       font-weight: normal;
-      margin-top: -25px;
-      margin-right: 5px;
+      margin-block-start: -25px;
+      margin-inline-end: 5px;
 
       &:hover {
         text-decoration: none;
       }
 
       cx-icon {
-        margin-left: 5px;
+        margin-inline-start: 5px;
       }
 
       @include media-breakpoint-down(xs) {
-        margin-top: -20px;
+        margin-block-start: -20px;
       }
 
       .cx-configurator-toogle-details-link-text {

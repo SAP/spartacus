@@ -1,0 +1,56 @@
+@mixin cx-configurator-attribute-selection-image {
+  @include cx-configurator-attribute-type();
+
+  .cx-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    .cx-configurator-select {
+      padding: 5px;
+
+      input[type='checkbox'].form-input,
+      input[type='radio'].form-input {
+        opacity: 0;
+        position: absolute;
+
+        &:focus + .cx-label-container {
+          @include visible-focus();
+        }
+      }
+
+      input[aria-checked='true'] + .cx-label-container {
+        .cx-img,
+        .cx-img-dummy {
+          border: var(--cx-color-primary) 3px solid;
+        }
+      }
+
+      .cx-label-container {
+        padding: 5px 25px 5px 25px;
+        margin: 5px 10px 5px 10px;
+
+        label {
+          cursor: pointer;
+          text-align: center;
+
+          .cx-img,
+          .cx-img-dummy {
+            padding: 3px;
+            display: block;
+            margin-inline-start: auto;
+            margin-inline-end: auto;
+            border-radius: 2px;
+            border: transparent 3px solid;
+          }
+
+          .cx-img-dummy {
+            block-size: 75%;
+          }
+        }
+      }
+    }
+  }
+}

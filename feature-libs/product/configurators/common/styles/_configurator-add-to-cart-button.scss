@@ -1,25 +1,7 @@
 %cx-configurator-add-to-cart-button {
-  .cx-configurator-add-to-cart-btn-container {
-    padding: 15px;
-    margin: 0 auto;
-    margin-top: 15px;
-    justify-self: center;
-    max-width: 1140px;
+  @include cx-configurator-footer-container();
 
-    @include media-breakpoint-down(sm) {
-      padding: 20px;
-    }
-
-    .cx-configurator-add-to-cart-btn {
-      @include media-breakpoint-down(sm) {
-        width: 100%;
-        clear: both;
-      }
-
-      padding-left: 15px;
-      padding-right: 15px;
-      width: 400px;
-      float: right;
-    }
+  button.cx-add-to-cart-btn {
+    @include cx-configurator-footer-container-item();
   }
 }

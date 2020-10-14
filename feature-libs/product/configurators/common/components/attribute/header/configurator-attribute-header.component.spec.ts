@@ -101,25 +101,21 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label',
+        'label',
         'label of attribute'
       );
-      const id = htmlElem
-        .querySelector('.cx-configurator-attribute-label')
-        .getAttribute('id');
+      const id = htmlElem.querySelector('label').getAttribute('id');
       expect(id.indexOf('123')).toBeGreaterThan(
         0,
         'id of label does not contain the StdAttrCode'
       );
       expect(
-        htmlElem
-          .querySelector('.cx-configurator-attribute-label')
-          .getAttribute('aria-label')
+        htmlElem.querySelector('label').getAttribute('aria-label')
       ).toEqual(classUnderTest.attribute.label);
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-icon'
+        '.cx-required-icon'
       );
     });
 
@@ -129,7 +125,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-icon'
+        '.cx-required-icon'
       );
     });
 
@@ -137,7 +133,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-img'
+        '.cx-attribute-img'
       );
     });
   });
@@ -203,7 +199,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
 
@@ -214,7 +210,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
 
@@ -224,7 +220,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
 
@@ -234,7 +230,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
 
@@ -244,7 +240,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
 
@@ -254,7 +250,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-label-required-error-msg'
+        '.cx-required-error-msg'
       );
     });
   });
@@ -268,13 +264,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-conflict-msg-container'
+        '.cx-conflict-msg'
       );
 
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-conflict-icon-container'
+        'cx-icon'
       );
     });
 
@@ -286,13 +282,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-conflict-msg-container'
+        '.cx-conflict-msg'
       );
 
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-conflict-icon-container'
+        'cx-icon'
       );
     });
 
@@ -303,7 +299,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       ConfiguratorComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-configurator-attribute-conflict-container'
+        '.cx-conflict-container'
       );
     });
   });

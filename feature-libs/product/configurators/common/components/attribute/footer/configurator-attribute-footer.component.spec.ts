@@ -95,7 +95,7 @@ describe('ConfigAttributeFooterComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-attribute-footer-required-error-msg'
+      '.cx-required-error-msg'
     );
   });
 
@@ -105,7 +105,7 @@ describe('ConfigAttributeFooterComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-attribute-footer-required-error-msg'
+      '.cx-required-error-msg'
     );
   });
 
@@ -116,7 +116,7 @@ describe('ConfigAttributeFooterComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-attribute-footer-required-error-msg'
+      '.cx-required-error-msg'
     );
   });
 
@@ -127,7 +127,7 @@ describe('ConfigAttributeFooterComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-configurator-attribute-footer-required-error-msg'
+      'cx-required-error-msg'
     );
   });
 
@@ -138,7 +138,7 @@ describe('ConfigAttributeFooterComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-configurator-attribute-footer-required-error-msg'
+      'cx-required-error-msg'
     );
   });
 
