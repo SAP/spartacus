@@ -9,7 +9,7 @@ import { signOutUser } from './login';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
-const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
+export const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';

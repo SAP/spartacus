@@ -13,17 +13,16 @@ import {
   StorefrontConfig,
   StorefrontModule,
 } from '@spartacus/storefront';
-import { OrganizationModule } from '@spartacus/my-account/organization';
-import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
 import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
+import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
 
 @NgModule({
   imports: [
     StorefrontModule,
+
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
     CostCenterModule.forRoot(),
-    OrganizationModule,
   ],
   providers: [
     provideDefaultConfig(layoutConfig),
