@@ -34,8 +34,4 @@ export class ConfiguratorConflictSuggestionComponent {
       group.attributes?.length > 1
     );
   }
-
-  get tabIndex(): number {
-    return 0;
-  }
 }
