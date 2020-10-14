@@ -1,32 +1,25 @@
 %cx-configurator-update-message {
-  div {
+  position: absolute;
+  width: 100%;
+
+  div#cx-update-msg {
     display: none;
-    position: relative;
-    /**
-    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    pointer-events: none;
-    z-index: 99;
-    */
+    min-height: 70px;
+    top: 0;
+    @include type('6', 'semi');
+    padding: 10px;
+    line-height: var(--cx-line-height, 1.5);
+    background-color: mix(#ffffff, theme-color('info'), 80%);
 
     &.visible {
-      display: inline-flex;
-      position: absolute;
-      flex-direction: row;
-      justify-content: center;
-      inline-size: 100%;
-      background-color: mix(#ffffff, theme-color('info'), 80%);
-      text-align: var(--cx-text-align, center);
-      color: var(--cx-color, var(--cx-color-text));
-      @include type('6', 'semi');
-      padding: var(--cx-padding, 0 4rem 0 20px);
-      line-height: var(--cx-line-height, 1.5);
-      min-block-size: 70px;
-      align-items: center;
-      padding: 15px;
+      display: flex;
 
       cx-spinner {
-        margin-inline-end: 20px;
+        margin-inline-end: 10px;
 
         .loader-container {
           block-size: 40px;
