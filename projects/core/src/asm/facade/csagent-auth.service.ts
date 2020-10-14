@@ -4,6 +4,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { AuthActions } from '../../auth/user-auth/store/actions';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -57,10 +58,12 @@ export class CsAgentAuthService {
             .get()
             .subscribe((user) => (customerId = user?.customerId))
             .unsubscribe();
+          this.store.dispatch(new AuthActions.Logout());
           if (Boolean(customerId)) {
             // OCC specific user id handling. Customize when implementing different backend
             this.userIdService.setUserId(customerId);
             this.authStorageService.setEmulatedUserToken(userToken);
+            this.store.dispatch(new AuthActions.Login());
           } else {
             // When we can't get the customerId just end all current sessions
             this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
@@ -84,7 +87,9 @@ export class CsAgentAuthService {
     this.authStorageService.clearEmulatedUserToken();
 
     // OCC specific user id handling. Customize when implementing different backend
+    this.store.dispatch(new AuthActions.Logout());
     this.userIdService.setUserId(customerId);
+    this.store.dispatch(new AuthActions.Login());
   }
 
   public isCustomerSupportAgentLoggedIn(): Observable<boolean> {
@@ -128,9 +133,11 @@ export class CsAgentAuthService {
       this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
       this.authStorageService.setTokenTarget(TokenTarget.User);
       if (isCustomerEmulated && emulatedToken) {
+        this.store.dispatch(new AuthActions.Logout());
         this.authStorageService.setToken(emulatedToken);
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.authStorageService.clearEmulatedUserToken();
+        this.store.dispatch(new AuthActions.Login());
       } else {
         this.routingService.go({ cxRoute: 'logout' });
       }
