@@ -230,9 +230,15 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
 
+      // use below code to enable Continue button again, otherwise
+      // the expect method call will fail
+      component.mode.controls['deliveryModeId'].setValue(
+        mockDeliveryMode1.code
+      );
+      fixture.detectChanges();
+      getContinueBtn().nativeElement.click();
+      
       expect(component.next).toHaveBeenCalled();
     });
   });
@@ -243,9 +249,10 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
 
+      fixture.detectChanges();
+      getContinueBtn().nativeElement.click();
+      
       expect(component.back).toHaveBeenCalled();
     });
   });
