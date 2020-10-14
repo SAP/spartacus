@@ -22,14 +22,14 @@ context('B2B - Order Approval', () => {
     orderApproval.getPendingOrderDetails();
 
     cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-    assertPermissionResults();
+    assertPermissionResults(sampleData.pendingOrder);
     signOutUser();
   });
 
   it('should display order approval list', () => {
     orderApproval.loginB2bApprover();
     orderApproval.getOrderApprovalList();
-    cy.visit(`/my-account/approval-dashboard`);
+    orderApproval.visitOrderApprovalListPage();
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
       .eq(0)
@@ -69,30 +69,53 @@ context('B2B - Order Approval', () => {
   it('Should display approval detail page', () => {
     orderApproval.loginB2bApprover();
     orderApproval.getOrderApprovalDetail();
-    cy.visit(`/my-account/approval/${sampleData.approvalOrderDetail.code}`);
+    orderApproval.visitOrderApprovalDetailPage();
 
-    // assertions
-
-    // assert buttons
     assertButtons();
-    // assert approval details
-    assertPermissionResults();
-
-    // assert order status
-
-    // assert products?
-
-    // asserts order details
-
-    // assert totals
+    assertPermissionResults(sampleData.approvalOrderDetail.order);
+    assertOrderDetails();
   });
 
-  it('TODO should approve the order', () => {
+  it('should approve the order', () => {
     orderApproval.loginB2bApprover();
+    orderApproval.getOrderApprovalDetail();
+    orderApproval.visitOrderApprovalDetailPage();
+
+    orderApproval.makeDecision();
+    orderApproval.getApprovedOrderApprovalDetail();
+
+    cy.get('cx-order-approval-detail-form .btn-primary').eq(1).click();
+    cy.get('cx-order-approval-detail-form textarea').type('test approval');
+    cy.get('cx-order-approval-detail-form .btn-primary').click();
+
+    /*cy.get('cx-order-approval-detail-form').should(
+      'contain',
+      'Back To List'
+    );*/
+
+    cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
+    assertPermissionResults(sampleData.approvedOrderDetails.order);
   });
 
-  it('TODO should reject the order', () => {
+  it('should reject the order', () => {
     orderApproval.loginB2bApprover();
+    orderApproval.getOrderApprovalDetail();
+    orderApproval.visitOrderApprovalDetailPage();
+
+    orderApproval.makeDecision();
+    orderApproval.getRejectedOrderApprovalDetail();
+
+    cy.get('cx-order-approval-detail-form .btn-primary').eq(0).click();
+    cy.get('cx-order-approval-detail-form textarea').type('test rejection');
+    cy.get('cx-order-approval-detail-form .btn-primary').click();
+
+    /*cy.get('cx-order-approval-detail-form').should(
+      'contain',
+      'Back To List'
+    );*/
+
+    cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
+    assertPermissionResults(sampleData.rejectedOrderDetails.order);
   });
 });
 
@@ -103,21 +126,18 @@ function assertButtons() {
   );
   cy.get('cx-order-approval-detail-form .btn-primary')
     .eq(0)
-    .should('contain', ' Reject Order... ');
+    .should('contain', 'Reject Order...');
   cy.get('cx-order-approval-detail-form .btn-primary')
     .eq(1)
-    .should('contain', ' Approve Order... ');
+    .should('contain', 'Approve Order...');
 }
 
-function assertPermissionResults() {
+function assertPermissionResults(order) {
   cy.get('cx-order-details-approval-details').within(() => {
-    cy.get('tr').should(
-      'have.length',
-      sampleData.pendingOrder.permissionResults.length
-    );
+    cy.get('tr').should('have.length', order.permissionResults.length);
   });
 
-  sampleData.pendingOrder.permissionResults.forEach((permission, index) => {
+  order.permissionResults.forEach((permission, index) => {
     cy.get('cx-order-details-approval-details tr')
       .eq(index)
       .within(() => {
@@ -127,4 +147,103 @@ function assertPermissionResults() {
         );
       });
   });
+}
+
+function assertOrderDetails() {
+  // assert order status
+  cy.get('cx-order-details-items .cx-list-status').should(
+    'contain',
+    'Pending Approval'
+  );
+
+  // assert products
+  cy.get('.cx-item-list-row .cx-link').should(
+    'contain',
+    sampleData.approvalOrderDetail.order.entries[0].product.name
+  );
+  cy.get('.cx-item-list-row .cx-code').should(
+    'contain',
+    sampleData.approvalOrderDetail.order.entries[0].product.code
+  );
+  cy.get('.cx-item-list-row .cx-price').should(
+    'contain',
+    sampleData.approvalOrderDetail.order.entries[0].basePrice.formattedValue
+  );
+  cy.get('.cx-item-list-row .cx-total').should(
+    'contain',
+    sampleData.approvalOrderDetail.order.entries[0].totalPrice.formattedValue
+  );
+
+  // asserts order details
+  cy.get('cx-order-overview cx-card')
+    .eq(0)
+    .should('contain', sampleData.approvalOrderDetail.order.code);
+
+  cy.get('cx-order-overview cx-card').eq(1).should('contain', 'Oct 07 2020');
+
+  cy.get('cx-order-overview cx-card')
+    .eq(2)
+    .should('contain', 'Pending Approval');
+
+  cy.get('cx-order-overview cx-card')
+    .eq(3)
+    .should(
+      'contain',
+      `${sampleData.approvalOrderDetail.order.deliveryAddress.firstName} ${sampleData.approvalOrderDetail.order.deliveryAddress.lastName}`
+    );
+  cy.get('cx-order-overview cx-card')
+    .eq(3)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.deliveryAddress.formattedAddress
+    );
+  cy.get('cx-order-overview cx-card')
+    .eq(3)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.deliveryAddress.country.name
+    );
+
+  cy.get('cx-order-overview cx-card')
+    .eq(4)
+    .should('contain', sampleData.approvalOrderDetail.order.deliveryMode.name);
+  cy.get('cx-order-overview cx-card')
+    .eq(4)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.deliveryMode.description
+    );
+  cy.get('cx-order-overview cx-card')
+    .eq(4)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.deliveryMode.deliveryCost
+        .formattedValue
+    );
+
+  // assert totals
+  cy.get('cx-order-details-totals .cx-summary-amount')
+    .eq(0)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.subTotal.formattedValue
+    );
+  cy.get('cx-order-details-totals .cx-summary-amount')
+    .eq(1)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.deliveryCost.formattedValue
+    );
+  cy.get('cx-order-details-totals .cx-summary-amount')
+    .eq(2)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.totalTax.formattedValue
+    );
+  cy.get('cx-order-details-totals .cx-summary-amount')
+    .eq(3)
+    .should(
+      'contain',
+      sampleData.approvalOrderDetail.order.totalPrice.formattedValue
+    );
 }

@@ -9,26 +9,70 @@ export const b2bUser = {
   uid: 'william.hunter@rustic-hw.com',
 };
 
+export const pendingOrderPermissionResults = [
+  {
+    approverName: b2bApprover.name,
+    permissionType: {
+      code: 'B2BBudgetExceededPermission',
+      name: 'Budget Exceeded Permission',
+    },
+    statusDisplay: 'Pending Approval',
+  },
+  {
+    approverName: b2bApprover.name,
+    permissionType: {
+      code: 'B2BOrderThresholdPermission',
+      name: 'Allowed Order Threshold (per order)',
+    },
+    statusDisplay: 'Pending Approval',
+  },
+];
+
+export const rejectedOrderPermissionResults = [
+  {
+    approverName: b2bApprover.name,
+    approverNotes: 'test rejection',
+    permissionType: {
+      code: 'B2BOrderThresholdPermission',
+      name: 'Allowed Order Threshold (per order)',
+    },
+    statusDisplay: 'Rejected',
+  },
+  {
+    approverName: b2bApprover.name,
+    approverNotes: 'test rejection',
+    permissionType: {
+      code: 'B2BBudgetExceededPermission',
+      name: 'Budget Exceeded Permission',
+    },
+    statusDisplay: 'Rejected',
+  },
+];
+
+export const approvedOrderPermissionResults = [
+  {
+    approverName: b2bApprover.name,
+    approverNotes: 'test approval',
+    permissionType: {
+      code: 'B2BBudgetExceededPermission',
+      name: 'Budget Exceeded Permission',
+    },
+    statusDisplay: 'Approved',
+  },
+  {
+    approverName: b2bApprover.name,
+    approverNotes: 'test approval',
+    permissionType: {
+      code: 'B2BOrderThresholdPermission',
+      name: 'Allowed Order Threshold (per order)',
+    },
+    statusDisplay: 'Approved',
+  },
+];
+
 export const pendingOrder = {
   code: ORDER_CODE,
-  permissionResults: [
-    {
-      approverName: b2bApprover.name,
-      permissionType: {
-        code: 'B2BBudgetExceededPermission',
-        name: 'Budget Exceeded Permission',
-      },
-      statusDisplay: 'Pending Approval',
-    },
-    {
-      approverName: b2bApprover.name,
-      permissionType: {
-        code: 'B2BOrderThresholdPermission',
-        name: 'Allowed Order Threshold (per order)',
-      },
-      statusDisplay: 'Pending Approval',
-    },
-  ],
+  permissionResults: pendingOrderPermissionResults,
 };
 
 export const approvalOrderList = {
@@ -414,24 +458,7 @@ export const approvalOrderDetail = {
       title: 'Mr.',
       titleCode: 'mr',
     },
-    permissionResults: [
-      {
-        approverName: 'Hanna Schmidt',
-        permissionType: {
-          code: 'B2BBudgetExceededPermission',
-          name: 'Budget Exceeded Permission',
-        },
-        statusDisplay: 'Pending Approval',
-      },
-      {
-        approverName: 'Hanna Schmidt',
-        permissionType: {
-          code: 'B2BOrderThresholdPermission',
-          name: 'Allowed Order Threshold (per order)',
-        },
-        statusDisplay: 'Pending Approval',
-      },
-    ],
+    permissionResults: pendingOrderPermissionResults,
     returnable: false,
     status: 'PENDING_APPROVAL',
     statusDisplay: 'pending.approval',
@@ -519,3 +546,19 @@ export const approvalOrderDetail = {
     ],
   },
 };
+
+export const rejectedOrderDetails = JSON.parse(
+  JSON.stringify(approvalOrderDetail)
+);
+rejectedOrderDetails.approvalDecisionRequired = false;
+rejectedOrderDetails.order.permissionResults = rejectedOrderPermissionResults;
+rejectedOrderDetails.order.status = 'REJECTED';
+rejectedOrderDetails.order.statusDisplay = 'rejected';
+
+export const approvedOrderDetails = JSON.parse(
+  JSON.stringify(approvalOrderDetail)
+);
+approvedOrderDetails.approvalDecisionRequired = false;
+approvedOrderDetails.order.permissionResults = approvedOrderPermissionResults;
+approvedOrderDetails.order.status = 'APPROVED';
+approvedOrderDetails.order.statusDisplay = 'approved';
