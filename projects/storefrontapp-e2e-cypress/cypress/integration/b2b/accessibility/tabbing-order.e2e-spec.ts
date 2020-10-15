@@ -1,4 +1,10 @@
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
+import {
+  approvalDetailTabbingOrder,
+  approvalFormTabbingOrder,
+  approvalListTabbingOrder,
+  rejectionFormTabbingOrder,
+} from '../../../helpers/accessibility/tabbing-order/b2b/order-approval';
 import { checkoutPaymentMethodTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/b2b/payment-method';
 import {
   checkoutDeliveryModeTabbingOrder,
@@ -14,16 +20,12 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-import { generateMail, randomString } from '../../../helpers/user';
-import { b2bUser } from '../../../sample-data/b2b-checkout';
-import {
-  approvalDetailTabbingOrder,
-  approvalFormTabbingOrder,
-  approvalListTabbingOrder,
-  rejectionFormTabbingOrder,
-} from '../../../helpers/accessibility/tabbing-order/b2b/order-approval';
 import { loginB2bApprover } from '../../../helpers/b2b/b2b-order-approval';
-import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import { generateMail, randomString } from '../../../helpers/user';
+import {
+  b2bUser,
+  POWERTOOLS_BASESITE,
+} from '../../../sample-data/b2b-checkout';
 
 describe('Tabbing order for B2B checkout', () => {
   describe('Checkout Credit Card', () => {
@@ -144,14 +146,6 @@ describe('Tabbing order for B2B checkout', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
     });
 
     context('Approval List', () => {
