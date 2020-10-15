@@ -1,3 +1,4 @@
+import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
 import {
   chain,
   Rule,
@@ -42,6 +43,7 @@ export function addSpartacusMyAccount(options: MyAccountOptions): Rule {
     return chain([
       addPackageJsonDependencies(packageJson),
       updateAppModule(options),
+      addStyles(),
       installPackageJsonDependencies(),
     ]);
   };
@@ -90,6 +92,66 @@ function validateSpartacusInstallation(packageJson: any): void {
     To see more options, please check our documentation.`
     );
   }
+}
+
+function addStyles(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const myAccountScssPath = `${getSourceRoot(
+      tree
+    )}/styles/spartacus-my-account.scss`;
+    tree.create(myAccountScssPath, `@import "@spartacus/my-account";`);
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const defaultProject = getDefaultProjectNameFromWorkspace(tree);
+
+    const architect = angularJson.projects[defaultProject].architect;
+
+    // `build` architect section
+    const architectBuild = architect?.build;
+    const buildOptions = {
+      ...architectBuild?.options,
+      styles: [
+        ...(architectBuild?.options?.styles
+          ? architectBuild?.options?.styles
+          : []),
+        myAccountScssPath,
+      ],
+    };
+
+    // `test` architect section
+    const architectTest = architect?.test;
+    const testOptions = {
+      ...architectTest?.options,
+      styles: [
+        ...(architectTest?.options?.styles
+          ? architectTest?.options?.styles
+          : []),
+        myAccountScssPath,
+      ],
+    };
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [defaultProject]: {
+          ...angularJson.projects[defaultProject],
+          architect: {
+            ...architect,
+            build: {
+              ...architectBuild,
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
+            },
+          },
+        },
+      },
+    };
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+  };
 }
 
 function installPackageJsonDependencies(): Rule {
@@ -309,4 +371,71 @@ function addToMetadata(
 // TODO: use from `@spartacus/schematics`
 export function getSpartacusSchematicsVersion(): string {
   return version;
+}
+
+// TODO: use from `@spartacus/schematics`
+export function getSourceRoot(
+  host: Tree,
+  options: { project?: string | undefined; path?: string | undefined } = {}
+): string {
+  const workspace = getWorkspace(host).workspace;
+
+  if (!options.project) {
+    options.project = getDefaultProjectNameFromWorkspace(host);
+  }
+
+  const sourceRoot = workspace.projects[options.project].sourceRoot;
+  if (!sourceRoot) {
+    throw new SchematicsException('No default project found');
+  }
+
+  return sourceRoot;
+}
+
+// TODO: use from `@spartacus/schematics`
+const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
+// TODO: use from `@spartacus/schematics`
+export function getWorkspace(
+  host: Tree,
+  files = DEFAULT_POSSIBLE_PROJECT_FILES
+): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
+  const angularJson = getAngularJsonFile(host, files);
+  const path = files.filter((filePath) => host.exists(filePath))[0];
+
+  return {
+    path,
+    workspace: angularJson,
+  };
+}
+// TODO: use from `@spartacus/schematics`
+function getAngularJsonFile(
+  tree: Tree,
+  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
+): experimental.workspace.WorkspaceSchema {
+  const path = possibleProjectFiles.filter((filePath) =>
+    tree.exists(filePath)
+  )[0];
+  if (!path) {
+    throw new SchematicsException(`Could not find Angular`);
+  }
+
+  const configBuffer = tree.read(path);
+  if (configBuffer === null) {
+    throw new SchematicsException(`Could not find (${path})`);
+  }
+
+  const angularJsonContent = configBuffer.toString();
+  return (parseJson(
+    angularJsonContent,
+    JsonParseMode.Loose
+  ) as unknown) as experimental.workspace.WorkspaceSchema;
+}
+
+// TODO: use from `@spartacus/schematics`
+export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
+  const workspace = getWorkspace(tree).workspace;
+
+  return workspace.defaultProject !== undefined
+    ? workspace.defaultProject
+    : Object.keys(workspace.projects)[0];
 }
