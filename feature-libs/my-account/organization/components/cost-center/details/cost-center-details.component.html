@@ -4,7 +4,7 @@
 >
   <a
     actions
-    class="link"
+    class="link edit"
     [class.disabled]="!model.active"
     [routerLink]="{ cxRoute: 'costCenterEdit', params: model } | cxUrl"
   >
@@ -56,7 +56,7 @@
         class="value"
         [routerLink]="
           {
-            cxRoute: 'orgUnitDetails',
+            cxRoute: 'unitDetails',
             params: model.unit
           } | cxUrl
         "

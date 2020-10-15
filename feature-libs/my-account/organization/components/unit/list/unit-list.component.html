@@ -1,22 +1,10 @@
-<cx-split-view [hideMode]="false">
-  <cx-view>
-    <h3>
-      {{ 'unit.header' | cxTranslate }}
-      <a
-        class="link"
-        [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
-        routerLinkActive="disabled"
-      >
-        <cx-icon type="EXPAND"></cx-icon>
-      </a>
-    </h3>
-
-    <ng-container *ngIf="data$ | async as data">
-      <section class="tree-list">
-        <cx-unit-tree [node]="data" [defaultExpandLevel]="1"></cx-unit-tree>
-      </section>
-    </ng-container>
-  </cx-view>
-
-  <router-outlet></router-outlet>
-</cx-split-view>
+<cx-organization-list>
+  <ng-container actions *ngIf="root$ | async as rootId">
+    <button class="link" (click)="expandAll(rootId)">
+      {{ 'unit.tree.expandAll' | cxTranslate }}
+    </button>
+    <button class="link" (click)="collapseAll(rootId)">
+      {{ 'unit.tree.collapseAll' | cxTranslate }}
+    </button>
+  </ng-container>
+</cx-organization-list>
