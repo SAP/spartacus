@@ -30,8 +30,7 @@ context('Product Configuration', () => {
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
       configuration.goToConfigurationPage(testProduct);
-      // TODO: Replace implicit wait
-      cy.wait(2000);
+
       verifyTabbingOrder(
         containerSelectorConfigForm,
         tabConfig.productConfigurationPage
@@ -43,8 +42,6 @@ context('Product Configuration', () => {
         CAMERA_MODE_PROFESSIONAL
       );
       configuration.navigateToOverviewPage();
-      // TODO: Replace implicit wait
-      cy.wait(2000);
 
       configuration.isGlobalMessageNotDisplayed();
       configuration.isUpdatingMessageNotDisplayed();
@@ -58,12 +55,34 @@ context('Product Configuration', () => {
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
+      cy.server();
+
+      cy.route(
+        'PATCH',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*`
+      ).as('updateConfig');
+
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*/pricing*`
+      ).as('priceUpdate');
+
       configuration.goToConfigurationPage(testProduct);
+
+      cy.wait('@priceUpdate');
+
       configuration.selectAttribute(
         CAMERA_COLOR,
         RADIO_GROUP,
         CAMERA_COLOR_METALLIC
       );
+
+      cy.wait('@updateConfig');
+      cy.wait('@priceUpdate');
 
       configuration.checkFocus(
         CAMERA_COLOR,
@@ -77,6 +96,9 @@ context('Product Configuration', () => {
         CHECKBOX_LIST,
         CAMERA_SD_CARD_SDXC
       );
+
+      cy.wait('@updateConfig');
+      cy.wait('@priceUpdate');
 
       configuration.checkFocus(
         CAMERA_SD_CARD,
