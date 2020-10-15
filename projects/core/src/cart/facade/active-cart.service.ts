@@ -155,6 +155,22 @@ export class ActiveCartService implements OnDestroy {
   }
 
   /**
+   * Returns last cart entry for provided product code.
+   * Needed to cover processes where multiple entries can share the same product code
+   * (e.g. promotions or configurable products)
+   *
+   * @param productCode
+   */
+  getLastEntry(productCode: string): Observable<OrderEntry> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) =>
+        this.multiCartService.getLastEntry(cartId, productCode)
+      ),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
    * Returns cart loading state
    */
   getLoading(): Observable<boolean> {

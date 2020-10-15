@@ -6,3 +6,4 @@ export * from './http-params-uri.encoder';
 export * from './normalize-http-error';
 export * from './regex-pattern';
 export * from './withdraw-on';
+export * from './get-last-value-sync';

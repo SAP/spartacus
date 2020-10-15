@@ -1,13 +1,13 @@
 import {
   Component,
+  DebugElement,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
-  ElementRef,
   Pipe,
   PipeTransform,
   ViewContainerRef,
-  DebugElement,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -19,8 +19,8 @@ import {
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
+import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 const mockReplenishmentOrders: ReplenishmentOrderList = {
   replenishmentOrders: [
@@ -29,7 +29,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       firstDate: new Date('2018-01-01').toDateString(),
       active: false,
       purchaseOrderNumber: '',
-      subTotal: { formattedValue: '$150.00' },
+      totalPriceWithTax: { formattedValue: '$150.00' },
       replenishmentOrderCode: 'abc',
       trigger: {
         displayTimeTable: 'time-table',
@@ -41,7 +41,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
       firstDate: new Date('2018-01-02').toDateString(),
       active: true,
       purchaseOrderNumber: 'xyz',
-      subTotal: { formattedValue: '$200.00' },
+      totalPriceWithTax: { formattedValue: '$200.00' },
       replenishmentOrderCode: 'abc',
       trigger: {
         displayTimeTable: 'time-table',
