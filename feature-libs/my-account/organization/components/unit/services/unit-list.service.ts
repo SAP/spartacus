@@ -1,74 +1,102 @@
 import { Injectable } from '@angular/core';
-import { B2BUnit, EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUnitNode,
+  B2BUnitTreeNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { UnitItemService } from './unit-item.service';
+import { TREE_TOGGLE } from './unit-tree.model';
+import { UnitTreeService } from './unit-tree.service';
 
 /**
- * Service to populate Budget data to `Table` data. Budget
- * data is driven by the table configuration, using the `OrganizationTables.BUDGET`.
+ * Service to populate Unit data to `Table` data. Unit
+ * data is driven by the table configuration, using the `OrganizationTables.UNIT`.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2BUnit> {
+export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   constructor(
     protected tableService: TableService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected unitItemService: UnitItemService,
+    protected unitTreeService: UnitTreeService
   ) {
     super(tableService);
   }
 
-  protected load(): Observable<EntitiesModel<B2BUnit>> {
-    return this.unitService
-      .getTree()
-      .pipe(map((raw) => this.convertUnits(raw)));
+  protected load(): Observable<EntitiesModel<B2BUnitTreeNode>> {
+    return this.unitService.getTree().pipe(
+      switchMap((node) =>
+        this.unitItemService.key$.pipe(
+          map((key) => {
+            this.unitTreeService.initialize(node, key);
+            return node;
+          })
+        )
+      ),
+      switchMap((tree) =>
+        this.unitTreeService.treeToggle$.pipe(map(() => tree))
+      ),
+      map((tree: B2BUnitNode) => this.convertListItem(tree))
+    );
+  }
+
+  protected convertListItem(
+    unit: B2BUnitNode,
+    depthLevel = 0,
+    pagination = { totalResults: 0 },
+    parentToggleState?: TREE_TOGGLE
+  ): EntitiesModel<B2BUnitTreeNode> {
+    let values = [];
+    if (!unit) {
+      return;
+    }
+
+    if (!parentToggleState) {
+      parentToggleState = this.unitTreeService.getToggleState(unit.id);
+    }
+
+    const node: B2BUnitTreeNode = {
+      ...unit,
+      count: unit.children?.length ?? 0,
+      expanded: this.unitTreeService.isExpanded(
+        unit.id,
+        depthLevel,
+        parentToggleState
+      ),
+      depthLevel,
+      // tmp, should be normalized
+      uid: unit.id,
+    };
+
+    values.push(node);
+    pagination.totalResults++;
+
+    unit.children.forEach((childUnit) => {
+      const childList = this.convertListItem(
+        childUnit,
+        depthLevel + 1,
+        pagination,
+        parentToggleState
+      )?.values;
+      if (node.expanded && childList.length > 0) {
+        values = values.concat(childList);
+      }
+    });
+
+    return { values, pagination };
   }
 
   key(): string {
     return 'uid';
-  }
-
-  private flatten(
-    array: B2BUnitNode[],
-    children: B2BUnitNode[],
-    level,
-    pagination
-  ) {
-    children.forEach((child) => {
-      array.push(this.prepareUnit(child, level, pagination));
-      this.flatten(array, child.children, level + 1, pagination);
-    });
-  }
-
-  private prepareUnit(unit: B2BUnitNode, level, pagination) {
-    pagination.totalResults++;
-    return {
-      uid: unit.id,
-      name: unit.name,
-      active: unit.active,
-      count: unit.children?.length ?? 0,
-      expanded: true,
-      level,
-    };
-  }
-
-  protected convertUnits(root: B2BUnitNode): EntitiesModel<B2BUnit> {
-    const level = 0,
-      pagination = { totalResults: 0 };
-    const unitModels: EntitiesModel<B2BUnit> = {
-      values: [this.prepareUnit(root, level, pagination)],
-      pagination,
-    };
-    this.flatten(unitModels.values, root.children, level + 1, pagination);
-    return unitModels;
   }
 }

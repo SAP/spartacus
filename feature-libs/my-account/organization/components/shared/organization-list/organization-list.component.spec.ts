@@ -31,11 +31,18 @@ const mockList: EntitiesModel<Mock> = {
       code: 'c2',
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byCode' },
+  pagination: {
+    totalPages: 1,
+    totalResults: 1,
+    sort: 'byCode',
+    currentPage: 0,
+  },
+  // structure: { type: 'MockTable' },
 };
 
 const mockEmptyList: EntitiesModel<Mock> = {
   values: [],
+  pagination: { totalPages: 0 },
 };
 
 class MockBaseOrganizationListService {
