@@ -120,6 +120,9 @@ export class AsmAuthService extends BasicAuthService {
         .getToken()
         .subscribe((token) => (userToken = token))
         .unsubscribe();
+      // this will always be empty
+      // TODO: we should not support login with implicit as an user agent
+      // can we prevent this login, when cs agent is logged in?
       this.userService
         .get()
         .subscribe((user) => (customerId = user?.customerId))
