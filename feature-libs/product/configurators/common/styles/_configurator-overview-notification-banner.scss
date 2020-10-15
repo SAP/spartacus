@@ -1,43 +1,47 @@
 %cx-configurator-overview-notification-banner {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  max-width: 1140px;
-  background-color: rgba(245, 206, 206, 1);
-  margin-block-end: 1.25rem;
-  padding: 5px 25px 5px 20px;
+  display: none;
 
-  @include media-breakpoint-up(xs) {
-    align-items: center;
-  }
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-width: 1140px;
+    background-color: rgba(245, 206, 206, 1);
+    margin-block-end: 1.25rem;
+    padding: 5px 25px 5px 20px;
 
-  @include media-breakpoint-down(sm) {
-    padding-inline-start: 20px;
-    padding-inline-end: 20px;
-  }
+    @include media-breakpoint-up(xs) {
+      align-items: center;
+    }
 
-  cx-icon,
-  .cx-icon {
-    align-self: flex-start;
-    color: var(--cx-color-danger);
-    font-size: 30px;
-    padding: 5px 15px 5px 5px;
-  }
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 20px;
+      padding-inline-end: 20px;
+    }
 
-  .cx-error-msg {
-    padding-inline-end: 15px;
+    cx-icon,
+    .cx-icon {
+      align-self: flex-start;
+      color: var(--cx-color-danger);
+      font-size: 30px;
+      padding: 5px 15px 5px 5px;
+    }
 
-    button.link {
-      color: var(--cx-color-text);
-      border-width: 0;
-      background-color: transparent;
-      font-size: inherit;
-      inline-size: max-content;
-      text-decoration: underline;
+    .cx-error-msg {
+      padding-inline-end: 15px;
 
-      &:hover {
-        color: var(--cx-color-primary);
-        text-decoration: none;
+      button.link {
+        color: var(--cx-color-text);
+        border-width: 0;
+        background-color: transparent;
+        font-size: inherit;
+        inline-size: max-content;
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
       }
     }
   }
