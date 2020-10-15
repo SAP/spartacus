@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   SchematicsException,
@@ -89,10 +90,17 @@ function validateSpartacusInstallation(packageJson: any): void {
 }
 
 function addStyles(): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const myAccountScssPath = `${getSourceRoot(
       tree
     )}/styles/spartacus-my-account.scss`;
+    if (tree.exists(myAccountScssPath)) {
+      context.logger.info(
+        `Skipping '${myAccountScssPath}' as it already exists.`
+      );
+      return noop();
+    }
+
     tree.create(myAccountScssPath, `@import "${SPARTACUS_MY_ACCOUNT}";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
