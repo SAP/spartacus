@@ -57,7 +57,7 @@ describe('PaginationBuilder', () => {
     return TestBed.inject(PaginationBuilder);
   };
 
-  describe('Default config', () => {
+  fdescribe('Default config', () => {
     let service: PaginationBuilder;
     beforeEach(() => {
       service = setup({});
@@ -65,6 +65,17 @@ describe('PaginationBuilder', () => {
 
     it('should inject service', () => {
       expect(service).toBeTruthy();
+    });
+
+    describe('undefined', () => {
+      let pages: PaginationItem[];
+      beforeEach(() => {
+        pages = service.paginate(undefined, undefined);
+      });
+
+      it('should have 0 items', () => {
+        expect(pages.length).toEqual(0);
+      });
     });
 
     describe('(no pages)', () => {
