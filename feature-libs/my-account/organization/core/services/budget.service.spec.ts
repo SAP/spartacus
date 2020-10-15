@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Budget } from '../model/budget.model';
@@ -10,12 +10,13 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
-
-import createSpy = jasmine.createSpy;
 import {
   LoadStatus,
   OrganizationItemStatus,
 } from '../model/organization-item-status';
+import { take } from 'rxjs/operators';
+import { ofType } from '@ngrx/effects';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const budgetCode = 'testBudget';
@@ -37,6 +38,7 @@ describe('BudgetService', () => {
   let service: BudgetService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
+  let actions$: ActionsSubject;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,6 +59,8 @@ describe('BudgetService', () => {
     service = TestBed.inject(BudgetService);
     authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
+
+    actions$ = TestBed.inject(ActionsSubject);
   });
 
   it('should BudgetService is injected', inject(
@@ -67,20 +71,18 @@ describe('BudgetService', () => {
   ));
 
   describe('get budget', () => {
-    it('get() should trigger load budget details when they are not present in the store', () => {
-      let budgetDetails: Budget;
-      service
-        .get(budgetCode)
-        .subscribe((data) => {
-          budgetDetails = data;
-        })
-        .unsubscribe();
+    it('get() should trigger load budget details when they are not present in the store', (done) => {
+      const sub = service.get(budgetCode).subscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(budgetDetails).toEqual(undefined);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.LoadBudget({ userId, budgetCode })
-      );
+      actions$
+        .pipe(ofType(BudgetActions.LOAD_BUDGET), take(1))
+        .subscribe((action) => {
+          expect(action).toEqual(
+            new BudgetActions.LoadBudget({ userId, budgetCode })
+          );
+          sub.unsubscribe();
+          done();
+        });
     });
 
     it('get() should be able to get budget details when they are present in the store', () => {
@@ -197,7 +199,7 @@ describe('BudgetService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        item: {},
+        item: undefined,
       });
     });
   });

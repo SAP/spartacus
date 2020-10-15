@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
   B2BUser,
@@ -25,6 +25,8 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { B2BUserService } from './b2b-user.service';
+import { ofType } from '@ngrx/effects';
+import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const userId = 'currentUserId';
@@ -82,6 +84,7 @@ describe('B2BUserService', () => {
   let service: B2BUserService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
+  let actions$: ActionsSubject;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,6 +105,8 @@ describe('B2BUserService', () => {
     service = TestBed.inject(B2BUserService);
     authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
+
+    actions$ = TestBed.inject(ActionsSubject);
   });
 
   it('should B2BUserService is injected', inject(
@@ -134,20 +139,18 @@ describe('B2BUserService', () => {
   });
 
   describe('get B2B user', () => {
-    it('get() should load B2B user when not present in the store', () => {
-      let b2bUserDetails: B2BUser;
-      service
-        .get(orgCustomerId)
-        .subscribe((data) => {
-          b2bUserDetails = data;
-        })
-        .unsubscribe();
+    it('get() should load B2B user when not present in the store', (done) => {
+      const sub = service.get(orgCustomerId).subscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(b2bUserDetails).toEqual(undefined);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
-      );
+      actions$
+        .pipe(ofType(B2BUserActions.LOAD_B2B_USER), take(1))
+        .subscribe((action) => {
+          expect(action).toEqual(
+            new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
+          );
+          sub.unsubscribe();
+          done();
+        });
     });
 
     it('get() should be able to get user when present in the store', () => {
@@ -586,7 +589,7 @@ describe('B2BUserService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        item: {},
+        item: undefined,
       });
     });
   });

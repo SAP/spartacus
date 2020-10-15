@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
   CostCenter,
@@ -20,6 +20,8 @@ import {
   OrganizationItemStatus,
 } from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
+import { ofType } from '@ngrx/effects';
+import { take } from 'rxjs/operators';
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';
@@ -50,6 +52,7 @@ describe('CostCenterService', () => {
   let service: CostCenterService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
+  let actions$: ActionsSubject;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,6 +73,7 @@ describe('CostCenterService', () => {
     service = TestBed.inject(CostCenterService);
     authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
+    actions$ = TestBed.inject(ActionsSubject);
   });
 
   it('should CostCenterService is injected', inject(
@@ -80,20 +84,18 @@ describe('CostCenterService', () => {
   ));
 
   describe('get costCenter', () => {
-    it('get() should trigger load costCenter details when they are not present in the store', () => {
-      let costCenterDetails: CostCenter;
-      service
-        .get(costCenterCode)
-        .subscribe((data) => {
-          costCenterDetails = data;
-        })
-        .unsubscribe();
+    it('get() should trigger load costCenter details when they are not present in the store', (done) => {
+      const sub = service.get(costCenterCode).subscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(costCenterDetails).toEqual(undefined);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
-      );
+      actions$
+        .pipe(ofType(CostCenterActions.LOAD_COST_CENTER), take(1))
+        .subscribe((action) => {
+          expect(action).toEqual(
+            new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+          );
+          sub.unsubscribe();
+          done();
+        });
     });
 
     it('get() should be able to get costCenter details when they are present in the store', () => {
@@ -307,7 +309,7 @@ describe('CostCenterService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        item: {},
+        item: undefined,
       });
     });
   });
