@@ -1,14 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { SemanticPathService } from '@spartacus/core';
-import {
-  B2BUnitNode,
-  OrgUnitService,
-} from '@spartacus/my-account/organization/core';
-import { NavigationNode } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
-const BASE_CLASS = 'organization';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { UnitListService } from '../services/unit-list.service';
+import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
   selector: 'cx-unit-list',
@@ -16,25 +9,20 @@ const BASE_CLASS = 'organization';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitListComponent {
-  @HostBinding('class') hostClass = BASE_CLASS;
-  data$: Observable<NavigationNode> = this.orgUnitsService.getTree().pipe(
-    filter(Boolean),
-    map((node) => this.toNavigation(node))
-  );
+  root$ = this.unitListService
+    .getData()
+    .pipe(map((list) => list.values?.[0].id));
 
   constructor(
-    protected orgUnitsService: OrgUnitService,
-    protected semanticPathService: SemanticPathService
+    protected unitListService: UnitListService,
+    protected unitTreeService: UnitTreeService
   ) {}
 
-  toNavigation(node: B2BUnitNode): NavigationNode {
-    return {
-      title: node.name,
-      children: node.children.map((children) => this.toNavigation(children)),
-      url: this.semanticPathService.transform({
-        cxRoute: 'orgUnitDetails',
-        params: { uid: node.id },
-      }),
-    };
+  expandAll(unitId: string) {
+    this.unitTreeService.expandAll(unitId);
+  }
+
+  collapseAll(unitId: string) {
+    this.unitTreeService.collapseAll(unitId);
   }
 }
