@@ -1,27 +1,28 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": ".",
-    "stripInternal": true,
-    "experimentalDecorators": true,
+    "lib": ["es2018", "dom"],
+    "declaration": true,
+    "module": "commonjs",
     "moduleResolution": "node",
-    "downlevelIteration": true,
-    "outDir": "../../dist/my-account",
-    "sourceMap": true,
-    "inlineSources": true,
-    "lib": ["es2020", "dom"],
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "strict": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es6",
+    "types": ["jasmine", "node"],
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": ["..projects/schematics/src/public_api"]
+      "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
     }
   },
-  "include": ["schematics/**/*"],
-  "exclude": ["**/*.spec.ts"],
-  "angularCompilerOptions": {
-    "skipMetadataEmit": true,
-    "enableSummariesForJit": false,
-    "enableIvy": false
-  }
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/*/files/**/*", "schematics/**/*.spec.ts"],
 }
