@@ -8,14 +8,11 @@
 @import './details';
 @import './form';
 
-// this one is likely be dropped after unit tree is merged
-@import './tree';
-
 cx-page-layout.CompanyPageTemplate {
   @extend %CompanyPageTemplate !optional;
 }
 
-.organization, // tmp selector for as long as unit tree is not merged
+cx-unit-list,
 cx-organization-list {
   // https://yoksel.github.io/url-encoder/
   // <?xml version="1.0" encoding="utf-8"?>

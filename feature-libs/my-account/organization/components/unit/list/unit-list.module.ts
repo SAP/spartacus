@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitListComponent } from './unit-list.component';
-import { IconModule, SplitViewModule } from '@spartacus/storefront';
-import { UnitTreeModule } from '../unit-tree/unit-tree.module';
+import { IconModule } from '@spartacus/storefront';
+import { OrganizationListModule } from '../../shared/organization-list/organization-list.module';
+import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 
 @NgModule({
   imports: [
@@ -12,12 +13,9 @@ import { UnitTreeModule } from '../unit-tree/unit-tree.module';
     RouterModule,
     UrlModule,
     I18nModule,
-    UnitTreeModule,
-    SplitViewModule,
     IconModule,
+    OrganizationListModule,
   ],
-  declarations: [UnitListComponent],
-  exports: [UnitListComponent],
-  entryComponents: [UnitListComponent],
+  declarations: [UnitListComponent, ToggleLinkCellComponent],
 })
 export class UnitListModule {}
