@@ -83,18 +83,29 @@ if (environment.cdc) {
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-    // Auth demo - Resource Owner Password Flow
-    // Add `refresh_token` in backoffice OAuth client
+    // *Auth demo - Resource Owner Password Flow
+    // *Add `refresh_token` in backoffice OAuth client
+    // ConfigModule.withConfig({
+    //   authentication: {
+    //     client_id: 'client4kyma',
+    //     client_secret: 'secret',
+    //   },
+    // }),
+    // *Auth demo - Implicit Flow
+    // *Add `implicit` in backoffice OAuth client
+    // *Set redirect url in the backoffice OAuth client (check if that could be dynamic and support every redirect link)
     ConfigModule.withConfig({
       authentication: {
         client_id: 'client4kyma',
         client_secret: 'secret',
+        OAuthLibConfig: {
+          responseType: 'token',
+        },
       },
     }),
-    // Auth demo - Implicit Flow
-    // Auth demo - Authorization Code
-    // Auth demo - id token
-    // Auth demo - external IdP
+    // *Auth demo - Authorization Code
+    // *Auth demo - id token
+    // *Auth demo - external IdP
     ...devImports,
   ],
 
