@@ -27,7 +27,9 @@
           position: relative;
 
           .text {
-            min-height: 74px;
+            @include media-breakpoint-up(md) {
+              min-height: 74px;
+            }
             display: flex;
           }
 
@@ -35,33 +37,33 @@
             content: '';
             position: absolute;
             width: calc(100% - 25px);
-            height: 25px;
+            height: 20px;
             background: var(--cx-color-ghost);
             border-radius: var(--cx-ghost-radius);
-            top: 25px;
-            left: 0;
+
+            @include media-breakpoint-up(md) {
+              top: 25px;
+              left: 0;
+            }
           }
         }
 
         @include media-breakpoint-down(md) {
           tr td:before {
-            top: initial;
-            bottom: 2px;
-            height: 20px;
-            margin-inline-start: 40px;
+            margin-top: -10px;
             width: calc(100% - 60px);
-          }
-          tr:last-child td:before {
-            bottom: 22px;
           }
         }
       }
     }
   }
 
-  cx-organization-sub-list.ghost cx-table.vertical table td:before {
-    width: calc(100% - 50px);
+  cx-organization-sub-list.ghost cx-table.vertical table tr td:before {
+    // width: calc(100% - 50px);
+    // left: 25px;
+    margin-top: 25px;
     left: 25px;
+    width: calc(100% - 50px);
   }
 }
 
