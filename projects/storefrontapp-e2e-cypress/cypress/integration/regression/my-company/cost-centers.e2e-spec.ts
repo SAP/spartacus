@@ -6,7 +6,7 @@ import { randomString } from '../../../helpers/user';
 const config: MyCompanyConfig = {
   name: 'Cost Center',
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/cost-centers`,
-  apiEndpoint: '/users/current/costcenters',
+  apiEndpoint: '/costcenters',
   objectType: 'costCenters',
   selector: 'cx-cost-center',
   rows: [
@@ -53,6 +53,7 @@ const config: MyCompanyConfig = {
       label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
+      sortLabel: 'unit',
       inputType: 'ngSelect',
       createValue: 'Custom Retail',
       updateValue: 'Rustic',

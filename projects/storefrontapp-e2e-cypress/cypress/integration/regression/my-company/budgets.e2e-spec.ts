@@ -86,6 +86,7 @@ const config: MyCompanyConfig = {
       label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
+      sortLabel: 'unit',
       inputType: 'ngSelect',
       createValue: 'Custom Retail',
       updateValue: 'Rustic',

@@ -4,8 +4,9 @@ import {
   waitForData,
   verifyList,
   getListRowsFromBody,
-  ngSelect,
 } from './my-company';
+
+const DEFAULT_SORT_LABEL = 'name'
 
 export function testListFromConfig(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {
@@ -22,10 +23,7 @@ export function testListFromConfig(config: MyCompanyConfig): void {
       );
     });
 
-    it('should sort table data', () => {
-      ngSelect(`Sort by code`); // Changes default sort selection
-      testListSorting(config);
-    });
+    testListSorting(config);
   });
 }
 
@@ -61,14 +59,23 @@ export function testList(
 
 export function testListSorting(config: MyCompanyConfig): void {
   config.rows.forEach((row) => {
-    if (row.sortLabel) {
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-      waitForData((data) => {
-        verifyList(
-          getListRowsFromBody(data, config.objectType, config.rows),
-          config.rows
-        );
-      }, ngSelect(`Sort by ${row.sortLabel}`));
+    if (row.sortLabel && row?.sortLabel !== DEFAULT_SORT_LABEL) {
+      it(`should sort table data by ${row.sortLabel}`, () => {
+        cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+        waitForData((data) => {
+          verifyList(
+            getListRowsFromBody(data, config.objectType, config.rows),
+            config.rows
+          );
+        }, ngSelect(`Sort by ${row.sortLabel}`));
+      });
     }
   });
+}
+
+
+function ngSelect(sortKey: string): void {
+  cy.get(`ng-select`).click();
+  cy.wait(1000);
+  cy.get('div.ng-option').contains(sortKey).click({ force: true });
 }

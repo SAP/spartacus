@@ -24,7 +24,7 @@ const config: MyCompanyConfig = {
     },
     {
       label: 'Code',
-      sortLabel: 'name',
+      sortLabel: 'group',
       variableName: 'uid',
       inputType: 'text',
       createValue: `test-entity-${randomString()}`,
@@ -37,6 +37,7 @@ const config: MyCompanyConfig = {
       label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
+      sortLabel: 'unit',
       inputType: 'ngSelect',
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
