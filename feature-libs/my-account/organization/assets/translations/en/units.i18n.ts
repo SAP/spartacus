@@ -70,7 +70,7 @@ export const unit = {
     header: 'Manage approvers in {{code}}',
     instructions: {
       check: "To assign an approver to this unit, select the user's check box.",
-      uncheck: "To remove aa approver, clear the user's check box.",
+      uncheck: "To remove an approver, clear the user's check box.",
       changes: 'Changes are saved automatically.',
     },
   },
