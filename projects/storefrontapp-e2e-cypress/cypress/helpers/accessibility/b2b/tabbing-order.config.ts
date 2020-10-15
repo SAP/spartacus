@@ -201,7 +201,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: orderApprovalSampleData.none;
+      value: orderApprovalSampleData.none,
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -281,5 +281,5 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-  ]
+  ],
 };
