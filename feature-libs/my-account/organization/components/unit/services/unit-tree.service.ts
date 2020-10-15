@@ -15,6 +15,7 @@ import { TREE_TOGGLE } from './unit-tree.model';
 })
 export class UnitTreeService {
   protected minimalExpanded = 1;
+  private _cachedMinimalExpanded;
 
   treeToggle$: BehaviorSubject<Map<string, TREE_TOGGLE>> = new BehaviorSubject(
     new Map()
@@ -27,11 +28,15 @@ export class UnitTreeService {
   }
 
   collapseAll(unitId: string) {
+    this._cachedMinimalExpanded = this.minimalExpanded;
     this.minimalExpanded = 0;
     this.treeToggle$.next(new Map().set(unitId, TREE_TOGGLE.COLLAPSE_ALL));
   }
 
   expandAll(unitId: string) {
+    if (this._cachedMinimalExpanded) {
+      this.minimalExpanded = this._cachedMinimalExpanded;
+    }
     this.treeToggle$.next(new Map().set(unitId, TREE_TOGGLE.EXPAND_ALL));
   }
 
@@ -47,11 +52,18 @@ export class UnitTreeService {
   }
 
   toggle(unit: B2BUnitTreeNode) {
-    const newState = this.isExpanded(unit.id, unit.depthLevel)
-      ? TREE_TOGGLE.COLLAPSED
-      : TREE_TOGGLE.EXPANDED;
-
     const currentState = this.treeToggle$.value;
+    const root = currentState?.values().next().value;
+    if (root === TREE_TOGGLE.EXPAND_ALL) {
+      currentState.clear();
+    }
+
+    const newState =
+      root === TREE_TOGGLE.EXPAND_ALL ||
+      this.isExpanded(unit.id, unit.depthLevel)
+        ? TREE_TOGGLE.COLLAPSED
+        : TREE_TOGGLE.EXPANDED;
+
     currentState.set(unit.uid, newState);
     this.treeToggle$.next(currentState);
   }
