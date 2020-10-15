@@ -6,7 +6,7 @@ import { randomString } from '../../../helpers/user';
 const config: MyCompanyConfig = {
   name: 'Purchase Limit',
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/purchase-limits`,
-  apiEndpoint: '/orderApprovalPermissions',
+  apiEndpoint: '/users/current/orderApprovalPermissions',
   objectType: 'orderApprovalPermissions',
   selector: 'cx-permission',
   rows: [
@@ -32,7 +32,7 @@ const config: MyCompanyConfig = {
     },
     {
       label: 'Limit',
-      variableName: 'threshold', //'orderApprovalPermissionType.name',
+      variableName: 'threshold',
       link: '/organization/budgets/',
       inputType: 'ngSelect',
       createValue: `Budget Exceeded Permission`,

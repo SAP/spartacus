@@ -6,7 +6,7 @@ import { randomString } from '../../../helpers/user';
 const config: MyCompanyConfig = {
   name: 'User Group',
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/user-group`,
-  apiEndpoint: '/orgUnitUserGroup',
+  apiEndpoint: '/users/current/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
   selector: 'cx-user-group',
   rows: [

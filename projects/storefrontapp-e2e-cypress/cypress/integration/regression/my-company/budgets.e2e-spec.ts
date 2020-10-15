@@ -6,7 +6,7 @@ import { randomString } from '../../../helpers/user';
 const config: MyCompanyConfig = {
   name: 'Budget',
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/budgets`,
-  apiEndpoint: '/budgets',
+  apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
   selector: 'cx-budget',
   rows: [

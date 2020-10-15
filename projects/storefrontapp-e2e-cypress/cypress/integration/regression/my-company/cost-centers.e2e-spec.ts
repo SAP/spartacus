@@ -6,7 +6,7 @@ import { randomString } from '../../../helpers/user';
 const config: MyCompanyConfig = {
   name: 'Cost Center',
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/cost-centers`,
-  apiEndpoint: '/costcenters',
+  apiEndpoint: '/users/current/costcenters',
   objectType: 'costCenters',
   selector: 'cx-cost-center',
   rows: [
