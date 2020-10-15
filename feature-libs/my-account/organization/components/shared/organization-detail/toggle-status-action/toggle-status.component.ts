@@ -5,7 +5,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { filter, first, take } from 'rxjs/operators';
+import { LoadStatus } from '@spartacus/my-account/organization/core';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
@@ -45,9 +46,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$ = this.itemService.current$.pipe(tap((item) => this.notify(item)));
-
-  protected itemActiveState: T;
+  current$ = this.itemService.current$;
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
@@ -94,42 +93,35 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   }
 
   protected update(item: T): void {
-    this.itemService.update(item[this.key], this.getPatchedItem(item));
+    this.itemService
+      .update(item[this.key], this.getPatchedItem(item))
+      .pipe(
+        take(1),
+        filter((data) => data.status === LoadStatus.SUCCESS)
+      )
+      .subscribe((data) => this.notify(data.item));
   }
 
   protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
     patch[this.key] = item[this.key];
-    if ((item as any).type === 'b2BCostCenterWsDTO') {
-      (patch as any).activeFlag = !item.active;
-    } else {
-      patch.active = !item.active;
-    }
+    patch.active = !item.active;
     return patch as T;
   }
 
   protected notify(item: T) {
-    if (this.isChanged(item)) {
+    if (item) {
       this.messageService.add({
         message: {
           key: item.active
-            ? this.i18nRoot + '.messages.confirmDisabled'
-            : this.i18nRoot + '.messages.confirmEnabled',
+            ? this.i18nRoot + '.messages.confirmEnabled'
+            : this.i18nRoot + '.messages.confirmDisabled',
           params: {
             item: item,
           },
         },
       });
     }
-    this.itemActiveState = { ...item };
-  }
-
-  protected isChanged(item: T) {
-    return (
-      this.itemActiveState &&
-      item[this.key] === this.itemActiveState[this.key] &&
-      item.active !== this.itemActiveState.active
-    );
   }
 
   ngOnDestroy() {
