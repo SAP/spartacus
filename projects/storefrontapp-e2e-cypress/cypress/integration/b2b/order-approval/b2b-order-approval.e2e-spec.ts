@@ -8,21 +8,12 @@ context('B2B - Order Approval', () => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
-  beforeEach(() => {
-    //cy.restoreLocalStorage();
-  });
-
-  afterEach(() => {
-    //cy.saveLocalStorage();
-  });
-
   it('should display order approval details in order details page', () => {
     orderApproval.loginB2bUser();
     orderApproval.getPendingOrderDetails();
 
     cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
     assertPermissionResults(sampleData.pendingOrder);
-    //signOutUser();
   });
 
   it('should display order approval list', () => {
