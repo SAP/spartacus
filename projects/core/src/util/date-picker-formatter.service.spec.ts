@@ -50,15 +50,16 @@ describe('DatePickerFormatter Service', () => {
 
   describe('toISOString', () => {
     it('should return null if value is empty', () => {
-      expect(service.toISOString(undefined)).toEqual(null);
-      expect(service.toISOString(null)).toEqual(null);
-      expect(service.toISOString('')).toEqual(null);
+      expect(service.toOccString(undefined)).toEqual(null);
+      expect(service.toOccString(null)).toEqual(null);
+      expect(service.toOccString('')).toEqual(null);
     });
 
-    it('should convert value to ISO 8601 format', () => {
+    it('should convert value to expected OCC date with offset', () => {
       const mockDate = '2010-01-01';
+      const expectedDate = '2010-01-01THH:mm:ss+xxxx';
 
-      expect(service.toISOString(mockDate)).toEqual(mockDate + 'T00:00:00Z');
+      expect(service.toOccString(mockDate)).toEqual(expectedDate);
     });
   });
 });

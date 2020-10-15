@@ -38,6 +38,25 @@ export class DateTimePickerFormatterService {
   }
 
   /**
+   * Convert date-local native string into a valid datetime string with current time.
+   * @param value: datetime-local string to convert
+   *
+   * @example
+   * With UTC-0 locale offset, `toModel('2010-01-01')` returns `'2010-01-01T00:00:00+00:00'`.
+   */
+  toModelWithTime(value: string): string {
+    const currentTime = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    return value
+      ? `${value.split('T')[0]}T${currentTime}${this.getLocalTimezoneOffset()}`
+      : null;
+  }
+
+  /**
    * Returns the local timezone in a format that can be appended to a date-like string.
    * @param invert (default: false): returns the opposite operator relative to the local timezone
    *
