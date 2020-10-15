@@ -1,0 +1,15 @@
+<a
+  *ngIf="hasItem"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabIndex]="tabIndex"
+>
+  <button
+    *ngIf="isSwitchable"
+    class="button tree-item-toggle"
+    type="button"
+    (click)="toggleItem($event)"
+  >
+    <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>
+  </button>
+  <span class="text">{{ combinedName }}</span>
+</a>

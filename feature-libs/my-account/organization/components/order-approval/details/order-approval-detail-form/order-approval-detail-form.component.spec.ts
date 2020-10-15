@@ -176,14 +176,7 @@ describe('OrderApprovalDetailFormComponent', () => {
       approvalDecisionRequired: false,
     });
     fixture.detectChanges();
-    const backToListLink: DebugElement = el
-      .queryAll(By.css('a'))
-      .find((button) =>
-        (button.nativeElement as HTMLElement).textContent.includes(
-          'orderApproval.back'
-        )
-      );
-    expect(backToListLink).toBeTruthy();
+    assertBackButtonExist();
 
     const otherButton: DebugElement = el.query(By.css('button'));
     expect(otherButton).toBeFalsy();
@@ -219,6 +212,26 @@ describe('OrderApprovalDetailFormComponent', () => {
         comment: testComment,
       }
     );
+
+    getOrderApproval$.next({
+      ...mockOrderApproval,
+      approvalDecisionRequired: false,
+    });
+    fixture.detectChanges();
+    assertBackButtonExist();
+    assertButtonAbsent('orderApproval.showForm_APPROVE');
+    assertButtonAbsent('orderApproval.showForm_REJECT');
+  }
+
+  function assertBackButtonExist() {
+    const backToListLink: DebugElement = el
+      .queryAll(By.css('a'))
+      .find((button) =>
+        (button.nativeElement as HTMLElement).textContent.includes(
+          'orderApproval.back'
+        )
+      );
+    expect(backToListLink).toBeTruthy('back to list button should be visible');
   }
 
   function assertComponentInitialState() {

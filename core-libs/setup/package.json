@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/setup",
-  "version": "3.0.0-next.3",
+  "version": "3.0.0-next.4",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -19,8 +19,8 @@
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.3",
-    "@spartacus/storefront": "3.0.0-next.3",
-    "@spartacus/my-account": "3.0.0-next.3"
+    "@spartacus/core": "3.0.0-next.4",
+    "@spartacus/storefront": "3.0.0-next.4",
+    "@spartacus/my-account": "3.0.0-next.4"
   }
 }

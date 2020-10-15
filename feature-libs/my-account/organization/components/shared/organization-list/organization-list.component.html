@@ -25,6 +25,8 @@
             </ng-option>
           </ng-select>
 
+          <ng-content select="[actions]"></ng-content>
+
           <a
             class="button primary create"
             [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
@@ -48,7 +50,7 @@
 
       <div class="footer">
         <cx-pagination
-          *ngIf="data.pagination"
+          *ngIf="data.pagination?.currentPage >= 0"
           [pagination]="data.pagination"
           (viewPageEvent)="browse(data.pagination, $event)"
         ></cx-pagination>

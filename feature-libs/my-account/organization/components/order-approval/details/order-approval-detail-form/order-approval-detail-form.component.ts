@@ -80,6 +80,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     } else {
       this.approvalForm.markAllAsTouched();
     }
+    this.approvalFormVisible = false;
   }
 
   ngOnDestroy(): void {

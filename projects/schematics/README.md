@@ -39,7 +39,7 @@ To setup a local npm registry, we're going to use [verdaccio](https://github.com
 Create a new angular project:
 
 - `ng new spartacus-schematics-test` and `cd spartacus-schematics-test`
-- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-training.eastus.cloudapp.azure.com/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
+- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
 - create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scoped packages. From this moment on, `@spartacus` scoped packages will use the local npm registry.
 - commit the changes, if any.
 
