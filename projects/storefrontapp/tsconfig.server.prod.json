@@ -11,6 +11,21 @@
       "@spartacus/my-account/organization": [
         "../../dist/my-account/organization"
       ],
+      "@spartacus/my-account/organization/core": [
+        "../../dist/my-account/organization/core"
+      ],
+      "@spartacus/my-account/organization/occ": [
+        "../../dist/my-account/organization/occ"
+      ],
+      "@spartacus/my-account/organization/components": [
+        "../../dist/my-account/organization/components"
+      ],
+      "@spartacus/my-account/organization/assets": [
+        "../../dist/my-account/organization/assets"
+      ],
+      "@spartacus/my-account/organization/root": [
+        "../../dist/my-account/organization/root"
+      ],
       "@spartacus/product": ["../../dist/product"],
       "@spartacus/product/configurators": ["../../dist/product/configurators"],
       "@spartacus/product/configurators/common": [
