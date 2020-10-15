@@ -9,10 +9,13 @@
   .cx-general-product-info {
     display: flex;
     flex-direction: column;
-    width: 100%;
 
     @include media-breakpoint-up(lg) {
       width: 1140px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      width: 100%;
     }
 
     .cx-title {

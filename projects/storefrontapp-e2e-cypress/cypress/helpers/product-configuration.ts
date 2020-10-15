@@ -48,7 +48,9 @@ export function isGlobalMessageNotDisplayed() {
  * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
 export function isUpdatingMessageNotDisplayed() {
-  cy.get('cx-configurator-update-message div').should('not.be.visible');
+  cy.get('cx-configurator-update-message div#cx-update-msg').should(
+    'not.be.visible'
+  );
 }
 
 /**
