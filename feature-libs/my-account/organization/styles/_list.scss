@@ -66,10 +66,6 @@
 }
 
 %organizationList {
-  cx-split-view {
-    height: 100%;
-  }
-
   // A lot of components that are inside the split view should disappear, so that the
   // alignment of nested cx-view elements will flow nicely.
   ng-component,
@@ -126,8 +122,15 @@
 
   cx-split-view {
     @include media-breakpoint-down(sm) {
-      // unsure that the views do not flow over the page
+      // ensure that the views do not flow over the page
       width: 100vw;
+    }
+    cx-view {
+      height: auto;
+      &:not([position='0']) {
+        // cx-views should only take the necessary vertical space
+        align-self: flex-start;
+      }
     }
 
     @include media-breakpoint-up(lg) {
