@@ -55,7 +55,7 @@ export const user = {
     new: 'New approver',
     instructions: {
       check: "To assign an approver to this user, select the user's check box.",
-      uncheck: "To remove aa approver, clear the user's check box.",
+      uncheck: "To remove an approver, clear the user's check box.",
       changes: 'Changes are saved automatically.',
     },
   },

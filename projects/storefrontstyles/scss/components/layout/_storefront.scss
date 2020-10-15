@@ -29,7 +29,7 @@
   .mouse-focus {
     :focus,
     .ng-select-focused {
-      outline-width: 0;
+      --cx-visual-focus-width: 0;
     }
   }
 }
