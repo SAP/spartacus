@@ -15,14 +15,7 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
         { cxRoute: 'unitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      <ul class="text">
-        <li
-          *ngFor="let role of roles"
-          class="li"
-          [innerText]="'organization.userRoles.' + role | cxTranslate"
-        ></li>
-        <li *ngIf="roles?.length === 0">-</li>
-      </ul>
+      {{ 'user.roles' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,10 +27,6 @@ export class UnitUserRolesCellComponent extends OrganizationCellComponent {
     protected itemService: OrganizationItemService<B2BUnit>
   ) {
     super(outlet);
-  }
-
-  get roles(): string[] {
-    return (this.property as any) as string[];
   }
 
   getRouterModel(uid: string): any {

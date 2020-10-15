@@ -280,10 +280,6 @@
                 padding-inline-start: 5px;
               }
             }
-            a {
-              text-decoration: none;
-              color: var(--cx-color-text);
-            }
           }
           th:last-child,
           td:last-child {
@@ -384,8 +380,6 @@
         }
       }
       a {
-        color: inherit;
-
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
           display: flex;
@@ -394,15 +388,16 @@
           min-height: 74px;
         }
 
-        &:hover {
-          text-decoration: none;
-          color: var(--cx-color-text);
-        }
-
         &[tabindex='0'],
         &[tabindex='0']:hover {
           text-decoration: underline;
           color: var(--cx-color-primary);
+        }
+
+        &[tabindex='-1'],
+        &[tabindex='-1']:hover {
+          color: inherit;
+          text-decoration: none;
         }
       }
     }
@@ -416,7 +411,6 @@
 
     // highlight active values
     .active span {
-      padding: 5px;
       color: var(--cx-color-alert, var(--cx-color-danger));
       &.is-active {
         color: var(--cx-color-success);
