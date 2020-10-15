@@ -7,9 +7,7 @@ import { BasicAuthService } from '../services/basic-auth.service';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(protected basicAuthService: BasicAuthService) {
-    this.initImplicit();
-  }
+  constructor(protected basicAuthService: BasicAuthService) {}
 
   initImplicit() {
     this.basicAuthService.initImplicit();

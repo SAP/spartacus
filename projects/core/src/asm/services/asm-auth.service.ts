@@ -102,48 +102,46 @@ export class AsmAuthService extends BasicAuthService {
   }
 
   initImplicit() {
-    setTimeout(() => {
-      let tokenTarget: TokenTarget;
+    let tokenTarget: TokenTarget;
 
-      this.authStorageService
-        .getTokenTarget()
-        .subscribe((target) => {
-          tokenTarget = target;
-        })
-        .unsubscribe();
+    this.authStorageService
+      .getTokenTarget()
+      .subscribe((target) => {
+        tokenTarget = target;
+      })
+      .unsubscribe();
 
-      const prevToken = this.authStorageService.getItem('access_token');
-      // Get customerId and token to immediately start emulation session
-      let userToken: AuthToken;
-      let customerId: string;
-      this.authStorageService
-        .getToken()
-        .subscribe((token) => (userToken = token))
-        .unsubscribe();
-      this.userService
-        .get()
-        .subscribe((user) => (customerId = user?.customerId))
-        .unsubscribe();
+    const prevToken = this.authStorageService.getItem('access_token');
+    // Get customerId and token to immediately start emulation session
+    let userToken: AuthToken;
+    let customerId: string;
+    this.authStorageService
+      .getToken()
+      .subscribe((token) => (userToken = token))
+      .unsubscribe();
+    this.userService
+      .get()
+      .subscribe((user) => (customerId = user?.customerId))
+      .unsubscribe();
 
-      this.cxOAuthService.tryLogin().then((result) => {
-        const token = this.authStorageService.getItem('access_token');
-        // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
-        if (result && token !== prevToken) {
-          if (tokenTarget === TokenTarget.User) {
-            this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-            this.store.dispatch(new AuthActions.Login());
-            // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
-            setTimeout(() => {
-              this.authRedirectService.redirect();
-            }, 10);
-          } else {
-            if (userToken && Boolean(customerId)) {
-              this.userIdService.setUserId(customerId);
-              this.authStorageService.setEmulatedUserToken(userToken);
-            }
+    this.cxOAuthService.tryLogin().then((result) => {
+      const token = this.authStorageService.getItem('access_token');
+      // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
+      if (result && token !== prevToken) {
+        if (tokenTarget === TokenTarget.User) {
+          this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+          this.store.dispatch(new AuthActions.Login());
+          // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
+          setTimeout(() => {
+            this.authRedirectService.redirect();
+          }, 10);
+        } else {
+          if (userToken && Boolean(customerId)) {
+            this.userIdService.setUserId(customerId);
+            this.authStorageService.setEmulatedUserToken(userToken);
           }
         }
-      });
+      }
     });
   }
 }
