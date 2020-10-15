@@ -1,36 +1,7 @@
 @mixin visible-focus {
   outline-style: solid;
   outline-color: var(--cx-color-visual-focus);
-  outline-width: 2px;
+  outline-width: var(--cx-visual-focus-width, 2px);
   outline-offset: 4px;
   transition: none;
-}
-
-/**
-* Alternative way of adding visible focus. Using pseudo element ::before.
-* Used when the primary solution doesn't work for various reasons.
-*/
-@mixin alt-visible-focus {
-  display: block;
-  position: relative;
-
-  &::before {
-    content: '';
-    display: none;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    @include visible-focus();
-  }
-
-  &:focus {
-    outline: 0;
-
-    &::before {
-      display: block;
-    }
-  }
 }
