@@ -231,27 +231,31 @@ describe('DeliveryModeComponent', () => {
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
 
-      // use below code to enable Continue button again, otherwise
-      // the expect method call will fail
+      // when each it() spec is called, continue button is DISABLED by default:
+      // [disabled]="deliveryModeInvalid"
+      // as the empty delivery mode id will make deliveryModeInvalid = true,
+      // in order to make continue button CLICKABLE, we have to set a VALID delivery
+      // mode code to enable the button.
       component.mode.controls['deliveryModeId'].setValue(
         mockDeliveryMode1.code
       );
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
 
       expect(component.next).toHaveBeenCalled();
     });
   });
 
   describe('UI back button', () => {
-    const getContinueBtn = () =>
+    const getBackBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
 
       fixture.detectChanges();
-      getContinueBtn().nativeElement.click();
+      getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
     });
