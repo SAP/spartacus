@@ -1,15 +1,15 @@
+import * as sampleData from '../../sample-data/b2b-order-approval';
 import {
   approvalOrderDetail,
   approvalOrderList,
+  approvedOrderDetails,
   b2bApprover,
   b2bUser,
   pendingOrder,
   rejectedOrderDetails,
-  approvedOrderDetails,
 } from '../../sample-data/b2b-order-approval';
 import { AccountData } from '../../support/require-logged-in.commands';
 import { visitHomePage, waitForPage } from '../checkout-flow';
-import * as sampleData from '../../sample-data/b2b-order-approval';
 
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
@@ -91,7 +91,7 @@ export function getOrderApprovalDetail() {
       'BASE_SITE'
     )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     approvalOrderDetail
-  );
+  ).as('orderApprovalPending');
 }
 
 export function makeDecision() {
@@ -113,7 +113,7 @@ export function getRejectedOrderApprovalDetail() {
       'BASE_SITE'
     )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     rejectedOrderDetails
-  );
+  ).as('orderApprovalRejected');
 }
 
 export function getApprovedOrderApprovalDetail() {
@@ -124,5 +124,5 @@ export function getApprovedOrderApprovalDetail() {
       'BASE_SITE'
     )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     approvedOrderDetails
-  );
+  ).as('orderApprovalApproved');
 }
