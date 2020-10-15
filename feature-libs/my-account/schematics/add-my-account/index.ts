@@ -96,7 +96,7 @@ function addStyles(): Rule {
     )}/styles/spartacus-my-account.scss`;
     if (tree.exists(myAccountScssPath)) {
       context.logger.info(
-        `Skipping '${myAccountScssPath}' as it already exists.`
+        `Skipping the creation of '${myAccountScssPath}', as it already exists.`
       );
       return noop();
     }
