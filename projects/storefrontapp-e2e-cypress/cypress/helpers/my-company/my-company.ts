@@ -35,7 +35,24 @@ export function checkRows(rows): void {
         .within(() => {
           for (let i = 0; i < row.text.length; i++) {
             if (row.text[i]) {
-              cy.get('td').eq(i).should('contain.text', row.text[i]);
+              if (Array.isArray(row.text[i])) {
+                // Used in user roles array
+                // Because we can't use translate pipe, have to check per case
+                row.text[i].forEach(text => {
+                  switch (text) {
+                    case 'b2bcustomergroup':
+                      return cy.get('td').eq(i).contains('Customer');
+                    case 'b2bmanagergroup':
+                      return cy.get('td').eq(i).contains('Manager');
+                    case 'b2bapprovergroup':
+                      return cy.get('td').eq(i).contains('Approver');
+                    case 'b2badmingroup':
+                      return cy.get('td').eq(i).contains('Admin');
+                  }
+                })
+              } else {
+                cy.get('td').eq(i).contains(row.text[i]);
+              }
             }
           }
         });

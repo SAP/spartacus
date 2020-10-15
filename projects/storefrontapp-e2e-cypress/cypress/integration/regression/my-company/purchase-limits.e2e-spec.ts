@@ -32,7 +32,7 @@ const config: MyCompanyConfig = {
     },
     {
       label: 'Limit',
-      variableName: 'orderApprovalPermissionType.name',
+      variableName: 'threshold', //'orderApprovalPermissionType.name',
       link: '/organization/budgets/',
       inputType: 'ngSelect',
       createValue: `Budget Exceeded Permission`,
@@ -41,13 +41,6 @@ const config: MyCompanyConfig = {
       formControlName: 'code',
       showInDetails: true,
     },
-    // {
-    //   label: 'Limit',
-    //   variableName: 'uid',
-    //   inputType: 'text',
-    //   createValue: 'test-entity',
-    //   updateValue: 'edited-user-group',
-    // },
     {
       label: 'Parent Unit',
       variableName: 'orgUnit.name',
