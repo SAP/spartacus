@@ -7,12 +7,12 @@ import {
 import { FormGroup } from '@angular/forms';
 import { B2BUnit } from '@spartacus/core';
 import {
+  B2BApprovalProcess,
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { B2BApprovalProcess } from '../../../core/model/order-approval.model';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitItemService } from '../services/unit-item.service';
 @Component({

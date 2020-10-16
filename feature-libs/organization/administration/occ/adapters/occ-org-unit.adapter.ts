@@ -13,6 +13,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import {
+  B2BApprovalProcess,
   B2BUnitNode,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -22,7 +23,6 @@ import {
   OrgUnitAdapter,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { B2BApprovalProcess } from '../../core/model/order-approval.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
