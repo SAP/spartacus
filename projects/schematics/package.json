@@ -47,7 +47,7 @@
       "@spartacus/cds",
       "@spartacus/assets",
       "@spartacus/incubator",
-      "@spartacus/my-account",
+      "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/cdc",
       "@spartacus/setup"
