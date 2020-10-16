@@ -49,14 +49,14 @@ export class CarouselComponent implements OnInit {
   @Input() title: string;
 
   /**
-   * provides a configuration to add accessibility control to the carousel. The default configuration adds
-   * the following:
-   * - _locks_ the carousel, so that the carousel can be skipped usign the tab key.
+   * provides a configuration to add accessibility control to the carousel.
+   * The default configuration adds the following:
+   * - _locks_ the carousel, so that the carousel can be skipped using the tab key.
    * - traps the focus, which means that the after selecting the last item, the first item is selected
-   * - the first item is autofocused (if it is focusable) is selected.
+   * - the first item is auto-focused (if it is focusable) is selected.
    *
-   * Additionally, a named focus _group_ could be added to refocus the last selected element if the carousel
-   * is focussed again.
+   * Additionally, a named focus _group_ could be added to refocus the last selected element
+   * if the carousel is focussed again.
    */
   @Input() focusConfig: FocusConfig = {
     lock: true,
@@ -78,7 +78,7 @@ export class CarouselComponent implements OnInit {
 
   /**
    * The template is rendered for each item, so that the actual
-   * view can be given by the compoent that uses the `CarouselComponent`.
+   * view can be given by the component that uses the `CarouselComponent`.
    */
   @Input() template: TemplateRef<any>;
 
@@ -120,7 +120,7 @@ export class CarouselComponent implements OnInit {
 
   protected readonly slides$ = this.visibleItems$.pipe(
     // tap(console.log),
-    // Currently a lower deboucne time breaks the indicator seelction,
+    // Currently a lower debounce time breaks the indicator selection,
     // since the scroll left would end to it's final state.
     debounceTime(300),
     filter((v) => v.size > 0),
@@ -133,14 +133,16 @@ export class CarouselComponent implements OnInit {
     distinctUntilChanged(),
     // filter((v) => v.length > 0),
     map((visible) => {
-      const slides = Array.from(
-        Array(
-          Math.ceil(
-            this.carousel.nativeElement.scrollWidth /
-              this.carousel.nativeElement.clientWidth
-          )
-        ).keys()
-      );
+      const slides =
+        this.carouselHost.clientWidth > 0
+          ? Array.from(
+              Array(
+                Math.ceil(
+                  this.carouselHost.scrollWidth / this.carouselHost.clientWidth
+                )
+              ).keys()
+            )
+          : [];
 
       const previous = {
         visible: slides.length > 1,
@@ -167,7 +169,7 @@ export class CarouselComponent implements OnInit {
   );
 
   /**
-   * Returns the obsered disabled state for the next button.
+   * Returns the observed disabled state for the next button.
    */
   readonly next$: Observable<any> = this.slides$.pipe(
     map((data) => data.next),
@@ -176,14 +178,14 @@ export class CarouselComponent implements OnInit {
 
   indicators$: Observable<any> = this.slides$.pipe(
     map((data) => {
-      const scrollLeft = this.carousel.nativeElement.scrollLeft;
+      const scrollLeft = this.carouselHost.scrollLeft;
       return data.slides.map((index) => {
-        const left = this.carousel.nativeElement.clientWidth * index;
-        const right = this.carousel.nativeElement.clientWidth * (index + 1);
+        const left = this.carouselHost.clientWidth * index;
+        const right = this.carouselHost.clientWidth * (index + 1);
 
         const hasLastMatch =
-          scrollLeft + this.carousel.nativeElement.clientWidth ===
-          this.carousel.nativeElement.scrollWidth;
+          scrollLeft + this.carouselHost.clientWidth ===
+          this.carouselHost.scrollWidth;
 
         const selected = hasLastMatch
           ? index === data.slides.length - 1
@@ -201,38 +203,38 @@ export class CarouselComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.template && isDevMode()) {
-      console.error(
-        'No template reference provided to render the carousel items for the `cx-carousel`'
-      );
+    if (!this.template) {
+      this.renderDxMessage();
       return;
     }
-    if (!this.itemWidth) {
-      this.size$ = this.service
-        .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-        .pipe(map(() => this.items?.length || 0));
-    } else {
-      this.size$ = this.service
-        .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-        .pipe(tap(() => (this.activeSlide = 0)));
-    }
+
+    this.size$ = this.service.getItemsPerSlide(this.host, this.itemWidth).pipe(
+      tap(() => {
+        if (this.itemWidth) {
+          this.activeSlide = 0;
+        }
+      }),
+      map((items) => {
+        return this.itemWidth ? items : this.items?.length || 0;
+      })
+    );
   }
 
   previous() {
-    this.carousel?.nativeElement.scrollBy({
-      left: -this.carousel.nativeElement.clientWidth,
+    this.carouselHost.scrollBy({
+      left: -this.carouselHost.clientWidth,
     });
   }
 
   next() {
-    this.carousel?.nativeElement.scrollBy({
-      left: this.carousel.nativeElement.clientWidth,
+    this.carouselHost.scrollBy({
+      left: this.carouselHost.clientWidth,
     });
   }
 
   scroll(index: number) {
-    this.carousel?.nativeElement.scrollTo({
-      left: this.carousel.nativeElement.clientWidth * index,
+    this.carouselHost.scrollTo({
+      left: this.carouselHost.clientWidth * index,
     });
   }
 
@@ -240,13 +242,36 @@ export class CarouselComponent implements OnInit {
    * Maintains a map with all the visible slide items. This is stored in
    * a subject, so that we can observe the visible slides and update the indicators.
    */
-  intersect(event: any, ref: HTMLElement) {
+  intersect(intersected: boolean, ref: HTMLElement) {
     const index = this.itemRefs
       .toArray()
       .findIndex((item) => item.nativeElement === ref);
 
     const visibleMap = this.visibleItems$.value;
-    visibleMap.set(index, event);
+    visibleMap.set(index, intersected);
+
     this.visibleItems$.next(visibleMap);
+  }
+
+  /**
+   * Returns the component native host element.
+   */
+  protected get host(): HTMLElement {
+    return this.el.nativeElement;
+  }
+
+  /**
+   * Returns the carousel native host element.
+   */
+  protected get carouselHost(): HTMLElement {
+    return this.carousel.nativeElement;
+  }
+
+  private renderDxMessage(): void {
+    if (isDevMode()) {
+      console.error(
+        'No template reference provided to render the carousel items for the `cx-carousel`'
+      );
+    }
   }
 }

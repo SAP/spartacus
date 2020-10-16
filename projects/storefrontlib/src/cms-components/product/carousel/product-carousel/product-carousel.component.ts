@@ -25,24 +25,28 @@ export class ProductCarouselComponent {
   focusGroup: string;
 
   /**
-   * returns an Obervable string for the title.
+   * returns an Observable string for the title.
    */
   title$: Observable<string> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
   /**
-   * Obervable that holds an Array of Observables. This is done, so that
+   * Observable that holds an Array of Observables. This is done, so that
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
+  items$: Observable<string[]> = this.componentData$.pipe(
     map((data) => data.productCodes.trim().split(' ')),
-    tap((data) => (this.focusGroup = data.join(''))),
-    map((codes) =>
-      codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
-    )
+    tap((data) => (this.focusGroup = data.join('')))
+    // map((codes) =>
+    //   codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
+    // )
   );
+
+  getProduct(code: string): Observable<Product> {
+    return this.productService.get(code, this.PRODUCT_SCOPE);
+  }
 
   constructor(
     protected componentData: CmsComponentData<model>,

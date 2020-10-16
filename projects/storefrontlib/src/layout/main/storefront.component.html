@@ -1,5 +1,5 @@
 <ng-template cxOutlet="cx-storefront" cxPageTemplateStyle>
-  <ng-template cxOutlet="cx-header">
+  <!-- <ng-template cxOutlet="cx-header">
     <header
       cxSkipLink="cx-header"
       [cxFocus]="{ disableMouseFocus: true }"
@@ -12,15 +12,15 @@
     </header>
     <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
     <cx-global-message></cx-global-message>
-  </ng-template>
+  </ng-template> -->
 
   <main cxSkipLink="cx-main" [cxFocus]="{ disableMouseFocus: true }">
     <router-outlet></router-outlet>
   </main>
 
-  <ng-template cxOutlet="cx-footer">
+  <!-- <ng-template cxOutlet="cx-footer">
     <footer cxSkipLink="cx-footer" [cxFocus]="{ disableMouseFocus: true }">
       <cx-page-layout section="footer"></cx-page-layout>
     </footer>
-  </ng-template>
+  </ng-template> -->
 </ng-template>

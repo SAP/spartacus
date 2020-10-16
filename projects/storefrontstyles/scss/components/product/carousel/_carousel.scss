@@ -32,6 +32,8 @@
 
   .carousel-panel {
     // height: 30vh;
+    width: 100%;
+
     overflow-x: scroll;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -163,6 +165,16 @@
       }
     }
   }
+
+  button {
+    // &:focus {
+    //   outline: none;
+    // }
+    // color: var(--cx-color-light);
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+  }
 }
 
 // %cx-carousel {
@@ -218,16 +230,6 @@
 //           }
 //         }
 //       }
-//     }
-//   }
-
-//   button {
-//     &:focus {
-//       outline: none;
-//     }
-//     color: var(--cx-color-light);
-//     &:not(:disabled) {
-//       cursor: pointer;
 //     }
 //   }
 

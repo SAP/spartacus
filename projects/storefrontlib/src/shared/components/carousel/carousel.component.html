@@ -2,10 +2,10 @@
   <h3 *ngIf="title">{{ title }}</h3>
 
   <div
+    #carousel
     class="carousel-panel"
     [ngClass]="'size-' + size"
     [cxFocus]="focusConfig"
-    #carousel
   >
     <button
       class="previous"
@@ -25,12 +25,9 @@
           *ngIf="i % size === 0"
           [class.active]="i === activeSlide"
         >
-          <ng-container
-            *ngFor="let item of items | slice: i:i + size; let j = index"
-          >
+          <ng-container *ngFor="let data of items | slice: i:i + size">
             <div
               #item
-              *ngIf="item | async as data"
               class="item"
               [class.active]="i === activeSlide"
               cxIntersected
@@ -62,6 +59,7 @@
       *ngFor="let indicator of indicators$ | async; let i = index"
       (click)="scroll(indicator.index)"
       [class.selected]="indicator.selected"
+      [disabled]="indicator.selected"
       [cxFocus]="{ key: i + 1, group: focusConfig.group }"
       tabindex="-1"
     >

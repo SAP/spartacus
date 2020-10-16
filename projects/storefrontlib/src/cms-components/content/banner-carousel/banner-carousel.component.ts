@@ -31,7 +31,7 @@ export class BannerCarouselComponent {
 
   /**
    * Adds a specific theme for the carousel. The effect can be
-   * used in CSS customisations.
+   * used in CSS customizations.
    */
   @HostBinding('class') theme = '';
 
@@ -41,7 +41,7 @@ export class BannerCarouselComponent {
   ) {}
 
   /**
-   * Returns an Obervable with an Array of Observables. This is done, so that
+   * Returns an Observable with an Array of Observables. This is done, so that
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */

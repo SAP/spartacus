@@ -12,13 +12,12 @@ export class CarouselService {
   /**
    * The number of items per slide is calculated by the help of
    * the item width and the available width of the host element.
-   * This appoach makes it possible to place the carousel in different
+   * This approach makes it possible to place the carousel in different
    * layouts. Instead of using the page breakpoints, the host size is
    * taken into account.
    *
-   * Since there's no element resize API available, we use the
-   * window `resize` event, so that we can adjust the number of items
-   * whenever the window got resized.
+   * This results in a setup where the number of carousel items depends
+   * on the available width of the host, rather than size of the window.
    */
   getItemsPerSlide(
     nativeElement: HTMLElement,
