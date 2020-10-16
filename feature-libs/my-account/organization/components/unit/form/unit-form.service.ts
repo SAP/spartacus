@@ -38,13 +38,6 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
       })
     );
 
-    form.setControl(
-      'parentOrgUnit',
-      new FormGroup({
-        uid: new FormControl(null, Validators.required),
-      })
-    );
-
     this.form = form;
   }
 
