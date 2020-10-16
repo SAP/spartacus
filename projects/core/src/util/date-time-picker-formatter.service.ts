@@ -45,14 +45,10 @@ export class DateTimePickerFormatterService {
    * With UTC-0 locale offset, `toModel('2010-01-01')` returns `'2010-01-01T00:00:00+00:00'`.
    */
   toModelWithTime(value: string): string {
-    const currentTime = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
     return value
-      ? `${value.split('T')[0]}T${currentTime}${this.getLocalTimezoneOffset()}`
+      ? `${
+          value.split('T')[0]
+        }T${this.getCurrentLocalTime()}${this.getLocalTimezoneOffset()}`
       : null;
   }
 
@@ -74,6 +70,22 @@ export class DateTimePickerFormatterService {
     return `${sign}${hours}:${minutes}`;
   }
 
+  /**
+   * Returns the current local time in a format that can be appended to a date-like string.
+   *
+   * @example
+   * When date picker does not have the time option, we need to pass current local time,
+   * getCurrentLocalTime() returns `'10:20:30'`
+   */
+  protected getCurrentLocalTime(): string {
+    const currentTime = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    return currentTime;
+  }
   /**
    * Format date string into a format compatable with the browser's native `<input type="datetime-local">` HTML element.
    * @param dateString: date string to convert

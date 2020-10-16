@@ -47,19 +47,4 @@ describe('DatePickerFormatter Service', () => {
       );
     });
   });
-
-  describe('toISOString', () => {
-    it('should return null if value is empty', () => {
-      expect(service.toOccString(undefined)).toEqual(null);
-      expect(service.toOccString(null)).toEqual(null);
-      expect(service.toOccString('')).toEqual(null);
-    });
-
-    it('should convert value to expected OCC date with offset', () => {
-      const mockDate = '2010-01-01';
-      const expectedDate = '2010-01-01THH:mm:ss+xxxx';
-
-      expect(service.toOccString(mockDate)).toEqual(expectedDate);
-    });
-  });
 });

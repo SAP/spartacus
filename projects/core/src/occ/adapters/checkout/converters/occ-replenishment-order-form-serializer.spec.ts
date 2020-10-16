@@ -20,7 +20,14 @@ describe('OccReplenishmentOrderFormSerializer', () => {
 
   it('should convert the date string of schedule replenishment form to ISO 8601 format', () => {
     const mockDate = '1994-01-11';
-    const ISODateFormat = mockDate + 'T00:00:00Z';
+    const currentLocalTime = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+
+    const ISODateFormat = mockDate + 'T' + currentLocalTime + '-05:00';
 
     const result = serializer['convertDate'](mockDate);
 
