@@ -9,47 +9,56 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import {
-  OrderHistoryList,
-  ReturnRequestList,
-  ReturnRequest,
   Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestList,
 } from '../../../model/order.model';
+import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
+import { CostCenter } from '../../../model/org-unit.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  CUSTOMER_COUPONS,
+  NOTIFICATION_PREFERENCES,
+  PRODUCT_INTERESTS,
   REGIONS,
   RegionsState,
   UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
+  USER_COST_CENTERS,
   USER_ORDERS,
-  USER_PAYMENT_METHODS,
-  CUSTOMER_COUPONS,
-  NOTIFICATION_PREFERENCES,
-  PRODUCT_INTERESTS,
-  USER_RETURN_REQUESTS,
   USER_ORDER_DETAILS,
+  USER_PAYMENT_METHODS,
+  USER_REPLENISHMENT_ORDER_DETAILS,
+  USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
+  USER_REPLENISHMENT_ORDERS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
+import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
+import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
+import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
+import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromCustomerCouponReducer from './customer-coupon.reducer';
-import * as fromInterestsReducer from './product-interests.reducer';
-import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
+import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -77,6 +86,10 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
+    replenishmentOrders: loaderReducer<ReplenishmentOrderList>(
+      USER_REPLENISHMENT_ORDERS,
+      fromUserReplenishmentOrdersReducer.reducer
+    ),
     orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
     orderReturnList: loaderReducer<ReturnRequestList>(
       USER_RETURN_REQUESTS,
@@ -98,6 +111,14 @@ export function getReducers(): ActionReducerMap<UserState> {
     productInterests: loaderReducer<ProductInterestSearchResult>(
       PRODUCT_INTERESTS,
       fromInterestsReducer.reducer
+    ),
+    costCenters: loaderReducer<CostCenter[]>(
+      USER_COST_CENTERS,
+      fromCostCenterReducer.reducer
+    ),
+    replenishmentOrder: loaderReducer<ReplenishmentOrder>(
+      USER_REPLENISHMENT_ORDER_DETAILS,
+      fromReplenishmentOrderDetailsReducer.reducer
     ),
   };
 }

@@ -2,10 +2,10 @@ export const UTF_8 = 'utf-8';
 
 /***** Libraries versions start *****/
 
-export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^9.1.1';
-export const ANGULAR_UNIVERSAL_BUILDERS = '^9.1.0';
-export const DEFAULT_NGRX_VERSION = '~9.1.0';
+export const DEFAULT_ANGULAR_VERSION = '^10.1.0';
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
+export const DEFAULT_NGRX_VERSION = '~10.0.0';
 
 /***** Libraries versions end *****/
 

@@ -99,13 +99,13 @@ export function goToProductPageFromCategory() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter').getByText('+').click();
+  cy.get('cx-item-counter').findByText('+').click();
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
 }
@@ -162,7 +162,7 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
@@ -233,12 +233,12 @@ export function verifyAndPlaceOrder() {
 export function displaySummaryPage() {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .row').within(() => {
-    cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(2) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
+  cy.get('.cx-order-summary .container').within(() => {
+    cy.get('.cx-summary-card:nth-child(1) .cx-card').should('not.be.empty');
+    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
       cy.contains('Standard Delivery');
     });
+    cy.get('.cx-summary-card:nth-child(3) .cx-card').should('not.be.empty');
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');

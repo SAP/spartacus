@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.schematics.json",
+  "compilerOptions": {
+    "outDir": ""
+  }
+}

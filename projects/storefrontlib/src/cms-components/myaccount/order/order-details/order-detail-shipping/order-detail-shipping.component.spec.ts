@@ -1,80 +1,60 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order } from '@spartacus/core';
-import { of } from 'rxjs';
-import { CardModule } from '../../../../../shared/components/card/card.module';
+import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';
 
 const mockOrder: Order = {
-  code: '1',
-  statusDisplay: 'Shipped',
-  deliveryAddress: {
-    firstName: 'John',
-    lastName: 'Smith',
-    line1: 'Buckingham Street 5',
-    line2: '1A',
-    phone: '(+11) 111 111 111',
-    postalCode: 'MA8902',
-    town: 'London',
-    country: {
-      isocode: 'UK',
-    },
-  },
-  deliveryMode: {
-    name: 'Standard order-detail-shipping',
-    description: '3-5 days',
-  },
-  paymentInfo: {
-    accountHolderName: 'John Smith',
-    cardNumber: '************6206',
-    expiryMonth: '12',
-    expiryYear: '2026',
-    cardType: {
-      name: 'Visa',
-    },
-    billingAddress: {
-      firstName: 'John',
-      lastName: 'Smith',
-      line1: 'Buckingham Street 5',
-      line2: '1A',
-      phone: '(+11) 111 111 111',
-      postalCode: 'MA8902',
-      town: 'London',
-      country: {
-        isocode: 'UK',
-      },
-    },
-  },
+  code: 'test-code-412',
+  statusDisplay: 'test-status-display',
   created: new Date('2019-02-11T13:02:58+0000'),
-  consignments: [
-    {
-      code: 'a00000341',
-      status: 'SHIPPED',
-      statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+  purchaseOrderNumber: 'test-po',
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
     },
-  ],
+  },
 };
+
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  firstDate: '1994-01-11T00:00Z',
+  trigger: {
+    activationTime: '1994-01-11T00:00Z',
+    displayTimeTable: 'every-test-date',
+  },
+  paymentType: {
+    code: 'test-type',
+    displayName: 'test-type-name',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+};
+
+class MockOrderDetailsService {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+}
 
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
-  let el: DebugElement;
+  let orderDetailsService: OrderDetailsService;
 
   beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
-
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
       declarations: [OrderDetailShippingComponent],
     }).compileComponents();
@@ -82,83 +62,34 @@ describe('OrderDetailShippingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
-    el = fixture.debugElement;
-
+    orderDetailsService = TestBed.inject(OrderDetailsService);
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {
+    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
-    fixture.detectChanges();
-    let order: Order;
-    component.order$
-      .subscribe((value) => {
-        order = value;
-      })
+  it('should be able to get order details', () => {
+    let result: any;
+
+    orderDetailsService
+      .getOrderDetails()
+      .subscribe((data) => (result = data))
       .unsubscribe();
-    expect(order).toEqual(mockOrder);
-  });
 
-  it('should order details shipping be rendered', () => {
-    fixture.detectChanges();
-    expect(el.query(By.css('.cx-account-summary'))).toBeTruthy();
-  });
+    expect(result).toEqual(mockOrder);
 
-  it('should order details display "ship to" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('div:nth-child(1) > cx-card .cx-card-label-container')
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockReplenishmentOrder)
     );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.deliveryAddress.firstName &&
-        mockOrder.deliveryAddress.lastName &&
-        mockOrder.deliveryAddress.line1 &&
-        mockOrder.deliveryAddress.line2 &&
-        mockOrder.deliveryAddress.town &&
-        mockOrder.deliveryAddress.postalCode
-    );
-  });
 
-  it('should order details display "bill to" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('div:nth-child(2) > cx-card .cx-card-label-container')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.paymentInfo.billingAddress.firstName &&
-        mockOrder.paymentInfo.billingAddress.lastName &&
-        mockOrder.paymentInfo.billingAddress.line1 &&
-        mockOrder.paymentInfo.billingAddress.line2 &&
-        mockOrder.paymentInfo.billingAddress.town &&
-        mockOrder.paymentInfo.billingAddress.postalCode
-    );
-  });
+    orderDetailsService
+      .getOrderDetails()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
 
-  it('should order details display "payment" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('div:nth-child(3) > cx-card .cx-card-label-container')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.paymentInfo.accountHolderName &&
-        mockOrder.paymentInfo.cardNumber &&
-        mockOrder.paymentInfo.expiryMonth &&
-        mockOrder.paymentInfo.expiryYear &&
-        mockOrder.paymentInfo.cardType.name
-    );
-  });
-
-  it('should order details display "shipping" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('div:nth-child(4) > cx-card .cx-card-label-container')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
-    );
+    expect(result).toEqual(mockReplenishmentOrder);
   });
 });

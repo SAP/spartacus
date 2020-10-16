@@ -11,11 +11,14 @@ BACKEND_URL="https://localhost:9002"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
-        "core"
-        "assets"
-        "storefrontlib"
-        "storefrontstyles"
-        "schematics"
+        "projects/core"
+        "projects/assets"
+        "projects/storefrontlib"
+        "projects/storefrontstyles"
+        "projects/schematics"
+        "projects/cds"
+        "core-libs/setup"
+        "feature-libs/my-account"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -29,9 +32,11 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='~9.1.0'
+ANGULAR_CLI_VERSION='~10.1.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+ADD_B2B_LIBS=false

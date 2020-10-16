@@ -12,7 +12,7 @@ import { CardType, PaymentDetails } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CustomEncoder } from '../cart/custom.encoder';
+import { HttpParamsURIEncoder } from '../../../util/http-params-uri.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
@@ -118,7 +118,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'text/html',
     });
-    let httpParams = new HttpParams({ encoder: new CustomEncoder() });
+    let httpParams = new HttpParams({ encoder: new HttpParamsURIEncoder() });
     Object.keys(parameters).forEach((key) => {
       httpParams = httpParams.append(key, parameters[key]);
     });
@@ -134,7 +134,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string,
     parameters: any
   ): Observable<PaymentDetails> {
-    let httpParams = new HttpParams({ encoder: new CustomEncoder() });
+    let httpParams = new HttpParams({ encoder: new HttpParamsURIEncoder() });
     Object.keys(parameters).forEach((key) => {
       httpParams = httpParams.append(key, parameters[key]);
     });
