@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, Occ } from '@spartacus/core';
-import { B2BUnitNode } from '@spartacus/organization/administrationrganization/core';
+import { B2BUnitNode } from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccOrgUnitNodeListNormalizer
