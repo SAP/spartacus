@@ -25,4 +25,13 @@ export class UnitUserItemService extends UserItemService {
   protected getRouteParams(item: B2BUser) {
     return { uid: item.orgUnit.uid };
   }
+
+  // @override to default method
+  launchDetails(item: B2BUser): void {
+    const cxRoute = this.getDetailsRoute();
+    const params = this.getRouteParams(item);
+    if (cxRoute && item && Object.keys(item).length > 0) {
+      this.routingService.go({ cxRoute, params });
+    }
+  }
 }

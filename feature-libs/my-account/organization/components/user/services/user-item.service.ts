@@ -40,4 +40,11 @@ export class UserItemService extends OrganizationItemService<B2BUser> {
   protected getDetailsRoute(): string {
     return 'userDetails';
   }
+
+  // @override to avoid errors while creation
+  launchDetails(item: B2BUser): void {
+    if (item.customerId !== null) {
+      super.launchDetails(item);
+    }
+  }
 }
