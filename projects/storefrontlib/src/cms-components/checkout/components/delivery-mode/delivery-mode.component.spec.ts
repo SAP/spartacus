@@ -211,18 +211,19 @@ describe('DeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+    const setDeliveryModeId = (value: string) => {
+      component.mode.controls['deliveryModeId'].setValue(value);
+    };
 
     it('should be disabled when delivery mode is not selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(null);
+      setDeliveryModeId(null);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
@@ -231,14 +232,7 @@ describe('DeliveryModeComponent', () => {
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
 
-      // when each it() spec is called, continue button is DISABLED by default:
-      // [disabled]="deliveryModeInvalid"
-      // as the empty delivery mode id will make deliveryModeInvalid = true,
-      // in order to make continue button CLICKABLE, we have to set a VALID delivery
-      // mode code to enable the button.
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
