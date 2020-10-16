@@ -1,13 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   Address,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
   SearchConfig,
   StateUtils,
 } from '@spartacus/core';
+import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { denormalizeCustomB2BSearch } from '../../utils/serializer';
 import {

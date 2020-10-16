@@ -1,14 +1,13 @@
 import {
   Address,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
   SearchConfig,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
-
 export abstract class OrgUnitAdapter {
   /**
    * Abstract method used to load orgUnit's details data.

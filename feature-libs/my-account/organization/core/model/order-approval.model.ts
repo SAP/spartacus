@@ -37,3 +37,8 @@ export interface OrderApprovalTrigger {
   activationTime?: string;
   displayTimeTable?: string;
 }
+
+export interface B2BApprovalProcess {
+  code?: string;
+  name?: string;
+}

@@ -4,7 +4,6 @@ import {
   Address,
   ADDRESS_LIST_NORMALIZER,
   ADDRESS_SERIALIZER,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   ConverterService,
@@ -23,6 +22,7 @@ import {
   OrgUnitAdapter,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
+import { B2BApprovalProcess } from '../../core/model/order-approval.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {

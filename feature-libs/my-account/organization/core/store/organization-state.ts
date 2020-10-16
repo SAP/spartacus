@@ -1,6 +1,5 @@
 import {
   Address,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   CostCenter,
@@ -8,7 +7,10 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../model/budget.model';
-import { OrderApproval } from '../model/order-approval.model';
+import {
+  B2BApprovalProcess,
+  OrderApproval,
+} from '../model/order-approval.model';
 import {
   OrderApprovalPermissionType,
   Permission,

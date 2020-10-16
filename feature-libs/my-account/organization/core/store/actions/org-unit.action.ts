@@ -1,11 +1,11 @@
 import {
   Address,
-  B2BApprovalProcess,
   B2BUnit,
   ListModel,
   SearchConfig,
   StateUtils,
 } from '@spartacus/core';
+import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { serializeSearchConfig } from '../../utils/serializer';
 import {

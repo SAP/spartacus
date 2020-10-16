@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
@@ -11,6 +10,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
+import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';

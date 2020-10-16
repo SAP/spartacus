@@ -35,4 +35,5 @@ export { Product } from './src/model/product.model';
 export { ProductSearchPage, Facet } from './src/model/product-search.model';
 export { Cart } from './src/model/cart.model';
 export { CostCenter } from './src/model/org-unit.model';
+export { B2BUnit } from './src/model/org-unit.model';
 /** AUGMENTABLE_TYPES_END */

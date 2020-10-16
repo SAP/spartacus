@@ -5,16 +5,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { B2BApprovalProcess } from '../../../core/model/order-approval.model';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitItemService } from '../services/unit-item.service';
-
 @Component({
   selector: 'cx-unit-form',
   templateUrl: './unit-form.component.html',

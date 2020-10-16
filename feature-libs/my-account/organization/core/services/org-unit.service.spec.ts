@@ -3,7 +3,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   Address,
   AuthService,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   CostCenter,
@@ -12,6 +11,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { B2BApprovalProcess } from '../model/order-approval.model';
 import {
   LoadStatus,
   OrganizationItemStatus,

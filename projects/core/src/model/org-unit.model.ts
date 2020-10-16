@@ -21,13 +21,6 @@ export interface B2BUnit {
   addresses?: Address[];
   uid?: string;
   name?: string;
-  parentOrgUnit?: Partial<B2BUnit>;
-  approvalProcess?: B2BApprovalProcess;
-  administrators?: B2BUser[];
-  approvers?: B2BUser[];
-  customers?: B2BUser[];
-  costCenters?: CostCenter[];
-  managers?: B2BUser[];
 }
 
 export interface B2BUser extends User {
@@ -38,9 +31,4 @@ export interface B2BUser extends User {
   selected?: boolean;
   isAssignedToApprovers?: boolean;
   email?: string;
-}
-
-export interface B2BApprovalProcess {
-  code?: string;
-  name?: string;
 }

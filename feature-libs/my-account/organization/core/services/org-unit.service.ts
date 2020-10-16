@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import {
   Address,
   AuthService,
-  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   CostCenter,
@@ -14,6 +13,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { B2BApprovalProcess } from '../model/order-approval.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { OrgUnitActions } from '../store/actions/index';
