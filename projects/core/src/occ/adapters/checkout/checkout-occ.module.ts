@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CheckoutAdapter } from '../../../checkout/connectors/checkout/checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
@@ -27,7 +26,7 @@ import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishme
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCheckoutConfig),
     {
