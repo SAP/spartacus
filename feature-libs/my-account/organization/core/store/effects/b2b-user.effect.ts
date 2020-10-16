@@ -116,7 +116,7 @@ export class B2BUserEffects {
   );
 
   @Effect()
-  verifyB2BUserAfterUpdate$: Observable<
+  checkSelfEmailUpdate: Observable<
     | AuthActions.Logout
     | B2BUserActions.LoadB2BUser
     | OrganizationActions.OrganizationClearData

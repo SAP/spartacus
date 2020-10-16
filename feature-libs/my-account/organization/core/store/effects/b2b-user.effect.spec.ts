@@ -346,7 +346,7 @@ describe('B2B User Effects', () => {
     });
   });
 
-  describe('verifyB2BUserAfterUpdate$', () => {
+  describe('checkSelfEmailUpdate', () => {
     it('should return LoadB2BUser action if edited different user', () => {
       const payload = {
         userId,
@@ -358,7 +358,7 @@ describe('B2B User Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.verifyB2BUserAfterUpdate$).toBeObservable(expected);
+      expect(effects.checkSelfEmailUpdate).toBeObservable(expected);
     });
 
     it('should return AuthActions.Logout action if edited own credentials', () => {
@@ -372,7 +372,7 @@ describe('B2B User Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.verifyB2BUserAfterUpdate$).toBeObservable(expected);
+      expect(effects.checkSelfEmailUpdate).toBeObservable(expected);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
   });

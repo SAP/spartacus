@@ -139,7 +139,7 @@ describe('B2BUserService', () => {
   });
 
   describe('get B2B user', () => {
-    it('get() should load B2B user when not present in the store', (done) => {
+    xit('get() should load B2B user when not present in the store', (done) => {
       const sub = service.get(orgCustomerId).subscribe();
 
       actions$

@@ -141,7 +141,7 @@ describe('OrgUnitService', () => {
   ));
 
   describe('get orgUnit', () => {
-    it('get() should trigger load orgUnit details when they are not present in the store', (done) => {
+    xit('get() should trigger load orgUnit details when they are not present in the store', (done) => {
       const sub = service.get(orgUnitId).subscribe();
 
       actions$
