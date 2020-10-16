@@ -8,7 +8,9 @@
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/organization": ["dist/organization"],
-      "@spartacus/organization/administration": ["dist/organization/administration"],
+      "@spartacus/organization/administration": [
+        "dist/organization/administration"
+      ],
       "@spartacus/organization/administration/core": [
         "dist/organization/administration/core"
       ],
