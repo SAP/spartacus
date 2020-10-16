@@ -5,7 +5,13 @@ import {
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +24,7 @@ export class ReplenishmentOrderDetailsService {
     );
 
   protected replenishmentOrderLoad$ = this.replenishmentOrderCode$.pipe(
+    distinctUntilChanged(),
     tap((replenishmentOrderCode: string) => {
       if (Boolean(replenishmentOrderCode)) {
         this.userReplenishmentOrderService.loadReplenishmentOrderDetails(
