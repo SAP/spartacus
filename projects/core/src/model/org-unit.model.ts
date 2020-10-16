@@ -25,10 +25,4 @@ export interface B2BUnit {
 
 export interface B2BUser extends User {
   active?: boolean;
-  approvers?: [];
-  orgUnit?: B2BUnit;
-  roles?: string[];
-  selected?: boolean;
-  isAssignedToApprovers?: boolean;
-  email?: string;
 }

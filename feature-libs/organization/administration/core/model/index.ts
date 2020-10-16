@@ -7,3 +7,4 @@ export * from './user-group.model';
 // Imported for side effects (module augmentation)
 import './cost-center.model';
 import './unit.model';
+import './b2b-user.model';

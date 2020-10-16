@@ -1,4 +1,3 @@
-import { B2BUser } from '@spartacus/core';
 import { B2BApprovalProcess } from './order-approval.model';
 
 declare module '@spartacus/core' {
