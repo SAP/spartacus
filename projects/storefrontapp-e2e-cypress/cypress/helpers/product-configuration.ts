@@ -14,7 +14,7 @@ const user = 'Variant Configuration';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
-  'cx-configurator-group-menu li.cx-configurator-menu-conflict';
+  'cx-configurator-group-menu li.cx-menu-conflict';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -242,19 +242,11 @@ export function isNextBtnDisabled() {
  */
 export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
-    '.' +
-      `${'ERROR'}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${'ERROR'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('not.exist');
 
   cy.get(
-    '.' +
-      `${'COMPLETE'}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${'COMPLETE'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('not.exist');
 }
 
@@ -267,11 +259,7 @@ export function isStatusIconNotDisplayed(groupName: string) {
  */
 export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
-    '.' +
-      `${status}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${status}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('exist');
 }
 
@@ -746,7 +734,8 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 function clickOnGroupByGroupIndex(groupIndex: number): void {
-  cy.get('.cx-configurator-menu>li')
+  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+    .not('.cx-menu-conflict')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
@@ -758,7 +747,8 @@ function clickOnGroupByGroupIndex(groupIndex: number): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  cy.get('.cx-configurator-menu>li')
+  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+    .not('.cx-menu-conflict')
     .eq(groupIndex)
     .children('a')
     .children()
@@ -775,7 +765,7 @@ export function clickOnGroup(groupIndex: number): void {
       clickOnGroupByGroupIndex(groupIndex);
     } else {
       clickOnGroupByGroupIndex(groupIndex);
-      clickOnGroupByGroupIndex(1);
+      clickOnGroupByGroupIndex(0);
     }
   });
 }

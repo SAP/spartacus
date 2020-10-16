@@ -109,7 +109,6 @@ context('Product Configuration', () => {
       configuration.isConfigPageDisplayed();
     });
 
-    // Failing test
     it('should be able to navigate from the cart', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickAddToCartBtn();
@@ -372,6 +371,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
+      configuration.clickOnNextBtn(GENERAL);
       configuration.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configurationOverview.verifyNotificationBannerOnOP(1);
@@ -384,6 +384,8 @@ context('Product Configuration', () => {
       configuration.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
       configurationOverview.clickOnResolveIssuesLinkOnOP();
+      configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
+      configuration.clickOnNextBtn(GENERAL);
       // Navigate back to the configuration page and deselect conflicting value
       configuration.clickOnGroup(3);
       configuration.deselectConflictingValue(
