@@ -1,0 +1,36 @@
+{
+  "name": "@spartacus/dev-schematics",
+  "version": "0.0.1",
+  "description": "Spartacus dev-schematics",
+  "keywords": [
+    "spartacus",
+    "dev-schematics"
+  ],
+  "scripts": {
+    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "build": "yarn clean && yarn copy:outlets:files && tsc -p tsconfig.json",
+    "test": "yarn build && jasmine \"src/**/*_spec.js\"",
+    "copy:outlets:files": "cd ./scripts && ./outlet-template-files.sh && cd .."
+  },
+  "author": "",
+  "license": "MIT",
+  "schematics": "./src/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@schematics/angular": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.5.0",
+    "@types/node": "^12.11.1",
+    "jasmine": "^3.5.0",
+    "rimraf": "^3.0.2",
+    "typescript": "~4.0.2"
+  },
+  "peerDependencies": {
+    "@spartacus/schematics": "3.0.0-next.0"
+  },
+  "ng-add": {
+    "save": "devDependencies"
+  }
+}

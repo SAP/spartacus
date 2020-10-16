@@ -84,7 +84,14 @@ describe('CartDetailsComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'getLoaded', 'removeEntry', 'getEntries', 'addEntry']
+    [
+      'getCart',
+      'getLoaded',
+      'removeEntry',
+      'getEntries',
+      'addEntry',
+      'isEnabled',
+    ]
   );
 
   const mockAuthService = jasmine.createSpyObj('AuthService', [
@@ -120,6 +127,8 @@ describe('CartDetailsComponent', () => {
         },
       ],
     }).compileComponents();
+
+    mockSelectiveCartService.isEnabled.and.returnValue(true);
   }));
 
   beforeEach(() => {
@@ -161,10 +170,23 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.returnValue(false);
+    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
     component.saveForLater(mockItem);
     fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
+  });
+
+  it('should not show save for later when selective cart is disabled', () => {
+    mockSelectiveCartService.isEnabled.and.returnValue(of(false));
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('button'));
+    expect(el).toBe(null);
+  });
+
+  it('should show save for later when selective cart is enabled', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('button'));
+    expect(el).toBeDefined();
   });
 
   it('should display cart text with cart number', () => {

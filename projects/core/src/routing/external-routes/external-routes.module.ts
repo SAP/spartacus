@@ -11,7 +11,6 @@ export class ExternalRoutesModule {
     return {
       ngModule: ExternalRoutesModule,
       providers: [
-        ExternalRoutesService,
         {
           provide: APP_INITIALIZER,
           multi: true,

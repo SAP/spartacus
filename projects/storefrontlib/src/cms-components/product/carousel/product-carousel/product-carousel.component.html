@@ -15,11 +15,12 @@
     [cxFocus]="{ key: item.code, group: focusGroup }"
     [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
   >
-    <cx-media
-      *ngIf="item.images?.PRIMARY"
-      [container]="item.images?.PRIMARY"
-    ></cx-media>
-    <h4>{{ item.name }}</h4>
-    <div class="price">{{ item.price?.formattedValue }}</div>
+    <cx-media [container]="item.images?.PRIMARY"></cx-media>
+    <h4>
+      {{ item.name }}
+    </h4>
+    <div class="price">
+      {{ item.price?.formattedValue }}
+    </div>
   </a>
 </ng-template>

@@ -1,0 +1,35 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "setup-${version}",
+    "commitMessage": "Bumping setup version to ${version}",
+    "tagAnnotation": "Bumping setup version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/setup"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build setup --prod"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/setup@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib setup --to setup-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/my-account"
+          ]
+        }
+      ]
+    }
+  }
+}

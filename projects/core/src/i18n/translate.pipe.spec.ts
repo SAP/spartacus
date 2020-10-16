@@ -18,6 +18,11 @@ describe('TranslatePipe', () => {
   });
 
   describe('transform', () => {
+    it('should return falsy when input is undefined', () => {
+      const result = pipe.transform(undefined);
+      expect(result).toBeFalsy();
+    });
+
     it('should return raw string when input is object with "raw" property ', () => {
       const result = pipe.transform({ raw: 'test' });
       expect(result).toBe('test');

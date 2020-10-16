@@ -4,15 +4,15 @@ import * as alerts from './global-message';
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
-  cy.getByText(/Sign in \/ Register/i).click();
-  cy.get('cx-page-layout').getByText('Register').click({ force: true });
+  cy.findByText(/Sign in \/ Register/i).click();
+  cy.get('cx-login-register').findByText('Register').click({ force: true });
   register(user);
 }
 
 export function navigateToTermsAndConditions() {
   const termsLink = `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`;
   cy.visit('/login/register');
-  cy.getByText('Terms & Conditions')
+  cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should('have.attr', 'href', termsLink);
   cy.visit(termsLink);

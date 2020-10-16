@@ -13,14 +13,11 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, map, take, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -42,32 +39,37 @@ export class TabParagraphContainerComponent
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
+    winRef?: WindowRef,
     // tslint:disable-next-line:unified-signatures
-    winRef: WindowRef
+    breakpointService?: BreakpointService
   );
   /**
-   * @deprecated since 1.4
-   *
-   * TODO(issue:#5813) Deprecated since 1.4
+   * @deprecated since 2.1
    */
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
-    cmsService: CmsService
+    cmsService: CmsService,
+    winRef?: WindowRef
   );
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService,
-    private winRef?: WindowRef
+    protected cmsService: CmsService,
+    protected winRef?: WindowRef,
+    protected breakpointService?: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
-    distinctUntilKeyChanged('components'),
+    distinctUntilChanged((x, y) => x?.components === y?.components),
     switchMap((data) =>
       combineLatest(
-        data.components.split(' ').map((component) =>
+        (data?.components ?? '').split(' ').map((component) =>
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((tab) => {
+              if (!tab) {
+                return undefined;
+              }
+
               if (!tab.flexType) {
                 tab = {
                   ...tab,
@@ -86,20 +88,27 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number): void {
-    this.activeTabNum = tabNum;
+  select(tabNum: number, event?: MouseEvent): void {
+    this.breakpointService
+      ?.isDown(BREAKPOINT.sm)
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+          if (event && event?.target) {
+            const target = event.target as HTMLElement;
+            const parentNode = target.parentNode as HTMLElement;
+            this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+          }
+        } else {
+          this.activeTabNum = tabNum;
+        }
+      });
   }
 
   ngOnInit(): void {
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
-
-      if (routeState && routeState['activeTab']) {
-        this.activeTabNum = routeState['activeTab'];
-      }
-    }
+    this.activeTabNum =
+      this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
   }
 
   ngAfterViewInit(): void {

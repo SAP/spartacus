@@ -1,9 +1,9 @@
 import { user } from '../../sample-data/checkout-flow';
+import { focusableSelectors } from '../../support/utils/a11y-tab';
 import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { TabElement, TabbingOrderTypes } from './tabbing-order.model';
-import { focusableSelectors } from '../../support/utils/a11y-tab';
+import { TabbingOrderTypes, TabElement } from './tabbing-order.model';
 
 export const testProductUrl = '/product/779841';
 export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
@@ -58,6 +58,10 @@ export function verifyTabElement(tabElement: TabElement) {
   };
 
   switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE: {
+      cy.focused().should('contain', tabElement.value);
+      return;
+    }
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
       return;
@@ -179,11 +183,11 @@ export function addProduct(productCode?: string): void {
   const productUrl = productCode ? `/product/${productCode}` : testProductUrl;
 
   cy.visit(productUrl);
-  cy.getAllByText(/Add to cart/i)
+  cy.findAllByText(/Add to cart/i)
     .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getAllByText(/View cart/i)
+    cy.findAllByText(/View cart/i)
       .first()
       .click();
   });
@@ -192,6 +196,6 @@ export function addProduct(productCode?: string): void {
 
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
-  cy.getAllByText('Continue').first().click();
+  cy.findAllByText('Continue').first().click({ force: true });
   cy.wait(`@${nextStep}`);
 }

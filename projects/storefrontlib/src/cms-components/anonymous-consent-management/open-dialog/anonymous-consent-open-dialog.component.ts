@@ -1,18 +1,31 @@
-import { Component } from '@angular/core';
-import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
-import { ModalService } from '../../../shared/components/modal/modal.service';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { take } from 'rxjs/operators';
+import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
 })
 export class AnonymousConsentOpenDialogComponent {
-  constructor(protected modalService: ModalService) {}
+  @ViewChild('open') openElement: ElementRef;
+
+  constructor(
+    protected vcr: ViewContainerRef,
+    protected anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService
+  ) {}
 
   openDialog(): void {
-    this.modalService.open(AnonymousConsentDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
+    const dialog = this.anonymousConsentLaunchDialogService.openDialog(
+      this.openElement,
+      this.vcr
+    );
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
   }
 }

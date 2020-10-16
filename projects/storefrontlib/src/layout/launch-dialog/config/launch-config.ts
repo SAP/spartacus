@@ -1,15 +1,7 @@
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
-import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
 
-@Injectable({
-  providedIn: 'root',
-  useExisting: Config,
-})
-export abstract class LaunchConfig {
-  launch?: {
-    [key: string]: LaunchOptions;
-  };
+export interface LaunchConfig {
+  [key: string]: LaunchOptions;
 }
 
 export type LaunchOptions =
@@ -27,14 +19,9 @@ export interface LaunchDialog {
    */
   multi?: boolean;
   /**
-   * Optional elements for other configurations
+   * Dialog type is used to apply CSS classes
    */
-  options?: {
-    /**
-     * Dialog type is used to apply CSS classes
-     */
-    dialogType?: DIALOG_TYPE;
-  };
+  dialogType?: DIALOG_TYPE;
 }
 
 /**
@@ -77,6 +64,8 @@ export interface LaunchRoute {
  */
 export enum DIALOG_TYPE {
   POPOVER = 'POPOVER',
+  POPOVER_CENTER = 'POPOVER_CENTER',
+  POPOVER_CENTER_BACKDROP = 'POPOVER_CENTER_BACKDROP',
   DIALOG = 'DIALOG',
   SIDEBAR_START = 'SIDEBAR_START',
   SIDEBAR_END = 'SIDEBAR_END',
@@ -88,4 +77,7 @@ export enum DIALOG_TYPE {
 export enum LAUNCH_CALLER {
   ASM = 'ASM',
   SKIP_LINKS = 'SKIP_LINKS',
+  ANONYMOUS_CONSENT = 'ANONYMOUS_CONSENT',
+  REPLENISHMENT_ORDER = 'REPLENISHMENT_ORDER',
+  PLACE_ORDER_SPINNER = 'PLACE_ORDER_SPINNER',
 }

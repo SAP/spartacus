@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -38,6 +38,10 @@ class MockUserAddressService {
 
   getRegions(): Observable<Region[]> {
     return of();
+  }
+
+  getAddresses(): Observable<Address[]> {
+    return of([]);
   }
 }
 
@@ -62,6 +66,7 @@ const mockCountries: Country[] = [
     name: 'Serbia',
   },
 ];
+
 const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
@@ -127,6 +132,9 @@ describe('AddressFormComponent', () => {
   let mockGlobalMessageService: any;
   let mockModalService: MockModalService;
 
+  const defaultAddressCheckbox = (): DebugElement =>
+    fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
+
   beforeEach(async(() => {
     mockGlobalMessageService = {
       add: createSpy(),
@@ -177,14 +185,13 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', (done) => {
+  it('should call ngOnInit to get countries data even when they not exist', (done) => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
 
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'loadTitles').and.stub();
-
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
     spyOn(
       mockCheckoutDeliveryService,
@@ -195,13 +202,6 @@ describe('AddressFormComponent', () => {
     component.countries$
       .subscribe(() => {
         expect(userAddressService.loadDeliveryCountries).toHaveBeenCalled();
-        done();
-      })
-      .unsubscribe();
-
-    component.titles$
-      .subscribe(() => {
-        expect(userService.loadTitles).toHaveBeenCalled();
         done();
       })
       .unsubscribe();
@@ -348,23 +348,14 @@ describe('AddressFormComponent', () => {
 
   it('should toggleDefaultAddress() adapt control value', () => {
     component.setAsDefaultField = true;
-    fixture.detectChanges();
-    const checkbox = fixture.debugElement.query(
-      By.css('[formcontrolname=defaultAddress]')
-    ).nativeElement;
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
 
     fixture.detectChanges();
-    checkbox.click();
+    defaultAddressCheckbox().nativeElement.click();
 
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
-  });
-
-  it('should call titleSelected()', () => {
-    const mockTitleCode = 'test title code';
-    component.titleSelected({ code: mockTitleCode });
-    expect(component.addressForm['controls'].titleCode.value).toEqual(
-      mockTitleCode
-    );
   });
 
   it('should call countrySelected()', () => {
@@ -379,14 +370,6 @@ describe('AddressFormComponent', () => {
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountryIsocode
     );
-  });
-
-  it('should call regionSelected()', () => {
-    const mockRegionIsocode = 'test region isocode';
-    component.regionSelected({ isocode: mockRegionIsocode });
-    expect(
-      component.addressForm['controls'].region['controls'].isocode.value
-    ).toEqual(mockRegionIsocode);
   });
 
   it('should call openSuggestedAddress', (done) => {
@@ -496,5 +479,23 @@ describe('AddressFormComponent', () => {
     spyOn(component.regionsSub, 'unsubscribe');
     component.ngOnDestroy();
     expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
+
+    fixture.detectChanges();
+
+    expect(defaultAddressCheckbox().nativeElement).toBeTruthy();
+  });
+
+  it('should not show the "Set as default" checkbox when there no saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+
+    fixture.detectChanges();
+
+    expect(defaultAddressCheckbox()).toBe(null);
   });
 });

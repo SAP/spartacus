@@ -7,6 +7,9 @@ export const DEFAULT_CDS_CONFIG: CdsConfig = {
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
     },
+    merchandising: {
+      defaultCarouselViewportThreshold: 80,
+    },
     consentTemplateId: 'PROFILE',
     profileTag: {
       allowInsecureCookies: false,

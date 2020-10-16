@@ -50,13 +50,13 @@ export function addToModuleImports(
 export function addToModuleDeclarations(
   host: Tree,
   modulePath: string,
-  importText: string,
+  declarations: string,
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   return addToMetadata(
     host,
     modulePath,
-    importText,
+    declarations,
     'declarations',
     moduleSource
   );
@@ -65,13 +65,13 @@ export function addToModuleDeclarations(
 export function addToModuleEntryComponents(
   host: Tree,
   modulePath: string,
-  importText: string,
+  entryComponentsText: string,
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   return addToMetadata(
     host,
     modulePath,
-    importText,
+    entryComponentsText,
     'entryComponents',
     moduleSource
   );
@@ -80,17 +80,31 @@ export function addToModuleEntryComponents(
 export function addToModuleExports(
   host: Tree,
   modulePath: string,
-  importText: string,
+  exportsText: string,
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
-  return addToMetadata(host, modulePath, importText, 'exports', moduleSource);
+  return addToMetadata(host, modulePath, exportsText, 'exports', moduleSource);
 }
 
-function addToMetadata(
+export function addToModuleProviders(
   host: Tree,
   modulePath: string,
   importText: string,
-  metadataType: 'imports' | 'declarations' | 'entryComponents' | 'exports',
+  moduleSource?: ts.SourceFile
+): InsertChange[] {
+  return addToMetadata(host, modulePath, importText, 'providers', moduleSource);
+}
+
+export function addToMetadata(
+  host: Tree,
+  modulePath: string,
+  text: string,
+  metadataType:
+    | 'imports'
+    | 'declarations'
+    | 'entryComponents'
+    | 'exports'
+    | 'providers',
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   moduleSource = moduleSource || getTsSourceFile(host, modulePath);
@@ -98,7 +112,7 @@ function addToMetadata(
     moduleSource,
     modulePath,
     metadataType,
-    importText
+    text
   ) as InsertChange[];
 }
 

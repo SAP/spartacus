@@ -13,15 +13,18 @@ test-results.xml
 docs.tar.gz
 docs.zip
 
-# spartacussampleaddon
-spartacussampleaddon.zip
-spartacussampleaddon.tar.gz
-spartacussampledataaddon.zip
-spartacussampledataaddon.tar
+# spartacussampledataaddon
+spartacussampledataaddon.*
+spartacussampledata.*
 
 # dependencies
 node_modules/
 package-lock.json
+
+# verdaccio storage
+scripts/install/storage
+# Environment config file
+scripts/install/config.sh
 
 # IDEs and editors
 /.idea
@@ -53,3 +56,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+**/git-ignore

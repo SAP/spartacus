@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "augmented-types": {
+      "implementation": "./augmented-types",
+      "schema": "./augmented-types/schema.json",
+      "description": "Propagate typing exports to main d.ts file to make them augmentable."
+    }
+  }
+}

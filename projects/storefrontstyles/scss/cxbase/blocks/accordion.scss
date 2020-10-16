@@ -14,7 +14,7 @@
         font-weight: 600;
         color: theme-color('text');
         .btn {
-          text-align: left;
+          text-align: start;
           text-decoration: none !important;
           width: 100%;
           font-weight: 600;
@@ -68,7 +68,10 @@
         cursor: pointer;
       }
       .cx-accordion-title {
-        padding: 15px 15px 15px 50px;
+        padding-top: 15px;
+        padding-inline-end: 15px;
+        padding-bottom: 15px;
+        padding-inline-start: 50px;
         display: block;
         position: relative;
         font-weight: 600;
@@ -82,7 +85,10 @@
       background-color: var(--cx-color-inverse);
 
       .cx-accordion-content {
-        padding: 0 40px 10px 40px;
+        padding-top: 0;
+        padding-inline-end: 40px;
+        padding-bottom: 10px;
+        padding-inline-start: 40px;
       }
     }
   }

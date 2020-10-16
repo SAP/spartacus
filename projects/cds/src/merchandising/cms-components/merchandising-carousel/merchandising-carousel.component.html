@@ -13,20 +13,30 @@
     itemWidth="285px"
   >
   </cx-carousel>
-</ng-container>
 
-<ng-template #carouselItem let-item="item">
-  <div
-    class="data-cx-merchandising-product"
-    [cxAttributes]="item.metadata"
-    [cxAttributesNamePrefix]="'data-cx-merchandising-product'"
-  ></div>
-  <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
-    <cx-media *ngIf="item.images?.PRIMARY" [container]="item.images.PRIMARY">
-    </cx-media>
-    <h4>{{ item.name }}</h4>
-    <div class="price">
-      {{ item.price?.formattedValue }}
-    </div>
-  </a>
-</ng-template>
+  <ng-template #carouselItem let-item="item">
+    <div
+      class="data-cx-merchandising-product"
+      [cxAttributes]="item.metadata"
+      [cxAttributesNamePrefix]="'data-cx-merchandising-product'"
+    ></div>
+    <a
+      tabindex="0"
+      [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+      (click)="
+        onMerchandisingCarouselItemClick(merchandisingCarouselModel, item)
+      "
+    >
+      <cx-media
+        *ngIf="item.images?.PRIMARY"
+        [container]="item.images.PRIMARY"
+        format="product"
+      >
+      </cx-media>
+      <h4>{{ item.name }}</h4>
+      <div class="price">
+        {{ item.price?.formattedValue }}
+      </div>
+    </a>
+  </ng-template>
+</ng-container>

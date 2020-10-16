@@ -1,33 +1,42 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.0.0-next.7",
+  "version": "3.0.0-next.4",
   "description": "Spartacus schematics",
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "keywords": [
     "spartacus",
     "schematics"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && jasmine \"src/**/*_spec.js\""
+    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "build": "yarn clean && tsc -p tsconfig.json",
+    "test": "yarn build && jasmine \"src/**/*_spec.js\""
   },
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.1.0",
-    "@angular-devkit/schematics": "^9.1.0",
-    "@angular/cdk": "^9.2.0",
-    "@angular/pwa": "^0.901.0",
-    "@angular/localize": "^9.1.0",
-    "@nguniversal/express-engine": "^9.1.0",
-    "@schematics/angular": "^9.1.0",
-    "@schematics/update": "^0.901.0",
+    "@angular-devkit/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/cdk": "^10.2.0",
+    "@angular/localize": "^10.1.0",
+    "@angular/pwa": "^0.1001.0",
+    "@nguniversal/express-engine": "^10.1.0",
+    "@schematics/angular": "^10.1.0",
+    "@schematics/update": "^0.1001.0"
+  },
+  "devDependencies": {
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
     "jasmine": "^3.5.0",
+    "rimraf": "^3.0.2",
     "shelljs": "^0.8.3",
-    "typescript": "~3.8.3"
+    "typescript": "~4.0.2"
+  },
+  "ng-add": {
+    "save": "devDependencies"
   },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",
@@ -37,7 +46,12 @@
       "@spartacus/styles",
       "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/incubator"
+      "@spartacus/incubator",
+      "@spartacus/my-account",
+      "@spartacus/product",
+      "@spartacus/cdc",
+      "@spartacus/setup"
     ]
-  }
+  },
+  "main": "src/public_api.js"
 }

@@ -1,6 +1,5 @@
 import {
   chain,
-  externalSchematic,
   Rule,
   SchematicContext,
   Tree,
@@ -11,8 +10,12 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { noop } from 'rxjs';
 import { ANGULAR_LOCALIZE } from '../../../shared/constants';
-import { getAngularVersion } from '../../../shared/utils/package-utils';
+import {
+  getAngularVersion,
+  isAngularLocalizeInstalled,
+} from '../../../shared/utils/package-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -46,11 +49,20 @@ function installPackageJsonDependencies(): Rule {
 }
 
 export function migrate(): Rule {
-  return () => {
-    return chain([
-      addPackageJsonDependencies(),
-      installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
-    ]);
+  return (tree: Tree, context: SchematicContext) => {
+    const angularLocalizeInstalled = isAngularLocalizeInstalled(tree);
+    if (angularLocalizeInstalled) {
+      context.logger.info(
+        `Skipping the installation of ${ANGULAR_LOCALIZE} as it's already installed.`
+      );
+    } else {
+      context.logger.warn(
+        `Please run the following: ng add ${ANGULAR_LOCALIZE}`
+      );
+    }
+
+    return angularLocalizeInstalled
+      ? noop()
+      : chain([addPackageJsonDependencies(), installPackageJsonDependencies()]);
   };
 }

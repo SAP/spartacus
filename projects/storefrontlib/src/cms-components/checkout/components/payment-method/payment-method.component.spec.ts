@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -12,20 +12,12 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   PaymentDetails,
-  RoutesConfig,
-  RoutingConfigService,
-  RoutingService,
   UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { CardComponent } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';
-import {
-  CheckoutStep,
-  CheckoutStepType,
-} from '../../model/checkout-step.model';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
@@ -50,15 +42,6 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockCheckoutStep: CheckoutStep = {
-  id: 'payment-method',
-  name: 'Payment method',
-  routeName: 'checkoutPaymentDetails',
-  type: [CheckoutStepType.PAYMENT_DETAILS],
-};
-
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-
 class MockUserPaymentService {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
@@ -78,6 +61,7 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+  paymentProcessSuccess() {}
 }
 class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<PaymentDetails> {
@@ -85,30 +69,22 @@ class MockCheckoutDeliveryService {
   }
 }
 
-class MockRoutingService {
-  go = createSpy();
+class MockCheckoutStepService {
+  next = createSpy();
+  back = createSpy();
+  getBackBntText(): string {
+    return 'common.back';
+  }
 }
 
-class MockCheckoutConfigService {
-  getCheckoutStep(): CheckoutStep {
-    return mockCheckoutStep;
-  }
-  getNextCheckoutStepUrl(): string {
-    return 'checkout/review-order';
-  }
-  getPreviousCheckoutStepUrl(): string {
-    return 'checkout/delivery-mode';
-  }
-}
+const mockActivatedRoute = {
+  snapshot: {
+    url: ['checkout', 'payment-method'],
+  },
+};
 
 class MockGlobalMessageService {
   add = createSpy();
-}
-
-class MockRoutingConfigService {
-  getRouteConfig(routeName: string) {
-    return MockRoutesConfig[routeName];
-  }
 }
 
 class MockActiveCartService {
@@ -152,10 +128,10 @@ describe('PaymentMethodComponent', () => {
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentService;
-  let mockRoutingService: RoutingService;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
   let mockCheckoutService: CheckoutService;
+  let checkoutStepService: CheckoutStepService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -183,19 +159,19 @@ describe('PaymentMethodComponent', () => {
           useClass: MockCheckoutPaymentService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        { provide: ActivatedRoute, useValue: {} },
-        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
     mockUserPaymentService = TestBed.inject(UserPaymentService);
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
-    mockRoutingService = TestBed.inject(RoutingService);
     mockActiveCartService = TestBed.inject(ActiveCartService);
     mockGlobalMessageService = TestBed.inject(GlobalMessageService);
     mockCheckoutService = TestBed.inject(CheckoutService);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
   }));
 
   beforeEach(() => {
@@ -321,8 +297,8 @@ describe('PaymentMethodComponent', () => {
         billingAddress: mockAddress,
       });
       selectedPaymentMethod.next(mockPaymentDetails);
-      expect(mockRoutingService.go).toHaveBeenCalledWith(
-        defaultStorefrontRoutesConfig.checkoutReviewOrder.paths[0]
+      expect(checkoutStepService.next).toHaveBeenCalledWith(
+        <any>mockActivatedRoute
       );
     });
 
@@ -403,7 +379,7 @@ describe('PaymentMethodComponent', () => {
         component['createCard'](
           selectedPaymentMethod,
           {
-            textDefaultPaymentMethod: 'Default payment method',
+            textDefaultPaymentMethod: '✓ DEFAULT',
             textExpires: 'Expires',
             textUseThisPayment: 'Use this payment',
             textSelected: 'Selected',
@@ -411,7 +387,7 @@ describe('PaymentMethodComponent', () => {
           selectedPaymentMethod
         )
       ).toEqual({
-        title: 'Default payment method',
+        title: '✓ DEFAULT',
         textBold: 'Name',
         text: ['123456789', 'Expires'],
         img: 'CREDIT_CARD',
@@ -500,7 +476,7 @@ describe('PaymentMethodComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should go to previous step after clicking goPreview', () => {
+    it('should go to previous step after clicking back', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
@@ -519,8 +495,8 @@ describe('PaymentMethodComponent', () => {
         .nativeElement.click();
       fixture.detectChanges();
 
-      expect(mockRoutingService.go).toHaveBeenCalledWith(
-        defaultStorefrontRoutesConfig.checkoutDeliveryMode.paths[0]
+      expect(checkoutStepService.back).toHaveBeenCalledWith(
+        <any>mockActivatedRoute
       );
     });
 

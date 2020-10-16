@@ -75,13 +75,13 @@ export class SearchBoxComponent {
           return {
             ...c,
             displayProducts:
-              <any>c.displayProducts === 'true' || c.displayProducts === true,
+              <any>c?.displayProducts === 'true' || c?.displayProducts === true,
             displayProductImages:
-              <any>c.displayProductImages === 'true' ||
-              c.displayProductImages === true,
+              <any>c?.displayProductImages === 'true' ||
+              c?.displayProductImages === true,
             displaySuggestions:
-              <any>c.displaySuggestions === 'true' ||
-              c.displaySuggestions === true,
+              <any>c?.displaySuggestions === 'true' ||
+              c?.displaySuggestions === true,
           };
         })
       );

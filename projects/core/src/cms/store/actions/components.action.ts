@@ -23,7 +23,7 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
   constructor(
-    public payload: { uid: string; error: any; pageContext: PageContext }
+    public payload: { uid: string; error?: any; pageContext: PageContext }
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }

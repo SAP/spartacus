@@ -5,6 +5,15 @@
   margin: auto;
 
   cx-page-slot {
+    cx-banner {
+      cx-media {
+        img {
+          display: flex;
+          height: auto;
+        }
+      }
+    }
+
     &.Section1 {
       max-width: 1140px;
       margin: auto;
@@ -16,11 +25,11 @@
     }
 
     &.Section2A {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
 
     &.Section2B {
-      margin-right: auto;
+      margin-inline-end: auto;
     }
 
     &.Section2A,

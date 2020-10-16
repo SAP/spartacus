@@ -25,7 +25,7 @@ export function orderHistoryWithOrdersTabbingOrder() {
         type: TabbingOrderTypes.LINK,
       },
       {
-        value: 'In Process',
+        value: 'Pending',
         type: TabbingOrderTypes.LINK,
       },
       {

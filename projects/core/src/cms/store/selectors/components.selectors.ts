@@ -31,36 +31,57 @@ export const componentsLoaderStateSelectorFactory = (
   );
 };
 
+/**
+ * This selector will return:
+ *   - true: component for this context exists
+ *   - false: component for this context doesn't exist
+ *   - undefined: if the exists status for component is unknown
+ *
+ * @param uid
+ * @param context
+ */
 export const componentsContextExistsSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, boolean> => {
+): MemoizedSelector<StateWithCms, boolean | undefined> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
-    (loaderState) => StateUtils.loaderValueSelector(loaderState) || false
+    (loaderState) => StateUtils.loaderValueSelector(loaderState)
   );
 };
 
 export const componentsDataSelectorFactory = (
   uid: string
-): MemoizedSelector<StateWithCms, CmsComponent> => {
+): MemoizedSelector<StateWithCms, CmsComponent | undefined> => {
   return createSelector(componentsContextSelectorFactory(uid), (state) =>
     state ? state.component : undefined
   );
 };
 
+/**
+ * This selector will return:
+ *   - CmsComponent instance: if we have component data for specified context
+ *   - null: if there is no component data for specified context
+ *   - undefined: if status of component data for specified context is unknown
+ *
+ * @param uid
+ * @param context
+ */
 export const componentsSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, CmsComponent> => {
+): MemoizedSelector<StateWithCms, CmsComponent | null | undefined> => {
   return createSelector(
     componentsDataSelectorFactory(uid),
     componentsContextExistsSelectorFactory(uid, context),
     (componentState, exists) => {
-      if (componentState && exists) {
-        return componentState;
-      } else {
-        return undefined;
+      switch (exists) {
+        case true:
+          return componentState;
+        case false:
+          return null;
+        case undefined:
+          return undefined;
       }
     }
   );

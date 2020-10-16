@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentHandler } from './handlers/component-handler';
 import { DefaultComponentHandler } from './handlers/default-component.handler';
-import { WebComponentHandler } from './handlers/web-component.handler';
 import { LazyComponentHandler } from './handlers/lazy-component.handler';
 
 @NgModule({
@@ -17,11 +16,6 @@ import { LazyComponentHandler } from './handlers/lazy-component.handler';
     {
       provide: ComponentHandler,
       useExisting: LazyComponentHandler,
-      multi: true,
-    },
-    {
-      provide: ComponentHandler,
-      useExisting: WebComponentHandler,
       multi: true,
     },
   ],

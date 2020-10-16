@@ -2,9 +2,10 @@ export const UTF_8 = 'utf-8';
 
 /***** Libraries versions start *****/
 
-export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^9.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '^9.1.0';
+export const DEFAULT_ANGULAR_VERSION = '^10.1.0';
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
+export const DEFAULT_NGRX_VERSION = '~10.0.0';
 
 /***** Libraries versions end *****/
 
@@ -165,12 +166,11 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
-export const PAGE_SLOT_COMPONENT = 'PageSlotComponent;';
+export const PAGE_SLOT_COMPONENT = 'PageSlotComponent';
 export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
@@ -180,6 +180,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
 export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
@@ -191,8 +192,36 @@ export const STORE_FINDER_SERVICE = 'StoreFinderService';
 export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
 export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
+export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
+  'TabParagraphContainerComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
+export const CART_CONFIG_SERVICE = 'CartConfigService';
+export const MULTI_CART_SERVICE = 'MultiCartService';
+export const BASE_SITE_SERVICE = 'BaseSiteService';
+export const QUALTRICS_LOADER_SERVICE = 'QualtricsLoaderService';
+export const RENDERER_FACTORY_2 = 'RendererFactory2';
+export const QUALTRICS_CONFIG = 'QualtricsConfig';
+export const QUALTRICS_COMPONENT = 'QualtricsComponent';
+export const PRODUCT_FACET_NAVIGATION_COMPONENT =
+  'ProductFacetNavigationComponent';
+export const BREAKPOINT_SERVICE = 'BreakpointService';
+export const STORE_FINDER_GRID_COMPONENT = 'StoreFinderGridComponent';
+export const OUTLET_RENDERER_SERVICE = 'OutletRendererService';
+export const SKIP_LINK_SERVICE = 'SkipLinkService';
+export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
+export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
+export const STOREFRONT_COMPONENT = 'StorefrontComponent';
+export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
+export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
+  'AnonymousConsentManagementBannerComponent';
+export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
+  'AnonymousConsentLaunchDialogService';
+export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
+  'AnonymousConsentOpenDialogComponent';
+
+export const TEST_OUTLET_MODULE = 'TestOutletModule';
+export const TEST_CONFIG_MODULE = 'TestConfigModule';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -265,21 +294,24 @@ export const GET_STATE_SLICE = 'getStateSlice';
 export const OF_LOADER_LOAD = 'ofLoaderLoad';
 export const OF_LOADER_FAIL = 'ofLoaderFail';
 export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
+
+export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
+export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
+export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
+export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
+export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
-export const TODO_SPARTACUS = 'TODO:Spartacus -';
-
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
 export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
 
 export const GET_COMPONENT_ENTITIES_OLD_API = 'getComponentEntities';
-export const GET_COMPONENT_ENTITIES_COMMENT = `// ${TODO_SPARTACUS} '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
 
 export const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
   'componentStateSelectorFactory';
@@ -288,9 +320,19 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
+
+export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
+export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
+export const ADD_DYNAMIC_ATTRIBUTES = 'addDynamicAttributes';
+export const GET_FALSY_URL_MATCHER = 'getFalsyUrlMatcher';
+export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
+export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
+export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
+export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 /***** APIs end *****/
 
 /***** Misc start *****/
+export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_DOCS_URL =
   'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/

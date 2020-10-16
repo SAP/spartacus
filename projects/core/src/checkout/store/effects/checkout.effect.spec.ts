@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
+  CheckoutCostCenterConnector,
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
@@ -23,6 +24,8 @@ import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
+const termsChecked = true;
+
 const address: Address = {
   id: 'testAddressId',
   firstName: 'John',
@@ -60,12 +63,17 @@ class MockCheckoutPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
+class MockCheckoutCostCenterConnector {
+  setCostCenter = createSpy().and.returnValue(of({}));
+}
+
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
   clearCheckoutDeliveryAddress = () => of({});
   clearCheckoutDeliveryMode = () => of({});
 }
+
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -83,6 +91,10 @@ describe('Checkout effect', () => {
         {
           provide: CheckoutPaymentConnector,
           useClass: MockCheckoutPaymentConnector,
+        },
+        {
+          provide: CheckoutCostCenterConnector,
+          useClass: MockCheckoutCostCenterConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
@@ -188,12 +200,20 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
-      const action = new SiteContextActions.LanguageChange();
-      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
-      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
+      const completion1 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
+      const completion3 = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(
         entryEffects.clearCheckoutMiscsDataOnLanguageChange$
@@ -203,7 +223,10 @@ describe('Checkout effect', () => {
 
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });
@@ -342,8 +365,9 @@ describe('Checkout effect', () => {
   describe('placeOrder$', () => {
     it('should place order', () => {
       const action = new CheckoutActions.PlaceOrder({
-        userId: userId,
-        cartId: cartId,
+        userId,
+        cartId,
+        termsChecked,
       });
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
@@ -409,6 +433,34 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
+    });
+  });
+
+  describe('setCostCenter$', () => {
+    it('should set cost center to cart', () => {
+      const action = new CheckoutActions.SetCostCenter({
+        userId: userId,
+        cartId: cartId,
+        costCenterId: 'testId',
+      });
+      const completion1 = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
+      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId,
+        cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
+
+      expect(entryEffects.setCostCenter$).toBeObservable(expected);
     });
   });
 });

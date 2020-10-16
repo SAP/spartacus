@@ -10,7 +10,7 @@ import {
   selector: '[cxAttributes]',
 })
 export class AttributesDirective implements OnChanges {
-  @Input() cxAttributes: Map<string, string>;
+  @Input() cxAttributes: { [attribute: string]: any };
 
   private _attributesNamePrefix: string;
   @Input() set cxAttributesNamePrefix(attributesNamePrefix: string) {
@@ -21,9 +21,10 @@ export class AttributesDirective implements OnChanges {
 
   ngOnChanges(): void {
     if (this.cxAttributes) {
-      this.cxAttributes.forEach(
-        (attributeValue: string, attributeName: string) => {
-          if (attributeName && attributeValue) {
+      for (const attributeName in this.cxAttributes) {
+        if (this.cxAttributes.hasOwnProperty(attributeName)) {
+          const attributeValue = this.cxAttributes[attributeName];
+          if (attributeValue) {
             const _attributeName = this._attributesNamePrefix
               ? `${this._attributesNamePrefix}-${attributeName}`
               : attributeName;
@@ -34,7 +35,7 @@ export class AttributesDirective implements OnChanges {
             );
           }
         }
-      );
+      }
     }
   }
 }

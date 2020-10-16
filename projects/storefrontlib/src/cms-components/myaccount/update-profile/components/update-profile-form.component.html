@@ -7,9 +7,9 @@
         }}</span>
         <select formControlName="titleCode" class="form-control">
           <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
-          <option *ngFor="let title of titles" [value]="title.code">{{
-            title.name
-          }}</option>
+          <option *ngFor="let title of titles" [value]="title.code">
+            {{ title.name }}
+          </option>
         </select>
       </label>
     </div>

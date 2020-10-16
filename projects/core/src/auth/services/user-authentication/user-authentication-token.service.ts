@@ -10,7 +10,9 @@ import {
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserAuthenticationTokenService {
   constructor(
     protected http: HttpClient,

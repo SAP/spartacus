@@ -4,11 +4,11 @@
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-- Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
-- Try out a [sample Spartacus storefront](https://spartacus.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com/) on our public demo site.
+- Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/spartacus-docs/).
+- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
-- Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
-- For details on the 1.0 launch, see the [Release Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) on our Spartacus documentation site.
+- Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-i36rvrqe-kNA9RutaT0W17A_jh0Hygg).
+- For details on the 2.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
 
@@ -17,8 +17,6 @@ Spartacus is...
 - **Progressive**: Spartacus is on a journey to be fully compliant with the Progressive Web Application (PWA) checklist. We aim to add support for all major features of a PWA-enabled storefront, to offer the best possible customer experience regardless of device or location.
 - **Open Source**: Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus. See our [contributing documentation](CONTRIBUTING.md) for more information.
 - **Modern**: The Spartacus storefront is part of our exciting new journey towards a customizable-yet-upgradable technology for SAP Commerce Cloud installations. See [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
-
-
 
 # Storefront Features
 
@@ -33,28 +31,37 @@ Spartacus provides core storefront features such as:
 - Checkout
 - Order history
 
-See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) for more information.
-
-
+See the [Release documentation](https://sap.github.io/spartacus-docs/release-information/) for more information.
 
 # Requirements
 
-- SAP Commerce Cloud instance
-  - Release 1905 recommended
-  - Works with 1811 and 1808, with reduced functionality
+If you are working with Spartacus 3.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): **10.1** or later.
+- node.js: 12.16.1 or later, < 13.0. The most recent 12.x version is recommended.
+- yarn: v1.15 or later
+
+If you are working with Spartacus 2.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): **9.1** or later.
+- node.js: 10.14.1 or later, < 13.0. The most recent 12.x version is recommended.
+- yarn: v1.15 or later
+
+If you are working with Spartacus 1.x, your Angular development environment should include the following:
+
 - [Angular CLI](https://angular.io/): v8.0.0 or later, < v9.0.0
 - node.js: v10 or later, < v12
 - yarn: v1.15 or later
+
+For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 is recommended.
 
 # Download and Installation
 
 To get up and running with Spartacus, the recommended approach is to build your storefront application from ready-made libraries. You can also clone and build from source, but upgrading is not as simple.
 
-Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
-For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/building-the-spartacus-storefront-from-libraries/).
-
-
+For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
 
 ## Customizing and Extending Spartacus
 
@@ -65,6 +72,18 @@ When using Spartacus, you build an app that pulls in the Spartacus libraries, wh
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable Content Managers to modify page content through the CMS tools.
 
 The documentation for customizing and extending Spartacus is still under development and is being released as it becomes available.
+
+# API Documentation
+
+The Spartacus API documentation is hosted here: [https://sap.github.io/spartacus/](https://sap.github.io/spartacus/)
+
+The API documentation is versioned and is included in the **Assets** folder of each and every Spartacus library. You can download the API documentation for a particular version by accessing the **Assets** folder of any Spartacus library from that particular release, and then clicking on `docs.tar.gz` or `docs.zip`. To find the **Assets** folder for a particular library, access the [Released Libraries for Spartacus](https://github.com/SAP/spartacus/releases), click on the link for the library you are interested in, and scroll to the bottom of the page.
+
+For example, to download the API documentation for the 2.0.0 release, you could access the **Assets** folder of the `@spartacus/storefront@2.0.0` library [here](https://github.com/SAP/spartacus/releases/tag/storefront-2.0.0).
+
+**Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce 2005, because the necessary OCC API support is only available in SAP Commerce 2005.
+
+**Note:** The Spartacus API is separate from the Commerce OCC REST APIs that Spartacus consumes. For more information, see the [Commerce API Documentation and YAML Files](https://help.sap.com/viewer/c5613bd3cc9942efb74d017b40eb0892/latest/en-US/18caa4b5c32c4bcf8b38c6260c0f30e8.html) on the SAP Help Portal.
 
 # Limitations
 
@@ -82,14 +101,14 @@ Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community:
 
-- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
+- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-i36rvrqe-kNA9RutaT0W17A_jh0Hygg).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
 # Contributing
 
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
-- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU) channel.
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-i36rvrqe-kNA9RutaT0W17A_jh0Hygg) channel.
 - Read the [Contributing document](CONTRIBUTING.md) and learn how to:
   - Help others
   - Report an issue

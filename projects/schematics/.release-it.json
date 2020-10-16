@@ -9,7 +9,7 @@
   "github": {
     "release": true,
     "releaseName": "@spartacus/schematics@${version}",
-    "releaseNotes": "cd ../.. && npm run --silent release-notes:schematics -- --to schematics-${version}"
+    "releaseNotes": "cd ../.. && ts-node ./scripts/changelog.ts --verbose --lib schematics --to schematics-${version}"
   },
   "hooks": {
     "after:version:bump": "yarn build"

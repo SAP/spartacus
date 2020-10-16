@@ -9,6 +9,7 @@ import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 import * as fromOrderDetailsEffect from './order-details.effect';
+import { GlobalMessageService } from '@spartacus/core';
 
 const mockOrderDetails: Order = {};
 
@@ -23,6 +24,10 @@ const mockCancelOrderParams = {
   cancelRequestInput: {},
 };
 
+class MockGlobalMessageService {
+  add(): void {}
+}
+
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
   let orderConnector: UserOrderConnector;
@@ -35,6 +40,10 @@ describe('Order Details effect', () => {
         fromOrderDetailsEffect.OrderDetailsEffect,
         { provide: UserOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
 

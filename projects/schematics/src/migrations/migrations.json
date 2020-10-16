@@ -1,32 +1,32 @@
 {
   "schematics": {
     "migration-v2-validate-01": {
-      "version": "2-next.7",
+      "version": "3.0.0-next.4",
       "factory": "./2_0/validate#validate",
       "description": "Performs some validations before proceeding to upgrade Spartacus to v2"
     },
-    "migration-v2-update-cms-component-state-02": {
-      "version": "2-next.0",
-      "factory": "./2_0/update-cms-component-state#migrate",
-      "description": "Update CMS components state to v2"
+    "migration-v2-methods-and-properties-deprecations-02": {
+      "version": "3.0.0-next.4",
+      "factory": "./2_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of remove public methods or properties"
     },
     "migration-v2-constructor-deprecations-03": {
-      "version": "2-next.7",
+      "version": "3.0.0-next.4",
       "factory": "./2_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
-    "migration-v2-removed-public-api-04": {
-      "version": "2-next.7",
-      "factory": "./2_0/removed-public-api#migrate",
+    "migration-v2-removed-public-api-deprecation-04": {
+      "version": "3.0.0-next.4",
+      "factory": "./2_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "migration-v2-component-deprecations-05": {
-      "version": "2-next.7",
+      "version": "3.0.0-next.4",
       "factory": "./2_0/component-deprecations/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
     "migration-v2-css-06": {
-      "version": "2-next.7",
+      "version": "3.0.0-next.4",
       "factory": "./2_0/css#migrate",
       "description": "Handle deprecated CSS"
     },
@@ -40,10 +40,10 @@
       "factory": "./2_0/ng-add-localize/ng-add-localize#migrate",
       "description": "Run ng add @angular/localize"
     },
-    "migration-v2-kyma-09": {
-      "version": "2-next.7",
-      "factory": "./2_0/kyma-feature-flag#migrate",
-      "description": "Handle Kyma migration"
+    "migration-v2-config-deprecations-09": {
+      "version": "3.0.0-next.4",
+      "factory": "./2_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
     }
   }
 }

@@ -23,8 +23,11 @@ export class CancelOrderConfirmationComponent {
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
-  submit(form: FormGroup): void {
-    form.disable();
-    this.orderAmendService.save();
+  submit(form: FormGroup) {
+    if (form.valid) {
+      this.orderAmendService.save();
+    } else {
+      form.markAllAsTouched();
+    }
   }
 }

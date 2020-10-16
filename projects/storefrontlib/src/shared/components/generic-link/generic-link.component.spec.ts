@@ -1,7 +1,16 @@
+import { SimpleChange, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { GenericLinkComponent } from './generic-link.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { GenericLinkComponent } from './generic-link.component';
+
+/**
+ * Helper function to produce simple change for the `url` `@Input`
+ */
+function changeUrl(url: string | any[]): SimpleChanges {
+  return {
+    url: new SimpleChange(null, url, false),
+  };
+}
 
 describe('GenericLinkComponent', () => {
   let component: GenericLinkComponent;
@@ -17,7 +26,6 @@ describe('GenericLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GenericLinkComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -62,19 +70,48 @@ describe('GenericLinkComponent', () => {
 
   describe('routerUrl', () => {
     it('should return absolute url wrapped in array when url is string', () => {
-      component.url = 'local/url';
-      expect(component.routerUrl).toEqual(['/local/url']);
+      component.ngOnChanges(changeUrl('local/url1'));
+      expect(component.routerUrl).toEqual(['/local/url1']);
 
-      component.url = '/local/url';
-      expect(component.routerUrl).toEqual(['/local/url']);
+      component.ngOnChanges(changeUrl('/local/url2'));
+      expect(component.routerUrl).toEqual(['/local/url2']);
+
+      component.ngOnChanges(changeUrl('/local/url3?foo=bar#anchor'));
+      expect(component.routerUrl).toEqual(['/local/url3']);
     });
 
     it('should original url when url is array', () => {
-      component.url = ['array', 'of', 'url', 'segments'];
-      expect(component.routerUrl).toEqual(['array', 'of', 'url', 'segments']);
+      component.ngOnChanges(changeUrl(['url', 'segments', 'array', '1']));
+      expect(component.routerUrl).toEqual(['url', 'segments', 'array', '1']);
 
-      component.url = ['/array', 'of', 'url', 'segments'];
-      expect(component.routerUrl).toEqual(['/array', 'of', 'url', 'segments']);
+      component.ngOnChanges(changeUrl(['/url', 'segments', 'array', '2']));
+      expect(component.routerUrl).toEqual(['/url', 'segments', 'array', '2']);
+    });
+  });
+
+  describe('queryParams', () => {
+    it('should return query params of the string url', () => {
+      component.ngOnChanges(changeUrl('?foo=1&bar=10'));
+      expect(component.queryParams).toEqual({ foo: '1', bar: '10' });
+
+      component.ngOnChanges(changeUrl('local/url?foo=2&bar=20'));
+      expect(component.queryParams).toEqual({ foo: '2', bar: '20' });
+
+      component.ngOnChanges(changeUrl('/local/url?foo=3&bar=30#anchor'));
+      expect(component.queryParams).toEqual({ foo: '3', bar: '30' });
+    });
+  });
+
+  describe('fragment', () => {
+    it('should return query params of the string url', () => {
+      component.ngOnChanges(changeUrl('#anchor1'));
+      expect(component.fragment).toEqual('anchor1');
+
+      component.ngOnChanges(changeUrl('local/url#anchor2'));
+      expect(component.fragment).toEqual('anchor2');
+
+      component.ngOnChanges(changeUrl('/local/url?foo=bar#anchor3'));
+      expect(component.fragment).toEqual('anchor3');
     });
   });
 });

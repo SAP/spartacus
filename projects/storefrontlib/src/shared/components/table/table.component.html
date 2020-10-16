@@ -1,0 +1,84 @@
+<table *ngIf="structure">
+  <ng-container *ngIf="verticalStackedLayout">
+    <tbody
+      *ngFor="let item of data; trackBy: trackData"
+      (click)="launchItem(item)"
+      [class.is-current]="isCurrentItem(item)"
+    >
+      <tr *ngFor="let cell of structure.cells" [class]="cell">
+        <th>
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+        <td>
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ item[cell] }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+
+  <!-- vertical tables render the item  -->
+  <ng-container *ngIf="verticalLayout">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let cell of structure.cells" [class]="cell">
+          <ng-template
+            [cxOutlet]="getHeaderOutletRef(cell)"
+            [cxOutletContext]="getHeaderOutletContext(cell)"
+          >
+            {{ cell }}
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+
+    <tr
+      *ngFor="let item of data; trackBy: trackData"
+      [class.is-current]="isCurrentItem(item)"
+      (click)="launchItem(item)"
+    >
+      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
+        <ng-template
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
+        >
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
+
+  <ng-container *ngIf="horizontalLayout">
+    <tr *ngFor="let cell of structure.cells" [class]="cell">
+      <th scope="col">
+        <ng-template
+          [cxOutlet]="getHeaderOutletRef(cell)"
+          [cxOutletContext]="getHeaderOutletContext(cell)"
+        >
+          {{ cell }}
+        </ng-template>
+      </th>
+      <td
+        *ngFor="let item of data; trackBy: trackData"
+        [class.is-current]="isCurrentItem(item)"
+        (click)="launchItem(item)"
+      >
+        <ng-template
+          [cxOutlet]="getDataOutletRef(cell)"
+          [cxOutletContext]="getDataOutletContext(cell, item)"
+        >
+          {{ item[cell] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
+</table>

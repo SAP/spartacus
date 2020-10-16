@@ -4,9 +4,9 @@ Snapshot builds are a way for Spartacus users to have access to library fixes or
 
 Snapshot builds are published in the following github repositories:
 
-* [Core](https://github.com/SAP/cloud-commerce-spartacus-storefront-core-builds)
-* [Styles](https://github.com/SAP/cloud-commerce-spartacus-storefront-styles-builds)
-* [Storefront](https://github.com/SAP/cloud-commerce-spartacus-storefront-storefront-builds)
+* [Core](https://github.com/SAP/spartacus-core-builds)
+* [Styles](https://github.com/SAP/spartacus-styles-builds)
+* [Storefront](https://github.com/SAP/spartacus-storefront-builds)
 
 Each commit represents a Snapshot. We create a snapshot every time a change is merged to develop. A github release with the source code is created per snapshot.
 
@@ -15,9 +15,9 @@ To import a snapshot build in your shell app, just update the library dependency
 ```json
 {
   "dependencies" : {
-    "@spartacus/core": "SAP/cloud-commerce-spartacus-storefront-core-builds",
-    "@spartacus/styles": "SAP/cloud-commerce-spartacus-storefront-styles-builds",
-    "@spartacus/storefront": "SAP/cloud-commerce-spartacus-storefront-storefront-builds"
+    "@spartacus/core": "SAP/spartacus-core-builds",
+    "@spartacus/styles": "SAP/spartacus-styles-builds",
+    "@spartacus/storefront": "SAP/spartacus-storefront-builds"
     }
 }
  ```
@@ -29,9 +29,9 @@ If you want to import a specific snapshot, append the suffix of the github repo 
 ```json
 {
   "dependencies" : {
-    "@spartacus/core": "SAP/cloud-commerce-spartacus-storefront-core-builds#core-0.1.0+abcde23f",
-    "@spartacus/styles": "SAP/cloud-commerce-spartacus-storefront-styles-builds#styles-0.1.0+abcde23f",
-    "@spartacus/storefront": "SAP/cloud-commerce-spartacus-storefront-storefront-builds#storefront-0.1.0+abcde23f"
+    "@spartacus/core": "SAP/spartacus-core-builds#core-0.1.0+abcde23f",
+    "@spartacus/styles": "SAP/spartacus-styles-builds#styles-0.1.0+abcde23f",
+    "@spartacus/storefront": "SAP/spartacus-storefront-builds#storefront-0.1.0+abcde23f"
   }
 }
  ```

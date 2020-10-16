@@ -1,6 +1,5 @@
 @import './functions';
 @import './components/index';
-@import './themes/index';
 
 // the $skipComponentStyles is used as a list of component styles that can be ignore
 // during the sass compilation. Whenever the list contains a component selector, the
@@ -44,8 +43,6 @@ $selectors: mergeAll(
     // skip selectors if they're added to the $skipComponentStyles list
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector} !optional;
-      // optional theme specific placeholder
-      @extend %#{$selector}-#{$theme} !optional;
     }
   }
 }

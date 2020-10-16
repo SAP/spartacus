@@ -1,111 +1,74 @@
-import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Address,
   CheckoutService,
-  DeliveryMode,
   I18nTestingModule,
   Order,
-  PaymentDetails,
-  TranslationService,
+  ReplenishmentOrder,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Card } from '../../../../shared/components/card/card.component';
 import { OrderConfirmationOverviewComponent } from './order-confirmation-overview.component';
 import createSpy = jasmine.createSpy;
 
-@Component({ selector: 'cx-card', template: '' })
-class MockCardComponent {
-  @Input()
-  content: Card;
-}
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  firstDate: '1994-01-11T00:00Z',
+  trigger: {
+    activationTime: '1994-01-11T00:00Z',
+    displayTimeTable: 'every-test-date',
+  },
+  paymentType: {
+    code: 'test-type',
+    displayName: 'test-type-name',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+};
+
+const mockOrder: Order = {
+  code: 'test-code-412',
+  statusDisplay: 'test-status-display',
+  created: new Date('2019-02-11T13:02:58+0000'),
+  purchaseOrderNumber: 'test-po',
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+};
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
 
   getOrderDetails(): Observable<Order> {
-    return of({
-      code: 'test-code-412',
-      deliveryAddress: {
-        country: {},
-      },
-      deliveryMode: {},
-      paymentInfo: {
-        billingAddress: {
-          country: {},
-        },
-      },
-    });
+    return of(mockOrder);
   }
 }
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of();
-  }
-}
-
-const mockDeliveryAddress: Address = {
-  firstName: 'John',
-  lastName: 'Smith',
-  line1: 'Buckingham Street 5',
-  line2: '1A',
-  phone: '(+11) 111 111 111',
-  postalCode: 'MA8902',
-  town: 'London',
-  country: {
-    isocode: 'UK',
-  },
-};
-
-const mockDeliveryMode: DeliveryMode = {
-  name: 'Standard order-detail-shipping',
-  description: '3-5 days',
-};
-
-const mockBillingAddress: Address = {
-  firstName: 'John',
-  lastName: 'Smith',
-  line1: 'Buckingham Street 5',
-  line2: '1A',
-  phone: '(+11) 111 111 111',
-  postalCode: 'MA8902',
-  town: 'London',
-  country: {
-    isocode: 'UK',
-  },
-};
-
-const mockPayment: PaymentDetails = {
-  accountHolderName: 'John Smith',
-  cardNumber: '************6206',
-  expiryMonth: '12',
-  expiryYear: '2026',
-  cardType: {
-    name: 'Visa',
-  },
-};
 
 describe('OrderConfirmationOverviewComponent', () => {
   let component: OrderConfirmationOverviewComponent;
   let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
-  let translationService: TranslationService;
+  let checkoutService: CheckoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [OrderConfirmationOverviewComponent, MockCardComponent],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
+      declarations: [OrderConfirmationOverviewComponent],
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
     component = fixture.componentInstance;
-    translationService = TestBed.inject(TranslationService);
+    checkoutService = TestBed.inject(CheckoutService);
   });
 
   it('should create', () => {
@@ -113,56 +76,25 @@ describe('OrderConfirmationOverviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getAddressCardContent(deliveryAddress: Address)', () => {
-    spyOn(component, 'getAddressCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getAddressCardContent(mockDeliveryAddress).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
-    });
-    expect(component.getAddressCardContent).toHaveBeenCalledWith(
-      mockDeliveryAddress
-    );
-  });
+  it('should be able to get order details', () => {
+    let result: any;
 
-  it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
-    spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
-    });
-    component.getDeliveryModeCardContent(mockDeliveryMode);
-    expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
-      mockDeliveryMode
-    );
-  });
+    checkoutService
+      .getOrderDetails()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
 
-  it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
-    spyOn(component, 'getBillingAddressCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component
-      .getBillingAddressCardContent(mockBillingAddress)
-      .subscribe((data) => {
-        expect(data).toBeTruthy();
-        expect(data.title).toEqual('test');
-      });
-    component.getBillingAddressCardContent(mockBillingAddress);
-    expect(component.getBillingAddressCardContent).toHaveBeenCalledWith(
-      mockBillingAddress
-    );
-  });
+    expect(result).toEqual(mockOrder);
 
-  it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
-    spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getPaymentInfoCardContent(mockPayment).subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.title).toEqual('test');
-    });
-    component.getPaymentInfoCardContent(mockPayment);
-    expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
-      mockPayment
+    spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+      of(mockReplenishmentOrder)
     );
+
+    checkoutService
+      .getOrderDetails()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+
+    expect(result).toEqual(mockReplenishmentOrder);
   });
 });

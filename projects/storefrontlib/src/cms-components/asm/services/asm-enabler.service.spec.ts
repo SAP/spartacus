@@ -2,11 +2,9 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { LayoutConfig } from '../../../layout/config/layout-config';
 import { OutletService } from '../../../cms-structure/outlet/index';
-import {
-  LaunchConfig,
-  LaunchDialogService,
-} from '../../../layout/launch-dialog/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
@@ -42,10 +40,10 @@ class MockLocation {
 }
 
 class MockLaunchDialogService {
-  render() {}
+  launch() {}
 }
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     ASM: {
       outlet: 'cx-outlet-test',
@@ -69,7 +67,7 @@ describe('AsmEnablerService', () => {
         },
         { provide: OutletService, useClass: MockOutletService },
         { provide: Location, useClass: MockLocation },
-        { provide: LaunchConfig, useValue: mockLaunchConfig },
+        { provide: LayoutConfig, useValue: mockLaunchConfig },
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,

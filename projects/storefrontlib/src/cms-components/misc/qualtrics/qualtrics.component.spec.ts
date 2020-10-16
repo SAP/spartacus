@@ -1,17 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
 
+const mockQualtricsConfig: QualtricsConfig = {
+  qualtrics: {
+    scriptSource: 'assets/deployment-script.js',
+  },
+};
+
 class MockQualtricsLoaderService {
-  load(): Observable<boolean> {
-    return of(true);
-  }
+  addScript(): void {}
 }
 
 describe('QualtricsComponent', () => {
   let component: QualtricsComponent;
   let fixture: ComponentFixture<QualtricsComponent>;
+  let service: QualtricsLoaderService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,25 +26,29 @@ describe('QualtricsComponent', () => {
           provide: QualtricsLoaderService,
           useClass: MockQualtricsLoaderService,
         },
+        { provide: QualtricsConfig, useValue: mockQualtricsConfig },
       ],
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(QualtricsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  describe('with config', () => {
+    beforeEach(() => {
+      service = TestBed.inject(QualtricsLoaderService);
+      spyOn(service, 'addScript').and.stub();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+      fixture = TestBed.createComponent(QualtricsComponent);
+      component = fixture.componentInstance;
+    });
 
-  it('should be loaded', () => {
-    let result: boolean;
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
 
-    component.qualtricsEnabled$.subscribe((data) => (result = data));
-
-    expect(result).toBe(true);
+    it('should add qualtrics script', () => {
+      fixture.detectChanges();
+      expect(service.addScript).toHaveBeenCalledWith(
+        'assets/deployment-script.js'
+      );
+    });
   });
 });

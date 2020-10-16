@@ -186,8 +186,8 @@ describe('ProductReferencesComponent', () => {
     expect(el.nativeElement).toBeTruthy();
   }));
 
-  it('should not render product primary image for the 2nd item', async(() => {
+  it('should render missing product image for the 2nd item as well', async(() => {
     const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-    expect(el).toBeNull();
+    expect(el.nativeElement).toBeTruthy();
   }));
 });

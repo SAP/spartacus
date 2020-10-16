@@ -1,7 +1,10 @@
 import {
   ComponentFactory,
+  ComponentRef,
   Directive,
+  EmbeddedViewRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -14,7 +17,11 @@ import { Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
 import { OutletRendererService } from './outlet-renderer.service';
-import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
+import {
+  OutletContextData,
+  OutletPosition,
+  USE_STACKED_OUTLETS,
+} from './outlet.model';
 import { OutletService } from './outlet.service';
 
 @Directive({
@@ -22,6 +29,10 @@ import { OutletService } from './outlet.service';
 })
 export class OutletDirective implements OnDestroy, OnChanges {
   private renderedTemplate = [];
+  public renderedComponents = new Map<
+    OutletPosition,
+    Array<ComponentRef<any> | EmbeddedViewRef<any>>
+  >();
 
   @Input() cxOutlet: string;
 
@@ -39,19 +50,17 @@ export class OutletDirective implements OnDestroy, OnChanges {
   constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private outletService: OutletService<
-      TemplateRef<any> | ComponentFactory<any>
-    >,
+    private outletService: OutletService,
     private deferLoaderService: DeferLoaderService,
-    private outletRendererService?: OutletRendererService
+    private outletRendererService: OutletRendererService
   ) {}
 
   public render(): void {
     this.vcr.clear();
     this.renderedTemplate = [];
+    this.renderedComponents.clear();
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
-    this.outletRendererService.register(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();
@@ -63,6 +72,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
       this.render();
+      this.outletRendererService.register(this.cxOutlet, this);
     }
   }
 
@@ -105,14 +115,28 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
+    const components = [];
     templates.forEach((obj) => {
-      this.create(obj);
+      const component = this.create(obj, position);
+      components.push(component);
     });
+
+    this.renderedComponents.set(position, components);
   }
 
-  private create(tmplOrFactory: any): void {
+  private create(
+    tmplOrFactory: any,
+    position: OutletPosition
+  ): ComponentRef<any> | EmbeddedViewRef<any> {
+    this.renderedTemplate.push(tmplOrFactory);
+
     if (tmplOrFactory instanceof ComponentFactory) {
-      this.vcr.createComponent(tmplOrFactory);
+      const component = this.vcr.createComponent(
+        tmplOrFactory,
+        undefined,
+        this.getComponentInjector(position)
+      );
+      return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
         <TemplateRef<any>>tmplOrFactory,
@@ -124,8 +148,30 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+      return view;
     }
-    this.renderedTemplate.push(tmplOrFactory);
+  }
+
+  /**
+   * Returns injector with OutletContextData that can be injected to the component
+   * rendered in the outlet
+   */
+  private getComponentInjector(position: OutletPosition): Injector {
+    const contextData: OutletContextData = {
+      reference: this.cxOutlet,
+      position,
+      context: this.cxOutletContext,
+    };
+
+    return Injector.create({
+      providers: [
+        {
+          provide: OutletContextData,
+          useValue: contextData,
+        },
+      ],
+      parent: this.vcr.injector,
+    });
   }
 
   /**

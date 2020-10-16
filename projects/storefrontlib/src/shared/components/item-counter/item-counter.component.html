@@ -1,7 +1,7 @@
 <button
   type="button"
   (click)="decrement()"
-  [disabled]="qty.disabled || qty?.value <= min"
+  [disabled]="control.disabled || control.value <= min"
   tabindex="-1"
 >
   -
@@ -13,13 +13,15 @@
   [min]="min"
   [max]="max"
   [step]="step"
-  [formControl]="getControl() | async"
+  [readonly]="readonly"
+  [tabindex]="readonly ? -1 : 0"
+  [formControl]="control"
 />
 
 <button
   type="button"
   (click)="increment()"
-  [disabled]="qty.disabled || qty?.value >= max"
+  [disabled]="control.disabled || control.value >= max"
   tabindex="-1"
 >
   +

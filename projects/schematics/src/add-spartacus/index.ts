@@ -20,10 +20,11 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { getProjectTargets } from '../shared/utils/workspace-utils';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
+  DEFAULT_NGRX_VERSION,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -39,13 +40,13 @@ import {
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
+import { parseCSV } from '../shared/utils/transform-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const ngrxVersion = '~9.0.0';
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [
@@ -72,7 +73,7 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^6.0.0',
+        version: '^7.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
@@ -83,23 +84,23 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/store',
       },
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/effects',
       },
       {
         type: NodeDependencyType.Default,
-        version: ngrxVersion,
+        version: DEFAULT_NGRX_VERSION,
         name: '@ngrx/router-store',
       },
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.2.1',
+        version: '4.2.1',
         name: 'bootstrap',
       },
       { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
@@ -144,20 +145,35 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
+function prepareSiteContextConfig(options: SpartacusOptions): string {
+  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
+  const language = parseCSV(options.language, ['en']).toLowerCase();
+  let context = `
+      context: {
+        currency: [${currency}],
+        language: [${language}],`;
+
+  if (options.baseSite) {
+    const baseSites = parseCSV(options.baseSite);
+    context += `
+        baseSite: [${baseSites}]`;
+  }
+  context += `
+      },`;
+
+  return context;
+}
+
 function getStorefrontConfig(options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
-  const contextContent = !options.baseSite
-    ? ''
-    : `
-      context: {
-        baseSite: ['${options.baseSite}']
-      },`;
+  const context = prepareSiteContextConfig(options);
+
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
           prefix: '${options.occPrefix}'
         }
-      },${contextContent}
+      },${context}
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
@@ -208,7 +224,10 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
+function installStyles(
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
+): Rule {
   return (host: Tree) => {
     const styleFilePath = getProjectStyleFile(project);
 
@@ -246,7 +265,11 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `@import '~@spartacus/styles/index';\n`;
+    const insertion =
+      '\n' +
+      `$styleVersion: ${
+        options.featureLevel || getSpartacusCurrentFeatureLevel()
+      };\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -273,7 +296,7 @@ function updateMainComponent(
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `<cx-storefront></cx-storefront>\n`;
+    const insertion = `<cx-storefront></cx-storefront>\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -285,7 +308,7 @@ function updateMainComponent(
       recorder.remove(0, htmlContent.length);
       recorder.insertLeft(0, insertion);
     } else {
-      recorder.insertLeft(htmlContent.length, insertion);
+      recorder.insertLeft(htmlContent.length, `\n${insertion}`);
     }
 
     host.commitUpdate(recorder);
@@ -322,7 +345,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(),
       updateAppModule(options),
-      installStyles(project),
+      installStyles(project, options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),

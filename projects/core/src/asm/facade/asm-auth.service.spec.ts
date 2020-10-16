@@ -25,7 +25,6 @@ describe('AsmAuthService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmAuthService],
     });
 
     service = TestBed.inject(AsmAuthService);

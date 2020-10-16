@@ -6,37 +6,38 @@ import {
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
+  RouterState,
   RoutingService,
-  SearchConfig,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  map,
   pluck,
   shareReplay,
   tap,
 } from 'rxjs/operators';
+import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
-interface ProductListRouteParams {
-  brandCode?: string;
-  categoryCode?: string;
-  query?: string;
-}
-
-interface SearchCriteria {
-  currentPage?: number;
-  pageSize?: number;
-  sortCode?: string;
-  query?: string;
-}
-
+/**
+ * The `ProductListComponentService` is used to search products. The service is used
+ * on the Product Listing Page, for listing products and the facet navigation.
+ *
+ * The service exposes the product search results based on the category and search
+ * route parameters. The route parameters are used to query products by the help of
+ * the `ProductSearchService`.
+ */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  /**
+   * @deprecated will be removed in version 3.0 as this is the
+   *   subscription is longer used
+   */
+  protected sub: Subscription;
+
   // TODO: make it configurable
   protected defaultPageSize = 10;
-
-  protected sub: Subscription;
 
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
 
@@ -49,13 +50,25 @@ export class ProductListComponentService {
     protected router: Router
   ) {}
 
-  private searchResults$: Observable<
+  /**
+   * Emits the search results for the current search query.
+   *
+   * The `searchResults$` is _not_ concerned with querying, it only observes the
+   * `productSearchService.getResults()`
+   */
+  protected searchResults$: Observable<
     ProductSearchPage
   > = this.productSearchService
     .getResults()
     .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
 
-  private searchByRouting$: Observable<
+  /**
+   * Observes the route and performs a search on each route change.
+   *
+   * Context changes, such as language and currencies are also taken
+   * into account, so that the search is performed again.
+   */
+  protected searchByRouting$: Observable<
     ActivatedRouterStateSnapshot
   > = combineLatest([
     this.routing.getRouterState().pipe(
@@ -65,11 +78,9 @@ export class ProductListComponentService {
         return x.state.url === y.state.url;
       })
     ),
-    // also trigger search on site context changes
-    this.languageService.getActive(),
-    this.currencyService.getActive(),
+    ...this.siteContext,
   ]).pipe(
-    pluck(0, 'state'),
+    map(([routerState, ..._context]) => (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
         state.params,
@@ -80,7 +91,7 @@ export class ProductListComponentService {
   );
 
   /**
-   * This stream should be used only on the Product Listing Page.
+   * This stream is used for the Product Listing and Product Facets.
    *
    * It not only emits search results, but also performs a search on every change
    * of the route (i.e. route params or query params).
@@ -93,11 +104,13 @@ export class ProductListComponentService {
     this.searchByRouting$,
   ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
 
-  clearSearchResults(): void {
-    this.productSearchService.clearResults();
-  }
-
-  private getCriteriaFromRoute(
+  /**
+   * Expose the `SearchCriteria`. The search criteria are driven by the route parameters.
+   *
+   * This search route configuration is not yet configurable
+   * (see https://github.com/SAP/spartacus/issues/7191).
+   */
+  protected getCriteriaFromRoute(
     routeParams: ProductListRouteParams,
     queryParams: SearchCriteria
   ): SearchCriteria {
@@ -109,10 +122,13 @@ export class ProductListComponentService {
     };
   }
 
-  private getQueryFromRouteParams({
-    brandCode,
-    categoryCode,
+  /**
+   * Resolves the search query from the given `ProductListRouteParams`.
+   */
+  protected getQueryFromRouteParams({
     query,
+    categoryCode,
+    brandCode,
   }: ProductListRouteParams) {
     if (query) {
       return query;
@@ -120,37 +136,34 @@ export class ProductListComponentService {
     if (categoryCode) {
       return this.RELEVANCE_ALLCATEGORIES + categoryCode;
     }
+
+    // TODO: drop support for brands as they should be treated
+    // similarly as any category.
     if (brandCode) {
       return this.RELEVANCE_ALLCATEGORIES + brandCode;
     }
   }
 
-  private search(criteria: SearchCriteria): void {
-    const query = criteria.query;
-    const searchConfig = this.getSearchConfig(criteria);
+  /**
+   * Performs a search based on the given search criteria.
+   *
+   * The search is delegated to the `ProductSearchService`.
+   */
+  protected search(criteria: SearchCriteria): void {
+    const currentPage = criteria.currentPage;
+    const pageSize = criteria.pageSize;
+    const sort = criteria.sortCode;
 
-    this.productSearchService.search(query, searchConfig);
-  }
-
-  private getSearchConfig(criteria: SearchCriteria): SearchConfig {
-    const result: SearchConfig = {
-      currentPage: criteria.currentPage,
-      pageSize: criteria.pageSize,
-      sortCode: criteria.sortCode,
-    };
-
-    // drop empty keys
-    Object.keys(result).forEach((key) => !result[key] && delete result[key]);
-
-    return result;
-  }
-
-  setQuery(query: string): void {
-    this.setQueryParams({ query, currentPage: undefined });
-  }
-
-  viewPage(pageNumber: number): void {
-    this.setQueryParams({ currentPage: pageNumber });
+    this.productSearchService.search(
+      criteria.query,
+      // TODO: consider dropping this complex passing of cleaned object
+      Object.assign(
+        {},
+        currentPage && { currentPage },
+        pageSize && { pageSize },
+        sort && { sort }
+      )
+    );
   }
 
   /**
@@ -173,15 +186,53 @@ export class ProductListComponentService {
       .unsubscribe();
   }
 
+  /**
+   * Sort the search results by the given sort code.
+   */
   sort(sortCode: string): void {
-    this.setQueryParams({ sortCode });
+    this.route({ sortCode });
   }
 
-  private setQueryParams(queryParams: SearchCriteria): void {
+  /**
+   * Routes to the next product listing page, using the given `queryParams`. The
+   * `queryParams` support sorting, pagination and querying.
+   *
+   * The `queryParams` are delegated to the Angular router `NavigationExtras`.
+   */
+  protected route(queryParams: SearchCriteria): void {
     this.router.navigate([], {
       queryParams,
       queryParamsHandling: 'merge',
       relativeTo: this.activatedRoute,
     });
+  }
+
+  /**
+   * The site context is used to update the search query in case of a
+   * changing context. The context will typically influence the search data.
+   *
+   * We keep this private for now, as we're likely refactoring this in the next
+   * major version.
+   */
+  private get siteContext(): Observable<string>[] {
+    // TODO: we should refactor this so that custom context will be taken
+    // into account automatically. Ideally, we drop the specific context
+    // from the constructor, and query a ContextService for all contexts.
+
+    return [this.languageService.getActive(), this.currencyService.getActive()];
+  }
+
+  /**
+   * @deprecated will be dropped in version 3.0 as it's no longer in use
+   */
+  setQuery(query: string): void {
+    this.route({ query, currentPage: undefined });
+  }
+
+  /**
+   * @deprecated will be dropped in version 3.0 as it's no longer in use
+   */
+  viewPage(pageNumber: number): void {
+    this.route({ currentPage: pageNumber });
   }
 }

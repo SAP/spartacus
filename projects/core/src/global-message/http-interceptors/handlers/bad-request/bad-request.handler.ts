@@ -1,10 +1,11 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isCartNotFoundError } from '../../../../cart/utils/utils';
 import { ErrorModel } from '../../../../model/misc.model';
+import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/applicable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -80,7 +81,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter((e) => e.subjectType === 'cart' && e.reason === 'notFound')
+      .filter((e) => isCartNotFoundError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },

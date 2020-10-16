@@ -9,14 +9,20 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Product } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import {
+  PageContext,
+  PageType,
+  Product,
+  RoutingService,
+} from '@spartacus/core';
+import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { MerchandisingProduct } from '../../model/merchandising-products.model';
+import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-carousel',
@@ -35,7 +41,7 @@ class MockCarouselComponent {
 }
 
 /*
- * The actual directrive would prefix our metadata attributes with the prefix input. We will not test
+ * The actual directive would prefix our metadata attributes with the prefix input. We will not test
  * the directive's behaviour as part of the tests for this component, so we should not expect the generated
  * metadata attributes to contain any kind of prefix
  */
@@ -45,7 +51,7 @@ class MockCarouselComponent {
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {
-  @Input() cxAttributes: Map<string, string>;
+  @Input() cxAttributes: { [attribute: string]: any };
   @Input() cxAttributesNamePrefix: string;
 }
 
@@ -101,11 +107,9 @@ const merchandisingCarouselModelProducts: MerchandisingProduct[] = [
     },
   },
 ];
-const merchandisingCarouselModelMetadata: Map<string, string> = new Map();
-merchandisingCarouselModelMetadata.set(
-  'custom-metadata-field-1',
-  'custom-metadata-data-value-1'
-);
+const merchandisingCarouselModelMetadata: MerchandisingMetadata = {
+  'custom-metadata-field-1': 'custom-metadata-data-value-1',
+};
 const merchandisingCarouselModel: MerchandisingCarouselModel = {
   items$: merchandisingCarouselModelProducts.map((merchandisingProduct) =>
     of(merchandisingProduct)
@@ -121,13 +125,34 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 };
 
 class MockMerchandisingCarouselComponentService {
+  sendCarouselViewEvent = createSpy(
+    'MerchandisingCarouselComponentService.sendCarouselViewEvent'
+  ).and.callFake(() => of());
+
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
+  }
+
+  getMerchandisingCaourselViewportThreshold(): number {
+    return 0.8;
+  }
+}
+
+class RoutingServiceStub {
+  getPageContext(): Observable<PageContext> {
+    return of(new PageContext('homepage', PageType.CONTENT_PAGE));
+  }
+}
+
+class IntersectionServiceStub {
+  isIntersected(): Observable<boolean> {
+    return of();
   }
 }
 
 describe('MerchandisingCarouselComponent', () => {
   let component: MerchandisingCarouselComponent;
+  let componentService: MerchandisingCarouselComponentService;
   let fixture: ComponentFixture<MerchandisingCarouselComponent>;
 
   beforeEach(async(() => {
@@ -149,11 +174,20 @@ describe('MerchandisingCarouselComponent', () => {
           provide: MerchandisingCarouselComponentService,
           useClass: MockMerchandisingCarouselComponentService,
         },
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceStub,
+        },
+        {
+          provide: IntersectionService,
+          useClass: IntersectionServiceStub,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;
+    componentService = TestBed.inject(MerchandisingCarouselComponentService);
     fixture.detectChanges();
   }));
 
@@ -187,7 +221,7 @@ describe('MerchandisingCarouselComponent', () => {
   }));
 
   it('should have MerchandisingProducts populated', async(() => {
-    let actualCarouselMetadata: Map<string, string>;
+    let actualCarouselMetadata: MerchandisingMetadata;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe((merchandisingProducts) => {
       actualCarouselMetadata = merchandisingProducts.metadata;
@@ -220,6 +254,29 @@ describe('MerchandisingCarouselComponent', () => {
     items[0].subscribe((p) => (product = p));
     expect(product).toEqual(merchandisingCarouselModelProducts[0]);
   }));
+
+  describe('merchandisingCarouselModel$', () => {
+    let intersectionService: IntersectionService;
+    beforeEach(() => {
+      intersectionService = TestBed.inject(IntersectionService);
+    });
+
+    it('should not trigger if the carousel is not in the viewport', () => {
+      spyOn(intersectionService, 'isIntersected').and.returnValue(of(false));
+
+      component.merchandisingCarouselModel$.subscribe((_) => {});
+
+      expect(componentService.sendCarouselViewEvent).not.toHaveBeenCalled();
+    });
+
+    it('should trigger if the carousel is in the viewport', () => {
+      spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
+
+      component.merchandisingCarouselModel$.subscribe((_) => {});
+
+      expect(componentService.sendCarouselViewEvent).toHaveBeenCalled();
+    });
+  });
 
   describe('UI test', () => {
     it('should have 2 rendered templates', async(() => {

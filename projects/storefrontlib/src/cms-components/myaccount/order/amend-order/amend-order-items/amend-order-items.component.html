@@ -7,18 +7,18 @@
     {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
   </button>
 
-  <div class="d-none d-md-block">
-    <div class="cx-item-list-header row">
-      <div class="cx-item-list-desc col-md-5 col-xl-6">
+  <div class="d-none d-md-block cx-item-list-header">
+    <div class="row">
+      <div class="text-left col-6">
         {{ 'orderDetails.cancellationAndReturn.item' | cxTranslate }}
       </div>
-      <div class="cx-item-list-price col-2">
+      <div class="text-center col-2">
         {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
       </div>
-      <div *ngIf="!isConfirmation" class="cx-item-list-qty col-md-3 col-xl-2">
+      <div *ngIf="!isConfirmation" class="text-center col-2">
         {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
       </div>
-      <div class="cx-item-list-qty col-2">
+      <div class="cx-item-list-qty col-2 text-right">
         {{
           (isCancellation()
             ? 'orderDetails.cancellationAndReturn.cancelQty'
@@ -26,7 +26,7 @@
           ) | cxTranslate
         }}
       </div>
-      <div *ngIf="isConfirmation" class="cx-item-list-total col-md-3 col-xl-2">
+      <div *ngIf="isConfirmation" class="cx-item-list-total col-2">
         {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
       </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="row cx-item-list-items">
       <!-- Item Image -->
       <cx-media
-        class="col-2 cx-image-container"
+        class="col-2"
         [container]="item.product.images?.PRIMARY"
       ></cx-media>
 
@@ -44,7 +44,7 @@
       <div class="cx-info col-10">
         <div class="cx-info-container row">
           <!-- Item Description -->
-          <div class="col-md-3 col-xl-5">
+          <div class="col-md-4 col-xl-5 cx-list-item-desc">
             <div *ngIf="item.product.name" class="cx-name">
               {{ item.product.name }}
             </div>
@@ -95,7 +95,7 @@
             </div>
           </div>
           <!-- Amended Quantity -->
-          <div class="cx-quantity col-md-3 col-xl-2">
+          <div class="cx-quantity col-xs-12 col-md-2 col-sm-12">
             <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
               {{
                 (isCancellation()
@@ -105,11 +105,17 @@
               }}
             </div>
 
+            <div
+              *ngIf="isConfirmation"
+              class="w-100 text-center cx-order-quantity-value"
+            >
+              {{ getControl(form, item).value }}
+            </div>
             <cx-item-counter
+              *ngIf="!isConfirmation"
               [min]="0"
               [max]="getMaxAmendQuantity(item)"
               [control]="getControl(form, item)"
-              [readonly]="isConfirmation"
             >
             </cx-item-counter>
           </div>

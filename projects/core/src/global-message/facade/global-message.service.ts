@@ -11,7 +11,9 @@ import {
 } from '../store/global-message-state';
 import { GlobalMessageSelectors } from '../store/selectors/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GlobalMessageService {
   constructor(protected store: Store<StateWithGlobalMessage>) {}
 

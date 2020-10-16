@@ -10,7 +10,8 @@
     outline: none;
     h4 {
       font-size: 0.9rem;
-      height: 30px;
+      height: auto;
+      min-height: 30px;
       font-weight: bold;
       margin-top: 5px;
     }

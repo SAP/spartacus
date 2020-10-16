@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Cart } from '../../model/cart.model';
+import { OrderEntry } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { LoaderState } from '../../state/utils/loader/loader-state';
+import { UserService } from '../../user/facade/user.service';
+import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
-import { UserService } from '../../user/facade/user.service';
-import { AuthService } from '../../auth/facade/auth.service';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { Observable, of, BehaviorSubject, combineLatest } from 'rxjs';
-import { Cart } from '../../model/cart.model';
-import { LoaderState } from '../../state/utils/loader/loader-state';
-import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
-import { OrderEntry } from '../../model/order.model';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SelectiveCartService {
   private customerId: string;
   private userId: string;
@@ -38,7 +41,8 @@ export class SelectiveCartService {
     protected userService: UserService,
     protected authService: AuthService,
     protected multiCartService: MultiCartService,
-    protected baseSiteService: BaseSiteService
+    protected baseSiteService: BaseSiteService,
+    protected cartConfigService: CartConfigService
   ) {
     combineLatest([
       this.userService.get(),
@@ -153,6 +157,13 @@ export class SelectiveCartService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.multiCartService.getEntry(this.cartId, productCode);
+  }
+
+  /**
+   * Indicates if selectiveCart feature is enabled based on cart configuration.
+   */
+  isEnabled(): boolean {
+    return this.cartConfigService.isSelectiveCartEnabled();
   }
 
   private isEmpty(cart: Cart): boolean {

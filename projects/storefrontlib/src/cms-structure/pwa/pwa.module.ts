@@ -40,7 +40,6 @@ export function pwaFactory(addToHomeScreenService): any {
       deps: [AddToHomeScreenService],
       multi: true,
     },
-    AddToHomeScreenService,
   ],
   declarations: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
   exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],

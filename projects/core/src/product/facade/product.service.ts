@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { Product } from '../../model/product.model';
+import { DEFAULT_SCOPE } from '../../occ/occ-models/occ-endpoints.model';
+import { ProductScope } from '../model/product-scope';
+import { ProductLoadingService } from '../services/product-loading.service';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { ProductLoadingService } from '../services/product-loading.service';
-import { ProductScope } from '../model/product-scope';
-import { DEFAULT_SCOPE } from '../../occ/occ-models/occ-endpoints.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
   constructor(
     protected store: Store<StateWithProduct>,

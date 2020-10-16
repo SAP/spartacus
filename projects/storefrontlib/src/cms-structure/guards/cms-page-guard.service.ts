@@ -17,10 +17,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CmsComponentsService } from '../services/cms-components.service';
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
-import { CmsComponentsService } from '../services';
 
 /**
  * Helper service for `CmsPageGuard`

@@ -1,13 +1,19 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
-import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { RoutingService } from '@spartacus/core';
+import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
+  map,
+  shareReplay,
   switchMap,
+  switchMapTo,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
+import { MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
 
@@ -22,10 +28,12 @@ export class MerchandisingCarouselComponent {
       CmsMerchandisingCarouselComponent
     >,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
+    protected routingService: RoutingService,
+    protected intersectionService: IntersectionService,
     protected el: ElementRef
   ) {}
 
-  merchandisingCarouselModel$: Observable<
+  private fetchProducts$: Observable<
     MerchandisingCarouselModel
   > = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
@@ -48,6 +56,50 @@ export class MerchandisingCarouselComponent {
           data.textColor
         );
       }
-    })
+    }),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
+
+  private intersection$: Observable<void> = this.fetchProducts$.pipe(
+    take(1),
+    switchMapTo(
+      this.routingService.getPageContext().pipe(
+        switchMapTo(this.componentData.data$),
+        map((data) =>
+          this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
+            data
+          )
+        ),
+        switchMap((threshold) =>
+          this.intersectionService
+            .isIntersected(this.el.nativeElement, {
+              threshold,
+            })
+            .pipe(
+              filter((carouselIsVisible) => carouselIsVisible),
+              switchMap((_) =>
+                this.merchandisingCarouselComponentService.sendCarouselViewEvent(
+                  this.fetchProducts$
+                )
+              )
+            )
+        )
+      )
+    )
+  );
+
+  merchandisingCarouselModel$ = using(
+    () => this.intersection$.subscribe(),
+    () => this.fetchProducts$
+  );
+
+  onMerchandisingCarouselItemClick(
+    merchandisingCarouselModel: MerchandisingCarouselModel,
+    clickedProduct: MerchandisingProduct
+  ): void {
+    this.merchandisingCarouselComponentService.sendCarouselItemClickedEvent(
+      merchandisingCarouselModel,
+      clickedProduct
+    );
+  }
 }

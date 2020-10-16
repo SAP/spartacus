@@ -43,6 +43,18 @@ const navigationEntryItems: any = {
     linkName: 'test sub link 1',
     target: true,
   },
+  MockLink005_AbstractCMSComponent: {
+    uid: 'MockLink005',
+    contentPageLabelOrId: '/faq',
+    linkName: 'content page link',
+    target: true,
+  },
+  MockLink006_AbstractCMSComponent: {
+    uid: 'MockLink006',
+    productCode: '478828',
+    linkName: 'product page link',
+    name: 'product page link',
+  },
 };
 
 const componentData: CmsNavigationComponent = {
@@ -106,6 +118,26 @@ const componentData: CmsNavigationComponent = {
         entries: [
           {
             itemId: 'MockLink004',
+            itemSuperType: 'AbstractCMSComponent',
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+      },
+      {
+        uid: 'MockChildNode005',
+        entries: [
+          {
+            itemId: 'MockLink005',
+            itemSuperType: 'AbstractCMSComponent',
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+      },
+      {
+        uid: 'MockChildNode006',
+        entries: [
+          {
+            itemId: 'MockLink006',
             itemSuperType: 'AbstractCMSComponent',
             itemType: 'CMSLinkComponent',
           },
@@ -184,6 +216,36 @@ describe('NavigationComponentService', () => {
     expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
   });
 
+  it('should get a link to a content page when contentPageLabelOrId is provided', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
+
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe((node) => (result = node));
+
+    expect(result.children[4].url).toEqual('/faq');
+  });
+
+  it('should get a link to a product when productCode is provided', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
+
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe((node) => (result = node));
+
+    expect(result.children[5].url).toEqual([
+      'product',
+      '478828',
+      'product page link',
+    ]);
+  });
+
   it('should get navigation node based on CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
@@ -194,7 +256,7 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children.length).toEqual(4);
+    expect(result.children.length).toEqual(6);
     expect(result.children[0].title).toEqual('test link 1');
     expect(result.children[1].url).toEqual('/testLink2');
   });
@@ -206,10 +268,10 @@ describe('NavigationComponentService', () => {
 
     // add one more child
     componentData.navigationNode.children[4] = {
-      uid: 'MockChildNode005',
+      uid: 'MockChildNode007',
       entries: [
         {
-          itemId: 'MockLink005',
+          itemId: 'MockLink007',
           itemSuperType: 'AbstractCMSComponent',
           itemType: 'CMSLinkComponent',
         },
@@ -220,7 +282,7 @@ describe('NavigationComponentService', () => {
     expect(
       mockCmsService.loadNavigationItems
     ).toHaveBeenCalledWith('MockNavigationNode001', [
-      { superType: 'AbstractCMSComponent', id: 'MockLink005' },
+      { superType: 'AbstractCMSComponent', id: 'MockLink007' },
     ]);
   });
 
@@ -236,7 +298,7 @@ describe('NavigationComponentService', () => {
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);
-    expect(result.children[0].children.length).toEqual(4);
+    expect(result.children[0].children.length).toEqual(5);
   });
 
   describe('populate nodes', () => {

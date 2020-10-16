@@ -29,6 +29,8 @@ export const TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED =
   '[Anonymous Consents] Toggle Anonymous Consents Banner Dismissed';
 export const TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED =
   '[Anonymous Consents] Anonymous Consent Templates Updated';
+export const ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS =
+  '[Anonymous Consents] Check Updated Versions';
 
 export class LoadAnonymousConsentTemplates extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES;
@@ -92,6 +94,11 @@ export class ToggleAnonymousConsentTemplatesUpdated {
   constructor(public updated: boolean) {}
 }
 
+export class AnonymousConsentCheckUpdatedVersions {
+  readonly type = ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS;
+  constructor() {}
+}
+
 export type AnonymousConsentsActions =
   | LoadAnonymousConsentTemplates
   | LoadAnonymousConsentTemplatesSuccess
@@ -103,4 +110,5 @@ export type AnonymousConsentsActions =
   | GiveAnonymousConsent
   | WithdrawAnonymousConsent
   | ToggleAnonymousConsentsBannerDissmissed
-  | ToggleAnonymousConsentTemplatesUpdated;
+  | ToggleAnonymousConsentTemplatesUpdated
+  | AnonymousConsentCheckUpdatedVersions;

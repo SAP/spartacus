@@ -16,6 +16,6 @@
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/incubator@${version}",
-    "releaseNotes": "cd ../.. && npm run --silent release-notes:incubator -- --to incubator-${version}"
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib incubator --to incubator-${version}"
   }
 }

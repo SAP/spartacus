@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
@@ -9,11 +9,13 @@ import {
   Order,
   OrderHistoryList,
 } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
@@ -24,7 +26,8 @@ import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 export class UserOrderService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -91,14 +94,28 @@ export class UserOrderService {
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.authService.invokeWithUserId((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadUserOrders({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        let replenishmentOrderCode: string;
+
+        this.routingService
+          .getRouterState()
+          .pipe(take(1))
+          .subscribe((data) => {
+            replenishmentOrderCode =
+              data?.state?.params?.replenishmentOrderCode;
+          })
+          .unsubscribe();
+
+        this.store.dispatch(
+          new UserActions.LoadUserOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+            replenishmentOrderCode,
+          })
+        );
+      }
     });
   }
 

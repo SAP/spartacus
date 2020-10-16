@@ -1,7 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-
-import { GlobalMessageService } from './facade/global-message.service';
 import {
   errorHandlers,
   httpErrorInterceptors,
@@ -9,18 +7,15 @@ import {
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
-import { provideDefaultConfigFactory } from '../config/config.module';
 import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
+import { provideDefaultConfigFactory } from '../config/config-providers';
 
 @NgModule({
   imports: [
     GlobalMessageStoreModule,
     EffectsModule.forFeature([GlobalMessageEffect]),
   ],
-  providers: [
-    provideDefaultConfigFactory(defaultGlobalMessageConfigFactory),
-    GlobalMessageService,
-  ],
+  providers: [provideDefaultConfigFactory(defaultGlobalMessageConfigFactory)],
 })
 export class GlobalMessageModule {
   static forRoot(): ModuleWithProviders<GlobalMessageModule> {

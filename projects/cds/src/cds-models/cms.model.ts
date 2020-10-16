@@ -8,4 +8,5 @@ export interface CmsMerchandisingCarouselComponent extends CmsComponent {
   container?: string;
   textColour?: string;
   backgroundColour?: string;
+  viewportPercentage?: number;
 }

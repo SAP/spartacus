@@ -1,64 +1,109 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ConfigModule } from '../../../config/config.module';
 import { Currency } from '../../../model/misc.model';
 import { OccModule } from '../../../occ/occ.module';
+import { WindowRef } from '../../../window';
 import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import * as fromEffects from './currencies.effect';
 
 describe('Currencies Effects', () => {
-  let actions$: Observable<SiteContextActions.CurrenciesAction>;
+  let actions$: Subject<SiteContextActions.CurrenciesAction>;
+  let winRef: WindowRef;
   let connector: SiteConnector;
   let effects: fromEffects.CurrenciesEffects;
+  let mockState: BehaviorSubject<string>;
 
-  const currencies: Currency[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-  ];
+  let currencies: Currency[];
 
   beforeEach(() => {
+    currencies = [{ active: true, isocode: 'ja', name: 'Japanese' }];
+    actions$ = new Subject();
+    mockState = new BehaviorSubject(null);
+    const mockStore: Partial<Store<any>> = {
+      select: () => mockState,
+    };
+
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
         fromEffects.CurrenciesEffects,
         { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        { provide: Store, useValue: mockStore },
+        {
+          provide: WindowRef,
+          useValue: {
+            sessionStorage: {
+              setItem: jasmine.createSpy('sessionStorage.setItem'),
+            },
+          },
+        },
       ],
     });
 
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.CurrenciesEffects);
+    winRef = TestBed.inject(WindowRef);
 
     spyOn(connector, 'getCurrencies').and.returnValue(of(currencies));
   });
 
   describe('loadCurrencies$', () => {
     it('should populate all currencies from LoadCurrenciesSuccess', () => {
-      const action = new SiteContextActions.LoadCurrencies();
-      const completion = new SiteContextActions.LoadCurrenciesSuccess(
-        currencies
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.loadCurrencies$).toBeObservable(expected);
+      const results = [];
+      effects.loadCurrencies$.subscribe((a) => results.push(a));
+      actions$.next(new SiteContextActions.LoadCurrencies());
+      expect(results).toEqual([
+        new SiteContextActions.LoadCurrenciesSuccess(currencies),
+      ]);
     });
   });
 
   describe('activateCurrency$', () => {
-    it('should change the active currency', () => {
-      const action = new SiteContextActions.SetActiveCurrency('USD');
-      const completion = new SiteContextActions.CurrencyChange();
+    describe('when currency is set for the first time', () => {
+      it('should NOT dispatch currency change action', () => {
+        const results = [];
+        effects.activateCurrency$.subscribe((a) => results.push(a));
+        mockState.next('zh');
+        expect(results).toEqual([]);
+      });
+    });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+    describe('when currency is set for the next time', () => {
+      it('should dispatch currency change action', () => {
+        const results = [];
+        effects.activateCurrency$.subscribe((a) => results.push(a));
 
-      expect(effects.activateCurrency$).toBeObservable(expected);
+        mockState.next('en');
+        mockState.next('zh');
+
+        const changeAction = new SiteContextActions.CurrencyChange({
+          previous: 'en',
+          current: 'zh',
+        });
+        expect(results).toEqual([changeAction]);
+      });
+    });
+  });
+
+  describe('persist$', () => {
+    describe('when new value is set for active currency', () => {
+      it('should persist it in the session storage', () => {
+        effects.persist$.pipe(take(1)).subscribe();
+        actions$.next(new SiteContextActions.SetActiveCurrency('en'));
+
+        expect(winRef.sessionStorage.setItem).toHaveBeenCalledWith(
+          'currency',
+          'en'
+        );
+      });
     });
   });
 });

@@ -12,4 +12,4 @@ The incubator library will have a seperate release strategy from the other Spart
 - Each version of the incubator library has hard dependendies on an exact version of the other Spartacus libraries. For example if Spartacus has a version of `1.4.0`, the incubator release will be `0.140.0`. Similarly, if we have a `1.5.0-next.0`, it would become `0.150.0-next.0`.
 - The incubator library will support patch releases (i.e. 0.140.1)
 
-For more information please see our [documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
+For more information please see our [documentation](https://sap.github.io/spartacus-docs/).

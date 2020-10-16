@@ -4,7 +4,7 @@ Spartacus Styles is a styling library that provides global styling and theming t
 
 The package should be used together with the Spartacus Storefront to build an eCommerce platform using SAP Commerce Cloud exclusively through the Commerce REST API.
 
-For more informations, see [Cloud Commerce Spartacus Storefront](https://github.com/SAP/cloud-commerce-spartacus-storefront).
+For more informations, see [Spartacus](https://github.com/SAP/spartacus).
 
 #### Related projects
 

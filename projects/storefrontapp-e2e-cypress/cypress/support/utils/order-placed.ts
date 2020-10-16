@@ -23,7 +23,7 @@ export function waitForOrderToBePlacedRequest(
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env('API_URL')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
     )}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
@@ -40,7 +40,8 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter((order) => order.code === orderNumber)))
+            res.body.orders.filter((order) => order.code === orderNumber)
+              .length > 0))
       ) {
         startTime = 0;
         return;
@@ -61,7 +62,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env('API_URL')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
     )}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {

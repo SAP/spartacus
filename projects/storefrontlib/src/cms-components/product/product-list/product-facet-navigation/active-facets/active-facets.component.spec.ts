@@ -7,7 +7,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
+import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
@@ -37,7 +38,7 @@ describe('ActiveFacetsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
       declarations: [ActiveFacetsComponent, MockCxIconComponent],
       providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
@@ -84,5 +85,21 @@ describe('ActiveFacetsComponent', () => {
     fixture.detectChanges();
     const header = element.queryAll(By.css('a'));
     expect(header.length).toEqual(2);
+  });
+
+  it('should return focus key when there is no matching facet', () => {
+    const key = component.getFocusKey(
+      { facets: [{ values: [{ name: 'anyNameButNotActive' }] }] } as FacetList,
+      { facetValueName: 'activeFacet' } as Breadcrumb
+    );
+    expect(key).toEqual('activeFacet');
+  });
+
+  it('should not return focus key when there is a matching facet', () => {
+    const key = component.getFocusKey(
+      { facets: [{ values: [{ name: 'activeFacet' }] }] } as FacetList,
+      { facetValueName: 'activeFacet' } as Breadcrumb
+    );
+    expect(key).toEqual('');
   });
 });

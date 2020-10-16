@@ -7,7 +7,7 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 import createSpy = jasmine.createSpy;
 
-describe('SiteContextRoutesHandlerService', () => {
+describe('SiteContextRoutesHandler', () => {
   let mockRouterEvents;
   let mockRouter;
   let mockLocation;
@@ -78,12 +78,24 @@ describe('SiteContextRoutesHandlerService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set context parameter from route on init', () => {
-    service.init();
-    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
-      'language',
-      'test'
-    );
+  describe('init', () => {
+    it('should return promise that will be resolved after first route navigation', (done) => {
+      let resolved = false;
+
+      service.init().then(() => {
+        resolved = true;
+      });
+
+      setTimeout(() => {
+        expect(resolved).toBe(false);
+        mockRouterEvents.next(new NavigationStart(1, 'en'));
+      }, 0);
+
+      setTimeout(() => {
+        expect(resolved).toBe(true);
+        done();
+      }, 1);
+    });
   });
 
   it('should set context parameter on route navigation', () => {

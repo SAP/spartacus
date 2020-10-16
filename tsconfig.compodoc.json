@@ -17,17 +17,49 @@
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
-      "@spartacus/cds": ["projects/cds/public_api"]
+      "@spartacus/cds": ["projects/cds/public_api"],
+      "@spartacus/schematics": ["projects/schematics/src/public_api"],
+      "@spartacus/my-account": ["feature-libs/my-account/public_api"],
+      "@spartacus/my-account/organization": [
+        "feature-libs/my-account/organization/public_api"
+      ],
+      "@spartacus/my-account/organization/core": [
+        "feature-libs/my-account/organization/core/public_api"
+      ],
+      "@spartacus/my-account/organization/occ": [
+        "feature-libs/my-account/organization/occ/public_api"
+      ],
+      "@spartacus/my-account/organization/components": [
+        "feature-libs/my-account/organization/components/public_api"
+      ],
+      "@spartacus/my-account/organization/assets": [
+        "feature-libs/my-account/organization/assets/public_api"
+      ],
+      "@spartacus/product": ["feature-libs/product/public_api"],
+      "@spartacus/product/configurators": [
+        "feature-libs/product/configurators/public_api"
+      ],
+      "@spartacus/product/configurators/common": [
+        "feature-libs/product/configurators/common/public_api"
+      ],
+      "@spartacus/product/configurators/cpq": [
+        "feature-libs/product/configurators/cpq/public_api"
+      ],
+      "@spartacus/product/configurators/variant": [
+        "feature-libs/product/configurators/variant/public_api"
+      ],
+      "@spartacus/product/configurators/textfield": [
+        "feature-libs/product/configurators/textfield/public_api"
+      ],
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/setup": ["integration-libs/setup/public_api"]
     }
   },
   "exclude": [
     "./dist/**/*.*",
-    "./projects/backend/**/*.*",
     "./projects/assets/**/*.*",
     "./projects/storefrontapp/**/*.*",
-    "./projects/storefrontapp-cds-integration/**/*.*",
     "./projects/storefrontstyles/**/*.*",
-    "./projects/ssr/**/*.*",
     "./projects/vendor/**/*.*"
   ]
 }

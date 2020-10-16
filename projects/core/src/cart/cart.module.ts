@@ -2,13 +2,6 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { CartEventModule } from './event/cart-event.module';
-import { ActiveCartService } from './facade/active-cart.service';
-import {
-  CartVoucherService,
-  SelectiveCartService,
-  WishListService,
-} from './facade/index';
-import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
@@ -32,11 +25,6 @@ export class CartModule {
     return {
       ngModule: CartModule,
       providers: [
-        CartVoucherService,
-        MultiCartService,
-        WishListService,
-        ActiveCartService,
-        SelectiveCartService,
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,

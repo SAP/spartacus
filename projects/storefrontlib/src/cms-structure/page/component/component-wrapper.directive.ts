@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
@@ -84,6 +85,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       ?.subscribe(({ elementRef, componentRef }) => {
         this.cmpRef = componentRef;
         this.decorate(elementRef);
+        this.injector.get(ChangeDetectorRef).markForCheck();
       });
   }
 

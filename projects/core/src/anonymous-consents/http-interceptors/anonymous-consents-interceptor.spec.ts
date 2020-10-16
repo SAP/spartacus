@@ -1,8 +1,8 @@
 import {
-  HTTP_INTERCEPTORS,
   HttpClient,
   HttpInterceptor,
   HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -11,18 +11,19 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
-import { ANONYMOUS_CONSENT_STATUS, AnonymousConsent } from '../../model/index';
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENTS_HEADER,
+  ANONYMOUS_CONSENT_STATUS,
+} from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/index';
-import {
-  ANONYMOUS_CONSENTS_HEADER,
-  AnonymousConsentsInterceptor,
-} from './anonymous-consents-interceptor';
+import { AnonymousConsentsInterceptor } from './anonymous-consents-interceptor';
 
 const mockAnonymousConsents: AnonymousConsent[] = [
-  { templateCode: 'MARKETING', version: 0, consentState: null },
-  { templateCode: 'PERSONALIZATION', version: 0, consentState: null },
+  { templateCode: 'MARKETING', templateVersion: 0, consentState: null },
+  { templateCode: 'PERSONALIZATION', templateVersion: 0, consentState: null },
 ];
 
 class MockOccEndpointsService {
@@ -239,14 +240,18 @@ describe('AnonymousConsentsInterceptor', () => {
   describe(`${giveRequiredConsentsMethod}`, () => {
     it('should giveAnonymousConsent', () => {
       const consents: AnonymousConsent[] = [
-        { templateCode: 'MARKETING', version: 0, consentState: null },
-        { templateCode: 'OTHER_CONSENT', version: 0, consentState: null },
-      ];
-      const expectedConsents: AnonymousConsent[] = [
-        { templateCode: 'MARKETING', version: 0, consentState: null },
+        { templateCode: 'MARKETING', templateVersion: 0, consentState: null },
         {
           templateCode: 'OTHER_CONSENT',
-          version: 0,
+          templateVersion: 0,
+          consentState: null,
+        },
+      ];
+      const expectedConsents: AnonymousConsent[] = [
+        { templateCode: 'MARKETING', templateVersion: 0, consentState: null },
+        {
+          templateCode: 'OTHER_CONSENT',
+          templateVersion: 0,
           consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
         },
       ];

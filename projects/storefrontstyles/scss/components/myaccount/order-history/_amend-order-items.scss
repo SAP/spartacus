@@ -1,7 +1,6 @@
 %cx-amend-order-items {
   .cx-item-list-header {
     @include type('8');
-    margin: 0;
     padding: 1.125rem 0;
     text-transform: uppercase;
     color: var(--cx-color-secondary);
@@ -10,34 +9,19 @@
     border-color: var(--cx-color-light);
   }
 
-  .cx-item-list-desc {
-    text-align: left;
-    padding: 0;
-  }
-
-  .cx-item-list-price {
-    text-align: center;
-  }
-
-  .cx-item-list-qty {
-    text-align: center;
-  }
-
   .cx-item-list-total {
-    text-align: right;
-    padding: 0;
+    text-align: end;
 
     @include media-breakpoint-only(xl) {
-      text-align: center;
-      padding-right: 0;
+      text-align: end;
     }
 
     @include media-breakpoint-down(lg) {
-      padding-right: 70px;
+      padding-inline-end: 70px;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
   }
 
@@ -46,16 +30,16 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
-
-    cx-media {
-      text-align: center;
-    }
   }
 
   .cx-info-container {
     @include media-breakpoint-down(sm) {
       display: flex;
       flex-direction: column;
+
+      .cx-order-quantity-value {
+        text-align: start;
+      }
     }
   }
 
@@ -88,7 +72,7 @@
   .cx-label {
     @include type('8');
     overflow-wrap: break-word;
-    padding-right: 1rem;
+    padding-inline-end: 1rem;
 
     @include media-breakpoint-down(sm) {
       min-width: 5rem;
@@ -112,23 +96,23 @@
     @include type('5');
 
     @include media-breakpoint-down(lg) {
-      padding-right: 0;
-      padding-left: 45px;
+      padding-inline-end: 0;
+      padding-inline-start: 45px;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
-      padding-left: 15px;
+      padding-inline-start: 15px;
     }
 
     .cx-old {
       text-decoration: line-through;
       color: var(--cx-color-secondary);
-      padding: 0 1rem 0 0;
+      padding-inline-end: 1rem;
     }
 
     .cx-new {
@@ -166,11 +150,11 @@
     align-items: center;
 
     @include media-breakpoint-down(lg) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
 
     @include media-breakpoint-down(sm) {
@@ -180,7 +164,7 @@
 
   .cx-total {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 
     @include media-breakpoint-down(md) {
@@ -257,7 +241,7 @@
 
   @include media-breakpoint-down(sm) {
     .cx-item-list-items {
-      padding: 0 0 0 1rem;
+      padding-inline-start: 1rem;
     }
   }
 }

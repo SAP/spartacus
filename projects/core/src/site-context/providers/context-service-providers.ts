@@ -3,18 +3,22 @@ import { ConfigInitializerService } from '../../config/config-initializer/config
 import { BaseSiteService } from '../facade/base-site.service';
 import { CurrencyService } from '../facade/currency.service';
 import { LanguageService } from '../facade/language.service';
+import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
 export function initializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
   currService: CurrencyService,
-  configInit: ConfigInitializerService
+  configInit: ConfigInitializerService,
+  siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
   return () => {
     configInit.getStableConfig('context').then(() => {
-      baseSiteService.initialize();
-      langService.initialize();
-      currService.initialize();
+      siteContextRoutesHandler.init().then(() => {
+        baseSiteService.initialize();
+        langService.initialize();
+        currService.initialize();
+      });
     });
   };
 }
@@ -31,6 +35,7 @@ export const contextServiceProviders: Provider[] = [
       LanguageService,
       CurrencyService,
       ConfigInitializerService,
+      SiteContextRoutesHandler,
     ],
     multi: true,
   },

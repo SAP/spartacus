@@ -27,7 +27,11 @@ $modal-min-width-sm: 100% !important;
     font-weight: 100;
     bottom: 5px;
     position: relative;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    align-self: flex-end;
   }
+
   &[aria-hidden='false'] {
     display: block;
   }
@@ -61,5 +65,9 @@ $modal-min-width-sm: 100% !important;
     height: 100%;
     align-items: unset !important;
     overflow-y: auto;
+  }
+
+  .modal-dialog {
+    overflow-y: initial;
   }
 }

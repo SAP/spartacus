@@ -1,0 +1,18 @@
+{
+  "defaultCommandTimeout": 15000,
+  "baseUrl": "http://localhost:4200",
+  "requestTimeout": 15000,
+  "projectId": "k3nmep",
+  "numTestsKeptInMemory": 1,
+  "video": true,
+  "retries": {
+    "runMode": 2
+  },
+  "env": {
+    "CLIENT_ID": "mobile_android",
+    "CLIENT_SECRET": "secret",
+    "API_URL": "https://spartacus-legacy.eastus.cloudapp.azure.com:9002",
+    "OCC_PREFIX": "/rest/v2",
+    "BASE_SITE": "electronics-spa"
+  }
+}

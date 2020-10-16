@@ -13,10 +13,10 @@ import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
   ProfileTagJsConfig,
+  ProfileTagPushEvent,
   ProfileTagWindowObject,
-  PushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -36,16 +36,19 @@ export class ProfileTagEventService {
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     @Inject(PLATFORM_ID) private platform: any
-  ) {}
+  ) {
+    this.initWindow();
+  }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
   }
+
   getConsentReference(): Observable<string> {
     if (!this.consentReference$) {
       this.consentReference$ = fromEvent(
         this.winRef.nativeWindow,
-        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
       ).pipe(
         map((event) => <ConsentReferenceEvent>event),
         map((event) => event.detail.consentReference),
@@ -61,9 +64,16 @@ export class ProfileTagEventService {
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(() => this.addScript()),
-      tap(() => this.initWindow()),
       tap((siteId: string) => this.createConfig(siteId))
     );
+  }
+
+  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
+    try {
+      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
+    } catch (e) {
+      console.log(`Unexpected error when calling profiletag push method ${e}`);
+    }
   }
 
   private setConsentReference(): Observable<string> {
@@ -77,7 +87,7 @@ export class ProfileTagEventService {
   private debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
-      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+      InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
     ).pipe(
       map((event) => <DebugEvent>event),
       tap((event) => (this.profileTagDebug = event.detail.debug))
@@ -105,6 +115,9 @@ export class ProfileTagEventService {
   }
 
   private initWindow(): void {
+    if (!isPlatformBrowser(this.platform)) {
+      return;
+    }
     this.profileTagWindow = <ProfileTagWindowObject>(
       (<unknown>this.winRef.nativeWindow)
     );
@@ -117,13 +130,5 @@ export class ProfileTagEventService {
     const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
-  }
-
-  notifyProfileTagOfEventOccurence(event: PushEvent): void {
-    try {
-      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
-    } catch (e) {
-      console.log(`Unexpected error when calling profiletag push method ${e}`);
-    }
   }
 }

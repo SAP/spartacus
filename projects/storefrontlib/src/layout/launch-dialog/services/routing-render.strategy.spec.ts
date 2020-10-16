@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { LaunchConfig, LaunchRoute, LAUNCH_CALLER } from '../config/index';
+import { LayoutConfig } from '../../config/layout-config';
+import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { RoutingRenderStrategy } from './routing-render.strategy';
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_URL: {
       cxRoute: 'url',

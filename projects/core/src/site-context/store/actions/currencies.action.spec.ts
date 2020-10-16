@@ -51,9 +51,16 @@ describe('Currencies Actions', () => {
 
   describe('CurrencyChange Action', () => {
     it('should create an action', () => {
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
       expect({ ...action }).toEqual({
         type: SiteContextActions.CURRENCY_CHANGE,
+        payload: {
+          previous: 'previous',
+          current: 'current',
+        },
       });
     });
   });

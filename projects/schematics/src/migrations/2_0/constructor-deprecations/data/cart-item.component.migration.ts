@@ -17,32 +17,6 @@ export const CART_ITEM_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         className: PROMOTION_SERVICE,
         importPath: SPARTACUS_CORE,
       },
-    ],
-    removeParams: [
-      {
-        className: PROMOTION_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
-    addParams: [
-      {
-        className: PROMOTION_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
-  },
-  {
-    class: CART_ITEM_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    deprecatedParams: [
-      {
-        className: PROMOTION_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
       {
         className: FEATURE_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
@@ -50,17 +24,7 @@ export const CART_ITEM_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
-        className: PROMOTION_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
         className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
-    addParams: [
-      {
-        className: PROMOTION_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],

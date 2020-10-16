@@ -50,7 +50,7 @@ export class AsmService {
   /**
    * Updates the state of the ASM UI
    */
-  updateAsmUiState(asmUi: AsmUi) {
+  updateAsmUiState(asmUi: AsmUi): void {
     this.store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
   }
 

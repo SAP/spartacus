@@ -52,6 +52,7 @@
       *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
       (click)="increaseVisibleValues()"
       class="cx-action-link"
+      cxFocus="moreorless"
     >
       {{ 'productList.showMore' | cxTranslate }}
     </button>

@@ -6,12 +6,14 @@ import {
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
-import { b2cLayoutConfig, mediaConfig } from './config/index';
+import { layoutConfig, mediaConfig } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
@@ -24,7 +26,7 @@ import { StorefrontModule } from './storefront.module';
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],

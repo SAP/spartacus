@@ -3,7 +3,7 @@ const diff = require('diff-lines');
 const normalizeNewline = require('normalize-newline');
 
 Toolkit.run(
-  async tools => {
+  async (tools) => {
     const owner = tools.context.payload.repository.owner.login;
     const repo = tools.context.payload.repository.name;
 
@@ -32,16 +32,18 @@ Toolkit.run(
         .trim();
     }
 
-    await tools.runInWorkspace('sh', ['./scripts/api-extractor-for-branch.sh']);
     await tools.runInWorkspace('sh', [
-      './scripts/api-extractor-for-branch.sh',
+      './.github/api-extractor-action/api-extractor-for-branch.sh',
+    ]);
+    await tools.runInWorkspace('sh', [
+      './.github/api-extractor-action/api-extractor-for-branch.sh',
       targetBranch,
       'target',
     ]);
 
-    const libraries = ['assets', 'storefront'];
+    const libraries = ['assets', 'storefront', 'cds'];
 
-    const libsDiffs = libraries.map(library => {
+    const libsDiffs = libraries.map((library) => {
       const sourceBranchReportDirectory = `etc`;
       const targetBranchReportDirectory = `target-branch-clone/etc`;
       const sourceBranchSnippet = extractSnippetFromFile(
@@ -65,7 +67,7 @@ Toolkit.run(
         '\n' +
         libsDiffs
           .map(
-            libDiff =>
+            (libDiff) =>
               '### @spartacus/' +
               libDiff.library +
               ' public API diff\n' +
@@ -88,7 +90,7 @@ Toolkit.run(
         repo,
       });
 
-      const botComment = comments.data.filter(comment =>
+      const botComment = comments.data.filter((comment) =>
         comment.body.includes(reportHeader)
       );
 

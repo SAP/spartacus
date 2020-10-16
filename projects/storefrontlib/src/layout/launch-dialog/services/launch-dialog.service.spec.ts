@@ -1,15 +1,16 @@
 import { Component, Injectable, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { LayoutConfig } from '../../config/layout-config';
 import {
-  LaunchConfig,
   LaunchInlineDialog,
+  LaunchOptions,
   LaunchRoute,
   LAUNCH_CALLER,
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_INLINE: {
       inline: true,
@@ -21,15 +22,20 @@ const mockLaunchConfig: LaunchConfig = {
   },
 };
 
+const urlConfig = mockLaunchConfig.launch['TEST_URL'];
+const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
+
 @Injectable({
   providedIn: 'root',
 })
-class MockRoutingRenderStrategy extends LaunchRenderStrategy {
+class MockRoutingRenderStrategy {
   public render(
     _config: LaunchRoute,
-    _caller: LAUNCH_CALLER,
+    _caller: LAUNCH_CALLER | string,
     _vcr?: ViewContainerRef
   ) {}
+
+  public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
 
   public hasMatch(config: LaunchRoute) {
     return Boolean(config.cxRoute);
@@ -39,12 +45,14 @@ class MockRoutingRenderStrategy extends LaunchRenderStrategy {
 @Injectable({
   providedIn: 'root',
 })
-class MockInlineRenderStrategy extends LaunchRenderStrategy {
+class MockInlineRenderStrategy {
   public render(
     _config: LaunchInlineDialog,
-    _caller: LAUNCH_CALLER,
+    _caller: LAUNCH_CALLER | string,
     _vcr: ViewContainerRef
   ) {}
+
+  public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
 
   public hasMatch(config: LaunchInlineDialog) {
     return Boolean(config.inline);
@@ -78,7 +86,7 @@ describe('LaunchDialogService', () => {
           useExisting: MockInlineRenderStrategy,
           multi: true,
         },
-        { provide: LaunchConfig, useValue: mockLaunchConfig },
+        { provide: LayoutConfig, useValue: mockLaunchConfig },
       ],
       declarations: [TestContainerComponent],
     }).compileComponents();
@@ -101,40 +109,43 @@ describe('LaunchDialogService', () => {
 
   describe('launch', () => {
     it('should call the proper renderer', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
       service.launch('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
-        'TEST_URL' as LAUNCH_CALLER,
+        'TEST_URL',
         undefined
       );
 
-      const inlineConfig =
-        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
-      service.launch('TEST_INLINE' as LAUNCH_CALLER, component.vcr);
+      service.launch('TEST_INLINE', component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
-        'TEST_INLINE' as LAUNCH_CALLER,
+        'TEST_INLINE',
         component.vcr
       );
+    });
+
+    it('should get any data from the launcher when data is passed', () => {
+      service.launch('TEST_INLINE', component.vcr, 'test-data');
+
+      let result: any;
+
+      service.data$.subscribe((data) => (result = data)).unsubscribe();
+
+      expect(result).toEqual('test-data');
     });
   });
 
   describe('clear', () => {
     it('should call the proper remove', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
-      const inlineConfig =
-        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
-
       service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
-        'TEST_URL' as LAUNCH_CALLER,
+        'TEST_URL',
         urlConfig
       );
 
       service.clear('TEST_INLINE' as LAUNCH_CALLER);
       expect(inlineRenderStrategy.remove).toHaveBeenCalledWith(
-        'TEST_INLINE' as LAUNCH_CALLER,
+        'TEST_INLINE',
         inlineConfig
       );
     });
@@ -142,16 +153,9 @@ describe('LaunchDialogService', () => {
 
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
-      const inlineConfig =
-        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
-      expect(
-        service['findConfiguration']('TEST_INLINE' as LAUNCH_CALLER)
-      ).toEqual(inlineConfig);
+      expect(service['findConfiguration']('TEST_INLINE')).toEqual(inlineConfig);
 
-      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
-      expect(service['findConfiguration']('TEST_URL' as LAUNCH_CALLER)).toEqual(
-        urlConfig
-      );
+      expect(service['findConfiguration']('TEST_URL')).toEqual(urlConfig);
     });
   });
 });

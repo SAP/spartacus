@@ -1,0 +1,129 @@
+/**
+ * The Spartacus team is cautious with introducing style changes in a minor release, 
+ * as it would conflict with the [semantic versioning](https://semver.org/)
+ * model. To improve the style layer during minor releases, without breaking the 
+ * versioning, a version flag is used. The version is used to control breaking styles 
+ * during the lifecycle of a major version.
+ *
+ * Breaking changes are added with the `forVersion()` mixin. The mixin compares the
+ * from version and (optional) to version, and will only add the mixin content if changes 
+ * are part of the stable release, or explicitly requested by the customer.
+ *
+ * An example of the usage of the mixin is given below:
+ *
+ * ```scss
+ * @include forVersion(2.1){
+ *  // valid when 2.1 is explicit requested or from 3.0 onwards
+ * }
+ * ```
+ *
+ * Customers can opt-in for specific versions by declaring the `$styleVersion` variable or by
+ * using the `$useLatestStyles:true` to always be up-to-date with the latest styles.
+ */
+
+/**
+  * Indicates the current major/minor version, which is used to avoid breaking changes. 
+  * Any CSS added later than this version is omitted by default, unless the `$useLatestStyles` 
+  * or `$styleVersion` are enabled.
+  */
+$_fullVersion: 3.1;
+
+/**
+ * The _global_ major version. Any (left over) styles from previous stable versions
+ * are processed to the final CSS.
+ */
+$_majorVersion: 3;
+
+/**
+ * The `$styleVersion` can be used by customers to explicitly opt-in to breaking style 
+ * changes till the given style version. It must contain a floating number, such as `2.1`.
+ */
+$styleVersion: $_majorVersion !default;
+
+/**
+ * For Spartacus development or demo's, the usage of latest styles is recommended.
+ * To avoid frequent changes of the $minorVersion in the application, we offer a
+ * flag that can be used to keep up with the latest version at any time.
+ */
+$useLatestStyles: false !default;
+
+/**
+ * The `forVersion` mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, and customers can only use those styles if
+ * they explicitly enable breaking changes.
+ *
+ * The mixin requires a $from version and optional to version. Content can be flagged for
+ * specific versions or from a specific version onwards.
+ *
+ * Examples
+ * - `forVersion(2)` is valid from major version 2 onwards.
+ * - `forVersion(2.1)` Valid for version 2.1 and higher, but only added as breaking change 
+ *    or when major version reaches 3.0.
+ * - `forVersion(2, 2.1)` Valid for version 2 and 2.1. Will no longer be available after 2.1.
+ *
+ * The version related content is only created if the user opt-in for breaking changes.
+ */
+@mixin forVersion($from, $to: 0) {
+  // We never create content that is part of future releases, this should not really happen.
+  @if ($from <= $_fullVersion) {
+    @if (
+      (isStableVersion($from, $to) and isValidVersion($from, $to)) or
+        addBreakingChange($from, $to)
+    ) {
+      @content;
+    }
+  }
+}
+
+/**
+ * Indicates that from and to versions are valid for the major version.
+ * - from 0.9 to 1.1 is valid for version 1
+ * - from 1.0 to 1.2 is valid for version 1
+ * - from 1.1 to 1.2 is not valid for version 1
+ * - from 1.1 to 1.2 is not valid for version 2
+ */
+@function isStableVersion($from, $to: 0) {
+  @if ($to == 0) {
+    @return $from <= $_majorVersion;
+  } @else {
+    @return $from <= $_majorVersion and $to >= $_majorVersion;
+  }
+}
+
+/**
+ * Indicates that the style rule should be created for the given opt-in rules.
+ */
+@function addBreakingChange($from, $to) {
+  @if (useBreakingChanges() == false) {
+    @return false;
+  }
+  @return isValidVersion($from, $to);
+}
+
+/**
+ * Indicates that the given from / to versions are valid.
+ */
+@function isValidVersion($from, $to: 0) {
+  @if ($to == 0) {
+    // ensure that we opt-in the from version
+    @return ($useLatestStyles and $from <= $_fullVersion) or
+      ($useLatestStyles == false and $from <= $styleVersion);
+  } @else {
+    // ensure that we opt-in the from/to version
+    @return (
+        $useLatestStyles and $from <= $_fullVersion and $to >= $_fullVersion
+      )
+      or
+      (
+        $useLatestStyles == false and $from <= $styleVersion and $to >=
+          $styleVersion
+      );
+  }
+}
+
+/**
+ * Indicates if breaking changes are requested.
+ */
+@function useBreakingChanges() {
+  @return $useLatestStyles or $styleVersion > $_majorVersion;
+}

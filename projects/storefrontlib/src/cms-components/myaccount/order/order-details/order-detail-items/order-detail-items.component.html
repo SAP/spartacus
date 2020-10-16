@@ -28,17 +28,26 @@
     ></cx-order-consigned-entries>
   </ng-container>
 
-  <!-- unconsigned entries -->
-  <ng-container *ngIf="order.unconsignedEntries?.length">
+  <!-- unconsigned entries OR any entries -->
+  <ng-container
+    *ngIf="
+      order?.unconsignedEntries?.length ||
+      (order?.entries && order?.replenishmentOrderCode)
+    "
+  >
     <div class="cx-list row">
-      <div class="cx-list-header col-12">
+      <div *ngIf="order?.statusDisplay" class="cx-list-header col-12">
         <div class="cx-list-status">
-          {{ 'orderDetails.pending' | cxTranslate }}
+          {{
+            'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
+          }}
         </div>
       </div>
       <div class="cx-list-item col-12">
         <cx-cart-item-list
-          [items]="order?.unconsignedEntries"
+          [items]="
+            order?.unconsignedEntries ? order.unconsignedEntries : order.entries
+          "
           [readonly]="true"
           [promotionLocation]="promotionLocation"
         ></cx-cart-item-list>

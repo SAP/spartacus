@@ -37,7 +37,8 @@ import { PersistFocusService } from './persist-focus.service';
  *
  */
 @Directive() // selector: '[cxPersistFocus]',
-export class PersistFocusDirective extends BlockFocusDirective
+export class PersistFocusDirective
+  extends BlockFocusDirective
   implements OnInit, AfterViewInit {
   protected defaultConfig: PersistFocusConfig = {};
 
@@ -50,7 +51,7 @@ export class PersistFocusDirective extends BlockFocusDirective
   protected config: PersistFocusConfig = {};
 
   /**
-   * The persistance key is maintained in an element attribute for other
+   * The persistence key is maintained in an element attribute for other
    * implementations. This is needed to ensure that we can resolve the focus
    * state in case of a repaint.
    */

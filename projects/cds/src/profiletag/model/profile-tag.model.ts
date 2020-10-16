@@ -1,9 +1,9 @@
-import { Cart } from '@spartacus/core';
+import { PersonalizationAction } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
+    eventLayer?: ProfileTagPushEvent[];
   };
 }
 
@@ -29,47 +29,144 @@ export interface DebugEvent extends CustomEvent {
   };
 }
 
-export enum ProfileTagEventNames {
+export enum InternalProfileTagEventNames {
   CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }
 
-interface ProfileTagCart {
-  cart: Cart;
+export interface ProfileTagPushEvent {
+  name: string;
+  data?: {
+    segments?: string[];
+    actions?: PersonalizationAction[];
+    [x: string]: any;
+  };
 }
 
-export enum PushEventNames {
-  NAVIGATED = 'Navigated',
-  CONSENT_CHANGED = 'ConsentChanged',
-  CART_CHANGED = 'CartSnapshot',
+export class NavigatedPushEvent implements ProfileTagPushEvent {
+  name = 'Navigated';
+  data: any;
+  constructor(data?) {
+    this.data = data;
+  }
 }
 
-interface ProfiletagPushEvent {
-  name: PushEventNames;
-  data?: any;
-}
-
-export type PushEvent =
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export class NavigatedPushEvent implements ProfiletagPushEvent {
-  name = PushEventNames.NAVIGATED;
-}
-
-export class ConsentChangedPushEvent implements ProfiletagPushEvent {
-  name = PushEventNames.CONSENT_CHANGED;
+export class ConsentChangedPushEvent implements ProfileTagPushEvent {
+  name = 'ConsentChanged';
   data: { granted: boolean } = { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted = granted;
   }
 }
 
-export class CartChangedPushEvent implements ProfiletagPushEvent {
-  name: PushEventNames = PushEventNames.CART_CHANGED;
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
+export class KeywordSearchPushEvent implements ProfileTagPushEvent {
+  name = 'KeywordSearch';
+  data: any;
+  constructor(data: { searchTerm: string; numResults: Number }) {
+    this.data = data;
+  }
+}
+
+export class ProductViewPushEvent implements ProfileTagPushEvent {
+  name = 'ProductDetailsPageViewed';
+  data: any;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productPrice: Number;
+    productCategory: string;
+    productCategoryName: string;
+    categories: Array<string>;
+  }) {
+    this.data = data;
+  }
+}
+
+export class CategoryViewPushEvent implements ProfileTagPushEvent {
+  name = 'CategoryPageViewed';
+  data: any;
+  constructor(data: { productCategory: string; productCategoryName: string }) {
+    this.data = data;
+  }
+}
+
+// TODO:#cds - check the class name and the `name` property
+export class BrandPageVisitedEvent implements ProfileTagPushEvent {
+  name = 'BrandPageVisitedEvent';
+  data: { brandCode: string; brandName: string };
+  constructor(data: { brandCode: string; brandName: string }) {
+    this.data = data;
+  }
+}
+
+export class HomePageViewPushEvent implements ProfileTagPushEvent {
+  name = 'HomePageViewed';
+  data: any;
+  constructor(data?: any) {
+    this.data = data;
+  }
+}
+
+export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
+  name = 'OrderConfirmationPageViewed';
+  data: any;
+  constructor(data?: any) {
+    this.data = data;
+  }
+}
+
+export class CartViewPushEvent implements ProfileTagPushEvent {
+  name = 'CartPageViewed';
+  data: any;
+  constructor(data?: any) {
+    this.data = data;
+  }
+}
+
+export class AddedToCartPushEvent implements ProfileTagPushEvent {
+  name = 'AddedToCart';
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    categories: Array<string>;
+    productCategoryName: string;
+    productCategory: string;
+    productPrice: Number;
+  }) {
+    this.data = data;
+  }
+}
+
+export class RemovedFromCartPushEvent implements ProfileTagPushEvent {
+  name = 'RemovedFromCart';
+  data: any;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productCategory: string;
+    cartId: string;
+    productCategoryName: string;
+    categories: Array<string>;
+  }) {
+    this.data = data;
+  }
+}
+
+export class ModifiedCartPushEvent implements ProfileTagPushEvent {
+  name = 'ModifiedCart';
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    categories: Array<string>;
+    productCategoryName: string;
+    productCategory: string;
+  }) {
     this.data = data;
   }
 }

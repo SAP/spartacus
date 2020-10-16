@@ -17,10 +17,8 @@ export class FooterNavigationComponent {
   );
 
   styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map((d) => d.styleClass)
+    map((d) => d?.styleClass)
   );
-
-  data$: Observable<CmsNavigationComponent> = this.componentData.data$;
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,

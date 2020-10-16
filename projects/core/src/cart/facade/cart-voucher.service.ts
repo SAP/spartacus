@@ -13,7 +13,9 @@ import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CartVoucherService {
   constructor(
     protected store: Store<fromProcessStore.StateWithProcess<void>>,

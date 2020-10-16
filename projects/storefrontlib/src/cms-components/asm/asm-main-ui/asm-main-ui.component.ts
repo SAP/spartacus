@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   AsmAuthService,
+  AsmService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -15,7 +16,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -28,6 +29,7 @@ export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
+  isCollapsed$: Observable<boolean>;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -39,7 +41,8 @@ export class AsmMainUiComponent implements OnInit {
     protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected asmService: AsmService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +58,9 @@ export class AsmMainUiComponent implements OnInit {
         }
       })
     );
+    this.isCollapsed$ = this.asmService
+      .getAsmUiState()
+      .pipe(map((uiState) => uiState.collapsed));
   }
 
   private handleCustomerSessionStartRedirection(token: UserToken): void {

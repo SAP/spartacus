@@ -20,10 +20,11 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
+import { ComponentHandler, PageComponentModule } from '@spartacus/storefront';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CxApiService } from './services/cx-api.service';
+import { WebComponentHandler } from './handlers/web-component.handler';
 
 const testText = 'test text';
 
@@ -102,6 +103,11 @@ describe('ComponentWrapperDirective', () => {
         {
           provide: DynamicAttributeService,
           useClass: MockDynamicAttributeService,
+        },
+        {
+          provide: ComponentHandler,
+          useExisting: WebComponentHandler,
+          multi: true,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
       ],

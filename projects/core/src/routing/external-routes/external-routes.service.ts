@@ -7,7 +7,9 @@ import { ExternalRoutesGuard } from './external-routes.guard';
 /**
  * Service that helps redirecting to different storefront systems for configured URLs
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,

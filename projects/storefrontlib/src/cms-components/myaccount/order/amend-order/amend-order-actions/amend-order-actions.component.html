@@ -12,26 +12,15 @@
   </a>
 </div>
 <div class="col-xs-12 col-md-4 col-lg-3">
-  <a
+  <button
     *ngIf="forwardRoute"
     class="btn btn-block btn-primary"
-    [class.disabled]="!isValid"
-    [routerLink]="
-      {
-        cxRoute: forwardRoute,
-        params: { code: orderCode }
-      } | cxUrl
-    "
+    (click)="continue($event)"
   >
     {{ 'common.continue' | cxTranslate }}
-  </a>
+  </button>
 
-  <button
-    *ngIf="!forwardRoute"
-    class="btn btn-block btn-primary"
-    type="submit"
-    [disabled]="!isValid"
-  >
+  <button *ngIf="!forwardRoute" class="btn btn-block btn-primary" type="submit">
     {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
   </button>
 </div>

@@ -7,14 +7,17 @@ import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
 import createSpy = jasmine.createSpy;
+import { CommonModule } from '@angular/common';
 
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
 })
 class MockAmendOrderActionComponent {
-  @Input() orderCode;
-  @Input() isValid;
+  @Input() orderCode: string;
+  @Input() amendOrderForm: FormGroup;
+  @Input() backRoute: string;
+  @Input() forwardRoute: string;
 }
 
 @Component({
@@ -58,7 +61,12 @@ describe('CancelOrderConfirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [
+        CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
+      ],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

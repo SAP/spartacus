@@ -110,20 +110,6 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(true);
     });
 
-    it('should set baseSite', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, baseSite: 'test-site' },
-          appTree
-        )
-        .toPromise();
-      const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
-      );
-      expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
-    });
-
     it('should set feature level', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
@@ -138,19 +124,212 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
 
-    it('should enable auto-base site by omitting context property in config', async () => {
+    it('should set styleVersion based on featureLevel', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
           'add-spartacus',
-          { ...defaultOptions, baseSite: '' },
+          { ...defaultOptions, featureLevel: '5.5' },
           appTree
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        '/projects/schematics-test/src/styles.scss'
       );
+      expect(appModule.includes(`$styleVersion: 5.5`)).toBe(true);
+    });
 
-      expect(appModule.includes(`context: {`)).toBeFalsy();
+    describe('context config', () => {
+      describe('baseSite', () => {
+        it('should set a single baseSite', async () => {
+          const tree = await schematicRunner
+            .runSchematicAsync(
+              'add-spartacus',
+              { ...defaultOptions, baseSite: 'test-site' },
+              appTree
+            )
+            .toPromise();
+          const appModule = tree.readContent(
+            '/projects/schematics-test/src/app/app.module.ts'
+          );
+          expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
+        });
+
+        it('should set multiple baseSites', async () => {
+          const tree = await schematicRunner
+            .runSchematicAsync(
+              'add-spartacus',
+              {
+                ...defaultOptions,
+                baseSite:
+                  'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
+              },
+              appTree
+            )
+            .toPromise();
+          const appModule = tree.readContent(
+            '/projects/schematics-test/src/app/app.module.ts'
+          );
+
+          expect(
+            appModule.includes(
+              `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']`
+            )
+          ).toBe(true);
+        });
+      });
+
+      it('should enable auto-base site by omitting context property in config', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              baseSite: '',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`baseSite: [`)).toBeFalsy();
+      });
+    });
+
+    describe('currency', () => {
+      it('should set the default currency when not provided', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`currency: ['USD']`)).toBe(true);
+      });
+      it('should set the single currency', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              currency: 'rsd',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`currency: ['RSD']`)).toBe(true);
+      });
+      it('should set multiple currencies', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              currency: 'CAD,rsd',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`currency: ['CAD', 'RSD']`)).toBe(true);
+      });
+    });
+    describe('language', () => {
+      it('should set the default language when not provided', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`language: ['en']`)).toBe(true);
+      });
+      it('should set the single language', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              language: 'SR',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`language: ['sr']`)).toBe(true);
+      });
+      it('should set multiple languages', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              language: 'EN,SR',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(appModule.includes(`language: ['en', 'sr']`)).toBe(true);
+      });
+    });
+
+    describe('baseSite, language and currency', () => {
+      it('should combine all context params properly', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              baseSite:
+                'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
+              currency: 'CAD,rsd',
+              language: 'EN,SR',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          '/projects/schematics-test/src/app/app.module.ts'
+        );
+
+        expect(
+          appModule.includes(`
+      context: {
+        currency: ['CAD', 'RSD'],
+        language: ['en', 'sr'],
+        baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']
+      },`)
+        ).toBe(true);
+      });
     });
   });
 

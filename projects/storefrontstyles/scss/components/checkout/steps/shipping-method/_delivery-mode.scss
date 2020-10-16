@@ -3,26 +3,33 @@
 %cx-delivery-mode {
   @include checkout-media-style();
 
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
+
   .form-check {
     display: flex;
     margin-bottom: 0;
 
     .cx-delivery-label {
       padding: 0;
-      margin: 0 auto 1.5rem 0.75rem;
+      margin-inline-start: 0.75rem;
+      margin-inline-end: auto;
+      margin-bottom: 1.5rem;
       width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       flex-wrap: wrap;
 
-      .cx-delivery-shipping {
-        flex: 50%;
+      .cx-delivery-mode {
+        flex: auto;
+        text-align: start;
       }
 
       .cx-delivery-price {
-        flex: 50%;
-        text-align: right;
+        flex: auto;
+        text-align: end;
       }
 
       .cx-delivery-details {

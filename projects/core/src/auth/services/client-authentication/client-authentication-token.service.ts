@@ -5,7 +5,9 @@ import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ClientAuthenticationTokenService {
   constructor(
     protected config: AuthConfig,

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title, User } from '@spartacus/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class UpdateProfileFormComponent implements OnInit {
   @Output()
   cancelled = new EventEmitter<void>();
 
-  updateProfileForm = this.fb.group({
+  updateProfileForm: FormGroup = this.fb.group({
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],

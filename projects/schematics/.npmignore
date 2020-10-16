@@ -3,3 +3,7 @@
 !*.d.ts
 yarn.lock
 .release-it.*
+*_spec.ts
+*_spec.js
+*_spec.js.map
+tsconfig.json

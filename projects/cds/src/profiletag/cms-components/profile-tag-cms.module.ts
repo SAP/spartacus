@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  DeferLoadingStrategy,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { ProfileTagComponent } from './profile-tag.component';
 
 @NgModule({
@@ -10,6 +14,7 @@ import { ProfileTagComponent } from './profile-tag.component';
       cmsComponents: {
         ProfileTagComponent: {
           component: ProfileTagComponent,
+          deferLoading: DeferLoadingStrategy.INSTANT,
         },
       },
     }),

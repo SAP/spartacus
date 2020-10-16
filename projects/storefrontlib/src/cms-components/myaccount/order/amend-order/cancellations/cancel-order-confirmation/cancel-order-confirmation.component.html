@@ -18,7 +18,7 @@
     <cx-amend-order-actions
       *ngIf="orderCode"
       [orderCode]="orderCode"
-      [isValid]="form.valid"
+      [amendOrderForm]="form"
       backRoute="orderCancel"
     ></cx-amend-order-actions>
   </ng-template>

@@ -4,7 +4,7 @@ Spartacus Storefront is a package that you can include in your application, whic
 
 The Spartacus Storefront is extendable and upgradable by changing the version of the library you are using. Furthermore, the storefront can be styled by using the [Spartacus Styles](https://www.npmjs.com/package/@spartacus/styles) package.
 
-For more informations, see [Cloud Commerce Spartacus Storefront](https://github.com/SAP/cloud-commerce-spartacus-storefront).
+For more informations, see [Spartacus](https://github.com/SAP/spartacus).
 
 #### Related projects
 

@@ -15,7 +15,7 @@ const GLOBAL_GROUP = '_g_';
 })
 export class PersistFocusService extends BaseFocusService {
   // this is going to fail as we have sub services. They will al have their own map.
-  // We must bring this to a singlton map.
+  // We must bring this to a singleton map.
   protected focus = new Map<string, string>();
 
   get(group?: string): string {

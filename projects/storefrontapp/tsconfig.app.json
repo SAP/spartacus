@@ -1,11 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020",
     "outDir": "../../out-tsc/app",
     "types": [],
     "target": "es2015"
   },
-  "files": ["src/main.ts", "src/polyfills.ts"],
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts",
+    "src/environments/models/build.process.env.d.ts"
+  ],
   "include": ["projects/storefrontapp/src/**/*.d.ts"]
 }

@@ -192,9 +192,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
     { value: 'Move To Cart', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
   ],
@@ -588,7 +585,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'I am confirming that I have read and agreed with',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
@@ -990,208 +986,44 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   productListDesktop: [
     {
+      value: 'Brands',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Stores',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Chiba',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Choshi',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Show more...',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Price',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: '$0-$49.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$50-$199.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$200-$499.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$500-$999.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$1,000-$100,000',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Resolution',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: '1280 x 720',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Mounting',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Floor-standing',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Quick-release Mounting Shoe',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Megapixels',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: '20 - 29.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '15 - 15.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '14 - 14.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '12 - 12.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '10 - 10.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '9 - 9.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Show more...',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Lens type',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'fixed',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'telephoto',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'fisheye',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'wide-angle',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'zoom',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Color',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Black',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Brand',
-      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sony',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Canon',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kodak',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kingston',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Samsung',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Toshiba',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Show more...',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
       value: 'Category',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Cameras',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital Cameras',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital SLR',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital Compacts',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Components',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Power Supplies',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Show more...',
-      type: TabbingOrderTypes.LINK,
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -1294,7 +1126,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
     {
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Brands',
+      type: TabbingOrderTypes.LINK,
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -1396,458 +1229,45 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
-      value: 'Chiba',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Stores',
     },
     {
-      value: 'Choshi',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Price',
     },
     {
-      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Resolution',
     },
     {
-      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Mounting',
     },
     {
-      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Megapixels',
     },
     {
-      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Lens type',
     },
     {
-      value: 'Fukuoka Hotel Nikko Fukuoka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Color',
     },
     {
-      value: 'Ichikawa',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Brand',
     },
     {
-      value: 'Kawasaki Grand Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kawasaki Hotel Sunroute Kawasaki',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kawasaki Mets Kawasaki Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kawasaki Mets Mizonokuchi Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kawasaki Pearl Hotel Kawasaki',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kobe Bay Sheraton Hotel and Towers',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kobe Hotel Monterey Amalie',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kobe Hotel Monterey Kobe',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kobe Sannomiya Terminal Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kobe the b',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Koto',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Matsudo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Misato',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nagoya Hilton Nagoya Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nagoya Marriott Nagoya',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nagoya Royal Park Inn Nagoya',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nagoya The Westin Nagoya Castle',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Nakano',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Osaka Cross Hotel Osaka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Osaka Crowne Plaza Hotel Ana Osaka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Osaka Hilton Osaka Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Osaka Ramada Osaka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sapporo Ana Hotel Sapporo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sapporo Best Western Hotel Sapporo Nakajima Koen',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sapporo Hotel Resol Trinity Sapporo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sapporo Hotel Sunroute Sapporo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sapporo Sheraton Sapporo Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Shinbashi',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tokio Cerulean Tower Tokyu Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tokio Dormy Inn Tokyo Hatchobori',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tokio Flexstay Nippori Inn',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tokio Hotel Metropolitan Tokyo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tokio Park Hotel Tokyo',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokohama Comfort Hotel Yokohama Kannai',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokohama Hotel JAL City Kannai Yokohama',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokohama Hotel New Grand',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokohama Sakuragicho Washington Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokohama Shin Yokohama Prince Hotel',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Yokosuka',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$0-$49.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$50-$199.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$200-$499.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$500-$999.99',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '$1,000-$100,000',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '1280 x 720',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Floor-standing',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Quick-release Mounting Shoe',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '20 - 29.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '15 - 15.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '14 - 14.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '12 - 12.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '10 - 10.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '9 - 9.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '8 - 8.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '7 - 7.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: '5 - 5.9 mp',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'fixed',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'telephoto',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'fisheye',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'wide-angle',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'zoom',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Black',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sony',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Canon',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kodak',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Kingston',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Samsung',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Toshiba',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'ICIDU',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'TDK',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Sweex',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'HP',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'NEC',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Targus',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Canyon',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fujifilm',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Logitech',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Cameras',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital Cameras',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital SLR',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Digital Compacts',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Components',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Power Supplies',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Camera Accessories & Supplies',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Data storage',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Flash Memory',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Rechargeable Batteries',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Camera Lenses',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Battery Chargers',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Camera Kits',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Tripods',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Power Adapters & Inverters',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Hand-held Camcorders',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Blank Video Tapes',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Webcams',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Camera Flashes',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Colour Films',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Black & White Films',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Camera Cables',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Binoculars',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Film cameras',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Fixatives',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      type: TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE,
+      value: 'Category',
     },
   ],
   myAccount: [
     {
       value: 'My Account',
-      // type: TabbingOrderTypes.BUTTON,
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2600,9 +2020,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
@@ -2610,14 +2027,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
       value: 'Micro Webcam',
       type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
     },
   ],
   consignmentTrackingEvents: [

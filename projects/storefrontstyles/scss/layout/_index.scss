@@ -1,4 +1,6 @@
 @import './page-fold';
+@import './ghost';
+
 @import './page-templates/common-template';
 @import './page-templates/landing-page-2';
 @import './page-templates/content-page-1';
@@ -16,5 +18,4 @@
 
 %CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;
-  @extend %LoginPageTemplate-#{$theme} !optional;
 }

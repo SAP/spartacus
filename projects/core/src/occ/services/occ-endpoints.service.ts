@@ -4,7 +4,7 @@ import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
-import { CustomEncoder } from '../adapters/cart/custom.encoder';
+import { HttpParamsURIEncoder } from '../../util/http-params-uri.encoder';
 import { OccConfig } from '../config/occ-config';
 import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
 
@@ -12,19 +12,23 @@ import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
   providedIn: 'root',
 })
 export class OccEndpointsService {
-  private activeBaseSite: string;
+  private _activeBaseSite: string;
+
+  private get activeBaseSite(): string {
+    return (
+      this._activeBaseSite ??
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    );
+  }
 
   constructor(
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this.activeBaseSite =
-      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID) || '';
-
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
-        .subscribe((value) => (this.activeBaseSite = value));
+        .subscribe((value) => (this._activeBaseSite = value));
     }
   }
 
@@ -94,7 +98,7 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions = { encoder: new CustomEncoder() };
+      let httpParamsOptions = { encoder: new HttpParamsURIEncoder() };
 
       if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;

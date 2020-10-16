@@ -17,13 +17,19 @@
 
   > footer {
     margin-top: auto;
+
+    cx-paragraph {
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
 
   // prevents visible focus when the UI is not used by keyboard.
   .mouse-focus {
     :focus,
     .ng-select-focused {
-      outline-width: 0;
+      --cx-visual-focus-width: 0;
     }
   }
 }

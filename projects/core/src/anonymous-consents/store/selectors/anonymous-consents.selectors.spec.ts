@@ -14,7 +14,7 @@ const mockAnonymousConsents: AnonymousConsent[] = [
   {
     consentState: undefined,
     templateCode: mockTemplateCode,
-    version: 0,
+    templateVersion: 0,
   },
 ];
 
@@ -60,7 +60,7 @@ describe('anonymous consents selectors', () => {
       const expected: AnonymousConsent = {
         consentState: undefined,
         templateCode: mockTemplateCode,
-        version: 0,
+        templateVersion: 0,
       };
 
       let result: AnonymousConsent;

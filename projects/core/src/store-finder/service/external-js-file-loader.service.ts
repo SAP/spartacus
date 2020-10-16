@@ -1,7 +1,9 @@
-import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExternalJsFileLoader {
   constructor(@Inject(DOCUMENT) protected document: any) {}
 
@@ -10,9 +12,15 @@ export class ExternalJsFileLoader {
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL
    * @param callback a function to be invoked after the script has been loaded
+   * @param errorCallback function to be invoked after error during script loading
    */
-  public load(src: string, params?: Object, callback?: EventListener): void {
-    const script = this.document.createElement('script');
+  public load(
+    src: string,
+    params?: Object,
+    callback?: EventListener,
+    errorCallback?: EventListener
+  ): void {
+    const script: HTMLScriptElement = this.document.createElement('script');
     script.type = 'text/javascript';
     if (params) {
       script.src = src + this.parseParams(params);
@@ -24,6 +32,9 @@ export class ExternalJsFileLoader {
     script.defer = true;
     if (callback) {
       script.addEventListener('load', callback);
+    }
+    if (errorCallback) {
+      script.addEventListener('error', errorCallback);
     }
 
     document.head.appendChild(script);
