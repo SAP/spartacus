@@ -7,8 +7,8 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Observable, queueScheduler, using } from 'rxjs';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import {
   OrderApprovalPermissionType,
   Permission,
@@ -19,6 +19,7 @@ import {
   getPermission,
   getPermissionList,
   getPermissionTypes,
+  getPermissionValue,
 } from '../store/selectors/permission.selector';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
@@ -59,6 +60,12 @@ export class PermissionService {
     return this.store.select(getPermission(permissionCode));
   }
 
+  private getPermissionValue(permissionCode: string): Observable<Permission> {
+    return this.store
+      .select(getPermissionValue(permissionCode))
+      .pipe(filter(Boolean));
+  }
+
   private getPermissionList(
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<Permission>>> {
@@ -72,15 +79,18 @@ export class PermissionService {
   }
 
   get(permissionCode: string): Observable<Permission> {
-    return this.getPermission(permissionCode).pipe(
-      observeOn(queueScheduler),
+    const loading$ = this.getPermission(permissionCode).pipe(
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadPermission(permissionCode);
         }
-      }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      })
+    );
+
+    return using(
+      () => loading$.subscribe(),
+      () => this.getPermissionValue(permissionCode)
     );
   }
 

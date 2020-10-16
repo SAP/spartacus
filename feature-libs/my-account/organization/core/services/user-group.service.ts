@@ -8,8 +8,8 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Observable, queueScheduler, using } from 'rxjs';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { UserGroupActions } from '../store/actions/index';
@@ -19,9 +19,11 @@ import {
   getAvailableOrgCustomers,
   getUserGroup,
   getUserGroupList,
+  getUserGroupValue,
 } from '../store/selectors/user-group.selector';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
+import { Budget } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -55,6 +57,12 @@ export class UserGroupService {
     return this.store.select(getUserGroup(userGroupId));
   }
 
+  private getUserGroupValue(userGroupId: string): Observable<Budget> {
+    return this.store
+      .select(getUserGroupValue(userGroupId))
+      .pipe(filter(Boolean));
+  }
+
   private getUserGroupList(
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<UserGroup>>> {
@@ -78,15 +86,18 @@ export class UserGroupService {
   }
 
   get(userGroupUid: string): Observable<UserGroup> {
-    return this.getUserGroup(userGroupUid).pipe(
-      observeOn(queueScheduler),
+    const loading$ = this.getUserGroup(userGroupUid).pipe(
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.load(userGroupUid);
         }
-      }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      })
+    );
+
+    return using(
+      () => loading$.subscribe(),
+      () => this.getUserGroupValue(userGroupUid)
     );
   }
 

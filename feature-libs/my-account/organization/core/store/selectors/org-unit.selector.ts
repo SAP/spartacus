@@ -79,6 +79,14 @@ export const getOrgUnit = (
       StateUtils.entityLoaderStateSelector(state, orgUnitId)
   );
 
+export const getOrgUnitValue = (
+  orgUnitId: string
+): MemoizedSelector<StateWithOrganization, B2BUnit> => {
+  return createSelector(getOrgUnit(orgUnitId), (orgUnitState) =>
+    StateUtils.loaderValueSelector(orgUnitState)
+  );
+};
+
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<B2BUnitNode[]>
