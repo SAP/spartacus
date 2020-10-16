@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "downlevelIteration": true,
-    "outDir": "../../dist/my-account",
+    "outDir": "../../dist/organization",
     "sourceMap": true,
     "inlineSources": true,
     "lib": ["es2020", "dom"],

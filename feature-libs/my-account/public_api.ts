@@ -1,4 +1,4 @@
 /*
- * Public API Surface of my-account
+ * Public API Surface of organization
  */
-export * from '@spartacus/my-account/organization';
+export * from '@spartacus/organization/administration';

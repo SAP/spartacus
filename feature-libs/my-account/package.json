@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/my-account",
+  "name": "@spartacus/organization",
   "version": "3.0.0-next.4",
   "description": "My Account library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
@@ -7,7 +7,7 @@
     "spartacus",
     "framework",
     "storefront",
-    "my account"
+    "organization"
   ],
   "scripts": {
     "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
@@ -18,7 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/my-account",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/organization",
   "schematics": "./schematics/collection.json",
   "dependencies": {
     "tslib": "^2.0.0"

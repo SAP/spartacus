@@ -18,7 +18,7 @@ SPARTACUS_PROJECTS=(
         "projects/schematics"
         "projects/cds"
         "core-libs/setup"
-        "feature-libs/my-account"
+        "feature-libs/organization"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"

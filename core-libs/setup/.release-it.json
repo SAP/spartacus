@@ -26,7 +26,7 @@
           "path": [
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/my-account"
+            "peerDependencies.@spartacus/organization"
           ]
         }
       ]
