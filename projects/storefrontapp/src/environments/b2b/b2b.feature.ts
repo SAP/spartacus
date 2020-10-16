@@ -1,10 +1,10 @@
-import { B2bStorefrontModule } from '@spartacus/setup';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
-} from '@spartacus/my-account/organization/assets';
+} from '@spartacus/organization/administration/assets';
+import { OrganizationRootModule } from '@spartacus/organization/administration/root';
+import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
-import { OrganizationRootModule } from '@spartacus/my-account/organization/root';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
@@ -18,7 +18,7 @@ export const b2bFeature: FeatureEnvironment = {
       featureModules: {
         organization: {
           module: () =>
-            import('@spartacus/my-account/organization').then(
+            import('@spartacus/organization/administration').then(
               (m) => m.OrganizationModule
             ),
         },

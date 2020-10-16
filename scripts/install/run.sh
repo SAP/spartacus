@@ -96,7 +96,7 @@ function create_ssr_pwa {
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX}
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup && npm install @spartacus/my-account # TODO: change it to `ng add` once those libs support schematics explicitly
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
         fi
     )
 }
@@ -104,7 +104,7 @@ function add_spartacus_csr {
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup && npm install @spartacus/my-account # TODO: change it to `ng add` once those libs support schematics explicitly
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
         fi
     )
 }
@@ -112,7 +112,7 @@ function add_spartacus_ssr {
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup && npm install @spartacus/my-account # TODO: change it to `ng add` once those libs support schematics explicitly
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
         fi
     )
 }
@@ -187,8 +187,8 @@ function local_install {
     printh "Creating setup npm package"
     ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
-    printh "Creating my-account npm package"
-    ( cd ${CLONE_DIR}/dist/my-account && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    printh "Creating organization npm package"
+    ( cd ${CLONE_DIR}/dist/organization && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 

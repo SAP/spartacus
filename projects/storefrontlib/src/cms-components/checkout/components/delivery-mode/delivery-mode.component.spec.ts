@@ -211,18 +211,19 @@ describe('DeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+    const setDeliveryModeId = (value: string) => {
+      component.mode.controls['deliveryModeId'].setValue(value);
+    };
 
     it('should be disabled when delivery mode is not selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(null);
+      setDeliveryModeId(null);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
@@ -230,6 +231,9 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
+
+      setDeliveryModeId(mockDeliveryMode1.code);
+      fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
 
@@ -238,13 +242,14 @@ describe('DeliveryModeComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getContinueBtn = () =>
+    const getBackBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
+
       fixture.detectChanges();
+      getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
     });
