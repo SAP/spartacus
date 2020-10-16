@@ -5,13 +5,7 @@ import {
   OrgUnitService,
 } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  first,
-  pluck,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
@@ -52,7 +46,7 @@ export class UnitAddressItemService extends OrganizationItemService<Address> {
 
   protected create(value: Address) {
     this.unitRouteParam$
-      .pipe(first(), tap(console.log))
+      .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
   }
 
