@@ -23,27 +23,21 @@ export class BasicAuthService {
     protected authRedirectService: AuthRedirectService
   ) {}
 
-  initImplicit() {
-    setTimeout(() => {
+  initOAuthCallback(): void {
+    this.cxOAuthService.tryLogin().then((result) => {
       const token = this.authStorageService.getItem('access_token');
-      this.cxOAuthService.tryLogin().then((result) => {
-        // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
-        if (result && token) {
-          this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-          this.store.dispatch(new AuthActions.Login());
-          // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
-          setTimeout(() => {
-            this.authRedirectService.redirect();
-          }, 10);
-        }
-      });
+      // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
+      if (result && token) {
+        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+        this.store.dispatch(new AuthActions.Login());
+        this.authRedirectService.redirect();
+      }
     });
   }
 
-  loginWithImplicitFlow() {
-    // TODO: Extend in AsmAuthService and prevent login when csagent in progress
-    this.authRedirectService.setCurrentUrlAsRedirectUrl();
+  loginWithRedirect(): boolean {
     this.cxOAuthService.initLoginFlow();
+    return true;
   }
 
   /**

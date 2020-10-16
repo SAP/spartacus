@@ -37,9 +37,7 @@ export class CsAgentAuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(): void;
-  authorizeCustomerSupportAgent(userId: string, password: string): void;
-  authorizeCustomerSupportAgent(userId?: string, password?: string): void {
+  authorizeCustomerSupportAgent(userId: string, password: string): void {
     let userToken;
     this.authStorageService
       .getToken()
@@ -47,32 +45,28 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     this.authStorageService.switchTokenTargetToCSAgent();
-    if (userId && password) {
-      this.cxOAuthService
-        .authorizeWithPasswordFlow(userId, password)
-        .then(() => {
-          // Start emulation for currently logged in user
-          let customerId: string;
-          this.userService
-            .get()
-            .subscribe((user) => (customerId = user?.customerId))
-            .unsubscribe();
-          if (Boolean(customerId)) {
-            // OCC specific user id handling. Customize when implementing different backend
-            this.userIdService.setUserId(customerId);
-            this.authStorageService.setEmulatedUserToken(userToken);
-          } else {
-            // When we can't get the customerId just end all current sessions
-            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-            this.authStorageService.clearEmulatedUserToken();
-          }
-        })
-        .catch(() => {
-          this.authStorageService.switchTokenTargetToUser();
-        });
-    } else {
-      this.authService.loginWithImplicitFlow();
-    }
+    this.cxOAuthService
+      .authorizeWithPasswordFlow(userId, password)
+      .then(() => {
+        // Start emulation for currently logged in user
+        let customerId: string;
+        this.userService
+          .get()
+          .subscribe((user) => (customerId = user?.customerId))
+          .unsubscribe();
+        if (Boolean(customerId)) {
+          // OCC specific user id handling. Customize when implementing different backend
+          this.userIdService.setUserId(customerId);
+          this.authStorageService.setEmulatedUserToken(userToken);
+        } else {
+          // When we can't get the customerId just end all current sessions
+          this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+          this.authStorageService.clearEmulatedUserToken();
+        }
+      })
+      .catch(() => {
+        this.authStorageService.switchTokenTargetToUser();
+      });
   }
 
   /**

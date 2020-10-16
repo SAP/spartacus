@@ -14,7 +14,7 @@ export const defaultAuthConfig: AuthConfig = {
       skipIssuerCheck: true,
       disablePKCE: true,
       oidc: false,
-      clearHashAfterLogin: true,
+      clearHashAfterLogin: false,
     },
   },
 };
