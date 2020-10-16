@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import { BudgetActions } from '../actions/index';
+import { BudgetActions, OrganizationActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -69,20 +69,26 @@ export class BudgetEffects {
 
   @Effect()
   createBudget$: Observable<
-    BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
+    | BudgetActions.CreateBudgetSuccess
+    | BudgetActions.CreateBudgetFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
-        map((data) => new BudgetActions.CreateBudgetSuccess(data)),
+        switchMap((data) => [
+          new BudgetActions.CreateBudgetSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new BudgetActions.CreateBudgetFail({
               budgetCode: payload.budget.code,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -90,7 +96,9 @@ export class BudgetEffects {
 
   @Effect()
   updateBudget$: Observable<
-    BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
+    | BudgetActions.UpdateBudgetSuccess
+    | BudgetActions.UpdateBudgetFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
@@ -98,14 +106,18 @@ export class BudgetEffects {
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
-          map((data) => new BudgetActions.UpdateBudgetSuccess(data)),
+          switchMap((data) => [
+            new BudgetActions.UpdateBudgetSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new BudgetActions.UpdateBudgetFail({
                 budgetCode: payload.budget.code,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )

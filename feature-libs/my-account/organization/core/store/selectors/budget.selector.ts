@@ -3,8 +3,8 @@ import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { denormalizeSearch } from '../../utils/serializer';
 import {
-  BudgetManagement,
   BUDGET_FEATURE,
+  BudgetManagement,
   OrganizationState,
   StateWithOrganization,
 } from '../organization-state';
@@ -34,6 +34,14 @@ export const getBudget = (
     (state: StateUtils.EntityLoaderState<Budget>) =>
       StateUtils.entityLoaderStateSelector(state, budgetCode)
   );
+
+export const getBudgetValue = (
+  budgetCode: string
+): MemoizedSelector<StateWithOrganization, Budget> => {
+  return createSelector(getBudget(budgetCode), (budgetState) =>
+    StateUtils.loaderValueSelector(budgetState)
+  );
+};
 
 export const getBudgetList = (
   params: SearchConfig

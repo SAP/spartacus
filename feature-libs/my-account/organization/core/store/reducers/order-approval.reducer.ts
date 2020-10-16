@@ -2,7 +2,7 @@ import { StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 
-export const orderApprovalInitialState = {};
+export const orderApprovalInitialState = undefined;
 export const orderApprovalsInitialState = undefined;
 
 export function orderApprovalsEntitiesReducer(

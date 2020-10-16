@@ -47,6 +47,14 @@ export const getCostCenter = (
       StateUtils.entityLoaderStateSelector(state, costCenterCode)
   );
 
+export const getCostCenterValue = (
+  costCenterCode: string
+): MemoizedSelector<StateWithOrganization, Budget> => {
+  return createSelector(getCostCenter(costCenterCode), (costCenterState) =>
+    StateUtils.loaderValueSelector(costCenterState)
+  );
+};
+
 export const getCostCenterList = (
   params: SearchConfig
 ): MemoizedSelector<

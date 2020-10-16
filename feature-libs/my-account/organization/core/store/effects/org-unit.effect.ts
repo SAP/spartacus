@@ -8,12 +8,16 @@ import {
   EntitiesModel,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
-import { B2BUserActions, OrgUnitActions } from '../actions/index';
+import {
+  B2BUserActions,
+  OrganizationActions,
+  OrgUnitActions,
+} from '../actions/index';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -76,9 +80,9 @@ export class OrgUnitEffects {
 
   @Effect()
   createUnit$: Observable<
-    | OrgUnitActions.CreateUnitSuccess
     | OrgUnitActions.CreateUnitFail
-    | OrgUnitActions.LoadTree
+    | OrgUnitActions.CreateUnitSuccess
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
@@ -86,15 +90,16 @@ export class OrgUnitEffects {
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
         switchMap((data) => [
           new OrgUnitActions.CreateUnitSuccess(data),
-          new OrgUnitActions.LoadTree({ userId: payload.userId }),
+          new OrganizationActions.OrganizationClearData(),
         ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new OrgUnitActions.CreateUnitFail({
               unitCode: payload.unit.uid,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -102,10 +107,7 @@ export class OrgUnitEffects {
 
   @Effect()
   updateUnit$: Observable<
-    // | OrgUnitActions.UpdateUnitSuccess
-    | OrgUnitActions.LoadOrgUnit
-    | OrgUnitActions.UpdateUnitFail
-    | OrgUnitActions.LoadTree
+    OrgUnitActions.UpdateUnitFail | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
@@ -113,22 +115,15 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          // TODO: Workaround for empty PATCH response:
-          // map(() => new OrgUnitActions.UpdateUnitSuccess(payload.unit)),
-          switchMap(() => [
-            new OrgUnitActions.LoadOrgUnit({
-              userId: payload.userId,
-              orgUnitId: payload.unit.uid,
-            }),
-            new OrgUnitActions.LoadTree({ userId: payload.userId }),
-          ]),
+          switchMap(() => [new OrganizationActions.OrganizationClearData()]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.UpdateUnitFail({
                 unitCode: payload.unit.uid,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -283,7 +278,9 @@ export class OrgUnitEffects {
 
   @Effect()
   assignApprover: Observable<
-    OrgUnitActions.AssignApproverSuccess | OrgUnitActions.AssignApproverFail
+    | OrgUnitActions.AssignApproverSuccess
+    | OrgUnitActions.AssignApproverFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
@@ -291,21 +288,22 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
-          map(
-            () =>
-              new OrgUnitActions.AssignApproverSuccess({
-                uid: orgCustomerId,
-                roleId,
-                selected: true,
-              })
-          ),
+          switchMap(() => [
+            new OrgUnitActions.AssignApproverSuccess({
+              uid: orgCustomerId,
+              roleId,
+              selected: true,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.AssignApproverFail({
                 orgCustomerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -313,7 +311,9 @@ export class OrgUnitEffects {
 
   @Effect()
   unassignApprover: Observable<
-    OrgUnitActions.UnassignApproverSuccess | OrgUnitActions.UnassignApproverFail
+    | OrgUnitActions.UnassignApproverSuccess
+    | OrgUnitActions.UnassignApproverFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
@@ -321,21 +321,22 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
-          map(
-            () =>
-              new OrgUnitActions.UnassignApproverSuccess({
-                uid: orgCustomerId,
-                roleId,
-                selected: false,
-              })
-          ),
+          switchMap(() => [
+            new OrgUnitActions.UnassignApproverSuccess({
+              uid: orgCustomerId,
+              roleId,
+              selected: false,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.UnassignApproverFail({
                 orgCustomerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -343,7 +344,9 @@ export class OrgUnitEffects {
 
   @Effect()
   createAddress$: Observable<
-    OrgUnitActions.CreateAddressSuccess | OrgUnitActions.CreateAddressFail
+    | OrgUnitActions.CreateAddressSuccess
+    | OrgUnitActions.CreateAddressFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
@@ -351,14 +354,18 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
         .pipe(
-          map((data) => new OrgUnitActions.CreateAddressSuccess(data)),
+          switchMap((data) => [
+            new OrgUnitActions.CreateAddressSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.CreateAddressFail({
                 addressId: payload.address.id,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -367,8 +374,8 @@ export class OrgUnitEffects {
   @Effect()
   updateAddress$: Observable<
     | OrgUnitActions.UpdateAddressSuccess
-    | OrgUnitActions.LoadAddresses
     | OrgUnitActions.UpdateAddressFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
@@ -376,16 +383,18 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
-          // TODO: Workaround for empty PATCH response:
-          // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
-          map(() => new OrgUnitActions.LoadAddresses({ userId, orgUnitId })),
+          switchMap((data) => [
+            new OrgUnitActions.UpdateAddressSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.UpdateAddressFail({
                 addressId: address.id,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -393,7 +402,9 @@ export class OrgUnitEffects {
 
   @Effect()
   deleteAddress$: Observable<
-    OrgUnitActions.DeleteAddressSuccess | OrgUnitActions.DeleteAddressFail
+    | OrgUnitActions.DeleteAddressSuccess
+    | OrgUnitActions.DeleteAddressFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
@@ -401,17 +412,18 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
         .pipe(
-          map(
-            () =>
-              new OrgUnitActions.DeleteAddressSuccess({ id: payload.addressId })
-          ),
+          switchMap(() => [
+            new OrgUnitActions.DeleteAddressSuccess({ id: payload.addressId }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new OrgUnitActions.DeleteAddressFail({
                 addressId: payload.addressId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )

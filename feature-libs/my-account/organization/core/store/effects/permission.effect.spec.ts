@@ -4,7 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
-import { PermissionConnector } from '@spartacus/my-account/organization/core';
+import {
+  OrganizationActions,
+  PermissionConnector,
+} from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -171,11 +174,12 @@ describe('Permission Effects', () => {
         userId,
         permission,
       });
-      const completion = new PermissionActions.CreatePermissionSuccess(
+      const completion1 = new PermissionActions.CreatePermissionSuccess(
         permission
       );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createPermission$).toBeObservable(expected);
       expect(permissionConnector.create).toHaveBeenCalledWith(
@@ -192,12 +196,13 @@ describe('Permission Effects', () => {
         userId,
         permission,
       });
-      const completion = new PermissionActions.CreatePermissionFail({
+      const completion1 = new PermissionActions.CreatePermissionFail({
         permissionCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createPermission$).toBeObservable(expected);
       expect(permissionConnector.create).toHaveBeenCalledWith(
@@ -214,11 +219,12 @@ describe('Permission Effects', () => {
         permissionCode,
         permission,
       });
-      const completion = new PermissionActions.UpdatePermissionSuccess(
+      const completion1 = new PermissionActions.UpdatePermissionSuccess(
         permission
       );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updatePermission$).toBeObservable(expected);
       expect(permissionConnector.update).toHaveBeenCalledWith(
@@ -237,12 +243,13 @@ describe('Permission Effects', () => {
         permissionCode,
         permission,
       });
-      const completion = new PermissionActions.UpdatePermissionFail({
+      const completion1 = new PermissionActions.UpdatePermissionFail({
         permissionCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updatePermission$).toBeObservable(expected);
       expect(permissionConnector.update).toHaveBeenCalledWith(

@@ -46,6 +46,14 @@ export const getB2BUserState = (
       StateUtils.entityLoaderStateSelector(state, orgCustomerId)
   );
 
+export const getB2BUserValue = (
+  orgCustomerId: string
+): MemoizedSelector<StateWithOrganization, B2BUser> => {
+  return createSelector(getB2BUserState(orgCustomerId), (b2BUserState) =>
+    StateUtils.loaderValueSelector(b2BUserState)
+  );
+};
+
 export const getUserList = (
   params: SearchConfig
 ): MemoizedSelector<

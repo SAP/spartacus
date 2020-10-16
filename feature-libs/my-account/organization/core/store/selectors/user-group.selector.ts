@@ -46,6 +46,14 @@ export const getUserGroup = (
       StateUtils.entityLoaderStateSelector(state, userGroupId)
   );
 
+export const getUserGroupValue = (
+  userGroupId: string
+): MemoizedSelector<StateWithOrganization, UserGroup> => {
+  return createSelector(getUserGroup(userGroupId), (userGroupState) =>
+    StateUtils.loaderValueSelector(userGroupState)
+  );
+};
+
 export const getUserGroupList = (
   params: SearchConfig
 ): MemoizedSelector<
