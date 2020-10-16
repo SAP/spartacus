@@ -5,8 +5,8 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/zone-testing';
+import 'feature-libs/organization/node_modules/zone.js/dist/zone';
+import 'feature-libs/organization/node_modules/zone.js/dist/zone-testing';
 
 declare const require: any;
 

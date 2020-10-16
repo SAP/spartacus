@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { Permission } from 'feature-libs/my-account/administration/core/model/permission.model';
+import { Permission } from 'feature-libs/organization/administration/core/model/permission.model';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { LimitCellComponent } from '..';
 
