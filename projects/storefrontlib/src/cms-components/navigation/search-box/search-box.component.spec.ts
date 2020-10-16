@@ -212,6 +212,17 @@ describe('SearchBoxComponent', () => {
           'I found stuff for you!'
         );
       });
+
+      it('should clear when clicking on clear button', () => {
+        searchBoxComponent.queryText = 'something';
+        fixture.detectChanges();
+
+        fixture.debugElement.query(By.css('.reset')).nativeElement.click();
+        expect(
+          fixture.debugElement.query(By.css('input[aria-label="search"]'))
+            .nativeElement.value
+        ).toBe('');
+      });
     });
 
     it('should contain 1 product after search', () => {
