@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
-  Budget,
-  BUDGET_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
-import {
   Converter,
   ConverterService,
   EntitiesModel,
   Occ,
 } from '@spartacus/core';
+import {
+  Budget,
+  BUDGET_NORMALIZER,
+} from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccBudgetListNormalizer

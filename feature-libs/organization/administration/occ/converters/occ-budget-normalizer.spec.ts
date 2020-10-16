@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Occ, OccConfig } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { OccBudgetNormalizer } from './occ-budget-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

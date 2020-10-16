@@ -3,7 +3,7 @@ import {
   DefaultRoutePageMetaResolver,
   TranslationService,
 } from '@spartacus/core';
-import { Permission } from '@spartacus/my-account/organization/core';
+import { Permission } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { CurrentPermissionService } from './current-permission.service';
 

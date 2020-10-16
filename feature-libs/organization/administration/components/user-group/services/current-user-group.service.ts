@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';

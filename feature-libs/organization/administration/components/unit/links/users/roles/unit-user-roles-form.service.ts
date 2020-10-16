@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserGroup } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
 
 @Injectable({

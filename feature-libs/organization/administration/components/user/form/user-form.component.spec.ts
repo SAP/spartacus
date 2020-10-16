@@ -16,7 +16,7 @@ import {
 import {
   B2BUserService,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,

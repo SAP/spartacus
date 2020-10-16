@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
-  OrgUnitService,
   OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitUserRolesFormService } from '../roles/unit-user-roles-form.service';

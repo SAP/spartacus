@@ -7,7 +7,7 @@ import {
   OrderApprovalPermissionType,
   OrgUnitService,
   PermissionService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import {
   DateTimePickerModule,
   FormErrorsComponent,

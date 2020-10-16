@@ -5,7 +5,7 @@ import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
   UserGroup,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserUserGroupListService } from './user-user-group-list.service';

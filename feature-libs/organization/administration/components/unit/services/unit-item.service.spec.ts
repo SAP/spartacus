@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
-import { UnitItemService } from './unit-item.service';
 import { CurrentUnitService } from './current-unit.service';
+import { UnitItemService } from './unit-item.service';
 
 class MockRoutingService {
   go() {}

@@ -8,7 +8,7 @@ import {
 import {
   OrderApproval,
   OrderApprovalService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

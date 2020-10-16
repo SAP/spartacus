@@ -1,14 +1,14 @@
+import { StateUtils } from '@spartacus/core';
+import { UserGroup } from '@spartacus/organization/administration/core';
 import {
+  B2B_USER_ENTITIES,
+  PERMISSION_ENTITIES,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
   USER_GROUP_ENTITIES,
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
-  PERMISSION_ENTITIES,
-  USER_GROUP_AVAILABLE_CUSTOMERS,
-  B2B_USER_ENTITIES,
 } from '../organization-state';
-import { StateUtils } from '@spartacus/core';
 import { UserGroupActions } from './index';
-import { UserGroup } from '@spartacus/my-account/organization/core';
 
 const userGroupId = 'testUserGroupId';
 const permissionUid = 'permissionUid';

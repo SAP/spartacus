@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  Converter,
-  Occ,
-  EntitiesModel,
-  ConverterService,
   B2BUser,
+  Converter,
+  ConverterService,
+  EntitiesModel,
+  Occ,
 } from '@spartacus/core';
-import { B2B_USER_NORMALIZER } from '@spartacus/my-account/organization/core';
+import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccUserListNormalizer

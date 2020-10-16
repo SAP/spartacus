@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Permission } from '@spartacus/my-account/organization/core';
+import { Permission } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../shared/organization.model';

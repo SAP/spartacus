@@ -2,31 +2,31 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CostCenterOccModule, provideDefaultConfig } from '@spartacus/core';
 import {
-  B2B_USER_NORMALIZER,
-  B2B_USERS_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUserAdapter,
-  BUDGET_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  B2B_USER_NORMALIZER,
   BudgetAdapter,
   BUDGETS_NORMALIZER,
+  BUDGET_NORMALIZER,
   CostCenterAdapter,
+  OrderApprovalAdapter,
+  ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   ORDER_APPROVAL_NORMALIZER,
-  ORDER_APPROVALS_NORMALIZER,
-  OrderApprovalAdapter,
   OrgUnitAdapter,
-  PERMISSION_NORMALIZER,
-  PERMISSION_TYPE_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
   PermissionAdapter,
   PERMISSIONS_NORMALIZER,
-  USER_GROUP_NORMALIZER,
-  USER_GROUPS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+  PERMISSION_TYPE_NORMALIZER,
   UserGroupAdapter,
-} from '@spartacus/my-account/organization/core';
+  USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+} from '@spartacus/organization/administration/core';
 import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
 import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
 import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';

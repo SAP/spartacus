@@ -4,9 +4,9 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
+import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
-import { LoadStatus } from '@spartacus/my-account/organization/core';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';

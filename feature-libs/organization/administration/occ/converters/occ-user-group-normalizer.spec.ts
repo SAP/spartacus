@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { UserGroup } from '@spartacus/my-account/organization/core';
+import { Occ, OccConfig } from '@spartacus/core';
+import { UserGroup } from '@spartacus/organization/administration/core';
 import { OccUserGroupNormalizer } from './occ-user-group-normalizer';
-import { OccConfig, Occ } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

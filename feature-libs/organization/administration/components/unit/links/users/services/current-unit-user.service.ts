@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { CurrentOrganizationItemService } from '../../../../shared/current-organization-item.service';

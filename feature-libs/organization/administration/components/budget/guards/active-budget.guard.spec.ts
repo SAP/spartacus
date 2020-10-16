@@ -6,7 +6,10 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  BudgetService,
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ActiveBudgetGuard } from './active-budget.guard';
 import createSpy = jasmine.createSpy;

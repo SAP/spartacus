@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { CostCenterService } from '@spartacus/my-account/organization/core';
+import { CostCenterService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ActiveCostCenterGuard } from './active-cost-center.guard';
 import createSpy = jasmine.createSpy;

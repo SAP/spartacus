@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { BudgetActions } from '../actions/index';
 import {
   BudgetManagement,

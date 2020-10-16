@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { UserGroup } from '@spartacus/my-account/organization/core';
 import {
   Converter,
-  Occ,
-  EntitiesModel,
   ConverterService,
+  EntitiesModel,
+  Occ,
 } from '@spartacus/core';
-import { USER_GROUP_NORMALIZER } from '@spartacus/my-account/organization/core';
+import {
+  UserGroup,
+  USER_GROUP_NORMALIZER,
+} from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccUserGroupListNormalizer

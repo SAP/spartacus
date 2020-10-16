@@ -15,7 +15,7 @@ import {
   B2B_USER_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 
 import createSpy = jasmine.createSpy;

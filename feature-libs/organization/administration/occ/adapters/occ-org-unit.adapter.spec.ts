@@ -17,7 +17,7 @@ import {
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2B_USERS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import createSpy = jasmine.createSpy;
 

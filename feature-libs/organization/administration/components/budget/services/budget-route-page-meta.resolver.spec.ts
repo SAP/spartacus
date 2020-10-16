@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { BudgetRoutePageMetaResolver } from './budget-route-page-meta.resolver';

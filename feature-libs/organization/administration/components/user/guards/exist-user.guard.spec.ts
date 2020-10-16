@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGuard } from './exist-user.guard';
 import createSpy = jasmine.createSpy;

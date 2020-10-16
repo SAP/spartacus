@@ -5,7 +5,10 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  BudgetService,
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';

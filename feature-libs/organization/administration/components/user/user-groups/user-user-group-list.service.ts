@@ -3,7 +3,7 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
   UserGroup,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';

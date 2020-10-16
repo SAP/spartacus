@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
-import { OrderApprovalPermissionType } from '@spartacus/my-account/organization/core';
+import { OrderApprovalPermissionType } from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';

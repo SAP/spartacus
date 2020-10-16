@@ -5,15 +5,15 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  B2B_USERS_NORMALIZER,
+  PERMISSIONS_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+} from '@spartacus/organization/administration/core';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
 
 import createSpy = jasmine.createSpy;
-import {
-  USER_GROUP_NORMALIZER,
-  USER_GROUPS_NORMALIZER,
-  B2B_USERS_NORMALIZER,
-  PERMISSIONS_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
 
 const userGroupId = 'testUid';
 const permissionUid = 'permissionUid';

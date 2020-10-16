@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { BehaviorSubject } from 'rxjs';
 import { TREE_TOGGLE } from './unit-tree.model';
 

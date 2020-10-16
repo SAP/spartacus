@@ -5,7 +5,7 @@ import { EntitiesModel } from '@spartacus/core';
 import {
   Permission,
   UserGroupService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';

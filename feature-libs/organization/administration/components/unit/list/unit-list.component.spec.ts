@@ -1,13 +1,13 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { UnitListComponent } from '@spartacus/my-account/organization/components';
-import { UnitListService } from '../services/unit-list.service';
+import { UnitListComponent } from '@spartacus/organization/administration/components';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Component } from '@angular/core';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs/internal/observable/of';
+import { UnitListService } from '../services/unit-list.service';
 import { UnitTreeService } from '../services/unit-tree.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',

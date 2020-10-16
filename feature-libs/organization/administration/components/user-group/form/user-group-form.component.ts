@@ -4,7 +4,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
   UserGroup,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';

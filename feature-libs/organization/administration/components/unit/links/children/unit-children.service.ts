@@ -3,7 +3,7 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';

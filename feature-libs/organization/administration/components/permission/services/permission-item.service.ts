@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
+  OrganizationItemStatus,
   Permission,
   PermissionService,
-  OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { PermissionFormService } from '../form/permission-form.service';

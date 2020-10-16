@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
-import { B2BUnitTreeNode } from '@spartacus/my-account/organization/core';
+import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
   TableDataOutletContext,

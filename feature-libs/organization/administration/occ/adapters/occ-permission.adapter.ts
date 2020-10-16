@@ -14,7 +14,7 @@ import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
   PERMISSION_TYPES_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

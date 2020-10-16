@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import { UserGroupService } from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { CurrentUserGroupService } from '..';
 

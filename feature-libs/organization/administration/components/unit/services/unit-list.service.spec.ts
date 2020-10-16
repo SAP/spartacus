@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
+import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { UnitListService } from './unit-list.service';
 import { UnitItemService } from './unit-item.service';
-import { UnitTreeService } from './unit-tree.service';
+import { UnitListService } from './unit-list.service';
 import { TREE_TOGGLE } from './unit-tree.model';
+import { UnitTreeService } from './unit-tree.service';
+
 import createSpy = jasmine.createSpy;
-import { EntitiesModel } from '@spartacus/core';
 
 function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
   expect(values.length).toEqual(7);

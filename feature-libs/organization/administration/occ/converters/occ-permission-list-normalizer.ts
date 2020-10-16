@@ -8,7 +8,7 @@ import {
 import {
   Permission,
   PERMISSION_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccPermissionListNormalizer
