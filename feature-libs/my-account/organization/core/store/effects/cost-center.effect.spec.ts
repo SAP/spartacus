@@ -12,6 +12,7 @@ import {
 import {
   Budget,
   CostCenterConnector,
+  OrganizationActions,
 } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -187,11 +188,12 @@ describe('CostCenter Effects', () => {
         userId,
         costCenter,
       });
-      const completion = new CostCenterActions.CreateCostCenterSuccess(
+      const completion1 = new CostCenterActions.CreateCostCenterSuccess(
         costCenter
       );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.create).toHaveBeenCalledWith(
@@ -208,12 +210,13 @@ describe('CostCenter Effects', () => {
         userId,
         costCenter,
       });
-      const completion = new CostCenterActions.CreateCostCenterFail({
+      const completion1 = new CostCenterActions.CreateCostCenterFail({
         costCenterCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.create).toHaveBeenCalledWith(
@@ -230,11 +233,12 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         costCenter,
       });
-      const completion = new CostCenterActions.UpdateCostCenterSuccess(
+      const completion1 = new CostCenterActions.UpdateCostCenterSuccess(
         costCenter
       );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.update).toHaveBeenCalledWith(
@@ -253,12 +257,13 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         costCenter,
       });
-      const completion = new CostCenterActions.UpdateCostCenterFail({
+      const completion1 = new CostCenterActions.UpdateCostCenterFail({
         costCenterCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.update).toHaveBeenCalledWith(
@@ -328,12 +333,13 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.AssignBudgetSuccess({
+      const completion1 = new CostCenterActions.AssignBudgetSuccess({
         code: budgetCode,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignBudgetToCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.assignBudget).toHaveBeenCalledWith(
@@ -352,12 +358,13 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.AssignBudgetFail({
+      const completion1 = new CostCenterActions.AssignBudgetFail({
         budgetCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignBudgetToCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.assignBudget).toHaveBeenCalledWith(
@@ -374,12 +381,13 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.UnassignBudgetSuccess({
+      const completion1 = new CostCenterActions.UnassignBudgetSuccess({
         code: budgetCode,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignBudgetToCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.unassignBudget).toHaveBeenCalledWith(
@@ -398,12 +406,13 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.UnassignBudgetFail({
+      const completion1 = new CostCenterActions.UnassignBudgetFail({
         budgetCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignBudgetToCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.unassignBudget).toHaveBeenCalledWith(

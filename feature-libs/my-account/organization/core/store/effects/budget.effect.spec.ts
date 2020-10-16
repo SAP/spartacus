@@ -7,6 +7,7 @@ import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
   Budget,
   BudgetConnector,
+  OrganizationActions,
 } from '@spartacus/my-account/organization/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -146,9 +147,10 @@ describe('Budget Effects', () => {
   describe('createBudget$', () => {
     it('should return CreateBudgetSuccess action', () => {
       const action = new BudgetActions.CreateBudget({ userId, budget });
-      const completion = new BudgetActions.CreateBudgetSuccess(budget);
+      const completion1 = new BudgetActions.CreateBudgetSuccess(budget);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createBudget$).toBeObservable(expected);
       expect(budgetConnector.create).toHaveBeenCalledWith(userId, budget);
@@ -159,12 +161,13 @@ describe('Budget Effects', () => {
         throwError(httpErrorResponse)
       );
       const action = new BudgetActions.CreateBudget({ userId, budget });
-      const completion = new BudgetActions.CreateBudgetFail({
+      const completion1 = new BudgetActions.CreateBudgetFail({
         budgetCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createBudget$).toBeObservable(expected);
       expect(budgetConnector.create).toHaveBeenCalledWith(userId, budget);
@@ -178,9 +181,10 @@ describe('Budget Effects', () => {
         budgetCode,
         budget,
       });
-      const completion = new BudgetActions.UpdateBudgetSuccess(budget);
+      const completion1 = new BudgetActions.UpdateBudgetSuccess(budget);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateBudget$).toBeObservable(expected);
       expect(budgetConnector.update).toHaveBeenCalledWith(
@@ -199,12 +203,13 @@ describe('Budget Effects', () => {
         budgetCode,
         budget,
       });
-      const completion = new BudgetActions.UpdateBudgetFail({
+      const completion1 = new BudgetActions.UpdateBudgetFail({
         budgetCode,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateBudget$).toBeObservable(expected);
       expect(budgetConnector.update).toHaveBeenCalledWith(

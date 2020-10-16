@@ -50,6 +50,14 @@ export const getPermission = (
       StateUtils.entityLoaderStateSelector(state, permissionCode)
   );
 
+export const getPermissionValue = (
+  permissionCode: string
+): MemoizedSelector<StateWithOrganization, Permission> => {
+  return createSelector(getPermission(permissionCode), (permissionState) =>
+    StateUtils.loaderValueSelector(permissionState)
+  );
+};
+
 export const getPermissionList = (
   params: SearchConfig
 ): MemoizedSelector<

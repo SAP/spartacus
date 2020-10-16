@@ -8,8 +8,8 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { Observable, queueScheduler, using } from 'rxjs';
+import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { CostCenterActions } from '../store/actions/index';
@@ -18,6 +18,7 @@ import {
   getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
+  getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
 import { getItemStatus } from '../utils/get-item-status';
 
@@ -50,11 +51,18 @@ export class CostCenterService {
     return this.store.select(getCostCenter(costCenterCode));
   }
 
+  private getCostCenterValue(costCenterCode: string): Observable<CostCenter> {
+    return this.store
+      .select(getCostCenterValue(costCenterCode))
+      .pipe(filter(Boolean));
+  }
+
   private getCostCenterList(
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<CostCenter>>> {
     return this.store.select(getCostCenterList(params));
   }
+
   private getBudgetList(
     costCenterCode,
     params
@@ -62,16 +70,19 @@ export class CostCenterService {
     return this.store.select(getAssignedBudgets(costCenterCode, params));
   }
 
-  get(costCenterCode: string): Observable<CostCenter> {
-    return this.getCostCenter(costCenterCode).pipe(
-      observeOn(queueScheduler),
+  get(costCenterCode: string): Observable<Budget> {
+    const loading$ = this.getCostCenter(costCenterCode).pipe(
+      auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.load(costCenterCode);
         }
-      }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      })
+    );
+
+    return using(
+      () => loading$.subscribe(),
+      () => this.getCostCenterValue(costCenterCode)
     );
   }
 

@@ -2,7 +2,7 @@ import { StateUtils } from '@spartacus/core';
 import { CostCenterActions, BudgetActions } from '../actions/index';
 import { Budget } from '../../model/budget.model';
 
-export const budgetInitialState = {};
+export const budgetInitialState = undefined;
 export const budgetsInitialState = undefined;
 
 export function budgetsEntitiesReducer(
