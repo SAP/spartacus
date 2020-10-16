@@ -6,7 +6,7 @@
 </ng-container>
 
 <ng-template #login>
-  <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
+  <a role="link" [routerLink]="{ cxRoute: 'register' } | cxUrl">{{
     'miniLogin.signInRegister' | cxTranslate
   }}</a>
   <button (click)="loginWithImplicitFlow()">Implicit flow login</button>
