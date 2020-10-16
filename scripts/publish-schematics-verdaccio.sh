@@ -43,7 +43,7 @@ fi
 cd projects/schematics
 yarn && yarn build
 cd ../../
-cd feature-libs/my-account
+cd feature-libs/organization
 yarn && yarn build:schematics
 cd ../../
 
@@ -62,7 +62,7 @@ doItFor "assets"
 doItFor "core"
 doItFor "storefrontlib"
 doItFor "cds"
-doItFor "my-account"
+doItFor "organization"
 doItFor "setup"
 
 cd ../projects/storefrontstyles
