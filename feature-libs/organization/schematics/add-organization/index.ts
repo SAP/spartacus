@@ -27,15 +27,17 @@ import {
   getWorkspace,
   ORGANIZATION_MODULE,
   PROVIDE_DEFAULT_CONFIG,
+  SPARTACUS_ADMINISTRATION,
   SPARTACUS_CORE,
-  SPARTACUS_MY_ACCOUNT,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_SETUP,
   UTF_8,
 } from '@spartacus/schematics';
-import { Schema as MyAccountOptions } from './schema';
+import { Schema as SpartacusOrganizationOptions } from './schema';
 
-export function addSpartacusMyAccount(options: MyAccountOptions): Rule {
+export function addSpartacusOrganization(
+  options: SpartacusOrganizationOptions
+): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
@@ -56,7 +58,7 @@ function addPackageJsonDependencies(packageJson: any): Rule {
     const spartacusMyAccountDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
-      name: SPARTACUS_MY_ACCOUNT,
+      name: SPARTACUS_ORGANIZATION,
     };
     addPackageJsonDependency(tree, spartacusMyAccountDependency);
     context.logger.info(
@@ -93,7 +95,7 @@ function addStyles(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const myAccountScssPath = `${getSourceRoot(
       tree
-    )}/styles/spartacus-my-account.scss`;
+    )}/styles/spartacus-organization.scss`;
     if (tree.exists(myAccountScssPath)) {
       context.logger.info(
         `Skipping the creation of '${myAccountScssPath}', as it already exists.`
@@ -101,7 +103,7 @@ function addStyles(): Rule {
       return noop();
     }
 
-    tree.create(myAccountScssPath, `@import "${SPARTACUS_MY_ACCOUNT}";`);
+    tree.create(myAccountScssPath, `@import "${SPARTACUS_ORGANIZATION}";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
@@ -174,7 +176,7 @@ function readPackageJson(tree: Tree): any {
   return JSON.parse(buffer.toString(UTF_8));
 }
 
-function updateAppModule(options: MyAccountOptions): Rule {
+function updateAppModule(options: SpartacusOrganizationOptions): Rule {
   return (host: Tree, _context: SchematicContext) => {
     const projectTargets = getProjectTargets(host, options.project);
 
@@ -196,7 +198,7 @@ function updateAppModule(options: MyAccountOptions): Rule {
 
     addImport(host, modulePath, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE);
     addImport(host, modulePath, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP);
-    addImport(host, modulePath, ORGANIZATION_MODULE, SPARTACUS_ORGANIZATION);
+    addImport(host, modulePath, ORGANIZATION_MODULE, SPARTACUS_ADMINISTRATION);
 
     addToModuleImportsAndCommitChanges(host, modulePath, ORGANIZATION_MODULE);
   };
