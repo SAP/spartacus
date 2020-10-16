@@ -22,11 +22,8 @@ export const costCenter = {
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
   },
 
-  title: 'Details Cost Center',
-  subtitle: 'Cost Center: {{ item.name }}',
-
   details: {
-    title: 'Details Cost Center',
+    title: 'Cost Center Details',
     subtitle: 'Cost Center: {{ item.name }}',
   },
 
