@@ -30,7 +30,11 @@
 
     <div class="property">
       <label>{{ 'costCenter.active' | cxTranslate }}</label>
-      <span class="value" [class.is-active]="model.active">
+      <span
+        class="value"
+        [class.is-active]="model.active"
+        [class.is-inactive]="!model.active"
+      >
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate

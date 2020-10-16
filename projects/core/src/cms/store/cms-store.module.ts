@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -28,7 +27,6 @@ export function cmsStoreConfigFactory(): StateConfig {
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
