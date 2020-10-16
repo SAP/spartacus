@@ -6,6 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
+  OrganizationActions,
   UserGroup,
   UserGroupConnector,
 } from '@spartacus/my-account/organization/core';
@@ -201,9 +202,12 @@ describe('UserGroup Effects', () => {
         userId,
         userGroup,
       });
-      const completion = new UserGroupActions.CreateUserGroupSuccess(userGroup);
+      const completion1 = new UserGroupActions.CreateUserGroupSuccess(
+        userGroup
+      );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.create).toHaveBeenCalledWith(userId, userGroup);
@@ -217,12 +221,13 @@ describe('UserGroup Effects', () => {
         userId,
         userGroup,
       });
-      const completion = new UserGroupActions.CreateUserGroupFail({
+      const completion1 = new UserGroupActions.CreateUserGroupFail({
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.createUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.create).toHaveBeenCalledWith(userId, userGroup);
@@ -258,12 +263,13 @@ describe('UserGroup Effects', () => {
         userGroupId,
         userGroup,
       });
-      const completion = new UserGroupActions.UpdateUserGroupFail({
+      const completion1 = new UserGroupActions.UpdateUserGroupFail({
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.updateUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.update).toHaveBeenCalledWith(
@@ -280,9 +286,12 @@ describe('UserGroup Effects', () => {
         userId,
         userGroupId,
       });
-      const completion = new UserGroupActions.DeleteUserGroupSuccess(userGroup);
+      const completion1 = new UserGroupActions.DeleteUserGroupSuccess(
+        userGroup
+      );
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.deleteUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.delete).toHaveBeenCalledWith(
@@ -299,12 +308,13 @@ describe('UserGroup Effects', () => {
         userId,
         userGroupId,
       });
-      const completion = new UserGroupActions.DeleteUserGroupFail({
+      const completion1 = new UserGroupActions.DeleteUserGroupFail({
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.deleteUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.delete).toHaveBeenCalledWith(
@@ -375,12 +385,13 @@ describe('UserGroup Effects', () => {
         userGroupId,
         permissionUid,
       });
-      const completion = new UserGroupActions.AssignPermissionSuccess({
+      const completion1 = new UserGroupActions.AssignPermissionSuccess({
         permissionUid: permissionUid,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
@@ -397,13 +408,14 @@ describe('UserGroup Effects', () => {
         userGroupId,
         permissionUid,
       });
-      const completion = new UserGroupActions.AssignPermissionFail({
+      const completion1 = new UserGroupActions.AssignPermissionFail({
         userGroupId,
         permissionUid,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
@@ -418,12 +430,13 @@ describe('UserGroup Effects', () => {
         userGroupId,
         permissionUid,
       });
-      const completion = new UserGroupActions.UnassignPermissionSuccess({
+      const completion1 = new UserGroupActions.UnassignPermissionSuccess({
         permissionUid: permissionUid,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
@@ -440,13 +453,14 @@ describe('UserGroup Effects', () => {
         userGroupId,
         permissionUid,
       });
-      const completion = new UserGroupActions.UnassignPermissionFail({
+      const completion1 = new UserGroupActions.UnassignPermissionFail({
         userGroupId,
         permissionUid,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
@@ -516,12 +530,13 @@ describe('UserGroup Effects', () => {
         userGroupId,
         customerId,
       });
-      const completion = new UserGroupActions.AssignMemberSuccess({
+      const completion1 = new UserGroupActions.AssignMemberSuccess({
         customerId: customerId,
         selected: true,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignMemberUnitUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
@@ -540,13 +555,14 @@ describe('UserGroup Effects', () => {
         userGroupId,
         customerId,
       });
-      const completion = new UserGroupActions.AssignMemberFail({
+      const completion1 = new UserGroupActions.AssignMemberFail({
         userGroupId,
         customerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.assignMemberUnitUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
@@ -563,12 +579,13 @@ describe('UserGroup Effects', () => {
         userGroupId,
         customerId,
       });
-      const completion = new UserGroupActions.UnassignMemberSuccess({
+      const completion1 = new UserGroupActions.UnassignMemberSuccess({
         customerId: customerId,
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignMemberFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
@@ -587,13 +604,14 @@ describe('UserGroup Effects', () => {
         userGroupId,
         customerId,
       });
-      const completion = new UserGroupActions.UnassignMemberFail({
+      const completion1 = new UserGroupActions.UnassignMemberFail({
         userGroupId,
         customerId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignMemberFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
@@ -610,11 +628,12 @@ describe('UserGroup Effects', () => {
         userId,
         userGroupId,
       });
-      const completion = new UserGroupActions.UnassignAllMembersSuccess({
+      const completion1 = new UserGroupActions.UnassignAllMembersSuccess({
         selected: false,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
@@ -631,12 +650,13 @@ describe('UserGroup Effects', () => {
         userId,
         userGroupId,
       });
-      const completion = new UserGroupActions.UnassignAllMembersFail({
+      const completion1 = new UserGroupActions.UnassignAllMembersFail({
         userGroupId,
         error,
       });
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(

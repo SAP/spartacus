@@ -29,6 +29,9 @@
       &.is-active {
         color: var(--cx-color-success);
       }
+      &.is-inactive {
+        color: var(--cx-color-alert, var(--cx-color-danger));
+      }
 
       padding-inline-end: 20px;
     }

@@ -27,7 +27,9 @@
           position: relative;
 
           .text {
-            min-height: 74px;
+            @include media-breakpoint-up(md) {
+              min-height: 74px;
+            }
             display: flex;
           }
 
@@ -35,33 +37,33 @@
             content: '';
             position: absolute;
             width: calc(100% - 25px);
-            height: 25px;
+            height: 20px;
             background: var(--cx-color-ghost);
             border-radius: var(--cx-ghost-radius);
-            top: 25px;
-            left: 0;
+
+            @include media-breakpoint-up(md) {
+              top: 25px;
+              left: 0;
+            }
           }
         }
 
         @include media-breakpoint-down(md) {
           tr td:before {
-            top: initial;
-            bottom: 2px;
-            height: 20px;
-            margin-inline-start: 40px;
+            margin-top: -10px;
             width: calc(100% - 60px);
-          }
-          tr:last-child td:before {
-            bottom: 22px;
           }
         }
       }
     }
   }
 
-  cx-organization-sub-list.ghost cx-table.vertical table td:before {
-    width: calc(100% - 50px);
+  cx-organization-sub-list.ghost cx-table.vertical table tr td:before {
+    // width: calc(100% - 50px);
+    // left: 25px;
+    margin-top: 25px;
     left: 25px;
+    width: calc(100% - 50px);
   }
 }
 
@@ -71,9 +73,8 @@
   ng-component,
   cx-organization-sub-list,
   form,
-  cx-organization-view,
+  cx-unit-list,
   cx-organization-card,
-  cx-organization-card-list,
   cx-organization-form,
   // we have only a few components that have specific selectors that should disappear
   cx-unit-form {
@@ -123,8 +124,15 @@
 
   cx-split-view {
     @include media-breakpoint-down(sm) {
-      // unsure that the views do not flow over the page
+      // ensure that the views do not flow over the page
       width: 100vw;
+    }
+    cx-view {
+      height: auto;
+      &:not([position='0']) {
+        // cx-views should only take the necessary vertical space
+        align-self: flex-start;
+      }
     }
 
     @include media-breakpoint-up(lg) {
@@ -220,6 +228,25 @@
       }
     }
   }
+
+  &.unit {
+    .list > cx-table {
+      .name {
+        ng-component {
+          padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+          button.tree-item-toggle {
+            margin-inline-start: -40px;
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          ng-component {
+            padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+          }
+        }
+      }
+    }
+  }
 }
 
 // generic table styles for both vertical and stacked tables
@@ -252,10 +279,6 @@
                 padding-inline-end: 30px;
                 padding-inline-start: 5px;
               }
-            }
-            a {
-              text-decoration: none;
-              color: var(--cx-color-text);
             }
           }
           th:last-child,
@@ -312,6 +335,10 @@
       padding-inline-end: 40px;
     }
 
+    td:last-child span {
+      padding-inline-end: 20px;
+    }
+
     &.vertical-stacked tbody {
       display: table;
     }
@@ -353,8 +380,6 @@
         }
       }
       a {
-        color: inherit;
-
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
           display: flex;
@@ -363,15 +388,16 @@
           min-height: 74px;
         }
 
-        &:hover {
-          text-decoration: none;
-          color: var(--cx-color-text);
-        }
-
         &[tabindex='0'],
         &[tabindex='0']:hover {
           text-decoration: underline;
           color: var(--cx-color-primary);
+        }
+
+        &[tabindex='-1'],
+        &[tabindex='-1']:hover {
+          color: inherit;
+          text-decoration: none;
         }
       }
     }
@@ -384,7 +410,7 @@
     }
 
     // highlight active values
-    .active a {
+    .active span {
       color: var(--cx-color-alert, var(--cx-color-danger));
       &.is-active {
         color: var(--cx-color-success);

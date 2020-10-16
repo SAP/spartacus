@@ -5,7 +5,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/my-account/organization/core';
-import { TableConfig } from '@spartacus/storefront';
+import { TableConfig, BREAKPOINT, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
@@ -34,9 +34,11 @@ import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-ce
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
 import { UnitListComponent } from './list/unit-list.component';
-import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
-import { UnitItemService } from './services/unit-item.service';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
+import { ToggleLinkCellComponent } from './list/toggle-link/toggle-link-cell.component';
 import { UnitListService } from './services/unit-list.service';
+import { UnitItemService } from './services/unit-item.service';
+import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
@@ -52,10 +54,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       orgUnits: {
         paths: ['organization/units'],
       },
-      orgUnitCreate: {
+      unitCreate: {
         paths: ['organization/units/create'],
       },
-      orgUnitDetails: {
+      unitDetails: {
         paths: [listPath],
         paramsMapping,
       },
@@ -268,6 +270,26 @@ export function unitsTableConfigFactory(): TableConfig {
 
 export const unitsTableConfig: TableConfig = {
   table: {
+    [OrganizationTableType.UNIT]: {
+      cells: ['name'],
+      options: {
+        layout: TableLayout.VERTICAL,
+        cells: {
+          name: {
+            dataComponent: ToggleLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          uid: {
+            dataComponent: OrganizationCellComponent,
+          },
+        },
+      },
+      [BREAKPOINT.lg]: {
+        cells: ['name', 'active', 'uid'],
+      },
+    },
     [OrganizationTableType.UNIT_USERS]: {
       cells: ['name', 'roles'],
       options: {
@@ -305,8 +327,8 @@ export const unitsTableConfig: TableConfig = {
             dataComponent: AssignCellComponent,
           },
           orgUnit: {
-            linkable: false,
             dataComponent: UnitCellComponent,
+            linkable: false,
           },
         },
       },

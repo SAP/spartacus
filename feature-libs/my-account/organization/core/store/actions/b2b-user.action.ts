@@ -147,8 +147,14 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
 
 export class UpdateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_B2B_USER_SUCCESS;
-  constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.customerId, payload);
+  constructor(
+    public payload: {
+      orgCustomer: B2BUser;
+      orgCustomerId: string;
+      userId: string;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.orgCustomer);
   }
 }
 

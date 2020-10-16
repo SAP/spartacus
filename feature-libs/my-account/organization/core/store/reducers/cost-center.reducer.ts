@@ -1,7 +1,7 @@
 import { CostCenter, StateUtils } from '@spartacus/core';
 import { CostCenterActions } from '../actions/index';
 
-export const costCenterInitialState = {};
+export const costCenterInitialState = undefined;
 export const costCentersInitialState = undefined;
 
 export function costCentersEntitiesReducer(

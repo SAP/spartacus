@@ -2,7 +2,7 @@ import { StateUtils } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 
-export const orgUnitInitialState = {};
+export const orgUnitInitialState = undefined;
 export const orgUnitsInitialState = undefined;
 
 export function orgUnitEntitiesReducer(

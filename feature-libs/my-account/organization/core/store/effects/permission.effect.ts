@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import {
@@ -10,7 +10,7 @@ import {
   Permission,
 } from '../../model/permission.model';
 import { normalizeListPage } from '../../utils/serializer';
-import { PermissionActions } from '../actions';
+import { OrganizationActions, PermissionActions } from '../actions';
 
 @Injectable()
 export class PermissionEffects {
@@ -74,19 +74,24 @@ export class PermissionEffects {
   createPermission$: Observable<
     | PermissionActions.CreatePermissionSuccess
     | PermissionActions.CreatePermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(PermissionActions.CREATE_PERMISSION),
     map((action: PermissionActions.CreatePermission) => action.payload),
     switchMap((payload) =>
       this.permissionConnector.create(payload.userId, payload.permission).pipe(
-        map((data) => new PermissionActions.CreatePermissionSuccess(data)),
+        switchMap((data) => [
+          new PermissionActions.CreatePermissionSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new PermissionActions.CreatePermissionFail({
               permissionCode: payload.permission.code,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -96,6 +101,7 @@ export class PermissionEffects {
   updatePermission$: Observable<
     | PermissionActions.UpdatePermissionSuccess
     | PermissionActions.UpdatePermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(PermissionActions.UPDATE_PERMISSION),
     map((action: PermissionActions.UpdatePermission) => action.payload),
@@ -103,14 +109,18 @@ export class PermissionEffects {
       this.permissionConnector
         .update(payload.userId, payload.permissionCode, payload.permission)
         .pipe(
-          map((data) => new PermissionActions.UpdatePermissionSuccess(data)),
+          switchMap((data) => [
+            new PermissionActions.UpdatePermissionSuccess(data),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new PermissionActions.UpdatePermissionFail({
                 permissionCode: payload.permission.code,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )

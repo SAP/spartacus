@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { B2BUser, EntitiesModel, normalizeHttpError } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 import { Permission } from '../../model/permission.model';
@@ -10,6 +10,7 @@ import { UserGroup } from '../../model/user-group.model';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
+  OrganizationActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
@@ -168,19 +169,24 @@ export class UserGroupEffects {
   createUserGroup$: Observable<
     | UserGroupActions.CreateUserGroupSuccess
     | UserGroupActions.CreateUserGroupFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.CREATE_USER_GROUP),
     map((action: UserGroupActions.CreateUserGroup) => action.payload),
     switchMap((payload) =>
       this.userGroupConnector.create(payload.userId, payload.userGroup).pipe(
-        map((data) => new UserGroupActions.CreateUserGroupSuccess(data)),
+        switchMap((data) => [
+          new UserGroupActions.CreateUserGroupSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new UserGroupActions.CreateUserGroupFail({
               userGroupId: payload.userGroup.uid,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -189,7 +195,9 @@ export class UserGroupEffects {
   @Effect()
   updateUserGroup$: Observable<
     // | UserGroupActions.UpdateUserGroupSuccess
-    UserGroupActions.LoadUserGroup | UserGroupActions.UpdateUserGroupFail
+    | UserGroupActions.LoadUserGroup
+    | UserGroupActions.UpdateUserGroupFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.UPDATE_USER_GROUP),
     map((action: UserGroupActions.UpdateUserGroup) => action.payload),
@@ -199,14 +207,18 @@ export class UserGroupEffects {
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map(data => new UserGroupActions.UpdateUserGroupSuccess(data)),
-          map(() => new UserGroupActions.LoadUserGroup(payload)),
+          switchMap(() => [
+            new UserGroupActions.LoadUserGroup(payload),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.UpdateUserGroupFail({
                 userGroupId: payload.userGroup.uid,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -216,19 +228,24 @@ export class UserGroupEffects {
   deleteUserGroup$: Observable<
     | UserGroupActions.DeleteUserGroupSuccess
     | UserGroupActions.DeleteUserGroupFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.DELETE_USER_GROUP),
     map((action: UserGroupActions.DeleteUserGroup) => action.payload),
     switchMap((payload) =>
       this.userGroupConnector.delete(payload.userId, payload.userGroupId).pipe(
-        map((data) => new UserGroupActions.DeleteUserGroupSuccess(data)),
+        switchMap((data) => [
+          new UserGroupActions.DeleteUserGroupSuccess(data),
+          new OrganizationActions.OrganizationClearData(),
+        ]),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new UserGroupActions.DeleteUserGroupFail({
               userGroupId: payload.userGroupId,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -238,6 +255,7 @@ export class UserGroupEffects {
   assignPermissionToUserGroup$: Observable<
     | UserGroupActions.AssignPermissionSuccess
     | UserGroupActions.AssignPermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
@@ -249,21 +267,22 @@ export class UserGroupEffects {
           payload.permissionUid
         )
         .pipe(
-          map(
-            (data) =>
-              new UserGroupActions.AssignPermissionSuccess({
-                permissionUid: data.id,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new UserGroupActions.AssignPermissionSuccess({
+              permissionUid: data.id,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.AssignPermissionFail({
                 userGroupId: payload.userGroupId,
                 permissionUid: payload.permissionUid,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -271,7 +290,9 @@ export class UserGroupEffects {
 
   @Effect()
   assignMemberUnitUserGroup$: Observable<
-    UserGroupActions.AssignMemberSuccess | UserGroupActions.AssignMemberFail
+    | UserGroupActions.AssignMemberSuccess
+    | UserGroupActions.AssignMemberFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
@@ -279,21 +300,22 @@ export class UserGroupEffects {
       this.userGroupConnector
         .assignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
-          map(
-            () =>
-              new UserGroupActions.AssignMemberSuccess({
-                customerId: payload.customerId,
-                selected: true,
-              })
-          ),
+          switchMap(() => [
+            new UserGroupActions.AssignMemberSuccess({
+              customerId: payload.customerId,
+              selected: true,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.AssignMemberFail({
                 userGroupId: payload.userGroupId,
                 customerId: payload.customerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -301,7 +323,9 @@ export class UserGroupEffects {
 
   @Effect()
   unassignMemberFromUserGroup$: Observable<
-    UserGroupActions.UnassignMemberSuccess | UserGroupActions.UnassignMemberFail
+    | UserGroupActions.UnassignMemberSuccess
+    | UserGroupActions.UnassignMemberFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
@@ -309,21 +333,22 @@ export class UserGroupEffects {
       this.userGroupConnector
         .unassignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
-          map(
-            () =>
-              new UserGroupActions.UnassignMemberSuccess({
-                customerId: payload.customerId,
-                selected: false,
-              })
-          ),
+          switchMap(() => [
+            new UserGroupActions.UnassignMemberSuccess({
+              customerId: payload.customerId,
+              selected: false,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.UnassignMemberFail({
                 userGroupId: payload.userGroupId,
                 customerId: payload.customerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -333,6 +358,7 @@ export class UserGroupEffects {
   unassignPermissionFromUserGroup$: Observable<
     | UserGroupActions.UnassignPermissionSuccess
     | UserGroupActions.UnassignPermissionFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
@@ -344,21 +370,22 @@ export class UserGroupEffects {
           payload.permissionUid
         )
         .pipe(
-          map(
-            (data) =>
-              new UserGroupActions.UnassignPermissionSuccess({
-                permissionUid: data.id,
-                selected: data.selected,
-              })
-          ),
+          switchMap((data) => [
+            new UserGroupActions.UnassignPermissionSuccess({
+              permissionUid: data.id,
+              selected: data.selected,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.UnassignPermissionFail({
                 userGroupId: payload.userGroupId,
                 permissionUid: payload.permissionUid,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
@@ -368,6 +395,7 @@ export class UserGroupEffects {
   unassignAllMembersFromUserGroup$: Observable<
     | UserGroupActions.UnassignAllMembersSuccess
     | UserGroupActions.UnassignAllMembersFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS),
     map((action: UserGroupActions.UnassignAllMembers) => action.payload),
@@ -375,19 +403,20 @@ export class UserGroupEffects {
       this.userGroupConnector
         .unassignAllMembers(payload.userId, payload.userGroupId)
         .pipe(
-          map(
-            () =>
-              new UserGroupActions.UnassignAllMembersSuccess({
-                selected: false,
-              })
-          ),
+          switchMap(() => [
+            new UserGroupActions.UnassignAllMembersSuccess({
+              selected: false,
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new UserGroupActions.UnassignAllMembersFail({
                 userGroupId: payload.userGroupId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )

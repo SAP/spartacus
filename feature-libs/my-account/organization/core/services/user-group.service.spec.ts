@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
   AuthService,
   B2BUser,
@@ -20,6 +20,8 @@ import {
 import * as fromReducers from '../store/reducers/index';
 import { UserGroupService } from './user-group.service';
 import { LoadStatus } from '../model/organization-item-status';
+import { ofType } from '@ngrx/effects';
+import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -78,6 +80,7 @@ describe('UserGroupService', () => {
   let service: UserGroupService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
+  let actions$: ActionsSubject;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,6 +101,8 @@ describe('UserGroupService', () => {
     service = TestBed.inject(UserGroupService);
     authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
+
+    actions$ = TestBed.inject(ActionsSubject);
   });
 
   it('should UserGroupService is injected', inject(
@@ -108,23 +113,21 @@ describe('UserGroupService', () => {
   ));
 
   describe('get userGroup', () => {
-    it('get() should trigger load userGroup details when they are not present in the store', () => {
-      let userGroupDetails: UserGroup;
-      service
-        .get(userGroupId)
-        .subscribe((data) => {
-          userGroupDetails = data;
-        })
-        .unsubscribe();
+    xit('get() should trigger load userGroup details when they are not present in the store', (done) => {
+      const sub = service.get(userGroupId).subscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(userGroupDetails).toEqual(undefined);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserGroupActions.LoadUserGroup({
-          userId,
-          userGroupId,
-        })
-      );
+      actions$
+        .pipe(ofType(UserGroupActions.LOAD_USER_GROUP), take(1))
+        .subscribe((action) => {
+          expect(action).toEqual(
+            new UserGroupActions.LoadUserGroup({
+              userId,
+              userGroupId,
+            })
+          );
+          sub.unsubscribe();
+          done();
+        });
     });
 
     it('get() should be able to get userGroup details when they are present in the store', () => {
@@ -456,7 +459,7 @@ describe('UserGroupService', () => {
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
-        item: {},
+        item: undefined,
       });
     });
   });

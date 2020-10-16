@@ -31,14 +31,13 @@ export abstract class OrganizationListService<T, P = PaginationModel> {
     lg: { options: { layout: TableLayout.VERTICAL } },
   };
 
-  protected ghostData = {
-    values: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-    pagination: {
-      totalPages: 1,
-      // sort: ' ',
-    },
-    sorts: [],
-  } as EntitiesModel<T>;
+  /**
+   * The ghost data contains an empty list of objects that is used in the UI
+   * to render the HTML elements.
+   *
+   * This list contains 10 items, so that the ghost will show 10 rows by default.
+   */
+  protected ghostData = { values: new Array(10) } as EntitiesModel<T>;
 
   notification$: Subject<any> = new Subject();
 

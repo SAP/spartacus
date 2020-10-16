@@ -81,7 +81,7 @@ export abstract class OrganizationItemService<T> {
   launchDetails(item: T): void {
     const cxRoute = this.getDetailsRoute();
     const params = this.getRouteParams(item);
-    if (cxRoute && Object.keys(item).length > 0) {
+    if (cxRoute && item && Object.keys(item).length > 0) {
       this.routingService.go({ cxRoute, params });
     }
   }
