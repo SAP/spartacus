@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, CostCenter, RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/my-account/organization/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { CurrentOrganizationItemService } from '../../shared/current-organizatio
   providedIn: 'root',
 })
 export class CurrentUserService extends CurrentOrganizationItemService<
-  CostCenter
+  B2BUser
 > {
   readonly name$: Observable<string> = this.item$.pipe(
     map((user: B2BUser) => user.name)

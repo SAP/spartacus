@@ -65,16 +65,11 @@ export class B2BUserEffects {
     switchMap((payload) =>
       this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
         switchMap((data) => {
-          this.routingService.go({
-            cxRoute: 'userDetails',
-            params: { customerId: data.customerId },
-          });
           return [
             new B2BUserActions.CreateB2BUserSuccess(data),
             new OrganizationActions.OrganizationClearData(),
           ];
         }),
-
         catchError((error: HttpErrorResponse) =>
           from([
             new B2BUserActions.CreateB2BUserFail({
