@@ -1,5 +1,5 @@
+import { B2BUser as CoreB2BUser } from '@spartacus/core';
 import { B2BApprovalProcess } from './order-approval.model';
-import { B2BUser as CoreB2BUser} from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface B2BUnit {

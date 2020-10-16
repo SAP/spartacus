@@ -1,4 +1,4 @@
-import { B2BUnit as CoreB2BUnit} from '@spartacus/core';
+import { B2BUnit as CoreB2BUnit } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface B2BUser {
