@@ -1,5 +1,9 @@
 import { SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
+import {
+  replenishmentOrderHistoryHeaderValue,
+  replenishmentOrderHistoryUrl,
+} from './b2b/b2b-replenishment-order-history';
 import { waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
@@ -27,18 +31,31 @@ export function doPlaceOrder(productData?: any) {
 
 export const orderHistoryTest = {
   // no orders flow
-  checkRedirectNotLoggedInUser() {
+  checkRedirectNotLoggedInUser(url: string = orderHistoryLink) {
     it('should redirect to login page if user is not logged in', () => {
-      cy.visit(orderHistoryLink);
+      cy.visit(url);
       cy.url().should('contain', '/login');
       cy.get('cx-login').should('contain', 'Sign In / Register');
     });
   },
-  checkRedirectLoggedInUser(sampleUser: SampleUser = user) {
+  checkRedirectLoggedInUser(
+    sampleUser: SampleUser = user,
+    url: string = orderHistoryLink
+  ) {
     it('should go to Order History once user has logged in', () => {
       login(sampleUser.email, sampleUser.password);
-      cy.url().should('contain', orderHistoryLink);
-      cy.get('.cx-order-history-header h3').should('contain', 'Order history');
+      cy.url().should('contain', url);
+      if (url === replenishmentOrderHistoryUrl) {
+        cy.get('.cx-replenishment-order-history-header h3').should(
+          'contain',
+          replenishmentOrderHistoryHeaderValue
+        );
+      } else {
+        cy.get('.cx-order-history-header h3').should(
+          'contain',
+          'Order history'
+        );
+      }
     });
   },
   checkStartShoppingButton() {

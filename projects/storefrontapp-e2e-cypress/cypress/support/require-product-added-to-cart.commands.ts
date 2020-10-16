@@ -46,7 +46,7 @@ Cypress.Commands.add(
         url: `${Cypress.env('API_URL')}/${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-          'USER'
+          'OCC_PREFIX_USER_ENDPOINT'
         )}/current/carts/${cartCode}/entries`,
         body: {
           code: productData.code,

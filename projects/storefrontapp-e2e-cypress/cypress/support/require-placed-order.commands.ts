@@ -23,13 +23,15 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
       url: `${Cypress.env('API_URL')}/${Cypress.env(
         'OCC_PREFIX'
       )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-        'USER'
-      )}/current/${Cypress.env('ORDER')}?cartId=${cartId}&termsChecked=true`,
+        'OCC_PREFIX_USER_ENDPOINT'
+      )}/current/${Cypress.env(
+        'OCC_PREFIX_ORDER_ENDPOINT'
+      )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
       },
-      body: Cypress.env('USER')
+      body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
         ? {
             daysOfWeek: [DaysOfWeek.MONDAY],
             nthDayOfMonth: '1',

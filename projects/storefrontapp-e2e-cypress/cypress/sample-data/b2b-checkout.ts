@@ -8,8 +8,8 @@ import {
 
 export const POWERTOOLS_BASESITE = 'powertools-spa';
 export const POWERTOOLS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
-export const USER_REQUEST_CHANNEL = 'orgUsers';
-export const PLACE_ORDER_REQUEST = 'replenishmentOrders';
+export const USER_REQUEST_ENDPOINT = 'orgUsers';
+export const ORDER_REQUEST_ENDPOINT = 'replenishmentOrders';
 export const poNumber = '123';
 export const costCenter = 'PunchOut Organization';
 export const b2bUnit = 'PunchOut Organization';

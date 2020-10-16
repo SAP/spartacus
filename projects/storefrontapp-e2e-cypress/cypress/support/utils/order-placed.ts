@@ -26,7 +26,7 @@ export function waitForOrderToBePlacedRequest(
     url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
     )}/${contentCatalog}/users/${userId}/${Cypress.env(
-      'ORDER'
+      'OCC_PREFIX_ORDER_ENDPOINT'
     )}?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,

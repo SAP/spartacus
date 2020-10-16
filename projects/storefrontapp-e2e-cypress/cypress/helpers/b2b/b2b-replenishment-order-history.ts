@@ -2,16 +2,18 @@ import {
   b2bProduct,
   POWERTOOLS_BASESITE,
 } from '../../sample-data/b2b-checkout';
-import * as alerts from '../global-message';
 import { doPlaceOrder } from '../order-history';
+import { verifyReplenishmentIsCancelled } from './b2b-replenishment-order-details';
 
 export const replenishmentOrderHistoryUrl = `${POWERTOOLS_BASESITE}/en/USD/my-account/my-replenishments`;
 export const replenishmentCancelDialogSelector =
   'cx-replenishment-order-cancellation-dialog';
 export const replenishmentOrderHistorySelector =
   'cx-replenishment-order-history';
+export const replenishmentOrderHistoryHeaderValue =
+  'Replenishment Order History';
 
-export function waitForReplenishmentRequest(requestMethod: string) {
+export function createReplenishmentRequestRoute(requestMethod: string) {
   const replenishmentAlias = 'replenishmentAlias';
 
   cy.server();
@@ -27,12 +29,12 @@ export function waitForReplenishmentRequest(requestMethod: string) {
 }
 
 export function visitReplenishmentHistory() {
-  const replenishmentHistory = waitForReplenishmentRequest('GET');
+  const replenishmentHistoryAlias = createReplenishmentRequestRoute('GET');
 
   cy.visit(replenishmentOrderHistoryUrl);
-  cy.wait(replenishmentHistory).its('status').should('eq', 200);
+  cy.wait(replenishmentHistoryAlias).its('status').should('eq', 200);
 
-  return replenishmentHistory;
+  return replenishmentHistoryAlias;
 }
 
 export function waitForReplenishmentOrders() {
@@ -44,9 +46,9 @@ export function waitForReplenishmentOrders() {
         orderData.body.replenishmentOrderCode
       );
 
-      const replenishmentHistory = visitReplenishmentHistory();
+      const replenishmentHistoryAlias = visitReplenishmentHistory();
 
-      cy.get(replenishmentHistory).should((xhr) => {
+      cy.get(replenishmentHistoryAlias).should((xhr) => {
         const body = xhr.response.body;
 
         expect(body.replenishmentOrders).to.have.length(2);
@@ -58,7 +60,7 @@ export function waitForReplenishmentOrders() {
 
       cy.get(
         `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-header h3`
-      ).should('contain', 'Replenishment Order History');
+      ).should('contain', replenishmentOrderHistoryHeaderValue);
       cy.get(
         `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`
       ).should('contain', orderData.body.replenishmentOrderCode);
@@ -91,32 +93,30 @@ export function verifySorting() {
 }
 
 export function cancelReplenishmentInHistory() {
-  const replenishmentHistory = visitReplenishmentHistory();
+  const replenishmentHistoryAlias = visitReplenishmentHistory();
 
-  cy.get(replenishmentHistory).should((xhr) => {
+  cy.get(replenishmentHistoryAlias).should((xhr) => {
     const body = xhr.response.body;
     expect(body.replenishmentOrders[0].active).to.equal(true);
+
+    verifyFirstRowReplenishmentIsNotCancelled();
+
+    cy.get(
+      `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-cancel:first button`
+    )
+      .should('exist')
+      .click();
+
+    verifyReplenishmentIsCancelled(
+      body.replenishmentOrders[0].replenishmentOrderCode
+    );
+
+    verifyFirstRowReplenishmentIsCancelled();
+
+    cy.get(
+      `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-cancel button`
+    ).should('not.exist');
   });
-
-  verifyFirstRowReplenishmentIsNotCancelled();
-  cy.get(
-    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-cancel:first button`
-  )
-    .should('exist')
-    .click();
-
-  cy.get(`${replenishmentCancelDialogSelector}`)
-    .should('exist')
-    .then((_) => {
-      cy.get(`${replenishmentCancelDialogSelector} .btn-primary`).click();
-    });
-
-  alerts.getSuccessAlert().contains('cancelled');
-  verifyFirstRowReplenishmentIsCancelled();
-
-  cy.get(
-    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-cancel button`
-  ).should('not.exist');
 }
 
 export function verifyFirstRowReplenishmentIsCancelled() {
@@ -132,6 +132,5 @@ export function verifyFirstRowReplenishmentIsNotCancelled() {
     `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`
   )
     .eq(4)
-
     .should('not.contain', 'Cancelled');
 }
