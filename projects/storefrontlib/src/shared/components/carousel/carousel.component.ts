@@ -237,7 +237,6 @@ export class CarouselComponent implements OnInit {
     // we increase the prefetchNum as long as we haven't started prefetching
     if (intersected && !this._startPrefetching && this._prefetchNum < index) {
       this._prefetchNum = index + 1 + 1;
-      console.log('prefetchNum', this._prefetchNum);
     }
 
     const visibleMap = this.visible$.value;

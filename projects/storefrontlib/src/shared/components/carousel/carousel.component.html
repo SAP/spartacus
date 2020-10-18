@@ -37,7 +37,7 @@
             <!-- https://github.com/angular/angular/issues/12121 -->
             <ng-template
               cxIntersected
-              [forceIntersect]="prefetch > j"
+              [forceIntersect]="prefetch > itemNum"
               (intersect)="intersect($event, item)"
             >
               <ng-container
