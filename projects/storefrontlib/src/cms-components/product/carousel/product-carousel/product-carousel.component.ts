@@ -6,7 +6,7 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, startWith, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -52,9 +52,18 @@ export class ProductCarouselComponent {
     if (!this.products.get(code)) {
       this.products.set(
         code,
-        this.productService.get(code, this.PRODUCT_SCOPE).pipe()
+        this.productService.get(code, this.PRODUCT_SCOPE).pipe(
+          startWith({
+            code,
+          })
+        )
       );
     }
     return this.products.get(code);
+  }
+
+  isGhost(ghost: Product): boolean {
+    const { code, ...props } = ghost;
+    return Object.keys(props).length === 0;
   }
 }

@@ -36,8 +36,14 @@
 
     overflow-x: scroll;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    // when we apply the scroll-snap-type directly, we see that it is causing
+    // an initial scroll to random position. We therefor add it when the user
+    // interacts with the carousel.
+    &:hover,
+    &:focus-within {
+      scroll-snap-type: x mandatory;
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -64,6 +70,7 @@
       .item {
         display: block;
         height: 100%;
+        min-height: 10px;
         object-fit: cover;
 
         flex-shrink: 0;
