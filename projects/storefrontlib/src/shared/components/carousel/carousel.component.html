@@ -12,9 +12,10 @@
       (click)="previous()"
       [style.visibility]="(previous$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(previous$ | async)?.enabled"
-      [cxFocus]="{ key: 'previous', group: focusConfig.group }"
       tabindex="-1"
     >
+      <!-- 
+      [cxFocus]="{ key: 'previous', group: focusConfig.group }" -->
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
 
@@ -25,19 +26,25 @@
           *ngIf="i % size === 0"
           [class.active]="i === activeSlide"
         >
-          <ng-container *ngFor="let data of items | slice: i:i + size">
-            <div
-              #item
-              class="item"
-              [class.active]="i === activeSlide"
+          <!-- we render the carousel item, so that we have an element to work with -->
+          <div
+            #item
+            *ngFor="let data of items | slice: i:i + size; let itemNum = index"
+            class="item"
+            [class.active]="i === activeSlide"
+            (mouseenter)="prefetch = itemNum"
+          >
+            <!-- https://github.com/angular/angular/issues/12121 -->
+            <ng-template
               cxIntersected
+              [forceIntersect]="prefetch > j"
               (intersect)="intersect($event, item)"
             >
               <ng-container
                 *ngTemplateOutlet="template; context: { item: data }"
               ></ng-container>
-            </div>
-          </ng-container>
+            </ng-template>
+          </div>
         </div>
       </ng-container>
     </div>
@@ -47,9 +54,9 @@
       (click)="next()"
       [style.visibility]="(next$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(next$ | async)?.enabled"
-      [cxFocus]="{ key: 'next', group: focusConfig.group }"
       tabindex="-1"
     >
+      <!-- [cxFocus]="{ key: 'next', group: focusConfig.group }" -->
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
   </div>
@@ -62,6 +69,7 @@
       [disabled]="indicator.selected"
       [cxFocus]="{ key: i + 1, group: focusConfig.group }"
       tabindex="-1"
+      (mouseenter)="prefetch = i * this._prefetchNum"
     >
       <cx-icon [type]="indicatorIcon"></cx-icon>
     </button>

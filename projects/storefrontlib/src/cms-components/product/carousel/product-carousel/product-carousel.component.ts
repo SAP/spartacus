@@ -21,6 +21,8 @@ export class ProductCarouselComponent {
     model
   > = this.componentData.data$.pipe(filter(Boolean));
 
+  protected products: Map<string, Observable<Product>> = new Map();
+
   /** A unique key for the focusable group  */
   focusGroup: string;
 
@@ -39,17 +41,20 @@ export class ProductCarouselComponent {
   items$: Observable<string[]> = this.componentData$.pipe(
     map((data) => data.productCodes.trim().split(' ')),
     tap((data) => (this.focusGroup = data.join('')))
-    // map((codes) =>
-    //   codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
-    // )
   );
-
-  getProduct(code: string): Observable<Product> {
-    return this.productService.get(code, this.PRODUCT_SCOPE);
-  }
 
   constructor(
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService
   ) {}
+
+  getProduct(code: string): Observable<Product> {
+    if (!this.products.get(code)) {
+      this.products.set(
+        code,
+        this.productService.get(code, this.PRODUCT_SCOPE).pipe()
+      );
+    }
+    return this.products.get(code);
+  }
 }

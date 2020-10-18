@@ -12,14 +12,9 @@ import {
 } from '@angular/core';
 import { FocusConfig } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { CarouselNavigationService } from './carousel-navigation.service';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -110,19 +105,11 @@ export class CarouselComponent implements OnInit {
 
   @ViewChildren('item') itemRefs!: QueryList<ElementRef<HTMLElement>>;
 
-  protected readonly visibleItems$: BehaviorSubject<
+  protected readonly visible$: BehaviorSubject<
     Map<number, boolean>
   > = new BehaviorSubject(new Map());
 
-  // protected readonly visible2$ = this.visibleItems$.pipe(
-  //   // tap(console.log)
-  // );
-
-  protected readonly slides$ = this.visibleItems$.pipe(
-    // tap(console.log),
-    // Currently a lower debounce time breaks the indicator selection,
-    // since the scroll left would end to it's final state.
-    debounceTime(300),
+  protected readonly visibleItems$ = this.visible$.pipe(
     filter((v) => v.size > 0),
     map((visible) =>
       Array.from(visible)
@@ -130,84 +117,74 @@ export class CarouselComponent implements OnInit {
         .map((value) => value[0])
         .sort((a, b) => a - b)
     ),
-    distinctUntilChanged(),
-    // filter((v) => v.length > 0),
-    map((visible) => {
-      const slides =
-        this.carouselHost.clientWidth > 0
-          ? Array.from(
-              Array(
-                Math.ceil(
-                  this.carouselHost.scrollWidth / this.carouselHost.clientWidth
-                )
-              ).keys()
-            )
-          : [];
+    distinctUntilChanged()
+  );
 
-      const previous = {
-        visible: slides.length > 1,
-        disabled: visible[0] === 0,
-        enabled: visible[0] > 0,
-      };
-      const next = {
-        visible: slides.length > 1,
-        disabled: visible[visible.length] === this.itemRefs.length - 1,
-        enabled: visible[visible.length - 1] < this.itemRefs.length - 1,
-      };
-
-      return { slides, previous, next };
-    }),
+  protected readonly slides$ = this.visibleItems$.pipe(
+    map(() => this.navigation.slides(this.carouselHost)),
     distinctUntilChanged()
   );
 
   /**
    * Returns the observed disabled state for the previous button.
    */
-  readonly previous$: Observable<any> = this.slides$.pipe(
-    map((data) => data.previous),
+  readonly previous$: Observable<any> = this.visibleItems$.pipe(
+    map((visible) =>
+      this.navigation.previousData(
+        visible,
+        this.navigation.slides(this.carouselHost)
+      )
+    ),
     distinctUntilChanged()
   );
 
   /**
    * Returns the observed disabled state for the next button.
    */
-  readonly next$: Observable<any> = this.slides$.pipe(
-    map((data) => data.next),
+  readonly next$: Observable<any> = this.visibleItems$.pipe(
+    map((visible) =>
+      this.navigation.nextData(
+        visible,
+        this.navigation.slides(this.carouselHost),
+        this.itemRefs.length - 1
+      )
+    ),
     distinctUntilChanged()
   );
 
-  indicators$: Observable<any> = this.slides$.pipe(
-    map((data) => {
-      const scrollLeft = this.carouselHost.scrollLeft;
-      return data.slides.map((index) => {
-        const left = this.carouselHost.clientWidth * index;
-        const right = this.carouselHost.clientWidth * (index + 1);
-
-        const hasLastMatch =
-          scrollLeft + this.carouselHost.clientWidth ===
-          this.carouselHost.scrollWidth;
-
-        const selected = hasLastMatch
-          ? index === data.slides.length - 1
-          : scrollLeft >= left && scrollLeft < right;
-
-        return { index, selected };
-      });
-    }),
+  readonly indicators$: Observable<any> = this.slides$.pipe(
+    map((slides) => this.navigation.indicators(this.carouselHost, slides)),
     filter((i) => i.length > 1)
   );
 
+  /**
+   * Maintains the prefetched carousel items.
+   */
+  protected _prefetch = 0;
+  protected _prefetchNum = 0;
+  protected _startPrefetching = false;
+
   constructor(
     protected el: ElementRef,
-    protected service: CarouselService // protected cd: ChangeDetectorRef, // protected tabFocusService: TabFocusService, // protected selectFocusUtility: SelectFocusUtility
+    protected service: CarouselService,
+    protected navigation: CarouselNavigationService
   ) {}
+
+  set prefetch(item) {
+    this._startPrefetching = true;
+    if (this._prefetch < item + this._prefetchNum) {
+      this._prefetch = item + this._prefetchNum;
+    }
+  }
+  get prefetch(): number {
+    return this._prefetch;
+  }
 
   ngOnInit() {
     if (!this.template) {
       this.renderDxMessage();
       return;
     }
-
     this.size$ = this.service.getItemsPerSlide(this.host, this.itemWidth).pipe(
       tap(() => {
         if (this.itemWidth) {
@@ -220,18 +197,27 @@ export class CarouselComponent implements OnInit {
     );
   }
 
+  /**
+   * Handles previous button.
+   */
   previous() {
     this.carouselHost.scrollBy({
       left: -this.carouselHost.clientWidth,
     });
   }
 
+  /**
+   * Handles next button.
+   */
   next() {
     this.carouselHost.scrollBy({
       left: this.carouselHost.clientWidth,
     });
   }
 
+  /**
+   * Handles indicator button.
+   */
   scroll(index: number) {
     this.carouselHost.scrollTo({
       left: this.carouselHost.clientWidth * index,
@@ -240,30 +226,37 @@ export class CarouselComponent implements OnInit {
 
   /**
    * Maintains a map with all the visible slide items. This is stored in
-   * a subject, so that we can observe the visible slides and update the indicators.
+   * a subject, so that we can observe the visible slides and update the
+   * buttons and indicators accordingly.
    */
   intersect(intersected: boolean, ref: HTMLElement) {
     const index = this.itemRefs
       .toArray()
       .findIndex((item) => item.nativeElement === ref);
 
-    const visibleMap = this.visibleItems$.value;
+    // we increase the prefetchNum as long as we haven't started prefetching
+    if (intersected && !this._startPrefetching && this._prefetchNum < index) {
+      this._prefetchNum = index + 1 + 1;
+      console.log('prefetchNum', this._prefetchNum);
+    }
+
+    const visibleMap = this.visible$.value;
     visibleMap.set(index, intersected);
 
-    this.visibleItems$.next(visibleMap);
+    this.visible$.next(visibleMap);
   }
 
   /**
    * Returns the component native host element.
    */
-  protected get host(): HTMLElement {
+  private get host(): HTMLElement {
     return this.el.nativeElement;
   }
 
   /**
    * Returns the carousel native host element.
    */
-  protected get carouselHost(): HTMLElement {
+  private get carouselHost(): HTMLElement {
     return this.carousel.nativeElement;
   }
 

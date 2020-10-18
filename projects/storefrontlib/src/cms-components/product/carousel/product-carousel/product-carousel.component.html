@@ -1,5 +1,4 @@
 <cx-carousel
-  *ngIf="(title$ | async) === 'Our Bestselling Products'"
   [items]="items$ | async"
   [title]="title$ | async"
   [template]="carouselItem"
@@ -12,19 +11,18 @@
 </cx-carousel>
 
 <ng-template #carouselItem let-item="item">
-  {{ item }}
-  <!-- <ng-container *ngIf="getProduct(item) | async as product">
+  <ng-container *ngIf="getProduct(item) | async as product">
     <a
-      [cxFocus]="{ key: product.code, group: focusGroup }"
+      [cxFocus]="{ key: product?.code, group: focusGroup }"
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
     >
       <cx-media [container]="product.images?.PRIMARY"></cx-media>
       <h4>
-        {{ product.name }}
+        {{ product?.name }}
       </h4>
       <div class="price">
-        {{ product.price?.formattedValue }}
+        {{ product?.price?.formattedValue }}
       </div>
     </a>
-  </ng-container> -->
+  </ng-container>
 </ng-template>

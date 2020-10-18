@@ -1,3 +1,4 @@
+import { DeferLoadingStrategy } from '@spartacus/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
 
 /**
@@ -13,10 +14,10 @@ import { LayoutConfig } from '../../layout/config/layout-config';
  * templates and/or slots, you most likely need to further adjust or replace this configuration.
  */
 export const layoutConfig: LayoutConfig = {
-  // deferredLoading: {
-  //   strategy: DeferLoadingStrategy.DEFER,
-  //   intersectionMargin: '50px',
-  // },
+  deferredLoading: {
+    strategy: DeferLoadingStrategy.DEFER,
+    intersectionMargin: '50px',
+  },
   layoutSlots: {
     header: {
       lg: {
@@ -43,13 +44,13 @@ export const layoutConfig: LayoutConfig = {
     LandingPage2Template: {
       pageFold: 'Section2B',
       slots: [
-        // 'Section1',
-        // 'Section2A',
-        // 'Section2B',
-        // 'Section2C',
+        'Section1',
+        'Section2A',
+        'Section2B',
+        'Section2C',
         'Section3',
-        // 'Section4',
-        // 'Section5',
+        'Section4',
+        'Section5',
       ],
     },
     ContentPage1Template: {

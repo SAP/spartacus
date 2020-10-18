@@ -6,12 +6,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { SelectFocusUtility } from '../a11y';
 import { PersistFocusService } from '../a11y/keyboard-focus/persist/persist-focus.service';
 import { IntersectionService } from './intersection.service';
 
 @Directive({
-  selector: '[cxIntersected]',
+  selector: '[cxIntersect]',
 })
 export class IntersectionDirective implements OnInit {
   // @Output('cxIntersected') x = new EventEmitter();
@@ -37,7 +38,7 @@ export class IntersectionDirective implements OnInit {
         rootMargin: '0px',
         threshold: 0.9,
       })
-      // .pipe(delay(1000))
+      .pipe(debounceTime(300))
       .subscribe((i) => {
         this.intersect.emit(i);
 

@@ -2,10 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
-import {
-  IntersectionModule,
-  KeyboardFocusModule,
-} from 'projects/storefrontlib/src/layout';
+import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout';
 import {
   CarouselModule,
   MediaModule,
@@ -20,7 +17,6 @@ import { ProductCarouselComponent } from './product-carousel.component';
     RouterModule,
     UrlModule,
     KeyboardFocusModule,
-    IntersectionModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
