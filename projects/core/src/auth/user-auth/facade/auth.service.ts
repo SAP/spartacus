@@ -46,4 +46,11 @@ export class AuthService {
   public isUserLoggedIn(): Observable<boolean> {
     return this.basicAuthService.isUserLoggedIn();
   }
+
+  /**
+   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   */
+  public initLogout(): void {
+    this.basicAuthService.initLogout();
+  }
 }

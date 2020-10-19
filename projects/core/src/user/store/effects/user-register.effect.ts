@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import { UserSignUp } from '../../../model/misc.model';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
@@ -55,7 +54,7 @@ export class UserRegisterEffects {
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(() => {
-          this.routingService.go({ cxRoute: 'logout' });
+          this.authService.initLogout();
           return [new UserActions.RemoveUserSuccess()];
         }),
         catchError((error) =>
@@ -68,7 +67,6 @@ export class UserRegisterEffects {
   constructor(
     private actions$: Actions,
     private userConnector: UserConnector,
-    private authService: AuthService,
-    private routingService: RoutingService
+    private authService: AuthService
   ) {}
 }

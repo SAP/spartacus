@@ -23,8 +23,4 @@ export class LoginComponent implements OnInit {
       })
     );
   }
-
-  loginWithImplicitFlow() {
-    this.auth.loginWithRedirect();
-  }
 }
