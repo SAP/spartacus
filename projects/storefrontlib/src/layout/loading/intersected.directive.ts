@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   TemplateRef,
   ViewContainerRef,
@@ -16,6 +17,7 @@ import { IntersectionService } from './intersection.service';
 
 @Directive({
   selector: '[cxIntersected]',
+  exportAs: 'cxIntersected',
 })
 export class IntersectedDirective implements OnInit, OnDestroy {
   private rendered = false;
@@ -45,10 +47,11 @@ export class IntersectedDirective implements OnInit, OnDestroy {
   }
 
   constructor(
+    @Optional()
     protected templateRef: TemplateRef<any>,
     protected viewContainer: ViewContainerRef,
     protected intersectionService: IntersectionService,
-    protected elementRef: ElementRef
+    protected elementRef2: ElementRef
   ) {}
 
   ngOnInit() {
@@ -68,15 +71,21 @@ export class IntersectedDirective implements OnInit, OnDestroy {
       });
   }
 
+  isIntersected() {
+    return true;
+  }
+
   protected render() {
     if (!this.rendered) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
+      // this.viewContainer.createEmbeddedView(this.templateRef);
       this.rendered = true;
     }
   }
 
   protected get host(): HTMLElement {
-    return (this.elementRef.nativeElement as HTMLElement).parentElement;
+    return this.elementRef2
+      ? this.elementRef2.nativeElement
+      : (this.elementRef2.nativeElement as HTMLElement).parentElement;
   }
 
   ngOnDestroy() {

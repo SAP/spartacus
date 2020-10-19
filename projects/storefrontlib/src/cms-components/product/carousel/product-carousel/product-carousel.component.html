@@ -1,4 +1,5 @@
 <cx-carousel
+  *ngIf="(title$ | async) === 'Our Bestselling Products'"
   [items]="items$ | async"
   [title]="title$ | async"
   [template]="carouselItem"
@@ -10,20 +11,24 @@
 >
 </cx-carousel>
 
-<ng-template #carouselItem let-item="item">
-  <ng-container *ngIf="getProduct(item) | async as product">
-    <a
-      [cxFocus]="{ key: product?.code, group: focusGroup }"
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-      [class.ghost]="isGhost(product)"
-    >
-      <cx-media [container]="product.images?.PRIMARY"></cx-media>
-      <h4>
-        {{ product?.name }}
-      </h4>
-      <div class="price">
-        {{ product?.price?.formattedValue }}
-      </div>
-    </a>
-  </ng-container>
+<ng-template #carouselItem let-item="item" let-prefetch="prefetch">
+  <a
+    *ngIf="getProduct(item, prefetch) | async as product"
+    tabindex="0"
+    [cxFocus]="{ key: item, group: focusGroup }"
+    [routerLink]="
+      hasProduct(product)
+        ? ({ cxRoute: 'product', params: product } | cxUrl)
+        : []
+    "
+    [class.ghost]="!hasProduct(product)"
+  >
+    <cx-media [container]="product.images?.PRIMARY"></cx-media>
+    <h4>
+      {{ product?.name }}
+    </h4>
+    <div class="price">
+      {{ product?.price?.formattedValue }}
+    </div>
+  </a>
 </ng-template>

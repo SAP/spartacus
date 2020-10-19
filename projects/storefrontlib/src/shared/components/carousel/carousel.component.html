@@ -28,22 +28,32 @@
         >
           <!-- we render the carousel item, so that we have an element to work with -->
           <div
-            #item
             *ngFor="let data of items | slice: i:i + size; let itemNum = index"
             class="item"
             [class.active]="i === activeSlide"
             (mouseenter)="prefetch = itemNum"
+            cxIntersected
+            #templateRef
+            #item="cxIntersected"
+            (intersect)="intersect($event, templateRef)"
           >
             <!-- https://github.com/angular/angular/issues/12121 -->
-            <ng-template
+            <!-- <ng-template
               cxIntersected
+              #el="cxIntersected"
               [forceIntersect]="prefetch > itemNum"
-              (intersect)="intersect($event, item)"
-            >
-              <ng-container
-                *ngTemplateOutlet="template; context: { item: data }"
-              ></ng-container>
-            </ng-template>
+              (intersect)="intersect($event, el)"
+            > -->
+            <ng-container
+              *ngTemplateOutlet="
+                template;
+                context: {
+                  item: data,
+                  prefetch: prefetch > itemNum || (item.intersect | async)
+                }
+              "
+            ></ng-container>
+            <!-- </ng-template> -->
           </div>
         </div>
       </ng-container>

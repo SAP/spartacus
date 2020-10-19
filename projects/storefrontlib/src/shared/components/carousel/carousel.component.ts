@@ -10,10 +10,10 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FocusConfig } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { CarouselNavigationService } from './carousel-navigation.service';
 import { CarouselService } from './carousel.service';
 
@@ -103,7 +103,9 @@ export class CarouselComponent implements OnInit {
     HTMLElement
   >;
 
-  @ViewChildren('item') itemRefs!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('item', { read: ElementRef }) itemRefs!: QueryList<
+    ElementRef<HTMLElement>
+  >;
 
   protected readonly visible$: BehaviorSubject<
     Map<number, boolean>

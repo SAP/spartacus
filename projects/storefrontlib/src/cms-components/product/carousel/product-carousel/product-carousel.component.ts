@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
+  CmsProductCarouselComponent,
   Product,
   ProductScope,
   ProductService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, startWith, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -18,10 +18,11 @@ export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
   protected readonly componentData$: Observable<
-    model
+    CmsProductCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
 
   protected products: Map<string, Observable<Product>> = new Map();
+  protected loadState: Map<string, boolean> = new Map();
 
   /** A unique key for the focusable group  */
   focusGroup: string;
@@ -39,31 +40,55 @@ export class ProductCarouselComponent {
    * in the viewpoint.
    */
   items$: Observable<string[]> = this.componentData$.pipe(
-    map((data) => data.productCodes.trim().split(' ')),
-    tap((data) => (this.focusGroup = data.join('')))
+    tap((data) => (this.focusGroup = data.uid)),
+    map((data) => data.productCodes.trim().split(' '))
   );
 
   constructor(
-    protected componentData: CmsComponentData<model>,
+    protected componentData: CmsComponentData<CmsProductCarouselComponent>,
     protected productService: ProductService
   ) {}
 
-  getProduct(code: string): Observable<Product> {
-    if (!this.products.get(code)) {
+  getProduct(code: string, prefetch: boolean): Observable<Product> {
+    if (!this.loadState.get(code) && prefetch) {
+      // we must update the
       this.products.set(
         code,
-        this.productService.get(code, this.PRODUCT_SCOPE).pipe(
-          startWith({
-            code,
-          })
-        )
+        this.productService.get(code, this.PRODUCT_SCOPE)
       );
+    } else {
+      this.products.set(code, this.preload(code));
     }
+
     return this.products.get(code);
   }
 
-  isGhost(ghost: Product): boolean {
-    const { code, ...props } = ghost;
-    return Object.keys(props).length === 0;
+  /**
+   * We prefer to preload the product, if available.
+   */
+  protected preload(code: string): Observable<Product> {
+    return this.productService.isSuccess(code, this.PRODUCT_SCOPE).pipe(
+      take(1),
+      switchMap((isLoaded) => {
+        if (isLoaded) {
+          // update load state
+          this.loadState.set(code, true);
+          return this.productService
+            .get(code, this.PRODUCT_SCOPE)
+            .pipe(startWith(this.getMock(code)));
+        } else {
+          return of(this.getMock(code));
+        }
+      })
+    );
+  }
+
+  protected getMock(code: string): Product {
+    return { code };
+  }
+
+  hasProduct(product: Product): boolean {
+    const { code, ...props } = product;
+    return Object.keys(props).length > 0;
   }
 }
