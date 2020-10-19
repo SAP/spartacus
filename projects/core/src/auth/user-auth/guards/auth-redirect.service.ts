@@ -73,11 +73,6 @@ export class AuthRedirectService {
     }
   }
 
-  setCurrentUrlAsRedirectUrl(): void {
-    const url = this.router.url;
-    this.authRedirectStorageService.setRedirectUrl(url);
-  }
-
   private getCurrentNavigation(): {
     navigationId: number;
     url: string;

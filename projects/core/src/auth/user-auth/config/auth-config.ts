@@ -34,6 +34,7 @@ export abstract class AuthConfig {
     baseUrl?: string;
     tokenEndpoint?: string;
     revokeEndpoint?: string;
+    // TODO: Should it be `loginUrl`?
     loginEndpoint?: string;
     logoutUrl?: string;
     userinfoEndpoint?: string;

@@ -9,12 +9,12 @@ import { BasicAuthService } from '../services/basic-auth.service';
 export class AuthService {
   constructor(protected basicAuthService: BasicAuthService) {}
 
-  initImplicit() {
-    this.basicAuthService.initImplicit();
+  initOAuthCallback(): void {
+    this.basicAuthService.initOAuthCallback();
   }
 
-  loginWithImplicitFlow() {
-    this.basicAuthService.loginWithImplicitFlow();
+  loginWithRedirect(): boolean {
+    return this.basicAuthService.loginWithRedirect();
   }
 
   /**
