@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { CxOAuthService } from '../facade/cx-oauth-service';
@@ -20,7 +21,8 @@ export class BasicAuthService {
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
+    protected routingService: RoutingService
   ) {}
 
   initImplicit() {
@@ -91,5 +93,12 @@ export class BasicAuthService {
       map((userToken) => Boolean(userToken?.access_token)),
       distinctUntilChanged()
     );
+  }
+
+  /**
+   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   */
+  public initLogout(): void {
+    this.routingService.go({ cxRoute: 'logout ' });
   }
 }

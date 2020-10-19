@@ -139,7 +139,7 @@ export class CsAgentAuthService {
         this.authStorageService.clearEmulatedUserToken();
         this.store.dispatch(new AuthActions.Login());
       } else {
-        this.routingService.go({ cxRoute: 'logout' });
+        this.authService.initLogout();
       }
     });
   }
