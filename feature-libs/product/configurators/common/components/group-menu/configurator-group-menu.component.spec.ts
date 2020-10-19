@@ -214,54 +214,42 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render no groups if configuration is not consistent and issue navigation has not been done although required by the router', () => {
     productConfigurationObservable = of(inconsistentConfig);
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      0
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render no groups if configuration is not complete and issue navigation has not been done although required by the router', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      0
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render all groups if configuration is not consistent and issue navigation has not been done but also not required by the router', () => {
     productConfigurationObservable = of(inconsistentConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render all groups if configuration is not complete and issue navigation has not been done but also not required by the router', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
