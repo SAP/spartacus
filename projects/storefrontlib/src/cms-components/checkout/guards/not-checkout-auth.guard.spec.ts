@@ -9,19 +9,19 @@ import {
 import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
-class AuthServiceStub {
+class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class SemanticPathServiceStub {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }
 }
 
-class CartServiceStub {
+class CartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }

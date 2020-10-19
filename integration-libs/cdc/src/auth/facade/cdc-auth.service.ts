@@ -7,6 +7,8 @@ import {
   AuthStorageService,
   AuthToken,
   BasicAuthService,
+  GlobalMessageService,
+  GlobalMessageType,
   OCC_USER_ID_CURRENT,
   TokenTarget,
   UserIdService,
@@ -23,7 +25,8 @@ export class CdcAuthService extends AuthService {
     protected store: Store,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
-    protected basicAuthService: BasicAuthService
+    protected basicAuthService: BasicAuthService,
+    protected globalMessageService: GlobalMessageService
   ) {
     super(basicAuthService);
   }
@@ -55,7 +58,9 @@ export class CdcAuthService extends AuthService {
     );
   }
 
-  public loginWithToken(token: Partial<AuthToken>): void {
+  public loginWithToken(
+    token: Partial<AuthToken> & { expires_in: number }
+  ): void {
     let tokenTarget: TokenTarget;
     let currentToken: AuthToken;
     if ('getTokenTarget' in this.authStorageService) {
@@ -71,7 +76,12 @@ export class CdcAuthService extends AuthService {
         Boolean(currentToken?.access_token) &&
         tokenTarget === TokenTarget.CSAgent
       ) {
-        // TODO: Show the warning that you cannot login when you are already logged in
+        this.globalMessageService.add(
+          {
+            key: 'asm.auth.agentLoggedInError',
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
         return;
       }
     }
@@ -87,10 +97,6 @@ export class CdcAuthService extends AuthService {
     }
 
     this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
-
-    const date = new Date();
-    date.setSeconds(date.getSeconds() + token.expires_in);
-    token.expiration_time = date.toJSON();
 
     if (token.expires_in) {
       const expiresInMilliseconds = token.expires_in * 1000;

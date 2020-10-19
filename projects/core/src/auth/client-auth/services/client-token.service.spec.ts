@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { ClientToken } from '../models/client-token.model';
 import { ClientAuthActions } from '../store/actions/index';
 import {
@@ -40,10 +41,12 @@ describe('ClientTokenService', () => {
     );
 
     let result: ClientToken;
-    const subscription = service.getClientToken().subscribe((token) => {
-      result = token;
-    });
-    subscription.unsubscribe();
+    service
+      .getClientToken()
+      .pipe(take(1))
+      .subscribe((token) => {
+        result = token;
+      });
 
     expect(result).toEqual(mockClientToken);
   });
@@ -57,20 +60,6 @@ describe('ClientTokenService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ClientAuthActions.LoadClientToken()
     );
-  });
-
-  it('should return a client token', () => {
-    store.dispatch(
-      new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
-    );
-
-    let result: ClientToken;
-
-    service
-      .getClientToken()
-      .subscribe((token) => (result = token))
-      .unsubscribe();
-    expect(result).toEqual(mockClientToken);
   });
 
   it('should dispatch proper action for refresh the client token', () => {

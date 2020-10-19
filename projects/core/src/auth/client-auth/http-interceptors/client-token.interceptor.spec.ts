@@ -30,13 +30,14 @@ const testToken = {
   scope: '',
 } as ClientToken;
 
-class MockClientTokenService {
+class MockClientTokenService implements Partial<ClientTokenService> {
   getClientToken() {
     return of(testToken);
   }
 }
 
-class MockClientErrorHandlingService {
+class MockClientErrorHandlingService
+  implements Partial<ClientErrorHandlingService> {
   handleExpiredClientToken(req, next) {
     return of(next.handle(req));
   }
@@ -116,25 +117,6 @@ describe('ClientTokenInterceptor', () => {
         expect(authHeader).toBe(
           `${testToken.token_type} ${testToken.access_token}`
         );
-      }
-    ));
-
-    it(`should not add an 'Authorization' token to a request if it already has one`, inject(
-      [HttpClient],
-      (http: HttpClient) => {
-        const headers = { Authorization: 'bearer 123' };
-        http
-          .get('/somestore/forgottenpasswordtokens', { headers })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-          })
-          .unsubscribe();
-
-        const mockReq: TestRequest = httpMock.expectOne(
-          '/somestore/forgottenpasswordtokens'
-        );
-        const authHeader: string = mockReq.request.headers.get('Authorization');
-        expect(authHeader).toBe(headers.Authorization);
       }
     ));
   });

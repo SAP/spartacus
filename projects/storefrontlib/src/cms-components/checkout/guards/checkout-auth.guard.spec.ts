@@ -17,13 +17,13 @@ import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
-class AuthServiceStub {
+class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getAssignedUser(): Observable<User> {
     return of();
   }
@@ -32,29 +32,29 @@ class ActiveCartServiceStub {
   }
 }
 
-class SemanticPathServiceStub {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }
 }
 
-class MockAuthRedirectService {
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
   reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
-class MockCheckoutConfigService {
+class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   isGuestCheckout() {
     return false;
   }
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   get(): Observable<User> {
     return of({});
   }
 }
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 

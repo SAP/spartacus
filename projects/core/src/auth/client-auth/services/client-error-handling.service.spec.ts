@@ -12,23 +12,18 @@ class MockHttpHandler extends HttpHandler {
   }
 }
 
-class MockClientTokenService {
-  refreshClientToken(): Observable<ClientToken> {
-    return of({
-      access_token: 'refreshToken',
-      token_type: 'mock',
-      expires_in: 12342,
-      scope: 'xxx',
-    });
-  }
-}
-
 const newClientToken: ClientToken = {
   access_token: 'xxx yyy zzz',
   token_type: 'bearer',
   expires_in: 1000,
   scope: 'xxx',
 };
+
+class MockClientTokenService implements Partial<ClientTokenService> {
+  refreshClientToken(): Observable<ClientToken> {
+    return of(newClientToken);
+  }
+}
 
 describe('ClientErrorHandlingService', () => {
   let httpRequest = new HttpRequest('GET', '/');
@@ -55,9 +50,7 @@ describe('ClientErrorHandlingService', () => {
 
   describe(`handleExpiredClientToken`, () => {
     it('should get a new client token and resend the request', () => {
-      spyOn(clientTokenService, 'refreshClientToken').and.returnValue(
-        of(newClientToken)
-      );
+      spyOn(clientTokenService, 'refreshClientToken').and.callThrough();
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)

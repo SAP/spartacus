@@ -5,7 +5,7 @@ import {
   StateWithClientAuth,
 } from '../client-auth-state';
 
-export const getAuthState: MemoizedSelector<
+export const getClientAuthState: MemoizedSelector<
   StateWithClientAuth,
   ClientAuthState
 > = createFeatureSelector<ClientAuthState>(CLIENT_AUTH_FEATURE);

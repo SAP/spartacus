@@ -24,7 +24,7 @@ const token: AuthToken = {
   access_token_stored_at: '230',
 };
 
-class MockAuthConfigService {
+class MockAuthConfigService implements Partial<AuthConfigService> {
   getTokenEndpoint() {
     return loginEndpoint;
   }
