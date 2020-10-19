@@ -27,6 +27,10 @@ import { UnitApproverListComponent } from './links/approvers/unit-approver-list.
 import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
+import {
+  UnitCostCenterCreateComponent,
+  UnitUserCreateComponent,
+} from './links/index';
 import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
@@ -73,6 +77,10 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
+      orgUnitCreateUser: {
+        paths: [`${listPath}/users/create`],
+        paramsMapping,
+      },
       unitUserRoles: {
         paths: [`${listPath}/users/:userCode/roles`],
         paramsMapping,
@@ -103,6 +111,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       orgUnitCostCenters: {
         paths: [`${listPath}/cost-centers`],
+        paramsMapping,
+      },
+      orgUnitCreateCostCenter: {
+        paths: [`${listPath}/cost-centers/create`],
         paramsMapping,
       },
     },
@@ -187,6 +199,10 @@ export const unitsCmsConfig: CmsConfig = {
                 },
                 children: [
                   {
+                    path: 'create',
+                    component: UnitUserCreateComponent,
+                  },
+                  {
                     path: `:${ROUTE_PARAMS.userCode}/roles`,
                     component: UnitUserRolesFormComponent,
                   },
@@ -195,6 +211,15 @@ export const unitsCmsConfig: CmsConfig = {
               {
                 path: 'cost-centers',
                 component: UnitCostCenterListComponent,
+                data: {
+                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.costCenters' },
+                },
+                children: [
+                  {
+                    path: 'create',
+                    component: UnitCostCenterCreateComponent,
+                  },
+                ],
               },
               {
                 path: 'addresses',

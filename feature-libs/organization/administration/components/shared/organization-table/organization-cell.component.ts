@@ -59,4 +59,19 @@ export class OrganizationCellComponent {
   get type(): string {
     return this.model._type;
   }
+
+  /**
+   * Indicates whether the item is loaded.
+   */
+  get hasItem(): boolean {
+    return !!this.item && Object.keys(this.item).length > 0;
+  }
+
+  protected get item(): any {
+    if (!this.outlet.context) {
+      return null;
+    }
+    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    return all;
+  }
 }
