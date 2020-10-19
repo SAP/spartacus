@@ -71,10 +71,6 @@ describe('AssignCellComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should not have an item', () => {
-      expect(component.hasItem).toBeFalsy();
-    });
-
     it('should not be assigned', () => {
       expect(component.isAssigned).toBeFalsy();
     });
@@ -89,10 +85,6 @@ describe('AssignCellComponent', () => {
 
     it('should create', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('should have item', () => {
-      expect(component.hasItem).toBeTruthy();
     });
 
     it('should be assigned', () => {

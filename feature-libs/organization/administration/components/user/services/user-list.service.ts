@@ -19,8 +19,8 @@ export interface UserModel {
 }
 
 /**
- * Service to populate Cost Center data to `Table` data. The cost center
- * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER`.
+ * Service to populate User data to `Table` data. The user
+ * data is driven by the table configuration, using the `OrganizationTables.USER`.
  */
 @Injectable({
   providedIn: 'root',
