@@ -6,7 +6,7 @@ import {
   getListRowsFromBody,
 } from './my-company';
 
-const DEFAULT_SORT_LABEL = 'name'
+const DEFAULT_SORT_LABEL = 'name';
 
 export function testListFromConfig(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {
@@ -72,7 +72,6 @@ export function testListSorting(config: MyCompanyConfig): void {
     }
   });
 }
-
 
 function ngSelect(sortKey: string): void {
   cy.get(`ng-select`).click();
