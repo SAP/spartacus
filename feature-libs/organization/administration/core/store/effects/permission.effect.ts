@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrganizationActions, PermissionActions } from '../actions';
 
@@ -21,6 +22,7 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSION),
     map((action: PermissionActions.LoadPermission) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, permissionCode }) => {
       return this.permissionConnector.get(userId, permissionCode).pipe(
         map((permission: Permission) => {
@@ -46,6 +48,7 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSIONS),
     map((action: PermissionActions.LoadPermissions) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.permissionConnector.getList(payload.userId, payload.params).pipe(
         switchMap((permissions: EntitiesModel<Permission>) => {
@@ -78,6 +81,7 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.CREATE_PERMISSION),
     map((action: PermissionActions.CreatePermission) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.permissionConnector.create(payload.userId, payload.permission).pipe(
         switchMap((data) => [
@@ -105,6 +109,7 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.UPDATE_PERMISSION),
     map((action: PermissionActions.UpdatePermission) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.permissionConnector
         .update(payload.userId, payload.permissionCode, payload.permission)
