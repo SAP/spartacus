@@ -1,5 +1,4 @@
 import { MyCompanyRowConfig } from './MyCompanyRowConfig';
-import { MyCompanyFormInputConfig } from './MyCompanyFormInputConfig';
 
 export interface MyCompanyConfig {
   /**
@@ -41,18 +40,6 @@ export interface MyCompanyConfig {
    */
   // TODO: Examples
   rows: MyCompanyRowConfig[]; // First object is default sort
-
-  /**
-   * Configuration used to fill out the form to create a test entity for the category.
-   */
-  // TODO: Examples
-  formCreate?: MyCompanyFormInputConfig[];
-
-  /**
-   * Configuration used to fill out the form to update a created test entity for the category.
-   */
-  // TODO: Examples
-  formUpdate?: MyCompanyFormInputConfig[];
 
   /**
    * Set to true to test the "unassign all" function of a category (if available).
