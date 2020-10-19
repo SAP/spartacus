@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
 import { OrderApproval } from '../../model/order-approval.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrderApprovalActions } from '../actions/index';
 
@@ -18,6 +19,7 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVAL),
     map((action: OrderApprovalActions.LoadOrderApproval) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orderApprovalCode }) => {
       return this.orderApprovalConnector.get(userId, orderApprovalCode).pipe(
         map((orderApproval: OrderApproval) => {
@@ -45,6 +47,7 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVALS),
     map((action: OrderApprovalActions.LoadOrderApprovals) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, params }) =>
       this.orderApprovalConnector.getList(userId, params).pipe(
         switchMap((orderApprovals: EntitiesModel<OrderApproval>) => {
@@ -77,6 +80,7 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.MAKE_DECISION),
     map((action: OrderApprovalActions.MakeDecision) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orderApprovalCode, orderApprovalDecision }) =>
       this.orderApprovalConnector
         .makeDecision(userId, orderApprovalCode, orderApprovalDecision)
