@@ -1,16 +1,14 @@
 import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
-import { testDetailsFromConfig } from './my-company-details';
 import { testCreateUpdateFromConfig } from './my-company-form';
-import { testAssignmentFromConfig } from './my-company-assign';
+// import { testAssignmentFromConfig } from './my-company-assign';
 import { nextPage } from '../product-search';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}`, () => {
-    // testListFromConfig(config);
-    // testDetailsFromConfig(config);
+    testListFromConfig(config);
     testCreateUpdateFromConfig(config);
-    testAssignmentFromConfig(config);
+    // testAssignmentFromConfig(config);
   });
 }
 

@@ -5,10 +5,9 @@ import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'User',
-  baseUrl: `${CONTEXT_URL_EN_USD}/organization/user`,
+  baseUrl: `${CONTEXT_URL_EN_USD}/organization/users`,
   apiEndpoint: '/users/current/orgCustomers',
   objectType: 'users',
-  selector: 'cx-user',
   rows: [
     {
       label: 'Name',
@@ -19,7 +18,6 @@ const config: MyCompanyConfig = {
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
       showInTable: true,
-      formControlName: 'name',
       showInDetails: true,
     },
     {
@@ -39,6 +37,7 @@ const config: MyCompanyConfig = {
       updateValue: 'edited-entity',
       showInTable: true,
       showInDetails: true,
+      useInUrl: true
     },
     {
       label: 'Roles',
@@ -57,7 +56,6 @@ const config: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
-      formControlName: 'uid',
       showInDetails: true,
     },
   ],

@@ -8,7 +8,6 @@ const config: MyCompanyConfig = {
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
-  selector: 'cx-cost-center',
   rows: [
     {
       label: 'Name',
@@ -19,7 +18,7 @@ const config: MyCompanyConfig = {
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
       showInTable: true,
-      formControlName: 'name',
+      formLabel: 'Name',
       showInDetails: true,
     },
     {
@@ -29,7 +28,7 @@ const config: MyCompanyConfig = {
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
-      showInDetails: true,
+      showInDetails: true,      
     },
     {
       label: 'Code',
@@ -38,14 +37,15 @@ const config: MyCompanyConfig = {
       inputType: 'text',
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
-      formControlName: 'code',
+      formLabel: 'Code',
       showInDetails: true,
+      useInUrl: true
     },
     {
       label: 'Currency',
       variableName: 'currency',
       inputType: 'ngSelect',
-      formControlName: 'isocode',
+      formLabel: 'Currency',
       createValue: 'US Dollar',
       updateValue: 'US Dollar',
     },
@@ -58,7 +58,7 @@ const config: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
-      formControlName: 'uid',
+      formLabel: 'Parent Unit',
       showInDetails: true,
     },
   ],

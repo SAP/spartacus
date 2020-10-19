@@ -31,12 +31,6 @@ export interface MyCompanyConfig {
   objectType: string;
 
   /**
-   * Name of the selector used for the category.
-   * @example selector: 'cx-user-group',
-   */
-  selector: string;
-
-  /**
    * Configurations of sub-categories generally used for assignments to corresponding parent categories.
    */
   // TODO: Subcategory examples

@@ -5,10 +5,9 @@ import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'User Group',
-  baseUrl: `${CONTEXT_URL_EN_USD}/organization/user-group`,
+  baseUrl: `${CONTEXT_URL_EN_USD}/organization/user-groups`,
   apiEndpoint: '/users/current/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
-  selector: 'cx-user-group',
   rows: [
     {
       label: 'Name',
@@ -19,7 +18,7 @@ const config: MyCompanyConfig = {
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
       showInTable: true,
-      formControlName: 'name',
+      formLabel: 'Name',
       showInDetails: true,
     },
     {
@@ -29,9 +28,10 @@ const config: MyCompanyConfig = {
       inputType: 'text',
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
-      formControlName: 'code',
+      formLabel: 'Code',
       showInTable: true,
       showInDetails: true,
+      useInUrl: true
     },
     {
       label: 'Unit',
@@ -42,7 +42,7 @@ const config: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
-      formControlName: 'uid',
+      formLabel: 'Unit',
       showInDetails: true,
     },
   ],

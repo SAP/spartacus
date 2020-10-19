@@ -8,7 +8,6 @@ const config: MyCompanyConfig = {
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
-  selector: 'cx-budget',
   rows: [
     {
       label: 'Name',
@@ -19,7 +18,7 @@ const config: MyCompanyConfig = {
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
       showInTable: true,
-      formControlName: 'name',
+      formLabel: 'Name',
       showInDetails: true,
     },
     {
@@ -38,8 +37,9 @@ const config: MyCompanyConfig = {
       inputType: 'text',
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
-      formControlName: 'code',
+      formLabel: 'Code',
       showInDetails: true,
+      useInUrl: true
     },
     {
       label: 'Amount',
@@ -49,7 +49,7 @@ const config: MyCompanyConfig = {
       inputType: 'text',
       createValue: '10000',
       updateValue: '35000',
-      formControlName: 'budget',
+      formLabel: 'Amount',
       showInDetails: true,
     },
     {
@@ -62,7 +62,7 @@ const config: MyCompanyConfig = {
       label: 'Start',
       variableName: 'startDate',
       inputType: 'datetime',
-      formControlName: 'startDate',
+      formLabel: 'Start',
       createValue: '3020-10-10T10:48',
       updateValue: '3025-01-10T03:22',
     },
@@ -70,7 +70,7 @@ const config: MyCompanyConfig = {
       label: 'End',
       variableName: 'endDate',
       inputType: 'datetime',
-      formControlName: 'endDate',
+      formLabel: 'End',
       createValue: '3020-11-10T10:48',
       updateValue: '3026-05-15T09:53',
     },
@@ -78,7 +78,7 @@ const config: MyCompanyConfig = {
       label: 'Currency',
       variableName: 'currency',
       inputType: 'ngSelect',
-      formControlName: 'isocode',
+      formLabel: 'Currency',
       createValue: 'US Dollar',
       updateValue: 'US Dollar',
     },
@@ -91,7 +91,7 @@ const config: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
-      formControlName: 'uid',
+      formLabel: 'Unit',
       showInDetails: true,
     },
   ],

@@ -1,7 +1,6 @@
 import { MyCompanyConfig, MyCompanyRowConfig } from './models/index';
 import {
   loginAsMyCompanyAdmin,
-  ngSelect,
   scanTablePagesForText,
 } from './my-company';
 
@@ -23,34 +22,30 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         });
       });
 
-      // TODO: Check validation/messages
-      // TODO: Check Cancel
-      // TODO: Check Save
       completeForm(config.rows, 'createValue');
       cy.get('div.header button').contains('Save').click();
 
-      const codeRow = config.rows?.find((row) => row.sortLabel === 'code');
+      const codeRow = config.rows?.find((row) => row.useInUrl);
       const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
 
       cy.url().should('contain', `${config.baseUrl}/${codeRow.createValue}`);
 
       cy.wait(3000);
-      // cy.get(`cx-organization-card`).within(() => {
-        cy.get('div.header h3').contains(`${config.name} Details`);
-        cy.get('div.header h4').contains(
-          `${config.name}: ${nameRow.createValue}`
-        );
+      cy.get('cx-organization-card div.header h3').contains(`${config.name} Details`, {matchCase: false});
+      cy.get('cx-organization-card div.header h4').contains(
+        `${config.name}: ${nameRow.createValue}`, {matchCase: false}
+      );
 
-        verifyDetails(config.rows, 'createValue');
+      verifyDetails(config.rows, 'createValue');
 
-        cy.get('cx-icon[type="CLOSE"]').click();
-      // });
+      cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
     });
 
     it(`should update`, () => {
-      const codeRow = config.rows.find((row) => row.formControlName === 'code');
-      const nameRow = config.rows.find((row) => row.formControlName === 'name');
+      const codeRow = config.rows?.find((row) => row.useInUrl);
+      const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
 
+      cy.wait(3000)
       scanTablePagesForText(nameRow.createValue, config);
       cy.get('cx-organization-list a')
         .contains(`${nameRow.createValue}`)
@@ -65,14 +60,14 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
       cy.get(`cx-organization-form`).within(() => {
         cy.get('div.header').within(() => {
-          cy.get('h3').should('contain.text', `Edit ${config.name}`);
+          cy.get('h3').contains(`Edit ${config.name}`, {
+            matchCase: false,
+          });
         });
       });
 
-      // TODO: Check validation/messages
-      // TODO: Check Cancel
-      // TODO: Check Save
       completeForm(config.rows, 'updateValue');
+
       cy.get('div.header button').contains('Save').click();
 
       cy.url().should('contain', `${config.baseUrl}/${codeRow.updateValue}`);
@@ -96,34 +91,55 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
 function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
   rowConfigs.forEach((input) => {
-    if (input.formControlName) {
+    if (input.formLabel) {
       switch (input.inputType) {
         case 'text':
-          cy.get(`input[formcontrolname="${input.formControlName}"]`)
-            .clear()
-            .type(input[valueKey]);
-          break;
+          return fillTextInput(input)
         case 'datetime':
-          cy.get(
-            `cx-date-time-picker[formcontrolname="${input.formControlName}"] input`
-          )
-            .clear()
-            .type(input[valueKey]);
-          break;
+          return fillDateTimePicker(input)
         case 'ngSelect':
-          ngSelect(input.formControlName, input[valueKey]);
-          break;
+          return fillNgSelect(input)
       }
     }
-  });
+
+  })
+
+  function getFieldByLabel(label: string) {
+    return cy.get('label span').contains(label).parent()
+  }
+  function fillTextInput(input): void {
+    getFieldByLabel(input.formLabel).within(() => {
+      cy.get(`input`)
+      .clear()
+      .type(input[valueKey]);
+    })
+  }
+
+  function fillDateTimePicker(input) {
+    getFieldByLabel(input.formLabel).within(() => {
+    cy.get(
+      `cx-date-time-picker input`
+    )
+      .clear()
+      .type(input[valueKey]);
+    })
+  }
+
+  function fillNgSelect(input) {
+    getFieldByLabel(input.formLabel).within(() => {
+      cy.get(`ng-select`).click();
+    })
+    cy.wait(1000);
+    cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+  }
 }
 
 function verifyDetails(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
-  // TODO: We should check labels are correct for property values
   rowConfigs.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {
       cy.get('div.property label').should('contain.text', rowConfig.label);
       cy.get('div.property').should('contain.text', rowConfig[valueKey]);
+      // TODO: Check property links
       // if (rowConfig.link) {
       //   cy.get('div.property a').should('contain.html', rowConfig.link);
       // }

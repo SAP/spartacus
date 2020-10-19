@@ -8,7 +8,6 @@ const config: MyCompanyConfig = {
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/purchase-limits`,
   apiEndpoint: '/users/current/orderApprovalPermissions',
   objectType: 'orderApprovalPermissions',
-  selector: 'cx-permission',
   rows: [
     {
       label: 'Code',
@@ -17,9 +16,10 @@ const config: MyCompanyConfig = {
       inputType: 'text',
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
-      formControlName: 'code',
+      formLabel: 'Code',
       showInTable: true,
       showInDetails: true,
+      useInUrl: true
     },
     {
       label: 'Status',
@@ -38,7 +38,7 @@ const config: MyCompanyConfig = {
       createValue: `Budget Exceeded Permission`,
       updateValue: `Allowed Order Threshold (per timespan)`,
       showInTable: true,
-      formControlName: 'code',
+      formLabel: 'Type',
       showInDetails: true,
     },
     {
@@ -50,7 +50,7 @@ const config: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
-      formControlName: 'uid',
+      formLabel: 'Parent Unit',
       showInDetails: true,
     },
   ],
