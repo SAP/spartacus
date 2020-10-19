@@ -7,6 +7,7 @@ import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
@@ -24,6 +25,8 @@ export class UserGroupEffects {
     ofType(UserGroupActions.LOAD_USER_GROUP),
     map((action: UserGroupActions.LoadUserGroup) => action.payload),
     switchMap(({ userId, userGroupId }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.userGroupConnector.get(userId, userGroupId).pipe(
         map((userGroup: UserGroup) => {
           return new UserGroupActions.LoadUserGroupSuccess([userGroup]);
@@ -48,28 +51,32 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUPS),
     map((action: UserGroupActions.LoadUserGroups) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((userGroups: EntitiesModel<UserGroup>) => {
-          const { values, page } = normalizeListPage(userGroups, 'uid');
-          return [
-            new UserGroupActions.LoadUserGroupSuccess(values),
-            new UserGroupActions.LoadUserGroupsSuccess({
-              page,
-              params: payload.params,
-            }),
-          ];
-        }),
-        catchError((error: HttpErrorResponse) =>
-          of(
-            new UserGroupActions.LoadUserGroupsFail({
-              params: payload.params,
-              error: normalizeHttpError(error),
-            })
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
+        .getList(payload.userId, payload.params)
+        .pipe(
+          switchMap((userGroups: EntitiesModel<UserGroup>) => {
+            const { values, page } = normalizeListPage(userGroups, 'uid');
+            return [
+              new UserGroupActions.LoadUserGroupSuccess(values),
+              new UserGroupActions.LoadUserGroupsSuccess({
+                page,
+                params: payload.params,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new UserGroupActions.LoadUserGroupsFail({
+                params: payload.params,
+                error: normalizeHttpError(error),
+              })
+            )
           )
-        )
-      )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -83,8 +90,10 @@ export class UserGroupEffects {
     groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
     mergeMap((group) =>
       group.pipe(
-        switchMap((payload) =>
-          this.userGroupConnector
+        switchMap((payload) => {
+          if (!isValidUser(payload.userId)) return [];
+
+          return this.userGroupConnector
             .getAvailableOrderApprovalPermissions(
               payload.userId,
               payload.userGroupId,
@@ -111,8 +120,8 @@ export class UserGroupEffects {
                   })
                 )
               )
-            )
-        )
+            );
+        })
       )
     )
   );
@@ -128,8 +137,10 @@ export class UserGroupEffects {
     groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
     mergeMap((group) =>
       group.pipe(
-        switchMap((payload) =>
-          this.userGroupConnector
+        switchMap((payload) => {
+          if (!isValidUser(payload.userId)) return [];
+
+          return this.userGroupConnector
             .getAvailableOrgCustomers(
               payload.userId,
               payload.userGroupId,
@@ -159,8 +170,8 @@ export class UserGroupEffects {
                   })
                 )
               )
-            )
-        )
+            );
+        })
       )
     )
   );
@@ -173,23 +184,27 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.CREATE_USER_GROUP),
     map((action: UserGroupActions.CreateUserGroup) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector.create(payload.userId, payload.userGroup).pipe(
-        switchMap((data) => [
-          new UserGroupActions.CreateUserGroupSuccess(data),
-          new OrganizationActions.OrganizationClearData(),
-        ]),
-        catchError((error: HttpErrorResponse) =>
-          from([
-            new UserGroupActions.CreateUserGroupFail({
-              userGroupId: payload.userGroup.uid,
-              error: normalizeHttpError(error),
-            }),
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
+        .create(payload.userId, payload.userGroup)
+        .pipe(
+          switchMap((data) => [
+            new UserGroupActions.CreateUserGroupSuccess(data),
             new OrganizationActions.OrganizationClearData(),
-          ])
-        )
-      )
-    )
+          ]),
+          catchError((error: HttpErrorResponse) =>
+            from([
+              new UserGroupActions.CreateUserGroupFail({
+                userGroupId: payload.userGroup.uid,
+                error: normalizeHttpError(error),
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
+          )
+        );
+    })
   );
 
   @Effect()
@@ -201,8 +216,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.UPDATE_USER_GROUP),
     map((action: UserGroupActions.UpdateUserGroup) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .update(payload.userId, payload.userGroupId, payload.userGroup)
         .pipe(
           // TODO: Workaround for empty PATCH response:
@@ -220,8 +237,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -232,23 +249,27 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.DELETE_USER_GROUP),
     map((action: UserGroupActions.DeleteUserGroup) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector.delete(payload.userId, payload.userGroupId).pipe(
-        switchMap((data) => [
-          new UserGroupActions.DeleteUserGroupSuccess(data),
-          new OrganizationActions.OrganizationClearData(),
-        ]),
-        catchError((error: HttpErrorResponse) =>
-          from([
-            new UserGroupActions.DeleteUserGroupFail({
-              userGroupId: payload.userGroupId,
-              error: normalizeHttpError(error),
-            }),
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
+        .delete(payload.userId, payload.userGroupId)
+        .pipe(
+          switchMap((data) => [
+            new UserGroupActions.DeleteUserGroupSuccess(data),
             new OrganizationActions.OrganizationClearData(),
-          ])
-        )
-      )
-    )
+          ]),
+          catchError((error: HttpErrorResponse) =>
+            from([
+              new UserGroupActions.DeleteUserGroupFail({
+                userGroupId: payload.userGroupId,
+                error: normalizeHttpError(error),
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
+          )
+        );
+    })
   );
 
   @Effect()
@@ -259,8 +280,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
-    mergeMap((payload) =>
-      this.userGroupConnector
+    mergeMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .assignOrderApprovalPermission(
           payload.userId,
           payload.userGroupId,
@@ -284,8 +307,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -296,8 +319,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
-    mergeMap((payload) =>
-      this.userGroupConnector
+    mergeMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .assignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
           switchMap(() => [
@@ -317,8 +342,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -329,8 +354,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
-    mergeMap((payload) =>
-      this.userGroupConnector
+    mergeMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .unassignMember(payload.userId, payload.userGroupId, payload.customerId)
         .pipe(
           switchMap(() => [
@@ -350,8 +377,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -362,8 +389,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
-    mergeMap((payload) =>
-      this.userGroupConnector
+    mergeMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .unassignOrderApprovalPermission(
           payload.userId,
           payload.userGroupId,
@@ -387,8 +416,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -399,8 +428,10 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS),
     map((action: UserGroupActions.UnassignAllMembers) => action.payload),
-    switchMap((payload) =>
-      this.userGroupConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.userGroupConnector
         .unassignAllMembers(payload.userId, payload.userGroupId)
         .pipe(
           switchMap(() => [
@@ -418,8 +449,8 @@ export class UserGroupEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   constructor(

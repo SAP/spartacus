@@ -9,6 +9,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../model/permission.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrganizationActions, PermissionActions } from '../actions';
 
@@ -22,6 +23,8 @@ export class PermissionEffects {
     ofType(PermissionActions.LOAD_PERMISSION),
     map((action: PermissionActions.LoadPermission) => action.payload),
     switchMap(({ userId, permissionCode }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.permissionConnector.get(userId, permissionCode).pipe(
         map((permission: Permission) => {
           return new PermissionActions.LoadPermissionSuccess([permission]);
@@ -46,28 +49,32 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSIONS),
     map((action: PermissionActions.LoadPermissions) => action.payload),
-    switchMap((payload) =>
-      this.permissionConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((permissions: EntitiesModel<Permission>) => {
-          const { values, page } = normalizeListPage(permissions, 'code');
-          return [
-            new PermissionActions.LoadPermissionSuccess(values),
-            new PermissionActions.LoadPermissionsSuccess({
-              page,
-              params: payload.params,
-            }),
-          ];
-        }),
-        catchError((error: HttpErrorResponse) =>
-          of(
-            new PermissionActions.LoadPermissionsFail({
-              params: payload.params,
-              error: normalizeHttpError(error),
-            })
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.permissionConnector
+        .getList(payload.userId, payload.params)
+        .pipe(
+          switchMap((permissions: EntitiesModel<Permission>) => {
+            const { values, page } = normalizeListPage(permissions, 'code');
+            return [
+              new PermissionActions.LoadPermissionSuccess(values),
+              new PermissionActions.LoadPermissionsSuccess({
+                page,
+                params: payload.params,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new PermissionActions.LoadPermissionsFail({
+                params: payload.params,
+                error: normalizeHttpError(error),
+              })
+            )
           )
-        )
-      )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -78,23 +85,27 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.CREATE_PERMISSION),
     map((action: PermissionActions.CreatePermission) => action.payload),
-    switchMap((payload) =>
-      this.permissionConnector.create(payload.userId, payload.permission).pipe(
-        switchMap((data) => [
-          new PermissionActions.CreatePermissionSuccess(data),
-          new OrganizationActions.OrganizationClearData(),
-        ]),
-        catchError((error: HttpErrorResponse) =>
-          from([
-            new PermissionActions.CreatePermissionFail({
-              permissionCode: payload.permission.code,
-              error: normalizeHttpError(error),
-            }),
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.permissionConnector
+        .create(payload.userId, payload.permission)
+        .pipe(
+          switchMap((data) => [
+            new PermissionActions.CreatePermissionSuccess(data),
             new OrganizationActions.OrganizationClearData(),
-          ])
-        )
-      )
-    )
+          ]),
+          catchError((error: HttpErrorResponse) =>
+            from([
+              new PermissionActions.CreatePermissionFail({
+                permissionCode: payload.permission.code,
+                error: normalizeHttpError(error),
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
+          )
+        );
+    })
   );
 
   @Effect()
@@ -105,8 +116,10 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.UPDATE_PERMISSION),
     map((action: PermissionActions.UpdatePermission) => action.payload),
-    switchMap((payload) =>
-      this.permissionConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.permissionConnector
         .update(payload.userId, payload.permissionCode, payload.permission)
         .pipe(
           switchMap((data) => [
@@ -122,8 +135,8 @@ export class PermissionEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()

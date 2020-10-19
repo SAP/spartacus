@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderApprovalConnector } from '../../connectors/order-approval/order-approval.connector';
 import { OrderApproval } from '../../model/order-approval.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrderApprovalActions } from '../actions/index';
 
@@ -19,6 +20,8 @@ export class OrderApprovalEffects {
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVAL),
     map((action: OrderApprovalActions.LoadOrderApproval) => action.payload),
     switchMap(({ userId, orderApprovalCode }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.orderApprovalConnector.get(userId, orderApprovalCode).pipe(
         map((orderApproval: OrderApproval) => {
           return new OrderApprovalActions.LoadOrderApprovalSuccess([
@@ -45,8 +48,10 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVALS),
     map((action: OrderApprovalActions.LoadOrderApprovals) => action.payload),
-    switchMap(({ userId, params }) =>
-      this.orderApprovalConnector.getList(userId, params).pipe(
+    switchMap(({ userId, params }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orderApprovalConnector.getList(userId, params).pipe(
         switchMap((orderApprovals: EntitiesModel<OrderApproval>) => {
           const { values, page } = normalizeListPage(orderApprovals, 'code');
           return [
@@ -65,8 +70,8 @@ export class OrderApprovalEffects {
             })
           )
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -77,8 +82,10 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.MAKE_DECISION),
     map((action: OrderApprovalActions.MakeDecision) => action.payload),
-    switchMap(({ userId, orderApprovalCode, orderApprovalDecision }) =>
-      this.orderApprovalConnector
+    switchMap(({ userId, orderApprovalCode, orderApprovalDecision }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orderApprovalConnector
         .makeDecision(userId, orderApprovalCode, orderApprovalDecision)
         .pipe(
           switchMap((orderApprovalDecisionData) => [
@@ -99,8 +106,8 @@ export class OrderApprovalEffects {
               })
             )
           )
-        )
-    )
+        );
+    })
   );
 
   constructor(

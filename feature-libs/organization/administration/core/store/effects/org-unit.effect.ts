@@ -12,6 +12,7 @@ import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
@@ -31,6 +32,8 @@ export class OrgUnitEffects {
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
           const { values, page } = normalizeListPage(
@@ -61,8 +64,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
-    switchMap((payload) =>
-      this.orgUnitConnector.getList(payload.userId).pipe(
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.orgUnitConnector.getList(payload.userId).pipe(
         map(
           (orgUnitsList: B2BUnitNode[]) =>
             new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList)
@@ -74,8 +79,8 @@ export class OrgUnitEffects {
             })
           )
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -86,8 +91,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
-    switchMap((payload) =>
-      this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
         switchMap((data) => [
           new OrgUnitActions.CreateUnitSuccess(data),
           new OrganizationActions.OrganizationClearData(),
@@ -101,8 +108,8 @@ export class OrgUnitEffects {
             new OrganizationActions.OrganizationClearData(),
           ])
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -111,8 +118,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
-    switchMap((payload) =>
-      this.orgUnitConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
           switchMap(() => [new OrganizationActions.OrganizationClearData()]),
@@ -125,8 +134,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -136,6 +145,8 @@ export class OrgUnitEffects {
     ofType(OrgUnitActions.LOAD_UNIT_TREE),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.orgUnitConnector.getTree(userId).pipe(
         map(
           (orgUnit: B2BUnitNode) => new OrgUnitActions.LoadTreeSuccess(orgUnit)
@@ -159,6 +170,8 @@ export class OrgUnitEffects {
     ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
         map(
           (approvalProcesses: B2BApprovalProcess[]) =>
@@ -189,6 +202,8 @@ export class OrgUnitEffects {
     mergeMap((group) =>
       group.pipe(
         switchMap(({ userId, orgUnitId, roleId, params }) => {
+          if (!isValidUser(userId)) return [];
+
           return this.orgUnitConnector
             .getUsers(userId, orgUnitId, roleId, params)
             .pipe(
@@ -226,26 +241,30 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_ROLE),
     map((action: OrgUnitActions.AssignRole) => action.payload),
-    switchMap(({ userId, orgCustomerId, roleId }) =>
-      this.orgUnitConnector.assignRole(userId, orgCustomerId, roleId).pipe(
-        map(
-          () =>
-            new OrgUnitActions.AssignRoleSuccess({
-              uid: orgCustomerId,
-              roleId,
-              selected: true,
-            })
-        ),
-        catchError((error: HttpErrorResponse) =>
-          of(
-            new OrgUnitActions.AssignRoleFail({
-              orgCustomerId,
-              error: normalizeHttpError(error),
-            })
+    switchMap(({ userId, orgCustomerId, roleId }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orgUnitConnector
+        .assignRole(userId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.AssignRoleSuccess({
+                uid: orgCustomerId,
+                roleId,
+                selected: true,
+              })
+          ),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new OrgUnitActions.AssignRoleFail({
+                orgCustomerId,
+                error: normalizeHttpError(error),
+              })
+            )
           )
-        )
-      )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -254,26 +273,30 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_ROLE),
     map((action: OrgUnitActions.UnassignRole) => action.payload),
-    switchMap(({ userId, orgCustomerId, roleId }) =>
-      this.orgUnitConnector.unassignRole(userId, orgCustomerId, roleId).pipe(
-        map(
-          () =>
-            new OrgUnitActions.UnassignRoleSuccess({
-              uid: orgCustomerId,
-              roleId,
-              selected: false,
-            })
-        ),
-        catchError((error: HttpErrorResponse) =>
-          of(
-            new OrgUnitActions.UnassignRoleFail({
-              orgCustomerId,
-              error: normalizeHttpError(error),
-            })
+    switchMap(({ userId, orgCustomerId, roleId }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orgUnitConnector
+        .unassignRole(userId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.UnassignRoleSuccess({
+                uid: orgCustomerId,
+                roleId,
+                selected: false,
+              })
+          ),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new OrgUnitActions.UnassignRoleFail({
+                orgCustomerId,
+                error: normalizeHttpError(error),
+              })
+            )
           )
-        )
-      )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -284,8 +307,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
-    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
-      this.orgUnitConnector
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
           switchMap(() => [
@@ -305,8 +330,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -317,8 +342,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
-    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
-      this.orgUnitConnector
+    mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
           switchMap(() => [
@@ -338,8 +365,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -350,8 +377,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
-    switchMap((payload) =>
-      this.orgUnitConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.orgUnitConnector
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
         .pipe(
           switchMap((data) => [
@@ -367,8 +396,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -379,8 +408,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
-    switchMap(({ userId, orgUnitId, addressId, address }) =>
-      this.orgUnitConnector
+    switchMap(({ userId, orgUnitId, addressId, address }) => {
+      if (!isValidUser(userId)) return [];
+
+      return this.orgUnitConnector
         .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
           switchMap((data) => [
@@ -396,8 +427,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
@@ -408,8 +439,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
-    switchMap((payload) =>
-      this.orgUnitConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
         .pipe(
           switchMap(() => [
@@ -425,8 +458,8 @@ export class OrgUnitEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   // @Effect()
@@ -438,6 +471,8 @@ export class OrgUnitEffects {
   //   ofType(OrgUnitActions.LOAD_ADDRESSES),
   //   map((action: OrgUnitActions.LoadAddresses) => action.payload),
   //   switchMap(({ userId, orgUnitId }) => {
+  //     if (!isValidUser(userId)) return [];
+
   //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
   //       switchMap((addresses: EntitiesModel<B2BAddress>) => {
   //         const { values, page } = normalizeListPage(addresses, 'id');
@@ -446,7 +481,7 @@ export class OrgUnitEffects {
   //           new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
   //         ];
   //       }),
-  //       catchError(error =>
+  //       catchError((error) =>
   //         of(
   //           new OrgUnitActions.LoadAddressesFail({
   //             orgUnitId,

@@ -9,6 +9,7 @@ import { BudgetActions, OrganizationActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { HttpErrorResponse } from '@angular/common/http';
+import { isValidUser } from '../../utils/check-user';
 
 @Injectable()
 export class BudgetEffects {
@@ -19,6 +20,8 @@ export class BudgetEffects {
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
     switchMap(({ userId, budgetCode }) => {
+      if (!isValidUser(userId)) return [];
+
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess([budget]);
@@ -43,8 +46,10 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    switchMap((payload) =>
-      this.budgetConnector.getList(payload.userId, payload.params).pipe(
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {
           const { values, page } = normalizeListPage(budgets, 'code');
           return [
@@ -63,8 +68,8 @@ export class BudgetEffects {
             })
           )
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -75,8 +80,10 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
-    switchMap((payload) =>
-      this.budgetConnector.create(payload.userId, payload.budget).pipe(
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.budgetConnector.create(payload.userId, payload.budget).pipe(
         switchMap((data) => [
           new BudgetActions.CreateBudgetSuccess(data),
           new OrganizationActions.OrganizationClearData(),
@@ -90,8 +97,8 @@ export class BudgetEffects {
             new OrganizationActions.OrganizationClearData(),
           ])
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -102,8 +109,10 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
-    switchMap((payload) =>
-      this.budgetConnector
+    switchMap((payload) => {
+      if (!isValidUser(payload.userId)) return [];
+
+      return this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
           switchMap((data) => [
@@ -119,8 +128,8 @@ export class BudgetEffects {
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   constructor(
