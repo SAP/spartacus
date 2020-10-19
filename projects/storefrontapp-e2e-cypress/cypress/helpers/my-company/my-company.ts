@@ -1,14 +1,12 @@
 import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testCreateUpdateFromConfig } from './my-company-form';
-// import { testAssignmentFromConfig } from './my-company-assign';
 import { nextPage } from '../product-search';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}`, () => {
     testListFromConfig(config);
     testCreateUpdateFromConfig(config);
-    // testAssignmentFromConfig(config);
   });
 }
 
@@ -36,7 +34,7 @@ export function checkRows(rows): void {
               if (Array.isArray(row.text[i])) {
                 // Used in user roles array
                 // Because we can't use translate pipe, have to check per case
-                row.text[i].forEach(text => {
+                row.text[i].forEach((text) => {
                   switch (text) {
                     case 'b2bcustomergroup':
                       return cy.get('td').eq(i).contains('Customer');
@@ -47,7 +45,7 @@ export function checkRows(rows): void {
                     case 'b2badmingroup':
                       return cy.get('td').eq(i).contains('Admin');
                   }
-                })
+                });
               } else {
                 cy.get('td').eq(i).contains(row.text[i]);
               }

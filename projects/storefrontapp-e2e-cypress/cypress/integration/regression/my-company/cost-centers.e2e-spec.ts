@@ -28,7 +28,7 @@ const config: MyCompanyConfig = {
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
-      showInDetails: true,      
+      showInDetails: true,
     },
     {
       label: 'Code',
@@ -39,7 +39,7 @@ const config: MyCompanyConfig = {
       updateValue: `edited-entity-${randomString()}`,
       formLabel: 'Code',
       showInDetails: true,
-      useInUrl: true
+      useInUrl: true,
     },
     {
       label: 'Currency',
@@ -60,38 +60,6 @@ const config: MyCompanyConfig = {
       showInTable: true,
       formLabel: 'Parent Unit',
       showInDetails: true,
-    },
-  ],
-  subCategories: [
-    {
-      name: 'Budgets',
-      baseUrl: `/budgets`,
-      apiEndpoint: '**/budgets**',
-      selector: 'budget',
-      objectType: 'budgets',
-      rows: [
-        {
-          label: 'Name',
-          variableName: 'name',
-          // link: '/organization/purchase-limit/',
-          sortByUrl: '',
-        },
-        {
-          label: 'Code',
-          variableName: 'uid',
-          sortByUrl: '',
-        },
-        {
-          label: 'Amount',
-          variableName: 'budget',
-          sortByUrl: '?sort=budget',
-        },
-        {
-          label: 'Start - End',
-          variableName: 'startDate',
-          sortByUrl: '',
-        },
-      ],
     },
   ],
 };

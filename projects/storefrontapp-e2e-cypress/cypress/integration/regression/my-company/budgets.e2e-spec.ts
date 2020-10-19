@@ -39,7 +39,7 @@ const config: MyCompanyConfig = {
       updateValue: `edited-entity-${randomString()}`,
       formLabel: 'Code',
       showInDetails: true,
-      useInUrl: true
+      useInUrl: true,
     },
     {
       label: 'Amount',
@@ -94,9 +94,6 @@ const config: MyCompanyConfig = {
       formLabel: 'Unit',
       showInDetails: true,
     },
-  ],
-  subCategories: [
-    // TODO: Cost center assignment is only one way from cost centers
   ],
 };
 
