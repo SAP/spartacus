@@ -42,6 +42,11 @@ export interface RequireLoggedInDebugOptions {
 Cypress.Commands.add(
   'requireLoggedIn',
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
+    const log = Cypress.log({
+      name: 'requireLoggedIn',
+      displayName: 'Require logged in',
+      message: [`🔒 Authenticating | ${accountData.registrationData.email}`],
+    });
     function loginAsGuest() {
       return cy.request({
         method: 'POST',
@@ -114,6 +119,7 @@ Cypress.Commands.add(
           });
       }
     });
+    log.end();
     return cy.wrap({ username });
   }
 );

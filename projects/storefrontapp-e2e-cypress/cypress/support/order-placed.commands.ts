@@ -25,6 +25,11 @@ declare global {
 Cypress.Commands.add(
   'waitForOrderToBePlacedRequest',
   (contentCatalog = 'electronics-spa', currency = 'USD', orderNumber) => {
+    Cypress.log({
+      name: 'waitForOrderToBePlacedRequest',
+      displayName: 'Place order',
+      message: [`🔒 Placing order | ${orderNumber}`],
+    });
     waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
   }
 );
