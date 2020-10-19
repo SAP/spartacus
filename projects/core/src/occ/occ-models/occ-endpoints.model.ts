@@ -647,5 +647,5 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  basesites?: string | OccEndpoint;
+  baseSites?: string | OccEndpoint;
 }

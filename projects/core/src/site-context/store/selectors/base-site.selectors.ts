@@ -16,7 +16,7 @@ export const getBaseSitesState: MemoizedSelector<
   BaseSitesState
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.basesites
+  (state: SiteContextState) => state.baseSites
 );
 
 export const getBaseSitesEntities: MemoizedSelector<

@@ -6,10 +6,10 @@ import * as fromReducers from '../reducers/index';
 import { SiteContextSelectors } from '../selectors/index';
 import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
-const basesites: BaseSite[] = [{ uid: 'powertools-spa', channel: 'B2B' }];
+const baseSites: BaseSite[] = [{ uid: 'powertools-spa', channel: 'B2B' }];
 
 const entities: { [key: string]: BaseSite } = {
-  'powertools-spa': basesites[0],
+  'powertools-spa': baseSites[0],
 };
 
 describe('BaseSite Selectors', () => {
@@ -31,7 +31,7 @@ describe('BaseSite Selectors', () => {
   });
 
   describe('getBaseSitesEntities', () => {
-    it('should return basesite entities', () => {
+    it('should return baseSite entities', () => {
       let result: any;
 
       store
@@ -40,13 +40,13 @@ describe('BaseSite Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(basesites));
+      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
       expect(result).toEqual(entities);
     });
   });
 
   describe('getActiveBaseSite', () => {
-    it('should return the active basesite', () => {
+    it('should return the active baseSite', () => {
       let result: string;
 
       store
@@ -63,7 +63,7 @@ describe('BaseSite Selectors', () => {
   });
 
   describe('getAllBaseSites', () => {
-    it('should return all basesites', () => {
+    it('should return all baseSites', () => {
       let result: BaseSite[];
 
       store
@@ -72,13 +72,13 @@ describe('BaseSite Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(basesites));
-      expect(result).toEqual(basesites);
+      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
+      expect(result).toEqual(baseSites);
     });
   });
 
   describe('getActiveBaseSiteData', () => {
-    it('should return the active basesite data', () => {
+    it('should return the active baseSite data', () => {
       let result: BaseSite;
 
       store
@@ -87,11 +87,11 @@ describe('BaseSite Selectors', () => {
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(basesites));
+      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
       store.dispatch(
         new SiteContextActions.SetActiveBaseSite('powertools-spa')
       );
-      expect(result).toEqual(basesites[0]);
+      expect(result).toEqual(baseSites[0]);
     });
   });
 });

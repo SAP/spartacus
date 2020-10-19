@@ -9,7 +9,7 @@ export function getReducers(): ActionReducerMap<SiteContextState> {
   return {
     languages: fromLanguages.reducer,
     currencies: fromCurrencies.reducer,
-    basesites: fromBaseSite.reducer,
+    baseSites: fromBaseSite.reducer,
   };
 }
 
