@@ -1,3 +1,9 @@
+@mixin is-current-active-selection {
+  outline: solid 3px var(--cx-color-primary);
+  outline-offset: -3px;
+  background: var(--cx-color-background-focus);
+}
+
 %ghost {
   &.ghost {
     .header {
@@ -290,6 +296,11 @@
               &:last-child {
                 padding-inline-end: 30px;
                 padding-inline-start: 5px;
+              }
+            }
+            a {
+              &.is-current {
+                @include is-current-active-selection;
               }
             }
           }
