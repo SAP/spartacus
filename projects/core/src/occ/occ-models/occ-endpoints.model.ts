@@ -643,7 +643,7 @@ export interface OccEndpoints {
    */
   orderApprovalDecision?: string | OccEndpoint;
   /**
-   * Endpoint for gettting base sites
+   * Endpoint for getting all base sites
    *
    * @member {string}
    */
