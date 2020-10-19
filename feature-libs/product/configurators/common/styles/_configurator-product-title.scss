@@ -1,87 +1,98 @@
 %cx-configurator-product-title {
-  background-color: var(--cx-color-background);
-  margin-block-end: 15px;
+  display: none;
 
-  .cx-configurator-container {
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--cx-color-background);
+    margin-block-end: 15px;
     padding: 15px 0;
-    margin: 0 auto;
-    border-width: 1px;
 
-    .cx-configurator-product-title {
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .cx-configurator-product-title-details {
-      inline-size: 100%;
-      max-block-size: 0;
-      overflow: hidden;
+    .cx-general-product-info {
       display: flex;
-      font-size: var(--cx-font-small, 0.8rem);
+      flex-direction: column;
 
-      transition: all 0.7s ease-in-out;
-      -webkit-transition: all 0.7s ease-in-out;
-
-      &.open {
-        /*
-          A larger value than the details need, this will be used to animate the closing/opening.
-          If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
-        */
-        max-border-left: 400px;
+      @include media-breakpoint-up(lg) {
+        width: 1140px;
       }
 
-      .cx-configurator-product-title-details-image {
-        margin-block-start: 15px;
-        max-inline-size: 100px;
+      @include media-breakpoint-down(lg) {
+        width: 100%;
       }
 
-      .cx-configurator-product-title-details-content {
-        margin: 15px 0 0 15px;
-        max-inline-size: 600px;
+      .cx-title {
+        font-weight: bold;
+        align-self: center;
+      }
 
-        .cx-configurator-product-detail-title,
-        .cx-configurator-product-price {
-          font-weight: bold;
+      a {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-self: flex-end;
+        cursor: pointer;
+        margin-block-start: -25px;
+        margin-inline-end: 5px;
+        font-weight: normal;
+        color: var(--cx-color-text);
+
+        &:hover {
+          text-decoration: none;
         }
 
-        .cx-configurator-product-code {
-          color: var(--cx-color-secondary);
+        cx-icon {
+          margin-inline-start: 5px;
         }
-      }
-    }
 
-    .cx-configurator-product-title {
-      padding: 0 120px 0 120px;
-      @include media-breakpoint-down(xs) {
-        padding: 0 20px 0 20px;
-      }
-    }
-
-    a.cx-configurator-toogle-details-link {
-      float: right;
-      cursor: pointer;
-      display: inline-flex;
-      color: var(--cx-color-text);
-      font-weight: normal;
-      margin-block-start: -25px;
-      margin-inline-end: 5px;
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      cx-icon {
-        margin-inline-start: 5px;
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-block-start: -20px;
-      }
-
-      .cx-configurator-toogle-details-link-text {
-        text-decoration: underline;
         @include media-breakpoint-down(xs) {
-          display: none;
+          margin-block-start: -20px;
+        }
+
+        .cx-toggle-details-link-text {
+          text-decoration: underline;
+          @include media-breakpoint-down(xs) {
+            display: none;
+          }
+        }
+      }
+
+      .cx-details {
+        inline-size: 100%;
+        max-block-size: 0;
+        overflow: hidden;
+        display: flex;
+        font-size: var(--cx-font-small, 0.8rem);
+
+        transition: all 0.7s ease-in-out;
+        -webkit-transition: all 0.7s ease-in-out;
+
+        &.open {
+          /*
+            A larger value than the details need, this will be used to animate the closing/opening.
+            If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
+          */
+          max-block-size: 400px;
+        }
+
+        .cx-details-image {
+          margin-block-start: 15px;
+          max-inline-size: 100px;
+        }
+
+        .cx-details-content {
+          display: flex;
+          flex-direction: column;
+          margin: 15px 0 0 15px;
+
+          .cx-detail-title,
+          .cx-price {
+            font-weight: bold;
+          }
+
+          .cx-code {
+            color: var(--cx-color-secondary);
+          }
         }
       }
     }

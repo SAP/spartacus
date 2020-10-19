@@ -1,5 +1,8 @@
 %cx-configurator-textfield-form {
-  .cx-configurator-textfield-attribute {
+  display: flex;
+  flex-direction: column;
+
+  .cx-attribute {
     padding: 6px 40px;
     background-color: var(--cx-color-background);
   }

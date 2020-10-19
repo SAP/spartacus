@@ -85,7 +85,7 @@ export function checkNotificationBannerOnOP(
   const resolveIssuesText =
     ' must be resolved before checkout.  Resolve Issues';
   element
-    .get('.cx-error-msg-container')
+    .get('.cx-error-msg')
     .first()
     .invoke('text')
     .then((text) => {
@@ -102,14 +102,14 @@ export function checkNotificationBannerOnOP(
  * Verifies whether the issues banner is displayed and the number of issues are accurate.
  *
  * @param {number} numberOfIssues - Expected number of issues
- * @return - HTML element of 'cx-error-container' component, if it is visible.
+ * @return - HTML element of 'cx-configurator-overview-notification-banner' component, if it is visible.
  * Otherwise verifies if this element is not visible.
  */
 export function verifyNotificationBannerOnOP(numberOfIssues?: number) {
-  const element = cy.get('.cx-error-container');
+  const element = cy.get('cx-configurator-overview-notification-banner');
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
-    element.should('not.be.visible');
+    element.get('.cx-error-msg').should('not.be.visible');
   }
 }

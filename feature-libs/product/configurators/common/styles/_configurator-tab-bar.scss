@@ -1,14 +1,22 @@
 %cx-configurator-tab-bar {
+  max-width: 1140px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   padding-inline-start: 0px;
-  margin-block-end: 2rem;
+  list-style: none;
   border-width: 0 0 1px 0;
   border-style: solid;
   border-color: var(--cx-color-light);
-  list-style: none;
+
+  @include media-breakpoint-down(lg) {
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-block-end: 2rem;
+  }
 
   a {
     color: black;
@@ -18,6 +26,10 @@
 
     @include media-breakpoint-up(md) {
       flex-basis: 200px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      inline-size: 50%;
     }
 
     @include media-breakpoint-down(sm) {

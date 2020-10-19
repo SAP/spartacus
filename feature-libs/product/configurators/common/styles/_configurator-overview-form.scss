@@ -1,15 +1,34 @@
 %cx-configurator-overview-form {
-  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 1140px;
+  padding: 5px 25px 5px 20px;
 
-  .cx-configurator-overview-group {
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+  }
+
+  .cx-group {
     padding: 25px 0;
+    margin-inline-start: -20px;
+    margin-inline-end: -25px;
 
-    .cx-configurator-overview-group-name {
-      margin-inline-start: -25px;
-      margin-inline-end: -25px;
-      padding: 15px 25px;
-      background-color: var(--cx-color-background);
+    h2 {
+      padding: 15px 30px;
       border: solid 1px var(--cx-color-light);
     }
+
+    .cx-attribute-value-pair {
+      padding-inline-start: 30px;
+      padding-inline-end: 30px;
+    }
+  }
+
+  .cx-no-attribute-value-pairs {
+    padding-block-start: 25px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
   }
 }

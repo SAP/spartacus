@@ -121,7 +121,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-container'
+      'cx-icon'
+    );
+    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
     );
   });
 
@@ -131,7 +136,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-error-container'
+      'cx-icon'
+    );
+    ConfiguratorComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
     );
   });
 
@@ -141,7 +151,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     ConfiguratorComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-container'
+      'cx-icon'
+    );
+    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
     );
   });
 });
