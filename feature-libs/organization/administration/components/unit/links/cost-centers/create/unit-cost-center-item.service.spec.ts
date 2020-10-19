@@ -6,10 +6,10 @@ import {
   CostCenterService,
   LoadStatus,
   OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
-import { CostCenterFormService } from 'feature-libs/my-account/organization/components/cost-center/form/cost-center-form.service';
-import { CurrentCostCenterService } from 'feature-libs/my-account/organization/components/cost-center/services/current-cost-center.service';
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
+import { CostCenterFormService } from '../../../../cost-center/form/cost-center-form.service';
+import { CurrentCostCenterService } from '../../../../cost-center/services/current-cost-center.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
 
 class MockRoutingService {

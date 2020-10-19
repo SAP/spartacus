@@ -6,7 +6,7 @@ import {
   Budget,
   LoadStatus,
   OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitUserItemService } from './unit-user-item.service';
