@@ -30,7 +30,6 @@ export class OccProductSearchPageNormalizer
       ...(source as any),
     };
 
-    console.log('called');
     this.normalizeFacets(target);
     if (source.products) {
       target.products = source.products.map((product) =>
@@ -42,7 +41,7 @@ export class OccProductSearchPageNormalizer
 
   private normalizeFacets(target: ProductSearchPage): void {
     this.normalizeFacetValues(target);
-    this.normalizeUselessFacets({} as ProductSearchPage);
+    this.normalizeUselessFacets(target);
   }
 
   /**
