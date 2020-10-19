@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { AuthStorageService } from '../auth/user-auth/facade/auth-storage.service';
 import { AuthHeaderService } from '../auth/user-auth/services/auth-header.service';
@@ -20,7 +19,7 @@ export function asmStatePersistenceFactory(
 }
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, AsmStoreModule],
+  imports: [CommonModule, AsmStoreModule],
 })
 export class AsmModule {
   static forRoot(): ModuleWithProviders<AsmModule> {

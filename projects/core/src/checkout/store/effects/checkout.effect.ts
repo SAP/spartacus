@@ -417,9 +417,8 @@ export class CheckoutEffects {
   setCostCenter$: Observable<
     | CheckoutActions.SetCostCenterSuccess
     | CheckoutActions.SetCostCenterFail
-    | CheckoutActions.ClearCheckoutDeliveryMode
     | CheckoutActions.ClearCheckoutDeliveryAddress
-    | CartActions.LoadCartSuccess
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_COST_CENTER),
     map((action: CheckoutActions.SetCostCenter) => action.payload),
@@ -427,18 +426,12 @@ export class CheckoutEffects {
       return this.checkoutCostCenterConnector
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(
-          mergeMap((data) => [
-            // TODO(#8877): We should trigger load cart not already assign the data. We might have misconfiguration between this cart model and load cart model
-            new CartActions.LoadCartSuccess({
-              cart: data,
+          mergeMap((_data) => [
+            new CartActions.LoadCart({
               cartId: payload.cartId,
               userId: payload.userId,
             }),
             new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
-            new CheckoutActions.ClearCheckoutDeliveryMode({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            }),
             new CheckoutActions.ClearCheckoutDeliveryAddress({
               userId: payload.userId,
               cartId: payload.cartId,

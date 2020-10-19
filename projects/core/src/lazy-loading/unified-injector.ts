@@ -23,9 +23,8 @@ export class UnifiedInjector {
   /**
    * Gather all the injectors, with the root injector as a first one
    *
-   * @private
    */
-  private injectors$: Observable<Injector> = this.lazyModules.modules$.pipe(
+  readonly injectors$: Observable<Injector> = this.lazyModules.modules$.pipe(
     map((moduleRef) => moduleRef.injector),
     startWith(this.rootInjector)
   );
