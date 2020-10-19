@@ -9,6 +9,8 @@ import {
   mergeMap,
   groupBy,
   withLatestFrom,
+  tap,
+  take,
 } from 'rxjs/operators';
 import {
   B2BUser,
@@ -72,16 +74,27 @@ export class B2BUserEffects {
         .create(payload.userId, payload.orgCustomer)
         .pipe(
           switchMap((data) => {
-            this.routingService.go({
-              cxRoute: 'userDetails',
-              params: { customerId: data.customerId },
-            });
-            return [
-              new B2BUserActions.CreateB2BUserSuccess(data),
-              new OrganizationActions.OrganizationClearData(),
-            ];
+            // TODO Workaround for not known customerId while user creation (redireciton)
+            return this.routingService.getRouterState().pipe(
+              take(1),
+              tap((route) => {
+                if (
+                  (route as any)?.state?.context?.id !== '/organization/units'
+                ) {
+                  this.routingService.go({
+                    cxRoute: 'userDetails',
+                    params: data,
+                  });
+                }
+              }),
+              switchMap(() => {
+                return [
+                  new B2BUserActions.CreateB2BUserSuccess(data),
+                  new OrganizationActions.OrganizationClearData(),
+                ];
+              })
+            );
           }),
-
           catchError((error: HttpErrorResponse) =>
             from([
               new B2BUserActions.CreateB2BUserFail({
