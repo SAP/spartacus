@@ -4,6 +4,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { AuthActions } from '../../auth/user-auth/store/actions';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -37,9 +38,7 @@ export class CsAgentAuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(): void;
-  authorizeCustomerSupportAgent(userId: string, password: string): void;
-  authorizeCustomerSupportAgent(userId?: string, password?: string): void {
+  authorizeCustomerSupportAgent(userId: string, password: string): void {
     let userToken;
     this.authStorageService
       .getToken()
@@ -47,32 +46,31 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     this.authStorageService.switchTokenTargetToCSAgent();
-    if (userId && password) {
-      this.cxOAuthService
-        .authorizeWithPasswordFlow(userId, password)
-        .then(() => {
-          // Start emulation for currently logged in user
-          let customerId: string;
-          this.userService
-            .get()
-            .subscribe((user) => (customerId = user?.customerId))
-            .unsubscribe();
-          if (Boolean(customerId)) {
-            // OCC specific user id handling. Customize when implementing different backend
-            this.userIdService.setUserId(customerId);
-            this.authStorageService.setEmulatedUserToken(userToken);
-          } else {
-            // When we can't get the customerId just end all current sessions
-            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-            this.authStorageService.clearEmulatedUserToken();
-          }
-        })
-        .catch(() => {
-          this.authStorageService.switchTokenTargetToUser();
-        });
-    } else {
-      this.authService.loginWithImplicitFlow();
-    }
+    this.cxOAuthService
+      .authorizeWithPasswordFlow(userId, password)
+      .then(() => {
+        // Start emulation for currently logged in user
+        let customerId: string;
+        this.userService
+          .get()
+          .subscribe((user) => (customerId = user?.customerId))
+          .unsubscribe();
+        this.store.dispatch(new AuthActions.Logout());
+
+        if (Boolean(customerId)) {
+          // OCC specific user id handling. Customize when implementing different backend
+          this.userIdService.setUserId(customerId);
+          this.authStorageService.setEmulatedUserToken(userToken);
+          this.store.dispatch(new AuthActions.Login());
+        } else {
+          // When we can't get the customerId just end all current sessions
+          this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+          this.authStorageService.clearEmulatedUserToken();
+        }
+      })
+      .catch(() => {
+        this.authStorageService.switchTokenTargetToUser();
+      });
   }
 
   /**
@@ -84,7 +82,9 @@ export class CsAgentAuthService {
     this.authStorageService.clearEmulatedUserToken();
 
     // OCC specific user id handling. Customize when implementing different backend
+    this.store.dispatch(new AuthActions.Logout());
     this.userIdService.setUserId(customerId);
+    this.store.dispatch(new AuthActions.Login());
   }
 
   public isCustomerSupportAgentLoggedIn(): Observable<boolean> {
@@ -128,11 +128,13 @@ export class CsAgentAuthService {
       this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
       this.authStorageService.setTokenTarget(TokenTarget.User);
       if (isCustomerEmulated && emulatedToken) {
+        this.store.dispatch(new AuthActions.Logout());
         this.authStorageService.setToken(emulatedToken);
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.authStorageService.clearEmulatedUserToken();
+        this.store.dispatch(new AuthActions.Login());
       } else {
-        this.routingService.go({ cxRoute: 'logout' });
+        this.authService.initLogout();
       }
     });
   }

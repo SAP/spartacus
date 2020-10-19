@@ -5,13 +5,11 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import { UserSignUp } from '../../../model/misc.model';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
-import createSpy = jasmine.createSpy;
 
 const user: UserSignUp = {
   firstName: '',
@@ -23,10 +21,7 @@ const user: UserSignUp = {
 
 class MockAuthService {
   authorize() {}
-}
-
-class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy('go');
+  initLogout() {}
 }
 
 describe('UserRegister effect', () => {
@@ -34,7 +29,6 @@ describe('UserRegister effect', () => {
   let actions$: Observable<Action>;
   let userConnector: UserConnector;
   let authService: AuthService;
-  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,10 +42,6 @@ describe('UserRegister effect', () => {
         UserRegisterEffects,
         { provide: UserAdapter, useValue: {} },
         { provide: AuthService, useClass: MockAuthService },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         provideMockActions(() => actions$),
       ],
     });
@@ -59,7 +49,6 @@ describe('UserRegister effect', () => {
     effect = TestBed.inject(UserRegisterEffects);
     userConnector = TestBed.inject(UserConnector);
     authService = TestBed.inject(AuthService);
-    routingService = TestBed.inject(RoutingService);
 
     spyOn(userConnector, 'register').and.returnValue(of({}));
     spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
@@ -101,6 +90,8 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
+      spyOn(authService, 'initLogout');
+
       const action = new UserActions.RemoveUser('testUserId');
       const completion = new UserActions.RemoveUserSuccess();
 
@@ -110,7 +101,7 @@ describe('UserRegister effect', () => {
       });
 
       expect(effect.removeUser$).toBeObservable(expected);
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+      expect(authService.initLogout).toHaveBeenCalled();
     });
   });
 });

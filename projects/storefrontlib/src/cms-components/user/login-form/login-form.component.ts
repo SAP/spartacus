@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -22,7 +21,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected authRedirectService: AuthRedirectService,
     protected winRef: WindowRef
   ) {}
 
