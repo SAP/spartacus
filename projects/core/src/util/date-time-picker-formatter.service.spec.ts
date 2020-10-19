@@ -14,16 +14,6 @@ describe('DateTimePickerFormatter Service', () => {
     Date.prototype.getTimezoneOffset = original;
   }
 
-  function fakeLocalTime(): any {
-    const currentLocalTime = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    return currentLocalTime;
-  }
-
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -130,24 +120,6 @@ describe('DateTimePickerFormatter Service', () => {
           );
           expect(service.toModel('2010-01-01T23:59')).toEqual(
             '2010-01-01T23:59:00+03:00'
-          );
-        });
-      });
-    });
-  });
-
-  describe('toModelWithTime', () => {
-    it('should return null if value is empty', () => {
-      expect(service.toModelWithTime(undefined)).toEqual(null);
-      expect(service.toModelWithTime(null)).toEqual(null);
-      expect(service.toModelWithTime('')).toEqual(null);
-    });
-
-    describe('should convert value to format supported by occ', () => {
-      it('should return utc-0 offset string', () => {
-        fakeDateTimezoneOffset(0, () => {
-          expect(service.toModelWithTime('2010-01-01')).toEqual(
-            '2010-01-01T' + fakeLocalTime() + '+00:00'
           );
         });
       });
