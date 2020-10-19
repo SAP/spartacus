@@ -1,18 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  AsmAuthService,
-  AuthService,
-  CsAgentAuthService,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { AuthService, CsAgentAuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService {
-  logout(): void {}
+  initLogout(): void {}
 }
 
 class MockAsmAuthService {
@@ -20,10 +14,6 @@ class MockAsmAuthService {
   isCustomerEmulated(): Observable<boolean> {
     return of(false);
   }
-}
-
-class MockRoutingService {
-  go() {}
 }
 
 const store = {};
@@ -44,9 +34,8 @@ const MockWindowRef = {
 };
 
 describe('AsmComponentService', () => {
-  let authService: AsmAuthService;
+  let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
-  let routingService: RoutingService;
   let windowRef: WindowRef;
   let asmComponentService: AsmComponentService;
 
@@ -54,17 +43,14 @@ describe('AsmComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AsmAuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockAsmAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
 
     asmComponentService = TestBed.inject(AsmComponentService);
-    authService = TestBed.inject(AsmAuthService);
+    authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
-    routingService = TestBed.inject(RoutingService);
     windowRef = TestBed.inject(WindowRef);
   });
 
@@ -84,11 +70,9 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomer()', () => {
     it('should logout customer and redirect to home.', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(routingService, 'go').and.stub();
+      spyOn(authService, 'initLogout').and.stub();
       asmComponentService.logoutCustomer();
-      expect(authService.logout).toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      expect(authService.initLogout).toHaveBeenCalled();
     });
   });
 

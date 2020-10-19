@@ -7,9 +7,7 @@ import { BasicAuthService } from '../services/basic-auth.service';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(protected basicAuthService: BasicAuthService) {
-    this.initImplicit();
-  }
+  constructor(protected basicAuthService: BasicAuthService) {}
 
   initImplicit() {
     this.basicAuthService.initImplicit();
@@ -47,5 +45,12 @@ export class AuthService {
    */
   public isUserLoggedIn(): Observable<boolean> {
     return this.basicAuthService.isUserLoggedIn();
+  }
+
+  /**
+   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   */
+  public initLogout(): void {
+    this.basicAuthService.initLogout();
   }
 }

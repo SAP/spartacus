@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { CxOAuthService } from '../facade/cx-oauth-service';
@@ -20,23 +21,22 @@ export class BasicAuthService {
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
+    protected routingService: RoutingService
   ) {}
 
   initImplicit() {
-    setTimeout(() => {
-      const token = this.authStorageService.getItem('access_token');
-      this.cxOAuthService.tryLogin().then((result) => {
-        // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
-        if (result && token) {
-          this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-          this.store.dispatch(new AuthActions.Login());
-          // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
-          setTimeout(() => {
-            this.authRedirectService.redirect();
-          }, 10);
-        }
-      });
+    const token = this.authStorageService.getItem('access_token');
+    this.cxOAuthService.tryLogin().then((result) => {
+      // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
+      if (result && token) {
+        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+        this.store.dispatch(new AuthActions.Login());
+        // TODO: Can we do it better? With the first redirect like with context? Why it only works if it is with this big timeout
+        setTimeout(() => {
+          this.authRedirectService.redirect();
+        }, 10);
+      }
     });
   }
 
@@ -93,5 +93,12 @@ export class BasicAuthService {
       map((userToken) => Boolean(userToken?.access_token)),
       distinctUntilChanged()
     );
+  }
+
+  /**
+   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   */
+  public initLogout(): void {
+    this.routingService.go({ cxRoute: 'logout ' });
   }
 }
