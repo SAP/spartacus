@@ -648,4 +648,9 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
+  /** Endpoint to returns active cost centers
+   *
+   * @member {string}
+   */
+  getActiveCostCenters?: string | OccEndpoint;
 }

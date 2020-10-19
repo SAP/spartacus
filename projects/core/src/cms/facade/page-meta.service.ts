@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -17,24 +17,18 @@ import { UnifiedInjector } from '../../lazy-loading/unified-injector';
   providedIn: 'root',
 })
 export class PageMetaService {
-  private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
-    ? (this.unifiedInjector
-        .getMulti(PageMetaResolver)
-        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
-        PageMetaResolver[]
-      >)
-    : of(this.resolvers);
+  private resolvers$: Observable<
+    PageMetaResolver[]
+  > = this.unifiedInjector
+    .getMulti(PageMetaResolver)
+    .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+    PageMetaResolver[]
+  >;
 
   constructor(
-    @Optional()
-    @Inject(PageMetaResolver)
-    protected resolvers: PageMetaResolver[],
     protected cms: CmsService,
-    @Optional()
     protected unifiedInjector?: UnifiedInjector
-  ) {
-    this.resolvers = this.resolvers || [];
-  }
+  ) {}
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *

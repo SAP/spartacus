@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
@@ -35,7 +34,7 @@ import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order
 import { OccUserAdapter } from './occ-user.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccUserConfig),
     { provide: UserAdapter, useClass: OccUserAdapter },
