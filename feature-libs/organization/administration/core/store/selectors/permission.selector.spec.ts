@@ -12,7 +12,7 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { PermissionSelectors } from '../selectors/index';
+import { PermissionSelectors } from './index';
 
 describe('Permission Selectors', () => {
   let store: Store<StateWithOrganization>;

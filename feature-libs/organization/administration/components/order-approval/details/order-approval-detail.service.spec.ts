@@ -3,7 +3,7 @@ import { Order, RoutingService } from '@spartacus/core';
 import {
   OrderApproval,
   OrderApprovalService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
 

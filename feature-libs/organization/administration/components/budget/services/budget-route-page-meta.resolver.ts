@@ -3,7 +3,7 @@ import {
   DefaultRoutePageMetaResolver,
   TranslationService,
 } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { CurrentBudgetService } from './current-budget.service';
 

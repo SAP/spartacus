@@ -3,7 +3,7 @@ import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserFormService } from '../form/user-form.service';

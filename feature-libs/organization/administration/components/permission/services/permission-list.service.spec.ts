@@ -4,7 +4,7 @@ import { EntitiesModel } from '@spartacus/core';
 import {
   Permission,
   PermissionService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import {

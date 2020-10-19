@@ -2,14 +2,17 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Budget, LoadStatus } from '@spartacus/my-account/organization/core';
+import { ConfirmationMessageComponent } from '@spartacus/organization/administration/components';
+import {
+  Budget,
+  LoadStatus,
+} from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
 import { MessageService } from '../../organization-message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
-import { ConfirmationMessageComponent } from '@spartacus/my-account/organization/components';
 import createSpy = jasmine.createSpy;
 
 class MockMessageService {

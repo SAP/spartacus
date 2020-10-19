@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Permission } from '@spartacus/my-account/organization/core';
+import { Permission } from '@spartacus/organization/administration/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({

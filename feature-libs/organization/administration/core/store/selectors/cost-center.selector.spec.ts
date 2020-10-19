@@ -8,7 +8,7 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { CostCenterSelectors } from '../selectors/index';
+import { CostCenterSelectors } from './index';
 
 describe('CostCenter Selectors', () => {
   let store: Store<StateWithOrganization>;

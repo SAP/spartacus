@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
-import { UserGroupService } from '@spartacus/my-account/organization/core';
+import { UserGroupService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';

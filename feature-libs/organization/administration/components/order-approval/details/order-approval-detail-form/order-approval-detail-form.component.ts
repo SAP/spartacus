@@ -4,7 +4,7 @@ import {
   OrderApproval,
   OrderApprovalDecisionValue,
   OrderApprovalService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';

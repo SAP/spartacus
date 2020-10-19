@@ -21,7 +21,7 @@ import {
   B2BUNIT_NORMALIZER,
   B2B_USERS_NORMALIZER,
   OrgUnitAdapter,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

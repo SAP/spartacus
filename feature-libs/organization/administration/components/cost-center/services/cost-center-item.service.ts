@@ -3,7 +3,7 @@ import { CostCenter, RoutingService } from '@spartacus/core';
 import {
   CostCenterService,
   OrganizationItemStatus,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';

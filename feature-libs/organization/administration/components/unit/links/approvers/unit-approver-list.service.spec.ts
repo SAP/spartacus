@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, B2BUserGroup, EntitiesModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';

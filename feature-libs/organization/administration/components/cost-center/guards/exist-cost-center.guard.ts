@@ -6,7 +6,7 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { CostCenterService } from '@spartacus/my-account/organization/core';
+import { CostCenterService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../constants';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 import { OrganizationItemService } from './organization-item.service';
-import {
-  OrganizationItemStatus,
-  LoadStatus,
-} from '@spartacus/my-account/organization/core';
 
 class MockRoutingService {
   go() {}

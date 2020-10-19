@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   PermissionService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { CurrentUserService } from './current-user.service';
 

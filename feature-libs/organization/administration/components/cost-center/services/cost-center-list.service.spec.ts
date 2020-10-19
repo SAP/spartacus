@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
-import { CostCenterService } from '@spartacus/my-account/organization/core';
+import { CostCenterService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import {

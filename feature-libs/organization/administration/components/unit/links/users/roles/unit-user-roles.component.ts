@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserGroup } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/my-account/organization/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';

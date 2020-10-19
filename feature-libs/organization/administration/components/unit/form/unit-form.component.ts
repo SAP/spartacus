@@ -8,7 +8,7 @@ import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';

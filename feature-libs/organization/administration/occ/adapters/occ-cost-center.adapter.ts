@@ -15,7 +15,7 @@ import {
   Budget,
   BUDGETS_NORMALIZER,
   CostCenterAdapter,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

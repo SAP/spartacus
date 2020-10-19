@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Permission } from '@spartacus/my-account/organization/core';
+import { Permission } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';

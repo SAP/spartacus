@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
-import { BudgetService } from '@spartacus/my-account/organization/core';
+import { BudgetService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';

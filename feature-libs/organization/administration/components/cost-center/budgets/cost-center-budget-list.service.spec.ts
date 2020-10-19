@@ -5,7 +5,7 @@ import { EntitiesModel } from '@spartacus/core';
 import {
   Budget,
   CostCenterService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';

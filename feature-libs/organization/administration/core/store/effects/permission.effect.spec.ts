@@ -7,7 +7,7 @@ import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
 import {
   OrganizationActions,
   PermissionConnector,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';

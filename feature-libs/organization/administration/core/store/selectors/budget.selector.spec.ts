@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { BudgetActions } from '../actions/index';
 import {
   BudgetManagement,
@@ -9,7 +9,7 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { BudgetSelectors } from '../selectors/index';
+import { BudgetSelectors } from './index';
 
 describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;

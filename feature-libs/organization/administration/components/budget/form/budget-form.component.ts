@@ -5,7 +5,7 @@ import {
   B2BUnitNode,
   Budget,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { BudgetItemService } from '../services/budget-item.service';

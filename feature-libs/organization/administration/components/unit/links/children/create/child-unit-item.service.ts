@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUnit, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentChildUnitService } from './current-child-unit.service';

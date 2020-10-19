@@ -9,7 +9,7 @@ import {
 import {
   Permission,
   PermissionService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ActivePermissionGuard } from './active-permission.guard';
 import createSpy = jasmine.createSpy;

@@ -7,7 +7,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
 import createSpy = jasmine.createSpy;

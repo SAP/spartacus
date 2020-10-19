@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { PermissionService } from '@spartacus/my-account/organization/core';
+import { PermissionService } from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { CurrentPermissionService } from '..';
 

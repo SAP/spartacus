@@ -7,7 +7,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 
 import createSpy = jasmine.createSpy;

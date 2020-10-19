@@ -8,7 +8,7 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { B2BUserSelectors } from '../selectors/index';
+import { B2BUserSelectors } from './index';
 
 describe('B2BUser Selectors', () => {
   let store: Store<StateWithOrganization>;

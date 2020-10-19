@@ -3,7 +3,7 @@ import { Address, RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';

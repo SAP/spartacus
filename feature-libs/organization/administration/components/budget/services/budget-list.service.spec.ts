@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Currency, EntitiesModel } from '@spartacus/core';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  BudgetService,
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BudgetListService } from './budget-list.service';

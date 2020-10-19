@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { UserGroup } from '@spartacus/my-account/organization/core';
+import { UserGroup } from '@spartacus/organization/administration/core';
 import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -9,7 +9,7 @@ import {
   UserGroupManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { UserGroupSelectors } from '../selectors/index';
+import { UserGroupSelectors } from './index';
 
 describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;

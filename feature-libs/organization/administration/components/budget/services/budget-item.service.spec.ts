@@ -4,9 +4,9 @@ import { RoutingService } from '@spartacus/core';
 import {
   Budget,
   BudgetService,
-  OrganizationItemStatus,
   LoadStatus,
-} from '@spartacus/my-account/organization/core';
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';

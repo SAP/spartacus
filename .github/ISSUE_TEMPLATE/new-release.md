@@ -70,7 +70,7 @@ assignees: ''
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
-    - [ ] `npm run release:my-account:with-changelog` (needed since `3.0.0-next.1`)
+    - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
       - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.201.0-next.0 version)
 - [ ] Check that the release notes are populated on github (if they are not, update them)

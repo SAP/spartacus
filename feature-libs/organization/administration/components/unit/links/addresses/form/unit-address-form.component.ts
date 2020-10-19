@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Address, Country, Region, Title } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../../..//shared/organization-item.service';
+import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 import { UnitAddressFormService } from './unit-address-form.service';
 

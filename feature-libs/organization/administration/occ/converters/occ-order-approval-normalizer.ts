@@ -5,7 +5,7 @@ import {
   Occ,
   ORDER_NORMALIZER,
 } from '@spartacus/core';
-import { OrderApproval } from '@spartacus/my-account/organization/core';
+import { OrderApproval } from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccOrderApprovalNormalizer

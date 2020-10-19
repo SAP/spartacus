@@ -9,7 +9,7 @@ import {
 import {
   UserGroup,
   UserGroupService,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ExistUserGroupGuard } from './exist-user-group.guard';
 import createSpy = jasmine.createSpy;

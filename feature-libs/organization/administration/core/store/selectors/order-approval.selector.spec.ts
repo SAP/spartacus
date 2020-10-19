@@ -9,7 +9,7 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { OrderApprovalSelectors } from '../selectors/index';
+import { OrderApprovalSelectors } from './index';
 
 describe('OrderApproval Selectors', () => {
   let store: Store<StateWithOrganization>;

@@ -16,7 +16,7 @@ import {
   UserGroupAdapter,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

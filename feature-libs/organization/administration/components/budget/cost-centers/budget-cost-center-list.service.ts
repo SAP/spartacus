@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CostCenter, EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Budget, BudgetService } from '@spartacus/my-account/organization/core';
+import {
+  Budget,
+  BudgetService,
+} from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

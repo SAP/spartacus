@@ -1,7 +1,7 @@
+import { StateUtils } from '@spartacus/core';
+import { Budget } from '@spartacus/organization/administration/core';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { BudgetActions } from './index';
-import { StateUtils } from '@spartacus/core';
-import { Budget } from '@spartacus/my-account/organization/core';
 
 const budgetCode = 'testBudgetId';
 const budget: Budget = {

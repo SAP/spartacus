@@ -5,7 +5,7 @@ import {
   EntitiesModel,
   PaginationModel,
 } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/my-account/organization/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../../shared/organization-sub-list/organization-sub-list.service';

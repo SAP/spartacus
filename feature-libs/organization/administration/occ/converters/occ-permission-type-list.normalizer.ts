@@ -3,7 +3,7 @@ import { Converter, ConverterService, Occ } from '@spartacus/core';
 import {
   OrderApprovalPermissionType,
   PERMISSION_TYPE_NORMALIZER,
-} from '@spartacus/my-account/organization/core';
+} from '@spartacus/organization/administration/core';
 
 @Injectable()
 export class OccPermissionTypeListNormalizer

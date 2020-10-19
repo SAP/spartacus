@@ -4,12 +4,13 @@ import {
   ParamsMapping,
   RoutingConfig,
 } from '@spartacus/core';
-import { AdminGuard } from '@spartacus/my-account/organization/core';
-import { TableConfig, BREAKPOINT, TableLayout } from '@spartacus/storefront';
+import { AdminGuard } from '@spartacus/organization/administration/core';
+import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { OrganizationListService } from '../shared/organization-list/organization-list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
@@ -33,12 +34,11 @@ import {
 import { UnitUserRolesCellComponent } from './links/users/list/unit-user-link-cell.component';
 import { UnitUserListComponent } from './links/users/list/unit-user-list.component';
 import { UnitUserRolesFormComponent } from './links/users/roles/unit-user-roles.component';
-import { UnitListComponent } from './list/unit-list.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { ToggleLinkCellComponent } from './list/toggle-link/toggle-link-cell.component';
-import { UnitListService } from './services/unit-list.service';
-import { UnitItemService } from './services/unit-item.service';
+import { UnitListComponent } from './list/unit-list.component';
 import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-page-meta.resolver';
+import { UnitItemService } from './services/unit-item.service';
+import { UnitListService } from './services/unit-list.service';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;

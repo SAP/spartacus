@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { UserGroupService } from 'feature-libs/my-account/organization/core/services/user-group.service';
+import { UserGroupService } from 'feature-libs/organization/administration/core/services/user-group.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { OrganizationSubListTestingModule } from '../../shared/organization-sub-list/organization-sub-list.testing.module';
