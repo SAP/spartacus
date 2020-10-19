@@ -30,6 +30,9 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }
+  isStable(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
@@ -165,6 +168,18 @@ describe('CheckoutAuthGuard', () => {
     });
   });
 
+  describe(', when user is in checkout pages,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+      spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+    });
+
+    it('should not redirect route when cart is unstable', () => {
+      checkoutGuard.canActivate().subscribe().unsubscribe();
+      expect(service.go).not.toHaveBeenCalled();
+    });
+  });
+
   describe(', when user is authorized,', () => {
     beforeEach(() => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
@@ -190,6 +205,15 @@ describe('CheckoutAuthGuard', () => {
         spyOn(activeCartService, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
+      });
+
+      it('should redirect to same route when cart is stable', () => {
+        let result: boolean;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toBeTruthy();
       });
 
       it('should return true', () => {

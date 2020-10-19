@@ -13,7 +13,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({
@@ -36,6 +36,7 @@ export class CheckoutAuthGuard implements CanActivate {
       this.authService.isUserLoggedIn(),
       this.activeCartService.getAssignedUser(),
       this.userService.get(),
+      this.activeCartService.isStable(),
     ]).pipe(
       map(([isLoggedIn, cartUser, user]: [boolean, User, User | B2BUser]) => {
         if (!isLoggedIn) {
@@ -62,6 +63,7 @@ export class CheckoutAuthGuard implements CanActivate {
             );
             return false;
           }
+          return !!token.access_token;
         }
         return isLoggedIn;
       })
