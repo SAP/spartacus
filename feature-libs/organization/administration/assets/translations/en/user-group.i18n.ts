@@ -54,7 +54,7 @@ export const userGroupUsers = {
   unassignAll: 'Unassign All',
 };
 export const userGroupAssignedPermissions = {
-  title: 'Assigned Purchase limits',
+  title: 'Assigned purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',
