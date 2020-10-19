@@ -30,6 +30,7 @@ export class OccProductSearchPageNormalizer
       ...(source as any),
     };
 
+    console.log('called');
     this.normalizeFacets(target);
     if (source.products) {
       target.products = source.products.map((product) =>
@@ -41,7 +42,7 @@ export class OccProductSearchPageNormalizer
 
   private normalizeFacets(target: ProductSearchPage): void {
     this.normalizeFacetValues(target);
-    this.normalizeUselessFacets(target);
+    this.normalizeUselessFacets({} as ProductSearchPage);
   }
 
   /**
@@ -54,19 +55,21 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = target.facets.filter((facet) => {
-      return (
-        !target.pagination ||
-        !target.pagination.totalResults ||
-        ((!facet.hasOwnProperty('visible') || facet.visible) &&
-          facet.values &&
-          facet.values.find((value) => {
-            return (
-              value.selected || value.count < target.pagination.totalResults
-            );
-          }))
-      );
-    });
+    if (target.facets) {
+      target.facets = target.facets.filter((facet) => {
+        return (
+          !target.pagination ||
+          !target.pagination.totalResults ||
+          ((!facet.hasOwnProperty('visible') || facet.visible) &&
+            facet.values &&
+            facet.values.find((value) => {
+              return (
+                value.selected || value.count < target.pagination.totalResults
+              );
+            }))
+        );
+      });
+    }
   }
 
   /*
