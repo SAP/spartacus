@@ -3,6 +3,9 @@ import { OAuthStorage } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthToken } from '../models/auth-token.model';
 
+/**
+ * Storage service for AuthToken. Used as a storage for angular-oauth2-oidc library.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -44,7 +47,7 @@ export class AuthStorageService extends OAuthStorage {
     }
   }
 
-  /** Async API for spartacus use */
+  /* Async API for spartacus use */
   getToken(): Observable<AuthToken> {
     return this._token$.asObservable();
   }
@@ -53,7 +56,7 @@ export class AuthStorageService extends OAuthStorage {
     this._token$.next(token);
   }
 
-  /** Sync API for oAuth lib use */
+  /* Sync API for OAuth lib use */
   getItem(key: string): any {
     let token;
     this.getToken()

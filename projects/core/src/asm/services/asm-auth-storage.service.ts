@@ -3,16 +3,31 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 
+/**
+ * Indicates if auth token is for regular user or Customer Support Agent
+ */
 export enum TokenTarget {
   CSAgent = 'CSAgent',
   User = 'User',
 }
 
+/**
+ * With AsmAuthStorageService apart from storing the token also need to store
+ * information for which user is the token (regular user or CS Agent).
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
   protected _tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
+
+  /**
+   * When CS Agent logs in during regular user session we store the regular
+   * user token to restore the session after CS Agent logout.
+   *
+   * This supports in-store use case when CS Agent want's to quickly help
+   * customer and then give an option to customer to continue the process.
+   */
   protected emulatedUserToken: AuthToken;
 
   getTokenTarget(): Observable<TokenTarget> {
@@ -41,7 +56,7 @@ export class AsmAuthStorageService extends AuthStorageService {
 
   /**
    * When we start emulation from the UI (not by ASM login) we can't restore user session on cs agent logout.
-   * That's why we clear it, to not restore user session that happened before cs agent login.
+   * Only available solution is to drop session we could restore, to avoid account hijack.
    */
   clearEmulatedUserToken(): void {
     this.emulatedUserToken = undefined;

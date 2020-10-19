@@ -17,7 +17,7 @@ const token: ClientToken = {
 
 const tokenEndpoint = '/authorizationserver/oauth/token';
 
-class AuthConfigServiceMock {
+class AuthConfigServiceMock implements Partial<AuthConfigService> {
   getTokenEndpoint() {
     return tokenEndpoint;
   }

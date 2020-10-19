@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LogoutGuard } from './logout-guard';
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   logout() {
     return Promise.resolve();
   }
@@ -25,14 +25,13 @@ class MockAuthService {
 })
 class MockPageLayoutComponent {}
 
-class MockCmsService {
-  hasPage(): Observable<Boolean> {
+class MockCmsService implements Partial<CmsService> {
+  hasPage(): Observable<boolean> {
     return of(false);
   }
-  refreshLatestPage(): void {}
 }
 
-class MockProtectedRoutesService {
+class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
   get shouldProtect() {
     return false;
   }
@@ -42,6 +41,7 @@ describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
   let protectedRoutesService: ProtectedRoutesService;
+  let cmsService: CmsService;
 
   let zone: NgZone;
   let router: Router;
@@ -89,12 +89,13 @@ describe('LogoutGuard', () => {
     authService = TestBed.inject(AuthService);
     logoutGuard = TestBed.inject(LogoutGuard);
     router = TestBed.inject(Router);
+    cmsService = TestBed.inject(CmsService);
     protectedRoutesService = TestBed.inject(ProtectedRoutesService);
     zone = TestBed.inject(NgZone);
   });
 
   describe('When user is authorized,', () => {
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn(authService, 'logout').and.callThrough();
     });
 
@@ -127,6 +128,18 @@ describe('LogoutGuard', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result.toString()).toBe('/login');
+          done();
+        });
+    });
+
+    it('should return true if the logout page exists', (done) => {
+      spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+
+      logoutGuard
+        .canActivate()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
           done();
         });
     });

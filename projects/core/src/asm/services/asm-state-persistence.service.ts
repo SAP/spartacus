@@ -8,12 +8,9 @@ import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
-// TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAsmState {
   ui: AsmUi;
-  emulatedUserToken: {
-    [token_param: string]: any;
-  };
+  emulatedUserToken: AuthToken;
   tokenTarget: TokenTarget;
 }
 
@@ -29,10 +26,12 @@ export class AsmStatePersistenceService implements OnDestroy {
     protected authStorageService: AsmAuthStorageService
   ) {}
 
+  protected key = 'asm';
+
   public sync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
-        key: 'asm',
+        key: this.key,
         state$: this.getAsmState(),
         onRead: (state) => this.onRead(state),
       })
@@ -45,11 +44,16 @@ export class AsmStatePersistenceService implements OnDestroy {
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
-      map(([ui, emulatedUserToken, tokenTarget]) => ({
-        ui,
-        emulatedUserToken,
-        tokenTarget,
-      }))
+      map(([ui, emulatedUserToken, tokenTarget]) => {
+        const emulatedToken = emulatedUserToken;
+        // To minimize risk of user account hijacking we don't persist emulated user refresh_token
+        delete emulatedToken.refresh_token;
+        return {
+          ui,
+          emulatedUserToken: emulatedToken,
+          tokenTarget,
+        };
+      })
     );
   }
 
@@ -59,9 +63,7 @@ export class AsmStatePersistenceService implements OnDestroy {
         this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));
       }
       if (state.emulatedUserToken) {
-        this.authStorageService.setEmulatedUserToken(
-          state.emulatedUserToken as AuthToken
-        );
+        this.authStorageService.setEmulatedUserToken(state.emulatedUserToken);
       }
       if (state.tokenTarget) {
         this.authStorageService.setTokenTarget(state.tokenTarget);

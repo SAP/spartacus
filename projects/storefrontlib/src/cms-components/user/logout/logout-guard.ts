@@ -46,6 +46,7 @@ export class LogoutGuard implements CanActivate {
               if (!hasPage) {
                 return this.getRedirectUrl();
               }
+              // TODO(#9385): Use CMS page guard here.
               return hasPage;
             })
           );

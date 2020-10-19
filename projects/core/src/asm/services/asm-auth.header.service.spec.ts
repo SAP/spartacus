@@ -12,34 +12,33 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
 import { AsmAuthHeaderService } from './asm-auth.header.service';
 
-class MockCsAgentAuthService {
-  isCustomerEmulated() {
-    return of(false);
-  }
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {
     return of(false);
   }
   logoutCustomerSupportAgent() {}
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   getToken() {
     return of({ access_token: 'acc_token' } as AuthToken);
   }
-  logout() {}
+  logout() {
+    return Promise.resolve();
+  }
 }
 
-class MockCxOAuthService {}
+class MockCxOAuthService implements Partial<CxOAuthService> {}
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
 }
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockOccEndpointsService {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getBaseEndpoint() {
     return 'some-server/occ';
   }
@@ -148,7 +147,6 @@ describe('AsmAuthHeaderService', () => {
 
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
       spyOn(authService, 'logout').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
       spyOn(
         csAgentAuthService,
         'isCustomerSupportAgentLoggedIn'
@@ -159,27 +157,6 @@ describe('AsmAuthHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.logout).not.toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-      expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'asm.csagentTokenExpired',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should logoutCustomerSupportAgent when user is emulated', () => {
-      spyOn(authService, 'logout').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(of(true));
-      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
-
-      service.handleExpiredRefreshToken();
-
-      expect(authService.logout).not.toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {

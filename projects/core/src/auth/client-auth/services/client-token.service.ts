@@ -15,8 +15,8 @@ export class ClientTokenService {
   constructor(protected store: Store<StateWithClientAuth>) {}
 
   /**
-   * Returns a client token.  The client token from the store is returned if there is one.
-   * Otherwise, an new token is fetched from the backend and saved in the store.
+   * Returns a client token. The client token from the store is returned if there is one.
+   * Otherwise a new token is fetched from the backend and saved in the store.
    */
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
@@ -36,7 +36,7 @@ export class ClientTokenService {
   }
 
   /**
-   * Fetches a clientToken from the backend ans saves it in the store where getClientToken can use it.
+   * Fetches a clientToken from the backend and saves it in the store where getClientToken can use it.
    * The new clientToken is returned.
    */
   refreshClientToken(): Observable<ClientToken> {

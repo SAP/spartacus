@@ -19,7 +19,7 @@ import { CsAgentAuthService } from '../facade/csagent-auth.service';
 export class AsmAuthHeaderService extends AuthHeaderService {
   constructor(
     protected authService: AuthService,
-    protected asmAuthService: CsAgentAuthService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected cxOAuthService: CxOAuthService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
@@ -34,6 +34,10 @@ export class AsmAuthHeaderService extends AuthHeaderService {
     );
   }
 
+  /**
+   * Adds `Authorization` header to occ and CS agent requests.
+   * For CS agent requests also removes the `cx-use-csagent-token` header (to avoid problems with CORS).
+   */
   public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isCSAgentRequest = this.isCSAgentTokenRequest(request);
@@ -62,20 +66,19 @@ export class AsmAuthHeaderService extends AuthHeaderService {
     return Boolean(isRequestWithCSAgentToken);
   }
 
+  /**
+   * On backend errors indicating expired `refresh_token` we need to logout
+   * currently logged in user.
+   */
   public handleExpiredRefreshToken(): void {
-    let isEmulated;
     let csAgentLoggedIn;
-    this.asmAuthService
-      .isCustomerEmulated()
-      .subscribe((emulated) => (isEmulated = emulated))
-      .unsubscribe();
-    this.asmAuthService
+    this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .subscribe((loggedIn) => (csAgentLoggedIn = loggedIn))
       .unsubscribe();
     // Logout user
-    if (isEmulated || csAgentLoggedIn) {
-      this.asmAuthService.logoutCustomerSupportAgent();
+    if (csAgentLoggedIn) {
+      this.csAgentAuthService.logoutCustomerSupportAgent();
       this.globalMessageService.add(
         {
           key: 'asm.csagentTokenExpired',

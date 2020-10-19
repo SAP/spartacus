@@ -9,14 +9,10 @@ import * as fromAsmReducers from '../store/reducers/index';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
 
-class MockAsmAuthStorageService {
-  setToken() {}
-  getToken() {
-    return of({});
-  }
+class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {
   setEmulatedUserToken() {}
   getEmulatedUserToken() {
-    return of({});
+    return {} as AuthToken;
   }
   setTokenTarget() {}
   getTokenTarget() {
@@ -61,7 +57,10 @@ describe('AsmStatePersistenceService', () => {
 
     service['onRead']({
       ui: { collapsed: true },
-      emulatedUserToken: { access_token: 'token' },
+      emulatedUserToken: {
+        access_token: 'token',
+        access_token_stored_at: '1000',
+      },
       tokenTarget: TokenTarget.CSAgent,
     });
 
@@ -72,6 +71,7 @@ describe('AsmStatePersistenceService', () => {
     expect(
       asmAuthStorageService.setEmulatedUserToken({
         access_token: 'token',
+        access_token_stored_at: '1000',
       } as AuthToken)
     );
     expect(asmAuthStorageService.setTokenTarget).toHaveBeenCalledWith(
@@ -97,8 +97,9 @@ describe('AsmStatePersistenceService', () => {
   it('should return state from asm store', () => {
     spyOn(asmAuthStorageService, 'getEmulatedUserToken').and.returnValue({
       access_token: 'token',
-      refresh_token: 'refresh_token',
-    } as AuthToken);
+      access_token_stored_at: '1000',
+      refresh_token: 'refresh_token', // token should not be saved
+    });
     spyOn(asmAuthStorageService, 'getTokenTarget').and.returnValue(
       of(TokenTarget.User)
     );
@@ -110,10 +111,10 @@ describe('AsmStatePersistenceService', () => {
           ui: { collapsed: false },
           emulatedUserToken: {
             access_token: 'token',
-            refresh_token: 'refresh_token',
+            access_token_stored_at: '1000',
           },
           tokenTarget: TokenTarget.User,
-        } as any);
+        });
       });
   });
 });
