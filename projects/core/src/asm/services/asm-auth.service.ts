@@ -114,18 +114,21 @@ export class AsmAuthService extends BasicAuthService {
       })
       .unsubscribe();
 
-    const prevToken = this.authStorageService.getItem('access_token');
-    // Get customerId and token to immediately start emulation session
-    let userToken: AuthToken;
-    let customerId: string;
-    this.authStorageService
-      .getToken()
-      .subscribe((token) => (userToken = token))
-      .unsubscribe();
-    this.userService
-      .get()
-      .subscribe((user) => (customerId = user?.customerId))
-      .unsubscribe();
+      const prevToken = this.authStorageService.getItem('access_token');
+      // Get customerId and token to immediately start emulation session
+      let userToken: AuthToken;
+      let customerId: string;
+      this.authStorageService
+        .getToken()
+        .subscribe((token) => (userToken = token))
+        .unsubscribe();
+      // this will always be empty
+      // TODO: we should not support login with implicit as an user agent
+      // can we prevent this login, when cs agent is logged in?
+      this.userService
+        .get()
+        .subscribe((user) => (customerId = user?.customerId))
+        .unsubscribe();
 
     this.cxOAuthService.tryLogin().then((result) => {
       const token = this.authStorageService.getItem('access_token');
