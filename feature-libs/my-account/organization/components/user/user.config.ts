@@ -22,8 +22,6 @@ import { UserApproverListComponent } from './approvers/user-approver-list.compon
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form/user-form.component';
-import { ActiveUserGuard } from './guards/active-user.guard';
-import { ExistUserGuard } from './guards/exist-user.guard';
 import { UserAssignedPermissionListComponent } from './permissions/assigned/user-assigned-permission-list.component';
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
@@ -117,7 +115,6 @@ export const userCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.userCode}`,
             component: UserDetailsComponent,
-            canActivate: [ExistUserGuard],
             data: {
               cxPageMeta: { breadcrumb: 'user.breadcrumbs.details' },
             },
@@ -125,7 +122,6 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: `edit`,
                 component: UserFormComponent,
-                canActivate: [ActiveUserGuard],
               },
               {
                 path: `change-password`,

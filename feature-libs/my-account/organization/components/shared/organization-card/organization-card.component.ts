@@ -1,11 +1,14 @@
 import {
+  OnInit,
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
 } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
-import { tap } from 'rxjs/operators';
+import { ExistEntityGuard } from '../../../core/guards/exist-entity.guard';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { BaseItem } from '../organization.model';
@@ -14,24 +17,44 @@ import { BaseItem } from '../organization.model';
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
+  providers: [MessageService, ExistEntityGuard],
 })
-export class OrganizationCardComponent<T extends BaseItem> {
+export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
+  @Input() entity?: string;
 
   protected itemKey;
 
-  item$ = this.itemService.current$.pipe(
-    tap((item) => this.refreshMessages(item))
-  );
+  item$: Observable<any>;
 
   @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected existEntityGuard: ExistEntityGuard
   ) {}
+
+  ngOnInit() {
+    this.item$ = this.itemService.current$.pipe(
+      map((item) => {
+        if (
+          this.i18nRoot.includes('details') ||
+          this.i18nRoot.includes('edit')
+        ) {
+          /**
+           * the only way to be able to trigger the guard after angular has rendered the template
+           * other ways tried, but not working: after view init hook, ng zone onMicrotaskEmpty,
+           * putting the guard in separate directive/child component in the template.
+           */
+          setTimeout(() => {
+            this.existEntityGuard.canActivate(item, this.i18nRoot);
+          }, 1);
+        }
+      })
+    );
+  }
 
   /**
    * The views are router based, which means if we close a view, the router outlet is
