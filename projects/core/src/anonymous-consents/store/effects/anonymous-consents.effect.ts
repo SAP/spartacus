@@ -119,7 +119,7 @@ export class AnonymousConsentsEffects {
     )
   );
 
-  // TODO: This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
+  // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>

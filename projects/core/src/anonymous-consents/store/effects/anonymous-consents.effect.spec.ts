@@ -48,13 +48,13 @@ class MockAnonymousConsentTemplatesConnector {
   }
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
 }
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of();
   }
