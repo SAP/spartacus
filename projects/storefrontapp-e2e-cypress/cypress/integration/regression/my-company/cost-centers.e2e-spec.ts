@@ -1,11 +1,11 @@
-import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
-import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company';
-import { MyCompanyConfig } from '../../../helpers/my-company/models/MyCompanyConfig';
+import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
+import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company.utils';
+import { MyCompanyConfig } from '../../../helpers/my-company/models/my-company.config';
 import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'Cost Center',
-  baseUrl: `${CONTEXT_URL_EN_USD}/organization/cost-centers`,
+  baseUrl: `${FULL_BASE_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
   rows: [
@@ -28,7 +28,7 @@ const config: MyCompanyConfig = {
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
-      showInDetails: true,      
+      showInDetails: true,
     },
     {
       label: 'Code',
@@ -39,7 +39,7 @@ const config: MyCompanyConfig = {
       updateValue: `edited-entity-${randomString()}`,
       formLabel: 'Code',
       showInDetails: true,
-      useInUrl: true
+      useInUrl: true,
     },
     {
       label: 'Currency',
