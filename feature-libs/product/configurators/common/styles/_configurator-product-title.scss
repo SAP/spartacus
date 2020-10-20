@@ -7,7 +7,10 @@
     justify-content: center;
     background-color: var(--cx-color-background);
     margin-block-end: 15px;
-    padding: 15px 0;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    padding-block-start: 15px;
+    padding-block-end: 15px;
 
     .cx-general-product-info {
       display: flex;
@@ -43,6 +46,7 @@
 
         cx-icon {
           margin-inline-start: 5px;
+          margin-inline-end: 5px;
         }
 
         @include media-breakpoint-down(xs) {
@@ -77,13 +81,17 @@
 
         .cx-details-image {
           margin-block-start: 15px;
+          margin-block-end: 0px;
           max-inline-size: 100px;
         }
 
         .cx-details-content {
           display: flex;
           flex-direction: column;
-          margin: 15px 0 0 15px;
+          margin-inline-start: 15px;
+          margin-inline-end: 0px;
+          margin-block-start: 15px;
+          margin-block-end: 0px;
 
           .cx-detail-title,
           .cx-price {

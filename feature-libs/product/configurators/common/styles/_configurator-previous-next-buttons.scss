@@ -2,10 +2,16 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 16px 15px;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
+  padding-block-start: 16px;
+  padding-block-end: 16px;
 
   @include media-breakpoint-down(sm) {
-    padding: 20px;
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+    padding-block-start: 20px;
+    padding-block-end: 20px;
   }
 
   .btn-action,

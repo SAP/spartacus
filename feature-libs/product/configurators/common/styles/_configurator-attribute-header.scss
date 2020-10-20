@@ -7,6 +7,7 @@
   label {
     @include type('5');
     padding-block-start: 10px;
+    padding-inline-start: 6px;
     padding-inline-end: 6px;
   }
 
@@ -25,6 +26,7 @@
     cx-icon {
       color: var(--cx-color-warning);
       font-size: 20px;
+      padding-inline-start: 5px;
       padding-inline-end: 5px;
     }
 

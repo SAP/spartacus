@@ -9,7 +9,10 @@
     align-items: baseline;
 
     .cx-configurator-select {
-      padding: 5px;
+      padding-inline-start: 5px;
+      padding-inline-end: 5px;
+      padding-block-start: 5px;
+      padding-block-end: 5px;
 
       input[type='checkbox'].form-input,
       input[type='radio'].form-input {
@@ -29,8 +32,15 @@
       }
 
       .cx-label-container {
-        padding: 5px 25px 5px 25px;
-        margin: 5px 10px 5px 10px;
+        padding-inline-start: 25px;
+        padding-inline-end: 25px;
+        padding-block-start: 5px;
+        padding-block-end: 5px;
+
+        margin-inline-start: 10px;
+        margin-inline-end: 10px;
+        margin-block-start: 5px;
+        margin-block-end: 5px;
 
         label {
           cursor: pointer;
@@ -38,12 +48,16 @@
 
           .cx-img,
           .cx-img-dummy {
-            padding: 3px;
             display: block;
-            margin-inline-start: auto;
-            margin-inline-end: auto;
             border-radius: 2px;
             border: transparent 3px solid;
+            padding-inline-start: 3px;
+            padding-inline-end: 3px;
+            padding-block-start: 3px;
+            padding-block-end: 3px;
+
+            margin-inline-start: auto;
+            margin-inline-end: auto;
           }
 
           .cx-img-dummy {
