@@ -7,19 +7,19 @@ import { AuthService } from '../facade/auth.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthGuard } from './auth.guard';
 
-class AuthServiceStub {
+class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class SemanticPathServiceStub {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }
 }
 
-class MockAuthRedirectService {
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
   reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 

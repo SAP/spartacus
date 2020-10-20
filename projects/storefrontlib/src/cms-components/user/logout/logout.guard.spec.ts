@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LogoutGuard } from './logout-guard';
+import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
   logout() {
