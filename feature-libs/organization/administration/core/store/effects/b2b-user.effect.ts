@@ -130,15 +130,26 @@ export class B2BUserEffects {
             roleId: 'b2bapprovergroup',
           };
 
-          this.routingService.go({
-            cxRoute: 'userDetails',
-            params: { customerId: data.customerId },
-          });
-
-          return [
-            new B2BUserActions.CreateB2BUserSuccess(data),
-            new OrgUnitActions.AssignApprover(assignApproverPayload),
-          ];
+          return this.routingService.getRouterState().pipe(
+            take(1),
+            tap((route) => {
+              if (
+                (route as any)?.state?.context?.id !== '/organization/units'
+              ) {
+                this.routingService.go({
+                  cxRoute: 'userDetails',
+                  params: data,
+                });
+              }
+            }),
+            switchMap(() => {
+              return [
+                new B2BUserActions.CreateB2BUserSuccess(data),
+                new OrgUnitActions.AssignApprover(assignApproverPayload),
+                new OrganizationActions.OrganizationClearData(),
+              ];
+            })
+          );
         }),
         catchError((error: HttpErrorResponse) =>
           from([
