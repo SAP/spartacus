@@ -1,3 +1,9 @@
+@mixin is-current-active-selection {
+  outline: solid 3px var(--cx-color-primary);
+  outline-offset: -3px;
+  background: var(--cx-color-background-focus);
+}
+
 %ghost {
   &.ghost {
     .header {
@@ -280,6 +286,11 @@
                 padding-inline-start: 5px;
               }
             }
+            a {
+              &.is-current {
+                @include is-current-active-selection;
+              }
+            }
           }
           th:last-child,
           td:last-child {
@@ -300,9 +311,7 @@
         }
         // highlight current items
         &.is-current {
-          outline: solid 3px var(--cx-color-primary);
-          outline-offset: -3px;
-          background: var(--cx-color-background-focus);
+          @include is-current-active-selection;
         }
 
         &:focus-within {
