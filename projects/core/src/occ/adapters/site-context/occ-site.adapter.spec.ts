@@ -15,6 +15,21 @@ import {
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
+import { defaultOccConfig } from '../../config/default-occ-config';
+import { OccConfig } from '../../config/occ-config';
+
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'base-url',
+      prefix: defaultOccConfig.backend.occ.prefix,
+    },
+  },
+
+  context: {
+    baseSite: ['test-site'],
+  },
+};
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -22,6 +37,13 @@ class MockOccEndpointsService {
   }
   getEndpoint(url: string) {
     return url;
+  }
+  getBaseEndpoint() {
+    return (
+      MockOccModuleConfig.backend.occ.baseUrl +
+      MockOccModuleConfig.backend.occ.prefix +
+      MockOccModuleConfig.context.baseSite
+    );
   }
   getOccEndpoint(url: string) {
     return url;
@@ -211,7 +233,29 @@ describe('OccSiteAdapter', () => {
     });
   });
 
-  describe('load the base sites data', () => {
+  describe('load the active base site data', () => {
+    it('should retrieve the active base site', () => {
+      const baseSite = {
+        uid: 'test-site',
+        defaultPreviewCategoryCode: 'test category code',
+        defaultPreviewProductCode: 'test product code',
+      };
+
+      occSiteAdapter.loadBaseSite().subscribe((result) => {
+        expect(result).toEqual(baseSite);
+      });
+      const mockReq: TestRequest = httpMock.expectOne({
+        method: 'GET',
+        url: `base-url${defaultOccConfig.backend.occ.prefix}basesites?fields=FULL`,
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({ baseSites: [baseSite] });
+    });
+  });
+
+  describe('load all base sites data', () => {
     it('should retrieve all base sites', () => {
       const baseSites = [
         {

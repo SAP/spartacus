@@ -2,6 +2,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { SiteContextState } from '../state';
 import * as fromBaseSite from './base-site.reducer';
+import * as fromBaseSites from './base-sites.reducer';
 import * as fromCurrencies from './currencies.reducer';
 import * as fromLanguages from './languages.reducer';
 
@@ -9,7 +10,8 @@ export function getReducers(): ActionReducerMap<SiteContextState> {
   return {
     languages: fromLanguages.reducer,
     currencies: fromCurrencies.reducer,
-    baseSites: fromBaseSite.reducer,
+    baseSite: fromBaseSite.reducer,
+    baseSites: fromBaseSites.reducer,
   };
 }
 

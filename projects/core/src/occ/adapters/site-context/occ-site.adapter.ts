@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -65,6 +65,29 @@ export class OccSiteAdapter implements SiteAdapter {
       .pipe(
         map((regionList) => regionList.regions),
         this.converterService.pipeableMany(REGION_NORMALIZER)
+      );
+  }
+
+  /**
+   * get the active base site data
+   * @deprecated since 3.0
+   */
+  loadBaseSite(): Observable<BaseSite> {
+    const baseUrl = this.occEndpointsService.getBaseEndpoint();
+    const urlSplits = baseUrl.split('/');
+    const activeSite = urlSplits.pop();
+    const url = urlSplits.join('/') + '/basesites';
+
+    const params = new HttpParams({
+      fromString: 'fields=FULL',
+    });
+
+    return this.http
+      .get<{ baseSites: BaseSite[] }>(url, { params: params })
+      .pipe(
+        map((siteList) => {
+          return siteList.baseSites.find((site) => site.uid === activeSite);
+        })
       );
   }
 

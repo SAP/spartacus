@@ -9,40 +9,40 @@ import { OccModule } from '../../../occ/occ.module';
 import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
-import * as fromEffects from './base-site.effect';
+import * as fromEffects from './base-sites.effect';
 
-describe('BaseSite Effects', () => {
+describe('BaseSites Effects', () => {
   let actions$: Observable<SiteContextActions.BaseSiteAction>;
   let connector: SiteConnector;
-  let effects: fromEffects.BaseSiteEffects;
+  let effects: fromEffects.BaseSitesEffects;
 
-  const baseSite: BaseSite = { uid: 'test-site' };
+  const baseSites: BaseSite[] = [{ uid: 'test-site' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
-        fromEffects.BaseSiteEffects,
+        fromEffects.BaseSitesEffects,
         { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     connector = TestBed.inject(SiteConnector);
-    effects = TestBed.inject(fromEffects.BaseSiteEffects);
+    effects = TestBed.inject(fromEffects.BaseSitesEffects);
 
-    spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
+    spyOn(connector, 'getBaseSites').and.returnValue(of(baseSites));
   });
 
-  describe('loadBaseSite$', () => {
-    it('should populate base site details data', () => {
-      const action = new SiteContextActions.LoadBaseSite();
-      const completion = new SiteContextActions.LoadBaseSiteSuccess(baseSite);
+  describe('loadBaseSites$', () => {
+    it('should populate all base site data', () => {
+      const action = new SiteContextActions.LoadBaseSites();
+      const completion = new SiteContextActions.LoadBaseSitesSuccess(baseSites);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(effects.loadBaseSite$).toBeObservable(expected);
+      expect(effects.loadBaseSites$).toBeObservable(expected);
     });
   });
 });

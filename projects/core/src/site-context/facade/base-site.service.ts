@@ -23,7 +23,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
    */
   getActive(): Observable<string> {
     return this.store.pipe(
-      select(SiteContextSelectors.getActiveBaseSite),
+      select(SiteContextSelectors.getActiveBaseSiteUid),
       filter((active) => Boolean(active))
     );
   }
@@ -45,7 +45,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
 
   setActive(baseSite: string): Subscription {
     return this.store
-      .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
+      .pipe(select(SiteContextSelectors.getActiveBaseSiteUid), take(1))
       .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(

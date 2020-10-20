@@ -6,12 +6,6 @@ import * as fromReducers from '../reducers/index';
 import { SiteContextSelectors } from '../selectors/index';
 import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
-const baseSites: BaseSite[] = [{ uid: 'powertools-spa', channel: 'B2B' }];
-
-const entities: { [key: string]: BaseSite } = {
-  'powertools-spa': baseSites[0],
-};
-
 describe('BaseSite Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
@@ -27,71 +21,40 @@ describe('BaseSite Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
-  });
-
-  describe('getBaseSitesEntities', () => {
-    it('should return baseSite entities', () => {
-      let result: any;
-
-      store
-        .pipe(select(SiteContextSelectors.getBaseSitesEntities))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual(null);
-
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
-      expect(result).toEqual(entities);
-    });
   });
 
   describe('getActiveBaseSite', () => {
-    it('should return the active baseSite', () => {
+    it('should return baseSite', () => {
       let result: string;
 
       store
-        .pipe(select(SiteContextSelectors.getActiveBaseSite))
+        .pipe(select(SiteContextSelectors.getActiveBaseSiteUid))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual(null);
+      expect(result).toEqual('');
 
-      store.dispatch(
-        new SiteContextActions.SetActiveBaseSite('powertools-spa')
-      );
-      expect(result).toEqual('powertools-spa');
+      store.dispatch(new SiteContextActions.SetActiveBaseSite('baseSite'));
+      expect(result).toEqual('baseSite');
     });
   });
 
-  describe('getAllBaseSites', () => {
-    it('should return all baseSites', () => {
-      let result: BaseSite[];
+  describe('getBaseSiteData', () => {
+    it('should return base site details data', () => {
+      const site: BaseSite = {
+        uid: 'test',
+        defaultPreviewCategoryCode: 'test category code',
+        defaultPreviewProductCode: 'test product code',
+      };
 
-      store
-        .pipe(select(SiteContextSelectors.getAllBaseSites))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual(null);
-
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
-      expect(result).toEqual(baseSites);
-    });
-  });
-
-  describe('getActiveBaseSiteData', () => {
-    it('should return the active baseSite data', () => {
       let result: BaseSite;
-
       store
-        .pipe(select(SiteContextSelectors.getActiveBaseSiteData))
+        .pipe(select(SiteContextSelectors.getBaseSiteData))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual({});
 
-      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
-      store.dispatch(
-        new SiteContextActions.SetActiveBaseSite('powertools-spa')
-      );
-      expect(result).toEqual(baseSites[0]);
+      store.dispatch(new SiteContextActions.LoadBaseSiteSuccess(site));
+      expect(result).toEqual(site);
     });
   });
 });

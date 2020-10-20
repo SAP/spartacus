@@ -8,6 +8,7 @@ export interface StateWithSiteContext {
 export interface SiteContextState {
   languages: LanguagesState;
   currencies: CurrenciesState;
+  baseSite: BaseSiteState;
   baseSites: BaseSitesState;
 }
 
@@ -30,6 +31,11 @@ export interface LanguagesState {
 
 export interface BaseSiteEntities {
   [uid: string]: BaseSite;
+}
+
+export interface BaseSiteState {
+  activeSite: string;
+  details: BaseSite;
 }
 
 export interface BaseSitesState {
