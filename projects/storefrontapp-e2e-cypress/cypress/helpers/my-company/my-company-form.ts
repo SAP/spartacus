@@ -1,5 +1,8 @@
 import { MyCompanyConfig, MyCompanyRowConfig } from './models/index';
-import { loginAsMyCompanyAdmin, scanTablePagesForText } from './my-company';
+import {
+  loginAsMyCompanyAdmin,
+  scanTablePagesForText,
+} from './my-company.utils';
 
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {

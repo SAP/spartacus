@@ -2,11 +2,11 @@ export interface MyCompanyRowConfig {
   /**
    * Label given to the table header.
    */
-  label: string;
+  label?: string;
   /**
    * Variable name given in api response
    */
-  variableName: string | string[];
+  variableName?: string | string[];
   /**
    * Label given to sort by category
    */

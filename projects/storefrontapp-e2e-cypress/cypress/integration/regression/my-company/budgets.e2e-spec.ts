@@ -1,11 +1,11 @@
-import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
-import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company';
-import { MyCompanyConfig } from '../../../helpers/my-company/models/MyCompanyConfig';
+import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
+import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company.utils';
+import { MyCompanyConfig } from '../../../helpers/my-company/models/my-company.config';
 import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'Budget',
-  baseUrl: `${CONTEXT_URL_EN_USD}/organization/budgets`,
+  baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
   rows: [

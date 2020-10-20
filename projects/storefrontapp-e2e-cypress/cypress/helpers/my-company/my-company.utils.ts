@@ -136,12 +136,6 @@ export function loginAsMyCompanyAdmin(): void {
   });
 }
 
-export function ngSelect(formControlName: string, sortKey: string): void {
-  cy.get(`ng-select[formcontrolname="${formControlName}"]`).click();
-  cy.wait(1000);
-  cy.get('div.ng-option').contains(sortKey).click({ force: true });
-}
-
 export function scanTablePagesForText(text: string, config): void {
   cy.get('cx-table').then(($table) => {
     if ($table.text().indexOf(text) === -1) {

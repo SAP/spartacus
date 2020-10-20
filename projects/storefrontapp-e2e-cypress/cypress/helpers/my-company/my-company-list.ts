@@ -4,7 +4,7 @@ import {
   waitForData,
   verifyList,
   getListRowsFromBody,
-} from './my-company';
+} from './my-company.utils';
 
 const DEFAULT_SORT_LABEL = 'name';
 
