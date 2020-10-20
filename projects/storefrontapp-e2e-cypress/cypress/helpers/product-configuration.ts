@@ -914,7 +914,7 @@ export function signOutUser() {
     'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
   )
     .findAllByText(new RegExp('Sign Out', 'i'))
-    .click({ force: true });
+    .click({ force: true, multiple: true });
 
   cy.get('cx-login .cx-login-greet').should('not.exist');
 }
