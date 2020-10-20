@@ -11,12 +11,19 @@ export abstract class OrganizationFormService<T> {
   protected abstract build(item?: T): void;
 
   getForm(item?: T): FormGroup {
+    if (this.form && !!item) {
+      this.patchData(item);
+      return this.form;
+    }
+
     if (!this.form) {
       this.build(item);
     }
+
     // while we should be able to reset with initial value, this doesn't always work
     // hence, we're patching afterwards.
     this.form.reset();
+
     this.form.enable();
     this.patchData(item);
     return this.form;

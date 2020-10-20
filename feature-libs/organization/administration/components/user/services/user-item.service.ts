@@ -3,7 +3,6 @@ import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   OrganizationItemStatus,
-  Permission,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -13,7 +12,7 @@ import { CurrentUserService } from './current-user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UserItemService extends OrganizationItemService<Permission> {
+export class UserItemService extends OrganizationItemService<B2BUser> {
   constructor(
     protected currentItemService: CurrentUserService,
     protected routingService: RoutingService,
@@ -40,5 +39,12 @@ export class UserItemService extends OrganizationItemService<Permission> {
 
   protected getDetailsRoute(): string {
     return 'userDetails';
+  }
+
+  // @override to avoid errors while creation
+  launchDetails(item: B2BUser): void {
+    if (item.customerId !== null) {
+      super.launchDetails(item);
+    }
   }
 }
