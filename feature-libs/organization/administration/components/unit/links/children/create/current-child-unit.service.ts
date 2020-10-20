@@ -6,7 +6,8 @@ import { CurrentUnitService } from '../../../services/current-unit.service';
 })
 export class CurrentChildUnitService extends CurrentUnitService {
   protected getParamKey(): string {
-    // this is fake actually
+    // We must come up with a fake param key, to avoid that the (parent) unit
+    // code is loaded from the route parameter map.
     return 'childUnitCode';
   }
 }

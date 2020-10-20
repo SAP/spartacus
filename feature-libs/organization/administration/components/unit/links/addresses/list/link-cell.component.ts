@@ -12,6 +12,7 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
     <a
       *ngIf="unitKey$ | async as uid"
       [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
+      routerLinkActive="is-current"
       [tabIndex]="tabIndex"
     >
       <span class="text">{{ property }}</span>
