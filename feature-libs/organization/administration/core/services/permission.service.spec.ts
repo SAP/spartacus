@@ -37,7 +37,7 @@ const mockPermissionType: OrderApprovalPermissionType = {
 };
 const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
