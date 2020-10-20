@@ -26,7 +26,7 @@ export class CdcUserAuthenticationTokenService {
     signatureTimestamp: string,
     idToken: string,
     baseSite: string
-  ): Observable<Partial<AuthToken> & { expires_in: number }> {
+  ): Observable<Partial<AuthToken> & { expires_in?: number }> {
     const url = this.authConfigService.getTokenEndpoint();
     const params = new HttpParams()
       .set('client_id', this.authConfigService.getClientId())
@@ -39,7 +39,7 @@ export class CdcUserAuthenticationTokenService {
       .set('baseSite', baseSite);
 
     return this.http
-      .post<Partial<AuthToken> & { expires_in: number }>(url, params)
+      .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

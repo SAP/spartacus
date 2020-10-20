@@ -23,16 +23,17 @@ const mockedWindowRef = {
   },
 };
 
-class MockBasicAuthService {
-  initImplicit() {}
-  logout() {}
+class MockBasicAuthService implements Partial<BasicAuthService> {
+  logout() {
+    return Promise.resolve();
+  }
 }
 
-class MockAuthStorageService {
+class MockAuthStorageService implements Partial<AuthStorageService> {
   setItem() {}
 }
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
 }
 
