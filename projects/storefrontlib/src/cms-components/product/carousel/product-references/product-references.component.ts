@@ -5,14 +5,8 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  tap,
-  distinctUntilChanged,
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -22,47 +16,52 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReferencesComponent {
+  private get componentData$(): Observable<CmsProductReferencesComponent> {
+    return this.component.data$.pipe(filter(Boolean));
+  }
+
+  protected get productCode$(): Observable<string> {
+    return this.currentProductService.getProduct().pipe(
+      filter(Boolean),
+      map((product: Product) => product.code),
+      tap((_) => this.productReferenceService.cleanReferences())
+    );
+  }
+
   /**
    * returns an Obervable string for the title
    */
-  title$ = this.component.data$.pipe(map((d) => d?.title));
-
-  private currentProductCode$: Observable<
-    string
-  > = this.current.getProduct().pipe(
-    filter(Boolean),
-    map((p: Product) => p.code),
-    distinctUntilChanged(),
-    tap(() => this.referenceService.cleanReferences())
-  );
+  get title$(): Observable<string> {
+    return this.componentData$.pipe(map((data) => data?.title));
+  }
 
   /**
-   * Obervable with an Array of Observables. This is done, so that
+   * Observable with an Array of Observables. This is done, so that
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = combineLatest([
-    this.currentProductCode$,
-    this.component.data$,
-  ]).pipe(
-    switchMap(([code, data]) =>
-      this.getProductReferences(code, data?.productReferenceTypes)
+  items$: Observable<Observable<Product>[]> = this.productCode$.pipe(
+    withLatestFrom(this.componentData$),
+    switchMap(([productCode, data]) =>
+      this.getProductReferences(productCode, data?.productReferenceTypes)
     )
   );
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
-    protected current: CurrentProductService,
-    protected referenceService: ProductReferenceService
+    protected currentProductService: CurrentProductService,
+    protected productReferenceService: ProductReferenceService
   ) {}
 
   private getProductReferences(
     code: string,
     referenceType: string
   ): Observable<Observable<Product>[]> {
-    return this.referenceService.get(code, referenceType).pipe(
+    return this.productReferenceService.get(code, referenceType).pipe(
       filter(Boolean),
-      map((refs: ProductReference[]) => refs.map((ref) => of(ref.target)))
+      map((references: ProductReference[]) =>
+        references.map((reference) => of(reference.target))
+      )
     );
   }
 }

@@ -29,6 +29,7 @@ export class CurrentProductService {
   ): Observable<Product | null> {
     return this.routingService.getRouterState().pipe(
       map((state) => state.state.params['productCode']),
+      distinctUntilChanged(),
       switchMap((productCode: string) => {
         return productCode
           ? this.productService.get(

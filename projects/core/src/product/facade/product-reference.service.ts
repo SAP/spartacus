@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -25,6 +25,7 @@ export class ProductReferenceService {
           referenceType
         )
       ),
+      debounceTime(0),
       tap((references) => {
         if (references === undefined && productCode !== undefined) {
           this.store.dispatch(
