@@ -19,7 +19,7 @@ const user: UserSignUp = {
   uid: '',
 };
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   authorize() {}
   initLogout() {}
 }
