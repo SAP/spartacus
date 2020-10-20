@@ -58,8 +58,13 @@ export class CdcAuthService extends AuthService {
     );
   }
 
+  /**
+   * Transform and store the token received from custom flow to library format and login user.
+   *
+   * @param token
+   */
   public loginWithToken(
-    token: Partial<AuthToken> & { expires_in: number }
+    token: Partial<AuthToken> & { expires_in?: number }
   ): void {
     let tokenTarget: TokenTarget;
     let currentToken: AuthToken;
