@@ -67,19 +67,5 @@ echo "Running unit tests for organization schematics"
 cd feature-libs/organization
 yarn
 yarn test:schematics
-cd ../../
 
-if [[ $1 == '-h' ]]; then
-    echo "Usage: $0 [sonar (to run sonar scan)]"
-    exit 1
-    elif [[ $1 == 'sonar' ]]; then
-
-    echo "Running SonarCloud scan"
-    sonar-scanner \
-    -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
-    -Dsonar.organization=sap \
-    -Dsonar.host.url=https://sonarcloud.io \
-    -Dsonar.login=$SONAR_TOKEN
-fi
-
-echo "Unit tests successful!"
+echo "Unit tests ran successfully!"
