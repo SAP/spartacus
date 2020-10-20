@@ -3,6 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, timer } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
@@ -10,25 +12,31 @@ import { CxOAuthService } from '../facade/cx-oauth-service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthHeaderService } from './auth-header.service';
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   getToken() {
     return of({ access_token: 'acc_token' } as AuthToken);
   }
-  logout() {}
+  logout() {
+    return Promise.resolve();
+  }
 }
 
-class MockCxOAuthService {
+class MockCxOAuthService implements Partial<CxOAuthService> {
   refreshToken() {}
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
 }
 
-class MockOccEndpointsService {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getBaseEndpoint() {
     return 'some-server/occ';
   }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
 }
 
 describe('AuthHeaderService', () => {
@@ -36,6 +44,7 @@ describe('AuthHeaderService', () => {
   let cxOAuthService: CxOAuthService;
   let authService: AuthService;
   let routingService: RoutingService;
+  let globalMessageService: GlobalMessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -45,6 +54,7 @@ describe('AuthHeaderService', () => {
         { provide: CxOAuthService, useClass: MockCxOAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 
@@ -52,6 +62,7 @@ describe('AuthHeaderService', () => {
     service = TestBed.inject(AuthHeaderService);
     cxOAuthService = TestBed.inject(CxOAuthService);
     routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {
@@ -161,11 +172,18 @@ describe('AuthHeaderService', () => {
     it('should logout user and redirect to login page', () => {
       spyOn(authService, 'logout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
+      spyOn(globalMessageService, 'add').and.callThrough();
 
       service.handleExpiredRefreshToken();
 
       expect(authService.logout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'common.sessionExpired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

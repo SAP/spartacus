@@ -25,7 +25,13 @@ export class AsmAuthHeaderService extends AuthHeaderService {
     protected globalMessageService: GlobalMessageService,
     protected occEndpointsService: OccEndpointsService
   ) {
-    super(authService, cxOAuthService, routingService, occEndpointsService);
+    super(
+      authService,
+      cxOAuthService,
+      routingService,
+      occEndpointsService,
+      globalMessageService
+    );
   }
 
   public shouldCatchError(request: HttpRequest<any>): boolean {

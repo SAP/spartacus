@@ -2,6 +2,8 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
@@ -16,7 +18,8 @@ export class AuthHeaderService {
     protected authService: AuthService,
     protected cxOAuthService: CxOAuthService,
     protected routingService: RoutingService,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   public shouldCatchError(request: HttpRequest<any>): boolean {
@@ -75,7 +78,12 @@ export class AuthHeaderService {
     // Logout user
     this.authService.logout();
     this.routingService.go({ cxRoute: 'login' });
-    // TODO: Should we show here the global message that session ended and please login again?
+    this.globalMessageService.add(
+      {
+        key: 'common.sessionExpired',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
   protected handleExpiredToken(): Observable<AuthToken> {
