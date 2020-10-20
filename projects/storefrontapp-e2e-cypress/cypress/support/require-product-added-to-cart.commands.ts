@@ -1,12 +1,4 @@
-import { b2bProduct } from '../sample-data/b2b-checkout';
 import { product } from '../sample-data/checkout-flow';
-
-const cartsUrl = `${Cypress.env('API_URL')}/${Cypress.env(
-  'OCC_PREFIX'
-)}/${Cypress.env('BASE_SITE')}/users/current/carts`;
-const b2bCartsUrl = `${Cypress.env('API_URL')}/${Cypress.env(
-  'OCC_PREFIX'
-)}/${Cypress.env('BASE_SITE')}/orgUsers/current/carts`;
 
 declare global {
   namespace Cypress {
@@ -23,7 +15,7 @@ declare global {
        */
       requireProductAddedToCart: (
         auth: {},
-        cartCode?: string
+        productData?: {}
       ) => Cypress.Chainable<any>;
     }
   }
@@ -31,11 +23,13 @@ declare global {
 
 Cypress.Commands.add(
   'requireProductAddedToCart',
-  (auth: any, code?: string) => {
+  (auth, productData = product) => {
     function createCart() {
       return cy.request({
         method: 'POST',
-        url: cartsUrl,
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
         body: {
           fields: 'DEFAULT',
         },
@@ -47,13 +41,13 @@ Cypress.Commands.add(
     }
 
     function addToCart(cartCode: any, productData: any) {
-      const url = Boolean(Cypress.env('B2B'))
-        ? `${b2bCartsUrl}/${cartCode}/entries/`
-        : `${cartsUrl}/${cartCode}/entries`;
-
       return cy.request({
         method: 'POST',
-        url: url,
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+          'OCC_PREFIX_USER_ENDPOINT'
+        )}/current/carts/${cartCode}/entries`,
         body: {
           code: productData.code,
           qty: 1,
@@ -67,20 +61,11 @@ Cypress.Commands.add(
 
     cy.server();
 
-    if (!Boolean(code)) {
-      createCart().then((cart) => {
-        const prod = Boolean(Cypress.env('B2B')) ? b2bProduct : product;
-        addToCart(cart.body.code, prod).then((resp) => {
-          resp.body.cartId = cart.body.code; // need this in the response for later use
-          cy.wrap(resp.body);
-        });
-      });
-    } else {
-      const prod = Boolean(Cypress.env('B2B')) ? b2bProduct : product;
-      addToCart(code, prod).then((resp) => {
-        resp.body.cartId = code; // need this in the response for later use
+    createCart().then((cart) => {
+      addToCart(cart.body.code, productData).then((resp) => {
+        resp.body.cartId = cart.body.code; // need this in the response for later use
         cy.wrap(resp.body);
       });
-    }
+    });
   }
 );
