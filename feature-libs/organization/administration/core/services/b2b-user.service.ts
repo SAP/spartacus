@@ -98,7 +98,6 @@ export class B2BUserService {
           new B2BUserActions.CreateB2BUserAndAssignToApprovers({
             userId,
             orgCustomer,
-            isAssignedToApprovers,
           })
         );
       } else {
@@ -123,7 +122,6 @@ export class B2BUserService {
             userId,
             orgCustomerId,
             orgCustomer,
-            isAssignedToApprovers,
           })
         );
       } else {

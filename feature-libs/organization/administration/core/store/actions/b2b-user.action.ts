@@ -121,7 +121,6 @@ export class CreateB2BUserAndAssignToApprovers {
     public payload: {
       userId: string;
       orgCustomer: B2BUser;
-      isAssignedToApprovers: boolean;
     }
   ) {}
 }
@@ -159,7 +158,6 @@ export class UpdateB2BUserAndAssignToApprovers {
       userId: string;
       orgCustomerId: string;
       orgCustomer: B2BUser;
-      isAssignedToApprovers: boolean;
     }
   ) {}
 }
