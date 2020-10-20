@@ -1,106 +1,113 @@
+//import { beforeEach } from 'mocha';
 import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
-import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import * as sampleData from '../../../sample-data/b2b-order-approval';
 
-context('B2B - Order Approval', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+describe('B2B - Order Approval', () => {
+  describe('B2B - Check order approval in Order details page for customer', () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    it('should display order approval details in order details page', () => {
+      orderApproval.loginB2bUser();
+      orderApproval.getStubbedPendingOrderDetails();
+
+      cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
+      //assertPermissionResults(sampleData.pendingOrder);
+    });
   });
 
-  it('should display order approval details in order details page', () => {
-    orderApproval.loginB2bUser();
-    orderApproval.getStubbedPendingOrderDetails();
+  describe('B2B - Order approval list and details for order approver', () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
 
-    cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-    assertPermissionResults(sampleData.pendingOrder);
-  });
+    beforeEach(() => {
+      orderApproval.loginB2bApprover();
+    });
 
-  it('should display order approval list', () => {
-    orderApproval.loginB2bApprover();
-    orderApproval.getStubbedOrderApprovalList();
-    orderApproval.visitOrderApprovalListPage();
+    it('should display order approval list', () => {
+      orderApproval.getStubbedOrderApprovalList();
+      orderApproval.visitOrderApprovalListPage();
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(0)
-      .should(
-        'contain',
-        sampleData.approvalOrderList.orderApprovals[0].order.code
-      );
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(0)
+        .should(
+          'contain',
+          sampleData.approvalOrderList.orderApprovals[0].order.code
+        );
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(1)
-      .should('contain', sampleData.none);
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(1)
+        .should('contain', sampleData.none);
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(2)
-      .should(
-        'contain',
-        sampleData.approvalOrderList.orderApprovals[0].order.orgCustomer.name
-      );
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(2)
+        .should(
+          'contain',
+          sampleData.approvalOrderList.orderApprovals[0].order.orgCustomer.name
+        );
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(3)
-      .should('contain', sampleData.orderPlacedDate);
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(3)
+        .should('contain', sampleData.orderPlacedDate);
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(4)
-      .should('contain', sampleData.statusPendingApproval);
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(4)
+        .should('contain', sampleData.statusPendingApproval);
 
-    cy.get('cx-order-approval-list a.cx-order-approval-value')
-      .eq(5)
-      .should(
-        'contain',
-        sampleData.approvalOrderList.orderApprovals[0].order.totalPrice
-          .formattedValue
-      );
-  });
+      cy.get('cx-order-approval-list a.cx-order-approval-value')
+        .eq(5)
+        .should(
+          'contain',
+          sampleData.approvalOrderList.orderApprovals[0].order.totalPrice
+            .formattedValue
+        );
+    });
 
-  it('Should display approval detail page', () => {
-    orderApproval.loginB2bApprover();
-    orderApproval.getStubbedOrderApprovalDetail();
-    orderApproval.visitOrderApprovalDetailPage();
+    it('Should display approval detail page', () => {
+      orderApproval.getStubbedOrderApprovalDetail();
+      orderApproval.visitOrderApprovalDetailPage();
 
-    assertButtons();
-    assertPermissionResults(sampleData.approvalOrderDetail.order);
-    assertOrderDetails();
-  });
+      assertButtons();
+      assertPermissionResults(sampleData.approvalOrderDetail.order);
+      assertOrderDetails();
+    });
 
-  it('should approve the order', () => {
-    orderApproval.loginB2bApprover();
-    orderApproval.getStubbedOrderApprovalDetail();
-    orderApproval.visitOrderApprovalDetailPage();
-    cy.wait('@orderApprovalPending');
-    orderApproval.makeStubbedDecision();
-    orderApproval.getStubbedApprovedOrderApprovalDetail();
+    it('should approve the order', () => {
+      orderApproval.getStubbedOrderApprovalDetail();
+      orderApproval.visitOrderApprovalDetailPage();
+      cy.wait('@orderApprovalPending');
+      orderApproval.makeStubbedDecision();
+      orderApproval.getStubbedApprovedOrderApprovalDetail();
 
-    cy.get('cx-order-approval-detail-form .btn-primary').eq(1).click();
-    cy.get('cx-order-approval-detail-form textarea').type('test approval');
-    cy.get('cx-order-approval-detail-form .btn-primary').click();
-    cy.wait('@orderApprovalApproved');
+      cy.get('cx-order-approval-detail-form .btn-primary').eq(1).click();
+      cy.get('cx-order-approval-detail-form textarea').type('test approval');
+      cy.get('cx-order-approval-detail-form .btn-primary').click();
+      cy.wait('@orderApprovalApproved');
 
-    cy.get('cx-order-approval-detail-form').should('contain', 'Back To List');
-    cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
-    assertPermissionResults(sampleData.approvedOrderDetails.order);
-  });
+      cy.get('cx-order-approval-detail-form').should('contain', 'Back To List');
+      cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
+      assertPermissionResults(sampleData.approvedOrderDetails.order);
+    });
 
-  it('should reject the order', () => {
-    orderApproval.loginB2bApprover();
-    orderApproval.getStubbedOrderApprovalDetail();
-    orderApproval.visitOrderApprovalDetailPage();
-    cy.wait('@orderApprovalPending');
+    it('should reject the order', () => {
+      orderApproval.getStubbedOrderApprovalDetail();
+      orderApproval.visitOrderApprovalDetailPage();
+      cy.wait('@orderApprovalPending');
 
-    orderApproval.makeStubbedDecision();
-    orderApproval.getStubbedRejectedOrderApprovalDetail();
+      orderApproval.makeStubbedDecision();
+      orderApproval.getStubbedRejectedOrderApprovalDetail();
 
-    cy.get('cx-order-approval-detail-form .btn-primary').eq(0).click();
-    cy.get('cx-order-approval-detail-form textarea').type('test rejection');
-    cy.get('cx-order-approval-detail-form .btn-primary').click();
-    cy.wait('@orderApprovalRejected');
+      cy.get('cx-order-approval-detail-form .btn-primary').eq(0).click();
+      cy.get('cx-order-approval-detail-form textarea').type('test rejection');
+      cy.get('cx-order-approval-detail-form .btn-primary').click();
+      cy.wait('@orderApprovalRejected');
 
-    cy.get('cx-order-approval-detail-form').should('contain', 'Back To List');
-    cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
-    assertPermissionResults(sampleData.rejectedOrderDetails.order);
+      cy.get('cx-order-approval-detail-form').should('contain', 'Back To List');
+      cy.get('cx-order-approval-detail-form .btn-primary').should('not.exist');
+      assertPermissionResults(sampleData.rejectedOrderDetails.order);
+    });
   });
 });
 
