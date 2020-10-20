@@ -24,5 +24,5 @@
     }
   },
   "include": ["schematics/**/*.ts"],
-  "exclude": ["schematics/*/files/**/*", "schematics/**/*.spec.ts"]
+  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
 }

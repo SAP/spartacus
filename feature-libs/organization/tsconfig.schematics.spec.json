@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": ""
   },
-  "exclude": ["schematics/*/files/**/*"]
+  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
 }
