@@ -35,10 +35,19 @@ describe('OccReplenishmentOrderFormSerializer', () => {
     expect(serializer).toBeTruthy();
   });
 
-  it('should convert the date string of schedule replenishment form to ISO 8601 format', () => {
-    const mockDate = '1994-01-11:01:02:03.456Z';
+  it('should convert the date string with time', () => {
+    const mockDateWithTime = '1994-01-11:01:02:03.456Z';
+    const result = serializer['convertDate'](mockDateWithTime);
     const ISODateFormat = service.toModel('1994-01-11:01:02:00');
-    const result = serializer['convertDate'](mockDate);
+
+    expect(service.toModel).toHaveBeenCalledWith('1994-01-11:01:02:00');
+    expect(result).toEqual(ISODateFormat);
+  });
+
+  it('should convert the date string without time', () => {
+    const mockDateWithoutTime = '1994-01-11';
+    const result = serializer['convertDate'](mockDateWithoutTime);
+    const ISODateFormat = service.toModel('1994-01-11:01:02:00');
 
     expect(service.toModel).toHaveBeenCalledWith('1994-01-11:01:02:00');
     expect(result).toEqual(ISODateFormat);
