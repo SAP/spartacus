@@ -10,7 +10,7 @@ context('B2B - Order Approval', () => {
 
   it('should display order approval details in order details page', () => {
     orderApproval.loginB2bUser();
-    orderApproval.getPendingOrderDetails();
+    orderApproval.getStubbedPendingOrderDetails();
 
     cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
     assertPermissionResults(sampleData.pendingOrder);
@@ -18,7 +18,7 @@ context('B2B - Order Approval', () => {
 
   it('should display order approval list', () => {
     orderApproval.loginB2bApprover();
-    orderApproval.getOrderApprovalList();
+    orderApproval.getStubbedOrderApprovalList();
     orderApproval.visitOrderApprovalListPage();
 
     cy.get('cx-order-approval-list a.cx-order-approval-value')
@@ -58,7 +58,7 @@ context('B2B - Order Approval', () => {
 
   it('Should display approval detail page', () => {
     orderApproval.loginB2bApprover();
-    orderApproval.getOrderApprovalDetail();
+    orderApproval.getStubbedOrderApprovalDetail();
     orderApproval.visitOrderApprovalDetailPage();
 
     assertButtons();
@@ -68,11 +68,11 @@ context('B2B - Order Approval', () => {
 
   it('should approve the order', () => {
     orderApproval.loginB2bApprover();
-    orderApproval.getOrderApprovalDetail();
+    orderApproval.getStubbedOrderApprovalDetail();
     orderApproval.visitOrderApprovalDetailPage();
     cy.wait('@orderApprovalPending');
-    orderApproval.makeDecision();
-    orderApproval.getApprovedOrderApprovalDetail();
+    orderApproval.makeStubbedDecision();
+    orderApproval.getStubbedApprovedOrderApprovalDetail();
 
     cy.get('cx-order-approval-detail-form .btn-primary').eq(1).click();
     cy.get('cx-order-approval-detail-form textarea').type('test approval');
@@ -86,12 +86,12 @@ context('B2B - Order Approval', () => {
 
   it('should reject the order', () => {
     orderApproval.loginB2bApprover();
-    orderApproval.getOrderApprovalDetail();
+    orderApproval.getStubbedOrderApprovalDetail();
     orderApproval.visitOrderApprovalDetailPage();
     cy.wait('@orderApprovalPending');
 
-    orderApproval.makeDecision();
-    orderApproval.getRejectedOrderApprovalDetail();
+    orderApproval.makeStubbedDecision();
+    orderApproval.getStubbedRejectedOrderApprovalDetail();
 
     cy.get('cx-order-approval-detail-form .btn-primary').eq(0).click();
     cy.get('cx-order-approval-detail-form textarea').type('test rejection');

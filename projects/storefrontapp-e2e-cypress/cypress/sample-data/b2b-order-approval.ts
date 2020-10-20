@@ -1,3 +1,5 @@
+import { AccountData } from '../support/require-logged-in.commands';
+
 export const ORDER_CODE = '00000001';
 
 export const b2bApprover = {
@@ -7,6 +9,28 @@ export const b2bApprover = {
 export const b2bUser = {
   name: 'William Hunter',
   uid: 'william.hunter@rustic-hw.com',
+};
+
+export const b2bUserAccount: AccountData = {
+  user: '',
+  registrationData: {
+    firstName: '',
+    lastName: '',
+    password: '12341234',
+    titleCode: 'mr',
+    email: b2bUser.uid,
+  },
+};
+
+export const b2bApproverAccount: AccountData = {
+  user: '',
+  registrationData: {
+    firstName: '',
+    lastName: '',
+    password: '12341234',
+    titleCode: 'mr',
+    email: b2bApprover.uid,
+  },
 };
 
 export const statusPendingApproval = 'Pending Approval';

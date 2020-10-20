@@ -3,12 +3,9 @@ import {
   approvalOrderDetail,
   approvalOrderList,
   approvedOrderDetails,
-  b2bApprover,
-  b2bUser,
   pendingOrder,
   rejectedOrderDetails,
 } from '../../sample-data/b2b-order-approval';
-import { AccountData } from '../../support/require-logged-in.commands';
 import { visitHomePage, waitForPage } from '../checkout-flow';
 
 export function visitOrderApprovalListPage() {
@@ -32,36 +29,16 @@ export function visitOrderApprovalDetailPage() {
 }
 
 export function loginB2bUser() {
-  const user: AccountData = {
-    user: '',
-    registrationData: {
-      firstName: '',
-      lastName: '',
-      password: '12341234',
-      titleCode: 'mr',
-      email: b2bUser.uid,
-    },
-  };
-  cy.requireLoggedIn(user);
+  cy.requireLoggedIn(sampleData.b2bUserAccount);
   visitHomePage();
 }
 
 export function loginB2bApprover() {
-  const approver: AccountData = {
-    user: '',
-    registrationData: {
-      firstName: '',
-      lastName: '',
-      password: '12341234',
-      titleCode: 'mr',
-      email: b2bApprover.uid,
-    },
-  };
-  cy.requireLoggedIn(approver);
+  cy.requireLoggedIn(sampleData.b2bApproverAccount);
   visitHomePage();
 }
 
-export function getPendingOrderDetails() {
+export function getStubbedPendingOrderDetails() {
   cy.server();
   cy.route(
     'GET',
@@ -72,7 +49,7 @@ export function getPendingOrderDetails() {
   );
 }
 
-export function getOrderApprovalList() {
+export function getStubbedOrderApprovalList() {
   cy.server();
   cy.route(
     'GET',
@@ -83,7 +60,7 @@ export function getOrderApprovalList() {
   );
 }
 
-export function getOrderApprovalDetail() {
+export function getStubbedOrderApprovalDetail() {
   cy.server();
   cy.route(
     'GET',
@@ -94,7 +71,7 @@ export function getOrderApprovalDetail() {
   ).as('orderApprovalPending');
 }
 
-export function makeDecision() {
+export function makeStubbedDecision() {
   cy.server();
   cy.route(
     'POST',
@@ -105,7 +82,7 @@ export function makeDecision() {
   );
 }
 
-export function getRejectedOrderApprovalDetail() {
+export function getStubbedRejectedOrderApprovalDetail() {
   cy.server();
   cy.route(
     'GET',
@@ -116,7 +93,7 @@ export function getRejectedOrderApprovalDetail() {
   ).as('orderApprovalRejected');
 }
 
-export function getApprovedOrderApprovalDetail() {
+export function getStubbedApprovedOrderApprovalDetail() {
   cy.server();
   cy.route(
     'GET',
