@@ -5,11 +5,11 @@ import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   initLogout(): void {}
 }
 
-class MockAsmAuthService {
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   logoutCustomerSupportAgent(): void {}
   isCustomerEmulated(): Observable<boolean> {
     return of(false);
@@ -43,7 +43,7 @@ describe('AsmComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CsAgentAuthService, useClass: MockAsmAuthService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
       ],
     });

@@ -64,8 +64,8 @@ export class AsmMainUiComponent implements OnInit {
 
   private handleCustomerSessionStartRedirection(): void {
     let isCustomerEmulated;
-    this.csAgentAuthService
-      .isCustomerEmulated()
+    this.asmComponentService
+      .isCustomerEmulationSessionInProgress()
       .pipe(take(1))
       .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
     if (this.startingCustomerSession && isCustomerEmulated) {
@@ -75,6 +75,7 @@ export class AsmMainUiComponent implements OnInit {
     }
   }
 
+  /** Tested */
   loginCustomerSupportAgent({
     userId,
     password,
@@ -85,10 +86,12 @@ export class AsmMainUiComponent implements OnInit {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
+  /** Tested */
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
+  /** Tested */
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
     this.csAgentAuthService.startCustomerEmulationSession(customerId);
     this.startingCustomerSession = true;

@@ -21,7 +21,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   authorize = createSpy();
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
