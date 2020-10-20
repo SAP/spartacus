@@ -7,14 +7,15 @@ import { UserIdService } from '../facade/user-id.service';
 import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
 
-// TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAuthState {
-  userId: string;
-  access_token: string;
-  [token_param: string]: any;
-  redirectUrl: string;
+  userId?: string;
+  token?: AuthToken;
+  redirectUrl?: string;
 }
 
+/**
+ * Responsible for saving the authorization data (userId, token, redirectUrl) in browser storage.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -53,23 +54,28 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.userIdService.getUserId(),
       this.authRedirectStorageService.getRedirectUrl(),
     ]).pipe(
-      map(([token, userId, redirectUrl]) => ({ ...token, userId, redirectUrl }))
+      map(([authToken, userId, redirectUrl]) => {
+        const token = authToken;
+        if (token) {
+          // To minimize risk of user account hijacking we don't persist user refresh_token
+          delete token.refresh_token;
+        }
+        return { token, userId, redirectUrl };
+      })
     );
   }
 
-  // TODO: Should we still omit refresh_token as before?
   protected onRead(state: SyncedAuthState) {
     if (state) {
-      const tokenData = Object.fromEntries(
-        Object.entries(state).filter(([key]) => {
-          // userId used only for userIdService
-          // redirectUrl used only for auth redirects
-          return key !== 'userId' && key !== 'redirectUrl';
-        })
-      );
-      this.authStorageService.setToken(tokenData as AuthToken);
-      this.userIdService.setUserId(state.userId);
-      this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
+      if (state.token) {
+        this.authStorageService.setToken(state.token);
+      }
+      if (state.userId) {
+        this.userIdService.setUserId(state.userId);
+      }
+      if (state.redirectUrl) {
+        this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
+      }
     }
   }
 

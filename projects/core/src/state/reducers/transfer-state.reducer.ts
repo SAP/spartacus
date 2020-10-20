@@ -24,7 +24,8 @@ export function getTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys,
         Boolean(
-          authStatePersistenceService?.readStateFromStorage()?.access_token
+          authStatePersistenceService?.readStateFromStorage()?.token
+            ?.access_token
         )
       );
     } else if (isPlatformServer(platformId)) {

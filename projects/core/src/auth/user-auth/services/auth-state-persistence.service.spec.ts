@@ -11,23 +11,24 @@ import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.serv
 import { AuthToken } from '../models/auth-token.model';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   setUserId(_id: string) {}
   getUserId() {
     return of('userId');
   }
 }
 
-class MockAuthStorageService {
+class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
-    return of({});
+    return of({} as AuthToken);
   }
   setToken() {}
 }
 
-class MockAuthRedirectStorageService {
+class MockAuthRedirectStorageService
+  implements Partial<AuthRedirectStorageService> {
   getRedirectUrl() {
-    of(undefined);
+    return of(undefined);
   }
   setRedirectUrl() {}
 }
@@ -79,12 +80,14 @@ describe('AuthStatePersistenceService', () => {
 
     service['onRead']({
       userId: 'userId',
-      access_token: 'access_token',
-      expires_at: '1000',
-      access_token_stored_at: '900',
-      granted_scopes: [],
-      token_type: 'bearer',
-      refresh_token: 'refresh',
+      token: {
+        access_token: 'access_token',
+        expires_at: '1000',
+        access_token_stored_at: '900',
+        granted_scopes: [],
+        token_type: 'bearer',
+        refresh_token: 'refresh',
+      },
       redirectUrl: 'some_url',
     });
 
@@ -130,8 +133,7 @@ describe('AuthStatePersistenceService', () => {
       .subscribe((state) => {
         expect(state).toEqual({
           userId: 'userId',
-          access_token: 'token',
-          refresh_token: 'refresh_token',
+          token: { access_token: 'token' },
           redirectUrl: 'redirect_url',
         } as any);
       });
@@ -139,13 +141,13 @@ describe('AuthStatePersistenceService', () => {
 
   it('readStateFromStorage should return state from localStorage', () => {
     spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
-      access_token: 'token',
+      token: { access_token: 'token' },
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
 
     expect(service.readStateFromStorage()).toEqual({
-      access_token: 'token',
+      token: { access_token: 'token' } as AuthToken,
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
