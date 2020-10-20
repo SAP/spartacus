@@ -99,7 +99,7 @@ const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';
 const unit: B2BUnit = { uid: 'testUid' };
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 

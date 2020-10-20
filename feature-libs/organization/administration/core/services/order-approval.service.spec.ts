@@ -37,7 +37,7 @@ const orderApprovalDecision: OrderApprovalDecision = {
   comment: 'yeah',
 };
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
