@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ReturnRequestList } from '../../model/order.model';
 import {
@@ -13,9 +14,10 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { OrderReturnRequestService } from './order-return-request.service';
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
+    return new Subscription();
   }
 }
 

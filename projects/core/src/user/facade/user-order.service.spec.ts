@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import {
@@ -23,9 +23,10 @@ class MockRoutingService {
   }
 }
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
+    return new Subscription();
   }
 }
 
