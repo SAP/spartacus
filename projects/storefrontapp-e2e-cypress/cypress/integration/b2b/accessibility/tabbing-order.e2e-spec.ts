@@ -20,21 +20,30 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+<<<<<<< HEAD
 import { loginB2bApprover } from '../../../helpers/b2b/b2b-order-approval';
 import { generateMail, randomString } from '../../../helpers/user';
 import { b2bUser } from '../../../sample-data/b2b-checkout';
+=======
+import { loginB2bUser } from '../../../helpers/b2b/b2b-checkout';
+import { b2bProduct } from '../../../sample-data/b2b-checkout';
+>>>>>>> develop
 
 describe('Tabbing order for B2B checkout', () => {
   describe('Checkout Credit Card', () => {
     before(() => {
-      b2bUser.registrationData.email = generateMail(randomString(), true);
-      cy.requireLoggedIn(b2bUser);
+      cy.window().then((win) => {
+        win.localStorage.clear();
+        win.sessionStorage.clear();
+      });
+
+      loginB2bUser();
 
       cy.window()
         .then((win) =>
           JSON.parse(win.localStorage.getItem('spartacus-local-data'))
         )
-        .then(({ auth }) => cy.requireProductAddedToCart(auth));
+        .then(({ auth }) => cy.requireProductAddedToCart(auth, b2bProduct));
     });
 
     beforeEach(() => {
@@ -89,18 +98,18 @@ describe('Tabbing order for B2B checkout', () => {
 
   describe('Checkout Account', () => {
     before(() => {
-      cy.restoreLocalStorage();
       cy.window().then((win) => {
-        const { auth } = JSON.parse(
-          win.localStorage.getItem('spartacus-local-data')
-        );
-        const cartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿powertools-spa⚿cart')
-        ).active;
-
-        cy.requireProductAddedToCart(auth, cartCode);
+        win.localStorage.clear();
+        win.sessionStorage.clear();
       });
-      cy.saveLocalStorage();
+
+      loginB2bUser();
+
+      cy.window()
+        .then((win) =>
+          JSON.parse(win.localStorage.getItem('spartacus-local-data'))
+        )
+        .then(({ auth }) => cy.requireProductAddedToCart(auth, b2bProduct));
     });
 
     beforeEach(() => {
