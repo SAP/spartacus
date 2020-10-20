@@ -32,6 +32,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       {
         userId,
         cartId,
+        quantity,
       },
       { code: productCode, qty: quantity }
     );
