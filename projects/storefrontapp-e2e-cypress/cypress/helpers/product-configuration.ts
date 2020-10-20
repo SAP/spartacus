@@ -897,6 +897,20 @@ export function goToOrderHistory(): Chainable<Window> {
 }
 
 /**
+ * This method is a workaround as the login helper signout function did not work sometimes.
+ * This works only on desktop mode and does not support mobile.
+ */
+export function signOutUser() {
+  cy.get(
+    'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+  )
+    .findAllByText(new RegExp('Sign Out', 'i'))
+    .click({ force: true, multiple: true });
+
+  cy.get('cx-login .cx-login-greet').should('not.exist');
+}
+
+/**
  * Verifies whether the searched order exists in the order history and
  * sets the '@isFound' alias accordingly.
  *
