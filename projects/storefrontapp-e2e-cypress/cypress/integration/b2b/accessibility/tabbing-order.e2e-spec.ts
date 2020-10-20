@@ -20,14 +20,9 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-<<<<<<< HEAD
 import { loginB2bApprover } from '../../../helpers/b2b/b2b-order-approval';
-import { generateMail, randomString } from '../../../helpers/user';
-import { b2bUser } from '../../../sample-data/b2b-checkout';
-=======
 import { loginB2bUser } from '../../../helpers/b2b/b2b-checkout';
 import { b2bProduct } from '../../../sample-data/b2b-checkout';
->>>>>>> develop
 
 describe('Tabbing order for B2B checkout', () => {
   describe('Checkout Credit Card', () => {
