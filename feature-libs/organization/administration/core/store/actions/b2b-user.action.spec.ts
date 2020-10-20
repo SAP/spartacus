@@ -146,6 +146,20 @@ describe('B2BUser Actions', () => {
       });
     });
 
+    describe('CreateB2BUserAndAssignToApprovers ', () => {
+      it('should create the action', () => {
+        const action = new B2BUserActions.CreateB2BUserAndAssignToApprovers({
+          userId,
+          orgCustomer,
+        });
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.CREATE_B2B_USER_AND_ASSIGN_TO_APPROVERS,
+          payload: { userId, orgCustomer },
+        });
+      });
+    });
+
     describe('CreateB2BUserFail', () => {
       it('should create the action', () => {
         const action = new B2BUserActions.CreateB2BUserFail({
@@ -194,6 +208,21 @@ describe('B2BUser Actions', () => {
           type: B2BUserActions.UPDATE_B2B_USER,
           payload: { userId, orgCustomerId, orgCustomer },
           meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+        });
+      });
+    });
+
+    describe('UpdateB2BUserAndAssignToApprovers', () => {
+      it('should create the action', () => {
+        const action = new B2BUserActions.UpdateB2BUserAndAssignToApprovers({
+          userId,
+          orgCustomerId,
+          orgCustomer,
+        });
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS,
+          payload: { userId, orgCustomerId, orgCustomer },
         });
       });
     });

@@ -39,7 +39,6 @@ const permission: Permission = {
   code: permissionId,
 };
 const permission2: Permission = { ...permission, code: permissionId2 };
-const isAssignedToApprovers = true;
 const b2bUser: B2BUser = {
   active: true,
   customerId: orgCustomerId,
@@ -249,7 +248,6 @@ describe('B2BUserService', () => {
             new B2BUserActions.CreateB2BUserAndAssignToApprovers({
               userId,
               orgCustomer: b2bUser,
-              isAssignedToApprovers,
             })
           );
         });
@@ -296,7 +294,6 @@ describe('B2BUserService', () => {
               userId,
               orgCustomerId,
               orgCustomer: b2bUser,
-              isAssignedToApprovers,
             })
           );
         });
