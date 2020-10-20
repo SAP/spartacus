@@ -96,12 +96,13 @@ export class B2BUserEffects {
           );
         }),
         catchError((error: HttpErrorResponse) =>
-          of(
+          from([
             new B2BUserActions.CreateB2BUserFail({
               orgCustomerId: payload.orgCustomer.customerId,
               error: normalizeHttpError(error),
-            })
-          )
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -186,6 +187,7 @@ export class B2BUserEffects {
     | B2BUserActions.LoadB2BUser
     | OrgUnitActions.AssignApprover
     | B2BUserActions.UpdateB2BUserFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_AND_ASSIGN_TO_APPROVERS),
     map(
@@ -211,12 +213,13 @@ export class B2BUserEffects {
             ];
           }),
           catchError((error: HttpErrorResponse) =>
-            of(
+            from([
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
                 error: normalizeHttpError(error),
-              })
-            )
+              }),
+              new OrganizationActions.OrganizationClearData(),
+            ])
           )
         )
     )
