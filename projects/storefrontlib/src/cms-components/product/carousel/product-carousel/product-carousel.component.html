@@ -4,17 +4,23 @@
   [title]="title$ | async"
   [template]="carouselItem"
   [focusConfig]="{
-    lock: true,
+    lock: false,
     autofocus: true,
-    group: focusGroup
+    group: focusGroup,
+    focusOnScroll: true
   }"
 >
 </cx-carousel>
 
-<ng-template #carouselItem let-item="item" let-prefetch="prefetch">
+<ng-template
+  #carouselItem
+  let-item="item"
+  let-prefetch="prefetch"
+  let-tab="tab"
+>
   <a
     *ngIf="getProduct(item, prefetch) | async as product"
-    tabindex="0"
+    [tabindex]="tab"
     [cxFocus]="{ key: item, group: focusGroup }"
     [routerLink]="
       hasProduct(product)

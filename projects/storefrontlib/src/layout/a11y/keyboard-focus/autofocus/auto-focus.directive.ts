@@ -1,4 +1,6 @@
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -50,6 +52,17 @@ export class AutoFocusDirective
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
     }
+
+    if (this.config.focusOnScroll) {
+      console.log('yes, scroll it', this.host);
+      // // TODO: cleanup
+      fromEvent(this.host, 'scroll')
+        .pipe(debounceTime(300))
+        .subscribe(() => {
+          this.service.clear(this.config.group);
+          this.firstFocusable.focus();
+        });
+    }
   }
 
   /**
@@ -85,7 +98,7 @@ export class AutoFocusDirective
   /**
    * Helper function to get the first focusable child element.
    *
-   * We keep this private to not polute the API.
+   * We keep this private to not pollute the API.
    */
   private get firstFocusable(): HTMLElement {
     return this.service.findFirstFocusable(this.host, this.config);

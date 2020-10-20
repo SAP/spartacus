@@ -1,6 +1,6 @@
 <ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
   <h3 *ngIf="title">{{ title }}</h3>
-
+  {{ intersectCount$ | async }}
   <div
     #carousel
     class="carousel-panel"
@@ -12,14 +12,13 @@
       (click)="previous()"
       [style.visibility]="(previous$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(previous$ | async)?.enabled"
-      tabindex="-1"
     >
       <!-- 
       [cxFocus]="{ key: 'previous', group: focusConfig.group }" -->
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
 
-    <div class="slides">
+    <div class="slides" #slides>
       <ng-container *ngFor="let _ of items; let i = index">
         <div
           class="slide"
@@ -37,23 +36,16 @@
             #item="cxIntersected"
             (intersect)="intersect($event, templateRef)"
           >
-            <!-- https://github.com/angular/angular/issues/12121 -->
-            <!-- <ng-template
-              cxIntersected
-              #el="cxIntersected"
-              [forceIntersect]="prefetch > itemNum"
-              (intersect)="intersect($event, el)"
-            > -->
             <ng-container
               *ngTemplateOutlet="
                 template;
                 context: {
                   item: data,
-                  prefetch: prefetch > itemNum || (item.intersect | async)
+                  prefetch: prefetch > itemNum || (item.intersect | async),
+                  tab: tabIndex(templateRef) | async
                 }
               "
             ></ng-container>
-            <!-- </ng-template> -->
           </div>
         </div>
       </ng-container>
@@ -61,10 +53,10 @@
 
     <button
       class="next"
-      (click)="next()"
+      (focus)="bumpPrefetch()"
+      (click)="next($event)"
       [style.visibility]="(next$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(next$ | async)?.enabled"
-      tabindex="-1"
     >
       <!-- [cxFocus]="{ key: 'next', group: focusConfig.group }" -->
       <cx-icon [type]="nextIcon"></cx-icon>

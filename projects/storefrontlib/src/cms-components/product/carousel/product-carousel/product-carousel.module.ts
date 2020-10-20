@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
-import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout';
+import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import {
   CarouselModule,
   MediaModule,

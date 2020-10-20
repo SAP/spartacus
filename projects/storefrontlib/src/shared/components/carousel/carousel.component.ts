@@ -10,6 +10,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { AutoFocusService } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/autofocus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -54,8 +55,9 @@ export class CarouselComponent implements OnInit {
    * if the carousel is focussed again.
    */
   @Input() focusConfig: FocusConfig = {
-    lock: true,
+    lock: false,
     autofocus: true,
+    focusOnScroll: true,
   };
 
   /**
@@ -102,6 +104,8 @@ export class CarouselComponent implements OnInit {
   @ViewChild('carousel', { read: ElementRef }) carousel: ElementRef<
     HTMLElement
   >;
+
+  @ViewChild('slides', { read: ElementRef }) slides: ElementRef<HTMLElement>;
 
   @ViewChildren('item', { read: ElementRef }) itemRefs!: QueryList<
     ElementRef<HTMLElement>
@@ -166,11 +170,55 @@ export class CarouselComponent implements OnInit {
   protected _prefetchNum = 0;
   protected _startPrefetching = false;
 
+  protected intersect$: BehaviorSubject<
+    Map<HTMLElement, boolean>
+  > = new BehaviorSubject(new Map());
+
+  intersectCount$: Observable<number> = this.intersect$.pipe(
+    map(
+      (intersected) =>
+        Array.from(intersected.values()).filter((value) => value === true)
+          .length
+    )
+  );
+  protected calcIntersected(): number {
+    return Array.from(this.intersect$.value.values()).filter(
+      (value) => value === true
+    ).length;
+  }
+
   constructor(
     protected el: ElementRef,
     protected service: CarouselService,
-    protected navigation: CarouselNavigationService
+    protected navigation: CarouselNavigationService,
+    protected autoFocusService: AutoFocusService
   ) {}
+
+  // onScroll(event: Event) {
+  //   console.log('scroll', event.eventPhase);
+  // }
+
+  tabIndex(ref: HTMLElement): Observable<number> {
+    return this.intersect$.pipe(
+      map((intersectMap) => (intersectMap.get(ref) ? 0 : -1))
+    );
+  }
+
+  bumpPrefetch(prefetchNum?: number) {
+    const bump = this.calcIntersected();
+    let bumpTo = this.prefetch || bump;
+    bumpTo += prefetchNum ?? bump;
+    if (bumpTo <= this.itemRefs.length) {
+      this.prefetch = bumpTo;
+    }
+    console.log(
+      'bumped prefetch to',
+      this.itemRefs.length,
+      this.prefetch,
+      bumpTo,
+      bump
+    );
+  }
 
   set prefetch(item) {
     this._startPrefetching = true;
@@ -181,6 +229,20 @@ export class CarouselComponent implements OnInit {
   get prefetch(): number {
     return this._prefetch;
   }
+
+  // ngAfterViewInit() {
+  //   // // TODO: cleanup
+  //   // fromEvent(this.carousel.nativeElement, 'scroll')
+  //   //   .pipe(debounceTime(250))
+  //   //   .subscribe((scroll) => {
+  //   //     const first = this.autoFocusService.findFirstFocusable(
+  //   //       this.slides.nativeElement
+  //   //     );
+  //   //     // console.log(first);
+  //   //     first.focus({ preventScroll: true });
+  //   //     console.log(scroll);
+  //   //   });
+  // }
 
   ngOnInit() {
     if (!this.template) {
@@ -211,10 +273,24 @@ export class CarouselComponent implements OnInit {
   /**
    * Handles next button.
    */
-  next() {
+  next(_event: MouseEvent) {
+    this.bumpPrefetch();
+
     this.carouselHost.scrollBy({
       left: this.carouselHost.clientWidth,
     });
+
+    // // we focus automatically next for accessibility reasons
+    // window.setTimeout(() => {
+    //   // const m = this.intersect$.value;
+    //   // const f = Array.from(m.keys()).find((key) => m.get(key) === true);
+    //   const first = this.autoFocusService.findFirstFocusable(
+    //     this.slides.nativeElement
+    //   );
+    //   console.log(first);
+    //   first.focus({ preventScroll: true });
+    //   // f.focus({ preventScroll: true });
+    // }, 2000);
   }
 
   /**
@@ -232,14 +308,18 @@ export class CarouselComponent implements OnInit {
    * buttons and indicators accordingly.
    */
   intersect(intersected: boolean, ref: HTMLElement) {
+    const value: Map<HTMLElement, boolean> = this.intersect$.value;
+    value.set(ref, intersected);
+    this.intersect$.next(value);
+
     const index = this.itemRefs
       .toArray()
       .findIndex((item) => item.nativeElement === ref);
 
     // we increase the prefetchNum as long as we haven't started prefetching
-    if (intersected && !this._startPrefetching && this._prefetchNum < index) {
-      this._prefetchNum = index + 1 + 1;
-    }
+    // if (intersected && !this._startPrefetching && this._prefetchNum < index) {
+    //   this._prefetchNum = index + 1 + 1;
+    // }
 
     const visibleMap = this.visible$.value;
     visibleMap.set(index, intersected);
