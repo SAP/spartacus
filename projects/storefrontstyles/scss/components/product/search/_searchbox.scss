@@ -91,6 +91,7 @@
     @include media-breakpoint-up(md) {
       width: 27vw;
       min-width: 300px;
+      max-width: 550px;
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
         display: none;
