@@ -73,6 +73,10 @@ describe('SearchBoxComponent', () => {
   let serviceSpy: SearchBoxComponentService;
   let cmsComponentData: CmsComponentData<CmsSearchBoxComponent>;
 
+  function getFocusedElement(): HTMLElement {
+    return <HTMLElement>document.activeElement;
+  }
+
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
@@ -213,15 +217,17 @@ describe('SearchBoxComponent', () => {
         );
       });
 
-      it('should clear when clicking on clear button', () => {
+      fit('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
 
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
-        expect(
-          fixture.debugElement.query(By.css('input[aria-label="search"]'))
-            .nativeElement.value
-        ).toBe('');
+
+        const box = fixture.debugElement.query(
+          By.css('input[aria-label="search"]')
+        ).nativeElement;
+        expect(box.value).toBe('');
+        expect(box).toBe(getFocusedElement());
       });
     });
 
@@ -252,10 +258,6 @@ describe('SearchBoxComponent', () => {
     });
 
     describe('Arrow key tests', () => {
-      function getFocusedElement(): HTMLElement {
-        return <HTMLElement>document.activeElement;
-      }
-
       beforeEach(() => {
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
