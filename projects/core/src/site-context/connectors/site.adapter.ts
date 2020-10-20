@@ -24,8 +24,7 @@ export abstract class SiteAdapter {
   abstract loadRegions(countryIsoCode: string): Observable<Region[]>;
 
   /**
-   * Abstract method used to get the active base site data
-   * @deprecated since 3.0
+   * @deprecated since 3.0, use loadBaseSites() instead
    */
   abstract loadBaseSite(): Observable<BaseSite>;
 

@@ -29,6 +29,9 @@ export interface LanguagesState {
   activeLanguage: string;
 }
 
+/**
+ * @deprecated since 3.0, it will not be used
+ */
 export interface BaseSiteState {
   activeSite: string;
   details: BaseSite;

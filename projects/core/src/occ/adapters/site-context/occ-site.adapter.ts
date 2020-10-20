@@ -69,8 +69,10 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   /**
-   * get the active base site data
-   * @deprecated since 3.0
+   * There is no OCC API to load one site based on Uid. So, we have to load all sites, and find the one from the list.
+   * This function is deprecated, since we want to put all site data into ngrx/store.
+   *
+   * @deprecated since 3.0, use loadBaseSites() instead
    */
   loadBaseSite(): Observable<BaseSite> {
     const baseUrl = this.occEndpointsService.getBaseEndpoint();
