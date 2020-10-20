@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+/**
+ * Service serves storage role for AuthRedirectService.
+ * Used by AuthStatePersistenceService to store redirect url for OAuth flows that rely on redirects.
+ */
 @Injectable({
   providedIn: 'root',
 })
