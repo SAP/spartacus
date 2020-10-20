@@ -9,7 +9,7 @@ export const initialState: BaseSitesState = {
 
 export function reducer(
   state = initialState,
-  action: SiteContextActions.BaseSiteAction
+  action: SiteContextActions.BaseSiteAction | SiteContextActions.BaseSitesAction
 ): BaseSitesState {
   switch (action.type) {
     case SiteContextActions.LOAD_BASE_SITES_SUCCESS: {

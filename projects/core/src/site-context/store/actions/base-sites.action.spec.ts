@@ -81,23 +81,4 @@ describe('BaseSite Actions', () => {
       });
     });
   });
-
-  describe('SetActiveBaseSite Action', () => {
-    it('should create an action', () => {
-      const action = new SiteContextActions.SetActiveBaseSite('USD');
-      expect({ ...action }).toEqual({
-        type: SiteContextActions.SET_ACTIVE_BASE_SITE,
-        payload: 'USD',
-      });
-    });
-  });
-
-  describe('BaseSiteChange Action', () => {
-    it('should create an action', () => {
-      const action = new SiteContextActions.BaseSiteChange();
-      expect({ ...action }).toEqual({
-        type: SiteContextActions.BASE_SITE_CHANGE,
-      });
-    });
-  });
 });

@@ -1,13 +1,13 @@
 import { BaseSite } from '../../../model/misc.model';
 import { SiteContextActions } from '../actions/index';
-import * as fromBaseSite from './base-sites.reducer';
+import * as fromBaseSites from './base-sites.reducer';
 
-describe('BaseSite Reducer', () => {
+describe('BaseSites Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
-      const { initialState } = fromBaseSite;
-      const action = {} as SiteContextActions.BaseSiteAction;
-      const state = fromBaseSite.reducer(undefined, action);
+      const { initialState } = fromBaseSites;
+      const action = {} as SiteContextActions.BaseSitesAction;
+      const state = fromBaseSites.reducer(undefined, action);
 
       expect(state).toBe(initialState);
     });
@@ -15,9 +15,9 @@ describe('BaseSite Reducer', () => {
 
   describe('SET_ACTIVE_BASE_SITE action', () => {
     it('should set active baseSite', () => {
-      const { initialState } = fromBaseSite;
+      const { initialState } = fromBaseSites;
       const action = new SiteContextActions.SetActiveBaseSite('base-site');
-      const state = fromBaseSite.reducer(initialState, action);
+      const state = fromBaseSites.reducer(initialState, action);
 
       expect(state.activeSite).toEqual('base-site');
     });
@@ -37,9 +37,9 @@ describe('BaseSite Reducer', () => {
         test: payload[0],
       };
 
-      const { initialState } = fromBaseSite;
+      const { initialState } = fromBaseSites;
       const action = new SiteContextActions.LoadBaseSitesSuccess(payload);
-      const state = fromBaseSite.reducer(initialState, action);
+      const state = fromBaseSites.reducer(initialState, action);
 
       expect(state.entities).toEqual(entities);
     });

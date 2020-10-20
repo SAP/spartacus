@@ -29,13 +29,13 @@ export interface LanguagesState {
   activeLanguage: string;
 }
 
-export interface BaseSiteEntities {
-  [uid: string]: BaseSite;
-}
-
 export interface BaseSiteState {
   activeSite: string;
   details: BaseSite;
+}
+
+export interface BaseSiteEntities {
+  [uid: string]: BaseSite;
 }
 
 export interface BaseSitesState {

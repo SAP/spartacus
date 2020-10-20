@@ -28,7 +28,7 @@ describe('BaseSite Selectors', () => {
       let result: string;
 
       store
-        .pipe(select(SiteContextSelectors.getActiveBaseSiteUid))
+        .pipe(select(SiteContextSelectors.getActiveBaseSite))
         .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
