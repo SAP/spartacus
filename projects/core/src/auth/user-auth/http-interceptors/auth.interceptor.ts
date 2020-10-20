@@ -11,6 +11,10 @@ import { catchError } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHeaderService } from '../services/auth-header.service';
 
+/**
+ * Responsible for catching auth errors and providing `Authorization` header for API calls.
+ * Uses AuthHeaderService for request manipulation and error handling. Interceptor only hooks into request send/received events.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   constructor(

@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 import { AuthStorageService } from '../facade/auth-storage.service';
 import { AuthConfigService } from '../services/auth-config.service';
 
-// We need this one, because OAuth hybris server requires access_token in header for revoke token. XD
+/**
+ * This interceptor is dedicated for Hybris OAuth server which requires `Authorization` header for revoke token calls.
+ */
 @Injectable({ providedIn: 'root' })
 export class TokenRevocationInterceptor implements HttpInterceptor {
   constructor(

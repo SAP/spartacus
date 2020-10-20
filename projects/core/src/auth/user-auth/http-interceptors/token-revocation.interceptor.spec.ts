@@ -7,19 +7,20 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
 import { AuthStorageService } from '../facade/auth-storage.service';
+import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
 
-class MockAuthStorageService {
+class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
     return of({
       token_type: 'Bearer',
       access_token: 'acc_token',
-    });
+    } as AuthToken);
   }
 }
 
-class MockAuthConfigService {
+class MockAuthConfigService implements Partial<AuthConfigService> {
   getRevokeEndpoint() {
     return '/revoke';
   }

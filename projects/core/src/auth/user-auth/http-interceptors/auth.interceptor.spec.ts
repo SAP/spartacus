@@ -2,6 +2,7 @@ import {
   HttpClient,
   HttpParams,
   HttpRequest,
+  HttpUserEvent,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
@@ -10,23 +11,26 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHeaderService } from '../services/auth-header.service';
 import { AuthInterceptor } from './auth.interceptor';
 
-class MockAuthHeaderService {
+class MockAuthHeaderService implements Partial<AuthHeaderService> {
   alterRequest(req) {
     return req;
   }
   shouldCatchError() {
     return true;
   }
-  handleExpiredAccessToken() {}
+  handleExpiredAccessToken() {
+    return of() as Observable<HttpUserEvent<AuthToken>>;
+  }
   handleExpiredRefreshToken() {}
 }
 
-class MockAuthConfigService {
+class MockAuthConfigService implements Partial<AuthConfigService> {
   getTokenEndpoint() {
     return '/authorizationserver/token';
   }
