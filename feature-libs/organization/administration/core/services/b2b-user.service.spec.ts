@@ -45,14 +45,13 @@ const b2bUser: B2BUser = {
   uid: 'aaa@bbb',
   name: 'test',
 };
+
 const b2bUser2: B2BUser = {
   active: true,
   customerId: 'OrgCustomerId2',
   uid: 'bbb@aaa',
   name: 'test2',
 };
-let b2bUserUnassigned;
-let b2bUserAssigned;
 
 const userGroup: UserGroup = {
   uid: 'userGroupUid',
@@ -221,27 +220,9 @@ describe('B2BUserService', () => {
     });
 
     describe('create B2B user', () => {
-      beforeEach(() => {
-        b2bUserUnassigned = {
-          active: true,
-          customerId: orgCustomerId,
-          uid: 'aaa@bbb',
-          name: 'test',
-          isAssignedToApprovers: false,
-        };
-
-        b2bUserAssigned = {
-          active: true,
-          customerId: orgCustomerId,
-          uid: 'aaa@bbb',
-          name: 'test',
-          isAssignedToApprovers: true,
-        };
-      });
-
       describe('when the user should be assigned to the approvers list for the unit', () => {
         it('create() should dispatch CreateB2BUserAndAssignToApprovers action', () => {
-          service.create(b2bUserAssigned);
+          service.create({ ...b2bUser, isAssignedToApprovers: true });
 
           expect(authService.getOccUserId).toHaveBeenCalled();
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -255,7 +236,7 @@ describe('B2BUserService', () => {
 
       describe('when the user should not be assigned to the approvers list for the unit', () => {
         it('create() should dispatch CreateB2BUser action', () => {
-          service.create(b2bUserUnassigned);
+          service.create(b2bUser);
 
           expect(authService.getOccUserId).toHaveBeenCalled();
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -266,27 +247,12 @@ describe('B2BUserService', () => {
     });
 
     describe('update B2B user', () => {
-      beforeEach(() => {
-        b2bUserUnassigned = {
-          active: true,
-          customerId: orgCustomerId,
-          uid: 'aaa@bbb',
-          name: 'test',
-          isAssignedToApprovers: false,
-        };
-
-        b2bUserAssigned = {
-          active: true,
-          customerId: orgCustomerId,
-          uid: 'aaa@bbb',
-          name: 'test',
-          isAssignedToApprovers: true,
-        };
-      });
-
       describe('when the user should be assigned to the approvers list for the unit', () => {
         it('update() should should dispatch UpdateB2BUserAndAssignToApprovers action', () => {
-          service.update(orgCustomerId, b2bUserAssigned);
+          service.update(orgCustomerId, {
+            ...b2bUser,
+            isAssignedToApprovers: true,
+          });
 
           expect(authService.getOccUserId).toHaveBeenCalled();
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -301,7 +267,7 @@ describe('B2BUserService', () => {
 
       describe('when the user should not be assigned to the approvers list for the unit', () => {
         it('update() should should dispatch UpdateB2BUser action', () => {
-          service.update(orgCustomerId, b2bUserUnassigned);
+          service.update(orgCustomerId, b2bUser);
 
           expect(authService.getOccUserId).toHaveBeenCalled();
           expect(store.dispatch).toHaveBeenCalledWith(
