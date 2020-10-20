@@ -1,9 +1,15 @@
 %cx-configurator-form {
   .cx-group-attribute {
-    padding: 12px 20px;
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+    padding-block-start: 12px;
+    padding-block-end: 12px;
 
     @include media-breakpoint-down(sm) {
-      padding: 12px 0px;
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 12px;
+      padding-block-end: 12px;
     }
 
     em {

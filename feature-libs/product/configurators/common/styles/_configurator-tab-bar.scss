@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   padding-inline-start: 0px;
+  padding-inline-end: 0px;
   list-style: none;
   border-width: 0 0 1px 0;
   border-style: solid;
@@ -40,9 +41,12 @@
     &:after {
       content: '';
       display: block;
-      margin: 7px auto auto auto;
       block-size: 5px;
       background: var(--cx-color-primary);
+      margin-inline-start: auto;
+      margin-inline-end: auto;
+      margin-block-start: 7px;
+      margin-block-end: auto;
 
       // the tab hover effect uses a border in the :after pseudo
       // that is animated from 0% to 100% width
