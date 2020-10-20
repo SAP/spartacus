@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { AuthConfig, AuthLibConfig } from '../config/auth-config';
-import { OAuthFlow } from '../models/oAuth-flow';
+import { OAuthFlow } from '../models/oauth-flow';
 
 @Injectable({
   providedIn: 'root',
