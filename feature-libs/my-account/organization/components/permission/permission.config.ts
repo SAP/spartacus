@@ -17,8 +17,6 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionFormComponent } from './form/permission-form.component';
-import { ActivePermissionGuard } from './guards/active-permission.guard';
-import { ExistPermissionGuard } from './guards/exist-permission.guard';
 import { PermissionItemService } from './services/permission-item.service';
 import { PermissionListService } from './services/permission-list.service';
 import { PermissionRoutePageMetaResolver } from './services/permission-route-page-meta.resolver';
@@ -80,7 +78,6 @@ export const permissionCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.permissionCode}`,
             component: PermissionDetailsComponent,
-            canActivate: [ExistPermissionGuard],
             data: {
               cxPageMeta: { breadcrumb: 'permission.breadcrumbs.details' },
             },
@@ -88,7 +85,6 @@ export const permissionCmsConfig: CmsConfig = {
               {
                 path: 'edit',
                 component: PermissionFormComponent,
-                canActivate: [ActivePermissionGuard],
               },
             ],
           },
