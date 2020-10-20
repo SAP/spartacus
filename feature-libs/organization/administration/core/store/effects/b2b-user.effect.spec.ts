@@ -5,6 +5,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
+  AuthService,
   B2BUser,
   normalizeHttpError,
   OccConfig,
@@ -74,9 +75,14 @@ const mockRouterState = {
   },
 };
 
-const mockCurrentUser = {
+const mockDifferentUser = {
   customerId: 'currentCustomerId',
   displayUid: 'currentCustomer@test.test',
+};
+
+const mockCurrentUser = {
+  customerId: orgCustomerId,
+  displayUid: 'newemail@test.test',
 };
 
 class MockRoutingService {
@@ -124,6 +130,10 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(mockCurrentUser));
 }
 
+class MockAuthService implements Partial<AuthService> {
+  getOccUserId = createSpy().and.returnValue(of('current'));
+}
+
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
   let b2bUserConnector: B2BUserConnector;
@@ -153,6 +163,7 @@ describe('B2B User Effects', () => {
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
         { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     });
 
@@ -308,9 +319,10 @@ describe('B2B User Effects', () => {
         orgCustomer,
       };
       const action = new B2BUserActions.UpdateB2BUser(payload);
-      const completion = new B2BUserActions.UpdateB2BUserSuccess(payload);
+      const completion = new B2BUserActions.UpdateB2BUserSuccess(orgCustomer);
+      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(effects.updateB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.update).toHaveBeenCalledWith(
@@ -348,31 +360,21 @@ describe('B2B User Effects', () => {
 
   describe('checkSelfEmailUpdate', () => {
     it('should return LoadB2BUser action if edited different user', () => {
-      const payload = {
-        userId,
-        orgCustomerId,
-        orgCustomer,
-      };
-      const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
+      const action = new B2BUserActions.UpdateB2BUserSuccess(mockDifferentUser);
       const completion = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.checkSelfEmailUpdate).toBeObservable(expected);
+      expect(effects.checkSelfEmailUpdate$).toBeObservable(expected);
     });
 
     it('should return AuthActions.Logout action if edited own credentials', () => {
-      const payload = {
-        userId,
-        orgCustomerId: mockCurrentUser.customerId,
-        orgCustomer,
-      };
-      const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
+      const action = new B2BUserActions.UpdateB2BUserSuccess(mockCurrentUser);
       const completion = new AuthActions.Logout();
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.checkSelfEmailUpdate).toBeObservable(expected);
+      expect(effects.checkSelfEmailUpdate$).toBeObservable(expected);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
   });

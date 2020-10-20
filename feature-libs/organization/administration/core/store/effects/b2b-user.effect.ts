@@ -14,13 +14,14 @@ import {
   filter,
 } from 'rxjs/operators';
 import {
+  AuthActions,
+  AuthService,
   B2BUser,
   EntitiesModel,
   normalizeHttpError,
-  AuthActions,
   UserService,
-  RoutingService,
   User,
+  RoutingService,
 } from '@spartacus/core';
 
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
@@ -129,9 +130,10 @@ export class B2BUserEffects {
       return this.b2bUserConnector
         .update(userId, orgCustomerId, orgCustomer)
         .pipe(
-          switchMap((data) => {
+          switchMap((_data) => {
             const successActions = [
-              new B2BUserActions.CreateB2BUserSuccess(data),
+              // TODO: change for 'payload: data' when backend API start to return user data on PATCH
+              new B2BUserActions.UpdateB2BUserSuccess(orgCustomer),
               new OrganizationActions.OrganizationClearData(),
             ] as any[];
             if (isAssignedToApprovers) {
@@ -162,19 +164,19 @@ export class B2BUserEffects {
   );
 
   @Effect()
-  checkSelfEmailUpdate: Observable<
+  checkSelfEmailUpdate$: Observable<
     | AuthActions.Logout
     | B2BUserActions.LoadB2BUser
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
     map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
-    withLatestFrom(this.userService.get()),
-    switchMap(([payload, currentUser]: [any, User]) => {
+    withLatestFrom(this.userService.get(), this.authService.getOccUserId()),
+    filter(([, , userId]: [B2BUser, User, string]) => isValidUser(userId)),
+    switchMap(([payload, currentUser]: [B2BUser, User, string]) => {
       const currentUserEmailMatch =
-        payload.orgCustomerId === currentUser.customerId &&
-        payload.orgCustomer.email !== currentUser.displayUid;
+        payload.customerId === currentUser.customerId &&
+        payload.email !== currentUser.displayUid;
 
       if (currentUserEmailMatch) {
         this.routingService.go({ cxRoute: 'login' });
@@ -603,7 +605,8 @@ export class B2BUserEffects {
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
   protected redirect(route, data) {
