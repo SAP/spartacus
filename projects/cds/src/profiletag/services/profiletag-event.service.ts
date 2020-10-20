@@ -14,8 +14,8 @@ import {
   ConsentReferenceEvent,
   DebugEvent,
   InternalProfileTagEventNames,
-  ProfileTagEvent,
   ProfileTagJsConfig,
+  ProfileTagPushEvent,
   ProfileTagWindowObject,
 } from '../model/profile-tag.model';
 
@@ -36,11 +36,14 @@ export class ProfileTagEventService {
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     @Inject(PLATFORM_ID) private platform: any
-  ) {}
+  ) {
+    this.initWindow();
+  }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
   }
+
   getConsentReference(): Observable<string> {
     if (!this.consentReference$) {
       this.consentReference$ = fromEvent(
@@ -61,9 +64,16 @@ export class ProfileTagEventService {
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(() => this.addScript()),
-      tap(() => this.initWindow()),
       tap((siteId: string) => this.createConfig(siteId))
     );
+  }
+
+  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
+    try {
+      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
+    } catch (e) {
+      console.log(`Unexpected error when calling profiletag push method ${e}`);
+    }
   }
 
   private setConsentReference(): Observable<string> {
@@ -105,6 +115,9 @@ export class ProfileTagEventService {
   }
 
   private initWindow(): void {
+    if (!isPlatformBrowser(this.platform)) {
+      return;
+    }
     this.profileTagWindow = <ProfileTagWindowObject>(
       (<unknown>this.winRef.nativeWindow)
     );
@@ -117,13 +130,5 @@ export class ProfileTagEventService {
     const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
-  }
-
-  notifyProfileTagOfEventOccurence(event: ProfileTagEvent): void {
-    try {
-      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
-    } catch (e) {
-      console.log(`Unexpected error when calling profiletag push method ${e}`);
-    }
   }
 }

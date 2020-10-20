@@ -19,7 +19,7 @@ const FALLBACK_PAGINATION_OPTIONS: PaginationOptions = {
 /**
  * Builds a pagination structures based on a pageCount and current page number.
  * There are various {@link PaginationConfig} options which can be used to configure
- * the behaviour of the build. Alternatively, CSS can be used to further customise
+ * the behavior of the build. Alternatively, CSS can be used to further customize
  * the pagination.
  *
  * Examples:
@@ -49,7 +49,7 @@ export class PaginationBuilder {
   /**
    * Builds a list of `PaginationItem`. The give pageCount and current are used
    * to build out the full pagination. There are various {@link PaginationConfig} options
-   * which can be used to configure the behaviour of the build. Alternatively, CSS
+   * which can be used to configure the behavior of the build. Alternatively, CSS
    * can be used to further specialize visibility of the pagination.
    *
    * @param pageCount The total number of pages
@@ -58,7 +58,7 @@ export class PaginationBuilder {
    */
   paginate(pageCount: number, current: number): PaginationItem[] {
     const pages: PaginationItem[] = [];
-    if (pageCount < 2) {
+    if (!pageCount || pageCount < 2) {
       return pages;
     }
     this.addPages(pages, pageCount, current);
@@ -113,13 +113,13 @@ export class PaginationBuilder {
         const isGap =
           !this.config.substituteDotsForSingularPage ||
           firstItemNumber !== gapNumber + 1;
-        const isSubstitued =
+        const isSubstituted =
           this.config.addFirst &&
           this.config.substituteDotsForSingularPage &&
           gapNumber === 0;
         const type = isGap
           ? PaginationItemType.GAP
-          : isSubstitued
+          : isSubstituted
           ? PaginationItemType.FIRST
           : PaginationItemType.PAGE;
         return [
@@ -138,7 +138,7 @@ export class PaginationBuilder {
       const nextPageNumber = pages[pages.length - 1].number + 1;
       const last = pageCount - (this.config.addLast ? 2 : 1);
       if (nextPageNumber <= last) {
-        const isSubstitued =
+        const isSubstituted =
           this.config.addLast &&
           this.config.substituteDotsForSingularPage &&
           nextPageNumber === last;
@@ -150,7 +150,7 @@ export class PaginationBuilder {
 
         const type = isGap
           ? PaginationItemType.GAP
-          : isSubstitued
+          : isSubstituted
           ? PaginationItemType.LAST
           : PaginationItemType.PAGE;
         return [
@@ -217,7 +217,7 @@ export class PaginationBuilder {
     current: number
   ): void {
     const before = this.getBeforeLinks(current);
-    const after = this.getAfter(pageCount, current);
+    const after = this.getAfterLinks(pageCount, current);
     const pos = this.config.navigationPosition;
     if (!pos || pos === PaginationNavigationPosition.ASIDE) {
       pages.unshift(...before);
@@ -235,7 +235,7 @@ export class PaginationBuilder {
   /**
    * Returns the start and previous links, if applicable.
    */
-  private getBeforeLinks(current: number): PaginationItem[] {
+  protected getBeforeLinks(current: number): PaginationItem[] {
     const list = [];
 
     if (this.config.addStart) {
@@ -268,7 +268,10 @@ export class PaginationBuilder {
   /**
    * Returns the next and end links, if applicable.
    */
-  private getAfter(pageCount: number, current: number): PaginationItem[] {
+  protected getAfterLinks(
+    pageCount: number,
+    current: number
+  ): PaginationItem[] {
     const list = [];
 
     if (this.config.addNext) {
@@ -306,7 +309,7 @@ export class PaginationBuilder {
    * @param pageCount The total number of pages.
    * @param current The current page number, 0-index based.
    */
-  private getStartOfRange(pageCount: number, current: number): number {
+  protected getStartOfRange(pageCount: number, current: number): number {
     const count = this.config.rangeCount - 1;
     // the least number of pages before and after the current
     const delta = Math.round(count / 2);
@@ -320,7 +323,29 @@ export class PaginationBuilder {
     return Math.min(maxStart, minStart);
   }
 
-  private get config(): PaginationOptions {
+  /**
+   * Returns the pagination configuration. The configuration is driven by the
+   * (default) application configuration.
+   *
+   * The default application is limited to adding the start and end link:
+   * ```ts
+   *   addStart: true,
+   *   addEnd: true
+   * ```
+   *
+   * The application configuration is however merged into the following static configuration:
+   * ```ts
+   * {
+   *   rangeCount: 3,
+   *   dotsLabel: '...',
+   *   startLabel: '«',
+   *   previousLabel: '‹',
+   *   nextLabel: '›',
+   *   endLabel: '»'
+   * }
+   * ```
+   */
+  protected get config(): PaginationOptions {
     return Object.assign(
       FALLBACK_PAGINATION_OPTIONS,
       this.paginationConfig.pagination
