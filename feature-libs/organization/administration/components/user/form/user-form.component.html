@@ -71,7 +71,7 @@
           type="checkbox"
           class="form-check-input"
           [value]="role"
-          [checked]="roles.value?.includes(role)"
+          [checked]="roles?.value?.includes(role)"
           (change)="updateRoles($event)"
         />
         <span class="form-check-label">
@@ -91,16 +91,12 @@
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('orgUnit.uid').disabled"
         appendTo=".organization"
       >
       </ng-select>
     </label>
 
-    <label class="full-width">
-      <!-- <span class="label-content required">
-        {{ 'user.unitApprover' | cxTranslate }}
-      </span> -->
+    <label *ngIf="isAssignedToApprovers" class="full-width">
       <label class="form-check">
         <input
           type="checkbox"

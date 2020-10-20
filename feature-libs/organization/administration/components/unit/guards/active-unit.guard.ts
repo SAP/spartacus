@@ -14,7 +14,7 @@ export class ActiveUnitGuard extends ExistUnitGuard {
   protected getRedirectUrl(_urlParams?: any): UrlTree {
     const urlPath = this.semanticPathService.transform({
       cxRoute: 'unitDetails',
-      params: { code: _urlParams.code },
+      params: { uid: _urlParams.code },
     });
 
     return this.router.parseUrl(urlPath.join('/'));

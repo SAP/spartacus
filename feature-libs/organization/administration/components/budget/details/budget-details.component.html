@@ -26,6 +26,20 @@
     </div>
 
     <div class="property">
+      <label>{{ 'budget.startDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.startDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'budget.endDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.endDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
       <label>{{ 'budget.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
