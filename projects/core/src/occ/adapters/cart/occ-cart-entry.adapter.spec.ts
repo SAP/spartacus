@@ -56,7 +56,7 @@ describe('OccCartEntryAdapter', () => {
     httpMock.verify();
   });
 
-  fdescribe('add entry to cart', () => {
+  describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       let result;
       occCartEntryAdapter
