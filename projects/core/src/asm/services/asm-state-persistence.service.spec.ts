@@ -98,7 +98,7 @@ describe('AsmStatePersistenceService', () => {
     spyOn(asmAuthStorageService, 'getEmulatedUserToken').and.returnValue({
       access_token: 'token',
       access_token_stored_at: '1000',
-      refresh_token: 'refresh_token', // token should not be saved
+      refresh_token: 'refresh_token', // this token should not be saved
     });
     spyOn(asmAuthStorageService, 'getTokenTarget').and.returnValue(
       of(TokenTarget.User)

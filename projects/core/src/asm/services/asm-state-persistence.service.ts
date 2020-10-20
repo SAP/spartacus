@@ -9,9 +9,9 @@ import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 export interface SyncedAsmState {
-  ui: AsmUi;
-  emulatedUserToken: AuthToken;
-  tokenTarget: TokenTarget;
+  ui?: AsmUi;
+  emulatedUserToken?: AuthToken;
+  tokenTarget?: TokenTarget;
 }
 
 @Injectable({
@@ -46,8 +46,10 @@ export class AsmStatePersistenceService implements OnDestroy {
     ]).pipe(
       map(([ui, emulatedUserToken, tokenTarget]) => {
         const emulatedToken = emulatedUserToken;
-        // To minimize risk of user account hijacking we don't persist emulated user refresh_token
-        delete emulatedToken.refresh_token;
+        if (emulatedToken) {
+          // To minimize risk of user account hijacking we don't persist emulated user refresh_token
+          delete emulatedToken.refresh_token;
+        }
         return {
           ui,
           emulatedUserToken: emulatedToken,
