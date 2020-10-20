@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -27,8 +27,6 @@ export class CartItemComponent implements OnInit {
   @Input() item: Item;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
-
-  @Output() view = new EventEmitter<any>();
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -61,9 +59,5 @@ export class CartItemComponent implements OnInit {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-  }
-
-  viewItem() {
-    this.view.emit();
   }
 }

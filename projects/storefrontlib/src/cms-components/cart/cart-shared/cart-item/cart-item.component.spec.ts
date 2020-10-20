@@ -133,7 +133,6 @@ describe('CartItemComponent', () => {
     spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
     el = fixture.debugElement;
-    spyOn(cartItemComponent.view, 'emit').and.callThrough();
   });
 
   it('should create CartItemComponent', () => {
@@ -181,11 +180,6 @@ describe('CartItemComponent', () => {
     expect(
       cartItemComponent.isProductOutOfStock(cartItemComponent.item.product)
     ).toBeFalsy();
-  });
-
-  it('should call viewItem()', () => {
-    cartItemComponent.viewItem();
-    expect(cartItemComponent.view.emit).toHaveBeenCalledWith();
   });
 
   it('should display variant properties', () => {

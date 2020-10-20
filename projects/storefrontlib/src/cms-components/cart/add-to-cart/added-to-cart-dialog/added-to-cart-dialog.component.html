@@ -30,7 +30,6 @@
             [compact]="true"
             [quantityControl]="getQuantityControl() | async"
             [promotionLocation]="promotionLocation"
-            (view)="dismissModal('Product selected')"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
@@ -65,14 +64,12 @@
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               class="btn btn-primary"
               autofocus
-              (click)="!form.dirty && dismissModal('View Cart click')"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
               class="btn btn-secondary"
-              (click)="!form.dirty && dismissModal('Proceed To Checkout click')"
               >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
             >
           </div>

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
@@ -6,11 +12,14 @@ import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
+  RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
+  pluck,
+  shareReplay,
   startWith,
   switchMap,
   switchMapTo,
@@ -24,7 +33,7 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent implements OnInit {
+export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
@@ -49,10 +58,13 @@ export class AddedToCartDialogComponent implements OnInit {
 
   private quantityControl$: Observable<FormControl>;
 
+  private subscription = new Subscription();
+
   constructor(
     protected modalService: ModalService,
     protected cartService: ActiveCartService,
-    protected promotionService: PromotionService
+    protected promotionService: PromotionService,
+    protected routingService: RoutingService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -83,7 +95,8 @@ export class AddedToCartDialogComponent implements OnInit {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity'))
+        map(() => <FormControl>this.form.get('quantity')),
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.quantityControl$;
@@ -97,6 +110,19 @@ export class AddedToCartDialogComponent implements OnInit {
       filter((loaded) => loaded),
       switchMapTo(this.cartService.getEntries()),
       map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
+    );
+
+    // close modal on the router navigation (i.e. after clicking link):
+    this.subscription.add(
+      this.routingService
+        .getRouterState()
+        .pipe(
+          pluck('nextState'),
+          filter((nextState) => !!nextState) // wait for navigation start
+        )
+        .subscribe((nextState) => {
+          this.dismissModal(`Navigation to URL: ${nextState.url}`);
+        })
     );
   }
 
@@ -113,5 +139,9 @@ export class AddedToCartDialogComponent implements OnInit {
 
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
