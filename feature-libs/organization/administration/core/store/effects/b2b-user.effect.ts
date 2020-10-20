@@ -86,7 +86,9 @@ export class B2BUserEffects {
                 new OrganizationActions.OrganizationClearData(),
               ] as any[];
               if (isAssignedToApprovers) {
-                successActions.push(
+                successActions.splice(
+                  1,
+                  0,
                   new OrgUnitActions.AssignApprover({
                     userId,
                     orgUnitId: orgCustomer.orgUnit.uid,
