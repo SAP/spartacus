@@ -30,7 +30,7 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Converts the date string from a Standard ISO 8601 to valid datetime string with timezone
+   * Converts the date string from a Standard ISO 860 to valid datetime string with timezone
    * Eg date format:  2020-10-15T15:38:05-05:00
    */
   private convertDate(date: string): string {

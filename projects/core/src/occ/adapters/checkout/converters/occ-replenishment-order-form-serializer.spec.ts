@@ -4,25 +4,22 @@ import { DateTimePickerFormatterService } from '../../../../util/date-time-picke
 
 import createSpy = jasmine.createSpy;
 
-const nativeValue = '2010-06-01T00:00';
 const modelValue = '2010-06-01T00:00:00+0000';
 
-class MockDateTimePickerFormatterService
-  implements Partial<DateTimePickerFormatterService> {
+class MockDateTimePickerFormatterService {
   toModel = createSpy('toModel').and.returnValue(modelValue);
-  toNative = createSpy('toNative').and.returnValue(nativeValue);
 }
 
-fdescribe('OccReplenishmentOrderFormSerializer', () => {
+describe('OccReplenishmentOrderFormSerializer', () => {
   let serializer: OccReplenishmentOrderFormSerializer;
-  let service: DateTimePickerFormatterService; // is this even being tested?
+  let service: DateTimePickerFormatterService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
+        OccReplenishmentOrderFormSerializer,
         {
-          provide: OccReplenishmentOrderFormSerializer,
-          DateTimePickerFormatterService,
+          provide: DateTimePickerFormatterService,
           useClass: MockDateTimePickerFormatterService,
         },
       ],
@@ -39,12 +36,11 @@ fdescribe('OccReplenishmentOrderFormSerializer', () => {
   });
 
   it('should convert the date string of schedule replenishment form to ISO 8601 format', () => {
-    const mockDate = '1994-01-11:01:02:03';
-
-    const ISODateFormat = mockDate + '-05:00';
-
+    const mockDate = '1994-01-11:01:02:03.456Z';
+    const ISODateFormat = service.toModel('1994-01-11:01:02:00');
     const result = serializer['convertDate'](mockDate);
 
+    expect(service.toModel).toHaveBeenCalledWith('1994-01-11:01:02:00');
     expect(result).toEqual(ISODateFormat);
   });
 });
