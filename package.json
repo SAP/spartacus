@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:organization && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
+    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:schematics && yarn build:organization && yarn build:product && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
     "build:core:lib": "echo Deprecated command! Use `yarn build:libs` instead. && yarn build:libs",
     "build:incubator": "ng build incubator --prod",
     "build:setup": "ng build setup --prod",
@@ -90,7 +90,8 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "build:organization": "ng build organization --prod && yarn --cwd feature-libs/organization run build:schematics",
+    "build:schematics": "yarn --cwd projects/schematics run build",
+    "build:organization": "ng build organization --prod",
     "start:b2b": "cross-env SPARTACUS_BASE_URL=https://localhost:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:product": "ng build product --prod",
     "release:organization:with-changelog": "cd feature-libs/organization && release-it && cd ../..",
