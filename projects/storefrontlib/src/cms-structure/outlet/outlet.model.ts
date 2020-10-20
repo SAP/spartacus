@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export enum OutletPosition {
   REPLACE = 'replace',
   BEFORE = 'before',
@@ -23,4 +25,8 @@ export abstract class OutletContextData<T = any> {
    * Provides outlet context
    */
   context: T;
+  /**
+   * Provides outlet context as an observable
+   */
+  context$: Observable<T>;
 }
