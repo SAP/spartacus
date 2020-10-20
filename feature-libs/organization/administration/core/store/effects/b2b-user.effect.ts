@@ -77,16 +77,7 @@ export class B2BUserEffects {
           // TODO Workaround for not known customerId while user creation (redireciton)
           return this.routingService.getRouterState().pipe(
             take(1),
-            tap((route) => {
-              if (
-                (route as any)?.state?.context?.id !== '/organization/units'
-              ) {
-                this.routingService.go({
-                  cxRoute: 'userDetails',
-                  params: data,
-                });
-              }
-            }),
+            tap((route) => this.redirect(route, data)),
             switchMap(() => {
               return [
                 new B2BUserActions.CreateB2BUserSuccess(data),
@@ -132,16 +123,7 @@ export class B2BUserEffects {
 
           return this.routingService.getRouterState().pipe(
             take(1),
-            tap((route) => {
-              if (
-                (route as any)?.state?.context?.id !== '/organization/units'
-              ) {
-                this.routingService.go({
-                  cxRoute: 'userDetails',
-                  params: data,
-                });
-              }
-            }),
+            tap((route) => this.redirect(route, data)),
             switchMap(() => {
               return [
                 new B2BUserActions.CreateB2BUserSuccess(data),
@@ -680,4 +662,13 @@ export class B2BUserEffects {
     private routingService: RoutingService,
     private userService: UserService
   ) {}
+
+  protected redirect(route, data) {
+    if ((route as any)?.state?.context?.id !== '/organization/units') {
+      this.routingService.go({
+        cxRoute: 'userDetails',
+        params: data,
+      });
+    }
+  }
 }
