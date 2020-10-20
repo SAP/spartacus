@@ -32,9 +32,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       {
         userId,
         cartId,
-        quantity,
+        quantity, // The "quantity" parameter is required for the b2b add to cart endpoint.
       },
-      { code: productCode, qty: quantity }
+      { code: productCode, qty: quantity } // The "qty" parameter is used for the base b2c add to cart endpoint.
     );
 
     return this.http
