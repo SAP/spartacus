@@ -21,9 +21,10 @@
   }
 
   header {
-    background-image: linear-gradient(
-      var(--cx-color-background) 123px,
-      var(--cx-color-dark) 0
+    background: linear-gradient(
+      to top,
+      var(--cx-color-dark) 67px,
+      var(--cx-color-background) 0
     );
 
     cx-link a {
