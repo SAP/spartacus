@@ -2,13 +2,13 @@ import {
   organizationTranslationChunksConfig,
   organizationTranslations,
 } from '@spartacus/organization/administration/assets';
-import { OrganizationRootModule } from '@spartacus/organization/administration/root';
+import { AdministrationRootModule } from '@spartacus/organization/administration/root';
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
-    OrganizationRootModule,
+    AdministrationRootModule,
     B2bStorefrontModule.withConfig({
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],

@@ -53,4 +53,4 @@ import { defaultOrganizationLayoutConfig } from './config/default-organization-l
     }),
   ],
 })
-export class OrganizationRootModule {}
+export class AdministrationRootModule {}
