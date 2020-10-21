@@ -8,12 +8,8 @@ git:
 branches:
   only:
     - develop
-    - master
-    - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-    - "/^doc\\/.*$/"
-    - "/^epic\\/.*$/"
 env:
   - TEST_SUITE="./build.sh sonar"
 script: $TEST_SUITE

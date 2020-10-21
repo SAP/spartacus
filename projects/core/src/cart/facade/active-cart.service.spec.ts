@@ -221,6 +221,27 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last entry by product code', () => {
+      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+        of(mockCartEntry)
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getLastEntry('code123')
+        .subscribe((entry) => (result = entry))
+        .unsubscribe();
+
+      expect(result).toEqual(mockCartEntry);
+      expect(multiCartService['getLastEntry']).toHaveBeenCalledWith(
+        'cartId',
+        'code123'
+      );
+    });
+  });
+
   describe('isStable', () => {
     it('should return true when isStable returns true', (done) => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));

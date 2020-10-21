@@ -20,24 +20,27 @@
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
       "@spartacus/vendor": ["projects/vendor/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/cds": ["projects/cds/public_api"],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
-      "@spartacus/my-account": ["feature-libs/my-account/public_api"],
-      "@spartacus/my-account/organization": [
-        "feature-libs/my-account/organization/public_api"
+      "@spartacus/organization": ["feature-libs/organization/public_api"],
+      "@spartacus/organization/administration": [
+        "feature-libs/organization/administration/public_api"
       ],
-      "@spartacus/my-account/organization/core": [
-        "feature-libs/my-account/organization/core/public_api"
+      "@spartacus/organization/administration/core": [
+        "feature-libs/organization/administration/core/public_api"
       ],
-      "@spartacus/my-account/organization/occ": [
-        "feature-libs/my-account/organization/occ/public_api"
+      "@spartacus/organization/administration/occ": [
+        "feature-libs/organization/administration/occ/public_api"
       ],
-      "@spartacus/my-account/organization/components": [
-        "feature-libs/my-account/organization/components/public_api"
+      "@spartacus/organization/administration/components": [
+        "feature-libs/organization/administration/components/public_api"
       ],
-      "@spartacus/my-account/organization/assets": [
-        "feature-libs/my-account/organization/assets/public_api"
+      "@spartacus/organization/administration/assets": [
+        "feature-libs/organization/administration/assets/public_api"
+      ],
+      "@spartacus/organization/administration/root": [
+        "feature-libs/organization/administration/root/public_api"
       ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configurators": [

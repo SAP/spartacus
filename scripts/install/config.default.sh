@@ -11,11 +11,14 @@ BACKEND_URL="https://localhost:9002"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
-        "core"
-        "assets"
-        "storefrontlib"
-        "storefrontstyles"
-        "schematics"
+        "projects/core"
+        "projects/assets"
+        "projects/storefrontlib"
+        "projects/storefrontstyles"
+        "projects/schematics"
+        "integration-libs/cds"
+        "core-libs/setup"
+        "feature-libs/organization"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -35,3 +38,5 @@ SPARTACUS_VERSION='latest'
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+ADD_B2B_LIBS=false
