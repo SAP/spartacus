@@ -88,6 +88,16 @@ describe('B2B - Order Approval', () => {
           sampleData.approvalOrderList.orderApprovals[0].order.totalPrice
             .formattedValue
         );
+
+        // change the sort
+        cy.server();
+        cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
+        cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
+        
+        cy.wait('@query_order_asc').its('status').should('eq', 200);
+
+        // assert the new list request is sent.
+
     });
 
     it('Should display approval detail page', () => {
