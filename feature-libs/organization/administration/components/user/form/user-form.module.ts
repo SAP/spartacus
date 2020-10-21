@@ -20,5 +20,6 @@ import { UserFormComponent } from './user-form.component';
     FormErrorsModule,
   ],
   declarations: [UserFormComponent],
+  exports: [UserFormComponent],
 })
 export class UserFormModule {}
