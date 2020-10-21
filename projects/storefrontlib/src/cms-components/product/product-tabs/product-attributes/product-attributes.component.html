@@ -11,6 +11,16 @@
           <ul>
             <li *ngFor="let featureValue of feature?.featureValues">
               {{ featureValue?.value }}
+
+              <span
+                *ngIf="
+                  feature.featureUnit.symbol &&
+                  feature.featureUnit.symbol.length > 0 &&
+                  feature.featureUnit.symbol !== '.'
+                "
+              >
+                {{ feature.featureUnit.symbol }}
+              </span>
             </li>
           </ul>
         </td>
