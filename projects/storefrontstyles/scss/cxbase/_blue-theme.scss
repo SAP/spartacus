@@ -60,4 +60,13 @@
   cx-breadcrumb nav span a {
     color: var(--cx-color-primary);
   }
+
+  cx-cart-item-list .cx-item-list-header,
+  cx-wish-list .cx-item-list-header {
+    color: var(--cx-color-text);
+  }
+
+  cx-cart-item .cx-code {
+    color: var(--cx-color-text);
+  }
 }
