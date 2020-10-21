@@ -1,6 +1,7 @@
 <cx-organization-card
   *ngIf="model$ | async as model"
-  i18nRoot="permission.details"
+  [i18nRoot]="'permission.details'"
+  [routeParam]="permissionRouteParam"
 >
   <a
     actions

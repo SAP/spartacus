@@ -1,6 +1,7 @@
 <cx-organization-card
   *ngIf="model$ | async as model"
-  i18nRoot="userGroup.details"
+  [i18nRoot]="'userGroup.details'"
+  [routeParam]="userGroupRouteParam"
 >
   <a
     actions

@@ -22,7 +22,7 @@ import { BaseItem } from '../organization.model';
 export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
-  @Input() entity?: string;
+  @Input() routeParam?: string;
 
   protected itemKey;
 
@@ -49,7 +49,7 @@ export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
            * putting the guard in separate directive/child component in the template.
            */
           setTimeout(() => {
-            this.entityGuard.canActivate(item, this.i18nRoot);
+            this.entityGuard.canActivate(item, this.i18nRoot, this.routeParam);
           }, 1);
         }
       })

@@ -13,7 +13,11 @@ export class EntityGuard {
     protected messageService: MessageService
   ) {}
 
-  canActivate(item: BaseItem, entity: string): BaseItem | void {
+  canActivate(
+    item: BaseItem,
+    entity: string,
+    routeParam?: string
+  ): BaseItem | void {
     // entity: user.details or user.edit
     const entityData = this.splitEntity(entity);
 
@@ -24,7 +28,7 @@ export class EntityGuard {
       // timeout for the user to be able to see the error message before redirecting
       // if we do not want the timeout, we would need to use the global message service
       setTimeout(() => {
-        this.redirect(item, entityData);
+        this.redirect(item, entityData, routeParam);
       }, 1000);
     }
   }
@@ -42,13 +46,20 @@ export class EntityGuard {
     return entity.split('.');
   }
 
-  protected redirect(item: BaseItem, entityData: string[]) {
+  protected redirect(
+    item: BaseItem,
+    entityData: string[],
+    routeParam?: string
+  ) {
     if (entityData[1] === 'details') {
       this.routingService.go({ cxRoute: entityData[0] });
     } else {
+      const paramObject = {};
+      paramObject[routeParam] = item.code;
+
       this.routingService.go({
         cxRoute: `${entityData[0]}Details`,
-        params: { userCode: item.code },
+        params: paramObject,
       });
     }
   }

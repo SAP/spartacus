@@ -1,4 +1,9 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="user.details">
+<cx-organization-card
+  *ngIf="model$ | async as model"
+  [i18nRoot]="'user.details'"
+  ,
+  [routeParam]="userRouteParam"
+>
   <a
     actions
     class="link edit"
