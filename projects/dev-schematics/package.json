@@ -16,7 +16,6 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "peerDependencies": {
-    "@spartacus/storefront": "next",
     "@spartacus/schematics": "next"
   },
   "dependencies": {
@@ -25,7 +24,6 @@
     "@schematics/angular": "^10.1.0"
   },
   "devDependencies": {
-    "@spartacus/storefront": "next",
     "@spartacus/schematics": "next",
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",

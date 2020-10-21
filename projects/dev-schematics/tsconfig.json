@@ -21,7 +21,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/schematics": ["../schematics/src/public_api"]
     }
   },
