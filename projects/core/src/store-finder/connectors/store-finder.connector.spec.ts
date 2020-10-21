@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { GeoPoint } from '../../model';
-import { StoreFinderSearchConfig } from '../model';
+import { SearchConfig } from '../../product/model/search-config';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
 import createSpy = jasmine.createSpy;
@@ -39,7 +39,7 @@ describe('StoreFinderConnector', () => {
 
   it('search should call adapter', () => {
     const geoPoint: GeoPoint = { latitude: 1, longitude: 2 };
-    const searchConfig: StoreFinderSearchConfig = {
+    const searchConfig: SearchConfig = {
       sort: 'ASC',
     };
     const radius = 50000;

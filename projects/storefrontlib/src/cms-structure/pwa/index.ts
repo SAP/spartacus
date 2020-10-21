@@ -3,3 +3,4 @@ export * from './components/add-to-home-screen-btn/add-to-home-screen-btn.compon
 export * from './components/add-to-home-screen.component';
 export { PwaModule } from './pwa.module';
 export * from './pwa.module-config';
+export * from './services/add-to-home-screen.service';

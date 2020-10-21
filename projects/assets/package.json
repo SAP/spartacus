@@ -1,10 +1,13 @@
 {
   "name": "@spartacus/assets",
-  "version": "2.1.0-dev.0",
+  "version": "3.0.0-next.4",
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/assets",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   },
   "scripts": {
     "build": "ng build assets --prod && yarn generate:translations:ts-2-json",

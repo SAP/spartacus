@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, timer } from 'rxjs';
+import { EMPTY, Observable, Subscription, timer } from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
@@ -31,11 +31,12 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartService {
+export class ActiveCartService implements OnDestroy {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private activeCart$: Observable<Cart>;
+  protected subscription = new Subscription();
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
@@ -59,24 +60,32 @@ export class ActiveCartService {
     protected authService: AuthService,
     protected multiCartService: MultiCartService
   ) {
-    this.authService.getOccUserId().subscribe((userId) => {
-      this.userId = userId;
-      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-        if (this.isJustLoggedIn(userId)) {
-          this.loadOrMerge(this.cartId);
-        }
-      }
-      this.previousUserId = userId;
-    });
-
-    this.activeCartId$.subscribe((cartId) => {
-      this.cartId = cartId;
-    });
-
     this.initActiveCart();
   }
 
-  private initActiveCart() {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected initActiveCart() {
+    this.subscription.add(
+      this.authService.getOccUserId().subscribe((userId) => {
+        this.userId = userId;
+        if (this.userId !== OCC_USER_ID_ANONYMOUS) {
+          if (this.isJustLoggedIn(userId)) {
+            this.loadOrMerge(this.cartId);
+          }
+        }
+        this.previousUserId = userId;
+      })
+    );
+
+    this.subscription.add(
+      this.activeCartId$.subscribe((cartId) => {
+        this.cartId = cartId;
+      })
+    );
+
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
       map(([cartEntity, activeCartId]: [ProcessesLoaderState<Cart>, string]): {
@@ -141,6 +150,22 @@ export class ActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartService.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns last cart entry for provided product code.
+   * Needed to cover processes where multiple entries can share the same product code
+   * (e.g. promotions or configurable products)
+   *
+   * @param productCode
+   */
+  getLastEntry(productCode: string): Observable<OrderEntry> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) =>
+        this.multiCartService.getLastEntry(cartId, productCode)
+      ),
       distinctUntilChanged()
     );
   }

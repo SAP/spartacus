@@ -7,9 +7,41 @@
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"],
-      "@spartacus/my-account": ["dist/my-account"],
+      "@spartacus/organization": ["dist/organization"],
+      "@spartacus/organization/administration": [
+        "dist/organization/administration"
+      ],
+      "@spartacus/organization/administration/core": [
+        "dist/organization/administration/core"
+      ],
+      "@spartacus/organization/administration/occ": [
+        "dist/organization/administration/occ"
+      ],
+      "@spartacus/organization/administration/components": [
+        "dist/organization/administration/components"
+      ],
+      "@spartacus/organization/administration/assets": [
+        "dist/organization/administration/assets"
+      ],
+      "@spartacus/organization/administration/root": [
+        "dist/organization/administration/root"
+      ],
       "@spartacus/product": ["dist/product"],
-      "@spartacus/product/configuration": ["dist/product/configuration"]
+      "@spartacus/product/configurators": ["dist/product/configurators"],
+      "@spartacus/product/configurators/common": [
+        "dist/product/configurators/common"
+      ],
+      "@spartacus/product/configurators/cpq": [
+        "dist/product/configurators/cpq"
+      ],
+      "@spartacus/product/configurators/variant": [
+        "dist/product/configurators/variant"
+      ],
+      "@spartacus/product/configurators/textfield": [
+        "dist/product/configurators/textfield"
+      ],
+      "@spartacus/cdc": ["dist/cdc"],
+      "@spartacus/setup": ["dist/setup"]
     }
   }
 }

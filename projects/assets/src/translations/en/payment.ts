@@ -32,7 +32,12 @@ export const payment = {
     deleteConfirmation: 'Are you sure you want to delete this payment method?',
     setAsDefault: 'Set as default',
     expires: 'Expires: {{ month }}/{{ year }}',
-    defaultPaymentMethod: 'Default Payment Method',
+    defaultPaymentMethod: '✓ DEFAULT',
     selected: 'Selected',
+  },
+  paymentTypes: {
+    title: 'Payment method',
+    paymentType_CARD: 'Credit Card',
+    paymentType_ACCOUNT: 'Account',
   },
 };

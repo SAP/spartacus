@@ -11,16 +11,16 @@ import { PWAModuleConfig } from '../pwa.module-config';
   providedIn: 'root',
 })
 export class AddToHomeScreenService {
-  private deferredEvent: any;
+  protected deferredEvent: any;
 
-  private canPrompt = new BehaviorSubject<boolean>(false);
+  protected canPrompt = new BehaviorSubject<boolean>(false);
 
   canPrompt$: Observable<boolean> = this.canPrompt.asObservable();
 
   constructor(
-    private config: PWAModuleConfig,
-    private globalMessageService: GlobalMessageService,
-    private winRef: WindowRef
+    protected config: PWAModuleConfig,
+    protected globalMessageService: GlobalMessageService,
+    protected winRef: WindowRef
   ) {
     if (this.config.pwa.addToHomeScreen) {
       this.init();

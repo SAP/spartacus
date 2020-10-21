@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
 const MockRoutesConfig: RoutesConfig = JSON.parse(
@@ -24,7 +24,7 @@ class MockRoutingConfigService {
     return MockRoutesConfig[routeName];
   }
 }
-class MockCheckoutConfigService {
+class MockCheckoutStepService {
   getCheckoutStep() {}
 }
 
@@ -37,7 +37,7 @@ describe(`ShippingAddressSetGuard`, () => {
   let mockCheckoutDetailsService: CheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCheckoutConfigService: CheckoutConfigService;
+  let mockCheckoutStepService: CheckoutStepService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe(`ShippingAddressSetGuard`, () => {
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
       imports: [RouterTestingModule],
     });
@@ -57,16 +57,31 @@ describe(`ShippingAddressSetGuard`, () => {
     mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+
+    spyOn(console, 'warn');
+  });
+
+  describe(`shipping address step is disabled`, () => {
+    it(`should return true`, (done) => {
+      const step = MockCheckoutConfig.checkout.steps[0];
+      step.disabled = true;
+      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(step);
+      guard.canActivate().subscribe((result) => {
+        expect(result).toBeTruthy();
+        done();
+      });
+    });
   });
 
   describe(`when there is NO shipping address present`, () => {
-    it(`should navigate to shipping address step`, (done) => {
+    it(`should navigate to shipping address step if this step is enabled`, (done) => {
+      MockCheckoutConfig.checkout.steps[0].disabled = undefined;
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
 
-      spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
+      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(
         MockCheckoutConfig.checkout.steps[0]
       );
 
@@ -86,7 +101,6 @@ describe(`ShippingAddressSetGuard`, () => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
-      spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe((result) => {

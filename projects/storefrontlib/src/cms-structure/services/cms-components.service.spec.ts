@@ -1,12 +1,16 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CmsConfig, DeferLoadingStrategy } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
+import { FeatureModulesService } from './feature-modules.service';
+import createSpy = jasmine.createSpy;
 
 let service: CmsComponentsService;
 
 const mockConfig: CmsConfig = {
   cmsComponents: {
+    testCode: {},
     exampleMapping1: {
       component: 'selector-1',
       i18nKeys: ['key-1'],
@@ -20,6 +24,13 @@ const mockConfig: CmsConfig = {
       guards: ['guard1'],
       deferLoading: DeferLoadingStrategy.INSTANT,
     },
+    exampleMapping3: {
+      component: 'selector-3',
+      childRoutes: {
+        parent: { data: { test: 'parent data' } },
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      },
+    },
   },
 };
 
@@ -29,10 +40,29 @@ const mockComponents: string[] = [
   'exampleMapping2',
 ];
 
+class MockFeatureModulesService implements Partial<FeatureModulesService> {
+  private testResovler = new Subject();
+
+  hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
+  getInjectors = createSpy();
+
+  getCmsMapping() {
+    return this.testResovler;
+  }
+
+  resolveMappingsForTest() {
+    this.testResovler.next({});
+    this.testResovler.complete();
+  }
+}
+
 describe('CmsComponentsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CmsConfig, useValue: mockConfig }],
+      providers: [
+        { provide: CmsConfig, useValue: mockConfig },
+        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+      ],
     });
 
     service = TestBed.inject(CmsComponentsService);
@@ -49,6 +79,19 @@ describe('CmsComponentsService', () => {
         expect(types).toBe(testTypes);
         done();
       });
+    });
+    it('should resolve features before emitting values', () => {
+      const featureModulesService = TestBed.inject<MockFeatureModulesService>(
+        FeatureModulesService as any
+      );
+      const testTypes = ['feature'];
+      let isDone = false;
+      service.determineMappings(testTypes).subscribe(() => {
+        isDone = true;
+      });
+      expect(isDone).toBeFalsy();
+      featureModulesService.resolveMappingsForTest();
+      expect(isDone).toBeTruthy();
     });
   });
 
@@ -79,11 +122,17 @@ describe('CmsComponentsService', () => {
   });
 
   describe('getChildRoutes', () => {
-    it('should get routes from page data', () => {
-      expect(service.getChildRoutes(mockComponents)).toEqual([
-        { path: 'route1' },
-        { path: 'route2' },
-      ]);
+    it('should get child routes from page data', () => {
+      expect(service.getChildRoutes(mockComponents)).toEqual({
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      });
+    });
+
+    it('should get parent and child routes from page data', () => {
+      expect(service.getChildRoutes(['exampleMapping3'])).toEqual({
+        parent: { data: { test: 'parent data' } },
+        children: [{ path: 'route1' }, { path: 'route2' }],
+      });
     });
   });
 
@@ -96,6 +145,21 @@ describe('CmsComponentsService', () => {
   describe('getI18nKeys', () => {
     it('should get i18n keys from page data', () => {
       expect(service.getI18nKeys(mockComponents)).toEqual(['key-1', 'key-2']);
+    });
+  });
+
+  describe('getInjectors', () => {
+    it('should call FeatureModulesService', () => {
+      const featureModulesService = TestBed.inject(FeatureModulesService);
+      service.getInjectors('feature');
+      expect(featureModulesService.getInjectors).toHaveBeenCalledWith(
+        'feature'
+      );
+    });
+    it('should not call FeatureModulesService if there is no such a feature', () => {
+      const featureModulesService = TestBed.inject(FeatureModulesService);
+      service.getInjectors('unknownType');
+      expect(featureModulesService.getInjectors).not.toHaveBeenCalled();
     });
   });
 });

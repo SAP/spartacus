@@ -10,6 +10,8 @@ export const common = {
     save: 'Save',
     done: 'Done',
     home: 'Home',
+    noData: 'No data.',
+    confirm: 'Confirm',
   },
   pageMetaResolver: {
     category: {
@@ -51,6 +53,8 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
     rma: 'Return Number',
+    replenishmentNumber: 'Replenishment Number',
+    nextOrderDate: 'Next Order Date',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
@@ -132,5 +136,13 @@ export const common = {
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
     cxNoSelectedItemToCancel: 'Select at least one item to cancel',
+    cxDateMin: 'Date cannot be before {{min}}',
+    cxDateMax: 'Date cannot be after {{max}}',
+    cxNegativeAmount: 'Amount must be equal or greater than zero',
+    cxContainsSpecialCharacters: 'Field cannot contain special characters',
+  },
+  errorHandlers: {
+    scriptFailedToLoad: 'Failed to load the script.',
+    refreshThePage: 'Please refresh the page.',
   },
 };

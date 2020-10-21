@@ -1,5 +1,3 @@
-import { Price, Product } from './product.model';
-import { PaginationModel, SortModel } from './misc.model';
 import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
@@ -8,7 +6,10 @@ import {
   PromotionResult,
   Voucher,
 } from './cart.model';
+import { PaginationModel, SortModel } from './misc.model';
+import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
+import { Price, Product } from './product.model';
 
 export interface DeliveryMode {
   code?: string;
@@ -130,6 +131,7 @@ export interface Order {
   calculated?: boolean;
   code?: string;
   consignments?: Consignment[];
+  costCenter?: CostCenter;
   created?: Date;
   deliveryAddress?: Address;
   deliveryCost?: Price;
@@ -143,10 +145,13 @@ export interface Order {
   guid?: string;
   net?: boolean;
   orderDiscounts?: Price;
+  orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
+  permissionResults?: any[]; //OrderApprovalPermissionResult[];
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;
+  purchaseOrderNumber?: string;
   site?: string;
   status?: string;
   statusDisplay?: string;

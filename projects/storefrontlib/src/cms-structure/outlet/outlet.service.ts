@@ -1,13 +1,24 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { ComponentFactory, Injectable, TemplateRef } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OutletService<T = TemplateRef<any>> {
-  private templatesRefs = new Map<string, T[]>();
-  private templatesRefsBefore = new Map<string, T[]>();
-  private templatesRefsAfter = new Map<string, T[]>();
+export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
+  /**
+   * @deprecated since 2.1, see #8116
+   */
+  constructor();
+  // tslint:disable-next-line: unified-signatures
+  constructor(features: FeatureConfigService);
+  constructor(protected features?: FeatureConfigService) {}
+
+  private templatesRefs = {
+    [OutletPosition.BEFORE]: new Map<string, T[]>(),
+    [OutletPosition.REPLACE]: new Map<string, T[]>(),
+    [OutletPosition.AFTER]: new Map<string, T[]>(),
+  };
 
   /**
    * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
@@ -37,14 +48,11 @@ export class OutletService<T = TemplateRef<any>> {
     templateOrFactory: T,
     position: OutletPosition = OutletPosition.REPLACE
   ): void {
-    if (position === OutletPosition.BEFORE) {
-      this.store(this.templatesRefsBefore, outlet, templateOrFactory);
-    }
-    if (position === OutletPosition.REPLACE) {
-      this.store(this.templatesRefs, outlet, templateOrFactory);
-    }
-    if (position === OutletPosition.AFTER) {
-      this.store(this.templatesRefsAfter, outlet, templateOrFactory);
+    const store = this.templatesRefs[position];
+    if (store) {
+      const existing = store.get(outlet) || [];
+      const newValue: T[] = existing.concat([templateOrFactory]);
+      store.set(outlet, newValue);
     }
   }
 
@@ -62,17 +70,11 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     stacked = AVOID_STACKED_OUTLETS
   ): T[] | T {
-    let templateRef: T[];
-    switch (position) {
-      case OutletPosition.BEFORE:
-        templateRef = this.templatesRefsBefore.get(outlet);
-        break;
-      case OutletPosition.AFTER:
-        templateRef = this.templatesRefsAfter.get(outlet);
-        break;
-      default:
-        templateRef = this.templatesRefs.get(outlet);
-    }
+    const store =
+      this.templatesRefs[position] ||
+      this.templatesRefs[OutletPosition.REPLACE];
+
+    const templateRef: T[] = store.get(outlet);
     if (templateRef && !stacked) {
       return templateRef[0];
     }
@@ -84,22 +86,11 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     value?: T
   ): void {
-    switch (position) {
-      case OutletPosition.BEFORE:
-        this.removeValueOrAll(this.templatesRefsBefore, outlet, value);
-        break;
-      case OutletPosition.AFTER:
-        this.removeValueOrAll(this.templatesRefsAfter, outlet, value);
-        break;
-      default:
-        this.removeValueOrAll(this.templatesRefs, outlet, value);
-    }
-  }
+    const store =
+      this.templatesRefs[position] ||
+      this.templatesRefs[OutletPosition.REPLACE];
 
-  private store(store: Map<string, T[]>, outlet: string, value: T) {
-    const existing = store.get(outlet) || [];
-    const newValue: T[] = existing.concat([value]);
-    store.set(outlet, newValue);
+    this.removeValueOrAll(store, outlet, value);
   }
 
   protected removeValueOrAll(
@@ -111,7 +102,14 @@ export class OutletService<T = TemplateRef<any>> {
       store.delete(outlet);
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
-      existing = existing.filter((val) => val === value);
+
+      if (this.features?.isLevel('2.1')) {
+        existing = existing.filter((val) => val !== value);
+      } else {
+        // deprecated since 2.1, see #8116:
+        existing = existing.filter((val) => val === value);
+      }
+
       store.set(outlet, existing);
     }
   }

@@ -1,6 +1,10 @@
 @import '../../../../theme';
 
 %cx-review-submit {
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
+
   .cx-review {
     padding: 0 0 1rem;
   }
@@ -13,6 +17,7 @@
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
+    padding: 15px 0;
 
     &-wrapper {
       display: flex;
@@ -30,13 +35,48 @@
       }
     }
 
+    .cx-review-payment-col {
+      @include media-breakpoint-up(lg) {
+        border-inline-end: 1px solid var(--cx-color-text);
+      }
+    }
+
     .cx-review-summary-card {
+      display: flex;
+      justify-content: space-between;
+
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
         min-height: auto;
+      }
+
+      &:not(:last-of-type) {
+        @include media-breakpoint-up(lg) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .cx-card-title {
+        @include type('4');
+        font-weight: bold;
+      }
+
+      .cx-card-paragraph-title {
+        font-style: italic;
+      }
+
+      .cx-review-summary-edit-step {
+        align-self: flex-start;
+        padding: 20px;
+        font-size: $h4-font-size;
+
+        a,
+        a:hover {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }
@@ -113,20 +153,148 @@ cx-place-order {
     --cx-flex-basis: 45%;
   }
 
+  .scaled-input {
+    transform: scale(0.7);
+  }
+
   .cx-place-order-form {
-    @include type('7');
+    font-size: 12px;
     padding: 0;
 
     .form-check {
       &-input {
         margin: 0;
         top: 1rem;
+
+        @include media-breakpoint-down(sm) {
+          top: 0.5rem;
+        }
       }
 
       &-label {
         padding: 0;
-        margin: 0 0 0.5rem 3rem;
+        margin-top: 0;
+        margin-inline-end: 0;
+        margin-bottom: 0.5rem;
+        margin-inline-start: 3rem;
+        margin: 0.3rem 0 0.5rem 2rem;
       }
+    }
+  }
+}
+
+cx-schedule-replenishment-order {
+  .scaled-input {
+    transform: scale(0.875);
+  }
+
+  .cx-label-container {
+    display: flex;
+    margin-bottom: 5px;
+
+    cx-icon {
+      font-size: $font-size-base * 1.3;
+    }
+  }
+
+  .cx-order-replenishment-header {
+    margin-inline-end: 14px;
+    margin-bottom: 0;
+  }
+
+  .cx-order-type-card {
+    font-size: $small-font-size;
+    background-color: var(--cx-color-background);
+    border: 1px solid $light;
+    border-radius: var(--cx-buttons-border-radius);
+    margin-bottom: 10px;
+    padding: 20px 21px;
+
+    .cx-order-type-container {
+      margin-bottom: 7px;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+
+      .form-check-label {
+        top: 5px;
+      }
+    }
+
+    .cx-replenishment-form-data-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+      flex-wrap: wrap;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      .form-control {
+        height: 32px;
+        font-size: $small-font-size;
+        padding: 0 11px;
+      }
+
+      .form-data-label {
+        align-self: center;
+        padding-inline-end: 10px;
+        width: 100%;
+      }
+
+      .form-data-input {
+        flex: 1;
+      }
+
+      .cx-days {
+        margin-inline-end: 1.8rem;
+      }
+
+      .cx-day-of-month {
+        width: 5rem;
+      }
+
+      .cx-month {
+        @include media-breakpoint-down(sm) {
+          flex-grow: unset;
+          width: 50%;
+        }
+      }
+
+      &.cx-repeat-days-container {
+        flex-direction: unset;
+        flex-wrap: wrap;
+        max-width: 280px;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
+
+        .cx-repeat-days {
+          flex: 0 100%;
+          margin-bottom: 14px;
+          align-self: start;
+        }
+
+        .cx-week-day {
+          padding-top: 12px;
+        }
+
+        .form-check {
+          flex: 0 50%;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .cx-replenishment-date {
+    input {
+      padding-inline-start: 18px;
+      padding-inline-end: 8px;
     }
   }
 }

@@ -10,3 +10,4 @@ export {
   addToModuleImports,
   addToModuleImportsAndCommitChanges,
 } from './module-file-utils';
+export { getProjectTargets } from './workspace-utils';

@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { Order } from '@spartacus/core';
-
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -12,5 +9,5 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 }

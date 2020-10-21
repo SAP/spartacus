@@ -1,0 +1,80 @@
+/* 
+    The split-view can be used to add multiple associated views in a single view. This UX pattern is convenient
+    if you navigate through items, and want to go into more detail or related information without leaving the 
+    initial view. Instead of navigating through "pages", the split view hosts child views. The child views can be
+    static view elements, or dynamic created element, i.e. route driven. 
+    
+    To offer maximum flexibility on the number of child views that be visualized at the same time, the maximum number 
+    of views is controlled by a CSS property. This allows to differ the number per breakpoint or even component, as CSS 
+    properties cascade.
+    The  default (global) max views for a split view on tablet or higher is 2, where as we use 1 view on mobile.
+
+    The 2nd CSS property that is used to split views, is the `--cx-active-view`. This property is set by the 
+    component logic and indicates the deepest view that is visible. When the visibility of views are toggled, the 
+    `--cx-active-view` is set accordingly. 
+
+    A gutter can be added to the views. This is controlled with the css variable `--cx-split-gutter`. 
+  */
+
+:root {
+  --cx-transition-duration: 0.3s;
+
+  --cx-split-gutter: 40px;
+
+  @include media-breakpoint-down(md) {
+    --cx-max-views: 1;
+    --cx-split-gutter: 0px;
+  }
+  @include media-breakpoint-up(lg) {
+    --cx-max-views: 2;
+  }
+
+  --cx-active-view: 1;
+}
+
+%cx-split-view {
+  display: flex;
+  align-items: stretch;
+  /* We hide all elements outside the box, so that the views can animate nicely inside.  */
+  overflow: hidden;
+
+  margin-inline-end: calc(var(--cx-split-gutter) * -1);
+
+  --cx-view-flex: calc(
+    (100% / min(var(--cx-active-view), var(--cx-max-views)))
+  );
+
+  cx-view {
+    width: 100%;
+    height: 100%;
+
+    transition-duration: var(--cx-transition-duration);
+    transition-timing-function: ease-in;
+
+    overflow: hidden;
+
+    flex: 1 0
+      calc(
+        (100% / min(var(--cx-active-view), var(--cx-max-views))) -
+          var(--cx-split-gutter)
+      );
+
+    margin-inline-end: var(--cx-split-gutter);
+
+    // The inline start margin of the first flex item decreases to move
+    // the flex items outside the flex container.
+    &[position='0'] {
+      margin-inline-start: calc(
+        (
+          max(var(--cx-active-view) - var(--cx-max-views), 0) *
+            (var(--cx-view-flex) * -1)
+        )
+      );
+    }
+
+    &[disappeared='true'] {
+      max-height: 0;
+      visibility: hidden;
+    }
+  }
+}

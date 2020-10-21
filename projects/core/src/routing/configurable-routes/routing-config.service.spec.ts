@@ -49,4 +49,18 @@ describe('RoutingConfigService', () => {
       expect(service.getLoadStrategy()).toEqual(RouteLoadStrategy.ONCE);
     });
   });
+
+  describe('getRouteName', () => {
+    it('should return the route name for the given path', () => {
+      expect(service.getRouteName('path1')).toBe('page1');
+    });
+
+    it('should return the route name for the given path alias', () => {
+      expect(service.getRouteName('path10')).toBe('page1');
+    });
+
+    it('should return undefined for unknown path', () => {
+      expect(service.getRouteName('path/unknown')).toBe(undefined);
+    });
+  });
 });

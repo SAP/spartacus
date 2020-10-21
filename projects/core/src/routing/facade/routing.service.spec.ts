@@ -1,33 +1,52 @@
 import { TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
+import { UrlCommands } from '../configurable-routes';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
 import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
+import { RoutingParamsService } from './routing-params.service';
 import { RoutingService } from './routing.service';
 import createSpy = jasmine.createSpy;
+
+class MockSemanticPathService {
+  transform(_commands: UrlCommands): any[] {
+    return [];
+  }
+  get(_routeName: string): string {
+    return '';
+  }
+}
+class MockRoutingParamsService {
+  getParams(): Observable<{ [key: string]: string }> {
+    return of();
+  }
+}
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
   let urlService: SemanticPathService;
+  let routingParamsService: RoutingParamsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: SemanticPathService, useValue: { transform: () => {} } },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
+        { provide: RoutingParamsService, useClass: MockRoutingParamsService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(RoutingService);
     urlService = TestBed.inject(SemanticPathService);
+    routingParamsService = TestBed.inject(RoutingParamsService);
     spyOn(store, 'dispatch');
   });
 
@@ -162,5 +181,11 @@ describe('RoutingService', () => {
     expect(NgrxStore.select as any).toHaveBeenCalledWith(
       RoutingSelector.isNavigating
     );
+  });
+
+  it('should delegate getParams() to RoutingParamsService', () => {
+    const spy = spyOn(routingParamsService, 'getParams');
+    service.getParams();
+    expect(spy).toHaveBeenCalled();
   });
 });

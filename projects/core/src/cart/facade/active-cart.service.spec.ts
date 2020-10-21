@@ -38,9 +38,14 @@ class MultiCartServiceStub {
   getEntry() {
     return of();
   }
+  getLastEntry() {
+    return of();
+  }
   updateEntry() {}
   removeEntry() {}
-  getEntries() {}
+  getEntries() {
+    return of([]);
+  }
   createCart() {}
   mergeToCurrentCart() {}
   addEntry() {}
@@ -213,6 +218,27 @@ describe('ActiveCartService', () => {
 
       expect(result).toEqual([mockCartEntry]);
       expect(multiCartService['getEntries']).toHaveBeenCalledWith('cartId');
+    });
+  });
+
+  describe('getLastEntry', () => {
+    it('should return last entry by product code', () => {
+      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+        of(mockCartEntry)
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getLastEntry('code123')
+        .subscribe((entry) => (result = entry))
+        .unsubscribe();
+
+      expect(result).toEqual(mockCartEntry);
+      expect(multiCartService['getLastEntry']).toHaveBeenCalledWith(
+        'cartId',
+        'code123'
+      );
     });
   });
 

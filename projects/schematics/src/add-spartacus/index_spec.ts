@@ -124,6 +124,20 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
 
+    it('should set styleVersion based on featureLevel', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync(
+          'add-spartacus',
+          { ...defaultOptions, featureLevel: '5.5' },
+          appTree
+        )
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/styles.scss'
+      );
+      expect(appModule.includes(`$styleVersion: 5.5`)).toBe(true);
+    });
+
     describe('context config', () => {
       describe('baseSite', () => {
         it('should set a single baseSite', async () => {

@@ -2,4 +2,4 @@
  * Public API Surface of product
  */
 
-export * from './src/index';
+export * from '@spartacus/product/configurators';

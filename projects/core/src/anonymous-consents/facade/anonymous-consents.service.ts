@@ -265,7 +265,20 @@ export class AnonymousConsentsService {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
-    ]).pipe(map(([dismissed, updated]) => !dismissed || updated));
+    ]).pipe(
+      tap(() => this.checkConsentVersions()),
+      map(([dismissed, updated]) => !dismissed || updated)
+    );
+  }
+
+  /**
+   * Dispatches an action to trigger the check
+   * whether the anonymous consent version have been updated
+   */
+  private checkConsentVersions(): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions()
+    );
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,12 +7,13 @@ import {
   CheckoutDeliveryService,
   DeliveryMode,
   I18nTestingModule,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import createSpy = jasmine.createSpy;
+import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 
 @Component({
   selector: 'cx-spinner',
@@ -29,21 +30,22 @@ class MockCheckoutDeliveryService {
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return of();
   }
-}
-
-class MockRoutingService {
-  go = createSpy();
+  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
+    return of();
+  }
 }
 
 class MockCheckoutConfigService {
-  getNextCheckoutStepUrl(): string {
-    return '';
-  }
-  getPreviousCheckoutStepUrl(): string {
-    return '';
-  }
   getPreferredDeliveryMode(): string {
     return '';
+  }
+}
+
+class MockCheckoutStepService {
+  next = createSpy();
+  back = createSpy();
+  getBackBntText(): string {
+    return 'common.back';
   }
 }
 
@@ -70,14 +72,12 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode2,
 ];
 
-const mockStepUrl = 'test url';
-
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
-  let mockRoutingService: RoutingService;
   let mockCheckoutConfigService: CheckoutConfigService;
+  let checkoutStepService: CheckoutStepService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -88,15 +88,17 @@ describe('DeliveryModeComponent', () => {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
         },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
     mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    mockRoutingService = TestBed.inject(RoutingService);
     mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
   }));
 
   beforeEach(() => {
@@ -166,9 +168,6 @@ describe('DeliveryModeComponent', () => {
 
   it('should set delivery mode after invoking next()', () => {
     component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
-      mockStepUrl
-    );
     spyOn(
       mockCheckoutDeliveryService,
       'getSelectedDeliveryMode'
@@ -177,14 +176,17 @@ describe('DeliveryModeComponent', () => {
     component.ngOnInit();
     component.mode.controls['deliveryModeId'].setValue('code');
     component.next();
-    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalled();
+
+    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalledWith(
+      mockDeliveryMode1.code
+    );
   });
 
   it('should change step after invoking back()', () => {
-    component.checkoutStepUrlPrevious = mockStepUrl;
     component.back();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
+    expect(checkoutStepService.back).toHaveBeenCalledWith(
+      <any>mockActivatedRoute
+    );
   });
 
   it('should get deliveryModeInvalid()', () => {
@@ -193,21 +195,35 @@ describe('DeliveryModeComponent', () => {
     expect(invalid).toBe(true);
   });
 
+  it('should reload delivery modes on error', () => {
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getLoadSupportedDeliveryModeProcess'
+    ).and.returnValue(of({ loading: false, success: false, error: true }));
+
+    component.ngOnInit();
+
+    expect(
+      mockCheckoutDeliveryService.loadSupportedDeliveryModes
+    ).toHaveBeenCalledTimes(1);
+  });
+
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+    const setDeliveryModeId = (value: string) => {
+      component.mode.controls['deliveryModeId'].setValue(value);
+    };
 
     it('should be disabled when delivery mode is not selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(null);
+      setDeliveryModeId(null);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
@@ -215,6 +231,9 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
+
+      setDeliveryModeId(mockDeliveryMode1.code);
+      fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
 
@@ -223,13 +242,14 @@ describe('DeliveryModeComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getContinueBtn = () =>
+    const getBackBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
+
       fixture.detectChanges();
+      getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
     });

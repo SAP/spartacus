@@ -2,7 +2,7 @@
 
 An easy way to create a new Spartacus library is to run: `ng g library <lib-name>` where the `lib-name` is the name of the new library.
 
-The generated library will be placed in the `projects` folder by default. You need to manually move the generated files to an appropriate directory (`feature-lib` for example) and modify `angular.json` to reflect the new location.
+The library will be generated in the `feature-libs` folder by default. You need to manually move the generated files to an appropriate directory (if necessary) and modify `angular.json` to reflect the new location.
 
 This document can also serve as the guideline for the future schematic that can automate this process.
 
@@ -13,15 +13,16 @@ This document can also serve as the guideline for the future schematic that can 
 - [Aligning with the other libs](#Aligning-with-the-other-libs)
   - [Modifying the generated files](#Modifying-the-generated-files)
   - [Additional changes to existing files](#Additional-changes-to-existing-files)
+- [Multi-entry point library](#multi-entry-point-library)
 - [Testing](#Testing)
 
 ## Naming conventions
 
 These are some naming guidelines for libraries:
 
-- library names should be abbreviated, if possible
+- library names should be abbreviated, if possible (e.g. _cds_)
 - library names should use kebab-case (e.g. `my-account`)
-- the scripts names added to `package.json` should _not_ use kebab-case (e.g. `yarn build:myaccount`)
+- the scripts added to `package.json` should _not_ use kebab-case (e.g. `yarn build:myaccount`)
 
 ## Generating a library
 
@@ -35,11 +36,9 @@ In order to be 100% aligned with the existing Spartacus library there are some g
 
 The list of the files that need to modified:
 
-- `README.md` - remove the default content and write some relevant information about the library.
+- `README.md` - replace the default content with some relevant information about the library.
 
-- `angular.json`
-
-Change the `prefix` property to `cx`.
+- `angular.json` - change the `prefix` property to `cx`.
 
 - `karma.conf.js`
 
@@ -102,9 +101,9 @@ Add the following under `lib` section:
     }
 ```
 
-- `public-api.ts`
+If necessary, add entries for other libraries such as `"@ngrx/store": "store"`, etc.
 
-Rename this file to `public_api.ts` and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+- `public-api.ts` - rename this file to `public_api.ts` (with the underscore instead of the dash) and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
 
 - `package.json`
 
@@ -113,7 +112,7 @@ Use the following template:
 ```json
 {
   "name": "@spartacus/TODO:",
-  "version": "2.1.0-dev.0",
+  "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -128,11 +127,11 @@ Use the following template:
   },
   "repository": "https://github.com/SAP/spartacus",
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "rxjs": "^6.5.4",
-    "@spartacus/core": "2.1.0-dev.0",
-    "@spartacus/storefront": "2.1.0-dev.0"
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.0",
+    "@spartacus/storefront": "3.0.0-next.0"
   }
 }
 ```
@@ -140,7 +139,7 @@ Use the following template:
 Make sure to replace `TODO:`s with the relevant information.
 Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the need.
 Make sure the versions match the current spartacus version.
-Make sure the `@angular` peer dependencies match the versions specified in the _core_ lib.
+Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 
 - `test.ts` - add `import '@angular/localize/init';`
 
@@ -154,7 +153,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -190,23 +189,23 @@ Optionally adjust the `path` property.
 
 > Before starting this section it is recommended to commit the previous changes
 
-The following files should be created:
+The following files should be modified:
 
-- `projects/storefrontapp/src/environments/models/environment.model.ts` - add your feature to this model class
-- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - add your feature environment variable to the `Env` interface located in this file
-- `projects/storefrontapp/src/environments/environment.ts` - set you feature for development as enabled or disabled by default
-- `projects/storefrontapp/src/environments/environment.prod.ts` - pass the created env. variable to your feature
+- `projects/storefrontapp/src/environments/models/environment.model.ts` - if creating a feature that can toggled on/off, add your feature to this model class
+- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can toggled on/off, add your feature environment variable to the `Env` interface located in this file
+- `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can toggled on/off, set you feature for development as enabled or disabled by default
+- `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can toggled on/off, pass the created env. variable to your feature
 
 - Root `package.json`
 
 Add the following scripts:
 
 ```json
-"build:myaccount:lib": "ng build my-account --prod",
+"build:myaccount": "ng build my-account --prod",
 "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
 ```
 
-And replace `my-account` instances with the name of yours lib.
+And replace `myaccount` and `my-account` instances with the name of yours lib.
 
 Optionally, add the generated lib to the `build:core:lib` and `test:core:lib` scripts.
 
@@ -311,12 +310,52 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
+- `ci-scripts/unit-tests-sonar.sh`
+
+Add the library unit tests with code coverage
+
+``` sh
+echo "Running unit tests and code coverage for TODO:"
+exec 5>&1
+output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+```
+
+Replace `TODO:` with the appropriate name.
+
+## Multi-entry point library
+
+Sources:
+
+- [ng-packagr examples](https://github.com/ng-packagr/ng-packagr/tree/master/integration/samples/secondary)
+
+### Process
+
+If adding multiple entry points to the generated library, make sure to do the following changes:
+
+- `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
+- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+This change requires an update in the:
+
+  1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
+  2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
+  3. `feature-libs/<lib-name>/tsconfig.spec.json` - update the path in `files`
+
+- make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
+- add `ng-package.json` to each of the feature folders
+- add `paths` entries to some variations of `tsconfig.json` files - it's for the best to search for `@spartacus/product` across the code base and add entries for the generated library
+
 ## Testing
 
 Don't forget to:
 
-- run the tests for the generated library - `ng test <lib-name> --code-coverage`
-- build the generated library - `ng build <lib-name> --prod`
+- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generate in `coverage/my-account/lcov-report/index.html`
+- build the generated library _with Ivy enabled_ - `ng build <lib-name>`
+- build the generated library (without Ivy) - `ng build <lib-name> --prod`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `yarn build:core:lib:cds` (build all the libs basically)
   - `yarn build`

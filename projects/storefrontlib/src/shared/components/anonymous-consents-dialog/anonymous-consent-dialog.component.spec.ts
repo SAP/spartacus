@@ -8,6 +8,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
@@ -81,7 +82,7 @@ describe('AnonymousConsentsDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
       declarations: [
         AnonymousConsentDialogComponent,
         MockCxIconComponent,

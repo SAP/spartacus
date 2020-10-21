@@ -91,18 +91,18 @@ export function verifyPaymentCard(cardLength: number) {
 }
 
 export function setOtherPaymentToDefault() {
-  cy.get('cx-payment-methods .cx-card-link')
-    .getByText('Set as default')
+  cy.get('cx-payment-methods')
+    .findByText('Set as default')
     .click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
-  firstCard.should('contain', 'Default Payment Method');
+  firstCard.should('contain', '✓ DEFAULT');
   firstCard.should('contain', '1234');
   firstCard.should('contain', `Expires: 03/2126`);
 }
 
 export function deletePayment() {
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
 
   // should see confirmation message
   cy.get('.cx-card-delete-msg').should(
@@ -119,14 +119,14 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click({ force: true });
   cy.get('.cx-payment-card').should('have.length', 1);
 
   // verify remaining address is now the default one
   const defaultCard = cy.get('.cx-payment-card');
-  defaultCard.should('contain', 'Default Payment Method');
+  defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'test user');
 }
 

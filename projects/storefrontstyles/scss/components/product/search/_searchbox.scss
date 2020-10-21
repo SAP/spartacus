@@ -84,10 +84,14 @@
     display: flex;
     align-content: stretch;
     margin: 0;
-    padding: 6px 6px 6px 10px;
+    padding-top: 6px;
+    padding-inline-end: 6px;
+    padding-bottom: 6px;
+    padding-inline-start: 10px;
     @include media-breakpoint-up(md) {
       width: 27vw;
       min-width: 300px;
+      max-width: 550px;
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
         display: none;

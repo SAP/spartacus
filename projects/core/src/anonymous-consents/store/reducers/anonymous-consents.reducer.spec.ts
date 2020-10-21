@@ -1,7 +1,6 @@
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
-  ConsentTemplate,
 } from '../../../model/consent.model';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromReducer from './anonymous-consents.reducer';
@@ -15,7 +14,7 @@ describe('anonymous consents reducer', () => {
         {
           consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
           templateCode: mockTemplateCode,
-          version: 0,
+          templateVersion: 0,
         },
       ];
 
@@ -37,7 +36,7 @@ describe('anonymous consents reducer', () => {
         {
           consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           templateCode: mockTemplateCode,
-          version: 0,
+          templateVersion: 0,
         },
       ];
 
@@ -56,16 +55,16 @@ describe('anonymous consents reducer', () => {
   });
 
   describe('reducer', () => {
-    const mockAnonymousConsents: ConsentTemplate[] = [
+    const mockAnonymousConsents: AnonymousConsent[] = [
       {
-        id: mockTemplateCode,
-        version: 0,
+        templateCode: mockTemplateCode,
+        templateVersion: 0,
       },
     ];
     const mockState: AnonymousConsent[] = [
       {
         templateCode: mockTemplateCode,
-        version: 0,
+        templateVersion: 0,
       },
     ];
 
@@ -87,7 +86,7 @@ describe('anonymous consents reducer', () => {
         const expected: AnonymousConsent[] = [
           {
             templateCode: mockTemplateCode,
-            version: 0,
+            templateVersion: 0,
             consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           },
         ];
@@ -104,7 +103,7 @@ describe('anonymous consents reducer', () => {
         const expected: AnonymousConsent[] = [
           {
             templateCode: mockTemplateCode,
-            version: 0,
+            templateVersion: 0,
             consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
           },
         ];

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
@@ -47,6 +48,10 @@ const MockFontIconConfig: IconConfig = {
         types: ['HAPPY'],
       },
     ],
+    flipDirection: {
+      CARET_RIGHT: DirectionMode.RTL,
+      CARET_LEFT: DirectionMode.RTL,
+    },
   },
 };
 
@@ -69,6 +74,16 @@ describe('IconLoaderService', () => {
 
   it('should return symbol', () => {
     expect(service.getSymbol(ICON_TYPE.VISA)).toEqual('fab fa-cc-visa');
+  });
+
+  it('should return rtl flip direction', () => {
+    expect(service.getFlipDirection(ICON_TYPE.CARET_RIGHT)).toEqual(
+      DirectionMode.RTL
+    );
+  });
+
+  it('should not return any flip direction', () => {
+    expect(service.getFlipDirection(ICON_TYPE.CART)).toBeFalsy();
   });
 
   describe('Linked resources', () => {

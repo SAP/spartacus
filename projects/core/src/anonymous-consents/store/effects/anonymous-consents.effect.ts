@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -14,7 +14,7 @@ import {
 import { AuthActions, AuthService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
@@ -23,19 +23,74 @@ import { AnonymousConsentsActions } from '../actions/index';
 @Injectable()
 export class AnonymousConsentsEffects {
   @Effect()
+  checkConsentVersions$: Observable<
+    | AnonymousConsentsActions.LoadAnonymousConsentTemplates
+    | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
+    | Observable<never>
+  > = this.actions$.pipe(
+    ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
+    withLatestFrom(this.anonymousConsentService.getConsents()),
+    concatMap(([_, currentConsents]) => {
+      // TODO{#8158} - remove this if block
+      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
+        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
+      }
+
+      return this.anonymousConsentTemplatesConnector
+        .loadAnonymousConsents()
+        .pipe(
+          map((newConsents) => {
+            if (!newConsents) {
+              if (isDevMode()) {
+                console.warn(
+                  'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
+                );
+              }
+              return false;
+            }
+
+            const currentConsentVersions = currentConsents.map(
+              (consent) => consent.templateVersion
+            );
+            const newConsentVersions = newConsents.map(
+              (consent) => consent.templateVersion
+            );
+
+            return this.detectUpdatedVersion(
+              currentConsentVersions,
+              newConsentVersions
+            );
+          }),
+          switchMap((updated) =>
+            updated
+              ? of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
+              : EMPTY
+          ),
+          catchError((error) =>
+            of(
+              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+                normalizeHttpError(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
   loadAnonymousConsentTemplates$: Observable<
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(() =>
+    withLatestFrom(this.anonymousConsentService.getTemplates()),
+    concatMap(([_, currentConsentTemplates]) =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          withLatestFrom(this.anonymousConsentService.getTemplates()),
-          mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
+          mergeMap((newConsentTemplates) => {
             let updated = false;
             if (
-              Boolean(currentConsentTemplates) &&
+              currentConsentTemplates &&
               currentConsentTemplates.length !== 0
             ) {
               updated = this.anonymousConsentService.detectUpdatedTemplates(
@@ -56,7 +111,7 @@ export class AnonymousConsentsEffects {
           catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -190,4 +245,28 @@ export class AnonymousConsentsEffects {
     private anonymousConsentService: AnonymousConsentsService,
     private userConsentService: UserConsentService
   ) {}
+
+  /**
+   * Compares the given versions and determines if there's a mismatch,
+   * in which case `true` is returned.
+   *
+   * @param currentVersions versions of the current consents
+   * @param newVersions versions of the new consents
+   */
+  private detectUpdatedVersion(
+    currentVersions: number[],
+    newVersions: number[]
+  ): boolean {
+    if (currentVersions.length !== newVersions.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newVersions.length; i++) {
+      if (currentVersions[i] !== newVersions[i]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

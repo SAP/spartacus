@@ -38,6 +38,9 @@ export class OccCmsPageNormalizer
   }
 
   private normalizePageSlotData(source: any, target: CmsStructureModel): void {
+    if (!Array.isArray(source.contentSlots.contentSlot)) {
+      source.contentSlots.contentSlot = [source.contentSlots.contentSlot];
+    }
     for (const slot of source.contentSlots.contentSlot) {
       target.page.slots[slot.position] = {
         components: [],
