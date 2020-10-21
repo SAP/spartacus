@@ -236,4 +236,10 @@ describe('CartItemListComponent', () => {
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.entryNumber]).toBeUndefined();
   });
+
+  it('should handle null item lists properly', () => {
+    component.items = undefined;
+    const itemCount = component.items.length;
+    expect(itemCount).toEqual(0);
+  });
 });
