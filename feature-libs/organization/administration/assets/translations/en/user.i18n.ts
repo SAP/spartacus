@@ -37,7 +37,7 @@ export const user = {
     password: 'Change password',
     approvers: 'Approvers',
     userGroup: 'User groups',
-    permission: 'Permissions',
+    permission: 'Purchase limits',
   },
 
   messages: {
@@ -106,7 +106,7 @@ export const user = {
     details: '{{name}}',
     userGroups: 'User groups',
     approvers: 'Approvers',
-    permissions: 'Permissions',
+    permissions: 'Purchase limits',
   },
 };
 
@@ -124,28 +124,28 @@ export const userApprovers = {
 };
 
 export const userAssignedPermissions = {
-  title: 'Assigned permissions',
+  title: 'Assigned purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Permission assigned successfully',
-  unassigned: 'Permission unassigned successfully',
+  assigned: 'Purchase limit assigned successfully',
+  unassigned: 'Purchase limit unassigned successfully',
 };
 
 export const userPermissions = {
-  title: 'Manage assigned permissions',
+  title: 'Manage purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Permission assigned successfully',
-  unassigned: 'Permission unassigned successfully',
+  assigned: 'Purchase limit assigned successfully',
+  unassigned: 'Purchase limit unassigned successfully',
 };
 
 export const userAssignedUserGroups = {
-  title: 'Assigned User groups',
+  title: 'Assigned user groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group "{{item.name}}" assigned successfully',
   unassigned: 'User group "{{item.name}}" unassigned successfully',
 };
 
 export const userUserGroups = {
-  title: 'Manage User groups',
+  title: 'Manage user groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group "{{item.name}}" assigned successfully',
   unassigned: 'User group "{{item.name}}" unassigned successfully',
