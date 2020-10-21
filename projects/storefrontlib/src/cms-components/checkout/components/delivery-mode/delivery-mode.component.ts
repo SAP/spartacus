@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, withLatestFrom, takeWhile } from 'rxjs/operators';
+import { map, takeWhile, withLatestFrom } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -21,8 +21,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+  continueButtonPressed = false;
   private allowRedirect = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -98,6 +97,8 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   next(): void {
     this.allowRedirect = true;
+    this.continueButtonPressed = true;
+
     if (this.mode.valid && this.mode.value) {
       if (!this.currentDeliveryModeId) {
         this.currentDeliveryModeId = this.mode.value.deliveryModeId;

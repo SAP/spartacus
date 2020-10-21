@@ -40,6 +40,9 @@ describe('JsonLdScriptFactory', () => {
     });
 
     describe('sanitized', () => {
+      beforeEach(() => {
+        spyOn(console, 'warn').and.stub();
+      });
       it('should sanitize malicious code', () => {
         service.build([{ foo: 'bar-2<script>alert()</script>' }]);
         const scriptElement = winRef.document.getElementById('json-ld');
@@ -102,7 +105,7 @@ describe('JsonLdScriptFactory', () => {
       service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
       // we might have left over script tag generated in former tests, so
-      // let's explicitely test the innerHTML
+      // let's explicitly test the innerHTML
       expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-b"}]');
     });
   });

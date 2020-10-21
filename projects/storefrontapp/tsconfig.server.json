@@ -9,8 +9,26 @@
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
-      "@spartacus/cds": ["../../projects/cds/public_api"],
-      "@spartacus/my-account": ["../../feature-libs/my-account/public_api"],
+      "@spartacus/cds": ["../../integration-libs/cds/public_api"],
+      "@spartacus/organization": ["../../feature-libs/organization/public_api"],
+      "@spartacus/organization/administration": [
+        "../../feature-libs/organization/administration/public_api"
+      ],
+      "@spartacus/organization/administration/core": [
+        "../../feature-libs/organization/administration/core/public_api"
+      ],
+      "@spartacus/organization/administration/occ": [
+        "../../feature-libs/organization/administration/occ/public_api"
+      ],
+      "@spartacus/organization/administration/components": [
+        "../../feature-libs/organization/administration/components/public_api"
+      ],
+      "@spartacus/organization/administration/assets": [
+        "../../feature-libs/organization/administration/assets/public_api"
+      ],
+      "@spartacus/organization/administration/root": [
+        "../../feature-libs/organization/administration/root/public_api"
+      ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "../../feature-libs/product/configurators/public_api"

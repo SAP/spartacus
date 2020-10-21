@@ -24,6 +24,8 @@ import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
+const termsChecked = true;
+
 const address: Address = {
   id: 'testAddressId',
   firstName: 'John',
@@ -71,6 +73,7 @@ class MockCheckoutConnector {
   clearCheckoutDeliveryAddress = () => of({});
   clearCheckoutDeliveryMode = () => of({});
 }
+
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -362,8 +365,9 @@ describe('Checkout effect', () => {
   describe('placeOrder$', () => {
     it('should place order', () => {
       const action = new CheckoutActions.PlaceOrder({
-        userId: userId,
-        cartId: cartId,
+        userId,
+        cartId,
+        termsChecked,
       });
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
@@ -439,27 +443,21 @@ describe('Checkout effect', () => {
         cartId: cartId,
         costCenterId: 'testId',
       });
-      const completion1 = new CartActions.LoadCartSuccess({
+      const completion1 = new CartActions.LoadCart({
         userId,
         cartId,
-        cart: {},
       });
       const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryMode({
-        userId,
-        cartId,
-      });
-      const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        e: completion4,
       });
 
       expect(entryEffects.setCostCenter$).toBeObservable(expected);

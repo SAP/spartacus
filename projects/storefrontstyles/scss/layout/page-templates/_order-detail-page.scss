@@ -2,67 +2,8 @@
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 
-  cx-order-details-headline {
-    @include media-breakpoint-down(sm) {
-      border: none;
-    }
-
-    .cx-header {
-      border: 1px solid;
-      border-color: var(--cx-color-light);
-      padding-top: 30px;
-      padding-inline-end: 30px;
-      padding-bottom: 20px;
-      padding-inline-start: 30px;
-      margin-bottom: 30px;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-
-      @include media-breakpoint-down(sm) {
-        border: none;
-        padding: 0;
-      }
-
-      .cx-detail {
-        border-inline-end: 1px solid var(--cx-color-light);
-
-        &:last-child {
-          border: none;
-        }
-
-        @include media-breakpoint-up(md) {
-          padding-inline-start: 47px;
-
-          &:first-child {
-            padding-inline-start: 0;
-          }
-        }
-
-        @include media-breakpoint-down(sm) {
-          border: none;
-          margin-bottom: 10px;
-        }
-      }
-
-      .cx-detail-label {
-        font-size: 18px;
-        font-weight: bold;
-      }
-    }
-
-    .cx-nav {
-      justify-content: center;
-      padding: 1rem 0;
-
-      .btn-action {
-        @include media-breakpoint-down(sm) {
-          margin: 0 0 1rem;
-        }
-      }
-    }
-  }
-
   cx-order-details-items {
+    margin-top: 30px;
     margin-bottom: 15px;
     .cx-list-header {
       @include media-breakpoint-down(sm) {
@@ -148,7 +89,91 @@
     }
   }
 
-  cx-order-details-totals {
+  cx-order-details-approval-details {
+    margin: 45px 0px 15px;
+
+    .cx-approval-header {
+      padding: 15px;
+
+      background-color: var(--cx-color-background);
+
+      .cx-approval-label {
+        @include type('4');
+      }
+    }
+
+    .cx-approval-table {
+      padding: 15px;
+
+      .cx-approval-thead-mobile {
+        background-color: var(--cx-color-dark);
+
+        th {
+          text-align: left;
+          color: var(--cx-color-inverse);
+        }
+
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+      }
+
+      &.table-striped > tr:nth-child(odd) {
+        background-color: var(--cx-color-background);
+      }
+
+      .cx-approval-permissionCode {
+        width: 25%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      .cx-approval-approverName {
+        width: 17%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      .cx-approval-statusDisplay {
+        width: 13%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      .cx-approval-table-label {
+        text-transform: uppercase;
+        color: var(--cx-color-secondary);
+
+        @include media-breakpoint-down(sm) {
+          @include type('8');
+          min-width: 110px;
+          max-width: 110px;
+        }
+      }
+
+      td {
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+          display: flex;
+          border-width: 0;
+          padding: 0 1.25rem;
+
+          &:first-child {
+            padding-top: 1.25rem;
+          }
+
+          &:last-child {
+            padding-bottom: 1.25rem;
+          }
+        }
+      }
+    }
+  }
+
+  cx-order cx-order-details-totals {
     margin-bottom: 32px;
   }
 
@@ -166,6 +191,58 @@
     .cx-image-container {
       a {
         padding: 0 3vw;
+      }
+    }
+  }
+
+  cx-replenishment-order-cancellation,
+  cx-replenishment-order-cancellation-dialog {
+    .cx-cancel-replenishment-btns {
+      display: flex;
+
+      .btn-action {
+        @include media-breakpoint-down(sm) {
+          margin: 0 0 1rem;
+        }
+      }
+    }
+  }
+
+  cx-replenishment-order-cancellation {
+    .cx-cancel-replenishment-btns {
+      justify-content: flex-end;
+      margin: 2rem 0;
+    }
+  }
+
+  cx-replenishment-order-cancellation-dialog {
+    color: var(--cx-color-text);
+    background-color: rgba(0, 0, 0, 0.5);
+
+    .cx-cancel-replenishment-dialog-foreground {
+      @extend .modal-dialog;
+      @extend .modal-dialog-centered;
+      @extend .modal-sm;
+
+      .cx-cancel-replenishment-dialog-content {
+        @extend .modal-content;
+
+        .cx-cancel-replenishment-dialog {
+          &-header {
+            @extend .modal-header;
+          }
+
+          &-description {
+            padding-top: 10px;
+            padding-inline-start: 25px;
+            padding-inline-end: 25px;
+            padding-bottom: 0;
+          }
+
+          &-body {
+            @extend .modal-body;
+          }
+        }
       }
     }
   }

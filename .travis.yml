@@ -8,9 +8,7 @@ git:
 branches:
   only:
     - develop
-    - "/^feature\\/.*$/"
     - "/^release\\/.*$/"
-    - "/^epic\\/.*$/"
 defaults: &defaults
   script: "./ci-scripts/e2e-cypress.sh -s regression"
 jobs:

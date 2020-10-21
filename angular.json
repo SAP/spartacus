@@ -30,7 +30,11 @@
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects",
+                "./projects/storefrontstyles/scss",
+                "./feature-libs"
+              ]
             },
             "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
@@ -168,7 +172,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
@@ -357,74 +361,74 @@
     },
     "cds": {
       "projectType": "library",
-      "root": "projects/cds",
-      "sourceRoot": "projects/cds/src",
+      "root": "integration-libs/cds",
+      "sourceRoot": "integration-libs/cds/src",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/cds/tsconfig.lib.json",
-            "project": "projects/cds/ng-package.json"
+            "tsConfig": "integration-libs/cds/tsconfig.lib.json",
+            "project": "integration-libs/cds/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/cds/tsconfig.lib.prod.json"
+              "tsConfig": "integration-libs/cds/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/cds/src/test.ts",
-            "tsConfig": "projects/cds/tsconfig.spec.json",
-            "karmaConfig": "projects/cds/karma.conf.js"
+            "main": "integration-libs/cds/src/test.ts",
+            "tsConfig": "integration-libs/cds/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/cds/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/cds/tsconfig.lib.json",
-              "projects/cds/tsconfig.spec.json"
+              "integration-libs/cds/tsconfig.lib.json",
+              "integration-libs/cds/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "my-account": {
+    "organization": {
       "projectType": "library",
-      "root": "feature-libs/my-account",
-      "sourceRoot": "feature-libs/my-account/src",
+      "root": "feature-libs/organization",
+      "sourceRoot": "feature-libs/organization",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "feature-libs/my-account/tsconfig.lib.json",
-            "project": "feature-libs/my-account/ng-package.json"
+            "tsConfig": "feature-libs/organization/tsconfig.lib.json",
+            "project": "feature-libs/organization/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "feature-libs/my-account/tsconfig.lib.prod.json"
+              "tsConfig": "feature-libs/organization/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/my-account/src/test.ts",
-            "tsConfig": "feature-libs/my-account/tsconfig.spec.json",
-            "karmaConfig": "feature-libs/my-account/karma.conf.js"
+            "main": "feature-libs/organization/test.ts",
+            "tsConfig": "feature-libs/organization/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/organization/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "feature-libs/my-account/tsconfig.lib.json",
-              "feature-libs/my-account/tsconfig.spec.json"
+              "feature-libs/organization/tsconfig.lib.json",
+              "feature-libs/organization/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -540,9 +544,7 @@
               "core-libs/setup/tsconfig.lib.json",
               "core-libs/setup/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
