@@ -76,6 +76,8 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
           return fillDateTimePicker(input);
         case 'ngSelect':
           return fillNgSelect(input);
+        case 'checkbox':
+          return selectCheckbox(input);
       }
     }
   });
@@ -101,6 +103,12 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
     });
     cy.wait(1000);
     cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+  }
+
+  function selectCheckbox(input) {
+    getFieldByLabel(input.formLabel).within(() => {
+      cy.get('[type="checkbox"]').check(input[valueKey]);
+    });
   }
 }
 
