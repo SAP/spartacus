@@ -224,6 +224,11 @@ export class ConfiguratorGroupStatusService {
     const completedGroupIds = [];
     const incompleteOrErrorGroupdIds = [];
 
+    // Don't set status if group has no attributes (keeping the previous status for the group)
+    if (group.attributes?.length === 0) {
+      return;
+    }
+
     //Currently only check for completness, no validation of input types
     if (this.checkIsGroupComplete(group)) {
       completedGroupIds.push(group.id);
