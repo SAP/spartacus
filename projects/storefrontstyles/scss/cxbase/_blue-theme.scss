@@ -94,7 +94,8 @@
     color: var(--cx-color-text);
   }
 
-  cx-cart-item .cx-code {
+  cx-cart-item .cx-code,
+  cx-product-intro .code {
     color: var(--cx-color-text);
   }
 
@@ -107,5 +108,9 @@
     color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
     background-color: var(--cx-color-inverse);
+  }
+
+  cx-add-to-cart .quantity .info {
+    color: var(--cx-color-text);
   }
 }
