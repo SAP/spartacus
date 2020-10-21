@@ -2,46 +2,38 @@
   <legend style="display: none">{{ attribute.label }}</legend>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
     <div class="form-check" *ngFor="let value of attribute.values">
-      <div class="cx-configurator-select-line">
-        <input
-          id="{{
-            createAttributeValueIdForConfigurator(attribute, value.valueCode)
-          }}"
-          class="form-check-input"
-          type="radio"
-          formcontrolname="attributeRadioButtonForm"
-          [formControl]="attributeRadioButtonForm"
-          [attr.required]="attribute.required"
-          [value]="value.valueCode"
-          name="{{ createAttributeIdForConfigurator(attribute) }}"
-          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          attr.aria-labelledby="{{
-            createAriaLabelledBy('label', attribute.name, value.valueCode)
-          }}"
-          [attr.aria-checked]="
-            attributeRadioButtonForm.value === value.valueCode ? true : false
-          "
-          [attr.checked]="
-            attributeRadioButtonForm.value === value.valueCode
-              ? 'checked'
-              : null
-          "
-          (change)="onSelect(value.valueCode)"
-        />
-        <div class="cx-configurator-attribute-value-label-container">
-          <label
-            id="{{
-              createValueUiKey('label', attribute.name, value.valueCode)
-            }}"
-            for="{{
-              createAttributeValueIdForConfigurator(attribute, value.valueCode)
-            }}"
-            class="cx-configurator-attribute-value-label form-check-label form-radio-label"
-            >{{ value.valueDisplay }}</label
-          >
-        </div>
-      </div>
+      <input
+        id="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}"
+        class="form-check-input"
+        type="radio"
+        formcontrolname="attributeRadioButtonForm"
+        [formControl]="attributeRadioButtonForm"
+        [attr.required]="attribute.required"
+        [value]="value.valueCode"
+        name="{{ createAttributeIdForConfigurator(attribute) }}"
+        attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+        [cxFocus]="{ key: attribute.name + '-' + value.name }"
+        attr.aria-labelledby="{{
+          createAriaLabelledBy('label', attribute.name, value.valueCode)
+        }}"
+        [attr.aria-checked]="
+          attributeRadioButtonForm.value === value.valueCode ? true : false
+        "
+        [attr.checked]="
+          attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+        "
+        (change)="onSelect(value.valueCode)"
+      />
+      <label
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+        for="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}"
+        class="form-check-label form-radio-label"
+        >{{ value.valueDisplay }}</label
+      >
     </div>
   </div>
 </fieldset>

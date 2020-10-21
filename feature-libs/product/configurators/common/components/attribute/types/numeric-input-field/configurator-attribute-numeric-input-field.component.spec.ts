@@ -36,9 +36,7 @@ function checkForValidationMessage(
   component.attributeInputForm.markAsDirty();
 
   fixture.detectChanges();
-  const validationDiv = htmlElem.getElementsByClassName(
-    'cx-configurator-attribute-numeric-input-validation-message'
-  );
+  const validationDiv = htmlElem.getElementsByClassName('cx-validation-msg');
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }

@@ -5,11 +5,10 @@
   align-content: center;
   align-items: stretch;
 
-  height: 48px;
-
   a {
     color: var(--cx-color-text);
     width: 48px;
+    height: 46px;
 
     border: solid 1px var(--cx-color-light);
     box-sizing: content-box;

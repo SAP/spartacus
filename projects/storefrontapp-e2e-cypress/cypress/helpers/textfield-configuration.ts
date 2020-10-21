@@ -2,7 +2,7 @@ import * as cart from './cart';
 import Chainable = Cypress.Chainable;
 
 const addToCartButtonSelector =
-  '.cx-configurator-textfield-add-to-cart-btn div button';
+  'cx-configurator-textfield-add-to-cart-button button';
 
 /**
  * Navigates to the product configuration page.
@@ -90,7 +90,8 @@ export function isAttributeDisplayed(attributeName: string) {
  */
 export function getAttributeId(attributeName: string): string {
   const trimmedName = attributeName.replace(/\s/g, '');
-  return `cx-configurator-textfield${trimmedName}`;
+  cy.log("Trimmed name: '" + trimmedName);
+  return `cx-configurator-textfieldlabel${trimmedName}`;
 }
 
 /**
@@ -101,14 +102,15 @@ export function getAttributeId(attributeName: string): string {
  */
 export function selectAttribute(attributeName: string, value?: string): void {
   const attributeId = getAttributeId(attributeName);
-  const selector = '#' + attributeId + ' input';
-  //cy.get(selector).clear().type(value);
-  cy.get(selector).then(($element) => {
-    cy.log('Empty out the input field');
-    $element.empty();
-    cy.log("Enter new value: '" + value + "' into the input field");
-    $element.val(value);
-  });
+  cy.get(`#${attributeId}`)
+    .next('.form-group')
+    .children('input')
+    .then(($element) => {
+      cy.log('Empty out the input field');
+      $element.empty();
+      cy.log("Enter new value: '" + value + "' into the input field");
+      $element.val(value);
+    });
 }
 
 /**

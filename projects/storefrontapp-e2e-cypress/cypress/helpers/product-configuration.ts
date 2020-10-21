@@ -3,19 +3,18 @@ import Chainable = Cypress.Chainable;
 import { navigation } from './navigation';
 
 const nextBtnSelector =
-  'cx-configurator-previous-next-buttons div div:last button';
+  'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
-  'cx-configurator-previous-next-buttons div div:first button';
+  'cx-configurator-previous-next-buttons button:contains("Previous")';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
 const email = 'test-user-for-variant-configuration@ydev.hybris.com';
 const password = 'Password123.';
 const user = 'Variant Configuration';
 
-const conflictDetectedMsgSelector =
-  '.cx-configurator-attribute-conflict-container';
+const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
-  'cx-configurator-group-menu li.cx-configurator-menu-conflict';
+  'cx-configurator-group-menu li.cx-menu-conflict';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -49,7 +48,9 @@ export function isGlobalMessageNotDisplayed() {
  * @return - 'True' if the updating message component is not visible, otherwise 'false'
  */
 export function isUpdatingMessageNotDisplayed() {
-  cy.get('div#cx-configurator-update-message').should('not.be.visible');
+  cy.get('cx-configurator-update-message div.cx-update-msg').should(
+    'not.be.visible'
+  );
 }
 
 /**
@@ -108,9 +109,7 @@ export function checkFocus(
  */
 function isCurrentGroupActive(currentGroup: string) {
   cy.get(
-    'cx-configurator-group-title .cx-configurator-group-title:contains(' +
-      `${currentGroup}` +
-      ')'
+    'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
   cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
 }
@@ -243,19 +242,11 @@ export function isNextBtnDisabled() {
  */
 export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
-    '.' +
-      `${'ERROR'}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${'ERROR'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('not.exist');
 
   cy.get(
-    '.' +
-      `${'COMPLETE'}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${'COMPLETE'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('not.exist');
 }
 
@@ -268,11 +259,7 @@ export function isStatusIconNotDisplayed(groupName: string) {
  */
 export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
-    '.' +
-      `${status}` +
-      '.cx-configurator-menu-item>a:contains(' +
-      `${groupName}` +
-      ')'
+    '.' + `${status}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
   ).should('exist');
 }
 
@@ -482,7 +469,7 @@ export function isConflictDetectedMsgNotDisplayed(attributeName: string) {
  * @return - 'True' if the expected conflict description equals the actual one, otherwise 'false'
  */
 export function isConflictDescriptionDisplayed(description: string) {
-  cy.get('.cx-configurator-conflict-description').should(($div) => {
+  cy.get('cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
   });
 }
@@ -725,7 +712,9 @@ export function isCategoryNavigationNotDisplayed() {
  * @return - 'True' if the expected total price equals the actual one, otherwise 'false'
  */
 export function isTotalPrice(formattedPrice: string) {
-  cy.get('cx-price-summary-total-price cx-summary-amount').should(($div) => {
+  cy.get(
+    'cx-configurator-price-summary div.cx-total-price div.cx-amount'
+  ).should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
 }
@@ -734,7 +723,7 @@ export function isTotalPrice(formattedPrice: string) {
  * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage(): void {
-  cy.get('cx-configurator-tab-bar div div:last a').click({
+  cy.get('cx-configurator-tab-bar a:contains("Overview")').click({
     force: true,
   });
 }
@@ -745,7 +734,8 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 function clickOnGroupByGroupIndex(groupIndex: number): void {
-  cy.get('.cx-configurator-menu>li')
+  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+    .not('.cx-menu-conflict')
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
@@ -757,7 +747,8 @@ function clickOnGroupByGroupIndex(groupIndex: number): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  cy.get('.cx-configurator-menu>li')
+  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+    .not('.cx-menu-conflict')
     .eq(groupIndex)
     .children('a')
     .children()
@@ -774,7 +765,7 @@ export function clickOnGroup(groupIndex: number): void {
       clickOnGroupByGroupIndex(groupIndex);
     } else {
       clickOnGroupByGroupIndex(groupIndex);
-      clickOnGroupByGroupIndex(1);
+      clickOnGroupByGroupIndex(0);
     }
   });
 }
@@ -903,6 +894,20 @@ export function goToOrderHistory(): Chainable<Window> {
   return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
     cy.get('cx-order-history h3').should('contain', 'Order history');
   });
+}
+
+/**
+ * This method is a workaround as the login helper signout function did not work sometimes.
+ * This works only on desktop mode and does not support mobile.
+ */
+export function signOutUser() {
+  cy.get(
+    'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+  )
+    .findAllByText(new RegExp('Sign Out', 'i'))
+    .click({ force: true, multiple: true });
+
+  cy.get('cx-login .cx-login-greet').should('not.exist');
 }
 
 /**

@@ -86,7 +86,15 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
+      cy.server();
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/suggestions?term=CONF_CAMERA_SL*`
+      ).as('productSearch');
       productSearch.searchForProduct(testProduct);
+      cy.wait('@productSearch');
       configuration.clickOnConfigureBtnInCatalog();
     });
 
@@ -101,7 +109,6 @@ context('Product Configuration', () => {
       configuration.isConfigPageDisplayed();
     });
 
-    // Failing test
     it('should be able to navigate from the cart', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickAddToCartBtn();
@@ -111,7 +118,15 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
+      cy.server();
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/suggestions?term=CONF_HOME_THEATER_ML*`
+      ).as('productSearch');
       productSearch.searchForProduct(testProductMultiLevel);
+      cy.wait('@productSearch');
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
@@ -130,10 +145,18 @@ context('Product Configuration', () => {
     });
 
     it('Checkboxes should be still selected after group change', () => {
+      cy.server();
+      cy.route(
+        'PATCH',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*`
+      ).as('updateConfig');
       configuration.goToConfigurationPage(testProduct);
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
+      cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(BASICS);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.isCheckboxSelected(CAMERA_SD_CARD, SDHC);
@@ -142,6 +165,13 @@ context('Product Configuration', () => {
 
   describe('Group Status', () => {
     it('should set group status for single level product', () => {
+      cy.server();
+      cy.route(
+        'PATCH',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*`
+      ).as('updateConfig');
       configuration.goToConfigurationPage(testProduct);
       configuration.isGroupMenuDisplayed();
 
@@ -170,6 +200,7 @@ context('Product Configuration', () => {
 
       // complete group Display, navigate back, is status changes to Complete
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, P5);
+      cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(SPECIFICATION);
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
@@ -296,9 +327,17 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('Run through the conflict solving process', () => {
+      cy.server();
+      cy.route(
+        'PATCH',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/ccpconfigurator/*`
+      ).as('updateConfig');
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
+      cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnGroup(3);
 
@@ -308,20 +347,20 @@ context('Product Configuration', () => {
         GAMING_CONSOLE_YES,
         1
       );
-
+      cy.wait('@updateConfig');
       configuration.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
-
+      cy.wait('@updateConfig');
       configuration.selectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
-
+      cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(SUBWOOFER);
       configuration.clickOnPreviousBtn(REAR_SPEAKER);
       configuration.clickOnPreviousBtn(CENTER_SPEAKER);
@@ -332,6 +371,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
+      configuration.clickOnNextBtn(GENERAL);
       configuration.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configurationOverview.verifyNotificationBannerOnOP(1);
@@ -344,6 +384,8 @@ context('Product Configuration', () => {
       configuration.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
       configurationOverview.clickOnResolveIssuesLinkOnOP();
+      configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
+      configuration.clickOnNextBtn(GENERAL);
       // Navigate back to the configuration page and deselect conflicting value
       configuration.clickOnGroup(3);
       configuration.deselectConflictingValue(

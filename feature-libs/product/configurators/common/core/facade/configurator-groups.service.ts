@@ -332,4 +332,17 @@ export class ConfiguratorGroupsService {
       })
     );
   }
+
+  /**
+   * Verifies whether the current group is conflict one.
+   *
+   * @param {Configurator.GroupType} groupType - Group type
+   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
+   */
+  isConflictGroupType(groupType: Configurator.GroupType): boolean {
+    return (
+      groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP ||
+      groupType === Configurator.GroupType.CONFLICT_GROUP
+    );
+  }
 }

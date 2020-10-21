@@ -1,12 +1,18 @@
 %cx-configurator-group-title {
-  .cx-configurator-group-title {
-    padding: 15px;
-    background-color: var(--cx-color-background);
-    margin: 0 0 15px 0;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    border-radius: 2px;
-    font-weight: bold;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bold;
+  background-color: var(--cx-color-background);
+  border: 1px solid var(--cx-color-light);
+  border-radius: 2px;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
+  padding-block-start: 15px;
+  padding-block-end: 15px;
+
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 15px;
 }

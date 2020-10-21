@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { Configurator } from './../../core/model/configurator.model';
 
 @Component({
@@ -12,6 +17,8 @@ export class ConfiguratorConflictSuggestionComponent {
   @Input() suggestionNumber: number;
 
   groupType = Configurator.GroupType;
+
+  @HostBinding('tabindex') tabindex = '0';
 
   constructor() {}
 

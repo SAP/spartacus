@@ -1,26 +1,19 @@
 %cx-configurator-form {
-  .cx-configurator-attribute-header {
-    margin-right: 17px;
-    margin-left: 17px;
-  }
+  .cx-group-attribute {
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+    padding-block-start: 12px;
+    padding-block-end: 12px;
 
-  .cx-configurator-attribute-footer {
-    margin-right: 17px;
-    margin-left: 17px;
-  }
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 12px;
+      padding-block-end: 12px;
+    }
 
-  .cx-configurator-attribute-value {
-    margin-left: 17px;
-    padding: 10px 34px 0 0;
-    clear: both;
-    display: block;
-  }
-
-  .cx-configurator-attribute-value-multi {
-    display: inline-block;
-  }
-
-  .cx-configurator-group-attribute {
-    padding: 6px 10px;
+    em {
+      @include cx-configurator-attribute-type();
+    }
   }
 }

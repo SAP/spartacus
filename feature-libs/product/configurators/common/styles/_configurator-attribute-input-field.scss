@@ -1,5 +1,4 @@
 %cx-configurator-attribute-input-field {
-  .form-group {
-    margin-bottom: 0.5rem;
-  }
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-form-group();
 }

@@ -1,6 +1,6 @@
 <div
   *ngIf="showRequiredMessageForUserInput$ | async"
-  class="cx-configurator-attribute-footer-required-error-msg"
+  class="cx-required-error-msg"
 >
   <cx-icon [type]="iconType.ERROR"></cx-icon>
   {{ 'configurator.attribute.defaultRequiredMessage' | cxTranslate }}

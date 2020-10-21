@@ -1,8 +1,13 @@
 %cx-configurator-textfield-add-to-cart-button {
-  .cx-configurator-textfield-add-to-cart-btn {
-    padding: 1rem 0px;
-    justify-content: flex-end;
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 15px;
+  justify-content: flex-end;
+
+  .cx-add-to-cart-btn {
+    @include media-breakpoint-up(sm) {
+      width: 50%;
+    }
   }
 }

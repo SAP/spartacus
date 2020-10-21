@@ -94,6 +94,7 @@ class MockConfiguratorGroupService {
   getParentGroup(): Configurator.Group {
     return null;
   }
+  isConflictGroupType() {}
 }
 
 class MockConfiguratorCommonsService {
@@ -189,6 +190,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
+    spyOn(configuratorGroupsService, 'isConflictGroupType').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -212,54 +214,42 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render no groups if configuration is not consistent and issue navigation has not been done although required by the router', () => {
     productConfigurationObservable = of(inconsistentConfig);
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      0
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render no groups if configuration is not complete and issue navigation has not been done although required by the router', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      0
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render all groups if configuration is not consistent and issue navigation has not been done but also not required by the router', () => {
     productConfigurationObservable = of(inconsistentConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render all groups if configuration is not complete and issue navigation has not been done but also not required by the router', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
     productConfigurationObservable = of(incompleteConfig);
     routerStateObservable = of(mockRouterState);
     initialize();
-    expect(htmlElem.querySelectorAll('.cx-configurator-menu-item').length).toBe(
-      5
-    );
+    expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should return 5 groups after groups have been compiled', () => {
@@ -363,23 +353,6 @@ describe('ConfigurationGroupMenuComponent', () => {
       ],
     };
     expect(component.getConflictNumber(attributeGroup)).toBe('');
-  });
-
-  it('should return true if groupType is a conflict group type otherwise false', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    expect(
-      component.isConflictGroupType(
-        Configurator.GroupType.CONFLICT_HEADER_GROUP
-      )
-    ).toBe(true);
-    expect(
-      component.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP)
-    ).toBe(true);
-    expect(
-      component.isConflictGroupType(Configurator.GroupType.ATTRIBUTE_GROUP)
-    ).toBe(false);
   });
 
   it('should call status method if group has been visited', () => {

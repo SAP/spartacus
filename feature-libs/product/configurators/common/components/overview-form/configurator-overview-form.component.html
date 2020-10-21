@@ -1,28 +1,27 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
     <ng-container *ngFor="let group of configuration.overview.groups">
-      <section class="cx-configurator-overview-group">
-        <h2 class="cx-configurator-overview-group-name">
+      <div class="cx-group">
+        <h2>
           {{ group.groupDescription }}
         </h2>
-
         <div
-          class="cx-configurator-group-attribute"
+          class="cx-attribute-value-pair"
           *ngFor="let attributeOverview of group.attributes"
         >
           <cx-configurator-overview-attribute
             [attributeOverview]="attributeOverview"
           ></cx-configurator-overview-attribute>
         </div>
-      </section>
+      </div>
     </ng-container>
   </ng-container>
 </ng-container>
 
 <ng-template #noAttributes>
-  <section class="cx-configurator-overview-no-attributes">
+  <div class="cx-no-attribute-value-pairs">
     <!-- We currently do not support filtering on overview page so this should never be displayed -->
     <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
     <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
-  </section>
+  </div>
 </ng-template>

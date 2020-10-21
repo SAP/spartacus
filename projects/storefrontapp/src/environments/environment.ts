@@ -11,10 +11,9 @@ export const environment: Environment = {
     build.process.env.SPARTACUS_BASE_URL ??
     'https://cpqteamserver.mo.sap.corp:39002',
   // 'https://spartacus-dev3.eastus.cloudapp.azure.com:9002',
-  // 'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
   occApiPrefix: build.process.env.SPARTACUS_API_PREFIX ?? '/occ/v2/',
-  b2b: false,
-  cds: false,
   productconfig: true,
-  cdc: false,
+  cds: build.process.env.SPARTACUS_CDS ?? false,
+  b2b: build.process.env.SPARTACUS_B2B ?? false,
+  cdc: build.process.env.SPARTACUS_CDC ?? false,
 };

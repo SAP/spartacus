@@ -1,47 +1,44 @@
 %cx-configurator-update-message {
-  .wrapper {
-    position: absolute;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+
+  div.cx-update-msg {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    pointer-events: none;
-    z-index: 99;
+    min-height: fit-content;
+    top: 0;
+    @include type('6', 'semi');
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    padding-block-start: 10px;
+    padding-block-end: 10px;
+    line-height: var(--cx-line-height, 1.5);
+    background-color: mix(#ffffff, theme-color('info'), 80%);
+    position: sticky;
 
-    div#cx-configurator-update-message {
-      pointer-events: auto;
-      position: sticky;
-      top: 0;
-      text-align: var(--cx-text-align, center);
-      color: var(--cx-color, var(--cx-color-text));
-      @include type('6', 'semi');
-      padding: var(--cx-padding, 0 4rem 0 20px);
-      line-height: var(--cx-line-height, 1.5);
-      min-height: 70px;
-      flex-direction: row;
-      align-items: center;
-      display: none;
-      justify-content: center;
-      background-color: mix(#ffffff, theme-color('info'), 80%);
-      padding: $alert-padding-y;
+    &.visible {
+      display: flex;
 
-      &.visible {
-        display: flex;
-      }
-
-      %cx-spinner {
-        margin-right: 20px;
+      cx-spinner {
+        margin-inline-start: 10px;
+        margin-inline-end: 10px;
 
         .loader-container {
-          height: 40px;
-          width: 40px;
+          block-size: 40px;
+          inline-size: 40px;
           margin: 0 auto;
 
           .loader {
-            height: 40px;
-            width: 40px;
+            block-size: 40px;
+            inline-size: 40px;
 
             &::before {
-              height: 40px;
-              width: 40px;
+              block-size: 40px;
+              inline-size: 40px;
               border-width: 5px;
             }
           }

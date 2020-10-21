@@ -1,6 +1,8 @@
 %cx-configurator-attribute-footer {
-  .cx-configurator-attribute-footer-required-error-msg {
-    color: var(--cx-color-danger);
-    font-size: 14px;
-  }
+  display: flex;
+  flex-direction: row;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
+  @include cx-configurator-required-error-msg();
 }

@@ -1,8 +1,10 @@
+@import './mixins/mixins';
 @import 'configurator-attribute-radio-button';
 @import 'configurator-attribute-drop-down';
 @import 'configurator-attribute-input-field';
 @import 'configurator-attribute-numeric-input-field';
 @import 'configurator-attribute-read-only';
+@import 'configurator-attribute-checkbox';
 @import 'configurator-attribute-checkbox-list';
 @import 'configurator-attribute-header';
 @import 'configurator-attribute-footer';
@@ -16,7 +18,6 @@
 @import 'configurator-add-to-cart-button';
 @import 'configurator-price-summary';
 @import 'configurator-tab-bar';
-@import 'configurator-attribute-selection-image';
 @import 'configurator-attribute-multi-selection-image';
 @import 'configurator-attribute-single-selection-image';
 @import 'configurator-update-message';

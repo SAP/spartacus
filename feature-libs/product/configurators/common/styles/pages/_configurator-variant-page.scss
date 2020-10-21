@@ -1,29 +1,23 @@
 %VariantConfigurationTemplate {
-  padding-bottom: 2rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
+  @include cx-configurator-template();
 
   @include media-breakpoint-up(lg) {
     cx-page-slot.VariantConfigMenu {
-      max-width: 30%;
+      max-inline-size: 30%;
     }
 
     cx-page-slot.VariantConfigContent {
-      max-width: 70%;
+      max-inline-size: 70%;
     }
   }
 
   @include media-breakpoint-up(xl) {
     cx-page-slot.VariantConfigMenu {
-      max-width: calc(1140px * 0.3);
+      max-inline-size: calc(1140px * 0.3);
     }
 
     cx-page-slot.VariantConfigContent {
-      max-width: calc(1140px * 0.7);
+      max-inline-size: calc(1140px * 0.7);
     }
   }
 }

@@ -111,6 +111,52 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last cart entry', () => {
+      let result;
+      service.getLastEntry('xxx', '1234').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entries[1]);
+    });
+
+    it('should return undefined in case product is not available in cart', () => {
+      let result;
+      service.getLastEntry('xxx', 'notAvailable').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toBeUndefined();
+    });
+  });
+
   describe('isStable', () => {
     it('should return true when cart is stable', (done) => {
       store.dispatch(

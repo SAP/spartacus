@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from './../../core/model/configurator.model';
 
@@ -12,6 +17,8 @@ export class ConfiguratorConflictDescriptionComponent {
 
   groupType = Configurator.GroupType;
   iconTypes = ICON_TYPE;
+
+  @HostBinding('tabindex') tabindex = '0';
 
   constructor() {}
 

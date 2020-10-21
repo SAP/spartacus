@@ -1,67 +1,78 @@
 %cx-configurator-tab-bar {
   max-width: 1140px;
-  .nav {
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
+  list-style: none;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: var(--cx-color-light);
 
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    justify-content: flex-start !important;
+  @include media-breakpoint-down(lg) {
+    width: 100%;
+  }
 
-    @include media-breakpoint-down(xs) {
-      justify-content: center !important;
+  @include media-breakpoint-up(lg) {
+    margin-block-end: 2rem;
+  }
+
+  a {
+    color: black;
+    cursor: pointer;
+    padding: 0.5rem 0 0 0;
+    text-align: center;
+
+    @include media-breakpoint-up(md) {
+      flex-basis: 200px;
     }
 
-    @include media-breakpoint-down(md) {
-      margin-bottom: 0;
+    @include media-breakpoint-down(sm) {
+      inline-size: 50%;
     }
 
-    div {
-      margin-bottom: -1px;
-      width: 50%;
+    @include media-breakpoint-down(sm) {
+      inline-size: 50%;
+    }
 
-      @include media-breakpoint-up(sm) {
-        max-width: 200px;
-      }
+    // border effect
+    &:after {
+      content: '';
+      display: block;
+      block-size: 5px;
+      background: var(--cx-color-primary);
+      margin-inline-start: auto;
+      margin-inline-end: auto;
+      margin-block-start: 7px;
+      margin-block-end: auto;
 
-      a {
-        color: black;
-        cursor: pointer;
-        padding: 0.5rem 0 0 0;
-        text-align: center;
+      // the tab hover effect uses a border in the :after pseudo
+      // that is animated from 0% to 100% width
+      inline-size: 0;
+      opacity: 0;
+      transition: all 0.6s;
+    }
 
-        // border effect
-        &:after {
-          content: '';
-          display: block;
-          margin: 7px auto auto auto;
-          height: 5px;
-          background: var(--cx-color-primary);
+    &.active,
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: none;
+    }
 
-          // the tab hover effect uses a border in the :after pseudo
-          // that is animated from 0% to 100% width
-          width: 0;
-          opacity: 0;
-          transition: all 0.6s;
-        }
+    &.active:after,
+    &:hover:after {
+      inline-size: 100%;
+    }
 
-        &.active,
-        &:hover {
-          color: var(--cx-color-primary);
-        }
+    &.active:after,
+    &.active:hover:after {
+      opacity: 1;
+    }
 
-        &.active:after,
-        &:hover:after {
-          width: 100%;
-        }
-        &.active:after,
-        &.active:hover:after {
-          opacity: 1;
-        }
-        &:not(.active):hover:after {
-          opacity: 0.5;
-        }
-      }
+    &:not(.active):hover:after {
+      opacity: 0.5;
     }
   }
 }

@@ -1,40 +1,54 @@
 %cx-configurator-overview-notification-banner {
-  margin-right: 15px;
-  margin-left: 15px;
+  display: none;
 
-  .cx-error-container {
-    background-color: rgba(245, 206, 206, 1);
-    padding: 5px;
-    margin-bottom: 1.25rem;
+  &:not(:empty) {
     display: flex;
-    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-width: 1140px;
+    background-color: rgba(245, 206, 206, 1);
+    margin-block-end: 1.25rem;
+    padding-inline-start: 20px;
+    padding-inline-end: 25px;
+    padding-block-start: 5px;
+    padding-block-end: 5px;
 
-    .cx-error-icon-container {
-      padding: 5px 15px 5px 15px;
+    @include media-breakpoint-up(xs) {
+      align-items: center;
     }
 
-    .cx-error-msg-container {
-      padding-top: 10px;
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 20px;
+      padding-inline-end: 20px;
     }
 
-    button.link {
-      color: var(--cx-color-text);
-      border-width: 0;
-      background-color: transparent;
-      text-decoration: none;
-      font-size: inherit;
-      width: max-content;
-      text-decoration: underline;
-
-      &:hover {
-        color: var(--cx-color-primary);
-        text-decoration: none;
-      }
-    }
-
-    .cx-error-icon {
+    cx-icon,
+    .cx-icon {
+      align-self: flex-start;
       color: var(--cx-color-danger);
       font-size: 30px;
+      padding-inline-start: 5px;
+      padding-inline-end: 15px;
+      padding-block-start: 5px;
+      padding-block-end: 5px;
+    }
+
+    .cx-error-msg {
+      padding-inline-end: 15px;
+
+      button.link {
+        color: var(--cx-color-text);
+        border-width: 0;
+        background-color: transparent;
+        font-size: inherit;
+        inline-size: max-content;
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
+      }
     }
   }
 }
