@@ -2,21 +2,31 @@ import {
   chain,
   Rule,
   SchematicContext,
-  Tree,
+  SchematicsException,
+  Tree
 } from '@angular-devkit/schematics';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   B2C_STOREFRONT_MODULE,
   commitChanges,
   getConfig,
   getExistingStorefrontConfigNode,
+  getProjectTargets,
   getTsSourceFile,
-  mergeConfig,
+  mergeConfig
 } from '@spartacus/schematics';
+import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 
-function provideTestBaseSites(): Rule {
+function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    // TODO: is there a mechanism (an exposed method maybe) to find the app.module.ts without using the hard-coded path?
-    const appModulePath = 'src/app/app.module.ts';
+    const projectTargets = getProjectTargets(tree, options.project);
+
+    if (!projectTargets.build) {
+      throw new SchematicsException(`Project target "build" not found.`);
+    }
+
+    const mainPath = projectTargets.build.options.main;
+    const appModulePath = getAppModulePath(tree, mainPath);
     const appModule = getTsSourceFile(tree, appModulePath);
     const storefrontConfig = getExistingStorefrontConfigNode(appModule);
     if (!storefrontConfig) {
@@ -55,8 +65,8 @@ function provideTestBaseSites(): Rule {
   };
 }
 
-export default function (): Rule {
+export default function (options: SpartacusDevSchematicsOptions): Rule {
   return (_tree: Tree) => {
-    return chain([provideTestBaseSites()]);
+    return chain([provideTestBaseSites(options)]);
   };
 }
