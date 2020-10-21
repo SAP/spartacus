@@ -9,9 +9,11 @@ import { StorefrontConfig } from '../storefront-config';
 import { layoutConfig, mediaConfig } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
