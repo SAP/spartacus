@@ -30,7 +30,7 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Converts the date string from a Standard ISO 860 with or without time to valid OCC model format
+   * Converts the date string from a Standard ISO 860 format with or without time to valid OCC model format
    * @Example
    * Converts 2020-10-15T15:38:05 or 2020-10-15 2020-10-15T15:38:05-05:00
    */
@@ -47,7 +47,7 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Returns local time in hh:mm
+   * Returns local time in hh:mm format
    */
   protected getCurrentLocalTime(): string {
     const currentTime = new Date().toLocaleTimeString([], {
