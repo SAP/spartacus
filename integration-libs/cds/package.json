@@ -16,7 +16,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/cds",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
   "dependencies": {
     "tslib": "^2.0.0"
   },
