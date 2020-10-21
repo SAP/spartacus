@@ -95,6 +95,14 @@ const config: MyCompanyConfig = {
       showInDetails: true,
     },
   ],
+  subCategories: [
+    {
+      name: 'Cost Centers',
+      baseUrl: '/cost-centers',
+      objectType: 'costCenters',
+      apiEndpoint: '**/constcenters**',
+    },
+  ],
 };
 
 testMyCompanyFeatureFromConfig(config);

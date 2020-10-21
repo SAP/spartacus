@@ -67,31 +67,8 @@ const config: MyCompanyConfig = {
       name: 'Budgets',
       baseUrl: `/budgets`,
       apiEndpoint: '**/budgets**',
-      selector: 'budget',
       objectType: 'budgets',
-      rows: [
-        {
-          label: 'Name',
-          variableName: 'name',
-          // link: '/organization/purchase-limit/',
-          sortByUrl: '',
-        },
-        {
-          label: 'Code',
-          variableName: 'uid',
-          sortByUrl: '',
-        },
-        {
-          label: 'Amount',
-          variableName: 'budget',
-          sortByUrl: '?sort=budget',
-        },
-        {
-          label: 'Start - End',
-          variableName: 'startDate',
-          sortByUrl: '',
-        },
-      ],
+      manageAssignments: true,
     },
   ],
 };

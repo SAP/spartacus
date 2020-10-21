@@ -51,53 +51,16 @@ const config: MyCompanyConfig = {
       name: 'Purchase limits',
       baseUrl: `/purchase-limits`,
       apiEndpoint: '**/availableOrderApprovalPermissions**',
-      selector: 'permission',
       objectType: 'orderApprovalPermissions',
-      rows: [
-        {
-          label: 'Code',
-          variableName: 'code',
-          // link: '/organization/purchase-limit/',
-          sortByUrl: '',
-        },
-        { label: 'Limit', variableName: 'orderApprovalPermissionType.name' },
-        {
-          label: 'Unit',
-          variableName: 'orgUnit.name',
-          link: `/organization/unit/`,
-          sortByUrl: '?sort=byUnitName',
-        },
-      ],
+      manageAssignments: true,
     },
     {
       name: 'Users',
       baseUrl: `/users`,
       apiEndpoint: '**/availableOrgCustomers**',
-      selector: 'user',
       objectType: 'members',
       canUnassignAll: true,
-      rows: [
-        {
-          variableName: 'name',
-          label: 'Name',
-          link: '/organization/user/',
-          sortByUrl: '',
-        },
-        {
-          label: 'Email',
-          variableName: 'email',
-        },
-        {
-          label: 'Roles',
-          variableName: 'roles',
-        },
-        {
-          label: 'Unit',
-          variableName: 'orgUnit.name',
-          link: `/organization/unit/`,
-          sortByUrl: '?sort=byUnitName',
-        },
-      ],
+      manageAssignments: true,
     },
   ],
 };
