@@ -1,11 +1,17 @@
 import { MyCompanyConfig, MyCompanyRowConfig } from './models/index';
-import { loginAsMyCompanyAdmin, scanTablePagesForText } from './my-company';
+import { loginAsMyCompanyAdmin } from './my-company';
 
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
+    let entityUId: string;
+
     beforeEach(() => {
       loginAsMyCompanyAdmin();
       cy.visit(`${config.baseUrl}`);
+    });
+
+    after(() => {
+      entityUId = undefined;
     });
 
     it(`should create`, () => {
@@ -20,29 +26,27 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       });
 
       completeForm(config.rows, 'createValue');
+
+      cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
       cy.get('div.header button').contains('Save').click();
+      cy.wait('@getEntityData').then((xhr) => {
+        entityUId = xhr.response.body[config.entityIdField];
 
-      verifyDetails(config, 'createValue');
-
-      cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+        verifyDetails(config, 'createValue');
+        cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+      });
     });
 
     it(`should update`, () => {
-      const codeRow = config.rows?.find((row) => row.useInUrl);
-      const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
+      const entityId =
+        entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
-      cy.wait(3000);
-      scanTablePagesForText(nameRow.createValue, config);
-      cy.get('cx-organization-list a')
-        .contains(`${nameRow.createValue}`)
-        .click({ force: true });
+      cy.wait(2000);
+      cy.visit(`${config.baseUrl}/${entityId}`);
+      cy.url().should('contain', `${config.baseUrl}/${entityId}`);
 
-      cy.url().should('contain', `${config.baseUrl}/${codeRow.createValue}`);
       cy.get(`cx-organization-card a.link`).contains('Edit').click();
-      cy.url().should(
-        'contain',
-        `${config.baseUrl}/${codeRow.createValue}/edit`
-      );
+      cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get(`cx-organization-form`).within(() => {
         cy.get('div.header').within(() => {
@@ -102,20 +106,22 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
 
 function verifyDetails(config: MyCompanyConfig, valueKey: string) {
   const codeRow = config.rows?.find((row) => row.useInUrl);
-  const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
+  const headerRows = config.rows?.filter((row) => row.useInHeader);
 
-  cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
+  if (codeRow) {
+    cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
+  }
 
-  cy.wait(3000);
+  cy.wait(2000);
   cy.get(
     'cx-organization-card div.header h3'
   ).contains(`${config.name} Details`, { matchCase: false });
-  cy.get('cx-organization-card div.header h4').contains(
-    `${config.name}: ${nameRow[valueKey]}`,
-    {
+
+  headerRows.forEach((hRow) => {
+    cy.get('cx-organization-card div.header h4').contains(hRow[valueKey], {
       matchCase: false,
-    }
-  );
+    });
+  });
 
   config.rows.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {

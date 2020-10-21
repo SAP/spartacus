@@ -8,6 +8,7 @@ const config: MyCompanyConfig = {
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
+  entityIdField: 'code',
   rows: [
     {
       label: 'Name',

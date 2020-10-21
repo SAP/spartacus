@@ -48,4 +48,8 @@ export interface MyCompanyRowConfig {
    * Label to identify property in form
    */
   formLabel?: string;
+  /**
+   * Whether to show this header in details
+   */
+  useInHeader?: boolean;
 }

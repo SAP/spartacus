@@ -8,6 +8,7 @@ const config: MyCompanyConfig = {
   baseUrl: `${CONTEXT_URL_EN_USD}/organization/user-groups`,
   apiEndpoint: '/users/current/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
+  entityIdField: 'uid',
   rows: [
     {
       label: 'Name',
