@@ -22,6 +22,7 @@ import {
   UserService,
   User,
   RoutingService,
+  B2BUserGroup,
 } from '@spartacus/core';
 
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
@@ -80,7 +81,7 @@ export class B2BUserEffects {
           // TODO Workaround for not known customerId while user creation (redireciton)
           return this.routingService.getRouterState().pipe(
             take(1),
-            tap((route) => this.redirect(route, data)),
+            tap((route) => this.redirectToDetails(route, data)),
             switchMap(() => {
               const successActions = [
                 new B2BUserActions.CreateB2BUserSuccess(data),
@@ -94,7 +95,7 @@ export class B2BUserEffects {
                     userId,
                     orgUnitId: orgCustomer.orgUnit.uid,
                     orgCustomerId: data.customerId,
-                    roleId: 'b2bapprovergroup',
+                    roleId: B2BUserGroup.B2B_APPROVER_GROUP,
                   })
                 );
               }
@@ -144,7 +145,7 @@ export class B2BUserEffects {
                   userId,
                   orgUnitId: orgCustomer.orgUnit.uid,
                   orgCustomerId,
-                  roleId: 'b2bapprovergroup',
+                  roleId: B2BUserGroup.B2B_APPROVER_GROUP,
                 })
               );
             }
@@ -609,7 +610,7 @@ export class B2BUserEffects {
     private authService: AuthService
   ) {}
 
-  protected redirect(route, data) {
+  protected redirectToDetails(route, data) {
     if ((route as any)?.state?.context?.id !== '/organization/units') {
       this.routingService.go({
         cxRoute: 'userDetails',
