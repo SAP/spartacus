@@ -347,7 +347,9 @@ describe('OutletDirective', () => {
       `,
     })
     class MockTemplateComponent {
-      constructor(@Inject('mockContext') public mockContext$: Observable<string>){}
+      constructor(
+        @Inject('mockContext') public mockContext$: Observable<string>
+      ) {}
     }
 
     @Component({
@@ -376,7 +378,7 @@ describe('OutletDirective', () => {
           },
           {
             provide: 'mockContext',
-            useValue: mockContextSubject$
+            useValue: mockContextSubject$,
           },
           {
             provide: FeaturesConfig,
