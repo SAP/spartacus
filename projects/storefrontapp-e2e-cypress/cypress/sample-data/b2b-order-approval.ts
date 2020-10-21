@@ -107,7 +107,7 @@ export const approvalOrderList = {
   orderApprovals: [
     {
       approvalDecisionRequired: false,
-      code: '0000008V',
+      code: 'testCode',
       order: {
         totalPrice: {
           formattedValue: '$5,509.99',
@@ -137,7 +137,7 @@ export const approvalOrderList = {
 
 export const approvalOrderDetail = {
   approvalDecisionRequired: true,
-  code: '0000008V',
+  code: 'testCode',
   customerOrderApprovalRecords: [
     {
       approver: {
