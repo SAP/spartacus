@@ -17,12 +17,12 @@ import {
   AuthActions,
   AuthService,
   B2BUser,
+  B2BUserGroup,
   EntitiesModel,
   normalizeHttpError,
-  UserService,
   User,
+  UserService,
   RoutingService,
-  B2BUserGroup,
 } from '@spartacus/core';
 
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
