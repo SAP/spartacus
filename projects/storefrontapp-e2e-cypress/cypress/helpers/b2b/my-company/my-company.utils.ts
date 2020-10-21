@@ -1,10 +1,15 @@
 import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testCreateUpdateFromConfig } from './my-company-form';
-import { nextPage } from '../product-search';
+import { nextPage } from '../../product-search';
+import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}`, () => {
+    before(() => {
+      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
+
     testListFromConfig(config);
     testCreateUpdateFromConfig(config);
   });
