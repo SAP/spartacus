@@ -6,7 +6,7 @@ import {
   UserGroupActions,
 } from '../actions/index';
 
-export const permissionInitialState = undefined;
+export const permissionInitialState = {};
 export const permissionsInitialState = undefined;
 
 export function permissionsEntitiesReducer(

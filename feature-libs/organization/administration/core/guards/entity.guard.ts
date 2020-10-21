@@ -22,7 +22,7 @@ export class EntityGuard {
     } else {
       this.showErrorMessage(entityData);
       // timeout for the user to be able to see the error message before redirecting
-      // if we do not want the timeout, we would need to use global message service
+      // if we do not want the timeout, we would need to use the global message service
       setTimeout(() => {
         this.redirect(item, entityData);
       }, 1000);
@@ -64,7 +64,7 @@ export class EntityGuard {
           item: entityData[0].charAt(0).toUpperCase() + entityData[0].slice(1),
         },
       },
-      type: GlobalMessageType.MSG_TYPE_WARNING,
+      type: GlobalMessageType.MSG_TYPE_ERROR,
     });
   }
 }

@@ -3,7 +3,7 @@ import { StateUtils } from '@spartacus/core';
 import { B2BUserActions } from '../actions/index';
 import { UserGroup } from '../../model/user-group.model';
 
-export const userGroupInitialState = undefined;
+export const userGroupInitialState = {};
 export const userGroupsInitialState = undefined;
 
 export function userGroupEntitiesReducer(
