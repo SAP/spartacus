@@ -137,9 +137,7 @@ export class B2BUserEffects {
               new B2BUserActions.UpdateB2BUserSuccess(orgCustomer),
             ] as any[];
             if (isAssignedToApprovers) {
-              successActions.splice(
-                1,
-                0,
+              successActions.push(
                 new OrgUnitActions.AssignApprover({
                   userId,
                   orgUnitId: orgCustomer.orgUnit.uid,
