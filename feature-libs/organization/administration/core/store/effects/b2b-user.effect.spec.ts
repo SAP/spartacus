@@ -320,9 +320,8 @@ describe('B2B User Effects', () => {
       };
       const action = new B2BUserActions.UpdateB2BUser(payload);
       const completion = new B2BUserActions.UpdateB2BUserSuccess(orgCustomer);
-      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion, c: completion2 });
+      expected = cold('-b', { b: completion });
 
       expect(effects.updateB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.update).toHaveBeenCalledWith(

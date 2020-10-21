@@ -135,7 +135,6 @@ export class B2BUserEffects {
             const successActions = [
               // TODO: change for 'payload: data' when backend API start to return user data on PATCH
               new B2BUserActions.UpdateB2BUserSuccess(orgCustomer),
-              new OrganizationActions.OrganizationClearData(),
             ] as any[];
             if (isAssignedToApprovers) {
               successActions.splice(
