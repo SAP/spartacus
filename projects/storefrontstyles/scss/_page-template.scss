@@ -15,19 +15,9 @@ $page-template-whitelist: LandingPage2Template, ContentPage1Template,
   StoreFinderPageTemplate, CheckoutLoginPageTemplate, AccountPageTemplate !default;
 
 @each $selector in $page-template-whitelist {
-  @include forVersion(0, 3) {
-    .#{$selector} {
-      @if (index($page-template-blacklist, $selector) == null) {
-        @extend %#{$selector} !optional;
-      }
-    }
-  }
-
-  @include forVersion(3.1) {
-    cx-page-layout.#{$selector} {
-      @if (index($page-template-blacklist, $selector) == null) {
-        @extend %#{$selector} !optional;
-      }
+  cx-page-layout.#{$selector} {
+    @if (index($page-template-blacklist, $selector) == null) {
+      @extend %#{$selector} !optional;
     }
   }
 }
