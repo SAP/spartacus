@@ -59,7 +59,7 @@ export function getStubbedOrderApprovalList() {
       'BASE_SITE'
     )}/users/current/orderapprovals?*`,
     approvalOrderList
-  );
+  ).as('order_approval_list');;
 }
 
 export function getStubbedOrderApprovalDetail() {

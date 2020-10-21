@@ -54,6 +54,7 @@ describe('B2B - Order Approval', () => {
     it('should display order approval list', () => {
       orderApproval.getStubbedOrderApprovalList();
       orderApproval.visitOrderApprovalListPage();
+      cy.wait('@order_approval_list').its('status').should('eq', 200);
 
       cy.get('cx-order-approval-list a.cx-order-approval-value')
         .eq(0)
@@ -89,15 +90,13 @@ describe('B2B - Order Approval', () => {
             .formattedValue
         );
 
-        // change the sort
-        cy.server();
-        cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
-        cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-        
-        cy.wait('@query_order_asc').its('status').should('eq', 200);
+      // test the sort dropdown
+      cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
+      cy.wait('@order_approval_list').its('status').should('eq', 200);
 
-        // assert the new list request is sent.
-
+      cy.get('@order_approval_list')
+        .its('url')
+        .should('contain', 'sort=byOrderNumber');
     });
 
     it('Should display approval detail page', () => {
