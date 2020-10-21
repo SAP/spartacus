@@ -1,27 +1,52 @@
-//import { beforeEach } from 'mocha';
+import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
 import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
 import * as sampleData from '../../../sample-data/b2b-order-approval';
 
 describe('B2B - Order Approval', () => {
-  describe('B2B - Check order approval in Order details page for customer', () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
+  before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
+  });
+
+  describe('Order Approval - Accessibility.', () => {
+    beforeEach(() => {
+      orderApproval.loginB2bApprover();
     });
 
+    context('Approval List', () => {
+      it('should allow to navigate with tab key', () => {
+        orderApproval.approvalListTabbingOrder(config.orderApprovalList);
+      });
+    });
+
+    context('Approval Detail', () => {
+      it('should allow to navigate with tab key', () => {
+        orderApproval.approvalDetailTabbingOrder(config.orderApprovalDetail);
+      });
+    });
+
+    context('Approval Form', () => {
+      it('should allow to navigate with tab key', () => {
+        orderApproval.approvalFormTabbingOrder(config.orderApprovalForm);
+      });
+    });
+
+    context('Rejection Form', () => {
+      it('should allow to navigate with tab key', () => {
+        orderApproval.rejectionFormTabbingOrder(config.orderRejectionForm);
+      });
+    });
+  });
+  describe('B2B - Check order approval in Order details page for customer', () => {
     it('should display order approval details in order details page', () => {
       orderApproval.loginB2bUser();
       orderApproval.getStubbedPendingOrderDetails();
 
       cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-      //assertPermissionResults(sampleData.pendingOrder);
+      assertPermissionResults(sampleData.pendingOrder);
     });
   });
 
   describe('B2B - Order approval list and details for order approver', () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-    });
-
     beforeEach(() => {
       orderApproval.loginB2bApprover();
     });

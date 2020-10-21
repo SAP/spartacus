@@ -1,10 +1,4 @@
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
-import {
-  approvalDetailTabbingOrder,
-  approvalFormTabbingOrder,
-  approvalListTabbingOrder,
-  rejectionFormTabbingOrder,
-} from '../../../helpers/accessibility/tabbing-order/b2b/order-approval';
 import { checkoutPaymentMethodTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/b2b/payment-method';
 import {
   checkoutDeliveryModeTabbingOrder,
@@ -20,7 +14,6 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-import { loginB2bApprover } from '../../../helpers/b2b/b2b-order-approval';
 import { loginB2bUser } from '../../../helpers/b2b/b2b-checkout';
 import { b2bProduct } from '../../../sample-data/b2b-checkout';
 
@@ -139,40 +132,6 @@ describe('Tabbing order for B2B checkout', () => {
           config.checkoutReviewOrderAccount,
           true
         );
-      });
-    });
-  });
-
-  describe('Order Approval', () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-    });
-
-    beforeEach(() => {
-      loginB2bApprover();
-    });
-
-    context('Approval List', () => {
-      it('should allow to navigate with tab key', () => {
-        approvalListTabbingOrder(config.orderApprovalList);
-      });
-    });
-
-    context('Approval Detail', () => {
-      it('should allow to navigate with tab key', () => {
-        approvalDetailTabbingOrder(config.orderApprovalDetail);
-      });
-    });
-
-    context('Approval Form', () => {
-      it('should allow to navigate with tab key', () => {
-        approvalFormTabbingOrder(config.orderApprovalForm);
-      });
-    });
-
-    context('Rejection Form', () => {
-      it('should allow to navigate with tab key', () => {
-        rejectionFormTabbingOrder(config.orderRejectionForm);
       });
     });
   });
