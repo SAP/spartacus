@@ -6,10 +6,10 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CurrentProductService } from './current-product.service';
 
-const router = {
+const mockRouter = {
   state: {
     url: '/',
     queryParams: {},
@@ -19,9 +19,11 @@ const router = {
   },
 };
 
+const mockRouter$ = new BehaviorSubject<{ state: object }>(mockRouter);
+
 class MockRoutingService {
   getRouterState() {
-    return of(router);
+    return mockRouter$.asObservable();
   }
 }
 
@@ -46,7 +48,9 @@ class MockFeatureConfigService {
 }
 
 describe('CurrentProductService', () => {
-  let service;
+  let currentProductService: CurrentProductService;
+  let routingService: RoutingService;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,28 +72,65 @@ describe('CurrentProductService', () => {
       ],
     });
 
-    service = TestBed.inject(CurrentProductService);
+    currentProductService = TestBed.inject(CurrentProductService);
+    routingService = TestBed.inject(RoutingService);
+    productService = TestBed.inject(ProductService);
+
+    spyOn(routingService, 'getRouterState').and.callThrough();
+    spyOn(productService, 'get').and.callThrough();
   });
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe((product) => (result = product));
+
+    currentProductService
+      .getProduct()
+      .subscribe((product) => (result = product))
+      .unsubscribe();
+
     expect(result).toEqual(mockProduct);
+  });
+
+  it('should not emit old product data and fetch NEW product data', () => {
+    const newMockRouter = {
+      ...mockRouter,
+      state: { ...mockRouter.state, params: { productCode: 'abc' } },
+    };
+
+    currentProductService.getProduct().subscribe();
+
+    expect(productService.get).toHaveBeenCalledWith(
+      mockRouter.state.params.productCode,
+      currentProductService['DEFAULT_PRODUCT_SCOPE']
+    );
+
+    mockRouter$.next(newMockRouter);
+
+    expect(productService.get).toHaveBeenCalledWith(
+      newMockRouter.state.params.productCode,
+      currentProductService['DEFAULT_PRODUCT_SCOPE']
+    );
   });
 
   it('should fetch product attributes', () => {
     let result: Product;
-    service.getProduct('attributes').subscribe((product) => (result = product));
+    currentProductService
+      .getProduct('attributes')
+      .subscribe((product) => (result = product))
+      .unsubscribe();
     expect(result).toEqual(mockProductWithAttributes);
   });
 
   it('should return null if not on product route', () => {
+    const emptyMockRouter = { state: { params: {} } };
+
+    mockRouter$.next(emptyMockRouter);
+
     let result: Product;
-    const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of({ state: { params: {} } } as any)
-    );
-    service.getProduct().subscribe((product) => (result = product));
+    currentProductService
+      .getProduct()
+      .subscribe((product) => (result = product))
+      .unsubscribe();
     expect(result).toBe(null);
   });
 });
