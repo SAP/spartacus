@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   provideDefaultConfig,
   RoutingConfig,
 } from '@spartacus/core';
-import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
-import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     provideDefaultConfig(defaultOrganizationLayoutConfig),
     provideDefaultConfig({
       featureModules: {
-        organization: {
+        organizationAdministration: {
           cmsComponents: [
             'ManageBudgetsListComponent',
             'ManageCostCentersListComponent',

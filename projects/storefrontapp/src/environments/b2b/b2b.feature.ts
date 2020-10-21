@@ -16,10 +16,10 @@ export const b2bFeature: FeatureEnvironment = {
       },
 
       featureModules: {
-        organization: {
+        organizationAdministration: {
           module: () =>
             import('@spartacus/organization/administration').then(
-              (m) => m.OrganizationModule
+              (m) => m.AdministrationModule
             ),
         },
       },
