@@ -17,14 +17,12 @@ import {
   providedIn: 'root',
 })
 export class ReplenishmentOrderDetailsService {
-  protected replenishmentOrderCode$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map((routingData) => routingData.state.params.replenishmentOrderCode)
-    );
+  protected replenishmentOrderCode$ = this.routingService.getRouterState().pipe(
+    map((routingData) => routingData.state.params.replenishmentOrderCode),
+    distinctUntilChanged()
+  );
 
   protected replenishmentOrderLoad$ = this.replenishmentOrderCode$.pipe(
-    distinctUntilChanged(),
     tap((replenishmentOrderCode: string) => {
       if (Boolean(replenishmentOrderCode)) {
         this.userReplenishmentOrderService.loadReplenishmentOrderDetails(

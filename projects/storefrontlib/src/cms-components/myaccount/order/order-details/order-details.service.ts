@@ -20,12 +20,12 @@ export class OrderDetailsService {
     private userOrderService: UserOrderService,
     private routingService: RoutingService
   ) {
-    this.orderCode$ = this.routingService
-      .getRouterState()
-      .pipe(map((routingData) => routingData.state.params.orderCode));
+    this.orderCode$ = this.routingService.getRouterState().pipe(
+      map((routingData) => routingData.state.params.orderCode),
+      distinctUntilChanged()
+    );
 
     this.orderLoad$ = this.orderCode$.pipe(
-      distinctUntilChanged(),
       tap((orderCode) => {
         if (orderCode) {
           this.userOrderService.loadOrderDetails(orderCode);
