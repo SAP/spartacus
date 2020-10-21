@@ -217,7 +217,7 @@ describe('SearchBoxComponent', () => {
         );
       });
 
-      fit('should clear when clicking on clear button', () => {
+      it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
 
