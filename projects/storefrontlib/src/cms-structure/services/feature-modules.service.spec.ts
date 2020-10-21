@@ -110,7 +110,7 @@ describe('FeatureModulesService', () => {
         .subscribe((event) => (moduleEvent = event));
 
       service.getCmsMapping('component1').subscribe(() => {
-        expect(moduleEvent.featureName).toEqual('feature1');
+        expect(moduleEvent.feature).toEqual('feature1');
         expect(
           moduleEvent.moduleRef.instance instanceof MockFeature1Module
         ).toBeTruthy();
