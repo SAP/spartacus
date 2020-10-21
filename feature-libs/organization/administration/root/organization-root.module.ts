@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import {
-  AuthGuard,
+  //AuthGuard,
   provideDefaultConfig,
-  RoutingConfig,
+  //RoutingConfig,
 } from '@spartacus/core';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
-import { RouterModule } from '@angular/router';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+//import { RouterModule } from '@angular/router';
+//import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
+
+// #9423
 @NgModule({
   imports: [
-    RouterModule.forChild([
+    /*RouterModule.forChild([
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orderApprovalDetails' },
       },
-    ]),
+    ]),*/
   ],
   providers: [
     provideDefaultConfig(defaultOrganizationLayoutConfig),
@@ -31,17 +33,11 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
             'ManageUnitsListComponent',
             'ManageUsersListComponent',
             'ManageUserGroupsListComponent',
-            'OrderApprovalListComponent',
-            'OrderApprovalDetailTotalsComponent',
-            'OrderApprovalDetailApprovalDetailsComponent',
-            'OrderApprovalDetailShippingComponent',
-            'OrderApprovalDetailItemsComponent',
-            'OrderApprovalDetailFormComponent',
           ],
         },
       },
     }),
-    provideDefaultConfig(<RoutingConfig>{
+    /*provideDefaultConfig(<RoutingConfig>{
       routing: {
         routes: {
           orderApprovalDetails: {
@@ -50,7 +46,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
           },
         },
       },
-    }),
+    }),*/
   ],
 })
 export class OrganizationRootModule {}

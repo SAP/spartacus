@@ -25,7 +25,7 @@ export enum OrganizationTableType {
   USER_USER_GROUPS = 'userUserGroups',
   USER_ASSIGNED_USER_GROUPS = 'userAssignedUserGroups',
   PERMISSION = 'permission',
-  ORDER_APPROVAL = 'orderApproval',
+  ORDER_APPROVAL = 'orderApproval', // #9423
 }
 
 export type BaseItem = {
