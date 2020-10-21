@@ -1,6 +1,5 @@
 <ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
   <h3 *ngIf="title">{{ title }}</h3>
-  {{ intersectCount$ | async }}
   <div
     #carousel
     class="carousel-panel"
@@ -13,19 +12,29 @@
       [style.visibility]="(previous$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(previous$ | async)?.enabled"
     >
-      <!-- 
-      [cxFocus]="{ key: 'previous', group: focusConfig.group }" -->
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
 
     <div class="slides" #slides>
+      <!-- 
+        we still keep the notion of slide elements, although we don't use this anymore. Most likely we deprecate this in 4.0. In 3.0, we start introducing virtual slides. 
+      -->
       <ng-container *ngFor="let _ of items; let i = index">
         <div
           class="slide"
           *ngIf="i % size === 0"
           [class.active]="i === activeSlide"
         >
-          <!-- we render the carousel item, so that we have an element to work with -->
+          <!-- 
+            We render the carousel item, so that we have an element to work with. This allows to do skeleton, prefetching and accessibility.
+
+            Deprecate:
+            - active class
+
+            new with 3.0
+            - prefetching
+            - intersection
+          -->
           <div
             *ngFor="let data of items | slice: i:i + size; let itemNum = index"
             class="item"
@@ -58,7 +67,6 @@
       [style.visibility]="(next$ | async)?.visible ? 'visible' : 'hidden'"
       [disabled]="!(next$ | async)?.enabled"
     >
-      <!-- [cxFocus]="{ key: 'next', group: focusConfig.group }" -->
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
   </div>
@@ -66,7 +74,7 @@
   <div class="indicators">
     <button
       *ngFor="let indicator of indicators$ | async; let i = index"
-      (click)="scroll(indicator.index)"
+      (click)="scroll(indicator.position)"
       [class.selected]="indicator.selected"
       [disabled]="indicator.selected"
       [cxFocus]="{ key: i + 1, group: focusConfig.group }"

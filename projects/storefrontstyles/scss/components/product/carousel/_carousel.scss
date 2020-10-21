@@ -258,6 +258,9 @@
     &:not(:disabled):not(.selected):hover {
       color: var(--cx-color-secondary);
     }
+    &:focus {
+      color: var(--cx-color-primary);
+    }
   }
 
   @include media-breakpoint-only(xs) {

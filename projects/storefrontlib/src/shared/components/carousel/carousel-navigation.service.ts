@@ -11,6 +11,11 @@ export interface CarouselNavigation {
   next: CarouselButton;
 }
 
+export interface CarouselIndicator {
+  position: number;
+  selected: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -41,41 +46,28 @@ export class CarouselNavigationService {
     };
   }
 
-  indicators(carouselHost: HTMLElement, slides: number[]) {
+  /**
+   * Return an array of indicator positions. For each position we render
+   * the selected state of the indicator.
+   */
+  indicators(carouselHost: HTMLElement, slides: number[]): CarouselIndicator[] {
     const scrollLeft = carouselHost.scrollLeft;
-    return slides.map((index) => {
-      const left = carouselHost.clientWidth * index;
-      const right = carouselHost.clientWidth * (index + 1);
+    const tolerance = 10;
 
-      const hasLastMatch =
-        scrollLeft + carouselHost.clientWidth === carouselHost.scrollWidth;
+    return slides.map((position) => {
+      const left = carouselHost.clientWidth * position;
+      const right = carouselHost.clientWidth * (position + 1);
 
-      const selected = hasLastMatch
-        ? index === slides.length - 1
-        : scrollLeft >= left && scrollLeft < right;
+      const isLast =
+        position === slides.length - 1 &&
+        scrollLeft + carouselHost.clientWidth >=
+          carouselHost.scrollWidth - tolerance;
 
-      return { index, selected };
+      const selected =
+        isLast ||
+        (left >= scrollLeft - tolerance &&
+          scrollLeft + carouselHost.clientWidth >= right);
+      return { position, selected };
     });
   }
-
-  //   resolveNavigation(
-  //     carouselHost: HTMLElement,
-  //     max: number,
-  //     visible: number[]
-  //   ): CarouselNavigation {
-  //     const slides =
-  //       carouselHost.clientWidth > 0
-  //         ? Array.from(
-  //             Array(
-  //               Math.ceil(carouselHost.scrollWidth / carouselHost.clientWidth)
-  //             ).keys()
-  //           )
-  //         : [];
-
-  //     const next = {
-
-  //     };
-
-  //     return { slides, next , previous: this.previousData(visible, slides)};
-  //   }
 }

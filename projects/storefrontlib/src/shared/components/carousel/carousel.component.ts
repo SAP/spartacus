@@ -12,10 +12,19 @@ import {
 } from '@angular/core';
 import { AutoFocusService } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/autofocus';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
-import { CarouselNavigationService } from './carousel-navigation.service';
+import {
+  CarouselIndicator,
+  CarouselNavigationService,
+} from './carousel-navigation.service';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -158,7 +167,8 @@ export class CarouselComponent implements OnInit {
     distinctUntilChanged()
   );
 
-  readonly indicators$: Observable<any> = this.slides$.pipe(
+  readonly indicators$: Observable<CarouselIndicator[]> = this.slides$.pipe(
+    debounceTime(250),
     map((slides) => this.navigation.indicators(this.carouselHost, slides)),
     filter((i) => i.length > 1)
   );
@@ -194,10 +204,6 @@ export class CarouselComponent implements OnInit {
     protected autoFocusService: AutoFocusService
   ) {}
 
-  // onScroll(event: Event) {
-  //   console.log('scroll', event.eventPhase);
-  // }
-
   tabIndex(ref: HTMLElement): Observable<number> {
     return this.intersect$.pipe(
       map((intersectMap) => (intersectMap.get(ref) ? 0 : -1))
@@ -208,16 +214,9 @@ export class CarouselComponent implements OnInit {
     const bump = this.calcIntersected();
     let bumpTo = this.prefetch || bump;
     bumpTo += prefetchNum ?? bump;
-    if (bumpTo <= this.itemRefs.length) {
+    if (bumpTo < this.itemRefs.length + 1) {
       this.prefetch = bumpTo;
     }
-    console.log(
-      'bumped prefetch to',
-      this.itemRefs.length,
-      this.prefetch,
-      bumpTo,
-      bump
-    );
   }
 
   set prefetch(item) {
@@ -225,24 +224,11 @@ export class CarouselComponent implements OnInit {
     if (this._prefetch < item + this._prefetchNum) {
       this._prefetch = item + this._prefetchNum;
     }
+    console.log('prefetched', this.prefetch);
   }
   get prefetch(): number {
     return this._prefetch;
   }
-
-  // ngAfterViewInit() {
-  //   // // TODO: cleanup
-  //   // fromEvent(this.carousel.nativeElement, 'scroll')
-  //   //   .pipe(debounceTime(250))
-  //   //   .subscribe((scroll) => {
-  //   //     const first = this.autoFocusService.findFirstFocusable(
-  //   //       this.slides.nativeElement
-  //   //     );
-  //   //     // console.log(first);
-  //   //     first.focus({ preventScroll: true });
-  //   //     console.log(scroll);
-  //   //   });
-  // }
 
   ngOnInit() {
     if (!this.template) {
