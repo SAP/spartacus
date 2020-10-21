@@ -7,13 +7,13 @@ import { BaseItem } from '../../components/shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ExistEntityGuard {
+export class EntityGuard {
   constructor(
     protected routingService: RoutingService,
     protected messageService: MessageService
   ) {}
 
-  canActivate(item: BaseItem, entity: string): any {
+  canActivate(item: BaseItem, entity: string): BaseItem | void {
     // entity: user.details or user.edit
     const entityData = this.splitEntity(entity);
 

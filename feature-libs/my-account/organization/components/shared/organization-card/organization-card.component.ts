@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
-import { ExistEntityGuard } from '../../../core/guards/exist-entity.guard';
+import { EntityGuard } from '../../../core/guards/entity.guard';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
@@ -17,7 +17,7 @@ import { BaseItem } from '../organization.model';
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService, ExistEntityGuard],
+  providers: [MessageService, EntityGuard],
 })
 export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
   @Input() i18nRoot: string;
@@ -33,7 +33,7 @@ export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
   constructor(
     protected itemService: OrganizationItemService<T>,
     protected messageService: MessageService,
-    protected existEntityGuard: ExistEntityGuard
+    protected entityGuard: EntityGuard
   ) {}
 
   ngOnInit() {
@@ -49,7 +49,7 @@ export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
            * putting the guard in separate directive/child component in the template.
            */
           setTimeout(() => {
-            this.existEntityGuard.canActivate(item, this.i18nRoot);
+            this.entityGuard.canActivate(item, this.i18nRoot);
           }, 1);
         }
       })
