@@ -1,12 +1,12 @@
 import { findNode, findNodes } from '@angular/cdk/schematics';
 import {
   getDecoratorMetadata,
-  getMetadataField,
+  getMetadataField
 } from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
-  ReplaceChange,
+  ReplaceChange
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 import { ANGULAR_CORE, B2C_STOREFRONT_MODULE } from '../constants';

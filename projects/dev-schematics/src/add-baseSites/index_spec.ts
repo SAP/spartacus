@@ -1,6 +1,6 @@
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import { Schema as SpartacusOptions } from '../ng-add/schema';

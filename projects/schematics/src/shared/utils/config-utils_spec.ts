@@ -1,22 +1,21 @@
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
+import * as ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
-  mergeConfig,
+  mergeConfig
 } from './config-utils';
 import { commitChanges, getTsSourceFile } from './file-utils';
-
-import * as ts from 'typescript';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('Storefrong config utils', () => {
+describe('Storefront config utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
@@ -58,7 +57,7 @@ describe('Storefrong config utils', () => {
   });
 
   describe('getExistingStorefrontConfigNode', () => {
-    it('should Storefront config from app.module.ts file', async () => {
+    it('should get the Storefront config from app.module.ts file', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -70,7 +69,7 @@ describe('Storefrong config utils', () => {
   });
 
   describe('getConfig', () => {
-    it('should return specified config from Storefront CallExpression AST node object', async () => {
+    it('should return the specified config from Storefront CallExpression AST node object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -81,7 +80,7 @@ describe('Storefrong config utils', () => {
       expect(currentContextConfig?.getFullText()).toContain('currency:');
     });
 
-    it('should return undefined if provided configName was not found', async () => {
+    it('should return an undefined if the provided configName was not found', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -94,7 +93,7 @@ describe('Storefrong config utils', () => {
   });
 
   describe('mergeConfig', () => {
-    it('should merge provided configs', async () => {
+    it('should merge the provided configs', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -119,7 +118,7 @@ describe('Storefrong config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('JPY');
     });
 
-    it('should create new config if nothing to be merge', async () => {
+    it('should create a new config if nothing to be merge', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -146,7 +145,7 @@ describe('Storefrong config utils', () => {
   });
 
   describe('createNewConfig', () => {
-    it('should create new config as property assignment based provided config object', async () => {
+    it('should create a new config as property assignment based provided config object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
