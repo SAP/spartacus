@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   HostBinding,
@@ -63,7 +64,8 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   constructor(
     protected pageLayoutService: PageLayoutService,
     protected elementRef: ElementRef,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>
+    @Optional() protected templateRef: TemplateRef<HTMLElement>,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -79,24 +81,26 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   }
 
   /**
-   * Adds the page template as a style class to the given element. If any page template
-   * was added before, we clean it up.
+   * Adds the page template as a style class to the given element. If any
+   * page template was added before, we clean it up.
    */
   protected addStyleClass(el: HTMLElement, template: string): void {
     if (this.currentTemplate) {
       el.classList?.remove(this.currentTemplate);
+      this.cd.markForCheck();
     }
     if (template) {
       this.currentTemplate = template;
       el.classList.add(this.currentTemplate);
+      this.cd.markForCheck();
     }
   }
 
   /**
    * Returns the host element (`HTMLElement`).
    *
-   * If the directive is used on an `ng-template`, we take the parent element, to
-   * ensure that we're not ending up with a comment.
+   * If the directive is used on an `ng-template`, we take the parent element,
+   * to ensure that we're not ending up with a comment.
    */
   protected get host(): HTMLElement {
     return !!this.templateRef
