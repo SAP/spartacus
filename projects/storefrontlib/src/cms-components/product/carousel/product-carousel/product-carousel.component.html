@@ -1,7 +1,6 @@
 <cx-carousel
-  *ngIf="(title$ | async) === 'Our Bestselling Products'"
-  [items]="items$ | async"
   [title]="title$ | async"
+  [items]="items$ | async"
   [template]="carouselItem"
   [focusConfig]="{
     lock: false,

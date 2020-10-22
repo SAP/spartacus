@@ -11,7 +11,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { debounceTime, map, shareReplay, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { CarouselNavigation } from './carousel.model';
@@ -46,17 +46,14 @@ export class CarouselComponent implements OnInit {
   /**
    * provides a configuration to add accessibility control to the carousel.
    * The default configuration adds the following:
-   * - _locks_ the carousel, so that the carousel can be skipped using the tab key.
-   * - traps the focus, which means that the after selecting the last item, the first item is selected
    * - the first item is auto-focused (if it is focusable) is selected.
    *
    * Additionally, a named focus _group_ could be added to refocus the last selected element
    * if the carousel is focussed again.
    */
   @Input() focusConfig: FocusConfig = {
-    lock: false,
     autofocus: true,
-    focusOnScroll: true,
+    // focusOnScroll: true,
   };
 
   /**
@@ -97,10 +94,11 @@ export class CarouselComponent implements OnInit {
   protected readonly visible$ = new BehaviorSubject<number[]>([]);
 
   readonly navigation$: Observable<CarouselNavigation> = this.visible$.pipe(
-    debounceTime(250),
+    debounceTime(100),
     map((visibleItems) =>
       this.service.build(this.carouselHost, visibleItems, this.itemRefs.length)
-    )
+    ),
+    shareReplay()
   );
 
   /**
@@ -245,5 +243,12 @@ export class CarouselComponent implements OnInit {
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
     }
+  }
+
+  /**
+   * @deprecated this is used temporarily to distinguish streams from objects.
+   */
+  isObservable(item: Observable<T> | T): boolean {
+    return item instanceof Observable;
   }
 }

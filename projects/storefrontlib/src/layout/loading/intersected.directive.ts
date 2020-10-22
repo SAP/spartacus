@@ -26,7 +26,7 @@ export class IntersectedDirective implements OnInit, OnDestroy {
   protected config$: BehaviorSubject<IntersectionOptions> = new BehaviorSubject(
     {
       rootMargin: '300px',
-      threshold: 0.9,
+      threshold: 0.1,
     }
   );
 

@@ -88,7 +88,7 @@ export class CarouselService {
       const selected =
         isLast ||
         (left >= scrollLeft - tolerance &&
-          scrollLeft + host.clientWidth >= right);
+          scrollLeft + host.clientWidth + tolerance >= right);
       return { position, selected };
     });
   }

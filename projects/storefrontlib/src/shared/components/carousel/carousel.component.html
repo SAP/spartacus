@@ -6,6 +6,7 @@
     class="previous"
     (click)="handlePrevious()"
     [disabled]="previousButton.disabled"
+    aria-label="Press to see previous slides"
   >
     <cx-icon [type]="previousButton.icon || previousIcon"></cx-icon>
   </button>
@@ -44,7 +45,7 @@
               *ngTemplateOutlet="
                 template;
                 context: {
-                  item: data,
+                  item: isObservable(data) ? (data | async) : data,
                   prefetch: prefetchCount > itemNum || (item.intersect | async),
                   tab: getTabIndex(itemNum)
                 }
@@ -63,6 +64,7 @@
     (focus)="prefetch()"
     (click)="handleNext($event)"
     [disabled]="nextButton.disabled"
+    aria-label="Press to see the next slides"
   >
     <cx-icon [type]="nextButton.icon || nextIcon"></cx-icon>
   </button>
