@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, Subscription, timer } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
 import {
+  auditTime,
   debounce,
   distinctUntilChanged,
   filter,
@@ -44,6 +45,7 @@ export class ActiveCartService implements OnDestroy {
 
   private activeCartId$ = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId),
+    filter((cartId) => typeof cartId !== 'undefined'),
     map((cartId) => {
       if (!cartId) {
         return OCC_CART_ID_CURRENT;
@@ -69,15 +71,20 @@ export class ActiveCartService implements OnDestroy {
 
   protected initActiveCart() {
     this.subscription.add(
-      this.userIdService.getUserId().subscribe((userId) => {
-        this.userId = userId;
-        if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-          if (this.isJustLoggedIn(userId)) {
-            this.loadOrMerge(this.cartId);
+      combineLatest([
+        this.userIdService.getUserId(),
+        this.activeCartId$.pipe(auditTime(0)),
+      ])
+        .pipe(map(([userId]) => userId))
+        .subscribe((userId) => {
+          this.userId = userId;
+          if (this.userId !== OCC_USER_ID_ANONYMOUS) {
+            if (this.isJustLoggedIn(userId)) {
+              this.loadOrMerge(this.cartId);
+            }
           }
-        }
-        this.previousUserId = userId;
-      })
+          this.previousUserId = userId;
+        })
     );
 
     this.subscription.add(
@@ -452,11 +459,9 @@ export class ActiveCartService implements OnDestroy {
       .pipe(take(1))
       .subscribe((entries) => {
         cartEntries = entries;
+        this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+        this.addEntriesGuestMerge(cartEntries);
       });
-
-    this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
-
-    this.addEntriesGuestMerge(cartEntries);
   }
 
   private isEmpty(cart: Cart): boolean {
