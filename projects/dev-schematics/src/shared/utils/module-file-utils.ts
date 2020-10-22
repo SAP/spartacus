@@ -1,7 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
 import {
-  findNode,
-  findNodes,
   getDecoratorMetadata,
   getMetadataField,
 } from '@schematics/angular/utility/ast-utils';
@@ -14,8 +12,6 @@ import {
   InsertDirection,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
-
-// TODO: revise - should we remove these?
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
@@ -76,34 +72,4 @@ export function getExistingStorefrontConfigNode(
       ts.isCallExpression(node) &&
       node.getFullText().indexOf(`${B2C_STOREFRONT_MODULE}.withConfig`) !== -1
   )[0] as ts.CallExpression;
-}
-
-export function getSpartacusConfig(
-  storefrontConfig: ts.CallExpression,
-  configName: string
-): ts.SyntaxList | undefined {
-  const propertyAssignments = findNodes(
-    storefrontConfig,
-    ts.SyntaxKind.PropertyAssignment
-  );
-  for (const propertyAssignment of propertyAssignments) {
-    const config = findNode(
-      propertyAssignment,
-      ts.SyntaxKind.Identifier,
-      configName
-    );
-    if (config) {
-      const syntaxListNodes = findNodes(
-        config,
-        ts.SyntaxKind.SyntaxList,
-        1,
-        false
-      );
-      return syntaxListNodes.length
-        ? (syntaxListNodes[0] as ts.SyntaxList)
-        : undefined;
-    }
-  }
-
-  return undefined;
 }

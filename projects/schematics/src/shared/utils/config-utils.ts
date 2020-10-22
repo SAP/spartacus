@@ -1,12 +1,12 @@
 import { findNode, findNodes } from '@angular/cdk/schematics';
 import {
   getDecoratorMetadata,
-  getMetadataField
+  getMetadataField,
 } from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
-  ReplaceChange
+  ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 import { ANGULAR_CORE, B2C_STOREFRONT_MODULE } from '../constants';
@@ -48,7 +48,7 @@ export function getExistingStorefrontConfigNode(
 }
 
 /**
- * Find the `configName` in the given `callExpressionNode`.
+ * Find the given `configName` in the given `callExpressionNode`.
  *
  * @param callExpressionNode
  * @param configName
@@ -240,7 +240,7 @@ function transformArray(values: string[]): string {
 }
 
 /**
- * Returns a single string from the give new values(s)
+ * Returns a single string from the given new values(s)
  * @param newValues a single string, or an array of strings
  */
 function convert(newValues: string | string[]): string {
