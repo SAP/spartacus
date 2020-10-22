@@ -9,6 +9,7 @@ import {
   B2BUserAdapter,
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
+  B2B_USER_SERIALIZER,
   BudgetAdapter,
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
@@ -36,6 +37,7 @@ import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
 import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
+import { OccB2bUserSerializer } from './converters/occ-b2b-user-serializer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
 import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
 import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
@@ -140,6 +142,11 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     {
       provide: B2B_USER_NORMALIZER,
       useClass: OccB2BUserNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_USER_SERIALIZER,
+      useClass: OccB2bUserSerializer,
       multi: true,
     },
     {
