@@ -11,7 +11,7 @@ export class UnitUserItemService extends UserItemService {
     // we enable the orgUnit temporarily so that the underlying
     // save method can read the complete form.value.
     form.get('orgUnit')?.enable();
-    super.save(form, key);
+    return super.save(form, key);
   }
 
   /**

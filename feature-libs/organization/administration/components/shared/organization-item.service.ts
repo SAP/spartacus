@@ -31,7 +31,7 @@ export abstract class OrganizationItemService<T> {
    */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
-  save(form: FormGroup, key?: string): void {
+  save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
@@ -39,15 +39,12 @@ export abstract class OrganizationItemService<T> {
       const formValue = form.value;
       form.disable();
 
-      if (key) {
-        this.update(key, formValue);
-      } else {
-        this.create(formValue);
-      }
       // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefor will fail with a 404 in case of routing
+      // - the new item might not yet exists and there for will fail with a 404 in case of routing
       // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
       this.launchDetails(formValue);
+
+      return key ? this.update(key, formValue) : this.create(formValue);
     }
   }
 
@@ -59,7 +56,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Creates a new item.
    */
-  protected abstract create(value: T): void;
+  protected abstract create(value: T): Observable<OrganizationItemStatus<T>>;
 
   /**
    * Updates an existing item.

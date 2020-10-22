@@ -23,7 +23,7 @@ export class ChildUnitItemService extends UnitItemService {
     // we enable the parentOrgUnit temporarily so that the underlying
     // save method can read the complete form.value.
     form.get('parentOrgUnit')?.enable();
-    super.save(form, key);
+    return super.save(form, key);
   }
 
   /**

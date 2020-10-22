@@ -11,7 +11,7 @@ export class UnitCostCenterItemService extends CostCenterItemService {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.
     form.get('unit').enable();
-    super.save(form, key);
+    return super.save(form, key);
   }
 
   /**

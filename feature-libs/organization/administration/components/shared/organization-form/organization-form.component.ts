@@ -1,8 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
+import { MessageService } from '../organization-message/services/message.service';
+import {
+  OrganizationItemStatus,
+  LoadStatus,
+} from '@spartacus/organization/administration/core';
 
 /**
  * Reusable component for creating and editing organization items. The component does not
@@ -36,12 +41,40 @@ export class OrganizationFormComponent<T> {
     })
   );
 
-  constructor(protected itemService: OrganizationItemService<T>) {}
+  constructor(
+    protected itemService: OrganizationItemService<T>,
+    protected messageService: MessageService
+  ) {}
 
   save(form: FormGroup): void {
     this.itemService.key$.pipe(first()).subscribe((key) => {
-      this.itemService.save(form, key);
+      this.itemService
+        .save(form, key)
+        .pipe(
+          take(1),
+          filter(
+            (data: OrganizationItemStatus<T>) =>
+              data.status === LoadStatus.SUCCESS
+          )
+        )
+        .subscribe((data) => {
+          console.log(data.item, key, this.messageService);
+          this.notify(data.item, key);
+        });
     });
+  }
+
+  protected notify(item: T, key: string) {
+    if (item) {
+      this.messageService.add({
+        message: {
+          key: `${this.i18nRoot}.messages.${key ? 'update' : 'create'}`,
+          params: {
+            item: item,
+          },
+        },
+      });
+    }
   }
 
   protected setI18nRoot(item: T): void {
