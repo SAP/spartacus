@@ -7,6 +7,8 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { Change, NoopChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -14,25 +16,33 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
-  addImport,
+  addToModuleImports,
   addToModuleImportsAndCommitChanges,
   addToModuleProviders,
+  ADMINISTRATION_MODULE,
+  ADMINISTRATION_ROOT_MODULE,
   commitChanges,
+  createImportChange,
+  createNewConfig,
   DEFAULT_B2B_OCC_CONFIG,
+  getConfig,
   getDefaultProjectNameFromWorkspace,
+  getExistingStorefrontConfigNode,
   getProjectTargets,
   getSourceRoot,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
   getWorkspace,
-  ORGANIZATION_MODULE,
+  mergeConfig,
   PROVIDE_DEFAULT_CONFIG,
   SPARTACUS_ADMINISTRATION,
+  SPARTACUS_ADMINISTRATION_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_SETUP,
   UTF_8,
 } from '@spartacus/schematics';
+import * as ts from 'typescript';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
 export function addSpartacusOrganization(
@@ -177,7 +187,7 @@ function readPackageJson(tree: Tree): any {
 }
 
 function updateAppModule(options: SpartacusOrganizationOptions): Rule {
-  return (host: Tree, _context: SchematicContext) => {
+  return (host: Tree, context: SchematicContext) => {
     const projectTargets = getProjectTargets(host, options.project);
 
     if (!projectTargets.build) {
@@ -186,20 +196,130 @@ function updateAppModule(options: SpartacusOrganizationOptions): Rule {
 
     const mainPath = projectTargets.build.options.main;
     const modulePath = getAppModulePath(host, mainPath);
-    const moduleSource = getTsSourceFile(host, modulePath);
 
+    const changes: Change[] = [];
     const providersChanges = addToModuleProviders(
       host,
       modulePath,
       `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG})`,
-      moduleSource
+      getTsSourceFile(host, modulePath)
     );
-    commitChanges(host, modulePath, providersChanges);
+    changes.push(...providersChanges);
 
-    addImport(host, modulePath, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE);
-    addImport(host, modulePath, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP);
-    addImport(host, modulePath, ORGANIZATION_MODULE, SPARTACUS_ADMINISTRATION);
+    const coreImportChange = createImportChange(
+      host,
+      modulePath,
+      PROVIDE_DEFAULT_CONFIG,
+      SPARTACUS_CORE
+    );
+    const setupImportChange = createImportChange(
+      host,
+      modulePath,
+      DEFAULT_B2B_OCC_CONFIG,
+      SPARTACUS_SETUP
+    );
+    changes.push(coreImportChange, setupImportChange);
 
-    addToModuleImportsAndCommitChanges(host, modulePath, ORGANIZATION_MODULE);
+    if (options.lazy) {
+      const lazyLoadingChange = mergeLazyLoadingConfig(
+        context,
+        getTsSourceFile(host, modulePath)
+      );
+      changes.push(lazyLoadingChange);
+
+      const administrationImportChange = createImportChange(
+        host,
+        modulePath,
+        ADMINISTRATION_MODULE,
+        SPARTACUS_ADMINISTRATION
+      );
+
+      const moduleImportChanges = addToModuleImports(
+        host,
+        modulePath,
+        ADMINISTRATION_MODULE
+      );
+      changes.push(administrationImportChange, ...moduleImportChanges);
+    } else {
+      const administrationRootImportChange = createImportChange(
+        host,
+        modulePath,
+        ADMINISTRATION_ROOT_MODULE,
+        SPARTACUS_ADMINISTRATION_ROOT
+      );
+      changes.push(administrationRootImportChange);
+
+      addToModuleImportsAndCommitChanges(
+        host,
+        modulePath,
+        ADMINISTRATION_ROOT_MODULE
+      );
+    }
+
+    commitChanges(host, modulePath, changes);
   };
+}
+
+function mergeLazyLoadingConfig(
+  context: SchematicContext,
+  moduleSource: ts.SourceFile
+): Change {
+  const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
+
+  if (!storefrontConfig) {
+    context.logger
+      .warn(`Storefront config not detected in ${moduleSource.fileName}, unable to configure lazy loading.
+Please manually append the following configuration:
+
+featureModules: {
+  organizationAdministration: {
+    module: () =>
+    import('@spartacus/organization/administration').then(
+      (m) => m.AdministrationModule
+    ),
+  },
+},
+`);
+    return new NoopChange();
+  }
+
+  const currentFeatureModulesConfig = getConfig(
+    storefrontConfig,
+    'featureModules'
+  );
+
+  if (currentFeatureModulesConfig) {
+    return mergeConfig(
+      moduleSource.fileName,
+      currentFeatureModulesConfig,
+      'organizationAdministration',
+      `module: () =>
+  import('@spartacus/organization/administration').then(
+    (m) => m.AdministrationModule
+  ),`
+    );
+  }
+
+  const syntaxListNodes = findNodes(
+    storefrontConfig,
+    ts.SyntaxKind.SyntaxList,
+    1,
+    true
+  )[0] as ts.SyntaxList;
+
+  const change = createNewConfig(
+    moduleSource.fileName,
+    syntaxListNodes,
+    '',
+    `\nfeatureModules: {
+        organizationAdministration: {
+          module: () =>
+            import('@spartacus/organization/administration').then(
+              (m) => m.AdministrationModule
+            ),
+        }
+      }`
+  );
+  change.pos = change.pos + 1;
+  return change;
 }
