@@ -37,22 +37,24 @@
     </div>
   </div>
 
-  <div class="row cx-checkout-btns">
-    <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-action" (click)="back()">
-        {{ backBtnText | cxTranslate }}
-      </button>
+  <ng-container *ngIf="!continueButtonPressed; else loading">
+    <div class="row cx-checkout-btns">
+      <div class="col-md-12 col-lg-6">
+        <button class="btn btn-block btn-action" (click)="back()">
+          {{ backBtnText | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-md-12 col-lg-6">
+        <button
+          class="btn btn-block btn-primary"
+          [disabled]="deliveryModeInvalid"
+          (click)="next()"
+        >
+          {{ 'common.continue' | cxTranslate }}
+        </button>
+      </div>
     </div>
-    <div class="col-md-12 col-lg-6">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="deliveryModeInvalid"
-        (click)="next()"
-      >
-        {{ 'common.continue' | cxTranslate }}
-      </button>
-    </div>
-  </div>
+  </ng-container>
 </div>
 
 <ng-template #loading>
