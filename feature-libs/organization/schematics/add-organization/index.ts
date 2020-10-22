@@ -293,10 +293,12 @@ featureModules: {
       moduleSource.fileName,
       currentFeatureModulesConfig,
       'organizationAdministration',
-      `module: () =>
-  import('@spartacus/organization/administration').then(
-    (m) => m.AdministrationModule
-  ),`
+      `{
+  module: () =>
+    import('@spartacus/organization/administration').then(
+      (m) => m.AdministrationModule
+    )
+  }`
     );
   }
 
