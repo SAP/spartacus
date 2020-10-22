@@ -3,6 +3,7 @@
     <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
       <li class="cx-menu-back" *ngIf="parentGroup !== null">
         <a
+          class="cx-menu-back-link"
           role="link"
           tabindex="0"
           (click)="navigateUp()"
@@ -24,6 +25,7 @@
             [class.WARNING]="isConflictGroupType(group.groupType)"
           >
             <a
+              class="cx-menu-item-link"
               [class.active]="currentGroup.id === group.id"
               role="link"
               tabindex="0"

@@ -33,7 +33,7 @@
         border-width: 0;
       }
 
-      a {
+      a.cx-menu-item-link {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -115,7 +115,7 @@
     border-color: var(--cx-color-light);
     background-color: var(--cx-color-background);
 
-    a {
+    a.cx-menu-back-link {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
