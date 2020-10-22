@@ -30,7 +30,7 @@ export class UnitUserRolesFormComponent {
       if (!this.item) {
         this.item = item;
       }
-      if (this.item.roles.join() !== item.roles.join()) {
+      if (this.item.roles?.join() !== item.roles?.join()) {
         this.notify(item);
         this.item = item;
       }
