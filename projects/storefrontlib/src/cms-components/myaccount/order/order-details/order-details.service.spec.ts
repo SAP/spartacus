@@ -104,6 +104,11 @@ describe('OrderDetailsService', () => {
     service = TestBed.inject(OrderDetailsService);
     userService = TestBed.inject(UserOrderService);
     routingService = TestBed.inject(RoutingService);
+
+    spyOn(routingService, 'getRouterState');
+    spyOn(userService, 'loadOrderDetails');
+    spyOn(userService, 'clearOrderDetails');
+    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
   });
 
   it('should be created', () => {
@@ -111,13 +116,9 @@ describe('OrderDetailsService', () => {
   });
 
   it('should load order details', () => {
-    spyOn(routingService, 'getRouterState');
-    spyOn(userService, 'loadOrderDetails');
-    spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
     routerSubject.next(mockRouter);
 
-    let orderDetails;
+    let orderDetails: Order;
     service
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
@@ -128,13 +129,9 @@ describe('OrderDetailsService', () => {
   });
 
   it('should clean order details', () => {
-    spyOn(routingService, 'getRouterState');
-    spyOn(userService, 'loadOrderDetails');
-    spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
     routerSubject.next(mockRouterWithoutOrderCode);
 
-    let orderDetails;
+    let orderDetails: Order;
     service
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
@@ -142,5 +139,30 @@ describe('OrderDetailsService', () => {
     expect(userService.clearOrderDetails).toHaveBeenCalled();
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
+  });
+
+  it('should emit distinct orderCode values', () => {
+    const mockRouterNewOrderCode = {
+      ...mockRouter,
+      state: {
+        ...mockRouter.state,
+        params: {
+          orderCode: '123',
+        },
+      },
+    };
+
+    routerSubject.next(mockRouter);
+
+    let orderCode: string;
+    service.orderCode$.subscribe((data) => {
+      orderCode = data;
+    });
+
+    expect(orderCode).toEqual(mockRouter.state.params.orderCode);
+
+    routerSubject.next(mockRouterNewOrderCode);
+
+    expect(orderCode).toEqual(mockRouterNewOrderCode.state.params.orderCode);
   });
 });
