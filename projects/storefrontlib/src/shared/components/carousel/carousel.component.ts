@@ -248,7 +248,7 @@ export class CarouselComponent implements OnInit {
   /**
    * @deprecated this is used temporarily to distinguish streams from objects.
    */
-  isObservable(item: Observable<T> | T): boolean {
+  isObservable(item: Observable<any> | any): boolean {
     return item instanceof Observable;
   }
 }
