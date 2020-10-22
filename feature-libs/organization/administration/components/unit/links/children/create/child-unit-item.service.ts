@@ -5,6 +5,7 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentChildUnitService } from './current-child-unit.service';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +15,16 @@ export class ChildUnitItemService extends UnitItemService {
     protected currentItemService: CurrentChildUnitService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected messageService: MessageService
   ) {
-    super(currentItemService, routingService, formService, unitService);
+    super(
+      currentItemService,
+      routingService,
+      formService,
+      unitService,
+      messageService
+    );
   }
 
   save(form: FormGroup, key?: string) {

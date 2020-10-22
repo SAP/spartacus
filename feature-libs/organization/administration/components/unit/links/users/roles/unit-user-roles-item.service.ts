@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { CurrentUnitUserService } from '../services/current-unit-user.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,9 +20,10 @@ export class UnitUserRolesItemService extends OrganizationItemService<B2BUser> {
     protected routingService: RoutingService,
     protected formService: UnitUserRolesFormService,
     protected unitService: OrgUnitService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
+    protected messageService: MessageService
   ) {
-    super(currentItemService, routingService, formService);
+    super(currentItemService, routingService, formService, messageService);
   }
 
   save(form: FormGroup, key?: string) {

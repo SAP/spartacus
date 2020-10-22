@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';
+import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,13 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
     protected currentItemService: CurrentUnitService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected messageService: MessageService
   ) {
-    super(currentItemService, routingService, formService);
+    super(currentItemService, routingService, formService, messageService);
   }
+
+  protected i18nRoot = 'unit';
 
   /**
    * @override

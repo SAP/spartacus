@@ -10,6 +10,7 @@ import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
+import { MessageService } from '../../../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +20,13 @@ export class UnitAddressItemService extends OrganizationItemService<Address> {
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
     protected formService: UnitAddressFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected messageService: MessageService
   ) {
-    super(currentItemService, routingService, formService);
+    super(currentItemService, routingService, formService, messageService);
   }
+
+  i18nRoot = 'address';
 
   protected unitRouteParam$ = this.routingService
     .getParams()
