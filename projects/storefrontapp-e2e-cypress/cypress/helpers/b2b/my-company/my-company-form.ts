@@ -1,5 +1,10 @@
-import { MyCompanyConfig, MyCompanyRowConfig } from './models/index';
 import {
+  INPUT_TYPE,
+  MyCompanyConfig,
+  MyCompanyRowConfig,
+} from './models/index';
+import {
+  IGNORE_CASE,
   loginAsMyCompanyAdmin,
   scanTablePagesForText,
 } from './my-company.utils';
@@ -16,11 +21,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
       cy.url().should('contain', `${config.baseUrl}/create`);
 
-      cy.get(`cx-organization-form div.header`).within(() => {
-        cy.get('h3').contains(`Create ${config.name}`, {
-          matchCase: false,
-        });
-      });
+      cy.get('cx-organization-form div.header h3').contains(
+        `Create ${config.name}`,
+        IGNORE_CASE
+      );
 
       completeForm(config.rows, 'createValue');
       cy.get('div.header button').contains('Save').click();
@@ -34,7 +38,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       const codeRow = config.rows?.find((row) => row.useInUrl);
       const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
 
-      cy.wait(3000);
       scanTablePagesForText(nameRow.createValue, config);
       cy.get('cx-organization-list a')
         .contains(`${nameRow.createValue}`)
@@ -47,13 +50,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         `${config.baseUrl}/${codeRow.createValue}/edit`
       );
 
-      cy.get(`cx-organization-form`).within(() => {
-        cy.get('div.header').within(() => {
-          cy.get('h3').contains(`Edit ${config.name}`, {
-            matchCase: false,
-          });
-        });
-      });
+      cy.get('cx-organization-form div.header h3').contains(
+        `Edit ${config.name}`,
+        IGNORE_CASE
+      );
 
       completeForm(config.rows, 'updateValue');
       cy.get('div.header button').contains('Save').click();
@@ -69,11 +69,11 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
       switch (input.inputType) {
-        case 'text':
+        case INPUT_TYPE.TEXT:
           return fillTextInput(input);
-        case 'datetime':
+        case INPUT_TYPE.DATE_TIME:
           return fillDateTimePicker(input);
-        case 'ngSelect':
+        case INPUT_TYPE.NG_SELECT:
           return fillNgSelect(input);
       }
     }
@@ -109,15 +109,14 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
 
   cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
 
-  cy.wait(3000);
-  cy.get(
-    'cx-organization-card div.header h3'
-  ).contains(`${config.name} Details`, { matchCase: false });
+  cy.wait(1000);
+  cy.get('cx-organization-card div.header h3').contains(
+    `${config.name} Details`,
+    IGNORE_CASE
+  );
   cy.get('cx-organization-card div.header h4').contains(
     `${config.name}: ${nameRow[valueKey]}`,
-    {
-      matchCase: false,
-    }
+    IGNORE_CASE
   );
 
   config.rows.forEach((rowConfig) => {

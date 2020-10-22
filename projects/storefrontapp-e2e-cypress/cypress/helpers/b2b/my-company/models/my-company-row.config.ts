@@ -1,3 +1,10 @@
+export enum INPUT_TYPE {
+  TEXT = 'text',
+  DATE_TIME = 'datetime',
+  NG_SELECT = 'ngSelect',
+}
+
+// TODO: move configs into table: { ... }, details: { ... }, form: { ... }  format
 export interface MyCompanyRowConfig {
   /**
    * Label given to the table header.
@@ -18,7 +25,7 @@ export interface MyCompanyRowConfig {
   /**
    * Input type in form
    */
-  inputType?: string;
+  inputType?: INPUT_TYPE;
   /**
    * Value provided to form in create process
    */

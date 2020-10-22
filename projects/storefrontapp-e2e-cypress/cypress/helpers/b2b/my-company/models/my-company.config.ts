@@ -37,8 +37,51 @@ export interface MyCompanyConfig {
 
   /**
    * Configurations used to check if a table is displaying the correct information returned by the API.
+   * @example rows: [
+   * {
+   *   label: 'Name',
+   *   variableName: 'name',
+   *   link: '/organization/cost-centers/',
+   *   inputType: 'text',
+   *   createValue: `Test Entity ${randomString()}`,
+   *   updateValue: `Edited Test Entity ${randomString()}`,
+   *   sortLabel: 'name',
+   *   showInTable: true,
+   *   formLabel: 'Name',
+   *   showInDetails: true,
+   * },
+   * {
+   *   label: 'Code',
+   *   sortLabel: 'code',
+   *   variableName: 'uid',
+   *   inputType: 'text',
+   *   createValue: `test-entity-${randomString()}`,
+   *   updateValue: `edited-entity-${randomString()}`,
+   *   formLabel: 'Code',
+   *   showInDetails: true,
+   *   useInUrl: true,
+   * },
+   * {
+   *   label: 'Currency',
+   *   variableName: 'currency',
+   *   inputType: 'ngSelect',
+   *   formLabel: 'Currency',
+   *   createValue: 'US Dollar',
+   *   updateValue: 'US Dollar',
+   * },
+   * {
+   *   label: 'Unit',
+   *   variableName: 'orgUnit.name',
+   *   link: `/organization/units/`,
+   *   sortLabel: 'unit',
+   *   inputType: 'ngSelect',
+   *   createValue: 'Custom Retail',
+   *   updateValue: 'Rustic',
+   *   showInTable: true,
+   *   formLabel: 'Parent Unit',
+   *   showInDetails: true,
+   * }]
    */
-  // TODO: Examples
   rows?: MyCompanyRowConfig[]; // First object is default sort
 
   /**

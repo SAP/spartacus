@@ -7,6 +7,7 @@ import {
 } from './my-company.utils';
 
 const DEFAULT_SORT_LABEL = 'name';
+const MAX_PAGES = 2;
 
 export function testListFromConfig(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {
@@ -37,7 +38,10 @@ export function testList(
     const listData = getListRowsFromBody(data, config.objectType, config.rows);
     verifyList(listData, config.rows);
 
-    if (data.pagination.currentPage < data.pagination.totalPages - 1) {
+    if (
+      data.pagination.currentPage < data.pagination.totalPages - 1 &&
+      data.pagination.currentPage < MAX_PAGES
+    ) {
       testPagination(data);
     }
 
