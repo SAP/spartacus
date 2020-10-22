@@ -18,15 +18,16 @@ export class EntityGuard {
     entity: string,
     routeParam?: string
   ): BaseItem | void {
-    // entity: user.details or user.edit
     const entityData = this.splitEntity(entity);
 
     if (this.isValid(item, entityData)) {
       return item;
     } else {
       this.showErrorMessage(entityData);
-      // timeout for the user to be able to see the error message before redirecting
-      // if we do not want the timeout, we would need to use the global message service
+      /*
+       * timeout for the user to be able to see the error message before redirecting
+       * if we do not want the timeout, we would need to use the global message service
+       */
       setTimeout(() => {
         this.redirect(item, entityData, routeParam);
       }, 1000);
@@ -40,9 +41,6 @@ export class EntityGuard {
   }
 
   protected splitEntity(entity: string) {
-    // user.details to user
-    // user.edit to user
-    // later user.details to details, user.edit to edit
     return entity.split('.');
   }
 
