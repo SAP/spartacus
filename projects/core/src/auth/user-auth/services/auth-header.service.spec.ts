@@ -180,7 +180,7 @@ describe('AuthHeaderService', () => {
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
-          key: 'common.sessionExpired',
+          key: 'httpHandlers.sessionExpired',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
