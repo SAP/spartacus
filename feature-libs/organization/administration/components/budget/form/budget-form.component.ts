@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { BudgetItemService } from '../services/budget-item.service';
+import { ROUTE_PARAMS } from '../../constants';
 
 @Component({
   templateUrl: './budget-form.component.html',
@@ -21,6 +22,7 @@ import { BudgetItemService } from '../services/budget-item.service';
   ],
 })
 export class BudgetFormComponent implements OnInit {
+  budgetRouteParam = ROUTE_PARAMS.budgetCode;
   form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();

@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="costCenter">
+<cx-organization-form i18nRoot="costCenter" [routeParam]="costCenterRouteParam">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{

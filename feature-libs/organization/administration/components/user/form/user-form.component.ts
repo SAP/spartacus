@@ -14,6 +14,7 @@ import {
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserItemService } from '../services/user-item.service';
+import { ROUTE_PARAMS } from '../../constants';
 
 @Component({
   selector: 'cx-user-form',
@@ -27,6 +28,7 @@ import { UserItemService } from '../services/user-item.service';
   ],
 })
 export class UserFormComponent implements OnInit {
+  userRouteParam = ROUTE_PARAMS.userCode;
   form: FormGroup = this.itemService.getForm();
 
   /**

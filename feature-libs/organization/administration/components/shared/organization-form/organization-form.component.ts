@@ -25,6 +25,8 @@ export class OrganizationFormComponent<T> {
    */
   i18n: string;
 
+  @Input() routeParam?: string;
+
   form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);

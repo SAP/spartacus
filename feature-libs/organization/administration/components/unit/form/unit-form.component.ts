@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UnitItemService } from '../services/unit-item.service';
+import { ROUTE_PARAMS } from '../../constants';
 
 @Component({
   selector: 'cx-unit-form',
@@ -26,6 +27,7 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitFormComponent implements OnInit {
+  unitRouteParam = ROUTE_PARAMS.unitCode;
   @Input() i18nRoot = 'unit';
 
   @Input() createChildUnit = false;

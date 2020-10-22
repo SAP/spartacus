@@ -1,4 +1,4 @@
-<cx-organization-form [i18nRoot]="i18nRoot">
+<cx-organization-form [i18nRoot]="i18nRoot" [routeParam]="unitRouteParam">
   <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
