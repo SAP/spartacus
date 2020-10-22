@@ -1,8 +1,8 @@
 import { normalize, relative } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-import { findNodes } from '@angular/cdk/schematics';
 import {
   addSymbolToNgModuleMetadata,
+  findNodes,
   getDecoratorMetadata,
   insertImport,
   isImported,

@@ -1,5 +1,6 @@
-import { findNode, findNodes } from '@angular/cdk/schematics';
 import {
+  findNode,
+  findNodes,
   getDecoratorMetadata,
   getMetadataField,
 } from '@schematics/angular/utility/ast-utils';
