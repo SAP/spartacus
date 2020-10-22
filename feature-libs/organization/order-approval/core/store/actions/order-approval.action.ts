@@ -8,7 +8,7 @@ import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
-import { serializeSearchConfig } from '../../utils/serializer';
+//import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,
@@ -69,7 +69,10 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
+    super(
+      ORDER_APPROVAL_LIST,
+      StateUtils.serializeSearchConfig(payload.params)
+    );
   }
 }
 
@@ -78,7 +81,7 @@ export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       ORDER_APPROVAL_LIST,
-      serializeSearchConfig(payload.params),
+      StateUtils.serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -92,7 +95,10 @@ export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(ORDER_APPROVAL_LIST, serializeSearchConfig(payload.params));
+    super(
+      ORDER_APPROVAL_LIST,
+      StateUtils.serializeSearchConfig(payload.params)
+    );
   }
 }
 

@@ -1,17 +1,11 @@
-import {
-  EntitiesModel,
-  ListModel,
-  SearchConfig,
-  StateUtils,
-} from '@spartacus/core';
+import { ListModel, EntitiesModel } from '../../model/index';
+import { SearchConfig } from '../../product/model/search-config';
+import { EntityListState } from './entity-list-state';
+import { EntityLoaderState } from './entity-loader/entity-loader-state';
+import { entityLoaderStateSelector } from './entity-loader/entity-loader.selectors';
+import { LoaderState } from './loader/loader-state';
 
 const ALL = 'all';
-
-// #9423
-export interface Management<Type> {
-  list: StateUtils.EntityLoaderState<ListModel>;
-  entities: StateUtils.EntityLoaderState<Type>;
-}
 
 export function serializeSearchConfig(
   config: SearchConfig,
@@ -23,36 +17,32 @@ export function serializeSearchConfig(
 }
 
 export function denormalizeSearch<T>(
-  state: Management<T>,
+  state: EntityListState<T>,
   params?: SearchConfig
-): StateUtils.LoaderState<EntitiesModel<T>> {
+): LoaderState<EntitiesModel<T>> {
   return denormalizeCustomB2BSearch<T>(state.list, state.entities, params);
 }
 
 export function denormalizeCustomB2BSearch<T>(
-  list: StateUtils.EntityLoaderState<ListModel>,
-  entities: StateUtils.EntityLoaderState<T>,
+  list: EntityLoaderState<ListModel>,
+  entities: EntityLoaderState<T>,
   params?: SearchConfig,
   id?: string
-): StateUtils.LoaderState<EntitiesModel<T>> {
-  const serializedList: any = StateUtils.entityLoaderStateSelector(
+): LoaderState<EntitiesModel<T>> {
+  const serializedList: any = entityLoaderStateSelector(
     list,
     params ? serializeSearchConfig(params, id) : id ?? ALL
   );
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
   }
-  const res: StateUtils.LoaderState<EntitiesModel<T>> = Object.assign(
-    {},
-    serializedList,
-    {
-      value: {
-        values: serializedList.value.ids.map(
-          (code) => StateUtils.entityLoaderStateSelector(entities, code).value
-        ),
-      },
-    }
-  );
+  const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
+    value: {
+      values: serializedList.value.ids.map(
+        (code) => entityLoaderStateSelector(entities, code).value
+      ),
+    },
+  });
   if (params) {
     res.value.pagination = serializedList.value.pagination;
     res.value.sorts = serializedList.value.sorts;

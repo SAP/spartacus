@@ -6,12 +6,10 @@ import {
   CostCenter,
   ListModel,
   StateUtils,
+  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { Budget } from '../model/budget.model';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+import { Permission } from '../model/permission.model';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { UserGroup } from '../model/user-group.model';
 
@@ -63,10 +61,7 @@ export const USER_GROUP_AVAILABLE_CUSTOMERS =
 export const ADDRESS_ENTITIES = 'addresses-entities';
 export const ADDRESS_LIST = 'addresses-list';
 
-export interface Management<Type> {
-  list: StateUtils.EntityLoaderState<ListModel>;
-  entities: StateUtils.EntityLoaderState<Type>;
-}
+export interface Management<Type> extends StateUtils.EntityListState<Type> {}
 
 export interface BudgetManagement extends Management<Budget> {}
 

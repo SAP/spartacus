@@ -6,13 +6,11 @@ import {
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+import { Permission } from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {

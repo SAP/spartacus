@@ -15,12 +15,10 @@ import {
   CostCenter,
   ListModel,
   StateUtils,
+  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { UserGroup } from '../../model/user-group.model';
 import { OrganizationActions } from '../actions';

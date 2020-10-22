@@ -1,9 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
+  EntitiesModel,
+  SearchConfig,
+  StateUtils,
   OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+} from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
 import { denormalizeSearch } from '../../utils/serializer';
 import {
   OrganizationState,

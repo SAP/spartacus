@@ -5,7 +5,6 @@ import {
 } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
-import { denormalizeSearch } from '../../utils/serializer';
 import {
   OrderApprovalManagement,
   ORDER_APPROVAL_FEATURE,
@@ -54,5 +53,5 @@ export const getOrderApprovalList = (
   createSelector(
     getOrderApprovalManagementState,
     (state: OrderApprovalManagement) =>
-      denormalizeSearch<OrderApproval>(state, params)
+      StateUtils.denormalizeSearch<OrderApproval>(state, params)
   );

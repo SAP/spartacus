@@ -1,8 +1,10 @@
-import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
+  ListModel,
+  SearchConfig,
+  StateUtils,
   OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+} from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
 import { serializeSearchConfig } from '../../utils/serializer';
 import {
   PERMISSION_ENTITIES,
