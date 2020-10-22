@@ -42,6 +42,12 @@ export class ProductReferencesComponent {
    */
   items$: Observable<Observable<Product>[]> = this.productCode$.pipe(
     withLatestFrom(this.componentData$),
+    tap(([productCode, data]) =>
+      this.productReferenceService.loadProductReferences(
+        productCode,
+        data?.productReferenceTypes
+      )
+    ),
     switchMap(([productCode, data]) =>
       this.getProductReferences(productCode, data?.productReferenceTypes)
     )
@@ -57,11 +63,13 @@ export class ProductReferencesComponent {
     code: string,
     referenceType: string
   ): Observable<Observable<Product>[]> {
-    return this.productReferenceService.get(code, referenceType).pipe(
-      filter(Boolean),
-      map((references: ProductReference[]) =>
-        references.map((reference) => of(reference.target))
-      )
-    );
+    return this.productReferenceService
+      .getProductReferences(code, referenceType)
+      .pipe(
+        filter(Boolean),
+        map((references: ProductReference[]) =>
+          references.map((reference) => of(reference.target))
+        )
+      );
   }
 }

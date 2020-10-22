@@ -92,7 +92,7 @@ describe('CurrentProductService', () => {
   });
 
   it('should not emit old product data and fetch NEW product data', () => {
-    const newMockRouter = {
+    const mockRouterNewProductCode = {
       ...mockRouter,
       state: { ...mockRouter.state, params: { productCode: 'abc' } },
     };
@@ -104,10 +104,10 @@ describe('CurrentProductService', () => {
       currentProductService['DEFAULT_PRODUCT_SCOPE']
     );
 
-    mockRouter$.next(newMockRouter);
+    mockRouter$.next(mockRouterNewProductCode);
 
     expect(productService.get).toHaveBeenCalledWith(
-      newMockRouter.state.params.productCode,
+      mockRouterNewProductCode.state.params.productCode,
       currentProductService['DEFAULT_PRODUCT_SCOPE']
     );
   });
@@ -122,9 +122,9 @@ describe('CurrentProductService', () => {
   });
 
   it('should return null if not on product route', () => {
-    const emptyMockRouter = { state: { params: {} } };
+    const mockRouterEmptyProductCode = { state: { params: {} } };
 
-    mockRouter$.next(emptyMockRouter);
+    mockRouter$.next(mockRouterEmptyProductCode);
 
     let result: Product;
     currentProductService

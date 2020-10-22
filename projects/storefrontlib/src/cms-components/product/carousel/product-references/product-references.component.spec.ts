@@ -100,7 +100,16 @@ class MockCurrentProductService {
 }
 
 class MockProductReferenceService {
-  get(_code: string): Observable<ProductReference[]> {
+  loadProductReferences(
+    _productCode: string,
+    _referenceType?: string,
+    _pageSize?: number
+  ): void {}
+
+  getProductReferences(
+    _productCode: string,
+    _referenceType?: string
+  ): Observable<ProductReference[]> {
     return of([mockProductReferences[0], mockProductReferences[1]]);
   }
 
@@ -176,10 +185,16 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should have 2 items', () => {
+    spyOn(productReferenceService, 'loadProductReferences').and.callThrough();
+    spyOn(productReferenceService, 'getProductReferences').and.callThrough();
+
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i)).unsubscribe();
 
     expect(items.length).toBe(2);
+
+    expect(productReferenceService.loadProductReferences).toHaveBeenCalled();
+    expect(productReferenceService.getProductReferences).toHaveBeenCalled();
   });
 
   it('should have product reference code 111 in first product', () => {
