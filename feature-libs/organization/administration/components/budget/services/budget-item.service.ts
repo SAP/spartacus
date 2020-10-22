@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from './current-budget.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +18,10 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     protected currentItemService: CurrentBudgetService,
     protected routingService: RoutingService,
     protected formService: BudgetFormService,
-    protected budgetService: BudgetService,
-    protected messageService: MessageService
+    protected budgetService: BudgetService
   ) {
-    super(currentItemService, routingService, formService, messageService);
+    super(currentItemService, routingService, formService);
   }
-
-  protected i18nRoot = 'budget';
 
   /**
    * @override

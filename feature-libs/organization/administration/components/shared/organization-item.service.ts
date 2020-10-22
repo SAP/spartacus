@@ -6,9 +6,6 @@ import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
-import { filter, take } from 'rxjs/operators';
-import { LoadStatus } from '../../core/model/organization-item-status';
-import { MessageService } from './organization-message/services/message.service';
 
 /**
  * Provides CRUD operations for all organization entities.
@@ -21,8 +18,7 @@ export abstract class OrganizationItemService<T> {
   constructor(
     protected currentItemService: CurrentOrganizationItemService<T>,
     protected routingService: RoutingService,
-    protected formService: OrganizationFormService<T>,
-    protected messageService: MessageService
+    protected formService: OrganizationFormService<T>
   ) {}
 
   key$ = this.currentItemService.key$;
@@ -35,8 +31,6 @@ export abstract class OrganizationItemService<T> {
    */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
-  protected i18nRoot: string;
-
   save(form: FormGroup, key?: string): void {
     if (form.invalid) {
       form.markAllAsTouched();
@@ -46,12 +40,7 @@ export abstract class OrganizationItemService<T> {
       form.disable();
 
       if (key) {
-        this.update(key, formValue)
-          .pipe(
-            take(1),
-            filter((data) => data.status === LoadStatus.SUCCESS)
-          )
-          .subscribe((data) => this.notifyUpdate(data.item));
+        this.update(key, formValue);
       } else {
         this.create(formValue);
       }
@@ -62,18 +51,6 @@ export abstract class OrganizationItemService<T> {
     }
   }
 
-  protected notifyUpdate(item: T) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: this.i18nRoot + '.messages.update',
-          params: {
-            item: item,
-          },
-        },
-      });
-    }
-  }
   /**
    * Loads an item.
    */

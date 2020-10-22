@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { PermissionFormService } from '../form/permission-form.service';
 import { CurrentPermissionService } from './current-permission.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +18,10 @@ export class PermissionItemService extends OrganizationItemService<Permission> {
     protected currentItemService: CurrentPermissionService,
     protected routingService: RoutingService,
     protected formService: PermissionFormService,
-    protected permissionService: PermissionService,
-    protected messageService: MessageService
+    protected permissionService: PermissionService
   ) {
-    super(currentItemService, routingService, formService, messageService);
+    super(currentItemService, routingService, formService);
   }
-
-  protected i18nRoot = 'permission';
 
   load(code: string): Observable<Permission> {
     this.permissionService.loadPermission(code);

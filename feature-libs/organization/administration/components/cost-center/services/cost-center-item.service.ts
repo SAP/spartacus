@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CurrentCostCenterService } from './current-cost-center.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +17,10 @@ export class CostCenterItemService extends OrganizationItemService<CostCenter> {
     protected currentItemService: CurrentCostCenterService,
     protected routingService: RoutingService,
     protected formService: CostCenterFormService,
-    protected costCenterService: CostCenterService,
-    protected messageService: MessageService
+    protected costCenterService: CostCenterService
   ) {
-    super(currentItemService, routingService, formService, messageService);
+    super(currentItemService, routingService, formService);
   }
-  protected i18nRoot = 'costCenter';
 
   load(code: string): Observable<CostCenter> {
     this.costCenterService.load(code);

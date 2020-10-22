@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { CurrentUserGroupService } from './current-user-group.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +18,10 @@ export class UserGroupItemService extends OrganizationItemService<UserGroup> {
     protected currentItemService: CurrentUserGroupService,
     protected routingService: RoutingService,
     protected formService: UserGroupFormService,
-    protected userGroupService: UserGroupService,
-    protected messageService: MessageService
+    protected userGroupService: UserGroupService
   ) {
-    super(currentItemService, routingService, formService, messageService);
+    super(currentItemService, routingService, formService);
   }
-
-  protected i18nRoot = 'userGroup';
 
   load(code: string): Observable<UserGroup> {
     this.userGroupService.load(code);
