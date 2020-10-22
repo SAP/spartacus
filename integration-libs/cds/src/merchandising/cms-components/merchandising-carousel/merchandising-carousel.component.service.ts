@@ -89,7 +89,7 @@ export class MerchandisingCarouselComponentService {
     merchandisingCarouselModel$: Observable<MerchandisingCarouselModel>
   ): Observable<MerchandisingCarouselModel> {
     return merchandisingCarouselModel$.pipe(
-      filter(model=>model.id !== lastSendModelId),
+      filter((model) => model.id !== lastSendModelId),
       tap((merchandisingCarouselModel) => {
         const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
           merchandisingCarouselModel
@@ -166,7 +166,7 @@ export class MerchandisingCarouselComponentService {
     strategyProducts: StrategyProducts
   ): string[] {
     return strategyProducts && strategyProducts.products
-      ? strategyProducts.products.map(strategyProduct=>strategyProduct.id)
+      ? strategyProducts.products.map((strategyProduct) => strategyProduct.id)
       : [];
   }
 
@@ -174,8 +174,8 @@ export class MerchandisingCarouselComponentService {
     cmsComponent: CmsMerchandisingCarouselComponent,
     productsIds: string[]
   ): string {
-    const products = productsIds.reduce((acc,pId)=>acc+"_"+pId,"");
-    return  cmsComponent.uid + "_" + cmsComponent.strategy + products;
+    const products = productsIds.reduce((acc, pId) => acc + '_' + pId, '');
+    return cmsComponent.uid + '_' + cmsComponent.strategy + products;
   }
 
   private getCarouselItemMetadata(
