@@ -1,4 +1,4 @@
-import { Order, Principal } from '@spartacus/core';
+import { Order, Principal, OrderApprovalPermissionType } from '@spartacus/core';
 
 export enum OrderApprovalDecisionValue {
   APPROVE = 'APPROVE',
@@ -35,10 +35,4 @@ export interface OrderApprovalPermissionResult {
 export interface OrderApprovalTrigger {
   activationTime?: string;
   displayTimeTable?: string;
-}
-
-// #9423 it exits in administration model, but not exported, so have to duplicated here
-export interface OrderApprovalPermissionType {
-  code?: string;
-  name?: string;
 }
