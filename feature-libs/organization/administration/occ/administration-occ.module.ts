@@ -144,6 +144,7 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
       useClass: OccB2BUserNormalizer,
       multi: true,
     },
+
     {
       provide: B2B_USER_SERIALIZER,
       useClass: OccB2bUserSerializer,
