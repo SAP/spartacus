@@ -7,7 +7,6 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { DateTimePickerModule, FormErrorsModule } from '@spartacus/storefront';
 import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
 import { BudgetFormComponent } from './budget-form.component';
-import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @NgModule({
   imports: [
