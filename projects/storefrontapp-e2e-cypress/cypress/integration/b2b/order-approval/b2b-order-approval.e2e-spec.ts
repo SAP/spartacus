@@ -1,44 +1,11 @@
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
+import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
 import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
 import * as sampleData from '../../../sample-data/b2b-order-approval';
 
 describe('B2B - Order Approval', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-  });
-
-  describe('Order Approval - Accessibility.', () => {
-    before(() => {
-      orderApproval.loginB2bApprover();
-      cy.saveLocalStorage();
-    });
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    context('Approval List', () => {
-      it('should allow to navigate with tab key', () => {
-        orderApproval.approvalListTabbingOrder(config.orderApprovalList);
-      });
-    });
-
-    context('Approval Detail', () => {
-      it('should allow to navigate with tab key', () => {
-        orderApproval.approvalDetailTabbingOrder(config.orderApprovalDetail);
-      });
-    });
-
-    context('Approval Form', () => {
-      it('should allow to navigate with tab key', () => {
-        orderApproval.approvalFormTabbingOrder(config.orderApprovalForm);
-      });
-    });
-
-    context('Rejection Form', () => {
-      it('should allow to navigate with tab key', () => {
-        orderApproval.rejectionFormTabbingOrder(config.orderRejectionForm);
-      });
-    });
   });
 
   describe('B2B - Check order approval in Order details page for customer', () => {
@@ -83,6 +50,12 @@ describe('B2B - Order Approval', () => {
       cy.get('@order_approval_list')
         .its('url')
         .should('contain', 'sort=byOrderNumber');
+
+      // Accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.orderApprovalList
+      );
     });
 
     it('Should display approval detail page', () => {
@@ -92,6 +65,12 @@ describe('B2B - Order Approval', () => {
       assertButtons();
       assertPermissionResults(sampleData.approvalOrderDetail.order);
       assertOrderDetails();
+
+      // Accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.orderApprovalDetail
+      );
     });
 
     it('should approve the order', () => {
@@ -102,7 +81,13 @@ describe('B2B - Order Approval', () => {
       orderApproval.getStubbedApprovedOrderApprovalDetail();
 
       cy.get('cx-order-approval-detail-form .btn-primary').eq(1).click();
+      // Accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.orderApprovalForm
+      );
       cy.get('cx-order-approval-detail-form textarea').type('test approval');
+      // Submit the form
       cy.get('cx-order-approval-detail-form .btn-primary').click();
       cy.wait('@orderApprovalApproved');
 
@@ -120,7 +105,13 @@ describe('B2B - Order Approval', () => {
       orderApproval.getStubbedRejectedOrderApprovalDetail();
 
       cy.get('cx-order-approval-detail-form .btn-primary').eq(0).click();
+      // Accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.orderRejectionForm
+      );
       cy.get('cx-order-approval-detail-form textarea').type('test rejection');
+      // Submit the form
       cy.get('cx-order-approval-detail-form .btn-primary').click();
       cy.wait('@orderApprovalRejected');
 
@@ -195,7 +186,6 @@ function assertOrderDetails() {
   assertOrderDetailsCard(4, order.deliveryMode.name);
   assertOrderDetailsCard(4, order.deliveryMode.description);
   assertOrderDetailsCard(4, order.deliveryMode.deliveryCost.formattedValue);
-
 
   // assert totals
   assertOrderSummary(0, order.subTotal.formattedValue);
