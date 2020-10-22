@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/styles",
-  "version": "3.0.0-next.2",
+  "version": "3.0.0-next.5",
   "description": "Style library containing global styles",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -20,7 +20,7 @@
     "sass": "^1.25.0"
   },
   "peerDependencies": {
-    "bootstrap": "^4.1.3"
+    "bootstrap": "^4.0"
   },
   "dependencies": {
     "hamburgers": "^1.1.3"

@@ -36,12 +36,4 @@
     /* Adding animation */
     animation: loading 0.9s infinite;
   }
-  .gi {
-    color: var(--cx-color-ghost) !important;
-    z-index: -1;
-  }
-  button.gi {
-    background-color: currentColor;
-    border-color: currentColor;
-  }
 }

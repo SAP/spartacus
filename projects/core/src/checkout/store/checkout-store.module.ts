@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -10,7 +9,6 @@ import { reducerProvider, reducerToken } from './reducers/index';
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     StoreModule.forFeature(CHECKOUT_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
   ],
