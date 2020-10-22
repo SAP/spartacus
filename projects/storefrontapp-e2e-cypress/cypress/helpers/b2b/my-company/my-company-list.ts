@@ -1,13 +1,10 @@
-import { MyCompanyConfig } from './models/index';
+import { DEFAULT_SORT_LABEL, MAX_PAGES, MyCompanyConfig } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
   verifyList,
   getListRowsFromBody,
 } from './my-company.utils';
-
-const DEFAULT_SORT_LABEL = 'name';
-const MAX_PAGES = 2;
 
 export function testListFromConfig(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {

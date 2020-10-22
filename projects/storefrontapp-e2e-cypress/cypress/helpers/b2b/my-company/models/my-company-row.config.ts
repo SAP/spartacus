@@ -1,8 +1,4 @@
-export enum INPUT_TYPE {
-  TEXT = 'text',
-  DATE_TIME = 'datetime',
-  NG_SELECT = 'ngSelect',
-}
+import { INPUT_TYPE } from './my-company.model';
 
 // TODO: move configs into table: { ... }, details: { ... }, form: { ... }  format
 export interface MyCompanyRowConfig {
