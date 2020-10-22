@@ -12,7 +12,7 @@ import {
   ConsentService,
 } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
@@ -33,7 +33,7 @@ describe('profileTagLifecycleService', () => {
     },
   };
   function setVariables() {
-    getConsentBehavior = new BehaviorSubject<Object>([{}]);
+    getConsentBehavior = new BehaviorSubject<Object>(null);
     isConsentGivenValue = false;
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
@@ -80,26 +80,35 @@ describe('profileTagLifecycleService', () => {
   it('should be created', () => {
     expect(profileTagLifecycleService).toBeTruthy();
   });
-
-  it(`Should call the push method if the profile consent changes to true,
-  and ignore all further changes, only sending one consent changed event,`, () => {
-    let timesCalled = 0;
-    const subscription = profileTagLifecycleService
-      .consentGranted()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    isConsentGivenValue = false;
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(1);
+  describe('Consent', () => {
+    it(`Should emit an event if the profile consent changes to true,`, () => {
+      let timesCalled = 0;
+      const subscription = profileTagLifecycleService
+        .consentChanged()
+        .pipe(
+          filter((event) => Boolean(event.data.granted)),
+          tap(() => timesCalled++)
+        )
+        .subscribe();
+      isConsentGivenValue = true;
+      getConsentBehavior.next({ consent: 'test' });
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(1);
+    });
+    it(`Should emit an event if the profile consent changes to false,`, () => {
+      let timesCalled = 0;
+      const subscription = profileTagLifecycleService
+        .consentChanged()
+        .pipe(
+          filter((event) => Boolean(!event.data.granted)),
+          tap(() => timesCalled++)
+        )
+        .subscribe();
+      isConsentGivenValue = false;
+      getConsentBehavior.next({ consent: 'test' });
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(1);
+    });
   });
 
   it(`Should call the push method first time a login is successful`, () => {
