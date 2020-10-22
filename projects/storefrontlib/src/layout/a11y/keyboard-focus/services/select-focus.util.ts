@@ -18,8 +18,8 @@ export class SelectFocusUtility {
     'textarea',
   ];
 
-  // like to leave out the following as we don't use it, and make this list extensible.
-  //   `[contentEditable=true]`, // very unlikely to support as we're not a business tool
+  // like to leave out the following as we don't use it, and make this list exensible.
+  //   `[contentEditable=true]`, // very unlikely to suport as we're not a business tool
   //   `iframe`, // we really don't like iframes...
   //   `area[href]`, // very debatable!
 
@@ -40,11 +40,6 @@ export class SelectFocusUtility {
   ): HTMLElement {
     const selector =
       typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
-    console.log(
-      'findFirstFocusable',
-      selector,
-      this.query(host, selector).find((el) => !this.isHidden(el))
-    );
     // fallback to first focusable
     return (
       this.query(host, selector).find((el) => !this.isHidden(el)) ||

@@ -10,21 +10,11 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { AutoFocusService } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/autofocus';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  tap,
-} from 'rxjs/operators';
+import { debounceTime, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
-import {
-  CarouselIndicator,
-  CarouselNavigationService,
-} from './carousel-navigation.service';
+import { CarouselNavigation } from './carousel.model';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -94,12 +84,29 @@ export class CarouselComponent implements OnInit {
    * the number of carousel items is dynamic. The calculation uses the `itemWidth`
    * and the host element `clientWidth`, so that the carousel is reusable in
    * different layouts (for example in a 50% grid).
+   *
+   * @deprecated
    */
-  @Input() itemWidth;
-  //  = '300px';
+  @Input() itemWidth: string; // = '300px';
 
   /**
-   * Indicates whether the visual indicators are used.
+   * Emits the visible carousel items in a numbered array.
+   *
+   * A value of `[3,4]` means that the 3rd adn 4th items are visible.
+   */
+  protected readonly visible$ = new BehaviorSubject<number[]>([]);
+
+  readonly navigation$: Observable<CarouselNavigation> = this.visible$.pipe(
+    debounceTime(250),
+    map((visibleItems) =>
+      this.service.build(this.carouselHost, visibleItems, this.itemRefs.length)
+    )
+  );
+
+  /**
+   * Indicates whether the visual indicators should be added in the UI.
+   *
+   * Defaults to `false`.
    */
   @Input() hideIndicators = false;
 
@@ -107,150 +114,82 @@ export class CarouselComponent implements OnInit {
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
+  /**
+   * @deprecated
+   */
   activeSlide: number;
+
+  /**
+   * @deprecated
+   */
   size$: Observable<number>;
 
   @ViewChild('carousel', { read: ElementRef }) carousel: ElementRef<
     HTMLElement
   >;
 
-  @ViewChild('slides', { read: ElementRef }) slides: ElementRef<HTMLElement>;
-
   @ViewChildren('item', { read: ElementRef }) itemRefs!: QueryList<
     ElementRef<HTMLElement>
   >;
 
-  protected readonly visible$: BehaviorSubject<
-    Map<number, boolean>
-  > = new BehaviorSubject(new Map());
-
-  protected readonly visibleItems$ = this.visible$.pipe(
-    filter((v) => v.size > 0),
-    map((visible) =>
-      Array.from(visible)
-        .filter((value) => !!value[1])
-        .map((value) => value[0])
-        .sort((a, b) => a - b)
-    ),
-    distinctUntilChanged()
-  );
-
-  protected readonly slides$ = this.visibleItems$.pipe(
-    map(() => this.navigation.slides(this.carouselHost)),
-    distinctUntilChanged()
-  );
-
-  /**
-   * Returns the observed disabled state for the previous button.
-   */
-  readonly previous$: Observable<any> = this.visibleItems$.pipe(
-    map((visible) =>
-      this.navigation.previousData(
-        visible,
-        this.navigation.slides(this.carouselHost)
-      )
-    ),
-    distinctUntilChanged()
-  );
-
-  /**
-   * Returns the observed disabled state for the next button.
-   */
-  readonly next$: Observable<any> = this.visibleItems$.pipe(
-    map((visible) =>
-      this.navigation.nextData(
-        visible,
-        this.navigation.slides(this.carouselHost),
-        this.itemRefs.length - 1
-      )
-    ),
-    distinctUntilChanged()
-  );
-
-  readonly indicators$: Observable<CarouselIndicator[]> = this.slides$.pipe(
-    debounceTime(250),
-    map((slides) => this.navigation.indicators(this.carouselHost, slides)),
-    filter((i) => i.length > 1)
-  );
-
   /**
    * Maintains the prefetched carousel items.
    */
-  protected _prefetch = 0;
-  protected _prefetchNum = 0;
-  protected _startPrefetching = false;
+  prefetchCount = 0;
 
-  protected intersect$: BehaviorSubject<
-    Map<HTMLElement, boolean>
-  > = new BehaviorSubject(new Map());
-
-  intersectCount$: Observable<number> = this.intersect$.pipe(
-    map(
-      (intersected) =>
-        Array.from(intersected.values()).filter((value) => value === true)
-          .length
-    )
-  );
-  protected calcIntersected(): number {
-    return Array.from(this.intersect$.value.values()).filter(
-      (value) => value === true
-    ).length;
-  }
-
-  constructor(
-    protected el: ElementRef,
-    protected service: CarouselService,
-    protected navigation: CarouselNavigationService,
-    protected autoFocusService: AutoFocusService
-  ) {}
-
-  tabIndex(ref: HTMLElement): Observable<number> {
-    return this.intersect$.pipe(
-      map((intersectMap) => (intersectMap.get(ref) ? 0 : -1))
-    );
-  }
-
-  bumpPrefetch(prefetchNum?: number) {
-    const bump = this.calcIntersected();
-    let bumpTo = this.prefetch || bump;
-    bumpTo += prefetchNum ?? bump;
-    if (bumpTo < this.itemRefs.length + 1) {
-      this.prefetch = bumpTo;
-    }
-  }
-
-  set prefetch(item) {
-    this._startPrefetching = true;
-    if (this._prefetch < item + this._prefetchNum) {
-      this._prefetch = item + this._prefetchNum;
-    }
-    console.log('prefetched', this.prefetch);
-  }
-  get prefetch(): number {
-    return this._prefetch;
-  }
+  constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {
     if (!this.template) {
       this.renderDxMessage();
       return;
     }
-    this.size$ = this.service.getItemsPerSlide(this.host, this.itemWidth).pipe(
-      tap(() => {
-        if (this.itemWidth) {
-          this.activeSlide = 0;
-        }
-      }),
-      map((items) => {
-        return this.itemWidth ? items : this.items?.length || 0;
-      })
-    );
+    this.size$ = this.service
+      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+      .pipe(
+        tap(() => {
+          if (this.itemWidth) {
+            this.activeSlide = 0;
+          }
+        }),
+        map((items) => {
+          return this.itemWidth ? items : this.items?.length || 0;
+        })
+      );
+  }
+
+  /**
+   * Returns the tabindex for the given carousel item index.
+   *
+   * The tabindex is supposed to be dynamic to avoid keyboard users to leave
+   * the current slide. They should explicitly use the prev/next buttons.
+   */
+  getTabIndex(itemNum: number): number {
+    return this.visible$.value.includes(itemNum) ? 0 : -1;
+  }
+
+  /**
+   * Will prefetch the next carousel item(s).
+   *
+   * The calculated prefetchCount is passed to the template. so that
+   * the template can decide whether to lazy load the items based on
+   * the prefetch flag, or load them regardless.
+   */
+  prefetch(factor = 1) {
+    const next =
+      this.visible$.value[this.visible$.value.length - 1] +
+      1 +
+      this.visible$.value.length * factor;
+
+    if (next > this.prefetchCount) {
+      this.prefetchCount = next;
+    }
   }
 
   /**
    * Handles previous button.
    */
-  previous() {
+  handlePrevious() {
     this.carouselHost.scrollBy({
       left: -this.carouselHost.clientWidth,
     });
@@ -259,24 +198,10 @@ export class CarouselComponent implements OnInit {
   /**
    * Handles next button.
    */
-  next(_event: MouseEvent) {
-    this.bumpPrefetch();
-
+  handleNext() {
     this.carouselHost.scrollBy({
       left: this.carouselHost.clientWidth,
     });
-
-    // // we focus automatically next for accessibility reasons
-    // window.setTimeout(() => {
-    //   // const m = this.intersect$.value;
-    //   // const f = Array.from(m.keys()).find((key) => m.get(key) === true);
-    //   const first = this.autoFocusService.findFirstFocusable(
-    //     this.slides.nativeElement
-    //   );
-    //   console.log(first);
-    //   first.focus({ preventScroll: true });
-    //   // f.focus({ preventScroll: true });
-    // }, 2000);
   }
 
   /**
@@ -289,35 +214,22 @@ export class CarouselComponent implements OnInit {
   }
 
   /**
-   * Maintains a map with all the visible slide items. This is stored in
-   * a subject, so that we can observe the visible slides and update the
-   * buttons and indicators accordingly.
+   * Maintains an subject with an array of visible item refs (index)
    */
-  intersect(intersected: boolean, ref: HTMLElement) {
-    const value: Map<HTMLElement, boolean> = this.intersect$.value;
-    value.set(ref, intersected);
-    this.intersect$.next(value);
-
-    const index = this.itemRefs
+  intersect(intersected: boolean, ref: HTMLElement): void {
+    const refIndex = this.itemRefs
       .toArray()
       .findIndex((item) => item.nativeElement === ref);
 
-    // we increase the prefetchNum as long as we haven't started prefetching
-    // if (intersected && !this._startPrefetching && this._prefetchNum < index) {
-    //   this._prefetchNum = index + 1 + 1;
-    // }
-
-    const visibleMap = this.visible$.value;
-    visibleMap.set(index, intersected);
-
-    this.visible$.next(visibleMap);
-  }
-
-  /**
-   * Returns the component native host element.
-   */
-  private get host(): HTMLElement {
-    return this.el.nativeElement;
+    const visible: number[] = this.visible$.value;
+    if (intersected) {
+      visible.push(refIndex);
+    } else {
+      if (visible.indexOf(refIndex) > -1) {
+        visible.splice(visible.indexOf(refIndex), 1);
+      }
+    }
+    this.visible$.next([...visible.sort()]);
   }
 
   /**

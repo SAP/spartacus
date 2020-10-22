@@ -1,10 +1,27 @@
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+
 export interface CarouselButton {
-  visible: boolean;
+  // visible: boolean;
   disabled: boolean;
-  enabled: boolean;
+  icon?: ICON_TYPE;
 }
+
+export interface CarouselIndicator {
+  position: number;
+  /**
+   * Indicates whether the indicator is active.
+   */
+  selected: boolean;
+  /**
+   * Optional icon type to render the indicator icon.
+   *
+   * Defaults to the `indicatorIcon` input on the carousel component.
+   */
+  icon?: ICON_TYPE;
+}
+
 export interface CarouselNavigation {
-  slides: number[];
-  previous: CarouselButton;
-  next: CarouselButton;
+  previous?: CarouselButton;
+  next?: CarouselButton;
+  indicators?: CarouselIndicator[];
 }

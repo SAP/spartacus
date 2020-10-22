@@ -1,23 +1,25 @@
 <ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
   <h3 *ngIf="title">{{ title }}</h3>
+
+  <button
+    *ngIf="(navigation$ | async)?.previous as previousButton"
+    class="previous"
+    (click)="handlePrevious()"
+    [disabled]="previousButton.disabled"
+  >
+    <cx-icon [type]="previousButton.icon || previousIcon"></cx-icon>
+  </button>
+
   <div
     #carousel
     class="carousel-panel"
     [ngClass]="'size-' + size"
     [cxFocus]="focusConfig"
   >
-    <button
-      class="previous"
-      (click)="previous()"
-      [style.visibility]="(previous$ | async)?.visible ? 'visible' : 'hidden'"
-      [disabled]="!(previous$ | async)?.enabled"
-    >
-      <cx-icon [type]="previousIcon"></cx-icon>
-    </button>
-
     <div class="slides" #slides>
       <!-- 
-        we still keep the notion of slide elements, although we don't use this anymore. Most likely we deprecate this in 4.0. In 3.0, we start introducing virtual slides. 
+        we still keep the notion of slide elements, although we don't use this anymore. 
+        Most likely we deprecate this in 4.0. In 3.0, we start introducing virtual slides. 
       -->
       <ng-container *ngFor="let _ of items; let i = index">
         <div
@@ -27,19 +29,12 @@
         >
           <!-- 
             We render the carousel item, so that we have an element to work with. This allows to do skeleton, prefetching and accessibility.
-
-            Deprecate:
-            - active class
-
-            new with 3.0
-            - prefetching
-            - intersection
           -->
           <div
             *ngFor="let data of items | slice: i:i + size; let itemNum = index"
             class="item"
             [class.active]="i === activeSlide"
-            (mouseenter)="prefetch = itemNum"
+            (mouseenter)="prefetch()"
             cxIntersected
             #templateRef
             #item="cxIntersected"
@@ -50,8 +45,8 @@
                 template;
                 context: {
                   item: data,
-                  prefetch: prefetch > itemNum || (item.intersect | async),
-                  tab: tabIndex(templateRef) | async
+                  prefetch: prefetchCount > itemNum || (item.intersect | async),
+                  tab: getTabIndex(itemNum)
                 }
               "
             ></ng-container>
@@ -59,29 +54,33 @@
         </div>
       </ng-container>
     </div>
-
-    <button
-      class="next"
-      (focus)="bumpPrefetch()"
-      (click)="next($event)"
-      [style.visibility]="(next$ | async)?.visible ? 'visible' : 'hidden'"
-      [disabled]="!(next$ | async)?.enabled"
-    >
-      <cx-icon [type]="nextIcon"></cx-icon>
-    </button>
   </div>
 
-  <div class="indicators">
+  <button
+    *ngIf="(navigation$ | async)?.next as nextButton"
+    class="next"
+    (mouseenter)="prefetch()"
+    (focus)="prefetch()"
+    (click)="handleNext($event)"
+    [disabled]="nextButton.disabled"
+  >
+    <cx-icon [type]="nextButton.icon || nextIcon"></cx-icon>
+  </button>
+
+  <div
+    *ngIf="!hideIndicators && (navigation$ | async)?.indicators as indicators"
+    class="indicators"
+  >
     <button
-      *ngFor="let indicator of indicators$ | async; let i = index"
+      *ngFor="let indicator of indicators; let i = index"
       (click)="scroll(indicator.position)"
       [class.selected]="indicator.selected"
       [disabled]="indicator.selected"
       [cxFocus]="{ key: i + 1, group: focusConfig.group }"
       tabindex="-1"
-      (mouseenter)="prefetch = i * this._prefetchNum"
+      (mouseenter)="prefetch(i)"
     >
-      <cx-icon [type]="indicatorIcon"></cx-icon>
+      <cx-icon [type]="indicator.icon || indicatorIcon"></cx-icon>
     </button>
   </div>
 </ng-container>

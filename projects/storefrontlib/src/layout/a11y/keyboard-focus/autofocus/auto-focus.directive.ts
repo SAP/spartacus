@@ -54,7 +54,6 @@ export class AutoFocusDirective
     }
 
     if (this.config.focusOnScroll) {
-      console.log('yes, scroll it', this.host);
       // // TODO: cleanup
       fromEvent(this.host, 'scroll')
         .pipe(debounceTime(300))

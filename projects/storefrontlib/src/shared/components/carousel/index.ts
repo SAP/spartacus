@@ -1,4 +1,4 @@
-export * from './carousel-navigation.service';
 export * from './carousel.component';
+export * from './carousel.model';
 export * from './carousel.module';
 export * from './carousel.service';
