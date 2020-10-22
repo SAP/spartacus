@@ -8,8 +8,12 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('Order Approval - Accessibility.', () => {
-    beforeEach(() => {
+    before(() => {
       orderApproval.loginB2bApprover();
+      cy.saveLocalStorage();
+    });
+    beforeEach(() => {
+      cy.restoreLocalStorage();
     });
 
     context('Approval List', () => {
@@ -36,6 +40,7 @@ describe('B2B - Order Approval', () => {
       });
     });
   });
+
   describe('B2B - Check order approval in Order details page for customer', () => {
     it('should display order approval details in order details page', () => {
       orderApproval.loginB2bUser();
@@ -47,48 +52,29 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('B2B - Order approval list and details for order approver', () => {
-    beforeEach(() => {
+    before(() => {
       orderApproval.loginB2bApprover();
+      cy.saveLocalStorage();
+    });
+    beforeEach(() => {
+      cy.restoreLocalStorage();
     });
 
     it('should display order approval list', () => {
+      const orderApprovalRow = sampleData.approvalOrderList.orderApprovals[0];
       orderApproval.getStubbedOrderApprovalList();
       orderApproval.visitOrderApprovalListPage();
       cy.wait('@order_approval_list').its('status').should('eq', 200);
 
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(0)
-        .should(
-          'contain',
-          sampleData.approvalOrderList.orderApprovals[0].order.code
-        );
-
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(1)
-        .should('contain', sampleData.none);
-
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(2)
-        .should(
-          'contain',
-          sampleData.approvalOrderList.orderApprovals[0].order.orgCustomer.name
-        );
-
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(3)
-        .should('contain', sampleData.orderPlacedDate);
-
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(4)
-        .should('contain', sampleData.statusPendingApproval);
-
-      cy.get('cx-order-approval-list a.cx-order-approval-value')
-        .eq(5)
-        .should(
-          'contain',
-          sampleData.approvalOrderList.orderApprovals[0].order.totalPrice
-            .formattedValue
-        );
+      assertApprovalListRowData(0, orderApprovalRow.order.code);
+      assertApprovalListRowData(1, sampleData.none);
+      assertApprovalListRowData(2, orderApprovalRow.order.orgCustomer.name);
+      assertApprovalListRowData(3, sampleData.orderPlacedDate);
+      assertApprovalListRowData(4, sampleData.statusPendingApproval);
+      assertApprovalListRowData(
+        5,
+        orderApprovalRow.order.totalPrice.formattedValue
+      );
 
       // test the sort dropdown
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
@@ -176,6 +162,8 @@ function assertPermissionResults(order) {
 }
 
 function assertOrderDetails() {
+  const order = sampleData.approvalOrderDetail.order;
+  const entry = order.entries[0];
   // assert order status
   cy.get('cx-order-details-items .cx-list-status').should(
     'contain',
@@ -183,93 +171,51 @@ function assertOrderDetails() {
   );
 
   // assert products
-  cy.get('.cx-item-list-row .cx-link').should(
-    'contain',
-    sampleData.approvalOrderDetail.order.entries[0].product.name
-  );
-  cy.get('.cx-item-list-row .cx-code').should(
-    'contain',
-    sampleData.approvalOrderDetail.order.entries[0].product.code
-  );
+  cy.get('.cx-item-list-row .cx-link').should('contain', entry.product.name);
+  cy.get('.cx-item-list-row .cx-code').should('contain', entry.product.code);
   cy.get('.cx-item-list-row .cx-price').should(
     'contain',
-    sampleData.approvalOrderDetail.order.entries[0].basePrice.formattedValue
+    entry.basePrice.formattedValue
   );
   cy.get('.cx-item-list-row .cx-total').should(
     'contain',
-    sampleData.approvalOrderDetail.order.entries[0].totalPrice.formattedValue
+    entry.totalPrice.formattedValue
   );
 
   // asserts order details
-  cy.get('cx-order-overview cx-card')
-    .eq(0)
-    .should('contain', sampleData.approvalOrderDetail.order.code);
+  assertOrderDetailsCard(0, order.code);
+  assertOrderDetailsCard(1, 'Oct 07 2020');
+  assertOrderDetailsCard(2, sampleData.statusPendingApproval);
+  assertOrderDetailsCard(
+    3,
+    `${order.deliveryAddress.firstName} ${order.deliveryAddress.lastName}`
+  );
+  assertOrderDetailsCard(3, order.deliveryAddress.formattedAddress);
+  assertOrderDetailsCard(3, order.deliveryAddress.country.name);
+  assertOrderDetailsCard(4, order.deliveryMode.name);
+  assertOrderDetailsCard(4, order.deliveryMode.description);
+  assertOrderDetailsCard(4, order.deliveryMode.deliveryCost.formattedValue);
 
-  cy.get('cx-order-overview cx-card').eq(1).should('contain', 'Oct 07 2020');
-
-  cy.get('cx-order-overview cx-card')
-    .eq(2)
-    .should('contain', sampleData.statusPendingApproval);
-
-  cy.get('cx-order-overview cx-card')
-    .eq(3)
-    .should(
-      'contain',
-      `${sampleData.approvalOrderDetail.order.deliveryAddress.firstName} ${sampleData.approvalOrderDetail.order.deliveryAddress.lastName}`
-    );
-  cy.get('cx-order-overview cx-card')
-    .eq(3)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.deliveryAddress.formattedAddress
-    );
-  cy.get('cx-order-overview cx-card')
-    .eq(3)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.deliveryAddress.country.name
-    );
-
-  cy.get('cx-order-overview cx-card')
-    .eq(4)
-    .should('contain', sampleData.approvalOrderDetail.order.deliveryMode.name);
-  cy.get('cx-order-overview cx-card')
-    .eq(4)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.deliveryMode.description
-    );
-  cy.get('cx-order-overview cx-card')
-    .eq(4)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.deliveryMode.deliveryCost
-        .formattedValue
-    );
 
   // assert totals
+  assertOrderSummary(0, order.subTotal.formattedValue);
+  assertOrderSummary(1, order.deliveryCost.formattedValue);
+  assertOrderSummary(2, order.totalTax.formattedValue);
+  assertOrderSummary(3, order.totalPrice.formattedValue);
+}
+
+function assertApprovalListRowData(index: number, value: string) {
+  cy.get('cx-order-approval-list a.cx-order-approval-value')
+    .eq(index)
+    .should('contain', value);
+}
+
+function assertOrderSummary(index: number, value: string) {
   cy.get('cx-order-details-totals .cx-summary-amount')
-    .eq(0)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.subTotal.formattedValue
-    );
-  cy.get('cx-order-details-totals .cx-summary-amount')
-    .eq(1)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.deliveryCost.formattedValue
-    );
-  cy.get('cx-order-details-totals .cx-summary-amount')
-    .eq(2)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.totalTax.formattedValue
-    );
-  cy.get('cx-order-details-totals .cx-summary-amount')
-    .eq(3)
-    .should(
-      'contain',
-      sampleData.approvalOrderDetail.order.totalPrice.formattedValue
-    );
+    .eq(index)
+    .should('contain', value);
+}
+
+function assertOrderDetailsCard(index: number, value: string) {
+  cy.get('cx-order-overview cx-card').eq(index).should('contain', value);
 }

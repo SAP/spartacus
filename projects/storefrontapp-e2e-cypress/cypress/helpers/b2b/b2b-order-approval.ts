@@ -8,7 +8,7 @@ import {
 } from '../../sample-data/b2b-order-approval';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import { TabElement } from '../accessibility/tabbing-order.model';
-import { visitHomePage, waitForPage } from '../checkout-flow';
+import { waitForPage } from '../checkout-flow';
 
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
@@ -32,12 +32,10 @@ export function visitOrderApprovalDetailPage() {
 
 export function loginB2bUser() {
   cy.requireLoggedIn(sampleData.b2bUserAccount);
-  visitHomePage();
 }
 
 export function loginB2bApprover() {
   cy.requireLoggedIn(sampleData.b2bApproverAccount);
-  visitHomePage();
 }
 
 export function getStubbedPendingOrderDetails() {
@@ -59,7 +57,7 @@ export function getStubbedOrderApprovalList() {
       'BASE_SITE'
     )}/users/current/orderapprovals?*`,
     approvalOrderList
-  ).as('order_approval_list');;
+  ).as('order_approval_list');
 }
 
 export function getStubbedOrderApprovalDetail() {
