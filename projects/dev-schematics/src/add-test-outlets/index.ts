@@ -5,21 +5,25 @@ import {
   mergeWith,
   move,
   renameTemplateFiles,
-  Rule, SchematicContext,
-  SchematicsException, Source,
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Source,
   Tree,
-  url
+  url,
 } from '@angular-devkit/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addImport,
-  addToModuleImportsAndCommitChanges, getProjectTargets, getTsSourceFile, SPARTACUS_CORE,
+  addToModuleImportsAndCommitChanges,
+  getProjectTargets,
+  getTsSourceFile,
+  SPARTACUS_CORE,
   TEST_CONFIG_MODULE,
-  TEST_OUTLET_MODULE
+  TEST_OUTLET_MODULE,
 } from '@spartacus/schematics';
 import { Schema as DevSpartacusOptions } from '../ng-add/schema';
-
 
 function provideTestOutletsModuleImports(options: DevSpartacusOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {

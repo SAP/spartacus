@@ -1,7 +1,7 @@
 export {
   getConfig,
   getExistingStorefrontConfigNode,
-  mergeConfig
+  mergeConfig,
 } from './config-utils';
 export { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
 export {
@@ -9,13 +9,12 @@ export {
   addToMetadata,
   addToModuleImports,
   addToModuleImportsAndCommitChanges,
-  addToModuleProviders
+  addToModuleProviders,
 } from './module-file-utils';
 export { getSpartacusSchematicsVersion } from './package-utils';
 export {
   getDefaultProjectNameFromWorkspace,
   getProjectTargets,
   getSourceRoot,
-  getWorkspace
+  getWorkspace,
 } from './workspace-utils';
-
