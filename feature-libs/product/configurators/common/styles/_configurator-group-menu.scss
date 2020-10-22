@@ -34,9 +34,14 @@
       }
 
       a {
-        display: flow-root;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
         text-decoration: none;
         color: var(--cx-color-text);
+
         padding-inline-start: 15px;
         padding-inline-end: 15px;
         padding-block-start: 15px;
@@ -53,7 +58,8 @@
 
         .groupIndicators {
           display: flex;
-          float: right;
+          flex-direction: row;
+          align-self: flex-start;
           inline-size: 75px;
 
           .groupStatusIndicator {
@@ -68,11 +74,11 @@
               color: var(--cx-color-danger);
             }
             cx-icon.WARNING {
-              color: theme-color('warning');
+              color: var(--cx-color-warning);
             }
 
             cx-icon.COMPLETE {
-              color: var(--cx-color-text) !important;
+              color: var(--cx-color-text);
             }
           }
 
@@ -108,27 +114,31 @@
     border-style: solid;
     border-color: var(--cx-color-light);
     background-color: var(--cx-color-background);
-    padding-inline-start: 15px;
-    padding-inline-end: 15px;
-    padding-block-start: 15px;
-    padding-block-end: 15px;
-
-    &:hover {
-      cursor: pointer;
-      color: var(--cx-color-primary);
-    }
 
     a {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
+      text-decoration: none;
       color: var(--cx-color-text);
-      display: block;
+
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
+      padding-block-start: 15px;
+      padding-block-end: 15px;
 
       &:hover {
         cursor: pointer;
         color: var(--cx-color-primary);
       }
 
+      &.active {
+        color: var(--cx-color-primary);
+      }
+
       cx-icon {
-        float: left;
         margin-inline-start: 5px;
         margin-inline-end: 5px;
         margin-block-start: 5px;
