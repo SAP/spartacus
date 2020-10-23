@@ -14,9 +14,6 @@ export class AnonymousConsentTemplatesConnector {
   }
 
   loadAnonymousConsents(): Observable<AnonymousConsent[]> | null {
-    // TODO{#8158} - remove the conditional check, and just `return this.adapter.loadAnonymousConsents()`
-    return this.adapter.loadAnonymousConsents
-      ? this.adapter.loadAnonymousConsents()
-      : null;
+    return this.adapter.loadAnonymousConsents();
   }
 }
