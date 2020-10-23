@@ -9,7 +9,7 @@ export function cartStatePersistenceFactory(
 ) {
   const result = () =>
     configInit.getStableConfig('context').then(() => {
-      cartStatePersistenceService.sync();
+      cartStatePersistenceService.initSync();
     });
   return result;
 }
