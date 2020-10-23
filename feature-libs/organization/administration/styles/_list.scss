@@ -257,22 +257,6 @@
 
 // generic table styles for both vertical and stacked tables
 %table {
-  cx-table {
-    &.vertical-stacked tbody,
-    &.vertical tr {
-      // highlight the items on hovering
-      &:hover:not(.is-current) {
-        background-color: var(--cx-color-background);
-      }
-      // highlight current items
-      &.is-current {
-        outline: solid 3px var(--cx-color-primary);
-        outline-offset: -3px;
-        background: var(--cx-color-background-focus);
-      }
-    }
-  }
-
   cx-organization-sub-list {
     &:not(.has-nested-view) {
       cx-table.vertical,
@@ -290,7 +274,11 @@
           display: none;
         }
         tr {
+          &:focus-within {
+            outline: none;
+          }
           td {
+            // width: 100%;
             &.actions {
               width: 1px;
               &:last-child {
@@ -308,6 +296,27 @@
           td:last-child {
             width: 1px;
           }
+        }
+      }
+    }
+  }
+
+  .list {
+    cx-table {
+      &.vertical-stacked tbody,
+      &.vertical tr {
+        // highlight the items on hovering
+        &:hover:not(.is-current) {
+          background-color: var(--cx-color-background);
+        }
+        // highlight current items
+        &.is-current {
+          @include is-current-active-selection;
+        }
+
+        &:focus-within {
+          @include visible-focus();
+          outline-offset: -2px;
         }
       }
     }
