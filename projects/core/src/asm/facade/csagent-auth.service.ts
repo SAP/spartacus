@@ -38,7 +38,10 @@ export class CsAgentAuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(userId: string, password: string): void {
+  async authorizeCustomerSupportAgent(
+    userId: string,
+    password: string
+  ): Promise<void> {
     let userToken;
     this.authStorageService
       .getToken()
@@ -46,31 +49,29 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     this.authStorageService.switchTokenTargetToCSAgent();
-    this.cxOAuthService
-      .authorizeWithPasswordFlow(userId, password)
-      .then(() => {
-        // Start emulation for currently logged in user
-        let customerId: string;
-        this.userService
-          .get()
-          .subscribe((user) => (customerId = user?.customerId))
-          .unsubscribe();
-        this.store.dispatch(new AuthActions.Logout());
+    try {
+      await this.cxOAuthService.authorizeWithPasswordFlow(userId, password);
+      // Start emulation for currently logged in user
+      let customerId: string;
+      this.userService
+        .get()
+        .subscribe((user) => (customerId = user?.customerId))
+        .unsubscribe();
+      this.store.dispatch(new AuthActions.Logout());
 
-        if (Boolean(customerId)) {
-          // OCC specific user id handling. Customize when implementing different backend
-          this.userIdService.setUserId(customerId);
-          this.authStorageService.setEmulatedUserToken(userToken);
-          this.store.dispatch(new AuthActions.Login());
-        } else {
-          // When we can't get the customerId just end all current sessions
-          this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-          this.authStorageService.clearEmulatedUserToken();
-        }
-      })
-      .catch(() => {
-        this.authStorageService.switchTokenTargetToUser();
-      });
+      if (Boolean(customerId)) {
+        // OCC specific user id handling. Customize when implementing different backend
+        this.userIdService.setUserId(customerId);
+        this.authStorageService.setEmulatedUserToken(userToken);
+        this.store.dispatch(new AuthActions.Login());
+      } else {
+        // When we can't get the customerId just end all current sessions
+        this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        this.authStorageService.clearEmulatedUserToken();
+      }
+    } catch {
+      this.authStorageService.switchTokenTargetToUser();
+    }
   }
 
   /**
@@ -117,25 +118,25 @@ export class CsAgentAuthService {
   /**
    * Logout a customer support agent
    */
-  public logoutCustomerSupportAgent(): void {
+  async logoutCustomerSupportAgent(): Promise<void> {
     const emulatedToken = this.authStorageService.getEmulatedUserToken();
     let isCustomerEmulated;
     this.userIdService
       .isEmulated()
       .subscribe((emulated) => (isCustomerEmulated = emulated))
       .unsubscribe();
-    this.cxOAuthService.revokeAndLogout().then(() => {
-      this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-      this.authStorageService.setTokenTarget(TokenTarget.User);
-      if (isCustomerEmulated && emulatedToken) {
-        this.store.dispatch(new AuthActions.Logout());
-        this.authStorageService.setToken(emulatedToken);
-        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-        this.authStorageService.clearEmulatedUserToken();
-        this.store.dispatch(new AuthActions.Login());
-      } else {
-        this.authService.initLogout();
-      }
-    });
+
+    await this.cxOAuthService.revokeAndLogout();
+    this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+    this.authStorageService.setTokenTarget(TokenTarget.User);
+    if (isCustomerEmulated && emulatedToken) {
+      this.store.dispatch(new AuthActions.Logout());
+      this.authStorageService.setToken(emulatedToken);
+      this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+      this.authStorageService.clearEmulatedUserToken();
+      this.store.dispatch(new AuthActions.Login());
+    } else {
+      this.authService.initLogout();
+    }
   }
 }

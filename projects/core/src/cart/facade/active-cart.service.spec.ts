@@ -292,14 +292,14 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch load for current -> emulated user switch', () => {
-      service['userId'] = 'fdsfds-fsdfsd-fdsfsd-fsd';
+      service['userId'] = 'ala-ma-kota';
       service['previousUserId'] = 'current';
 
       spyOn(multiCartService, 'loadCart').and.callThrough();
 
       service['loadOrMerge']('cartId');
       expect(multiCartService['loadCart']).toHaveBeenCalledWith({
-        userId: 'fdsfds-fsdfsd-fdsfsd-fsd',
+        userId: 'ala-ma-kota',
         cartId: 'cartId',
         extraData: {
           active: true,

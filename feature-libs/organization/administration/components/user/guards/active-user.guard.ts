@@ -14,7 +14,7 @@ export class ActiveUserGuard extends ExistUserGuard {
   protected getRedirectUrl(_urlParams?: any): UrlTree {
     const urlPath = this.semanticPathService.transform({
       cxRoute: 'userDetails',
-      params: { code: _urlParams.code },
+      params: { customerId: _urlParams.code },
     });
 
     return this.router.parseUrl(urlPath.join('/'));

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, queueScheduler } from 'rxjs';
+import { filter, map, observeOn } from 'rxjs/operators';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ClientToken } from '../models/client-token.model';
 import { ClientAuthActions } from '../store/actions/index';
@@ -21,6 +21,7 @@ export class ClientTokenService {
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(ClientAuthSelectors.getClientTokenState),
+      observeOn(queueScheduler),
       filter((state: LoaderState<ClientToken>) => {
         if (this.isClientTokenLoaded(state)) {
           return true;

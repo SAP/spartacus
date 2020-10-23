@@ -83,7 +83,7 @@ describe('AsmStatePersistenceService', () => {
     const state$ = of('');
     spyOn(service as any, 'getAsmState').and.returnValue(state$);
 
-    service.sync();
+    service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -94,7 +94,7 @@ describe('AsmStatePersistenceService', () => {
     expect(service['getAsmState']).toHaveBeenCalled();
   });
 
-  it('should return state from asm store', () => {
+  it('should return state from asm store', (done) => {
     spyOn(asmAuthStorageService, 'getEmulatedUserToken').and.returnValue({
       access_token: 'token',
       access_token_stored_at: '1000',
@@ -115,6 +115,7 @@ describe('AsmStatePersistenceService', () => {
           },
           tokenTarget: TokenTarget.User,
         });
+        done();
       });
   });
 });

@@ -60,13 +60,14 @@ describe('AuthInterceptor', () => {
     http = TestBed.inject(HttpClient);
   });
 
-  it(`Should operate on request returned from AuthHeaderService alterRequest method`, () => {
+  it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
     spyOn(authHeaderService, 'alterRequest').and.returnValue(
       new HttpRequest('GET', '/test')
     );
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
+      done();
     });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
@@ -77,13 +78,14 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should handle 401 error for expired token occ calls`, () => {
+  it(`Should handle 401 error for expired token occ calls`, (done) => {
     spyOn(
       authHeaderService,
       'handleExpiredAccessToken'
     ).and.callFake((_, next) => next.handle(new HttpRequest('GET', '/test')));
     const sub: Subscription = http.get('/occ').subscribe((result) => {
       expect(result).toEqual('someText');
+      done();
     });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
@@ -102,7 +104,7 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should not handle 401 error for expired token non-occ calls`, () => {
+  it(`Should not handle 401 error for expired token non-occ calls`, (done) => {
     spyOn(authHeaderService, 'shouldCatchError').and.returnValue(false);
 
     const sub: Subscription = http.get('/occ').subscribe(
@@ -110,6 +112,7 @@ describe('AuthInterceptor', () => {
       (err) => {
         expect(err.status).toEqual(401);
         expect(err.error.errors[0].type).toEqual('InvalidTokenError');
+        done();
       }
     );
 
@@ -125,12 +128,13 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should not handle 401 error for non expired token occ calls`, () => {
+  it(`Should not handle 401 error for non expired token occ calls`, (done) => {
     const sub: Subscription = http.get('/occ').subscribe(
       () => {},
       (err) => {
         expect(err.status).toEqual(401);
         expect(err.error.errors[0].type).toEqual('Different error');
+        done();
       }
     );
 
@@ -146,13 +150,14 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should handle 401 error invalid_token calls`, () => {
+  it(`Should handle 401 error invalid_token calls`, (done) => {
     spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
     const sub: Subscription = http.get('/authorizationserver/token').subscribe(
       () => {},
       () => {},
       () => {
         expect(authHeaderService.handleExpiredRefreshToken).toHaveBeenCalled();
+        done();
       }
     );
 
@@ -167,13 +172,14 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should not handle 401 error invalid_token calls for non token endpoints`, () => {
+  it(`Should not handle 401 error invalid_token calls for non token endpoints`, (done) => {
     spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
     const sub: Subscription = http.get('/custom-url').subscribe(
       () => {},
       (err) => {
         expect(err.status).toEqual(401);
         expect(err.error.error).toEqual('invalid_token');
+        done();
       }
     );
 
@@ -188,7 +194,7 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should handle 400 error invalid_grant calls`, () => {
+  it(`Should handle 400 error invalid_grant calls`, (done) => {
     spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
     const params = new HttpParams().set('grant_type', 'refresh_token');
     const sub: Subscription = http
@@ -201,6 +207,7 @@ describe('AuthInterceptor', () => {
           expect(
             authHeaderService.handleExpiredRefreshToken
           ).toHaveBeenCalled();
+          done();
         },
         () => {}
       );
@@ -216,7 +223,7 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should not handle 400 error invalid_grant calls for non token endpoints`, () => {
+  it(`Should not handle 400 error invalid_grant calls for non token endpoints`, (done) => {
     spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
     const params = new HttpParams().set('grant_type', 'refresh_token');
     const sub: Subscription = http.post('/custom-url', params).subscribe(
@@ -227,6 +234,7 @@ describe('AuthInterceptor', () => {
         expect(
           authHeaderService.handleExpiredRefreshToken
         ).not.toHaveBeenCalled();
+        done();
       },
       () => {}
     );
@@ -242,7 +250,7 @@ describe('AuthInterceptor', () => {
     sub.unsubscribe();
   });
 
-  it(`Should not handle 400 error invalid_grant calls for non refresh_token grant types`, () => {
+  it(`Should not handle 400 error invalid_grant calls for non refresh_token grant types`, (done) => {
     spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
     const params = new HttpParams().set('grant_type', 'code');
     const sub: Subscription = http
@@ -255,6 +263,7 @@ describe('AuthInterceptor', () => {
           expect(
             authHeaderService.handleExpiredRefreshToken
           ).not.toHaveBeenCalled();
+          done();
         },
         () => {}
       );

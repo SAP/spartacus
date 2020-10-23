@@ -14,7 +14,7 @@ import { AsmStoreModule } from './store/asm-store.module';
 export function asmStatePersistenceFactory(
   asmStatePersistenceService: AsmStatePersistenceService
 ) {
-  const result = () => asmStatePersistenceService.sync();
+  const result = () => asmStatePersistenceService.initSync();
   return result;
 }
 

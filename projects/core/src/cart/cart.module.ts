@@ -5,6 +5,17 @@ import { CartEventModule } from './event/cart-event.module';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
+export function cartStatePersistenceFactory(
+  cartStatePersistenceService: MultiCartStatePersistenceService,
+  configInit: ConfigInitializerService
+) {
+  const result = () =>
+    configInit.getStableConfig('context').then(() => {
+      cartStatePersistenceService.initSync();
+    });
+  return result;
+}
+
 @NgModule({
   imports: [
     MultiCartStoreModule,
