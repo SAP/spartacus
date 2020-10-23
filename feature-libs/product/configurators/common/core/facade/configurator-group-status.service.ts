@@ -224,8 +224,8 @@ export class ConfiguratorGroupStatusService {
     const completedGroupIds = [];
     const incompleteOrErrorGroupdIds = [];
 
-    // Don't set status if group has no attributes (keeping the previous status for the group)
-    if (group.attributes?.length === 0) {
+    // Group is undefined if last conflict was resolved
+    if (group === undefined) {
       return;
     }
 

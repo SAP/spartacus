@@ -50,6 +50,7 @@ const WHITE = 'COLOUR_HT_WHITE';
 const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
+const JPEG = 'JPEG';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
 const P5 = 'P5';
 const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
@@ -210,7 +211,10 @@ context('Product Configuration', () => {
 
       // select mandatory field in group Specification
       // and check whether status changes to complete
+      configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, JPEG);
+      cy.wait('@updateConfig');
       configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, RAW);
+      cy.wait('@updateConfig');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, COMPLETE);
       configuration.isStatusIconDisplayed(DISPLAY, COMPLETE);
