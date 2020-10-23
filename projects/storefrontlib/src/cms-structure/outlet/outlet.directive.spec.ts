@@ -457,7 +457,24 @@ describe('OutletDirective', () => {
       expect(outletData.context).toEqual('fakeContext');
       expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
       expect(outletData.position).toEqual(OutletPosition.REPLACE);
+    });
 
+    it('should emit new context to OutletContextData.context$ observable', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent)
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const testComponent = fixture.debugElement.query(
+        By.css('cx-test-component')
+      );
+      const outletData: OutletContextData =
+        testComponent.componentInstance.outlet;
+
+      expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
       mockContextSubject$.next('newFakeContext');
       fixture.detectChanges();
       expect(getLastValueSync(outletData.context$)).toEqual('newFakeContext');

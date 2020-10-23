@@ -27,7 +27,7 @@ import { OutletService } from './outlet.service';
 @Directive({
   selector: '[cxOutlet]',
 })
-export class OutletDirective<C = any> implements OnDestroy, OnChanges {
+export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   private renderedTemplate = [];
   public renderedComponents = new Map<
     OutletPosition,
@@ -39,12 +39,12 @@ export class OutletDirective<C = any> implements OnDestroy, OnChanges {
   /**
    * Context data to be provided to child view of the outlet
    */
-  @Input() cxOutletContext: C;
+  @Input() cxOutletContext: T;
 
   /**
    * Observable with current outlet context
    */
-  private readonly outletContext$ = new ReplaySubject<C>(1);
+  private readonly outletContext$ = new ReplaySubject<T>(1);
 
   /**
    * Defers loading options for the the templates of this outlet.
@@ -180,7 +180,7 @@ export class OutletDirective<C = any> implements OnDestroy, OnChanges {
    * rendered in the outlet
    */
   private getComponentInjector(position: OutletPosition): Injector {
-    const contextData: OutletContextData<C> = {
+    const contextData: OutletContextData<T> = {
       reference: this.cxOutlet,
       position,
       context: this.cxOutletContext,
