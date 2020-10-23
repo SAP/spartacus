@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { User } from '@spartacus/core';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
-import { filter, first, map, take } from 'rxjs/operators';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { UserItemService } from '../services/user-item.service';
 import { ChangePasswordFormService } from './change-password-form.service';
-import { LoadStatus } from '../../../core/model/organization-item-status';
 import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Component({
@@ -24,20 +26,24 @@ export class ChangePasswordFormComponent {
   ) {}
 
   save(form: FormGroup): void {
-    this.itemService.current$.pipe(first()).subscribe((item) => {
-      this.itemService
-        .save(form, (form.value as User).customerId)
-        .pipe(
-          take(1),
-          filter(
-            (data: OrganizationItemStatus<User>) =>
-              data.status === LoadStatus.SUCCESS
+    this.itemService.current$
+      .pipe(
+        first(),
+        switchMap((item) =>
+          this.itemService.save(form, (form.value as User).customerId).pipe(
+            take(1),
+            filter(
+              (data: OrganizationItemStatus<User>) =>
+                data.status === LoadStatus.SUCCESS
+            ),
+            map((data) => ({
+              ...item,
+              ...data.item,
+            }))
           )
         )
-        .subscribe((data) => {
-          this.notify({ ...item, ...data.item });
-        });
-    });
+      )
+      .subscribe((data) => this.notify(data));
   }
 
   protected notify(item: User) {
