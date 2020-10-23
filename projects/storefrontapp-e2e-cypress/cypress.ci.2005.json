@@ -11,7 +11,7 @@
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://20.55.3.176",
+    "API_URL": "https://spartacus-ci.eastus.cloudapp.azure.com",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",

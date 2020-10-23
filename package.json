@@ -49,7 +49,7 @@
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "ng serve",
     "start:ci:1905": "cross-env SPARTACUS_BASE_URL=https://spartacus-legacy.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/rest/v2/ yarn start:prod",
-    "start:ci:2005": "cross-env SPARTACUS_BASE_URL=https://20.55.3.176/ yarn start --port 5000",
+    "start:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-ci.eastus.cloudapp.azure.com yarn start:prod --port 5000",
     "start:ci:ccv2": "cross-env SPARTACUS_BASE_URL=https://spartacus-demo.eastus.cloudapp.azure.com:8443 yarn start:prod",
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --ssl",
@@ -102,7 +102,7 @@
     "e2e:cy:run:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:b2b",
     "e2e:cy:run:b2b:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:b2b:ci",
     "e2e:cy:b2b:start-run-ci:2005": "start-server-and-test start:ci:b2b http-get://localhost:4200 e2e:cy:run:b2b:ci",
-    "start:ci:b2b": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true yarn start:prod",
+    "start:ci:b2b": "cross-env SPARTACUS_BASE_URL=https://spartacus-ci.eastus.cloudapp.azure.com SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true yarn start:prod",
     "e2e:cy:open:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:b2b"
   },
   "private": false,
