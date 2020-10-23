@@ -40,6 +40,12 @@ import { PageLayoutService } from './page-layout.service';
 })
 export class PageTemplateDirective implements OnInit, OnDestroy {
   /**
+   * Indicates whether this component is driven by an input template or should
+   * observe the CMS driven page layout template.
+   */
+  protected useTemplateFromInput: boolean;
+
+  /**
    * Adds a style class to the host element based on the cms page template, unless
    * the class is given as an input.
    *
@@ -47,8 +53,12 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * is used inside an `ng-template`.
    */
   @Input('cxPageTemplateStyle') set setTemplate(template: string) {
-    if (template !== '') {
-      this.addStyleClass(this.host, template);
+    if (template && template !== '') {
+      this.useTemplateFromInput = true;
+      this.addStyleClass(template);
+    } else if (this.useTemplateFromInput) {
+      // we only clear the template if it has been provided by the input before
+      this.clear();
     }
   }
 
@@ -69,12 +79,10 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // If there hasn't been a current template so far, we'll observe
-    // the page layout for the latest template
-    if (!this.currentTemplate) {
+    if (!this.useTemplateFromInput) {
       this.subscription.add(
         this.pageLayoutService.templateName$.subscribe((template) =>
-          this.addStyleClass(this.host, template)
+          this.addStyleClass(template)
         )
       );
     }
@@ -88,14 +96,21 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * an existing class name on the host. This is why we need to work with
    * the lower level change detection api.
    */
-  protected addStyleClass(el: HTMLElement, template: string): void {
-    if (this.currentTemplate) {
-      el.classList?.remove(this.currentTemplate);
-      this.cd.markForCheck();
-    }
+  protected addStyleClass(template: string, el?: HTMLElement): void {
+    this.clear(el);
     if (template) {
       this.currentTemplate = template;
-      el.classList.add(this.currentTemplate);
+      (el ?? this.host).classList.add(this.currentTemplate);
+      this.cd.markForCheck();
+    }
+  }
+
+  /**
+   * Cleans up the class host binding, if a template class was assigned before.
+   */
+  protected clear(el?: HTMLElement) {
+    if (this.currentTemplate) {
+      (el ?? this.host).classList?.remove(this.currentTemplate);
       this.cd.markForCheck();
     }
   }
