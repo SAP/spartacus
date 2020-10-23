@@ -35,14 +35,11 @@ assignees: ''
 
 - [ ] make are sure that release branch is working correctly, everything is passing and it builds.
 
----
+## Spartacus sample data
+**For Mac/Linux**
+- [ ] Cleanup repo, build and generate compodocs and publish on github pages, generate spartacussampledata archives (`./scripts/pre-release.sh`)
 
-## For Mac/Linux
-
-- [ ] Cleanup repo, build and generate compodocs and publish on github pages, generate spartacussampleaddon archives (`./scripts/pre-release.sh`)
-
-## For Windows
-
+**For Windows**
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
 - [ ] Get the spartacussampledataaddon for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
@@ -50,11 +47,12 @@ assignees: ''
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.zip` -> `spartacussampledataaddon.2005.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.tar.gz` -> `spartacussampledataaddon.2005.tar.gz`
 
-## For all operative systems
-
-- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are differences/changes among them).
-- [ ] If branches were merged, tag the merge commit with the version of the release as a reference (e.g. `2.0.0-next.3)
-
+**For all operative systems**
+- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are differences/changes among them):
+  - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
+  - [ ] `git checkout release/1905/latest && git diff release/1905/next` in case output is not empty create the PR and tag the final commit: `git tag 1905-VERSION PR-COMMIT-HASH`
+  - [ ] `git checkout release/2005/latest && git diff release/2005/next` in case output is not empty create the PR and tag the final commit: `git tag 2005-VERSION PR-COMMIT-HASH`
+  - [ ] If any of the two above tags was created: `git push origin --tags`
 ---
 
 - [ ] Before you release libraries fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
@@ -64,7 +62,7 @@ assignees: ''
   - If you are not logged in, then login with `npm login`
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
-    - [ ] `npm run release:lib:with-changelog`
+    - [ ] `npm run release:storefront:with-changelog`
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
@@ -78,6 +76,7 @@ assignees: ''
   - `next` tag should always reference the last non-stable version
   - `latest` tag should always point to the last stable version
   - You can leave `rc` tag until we release stable release.
+  - Use `npm view @spartacus/NAME@VERSION` (ie. `npm view @spartacus/cdc@next`) instead of clicking thru the `npmjs.org` website (which is much slower)
   - Use `npm dist-tag` command for tag updates.
 - [ ] Test the released libraries from a new shell app; change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
     ```bash
