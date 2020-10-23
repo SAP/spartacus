@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { ChildUnitItemService } from './child-unit-item.service';
 
@@ -14,4 +15,7 @@ import { ChildUnitItemService } from './child-unit-item.service';
     },
   ],
 })
-export class ChildUnitCreateComponent {}
+export class ChildUnitCreateComponent {
+  unitKey$ = this.unitService.key$;
+  constructor(protected unitService: CurrentUnitService) {}
+}

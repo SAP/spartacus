@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { MessageService } from '../../../../shared/organization-message/services/message.service';
-import { UnitUserItemService } from '../services/unit-user-item.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
+import { UnitUserRolesItemService } from './unit-user-roles-item.service';
 
 @Component({
   templateUrl: './unit-user-roles.component.html',
@@ -15,7 +15,7 @@ import { UnitUserRolesFormService } from './unit-user-roles-form.service';
   providers: [
     {
       provide: OrganizationItemService,
-      useExisting: UnitUserItemService,
+      useExisting: UnitUserRolesItemService,
     },
   ],
 })
@@ -30,7 +30,7 @@ export class UnitUserRolesFormComponent {
       if (!this.item) {
         this.item = item;
       }
-      if (this.item.roles.join() !== item.roles.join()) {
+      if (this.item.roles?.join() !== item.roles?.join()) {
         this.notify(item);
         this.item = item;
       }

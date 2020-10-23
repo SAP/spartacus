@@ -15,6 +15,7 @@ import {
   PERMISSIONS_NORMALIZER,
   UserGroup,
   USER_GROUPS_NORMALIZER,
+  B2B_USER_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -42,6 +43,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   }
 
   create(userId: string, orgCustomer: B2BUser): Observable<B2BUser> {
+    orgCustomer = this.converter.convert(orgCustomer, B2B_USER_SERIALIZER);
     return this.http
       .post<Occ.B2BUser>(this.getB2BUsersEndpoint(userId), orgCustomer)
       .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
@@ -52,6 +54,10 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     orgCustomer: B2BUser
   ): Observable<B2BUser> {
+    orgCustomer = this.converter.convert(
+      orgCustomer,
+      B2B_USER_SERIALIZER
+    ) as B2BUser;
     return this.http
       .patch<Occ.B2BUser>(
         this.getB2BUserEndpoint(userId, orgCustomerId),
