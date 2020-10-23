@@ -1,5 +1,4 @@
 import { B2BUser, ListModel, SearchConfig, StateUtils } from '@spartacus/core';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   B2B_USER_APPROVERS,
   B2B_USER_ENTITIES,
@@ -166,14 +165,18 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(USER_LIST, serializeSearchConfig(payload.params));
+    super(USER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USERS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
-    super(USER_LIST, serializeSearchConfig(payload.params), payload.error);
+    super(
+      USER_LIST,
+      StateUtils.serializeSearchConfig(payload.params),
+      payload.error
+    );
   }
 }
 
@@ -185,7 +188,7 @@ export class LoadB2BUsersSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(USER_LIST, serializeSearchConfig(payload.params));
+    super(USER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -200,7 +203,7 @@ export class LoadB2BUserApprovers extends StateUtils.EntityLoadAction {
   ) {
     super(
       B2B_USER_APPROVERS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }
@@ -216,7 +219,7 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
   ) {
     super(
       B2B_USER_APPROVERS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId),
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
       payload.error
     );
   }
@@ -233,7 +236,7 @@ export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction 
   ) {
     super(
       B2B_USER_APPROVERS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }
@@ -325,7 +328,7 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }
@@ -354,7 +357,7 @@ export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessActio
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }
@@ -446,7 +449,7 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }
@@ -462,7 +465,7 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId),
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
       payload.error
     );
   }
@@ -479,7 +482,7 @@ export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
     );
   }
 }

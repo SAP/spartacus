@@ -8,7 +8,6 @@ import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
-//import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,

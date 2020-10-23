@@ -18,7 +18,6 @@ import {
   orderApprovalsEntitiesReducer,
   orderApprovalsListReducer,
 } from './order-approval.reducer';
-//import { OrganizationActions } from '@spartacus/organization/administration/core';
 
 export function getReducers(): ActionReducerMap<OrderApprovalState> {
   return {

@@ -7,7 +7,6 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -249,7 +248,7 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -269,7 +268,7 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       ),
@@ -290,7 +289,7 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
