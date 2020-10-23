@@ -7,12 +7,13 @@ assignees: ''
 
 ---
 
+## General steps
+
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
 - [ ] Create new maintenance branch `release/x.y.z`
 - [ ] Announce new maintenance branch (Set topic in tribe channel)
 - [ ] Create release branch `release/x.y.z` from the corresponding branch (develop/maintenance)
-- [ ] [Bump versions for schematics migration](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
-- [ ] Run all e2e tests on release branch (Pro tip: run mobile, regression, smoke scripts in parallel to get all the results faster, after that retry failed tests in open mode)
+- [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
@@ -21,42 +22,53 @@ assignees: ''
     SPARTACUS_VERSION='x.y.z'
     ```
 
-    If backend version is lower than 2005 add this as well to the above config:
+    If backend version is older than 2005, add this as well to the above config:
+
     ```bash
     OCC_PREFIX="/rest/v2/"
     ```
+
     Finally, run the script:
 
     ```bash
     cd scripts/install && ./run.sh install
     ```
 
-    Once finished, run `./run.sh start` to start the apps and check are they work fine. You can also go to each app directory and run it with yarn build, start, build:ssr etc.
+    Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
 
-- [ ] make are sure that release branch is working correctly, everything is passing and it builds.
+- [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression, smoke scripts in parallel to get all the results faster, after that retry failed tests in open mode)
 
-## Spartacus sample data
-**For Mac/Linux**
+---
+
+## Steps for Spartacus sample data
+
+### For Mac/Linux
+
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages, generate spartacussampledata archives (`./scripts/pre-release.sh`)
 
-**For Windows**
+### For Windows
+
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Get the spartacussampledataaddon for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
+- [ ] Get the spartacussampledata source code zips for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.zip` -> `spartacussampledataaddon.2005.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.tar.gz` -> `spartacussampledataaddon.2005.tar.gz`
 
-**For all operative systems**
-- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are differences/changes among them):
+### For all operative systems
+
+To keep track of spartacussampledata releases, we keep a `latest` branch on each supported version that always points to the latest stable release. Every release, we incorporate the latest changes to them.
+
+- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are additions/changes present in _next_ that are not in _latest_):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
-  - [ ] `git checkout release/1905/latest && git diff release/1905/next` in case output is not empty create the PR and tag the final commit: `git tag 1905-VERSION PR-COMMIT-HASH`
-  - [ ] `git checkout release/2005/latest && git diff release/2005/next` in case output is not empty create the PR and tag the final commit: `git tag 2005-VERSION PR-COMMIT-HASH`
-  - [ ] If any of the two above tags was created: `git push origin --tags`
+  - [ ] `git checkout release/1905/latest && git diff release/1905/next` in case output is not empty create the PR and tag the final commit: `git tag 1905-x.y.z PR-COMMIT-HASH`
+  - [ ] `git checkout release/2005/latest && git diff release/2005/next` in case output is not empty create the PR and tag the final commit: `git tag 2005-x.y.z PR-COMMIT-HASH`
+  - [ ] If any of the two above tags was created: `git push origin [branch] --tags`
+
 ---
 
-- [ ] Before you release libraries fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
-- [ ] Release libraries with release-it scripts
+- [ ] Before you release libraries, fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
+- [ ] Release libraries with `release-it` scripts
   - Make sure your GITHUB_TOKEN env variable is set
   - Check if you are logged into npm with `npm whoami`
   - If you are not logged in, then login with `npm login`
@@ -79,13 +91,17 @@ assignees: ''
   - Use `npm view @spartacus/NAME@VERSION` (ie. `npm view @spartacus/cdc@next`) instead of clicking thru the `npmjs.org` website (which is much slower)
   - Use `npm dist-tag` command for tag updates.
 - [ ] Test the released libraries from a new shell app; change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
+
     ```bash
     SPARTACUS_VERSION=`next` # or `latest`, `rc`; still, you can set it to a specific one, ie `x.y.z` (or leave the config file unchanged)
     ```
+
     Run the installation script:
+
     ```bash
     cd scripts/install && run.sh install_npm
     ```
+
 - [ ]  merge release branch (PR from release/x.y.z) to maintenance branch
 - [ ]  inform PO about libraries successfully released
 - [ ]  Announce the new release on tribe channel
