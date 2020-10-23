@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "MyAccountSchematics",
-  "title": "My Account Schematics",
+  "id": "OrganizationSchematics",
+  "title": "Organization Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -10,6 +10,11 @@
       "$default": {
         "$source": "projectName"
       }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Administration feature.",
+      "default": false
     }
   },
   "required": []

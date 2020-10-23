@@ -5,7 +5,7 @@ import {
   schematic,
   SchematicContext,
   SchematicsException,
-  Tree,
+  Tree
 } from '@angular-devkit/schematics';
 import { getSpartacusVersion } from '../shared/utils/package-utils';
 import { Schema as DevSpartacusOptions } from './schema';
