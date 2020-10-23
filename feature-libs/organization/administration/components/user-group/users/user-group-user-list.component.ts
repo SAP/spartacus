@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, first, take } from 'rxjs/operators';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -28,20 +28,22 @@ export class UserGroupUserListComponent {
   ) {}
 
   unassignAll() {
-    this.currentUserGroupService.key$.pipe(first()).subscribe((key) =>
-      this.userGroupUserListService
-        .unassignAllMembers(key)
-        .pipe(
-          take(1),
-          filter(
-            (data: OrganizationItemStatus<UserGroup>) =>
-              data.status === LoadStatus.SUCCESS
+    this.currentUserGroupService.key$
+      .pipe(
+        first(),
+        switchMap((key) =>
+          this.userGroupUserListService.unassignAllMembers(key).pipe(
+            take(1),
+            filter(
+              (data: OrganizationItemStatus<UserGroup>) =>
+                data.status === LoadStatus.SUCCESS
+            )
           )
         )
-        .subscribe((data) => {
-          this.notify(data.item);
-        })
-    );
+      )
+      .subscribe((data) => {
+        this.notify(data.item);
+      });
   }
 
   protected notify(item: UserGroup) {
