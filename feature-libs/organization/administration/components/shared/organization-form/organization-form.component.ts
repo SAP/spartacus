@@ -58,7 +58,6 @@ export class OrganizationFormComponent<T> {
           )
         )
         .subscribe((data) => {
-          console.log(data.item, key, this.messageService);
           this.notify(data.item, key);
         });
     });
@@ -70,7 +69,7 @@ export class OrganizationFormComponent<T> {
         message: {
           key: `${this.i18nRoot}.messages.${key ? 'update' : 'create'}`,
           params: {
-            item: item,
+            item,
           },
         },
       });

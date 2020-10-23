@@ -42,12 +42,11 @@ export class ChangePasswordFormComponent {
 
   protected notify(item: User) {
     if (item) {
-      console.log(item);
       this.messageService.add({
         message: {
           key: `user.messages.updatePassword`,
           params: {
-            item: item,
+            item,
           },
         },
       });
