@@ -2,10 +2,10 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { AuthStorageService } from './auth-storage.service';
 
 export interface SyncedAuthState {
   userId?: string;

@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import {
   AuthRedirectService,
   AuthToken,
-  CxOAuthService,
+  OAuthLibWrapperService,
   StateWithClientAuth,
   UserIdService,
 } from '../../auth/index';
@@ -40,7 +40,7 @@ class MockUserIdService {
   isEmulated = () => isEmulated$.asObservable();
 }
 
-class MockCxOAuthService {
+class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy();
   initLoginFlow = jasmine.createSpy();
 
@@ -65,7 +65,7 @@ describe('AsmAuthService', () => {
   let service: AsmAuthService;
   let store: Store<StateWithClientAuth>;
   let userIdService: UserIdService;
-  let cxOAuthService: CxOAuthService;
+  let oAuthLibWrapperService: OAuthLibWrapperService;
   let asmAuthStorageService: AsmAuthStorageService;
   let globalMessageService: GlobalMessageService;
 
@@ -79,7 +79,10 @@ describe('AsmAuthService', () => {
       providers: [
         AsmAuthService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: CxOAuthService, useClass: MockCxOAuthService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
         { provide: AsmAuthStorageService, useClass: MockAsmAuthStorageService },
         {
           provide: AuthRedirectService,
@@ -99,7 +102,7 @@ describe('AsmAuthService', () => {
     service = TestBed.inject(AsmAuthService);
     store = TestBed.inject(Store);
     userIdService = TestBed.inject(UserIdService);
-    cxOAuthService = TestBed.inject(CxOAuthService);
+    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
@@ -121,13 +124,15 @@ describe('AsmAuthService', () => {
 
   describe('authorize()', () => {
     it('should authorize if user can login', () => {
-      spyOn(cxOAuthService, 'authorizeWithPasswordFlow').and.callThrough();
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
       service.authorize(loginInfo.userId, loginInfo.password);
 
-      expect(cxOAuthService.authorizeWithPasswordFlow).toHaveBeenCalledWith(
-        loginInfo.userId,
-        loginInfo.password
-      );
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith(loginInfo.userId, loginInfo.password);
     });
 
     it('should warn about CS Agent if user cannot login', () => {
@@ -144,7 +149,7 @@ describe('AsmAuthService', () => {
       const result = service.loginWithRedirect();
 
       expect(result).toBeTrue();
-      expect(cxOAuthService.initLoginFlow).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
 
     it('should warn about CS Agent if user cannot login', () => {
@@ -162,7 +167,7 @@ describe('AsmAuthService', () => {
       service.logout();
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
-      expect(cxOAuthService.revokeAndLogout).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
     });
 
     it('should logout when emulating user', (done: DoneFn) => {

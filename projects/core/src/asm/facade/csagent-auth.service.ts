@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { AuthActions } from '../../auth/user-auth/store/actions';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -27,7 +27,7 @@ export class CsAgentAuthService {
     protected authService: AuthService,
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store<StateWithAsm>,
     protected userService: UserService,
     protected routingService: RoutingService
@@ -50,7 +50,10 @@ export class CsAgentAuthService {
 
     this.authStorageService.switchTokenTargetToCSAgent();
     try {
-      await this.cxOAuthService.authorizeWithPasswordFlow(userId, password);
+      await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
+        userId,
+        password
+      );
       // Start emulation for currently logged in user
       let customerId: string;
       this.userService
@@ -126,7 +129,7 @@ export class CsAgentAuthService {
       .subscribe((emulated) => (isCustomerEmulated = emulated))
       .unsubscribe();
 
-    await this.cxOAuthService.revokeAndLogout();
+    await this.oAuthLibWrapperService.revokeAndLogout();
     this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
     this.authStorageService.setTokenTarget(TokenTarget.User);
     if (isCustomerEmulated && emulatedToken) {

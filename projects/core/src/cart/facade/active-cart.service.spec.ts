@@ -311,6 +311,7 @@ describe('ActiveCartService', () => {
       spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
 
       service['userId'] = 'userId';
+      service['previousUserId'] = 'anonymous';
       service['loadOrMerge']('cartId');
 
       expect(multiCartService.mergeToCurrentCart).toHaveBeenCalledWith({
@@ -588,11 +589,15 @@ describe('ActiveCartService', () => {
 
   describe('isJustLoggedIn', () => {
     it('should only return true after user change', () => {
+      // set to anonymous value as other tests altered that value
+      service['previousUserId'] = 'anonymous';
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(true);
     });
 
     it('should return false when previous user is identical', () => {
+      // simulate that we got current user after initialization
+      service['previousUserId'] = 'current';
       userId$.next(OCC_CART_ID_CURRENT);
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(false);

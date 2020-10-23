@@ -5,10 +5,10 @@ import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { defaultAuthConfig } from './config/default-auth-config';
-import { AuthStorageService } from './facade/auth-storage.service';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
+import { AuthStorageService } from './services/auth-storage.service';
 
 export function initOAuthCallback(
   authService: AuthService,

@@ -3,8 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
@@ -30,7 +30,7 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockCxOAuthService implements Partial<CxOAuthService> {}
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {}
 
 class MockRoutingService implements Partial<RoutingService> {
   go() {}
@@ -60,7 +60,10 @@ describe('AsmAuthHeaderService', () => {
         AsmAuthHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CxOAuthService, useClass: MockCxOAuthService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

@@ -4,14 +4,13 @@ import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { WindowRef } from '../../../window/window-ref';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { AuthConfigService } from '../services/auth-config.service';
+import { AuthConfigService } from './auth-config.service';
 import { AuthStorageService } from './auth-storage.service';
 
-// TODO: Rethink the name
 @Injectable({
   providedIn: 'root',
 })
-export class CxOAuthService {
+export class OAuthLibWrapperService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected oAuthService: OAuthService,
@@ -20,6 +19,10 @@ export class CxOAuthService {
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected winRef: WindowRef
   ) {
+    this.initialize();
+  }
+
+  protected initialize() {
     const isSSR = isPlatformServer(this.platformId);
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),

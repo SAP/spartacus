@@ -1,11 +1,10 @@
 export * from './config/auth-config';
-export * from './facade/auth-storage.service';
-export * from './facade/auth.service';
-export * from './facade/cx-oauth-service';
-export * from './facade/user-id.service';
+export * from './facade/index';
 export * from './guards/index';
+export * from './http-interceptors/auth.interceptor';
+export * from './http-interceptors/token-revocation.interceptor';
 export * from './models/auth-token.model';
 export * from './models/oauth-flow';
-export * from './services/auth-config.service';
-export * from './services/basic-auth.service';
+export * from './services/index';
 export * from './store/actions';
+export { UserAuthModule } from './user-auth.module';

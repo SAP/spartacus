@@ -5,12 +5,12 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { AuthStorageService } from '../facade/auth-storage.service';
-import { CxOAuthService } from '../facade/cx-oauth-service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthRedirectService } from '../guards/auth-redirect.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthActions } from '../store/actions/index';
+import { AuthRedirectService } from './auth-redirect.service';
+import { AuthStorageService } from './auth-storage.service';
+import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +19,14 @@ export class BasicAuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService
   ) {}
 
   initOAuthCallback(): void {
-    this.cxOAuthService.tryLogin().then((result) => {
+    this.oAuthLibWrapperService.tryLogin().then((result) => {
       const token = this.authStorageService.getItem('access_token');
       // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
       if (result && token) {
@@ -38,7 +38,7 @@ export class BasicAuthService {
   }
 
   loginWithRedirect(): boolean {
-    this.cxOAuthService.initLoginFlow();
+    this.oAuthLibWrapperService.initLoginFlow();
     return true;
   }
 
@@ -48,7 +48,7 @@ export class BasicAuthService {
    * @param password
    */
   public authorize(userId: string, password: string): void {
-    this.cxOAuthService
+    this.oAuthLibWrapperService
       .authorizeWithPasswordFlow(userId, password)
       .then(() => {
         // OCC specific user id handling. Customize when implementing different backend
@@ -74,7 +74,7 @@ export class BasicAuthService {
   public logout(): Promise<any> {
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
-      this.cxOAuthService.revokeAndLogout().finally(() => {
+      this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
         resolve();
       });
