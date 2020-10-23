@@ -40,7 +40,7 @@ export abstract class OrganizationItemService<T> {
       form.disable();
 
       // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and there for will fail with a 404 in case of routing
+      // - the new item might not yet exists and therefore will fail with a 404 in case of routing
       // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
       this.launchDetails(formValue);
 
