@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
   Input,
   isDevMode,
   OnInit,
@@ -86,6 +87,8 @@ export class CarouselComponent implements OnInit {
    */
   @Input() itemWidth: string; // = '300px';
 
+  @HostBinding('class.freeze') _freeze = false;
+
   /**
    * Emits the visible carousel items in a numbered array.
    *
@@ -95,8 +98,8 @@ export class CarouselComponent implements OnInit {
 
   readonly navigation$: Observable<CarouselNavigation> = this.visible$.pipe(
     debounceTime(100),
-    map((visibleItems) =>
-      this.service.build(this.carouselHost, visibleItems, this.itemRefs.length)
+    map((visible) =>
+      this.service.build(this.carouselHost, visible, this.itemRefs.length)
     ),
     shareReplay()
   );
@@ -162,34 +165,40 @@ export class CarouselComponent implements OnInit {
    * The tabindex is supposed to be dynamic to avoid keyboard users to leave
    * the current slide. They should explicitly use the prev/next buttons.
    */
-  getTabIndex(itemNum: number): number {
-    return this.visible$.value.includes(itemNum) ? 0 : -1;
+  getTabIndex(itemNum: number): Observable<number> {
+    return this.visible$.pipe(
+      map((intersectMap) => (intersectMap.includes(itemNum) ? 0 : -1))
+    );
   }
 
   /**
-   * Will prefetch the next carousel item(s).
+   * Will calculate the prefetched carousel item(s) for the next slide.
    *
-   * The calculated prefetchCount is passed to the template. so that
+   * The calculated prefetchCount is passed to the item template. so that
    * the template can decide whether to lazy load the items based on
    * the prefetch flag, or load them regardless.
    */
   prefetch(factor = 1) {
-    const next =
-      this.visible$.value[this.visible$.value.length - 1] +
-      1 +
-      this.visible$.value.length * factor;
-
+    const value = this.visible$.value;
+    const next = value[value.length - 1] + 1 + value.length * factor;
     if (next > this.prefetchCount) {
       this.prefetchCount = next;
     }
   }
 
   /**
-   * Handles previous button.
+   * Navigates to the previous (virtual) slide of items.
+   *
+   * The previous slide is calculated by the help of the scrollable width.
    */
   handlePrevious() {
-    this.carouselHost.scrollBy({
-      left: -this.carouselHost.clientWidth,
+    this.carouselHost.scrollTo({
+      left:
+        (Math.round(
+          this.carouselHost.scrollLeft / this.carouselHost.clientWidth
+        ) -
+          1) *
+        this.carouselHost.clientWidth,
     });
   }
 
@@ -206,28 +215,44 @@ export class CarouselComponent implements OnInit {
    * Handles indicator button.
    */
   scroll(index: number) {
+    this.freeze();
     this.carouselHost.scrollTo({
       left: this.carouselHost.clientWidth * index,
     });
   }
 
   /**
-   * Maintains an subject with an array of visible item refs (index)
+   * Set's the freeze class on the host element. This class is used in CSS to block
+   * interaction (`pointer-event: none`) with the panel, as otherwise a mouse hover
+   * would destroy the scroll animation.
+   */
+  protected freeze() {
+    this._freeze = true;
+    window.setTimeout(() => {
+      this._freeze = false;
+    }, 500);
+  }
+
+  /**
+   * Maintains an subject with an array of visible item refs (index).
+   *
+   * The intersected elements are listed in the visible subject.
    */
   intersect(intersected: boolean, ref: HTMLElement): void {
     const refIndex = this.itemRefs
       .toArray()
       .findIndex((item) => item.nativeElement === ref);
 
-    const visible: number[] = this.visible$.value;
-    if (intersected) {
+    const visible = [...this.visible$.value];
+    if (intersected && !visible.includes(refIndex)) {
       visible.push(refIndex);
-    } else {
-      if (visible.indexOf(refIndex) > -1) {
-        visible.splice(visible.indexOf(refIndex), 1);
-      }
+    } else if (visible.indexOf(refIndex) > -1) {
+      visible.splice(visible.indexOf(refIndex), 1);
     }
-    this.visible$.next([...visible.sort()]);
+    visible.sort((a, b) => (a > b ? 1 : -1));
+    if (visible.join() !== this.visible$.value.join()) {
+      this.visible$.next(visible);
+    }
   }
 
   /**
@@ -237,6 +262,10 @@ export class CarouselComponent implements OnInit {
     return this.carousel.nativeElement;
   }
 
+  /**
+   * Render a warning in development mode when there's no carousel
+   * item template provided.
+   */
   private renderDxMessage(): void {
     if (isDevMode()) {
       console.error(
@@ -246,6 +275,8 @@ export class CarouselComponent implements OnInit {
   }
 
   /**
+   * Indicates whether the given item is an observable.
+   *
    * @deprecated this is used temporarily to distinguish streams from objects.
    */
   isObservable(item: Observable<any> | any): boolean {

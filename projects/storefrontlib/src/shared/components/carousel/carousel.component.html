@@ -10,7 +10,6 @@
   >
     <cx-icon [type]="previousButton.icon || previousIcon"></cx-icon>
   </button>
-
   <div
     #carousel
     class="carousel-panel"
@@ -36,9 +35,9 @@
             class="item"
             [class.active]="i === activeSlide"
             (mouseenter)="prefetch()"
-            cxIntersected
+            cxIntersect
             #templateRef
-            #item="cxIntersected"
+            #item="cxIntersect"
             (intersect)="intersect($event, templateRef)"
           >
             <ng-container
@@ -47,7 +46,7 @@
                 context: {
                   item: isObservable(data) ? (data | async) : data,
                   prefetch: prefetchCount > itemNum || (item.intersect | async),
-                  tab: getTabIndex(itemNum)
+                  tab: getTabIndex(itemNum) | async
                 }
               "
             ></ng-container>

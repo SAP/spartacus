@@ -1,5 +1,5 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
@@ -28,12 +28,14 @@ import { AutoFocusService } from './auto-focus.service';
 @Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective
   extends EscapeFocusDirective
-  implements AfterViewInit {
+  implements AfterViewInit, OnDestroy {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
   // @Input('cxAutoFocus')
   protected config: AutoFocusConfig;
+
+  protected subscription = new Subscription();
 
   constructor(
     protected elementRef: ElementRef,
@@ -54,14 +56,20 @@ export class AutoFocusDirective
     }
 
     if (this.config.focusOnScroll) {
-      // // TODO: cleanup
-      fromEvent(this.host, 'scroll')
-        .pipe(debounceTime(300))
-        .subscribe(() => {
-          this.service.clear(this.config.group);
-          this.firstFocusable.focus();
-        });
+      // TODO: cleanup
+      this.subscription.add(
+        fromEvent(this.host, 'scroll')
+          .pipe(debounceTime(300))
+          .subscribe(() => {
+            this.service.clear(this.config.group);
+            this.firstFocusable.focus();
+          })
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   /**

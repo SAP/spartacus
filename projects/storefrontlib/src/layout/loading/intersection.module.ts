@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { IntersectedDirective } from './intersected.directive';
-import { IntersectionDirective } from './intersection.directive';
+import { IntersectDirective } from './intersect.directive';
 
 @NgModule({
-  declarations: [IntersectionDirective, IntersectedDirective],
-  exports: [IntersectionDirective, IntersectedDirective],
+  declarations: [IntersectDirective],
+  exports: [IntersectDirective],
 })
 export class IntersectionModule {}

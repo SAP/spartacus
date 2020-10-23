@@ -32,7 +32,7 @@
 
   .carousel-panel {
     // height: 30vh;
-    width: 100%;
+    flex: calc(100% - 100px);
 
     overflow-x: scroll;
     overscroll-behavior-x: contain;
@@ -182,6 +182,12 @@
       cursor: pointer;
     }
   }
+
+  &.freeze {
+    .carousel-panel {
+      pointer-events: none;
+    }
+  }
 }
 
 // %cx-carousel {
@@ -267,26 +273,7 @@
 
 .previous,
 .next {
-  position: absolute;
-  top: 50%;
-
   flex: 50px;
-  height: max-content;
-  align-self: center;
-  z-index: 10;
-
-  width: 55px;
-
-  // .next {
-  //   position: absolute;
-  //   right: 0;
-  //   z-index: 10;
-  //   height: 100%;
-  //   border: solid;
-  // }
-  // .previous,
-  // .next {
-
   background-color: transparent;
   border: none;
   font-size: 2rem;
@@ -298,7 +285,4 @@
   &:not(:disabled):hover {
     color: var(--cx-color-primary);
   }
-}
-.next {
-  left: calc(100% - 55px);
 }
