@@ -1,12 +1,10 @@
-import { MyCompanyConfig } from './models/index';
+import { DEFAULT_SORT_LABEL, MAX_PAGES, MyCompanyConfig } from './models/index';
 import {
   loginAsMyCompanyAdmin,
   waitForData,
   verifyList,
   getListRowsFromBody,
 } from './my-company.utils';
-
-const DEFAULT_SORT_LABEL = 'name';
 
 export function testListFromConfig(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {
@@ -37,7 +35,10 @@ export function testList(
     const listData = getListRowsFromBody(data, config.objectType, config.rows);
     verifyList(listData, config.rows);
 
-    if (data.pagination.currentPage < data.pagination.totalPages - 1) {
+    if (
+      data.pagination.currentPage < data.pagination.totalPages - 1 &&
+      data.pagination.currentPage < MAX_PAGES
+    ) {
       testPagination(data);
     }
 

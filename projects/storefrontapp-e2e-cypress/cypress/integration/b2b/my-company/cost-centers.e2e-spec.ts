@@ -1,6 +1,6 @@
+import { MyCompanyConfig } from '../../../helpers/b2b/my-company/models/my-company.config';
+import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
 import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
-import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company.utils';
-import { MyCompanyConfig } from '../../../helpers/my-company/models/my-company.config';
 import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {

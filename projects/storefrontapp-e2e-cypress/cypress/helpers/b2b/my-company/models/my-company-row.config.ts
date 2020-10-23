@@ -1,3 +1,6 @@
+import { INPUT_TYPE } from './my-company.model';
+
+// TODO: move configs into table: { ... }, details: { ... }, form: { ... }  format
 export interface MyCompanyRowConfig {
   /**
    * Label given to the table header.
@@ -18,7 +21,7 @@ export interface MyCompanyRowConfig {
   /**
    * Input type in form
    */
-  inputType?: string;
+  inputType?: INPUT_TYPE;
   /**
    * Value provided to form in create process
    */

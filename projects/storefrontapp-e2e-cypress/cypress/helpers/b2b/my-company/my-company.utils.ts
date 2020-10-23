@@ -1,11 +1,21 @@
 import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testCreateUpdateFromConfig } from './my-company-form';
-import { nextPage } from '../product-search';
 import { testAssignmentFromConfig } from './my-company-assign';
+import { nextPage } from '../../product-search';
+import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+
+export const IGNORE_CASE = {
+  matchCase: false,
+};
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}`, () => {
+    before(() => {
+      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
+
     testListFromConfig(config);
     testCreateUpdateFromConfig(config);
     testAssignmentFromConfig(config);
@@ -70,7 +80,7 @@ export function getListRowsFromBody(
       if (row.showInTable) {
         if (Array.isArray(row.variableName)) {
           row.variableName.forEach((variable) => {
-            // TODO: Improper imp.
+            // TODO: Think of a way to use some sort of tranformation function/config
             if (variable === 'startDate') {
               let foundText = getVariableFromName(variable, data);
               if (row.useDatePipe) {
@@ -126,16 +136,7 @@ export function verifyList(rows, rowConfig): void {
  * Login as user with organization administration powers.
  */
 export function loginAsMyCompanyAdmin(): void {
-  cy.requireLoggedIn({
-    user: 'linda.wolf@rustic-hw.com',
-    registrationData: {
-      firstName: 'Linda',
-      lastName: 'Wolf',
-      titleCode: '',
-      password: '12341234',
-      email: 'linda.wolf@rustic-hw.com',
-    },
-  });
+  cy.requireLoggedIn(myCompanyAdminUser);
 }
 
 export function scanTablePagesForText(text: string, config): void {
