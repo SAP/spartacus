@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ROUTE_PARAMS } from 'feature-libs/organization/administration/components/constants';
 import { OrganizationListService } from '../../../../shared/organization-list/organization-list.service';
 import { UnitAddressListService } from './unit-address-list.service';
 
@@ -13,6 +12,4 @@ import { UnitAddressListService } from './unit-address-list.service';
     },
   ],
 })
-export class UnitAddressListComponent {
-  routerKey = ROUTE_PARAMS.addressCode;
-}
+export class UnitAddressListComponent {}

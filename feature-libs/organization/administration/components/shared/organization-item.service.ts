@@ -80,7 +80,7 @@ export abstract class OrganizationItemService<T> {
    */
   launchDetails(item: T): void {
     const cxRoute = this.getDetailsRoute();
-    const params = this.buildRouteParams(item);
+    const params = this.getRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
       this.routingService.go({ cxRoute, params });
     }
@@ -95,11 +95,7 @@ export abstract class OrganizationItemService<T> {
    * doesn't match the expected route parameters. You can manipulate
    * the parameter data.
    */
-  protected buildRouteParams(item: T): any {
+  protected getRouteParams(item: T): any {
     return item;
-  }
-
-  getRouterParam(key: string): Observable<string> {
-    return this.currentItemService.getRouterParam(key);
   }
 }
