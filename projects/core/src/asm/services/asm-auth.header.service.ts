@@ -1,8 +1,8 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { AuthHeaderService } from '../../auth/user-auth/services/auth-header.service';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
@@ -20,14 +20,14 @@ export class AsmAuthHeaderService extends AuthHeaderService {
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected occEndpointsService: OccEndpointsService
   ) {
     super(
       authService,
-      cxOAuthService,
+      oAuthLibWrapperService,
       routingService,
       occEndpointsService,
       globalMessageService

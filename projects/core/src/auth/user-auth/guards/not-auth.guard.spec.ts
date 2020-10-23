@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
-import { AuthRedirectService } from './auth-redirect.service';
+import { AuthRedirectService } from '../services/auth-redirect.service';
 import { NotAuthGuard } from './not-auth.guard';
 
 class AuthServiceStub implements Partial<AuthService> {

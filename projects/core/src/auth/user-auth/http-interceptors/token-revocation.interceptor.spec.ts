@@ -6,9 +6,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
+import { AuthStorageService } from '../services/auth-storage.service';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
 
 class MockAuthStorageService implements Partial<AuthStorageService> {

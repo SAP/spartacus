@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
-import { AuthRedirectService } from './auth-redirect.service';
+import { AuthRedirectService } from '../services/auth-redirect.service';
 
 @Injectable({
   providedIn: 'root',

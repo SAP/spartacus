@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthStorageService } from '../../auth/user-auth/facade/auth-storage.service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
+import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 
 /**
  * Indicates if auth token is for regular user or Customer Support Agent

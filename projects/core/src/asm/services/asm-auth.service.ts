@@ -4,10 +4,10 @@ import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AuthToken } from '../../auth';
 import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-state';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { AuthRedirectService } from '../../auth/user-auth/guards/auth-redirect.service';
+import { AuthRedirectService } from '../../auth/user-auth/services/auth-redirect.service';
 import { BasicAuthService } from '../../auth/user-auth/services/basic-auth.service';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
 import {
   GlobalMessageService,
@@ -23,7 +23,7 @@ export class AsmAuthService extends BasicAuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
@@ -32,7 +32,7 @@ export class AsmAuthService extends BasicAuthService {
     super(
       store,
       userIdService,
-      cxOAuthService,
+      oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
       routingService

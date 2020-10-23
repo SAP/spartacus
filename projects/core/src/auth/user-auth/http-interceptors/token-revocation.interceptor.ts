@@ -6,8 +6,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { AuthConfigService } from '../services/auth-config.service';
+import { AuthStorageService } from '../services/auth-storage.service';
 
 /**
  * This interceptor is dedicated for Hybris OAuth server which requires `Authorization` header for revoke token calls.

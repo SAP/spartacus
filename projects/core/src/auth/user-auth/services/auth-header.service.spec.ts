@@ -8,9 +8,9 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { CxOAuthService } from '../facade/cx-oauth-service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthHeaderService } from './auth-header.service';
+import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 class MockAuthService implements Partial<AuthService> {
   getToken() {
@@ -21,7 +21,7 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockCxOAuthService implements Partial<CxOAuthService> {
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   refreshToken() {}
 }
 
@@ -41,7 +41,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 describe('AuthHeaderService', () => {
   let service: AuthHeaderService;
-  let cxOAuthService: CxOAuthService;
+  let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -51,7 +51,10 @@ describe('AuthHeaderService', () => {
       providers: [
         AuthHeaderService,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CxOAuthService, useClass: MockCxOAuthService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -60,7 +63,7 @@ describe('AuthHeaderService', () => {
 
     authService = TestBed.inject(AuthService);
     service = TestBed.inject(AuthHeaderService);
-    cxOAuthService = TestBed.inject(CxOAuthService);
+    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
@@ -111,7 +114,7 @@ describe('AuthHeaderService', () => {
   describe('handleExpiredAccessToken', () => {
     it('should refresh the token and retry the call with new token', (done) => {
       const handler = (a) => of(a);
-      spyOn(cxOAuthService, 'refreshToken').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
       spyOn(authService, 'getToken').and.returnValue(
         timer(0, 100).pipe(
           take(2),
@@ -134,14 +137,14 @@ describe('AuthHeaderService', () => {
           expect(res.headers.get('Authorization')).toEqual('Bearer token_1');
           expect(res.url).toEqual('some-server/occ/cart');
           expect(res.method).toEqual('GET');
-          expect(cxOAuthService.refreshToken).toHaveBeenCalled();
+          expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
           done();
         });
     });
 
     it('should invoke expired refresh token handler when there is no refresh token', (done) => {
       const handler = (a) => of(a);
-      spyOn(cxOAuthService, 'refreshToken').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
       spyOn(service, 'handleExpiredRefreshToken').and.stub();
       spyOn(authService, 'getToken').and.returnValue(
         timer(0, 100).pipe(
@@ -161,7 +164,7 @@ describe('AuthHeaderService', () => {
         )
         .pipe(take(1))
         .subscribe(() => {
-          expect(cxOAuthService.refreshToken).not.toHaveBeenCalled();
+          expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
           expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
           done();
         });

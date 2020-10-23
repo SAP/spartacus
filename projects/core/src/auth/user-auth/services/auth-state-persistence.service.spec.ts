@@ -5,11 +5,11 @@ import { take } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
+import { AuthStorageService } from './auth-storage.service';
 
 class MockUserIdService implements Partial<UserIdService> {
   setUserId(_id: string) {}

@@ -7,8 +7,8 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { CxOAuthService } from '../facade/cx-oauth-service';
 import { AuthToken } from '../models/auth-token.model';
+import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ import { AuthToken } from '../models/auth-token.model';
 export class AuthHeaderService {
   constructor(
     protected authService: AuthService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService
@@ -92,7 +92,7 @@ export class AuthHeaderService {
     return stream.pipe(
       tap((token: AuthToken) => {
         if (token.access_token && token.refresh_token && !oldToken) {
-          this.cxOAuthService.refreshToken();
+          this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
           this.handleExpiredRefreshToken();
         }
