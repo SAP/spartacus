@@ -413,21 +413,21 @@ export class UnassignAllMembers extends StateUtils.EntityLoadAction {
       userGroupId: string;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.userGroupId);
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
 }
 
 export class UnassignAllMembersFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
   constructor(public payload: { userGroupId: string; error: any }) {
-    super(B2B_USER_ENTITIES, payload.userGroupId, payload.error);
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class UnassignAllMembersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(B2B_USER_ENTITIES, payload.uid, payload);
+    super(USER_GROUP_ENTITIES, payload.uid, payload);
   }
 }
 

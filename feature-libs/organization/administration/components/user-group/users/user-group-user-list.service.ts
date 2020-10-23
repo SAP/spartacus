@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  B2BUser,
+  UserGroup,
+  EntitiesModel,
+  PaginationModel,
+} from '@spartacus/core';
 import {
   UserGroupService,
   B2BUserService,
@@ -63,5 +68,12 @@ export class UserGroupUserListService extends OrganizationSubListService<
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userGroupService.unassignMember(userGroupCode, customerId);
     return this.userService.getLoadingStatus(customerId);
+  }
+
+  unassignAllMembers(
+    userGroupCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
+    this.userGroupService.unassignAllMembers(userGroupCode);
+    return this.userGroupService.getLoadingStatus(userGroupCode);
   }
 }
