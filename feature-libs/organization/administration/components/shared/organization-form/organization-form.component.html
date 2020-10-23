@@ -8,7 +8,7 @@
         We leverage the soft-close feature from the split view, so that the animation 
         has time to kick in before the router outlet is deleted.
        -->
-      <span (click)="back($event, card)">{{
+      <span (click)="card.closeView($event)">{{
         'organization.cancel' | cxTranslate
       }}</span>
     </button>

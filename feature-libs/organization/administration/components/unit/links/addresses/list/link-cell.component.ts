@@ -9,18 +9,14 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
 
 @Component({
   template: `
-    <ng-container *ngIf="unitKey$ | async as uid">
-      <a
-        *ngIf="linkable; else noLink"
-        [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
-        [tabIndex]="tabIndex"
-      >
-        <span class="text">{{ property }}</span>
-      </a>
-    </ng-container>
-    <ng-template #noLink>
+    <a
+      *ngIf="unitKey$ | async as uid"
+      [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
+      routerLinkActive="is-current"
+      [tabIndex]="tabIndex"
+    >
       <span class="text">{{ property }}</span>
-    </ng-template>
+    </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../constants';
 
 /**
@@ -51,10 +51,4 @@ export abstract class CurrentOrganizationItemService<T> {
    * Emits the current model or null, if there is no model available
    */
   protected abstract getItem(...params: any[]): Observable<T>;
-
-  getRouterParam(paramKey: string): Observable<string> {
-    return this.routingService
-      .getParams()
-      .pipe(map((params) => params[paramKey]));
-  }
 }
