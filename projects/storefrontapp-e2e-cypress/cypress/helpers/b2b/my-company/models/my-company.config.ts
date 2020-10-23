@@ -88,4 +88,9 @@ export interface MyCompanyConfig {
    * Set to true to test the "unassign all" function of a category (if available).
    */
   canUnassignAll?: boolean;
+
+  /**
+   * Determine entity ID for possible route checks and usage between tests
+   */
+  entityIdField: string;
 }

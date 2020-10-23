@@ -15,7 +15,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     });
 
-    testListFromConfig(config);
+    // testListFromConfig(config);
     testCreateUpdateFromConfig(config);
   });
 }

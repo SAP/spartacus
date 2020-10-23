@@ -1,6 +1,9 @@
 import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
-import { testMyCompanyFeatureFromConfig } from '../../../helpers/my-company/my-company';
-import { MyCompanyConfig } from '../../../helpers/my-company/models/MyCompanyConfig';
+import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
+import {
+  INPUT_TYPE,
+  MyCompanyConfig,
+} from '../../../helpers/b2b/my-company/models/index';
 import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
@@ -14,7 +17,7 @@ const config: MyCompanyConfig = {
       label: 'Name',
       variableName: 'name',
       link: '/organization/users/',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
@@ -24,7 +27,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Status',
       variableName: 'nic',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
@@ -33,7 +36,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Email',
       variableName: 'email',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `${randomString()}@testing.com`,
       updateValue: `edited-${randomString()}@testing.com`,
       showInTable: true,
@@ -53,7 +56,7 @@ const config: MyCompanyConfig = {
       label: 'Roles',
       variableName: 'roles',
       formLabel: 'Roles',
-      inputType: 'checkbox',
+      inputType: INPUT_TYPE.CHECKBOX,
       createValue: 'b2bcustomergroup',
       updateValue: 'b2bapprovergroup',
       showInTable: false,
@@ -63,7 +66,7 @@ const config: MyCompanyConfig = {
       label: 'Unit',
       variableName: 'orgUnit.name',
       sortLabel: 'unit',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Services West',
       updateValue: 'Rustic',
       showInTable: true,
@@ -74,7 +77,7 @@ const config: MyCompanyConfig = {
       label: 'Title',
       variableName: 'titleCode',
       formLabel: 'Title',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Mr.',
       updateValue: 'Mrs.',
       showInTable: false,
@@ -84,7 +87,7 @@ const config: MyCompanyConfig = {
       label: 'First name',
       variableName: 'firstName',
       formLabel: 'First name',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity Name ${randomString()}`,
       updateValue: `Edited Entity Name ${randomString()}`,
       showInDetails: false,
@@ -95,7 +98,7 @@ const config: MyCompanyConfig = {
       label: 'Last name',
       variableName: 'lastName',
       formLabel: 'Last name',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity Last Name ${randomString()}`,
       updateValue: `Edited Entity Last Name ${randomString()}`,
       showInDetails: false,
@@ -108,7 +111,8 @@ const config: MyCompanyConfig = {
       name: 'Approvers',
       baseUrl: `/approvers`,
       apiEndpoint: '**/approvers**',
-      selector: 'approver',
+      // selector: 'approver',
+      entityIdField: 'customerId',
       objectType: 'users',
       rows: [
         {
@@ -118,7 +122,6 @@ const config: MyCompanyConfig = {
         },
         {
           label: 'Email',
-          sortByUrl: '?sort=byUid',
           variableName: 'uid',
         },
         {
@@ -127,7 +130,6 @@ const config: MyCompanyConfig = {
         },
         {
           label: 'Parent Unit',
-          sortByUrl: '?sort=byGroupID',
           variableName: 'orgUnit.name',
           link: `/organization/units/`,
         },
@@ -137,7 +139,8 @@ const config: MyCompanyConfig = {
       name: 'User groups',
       baseUrl: `/user-groups`,
       apiEndpoint: '**/orgUserGroups**',
-      selector: 'user-group',
+      // selector: 'user-group',
+      entityIdField: 'customerId',
       objectType: 'orgUnitUserGroups',
       rows: [
         {
@@ -147,12 +150,10 @@ const config: MyCompanyConfig = {
         },
         {
           label: 'Code',
-          sortByUrl: '?sort=byUnitName',
           variableName: 'uid',
         },
         {
           label: 'Parent Unit',
-          sortByUrl: '?sort=byGroupID',
           variableName: 'orgUnit.name',
           link: `/organization/units/`,
         },
@@ -162,21 +163,20 @@ const config: MyCompanyConfig = {
       name: 'Purchase limits',
       baseUrl: `/purchase-limits`,
       apiEndpoint: '**/availableOrderApprovalPermissions**',
-      selector: 'permission',
+      // selector: 'permission',
+      entityIdField: 'customerId',
       objectType: 'orderApprovalPermissions',
       rows: [
         {
           label: 'Code',
           variableName: 'code',
           // link: '/organization/purchase-limit/',
-          sortByUrl: '',
         },
         { label: 'Limit', variableName: 'orderApprovalPermissionType.name' },
         {
           label: 'Unit',
           variableName: 'orgUnit.name',
           link: `/organization/unit/`,
-          sortByUrl: '?sort=byUnitName',
         },
       ],
     },
