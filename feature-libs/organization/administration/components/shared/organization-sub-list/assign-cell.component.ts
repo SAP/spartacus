@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, take } from 'rxjs/operators';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -38,38 +38,32 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
 
   toggleAssign() {
     this.organizationItemService.key$
-      .subscribe((key) => {
-        this.isAssigned
-          ? this.unassign(key, this.link)
-          : this.assign(key, this.link);
-      })
-      .unsubscribe();
-  }
-
-  protected assign(key: string, linkKey: string): void {
-    (this.organizationSubListService as OrganizationSubListService<T>)
-      .assign(key, linkKey)
       .pipe(
+        first(),
+        switchMap((key) =>
+          this.isAssigned
+            ? this.unassign(key, this.link)
+            : this.assign(key, this.link)
+        ),
         take(1),
         filter(
           (data: OrganizationItemStatus<T>) =>
             data.status === LoadStatus.SUCCESS
         )
       )
-      .subscribe((data) => this.notifyAssigned(data.item));
+      .subscribe((data) => this.notify(data.item));
   }
 
-  protected unassign(key: string, linkKey: string): void {
-    (this.organizationSubListService as OrganizationSubListService<T>)
-      .unassign(key, linkKey)
-      .pipe(
-        take(1),
-        filter(
-          (data: OrganizationItemStatus<T>) =>
-            data.status === LoadStatus.SUCCESS
-        )
-      )
-      .subscribe((data) => this.notifyUnassigned(data.item));
+  protected assign(key: string, linkKey: string): OrganizationItemStatus<T> {
+    return (this.organizationSubListService as OrganizationSubListService<
+      T
+    >).assign(key, linkKey);
+  }
+
+  protected unassign(key: string, linkKey: string): OrganizationItemStatus<T> {
+    return (this.organizationSubListService as OrganizationSubListService<
+      T
+    >).unassign(key, linkKey);
   }
 
   /**
@@ -88,24 +82,13 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     );
   }
 
-  notifyAssigned(data) {
+  protected notify(data) {
     if (data) {
       this.messageService.add({
         message: {
-          key: this.organizationSubListService.viewType + '.assigned',
-          params: {
-            item: data,
-          },
-        },
-      });
-    }
-  }
-
-  notifyUnassigned(data) {
-    if (data) {
-      this.messageService.add({
-        message: {
-          key: this.organizationSubListService.viewType + '.unassigned',
+          key: `${this.organizationSubListService.viewType}.${
+            this.isAssigned ? 'unassigned' : 'assigned'
+          }`,
           params: {
             item: data,
           },

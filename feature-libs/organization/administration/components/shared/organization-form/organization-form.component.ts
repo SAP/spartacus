@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, first, map, take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
 import {
@@ -47,20 +47,21 @@ export class OrganizationFormComponent<T> {
   ) {}
 
   save(form: FormGroup): void {
-    this.itemService.key$.pipe(first()).subscribe((key) => {
-      this.itemService
-        .save(form, key)
-        .pipe(
-          take(1),
-          filter(
-            (data: OrganizationItemStatus<T>) =>
-              data.status === LoadStatus.SUCCESS
+    this.itemService.key$
+      .pipe(
+        first(),
+        switchMap((key) =>
+          this.itemService.save(form, key).pipe(
+            take(1),
+            filter(
+              (data: OrganizationItemStatus<T>) =>
+                data.status === LoadStatus.SUCCESS
+            ),
+            map((data) => ({ item: data.item, key }))
           )
         )
-        .subscribe((data) => {
-          this.notify(data.item, key);
-        });
-    });
+      )
+      .subscribe(({ item, key }) => this.notify(item, key));
   }
 
   protected notify(item: T, key: string) {
