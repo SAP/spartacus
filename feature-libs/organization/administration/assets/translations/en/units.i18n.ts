@@ -139,7 +139,7 @@ export const unitUsers = {
 
 export const unitUserRoles = {
   title: 'User roles',
-  subtitle: 'User: {{item.orgUnit.name}}',
+  subtitle: 'User: {{item.name}}',
   messages: {
     rolesUpdated: 'Roles successfully updated for {{item.name}}',
   },

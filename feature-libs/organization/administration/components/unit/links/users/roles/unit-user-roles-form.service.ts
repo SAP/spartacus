@@ -14,6 +14,12 @@ export class UnitUserRolesFormService extends OrganizationFormService<B2BUser> {
     super();
   }
 
+  getForm(item?: B2BUser): FormGroup {
+    // if form already exist, while switching between users it didn't patchData again, so used force rebuild
+    this.form = null;
+    return super.getForm(item);
+  }
+
   protected build() {
     const form = new FormGroup({});
     this.availableRoles.forEach((role) =>
