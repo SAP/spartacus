@@ -14,7 +14,6 @@ import {
   GlobalMessageType,
 } from '../../global-message/index';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { UserService } from '../../user/facade/user.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 @Injectable({
@@ -27,7 +26,6 @@ export class AsmAuthService extends BasicAuthService {
     protected cxOAuthService: CxOAuthService,
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {
@@ -115,10 +113,9 @@ export class AsmAuthService extends BasicAuthService {
     ]).pipe(
       map(
         ([token, isEmulated, tokenTarget]) =>
-          (tokenTarget === TokenTarget.User && Boolean(token?.access_token)) ||
-          (tokenTarget === TokenTarget.CSAgent &&
-            Boolean(token?.access_token) &&
-            isEmulated)
+          Boolean(token?.access_token) &&
+          (tokenTarget === TokenTarget.User ||
+            (tokenTarget === TokenTarget.CSAgent && isEmulated))
       )
     );
   }
