@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, from, Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AuthToken } from '../../auth';
 import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-state';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
@@ -87,22 +87,22 @@ export class AsmAuthService extends BasicAuthService {
    * Logout a storefront customer
    */
   public logout(): Promise<any> {
-    let isEmulated: boolean;
-
-    this.userIdService
+    return this.userIdService
       .isEmulated()
-      .subscribe((emulated) => (isEmulated = emulated))
-      .unsubscribe();
-    if (isEmulated) {
-      return new Promise((resolve) => {
-        this.authStorageService.clearEmulatedUserToken();
-        this.userIdService.clearUserId();
-        this.store.dispatch(new AuthActions.Logout());
-        resolve();
-      });
-    } else {
-      return super.logout();
-    }
+      .pipe(
+        take(1),
+        switchMap((isEmulated) => {
+          if (isEmulated) {
+            this.authStorageService.clearEmulatedUserToken();
+            this.userIdService.clearUserId();
+            this.store.dispatch(new AuthActions.Logout());
+            return of(true);
+          } else {
+            return from(super.logout());
+          }
+        })
+      )
+      .toPromise();
   }
 
   public isUserLoggedIn(): Observable<boolean> {

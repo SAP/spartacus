@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthConfig as LibConfig } from 'angular-oauth2-oidc';
 import { Config } from '../../../config/config-tokens';
 
-// siletRefreshTimeout - ommited as it is deprecated of typo
+// siletRefreshTimeout - omitted as it is deprecated of typo
 // clientId - we need it for client credentials flow
 // dummyClientSecret - we need it for client credentials flow
 // loginUrl - similarly like the rest of endpoints we want to have full control over that

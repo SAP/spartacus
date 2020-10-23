@@ -31,7 +31,7 @@ export class AuthStatePersistenceService implements OnDestroy {
 
   protected key = 'auth';
 
-  public sync() {
+  public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,

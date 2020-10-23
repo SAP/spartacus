@@ -15,8 +15,8 @@ export function initOAuthCallback(
   configInit: ConfigInitializerService
 ) {
   const result = () =>
-    configInit.getStableConfig('context').then(() => {
-      // Wait for stable context config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+    configInit.getStableConfig().then(() => {
+      // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
       authService.initOAuthCallback();
     });
 
@@ -26,12 +26,8 @@ export function initOAuthCallback(
 export function authStatePersistenceFactory(
   authStatePersistenceService: AuthStatePersistenceService
 ) {
-  const result = () => authStatePersistenceService.sync();
+  const result = () => authStatePersistenceService.initSync();
   return result;
-}
-
-export function authStorageFactory(authStorageService: AuthStorageService) {
-  return authStorageService;
 }
 
 @NgModule({
@@ -46,8 +42,7 @@ export class UserAuthModule {
         ...interceptors,
         {
           provide: OAuthStorage,
-          useFactory: authStorageFactory,
-          deps: [AuthStorageService],
+          useExisting: AuthStorageService,
         },
         {
           provide: APP_INITIALIZER,

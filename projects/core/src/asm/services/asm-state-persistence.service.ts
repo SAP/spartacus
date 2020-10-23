@@ -28,7 +28,7 @@ export class AsmStatePersistenceService implements OnDestroy {
 
   protected key = 'asm';
 
-  public sync() {
+  public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,

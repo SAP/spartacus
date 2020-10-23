@@ -20,7 +20,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
     protected siteContextParamsService: SiteContextParamsService
   ) {}
 
-  public sync() {
+  public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: 'cart',

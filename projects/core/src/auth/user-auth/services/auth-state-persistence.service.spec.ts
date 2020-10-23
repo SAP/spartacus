@@ -109,7 +109,7 @@ describe('AuthStatePersistenceService', () => {
     const state$ = of('');
     spyOn(service as any, 'getAuthState').and.returnValue(state$);
 
-    service.sync();
+    service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -120,7 +120,7 @@ describe('AuthStatePersistenceService', () => {
     expect(service['getAuthState']).toHaveBeenCalled();
   });
 
-  it('should return state from auth state and userId service', () => {
+  it('should return state from auth state and userId service', (done) => {
     spyOn(authStorageService, 'getToken').and.returnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
@@ -136,6 +136,7 @@ describe('AuthStatePersistenceService', () => {
           token: { access_token: 'token' },
           redirectUrl: 'redirect_url',
         } as any);
+        done();
       });
   });
 
