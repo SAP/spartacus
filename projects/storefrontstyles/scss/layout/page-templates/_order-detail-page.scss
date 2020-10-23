@@ -110,6 +110,7 @@
 
         th {
           text-align: left;
+          color: var(--cx-color-inverse);
         }
 
         @include media-breakpoint-down(sm) {
