@@ -10,12 +10,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   OrderApproval,
   OrderApprovalDecisionValue,
 } from '../../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
 
@@ -152,7 +152,7 @@ describe('OrderApprovalDetailFormComponent', () => {
   it('should not submit rejection without comment.', () => {
     spyOn(orderApprovalService, 'makeDecision').and.stub();
     displayDecisionForm(REJECT);
-    clickButton('orderApproval.form.submit_' + REJECT);
+    clickButton('orderApprovalDetails.form.submit_' + REJECT);
     expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
   });
 
@@ -188,23 +188,23 @@ describe('OrderApprovalDetailFormComponent', () => {
     displayDecisionForm(decision);
 
     // Cancel the decision form
-    clickButton('orderApproval.form.cancel');
+    clickButton('orderApprovalDetails.form.cancel');
     assertComponentInitialState();
   }
 
   function displayDecisionForm(decision: OrderApprovalDecisionValue) {
-    clickButton('orderApproval.showForm_' + decision);
+    clickButton('orderApprovalDetails.showForm_' + decision);
     expect(component.approvalFormVisible).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
-    assertButtonPresent('orderApproval.form.cancel');
-    assertButtonPresent('orderApproval.form.submit_' + decision);
+    assertButtonPresent('orderApprovalDetails.form.cancel');
+    assertButtonPresent('orderApprovalDetails.form.submit_' + decision);
   }
 
   function submitDecisionForm(decision: OrderApprovalDecisionValue) {
     spyOn(orderApprovalService, 'makeDecision').and.stub();
     const testComment = 'Decision comment ' + decision;
     component.approvalForm.controls.comment.setValue(testComment);
-    clickButton('orderApproval.form.submit_' + decision);
+    clickButton('orderApprovalDetails.form.submit_' + decision);
     expect(orderApprovalService.makeDecision).toHaveBeenCalledWith(
       mockOrderApproval.code,
       {
@@ -219,8 +219,8 @@ describe('OrderApprovalDetailFormComponent', () => {
     });
     fixture.detectChanges();
     assertBackButtonExist();
-    assertButtonAbsent('orderApproval.showForm_APPROVE');
-    assertButtonAbsent('orderApproval.showForm_REJECT');
+    assertButtonAbsent('orderApprovalDetails.showForm_APPROVE');
+    assertButtonAbsent('orderApprovalDetails.showForm_REJECT');
   }
 
   function assertBackButtonExist() {
@@ -228,7 +228,7 @@ describe('OrderApprovalDetailFormComponent', () => {
       .queryAll(By.css('a'))
       .find((button) =>
         (button.nativeElement as HTMLElement).textContent.includes(
-          'orderApproval.back'
+          'orderApprovalDetails.back'
         )
       );
     expect(backToListLink).toBeTruthy('back to list button should be visible');
@@ -238,11 +238,11 @@ describe('OrderApprovalDetailFormComponent', () => {
     expect(el.query(By.css('form'))).toBeFalsy();
     expect(el.query(By.css('cx-spinner'))).toBeFalsy();
     expect(component.approvalFormVisible).toBeFalsy();
-    assertButtonAbsent('orderApproval.form.cancel');
-    assertButtonAbsent('orderApproval.form.submit_APPROVE');
-    assertButtonAbsent('orderApproval.form.submit_REJECT');
-    assertButtonPresent('orderApproval.showForm_APPROVE');
-    assertButtonPresent('orderApproval.showForm_REJECT');
+    assertButtonAbsent('orderApprovalDetails.form.cancel');
+    assertButtonAbsent('orderApprovalDetails.form.submit_APPROVE');
+    assertButtonAbsent('orderApprovalDetails.form.submit_REJECT');
+    assertButtonPresent('orderApprovalDetails.showForm_APPROVE');
+    assertButtonPresent('orderApprovalDetails.showForm_REJECT');
   }
 
   function assertSpinnerDisplayed() {
