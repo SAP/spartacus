@@ -1,25 +1,27 @@
 import {
-  OnInit,
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
-import { EntityGuard } from '../../../core/guards/entity.guard';
+import { ExistEntityItemGuard } from '../../../core/guards/exist-entity-item.guard';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { BaseItem } from '../organization.model';
+import { ActiveEntityItemGuard } from '../../../core/guards/active-entity-item.guard';
 
 @Component({
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService, EntityGuard],
+  providers: [MessageService, ExistEntityItemGuard, ActiveEntityItemGuard],
 })
-export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
+export class OrganizationCardComponent<T extends BaseItem>
+  implements AfterViewInit {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
   @Input() routeParam?: string;
@@ -33,23 +35,36 @@ export class OrganizationCardComponent<T extends BaseItem> implements OnInit {
   constructor(
     protected itemService: OrganizationItemService<T>,
     protected messageService: MessageService,
-    protected entityGuard: EntityGuard
+    protected existEntityItemGuard: ExistEntityItemGuard,
+    protected activeEntityItemGuard: ActiveEntityItemGuard
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.item$ = this.itemService.current$.pipe(
       map((item) => {
-        if (
-          this.i18nRoot.includes('details') ||
+        /**
+         * the only way to be able to trigger the guard after angular has rendered the template
+         * other ways tried, but not working: after view init hook, ng zone onMicrotaskEmpty,
+         * putting the guard in separate directive/child component in the template.
+         */
+        if (this.i18nRoot.includes('details')) {
+          setTimeout(() => {
+            this.existEntityItemGuard.canActivate(
+              item,
+              this.i18nRoot,
+              this.routeParam
+            );
+          }, 1);
+        } else if (
+          Object.keys(item).length !== 0 &&
           this.i18nRoot.includes('edit')
         ) {
-          /**
-           * the only way to be able to trigger the guard after angular has rendered the template
-           * other ways tried, but not working: after view init hook, ng zone onMicrotaskEmpty,
-           * putting the guard in separate directive/child component in the template.
-           */
           setTimeout(() => {
-            this.entityGuard.canActivate(item, this.i18nRoot, this.routeParam);
+            this.activeEntityItemGuard.canActivate(
+              item,
+              this.i18nRoot,
+              this.routeParam
+            );
           }, 1);
         }
       })
