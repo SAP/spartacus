@@ -99,7 +99,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)
       )
-      .subscribe((data) => this.notify(data.item));
+      .subscribe((data) => this.notify({ ...item, ...data.item }));
   }
 
   protected getPatchedItem(item: T): T {
@@ -111,6 +111,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   protected notify(item: T) {
     if (item) {
+      console.log(item);
       this.messageService.add({
         message: {
           key: item.active

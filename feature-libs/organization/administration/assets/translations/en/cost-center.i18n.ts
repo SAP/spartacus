@@ -20,6 +20,8 @@ export const costCenter = {
     deactivate: 'Are you sure you want to disable this cost center?',
     confirmEnabled: 'Cost Center {{ item.name }} enabled successfully',
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
+    update: 'Cost Center {{ item.name }} updated successfully',
+    create: 'Cost Center {{ item.name }} created successfully',
   },
 
   details: {

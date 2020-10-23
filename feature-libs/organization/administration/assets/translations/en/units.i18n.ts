@@ -23,6 +23,8 @@ export const unit = {
     deactivate: 'Are you sure you want to disable this unit?',
     confirmEnabled: 'Unit {{item.name}} enabled successfully',
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
+    update: 'Unit {{ item.name }} updated successfully',
+    create: 'Unit {{ item.name }} created successfully',
   },
 
   links: {

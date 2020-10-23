@@ -31,8 +31,10 @@ export const permission = {
 
   messages: {
     deactivate: 'Are you sure you want to disable this purchase limit?',
-    confirmEnabled: 'Purchase Limit {{ item.name }} enabled successfully',
-    confirmDisabled: 'Purchase Limit {{ item.name }} disabled successfully',
+    confirmEnabled: 'Purchase Limit {{ item.code }} enabled successfully',
+    confirmDisabled: 'Purchase Limit {{ item.code }} disabled successfully',
+    update: 'Purchase Limit {{ item.code }} updated successfully',
+    create: 'Purchase Limit {{ item.code }} created successfully',
   },
 
   per: {

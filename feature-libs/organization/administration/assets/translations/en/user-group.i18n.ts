@@ -31,6 +31,11 @@ export const userGroup = {
     permission: 'Purchase limits',
   },
 
+  messages: {
+    update: 'User Group {{ item.name }} updated successfully',
+    create: 'User Group {{ item.name }} created successfully',
+  },
+
   breadcrumbs: {
     list: 'All user groups',
     details: '{{name}}',

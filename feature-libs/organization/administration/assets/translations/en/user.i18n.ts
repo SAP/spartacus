@@ -42,8 +42,14 @@ export const user = {
 
   messages: {
     deactivate: 'Are you sure you want to disable this user?',
-    confirmEnabled: 'User {{item.name}} enabled successfully',
-    confirmDisabled: 'User {{item.name}}  disabled successfully',
+    confirmEnabled:
+      'User {{item.firstName}} {{item.lastName}} enabled successfully',
+    confirmDisabled:
+      'User {{item.firstName}} {{item.lastName}} disabled successfully',
+    update: 'User {{item.firstName}} {{item.lastName}} updated successfully',
+    create: 'User {{item.firstName}} {{item.lastName}} created successfully',
+    updatePassword:
+      'User {{item.firstName}} {{item.lastName}} password updated successfully',
   },
 
   approver: {
