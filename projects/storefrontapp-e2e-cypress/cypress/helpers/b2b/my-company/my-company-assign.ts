@@ -1,13 +1,5 @@
-import { MyCompanyConfig } from './models/index';
-import { loginAsMyCompanyAdmin } from './my-company.utils';
-
-const LABEL_MANAGE = 'Manage';
-const LABEL_ASSIGN = 'assign';
-const LABEL_UNASSIGN = 'unassign';
-const LABEL_UNASSIGN_ALL = 'Unassign All';
-const LABEL_DONE = 'done';
-const LABEL_ASSIGNED_SUCCESS = ' assigned successfully';
-const LABEL_UNASSIGNED_SUCCESS = ' unassigned successfully';
+import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
+import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
@@ -26,155 +18,124 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
       it('should show no assignments', () => {
         cy.get('cx-organization-card section.link-list')
-          .contains(subConfig.name, {
-            matchCase: false,
-          })
+          .contains(subConfig.name, IGNORE_CASE)
           .click();
 
         cy.url().should(
           'contain',
           `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
         );
-        cy.get('cx-organization-card .header h3').contains(subConfig.name, {
-          matchCase: false,
-        });
+        cy.get('cx-organization-card .header h3').contains(
+          subConfig.name,
+          IGNORE_CASE
+        );
         // TODO: Check h4 header
 
-        cy.get('cx-organization-sub-list div.main').contains(
-          'The list is empty'
-        );
+        checkListEmpty();
       });
 
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
-          cy.get('cx-organization-card .header a')
-            .contains(LABEL_MANAGE)
-            .click();
-          cy.wait(1000);
+          clickManage();
+
           cy.get('cx-organization-sub-list cx-table tr td')
             .eq(0)
             .then((el) => {
               firstOption = el.text();
-              console.log(el, el.text(), firstOption);
 
-              cy.get('cx-organization-sub-list cx-table tr')
-                .contains(firstOption)
-                .parent()
-                .parent()
-                .contains(LABEL_ASSIGN)
-                .click();
-
-              cy.get('cx-notification').contains(LABEL_ASSIGNED_SUCCESS);
-
+              clickAssign(firstOption);
               cy.get('cx-organization-card .header a')
-                .contains(LABEL_DONE)
+                .contains(ASSIGNMENT_LABELS.DONE)
                 .click();
 
-              cy.get('cx-organization-sub-list div.main')
-                .contains(firstOption)
-                .parent()
-                .parent()
-                .contains(LABEL_UNASSIGN)
-                .click();
-
-              cy.get('cx-notification').contains(LABEL_UNASSIGNED_SUCCESS);
-              cy.get('cx-organization-sub-list div.main').contains(
-                'The list is empty'
-              );
+              clickUnassign(firstOption);
+              checkListEmpty();
             });
         });
 
         it('should assign and unassign from assignments list', () => {
+          clickManage();
+
+          clickAssign(firstOption);
+          clickUnassign(firstOption);
+          cy.get('cx-organization-sub-list')
+            .contains(firstOption)
+            .parent()
+            .parent()
+            .contains(ASSIGNMENT_LABELS.ASSIGN);
+
           cy.get('cx-organization-card .header a')
-            .contains(LABEL_MANAGE)
+            .contains(ASSIGNMENT_LABELS.DONE)
             .click();
-          cy.wait(1000);
-          cy.get('cx-organization-sub-list cx-table tr td')
-            .eq(0)
-            .then((el) => {
-              firstOption = el.text();
-              console.log(el, el.text(), firstOption);
 
-              cy.get('cx-organization-sub-list cx-table tr')
-                .contains(firstOption)
-                .parent()
-                .parent()
-                .contains(LABEL_ASSIGN)
-                .click();
-              cy.wait(1000);
-
-              cy.get('cx-notification').contains(LABEL_ASSIGNED_SUCCESS);
-
-              cy.get('cx-organization-sub-list cx-table tr')
-                .contains(firstOption)
-                .parent()
-                .parent()
-                .contains(LABEL_UNASSIGN)
-                .click();
-
-              cy.wait(1000);
-              cy.get('cx-notification').contains(LABEL_UNASSIGNED_SUCCESS);
-
-              cy.get('cx-organization-sub-list cx-table tr')
-                .contains(firstOption)
-                .parent()
-                .parent()
-                .contains(LABEL_ASSIGN);
-
-              cy.get('cx-organization-card .header a')
-                .contains(LABEL_DONE)
-                .click();
-
-              cy.get('cx-organization-sub-list div.main').contains(
-                'The list is empty'
-              );
-            });
+          checkListEmpty();
         });
 
         if (subConfig.canUnassignAll) {
           it('should assign and unassign all', () => {
+            clickManage();
+
+            clickAssign(firstOption);
+            clickUnassignAll();
+
             cy.get('cx-organization-card .header a')
-              .contains(LABEL_MANAGE)
+              .contains(ASSIGNMENT_LABELS.DONE)
               .click();
-            cy.wait(1000);
-            cy.get('cx-organization-sub-list cx-table tr td')
-              .eq(0)
-              .then((el) => {
-                firstOption = el.text();
-                console.log(el, el.text(), firstOption);
 
-                cy.get('cx-organization-sub-list cx-table tr')
-                  .contains(firstOption)
-                  .parent()
-                  .parent()
-                  .contains(LABEL_ASSIGN)
-                  .click();
-
-                cy.get('cx-notification').contains(LABEL_ASSIGNED_SUCCESS);
-
-                cy.get('cx-organization-card .header button')
-                  .contains(LABEL_UNASSIGN_ALL)
-                  .click();
-
-                cy.wait(1000);
-
-                cy.get('cx-organization-sub-list cx-table tr')
-                  .contains(firstOption)
-                  .parent()
-                  .parent()
-                  .contains(LABEL_ASSIGN);
-
-                cy.get('cx-organization-card .header a')
-                  .contains(LABEL_DONE)
-                  .click();
-
-                cy.get('cx-organization-sub-list div.main').contains(
-                  'The list is empty'
-                );
-              });
+            checkListEmpty();
           });
         }
       }
     });
+
+    function clickManage() {
+      cy.get('cx-organization-card .header a')
+        .contains(ASSIGNMENT_LABELS.MANAGE)
+        .click();
+      cy.get('cx-organization-sub-list td.actions button.link')
+        .contains(ASSIGNMENT_LABELS.ASSIGN)
+        .should('exist');
+    }
+
+    function checkListEmpty() {
+      cy.get('cx-organization-sub-list div.main').contains('The list is empty');
+    }
+
+    function clickAssign(option: string) {
+      cy.get('cx-organization-sub-list')
+        .contains(option)
+        .parent()
+        .parent()
+        .contains(ASSIGNMENT_LABELS.ASSIGN)
+        .click();
+      cy.get('cx-notification').contains(ASSIGNMENT_LABELS.ASSIGNED_SUCCESS);
+      cy.get('cx-notification').should('not.exist');
+      cy.get('cx-organization-sub-list')
+        .contains(option)
+        .parent()
+        .parent()
+        .contains(ASSIGNMENT_LABELS.UNASSIGN);
+    }
+
+    function clickUnassign(option: string) {
+      cy.get('cx-organization-sub-list')
+        .contains(option)
+        .parent()
+        .parent()
+        .contains(ASSIGNMENT_LABELS.UNASSIGN)
+        .click();
+      cy.get('cx-notification').contains(ASSIGNMENT_LABELS.UNASSIGNED_SUCCESS);
+      cy.get('cx-notification').should('not.exist');
+    }
+
+    function clickUnassignAll() {
+      cy.get('cx-organization-card .header button')
+        .contains(ASSIGNMENT_LABELS.UNASSIGN_ALL)
+        .click();
+      cy.get('cx-organization-sub-list').should(
+        'not.contain.html',
+        `<button class="link"> ${ASSIGNMENT_LABELS.UNASSIGN} </button>`
+      );
+    }
   });
 }
