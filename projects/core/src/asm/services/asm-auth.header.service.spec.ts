@@ -16,7 +16,9 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {
     return of(false);
   }
-  logoutCustomerSupportAgent() {}
+  logoutCustomerSupportAgent() {
+    return Promise.resolve();
+  }
 }
 
 class MockAuthService implements Partial<AuthService> {

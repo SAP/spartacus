@@ -55,8 +55,9 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.authRedirectStorageService.getRedirectUrl(),
     ]).pipe(
       map(([authToken, userId, redirectUrl]) => {
-        const token = authToken;
+        let token = authToken;
         if (token) {
+          token = { ...token };
           // To minimize risk of user account hijacking we don't persist user refresh_token
           delete token.refresh_token;
         }

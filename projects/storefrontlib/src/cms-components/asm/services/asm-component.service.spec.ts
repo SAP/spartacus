@@ -10,7 +10,9 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
-  logoutCustomerSupportAgent(): void {}
+  logoutCustomerSupportAgent(): Promise<void> {
+    return Promise.resolve();
+  }
   isCustomerEmulated(): Observable<boolean> {
     return of(false);
   }

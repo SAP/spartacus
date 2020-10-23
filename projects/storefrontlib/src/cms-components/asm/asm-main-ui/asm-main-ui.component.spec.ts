@@ -29,7 +29,9 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
-  authorizeCustomerSupportAgent(): void {}
+  authorizeCustomerSupportAgent(): Promise<void> {
+    return Promise.resolve();
+  }
   isCustomerSupportAgentLoggedIn(): Observable<boolean> {
     return of(false);
   }

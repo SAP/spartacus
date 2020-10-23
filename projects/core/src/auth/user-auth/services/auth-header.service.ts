@@ -80,7 +80,7 @@ export class AuthHeaderService {
     this.routingService.go({ cxRoute: 'login' });
     this.globalMessageService.add(
       {
-        key: 'common.sessionExpired',
+        key: 'httpHandlers.sessionExpired',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );

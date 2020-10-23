@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { AuthActions } from '../../auth/user-auth/store/actions';
@@ -15,7 +16,6 @@ import {
   AsmAuthStorageService,
   TokenTarget,
 } from '../services/asm-auth-storage.service';
-import { AsmAuthService } from '../services/asm-auth.service';
 import { AsmActions } from '../store/actions';
 import { StateWithAsm } from '../store/asm-state';
 
@@ -24,7 +24,7 @@ import { StateWithAsm } from '../store/asm-state';
 })
 export class CsAgentAuthService {
   constructor(
-    protected authService: AsmAuthService,
+    protected authService: AuthService,
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected cxOAuthService: CxOAuthService,
