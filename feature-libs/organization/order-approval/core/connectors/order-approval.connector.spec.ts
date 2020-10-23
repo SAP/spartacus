@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import {
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
-} from '../../model/order-approval.model';
+} from '../../core/model/order-approval.model';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;

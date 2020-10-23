@@ -14,8 +14,8 @@ import {
 } from '../model/order-approval.model';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
+  ORDER_APPROVAL_FEATURE,
+  OrderApprovalState,
 } from '../store/order-approval-state';
 import * as fromReducers from '../store/reducers/index';
 import { OrderApprovalService } from './order-approval.service';
@@ -45,14 +45,14 @@ class MockAuthService {
 describe('OrderApprovalService', () => {
   let service: OrderApprovalService;
   let authService: AuthService;
-  let store: Store<StateWithOrganization>;
+  let store: Store<OrderApprovalState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ORGANIZATION_FEATURE,
+          ORDER_APPROVAL_FEATURE,
           fromReducers.getReducers()
         ),
         ProcessModule.forRoot(),

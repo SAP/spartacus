@@ -5,14 +5,14 @@ import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 import {
   OrderApprovalManagement,
-  ORGANIZATION_FEATURE,
-  StateWithOrganization,
+  ORDER_APPROVAL_FEATURE,
+  OrderApprovalState,
 } from '../order-approval-state';
 import * as fromReducers from '../reducers/index';
 import { OrderApprovalSelectors } from './index';
 
 describe('OrderApproval Selectors', () => {
-  let store: Store<StateWithOrganization>;
+  let store: Store<OrderApprovalState>;
 
   const code = 'testCode';
   const orderApproval: OrderApproval = {
@@ -42,7 +42,7 @@ describe('OrderApproval Selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ORGANIZATION_FEATURE,
+          ORDER_APPROVAL_FEATURE,
           fromReducers.getReducers()
         ),
       ],

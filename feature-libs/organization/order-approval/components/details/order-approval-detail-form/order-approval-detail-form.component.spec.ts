@@ -13,8 +13,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import {
   OrderApproval,
   OrderApprovalDecisionValue,
-  OrderApprovalService,
-} from '@spartacus/organization/administration/core';
+} from '../../../core/model/order-approval.model';
+import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';

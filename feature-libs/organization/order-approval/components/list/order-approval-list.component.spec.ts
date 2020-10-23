@@ -14,10 +14,8 @@ import {
   RoutingService,
   SearchConfig,
 } from '@spartacus/core';
-import {
-  OrderApproval,
-  OrderApprovalService,
-} from '@spartacus/organization/administration/core';
+import { OrderApproval } from '../../core/model/order-approval.model';
+import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { BehaviorSubject, Observable } from 'rxjs';

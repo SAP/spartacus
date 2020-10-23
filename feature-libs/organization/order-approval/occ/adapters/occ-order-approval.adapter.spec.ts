@@ -8,7 +8,7 @@ import {
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   ORDER_APPROVAL_NORMALIZER,
-} from '../../core/connectors/order-approval';
+} from '../../core/connectors/converters';
 import {
   OrderApproval,
   OrderApprovalDecision,
