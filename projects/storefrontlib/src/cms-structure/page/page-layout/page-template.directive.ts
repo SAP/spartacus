@@ -2,15 +2,13 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   TemplateRef,
 } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { PageLayoutService } from './page-layout.service';
 
 /**
@@ -48,12 +46,14 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * The host element is either the actual host, or the parent element in case this
    * is used inside an `ng-template`.
    */
-  @Input() cxPageTemplateStyle: string;
-
-  @HostBinding('class') templateClass: string;
+  @Input('cxPageTemplateStyle') set setTemplate(template: string) {
+    if (template !== '') {
+      this.addStyleClass(this.host, template);
+    }
+  }
 
   // Maintains the page template subscription
-  protected subscription: Subscription;
+  protected subscription: Subscription = new Subscription();
 
   /**
    * Holds the current page template, so we can remove previous page templates
@@ -69,20 +69,24 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.template
-      .pipe(distinctUntilChanged())
-      .subscribe((template) => this.addStyleClass(this.host, template));
-  }
-
-  protected get template(): Observable<string> {
-    return this.cxPageTemplateStyle
-      ? of(this.cxPageTemplateStyle)
-      : this.pageLayoutService.templateName$;
+    // If there hasn't been a current template so far, we'll observe
+    // the page layout for the latest template
+    if (!this.currentTemplate) {
+      this.subscription.add(
+        this.pageLayoutService.templateName$.subscribe((template) =>
+          this.addStyleClass(this.host, template)
+        )
+      );
+    }
   }
 
   /**
    * Adds the page template as a style class to the given element. If any
    * page template was added before, we clean it up.
+   *
+   * We'll not use hostBinding for the style class, as it will potential drop
+   * an existing class name on the host. This is why we need to work with
+   * the lower level change detection api.
    */
   protected addStyleClass(el: HTMLElement, template: string): void {
     if (this.currentTemplate) {
