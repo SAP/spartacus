@@ -1,5 +1,8 @@
 import { Currency } from '@spartacus/core';
-import { B2BApprovalProcess } from './order-approval.model';
+import {
+  B2BApprovalProcess,
+  OrderApprovalPermissionResult,
+} from './order-approval.model';
 
 declare module '@spartacus/core' {
   interface B2BUnit {
@@ -23,6 +26,10 @@ declare module '@spartacus/core' {
   interface CostCenter {
     activeFlag?: boolean;
     currency?: Currency;
-    originalCode?: string; // TODO: validate the need of this
+    originalCode?: string;
+  }
+
+  interface Order {
+    permissionResults?: OrderApprovalPermissionResult[];
   }
 }
