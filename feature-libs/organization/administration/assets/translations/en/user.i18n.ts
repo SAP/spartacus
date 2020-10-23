@@ -119,40 +119,40 @@ export const user = {
 export const userAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 export const userApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 
 export const userAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
 export const userPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
 export const userAssignedUserGroups = {
   title: 'Assigned user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };
 
 export const userUserGroups = {
   title: 'Manage user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };

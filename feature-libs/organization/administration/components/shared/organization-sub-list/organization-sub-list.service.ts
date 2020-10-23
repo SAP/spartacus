@@ -6,6 +6,8 @@ import {
 } from '@spartacus/storefront';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { BaseItem } from '../organization.model';
+import { Observable, of } from 'rxjs';
+import { OrganizationItemStatus } from '../../../core/model/organization-item-status';
 
 @Injectable()
 export abstract class OrganizationSubListService<
@@ -24,8 +26,16 @@ export abstract class OrganizationSubListService<
   protected ghostData = { values: new Array(3) } as EntitiesModel<T>;
 
   // TODO: abstract
-  assign(_key: string, ..._args: any) {}
-  unassign(_key: string, ..._args: any) {}
+  assign?(_key: string, ..._args: any): Observable<OrganizationItemStatus<T>> {
+    return of();
+  }
+
+  unassign?(
+    _key: string,
+    ..._args: any
+  ): Observable<OrganizationItemStatus<T>> {
+    return of();
+  }
 
   /**
    * As we can't filter with the backend API, we do this client side.

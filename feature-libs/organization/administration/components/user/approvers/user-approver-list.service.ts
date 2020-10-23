@@ -5,6 +5,7 @@ import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { OrganizationItemStatus } from '../../../core/model/organization-item-status';
 
 @Injectable({
   providedIn: 'root',
@@ -33,15 +34,23 @@ export class UserApproverListService extends OrganizationSubListService<
    * @override
    * Assign approver to the user.
    */
-  assign(userCode: string, unitId: string) {
-    this.userService.assignApprover(userCode, unitId);
+  assign(
+    userCode: string,
+    approverId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    this.userService.assignApprover(userCode, approverId);
+    return this.userService.getLoadingStatus(approverId);
   }
 
   /**
    * @override
    * Unassign the approver from the user.
    */
-  unassign(userCode: string, unitId: string) {
-    this.userService.unassignApprover(userCode, unitId);
+  unassign(
+    userCode: string,
+    approverId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    this.userService.unassignApprover(userCode, approverId);
+    return this.userService.getLoadingStatus(approverId);
   }
 }
