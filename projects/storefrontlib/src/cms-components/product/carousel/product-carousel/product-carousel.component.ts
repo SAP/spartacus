@@ -41,7 +41,8 @@ export class ProductCarouselComponent {
    */
   items$: Observable<string[]> = this.componentData$.pipe(
     tap((data) => (this.focusGroup = data.uid)),
-    map((data) => data.productCodes.trim().split(' '))
+    map((data) => data.productCodes.trim().split(' ')),
+    startWith(['', '', '', ''])
   );
 
   constructor(
