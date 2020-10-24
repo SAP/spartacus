@@ -1,5 +1,6 @@
 export enum INPUT_TYPE {
   TEXT = 'text',
+  NUMBER = 'number',
   DATE_TIME = 'datetime',
   NG_SELECT = 'ngSelect',
 }
