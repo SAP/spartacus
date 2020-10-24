@@ -35,6 +35,7 @@
     flex: calc(100% - 100px);
 
     overflow-x: scroll;
+    scrollbar-width: none;
     overscroll-behavior-x: contain;
     scroll-behavior: smooth;
     // when we apply the scroll-snap-type directly, we see that it is causing
@@ -52,7 +53,6 @@
     display: block;
 
     border: none;
-    // position: relative;
 
     .slides {
       display: flex;
@@ -68,9 +68,6 @@
       }
 
       .item {
-        display: block;
-        height: 100%;
-        min-height: 10px;
         object-fit: cover;
 
         flex-shrink: 0;
@@ -89,18 +86,25 @@
         // Specifies the width of the carousel item. This can vary per media query
         // or specific layout.
 
-        @include media-breakpoint-up(md) {
-          flex-basis: 25%;
-          &:nth-child(4n-3) {
+        @include media-breakpoint-down(md) {
+          flex-basis: 50%;
+          &:nth-child(2n-1) {
             scroll-snap-align: start;
             scroll-snap-stop: always;
           }
         }
 
-        @include media-breakpoint-down(md) {
-          min-width: 25%;
-          flex-basis: 50%;
-          &:nth-child(2n-1) {
+        @include media-breakpoint-up(md) {
+          flex-basis: 33%;
+          &:nth-child(3n-2) {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
+        }
+
+        @include media-breakpoint-up(lg) {
+          flex-basis: 25%;
+          &:nth-child(4n-3) {
             scroll-snap-align: start;
             scroll-snap-stop: always;
           }

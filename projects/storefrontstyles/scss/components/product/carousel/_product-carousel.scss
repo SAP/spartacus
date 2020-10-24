@@ -40,10 +40,14 @@
     flex: auto;
     display: flex;
     align-self: center;
-    width: 60%;
+    margin: 0 50px;
+
+    img {
+      max-height: max(200px, 20vh);
+    }
 
     &.is-missing {
-      min-height: 255px;
+      min-height: 150px;
       align-self: auto;
       width: auto;
     }
