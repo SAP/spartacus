@@ -82,15 +82,15 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     );
   }
 
-  protected notify(data) {
-    if (data) {
+  protected notify(item) {
+    if (item) {
       this.messageService.add({
         message: {
           key: `${this.organizationSubListService.viewType}.${
             this.isAssigned ? 'unassigned' : 'assigned'
           }`,
           params: {
-            item: data,
+            item,
           },
         },
       });
