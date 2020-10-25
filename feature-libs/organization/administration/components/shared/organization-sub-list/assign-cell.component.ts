@@ -41,13 +41,10 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     this.organizationItemService.key$
       .pipe(
         first(),
-        switchMap(
-          (key) =>
-            (this.isAssigned
-              ? this.unassign(key, this.link)
-              : this.assign(key, this.link)) as Observable<
-              OrganizationItemStatus<T>
-            >
+        switchMap((key) =>
+          this.isAssigned
+            ? this.unassign(key, this.link)
+            : this.assign(key, this.link)
         ),
         take(1),
         filter(
