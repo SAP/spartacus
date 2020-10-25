@@ -175,4 +175,4 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     },
   ],
 })
-export class OrganizationOccModule {}
+export class AdministrationOccModule {}
