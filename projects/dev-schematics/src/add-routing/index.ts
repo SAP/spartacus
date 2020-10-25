@@ -1,4 +1,9 @@
-import { chain, Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  chain,
+  Rule,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@spartacus/schematics';
 import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';

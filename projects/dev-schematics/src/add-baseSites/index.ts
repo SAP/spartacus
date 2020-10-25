@@ -3,7 +3,7 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree
+  Tree,
 } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
@@ -13,7 +13,7 @@ import {
   getExistingStorefrontConfigNode,
   getProjectTargets,
   getTsSourceFile,
-  mergeConfig
+  mergeConfig,
 } from '@spartacus/schematics';
 import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 
