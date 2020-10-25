@@ -14,16 +14,27 @@ export function cartStatePersistenceFactory(
   return result;
 }
 
+/**
+ * Before `MultiCartStatePersistenceService` restores the active cart id `ActiveCartService`
+ * will use `current` cart instead of the one saved in browser. This meta reducer
+ * sets the value on store initialization to undefined cart which holds active cart loading
+ * until the data from storage is restored.
+ */
 export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
-  return (reducer: ActionReducer<any>) => (state, action) => {
+  const metaReducer = (reducer: ActionReducer<any>) => (state, action) => {
     const newState = { ...state };
     if (action.type === '@ngrx/store/init') {
       newState.cart = { ...newState.cart, ...{ active: undefined } };
     }
     return reducer(newState, action);
   };
+  return metaReducer;
 }
 
+/**
+ * Complimentary module for cart to store cart id in browser storage.
+ * This makes it possible to work on the same anonymous cart even after page refresh.
+ */
 @NgModule()
 export class CartPersistenceModule {
   static forRoot(): ModuleWithProviders<CartPersistenceModule> {

@@ -1,20 +1,19 @@
 import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { WindowRef } from '../../../window/window-ref';
-import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthConfigService } from './auth-config.service';
-import { AuthStorageService } from './auth-storage.service';
 
+/**
+ * Wrapper service on the library OAuthService. Normalizes the lib API for services.
+ * Use this service when you want to access low level OAuth library methods.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
   constructor(
-    protected store: Store<StateWithClientAuth>,
     protected oAuthService: OAuthService,
-    protected authStorageService: AuthStorageService,
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected winRef: WindowRef
@@ -26,7 +25,7 @@ export class OAuthLibWrapperService {
     const isSSR = isPlatformServer(this.platformId);
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-      loginUrl: this.authConfigService.getLoginEndpoint(),
+      loginUrl: this.authConfigService.getLoginUrl(),
       clientId: this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
@@ -43,6 +42,14 @@ export class OAuthLibWrapperService {
     });
   }
 
+  /**
+   * Authorize with ResourceOwnerPasswordFlow.
+   *
+   * @param userId
+   * @param password
+   *
+   * @return token response from the lib
+   */
   authorizeWithPasswordFlow(
     userId: string,
     password: string
@@ -50,10 +57,16 @@ export class OAuthLibWrapperService {
     return this.oAuthService.fetchTokenUsingPasswordFlow(userId, password);
   }
 
+  /**
+   * Refresh access_token.
+   */
   refreshToken(): void {
     this.oAuthService.refreshToken();
   }
 
+  /**
+   * Revoke access tokens and clear tokens in lib state.
+   */
   revokeAndLogout(): Promise<any> {
     return new Promise((resolve) => {
       this.oAuthService
@@ -68,22 +81,35 @@ export class OAuthLibWrapperService {
     });
   }
 
+  /**
+   * Clear tokens in library state (no revocation).
+   */
   logout(): void {
     this.oAuthService.logOut();
   }
 
-  // TODO: Play more with id token stuff
+  /**
+   * Returns Open Id token. Might be empty, when it was not requested with the `responseType` config.
+   *
+   * @return id token
+   */
   getIdToken(): string {
     return this.oAuthService.getIdToken();
   }
 
+  /**
+   * Initialize Implicit Flow or Authorization Code flows with the redirect to OAuth login url.
+   */
   initLoginFlow() {
     return this.oAuthService.initLoginFlow();
   }
 
-  // TODO: We don't load discovery document, because it doesn't contain revoke endpoint information
+  /**
+   * Tries to login user based on `code` or `token` present in the url.
+   */
   tryLogin() {
     return this.oAuthService.tryLogin({
+      // We don't load discovery document, because it doesn't contain revoke endpoint information
       disableOAuth2StateCheck: true,
     });
   }

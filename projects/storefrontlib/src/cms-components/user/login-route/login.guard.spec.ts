@@ -123,7 +123,7 @@ describe('LoginGuard', () => {
     });
   });
 
-  describe('When use is not authorized', () => {
+  describe('When user is not authorized', () => {
     it('should try to render login CMS page when ResourcePasswordOwnerFlow is used', (done) => {
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
       spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
@@ -155,10 +155,13 @@ describe('LoginGuard', () => {
       spyOn(authService, 'loginWithRedirect').and.callThrough();
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
 
-      loginGuard.canActivate(
-        ('a' as unknown) as ActivatedRouteSnapshot,
-        ('b' as unknown) as RouterStateSnapshot
-      );
+      loginGuard
+        .canActivate(
+          ('a' as unknown) as ActivatedRouteSnapshot,
+          ('b' as unknown) as RouterStateSnapshot
+        )
+        .subscribe()
+        .unsubscribe();
 
       expect(cmsPageGuard.canActivate).not.toHaveBeenCalled();
       expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();

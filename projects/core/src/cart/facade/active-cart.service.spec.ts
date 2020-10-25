@@ -21,7 +21,7 @@ import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return userId$.asObservable();
   }

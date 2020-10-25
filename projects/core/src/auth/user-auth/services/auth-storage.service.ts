@@ -26,7 +26,9 @@ export class AuthStorageService extends OAuthStorage {
     'nonce',
   ];
 
-  protected _token$ = new BehaviorSubject<AuthToken>({} as AuthToken);
+  protected _token$: Observable<AuthToken> = new BehaviorSubject<AuthToken>(
+    {} as AuthToken
+  );
 
   protected decode(key: string, value: any) {
     if (AuthStorageService.nonStringifiedOAuthLibKeys.includes(key)) {
@@ -48,15 +50,32 @@ export class AuthStorageService extends OAuthStorage {
   }
 
   /* Async API for spartacus use */
+
+  /**
+   * Returns complete token (all fields).
+   *
+   * @return observable emitting AuthToken
+   */
   getToken(): Observable<AuthToken> {
-    return this._token$.asObservable();
+    return this._token$;
   }
 
+  /**
+   * Set current value of token.
+   *
+   * @param token
+   */
   setToken(token: AuthToken): void {
-    this._token$.next(token);
+    (this._token$ as BehaviorSubject<AuthToken>).next(token);
   }
 
   /* Sync API for OAuth lib use */
+
+  /**
+   * Get parameter from the token (eg. access_token)
+   *
+   * @param key
+   */
   getItem(key: string): any {
     let token;
     this.getToken()
@@ -65,18 +84,28 @@ export class AuthStorageService extends OAuthStorage {
     return this.decode(key, token?.[key]);
   }
 
+  /**
+   * Removes parameter from the token (eg. access_token)
+   *
+   * @param key
+   */
   removeItem(key: string): void {
-    const val = { ...this._token$.value };
+    const val = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
     delete val[key];
-    this._token$.next({
+    (this._token$ as BehaviorSubject<AuthToken>).next({
       ...val,
     });
   }
 
+  /**
+   * Sets parameter of the token (eg. access_token)
+   *
+   * @param key
+   */
   setItem(key: string, data: any): void {
     if (key) {
-      this._token$.next({
-        ...this._token$.value,
+      (this._token$ as BehaviorSubject<AuthToken>).next({
+        ...(this._token$ as BehaviorSubject<AuthToken>).value,
         [key]: this.encode(key, data),
       });
     }

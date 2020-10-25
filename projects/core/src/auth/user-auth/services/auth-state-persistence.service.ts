@@ -7,6 +7,9 @@ import { AuthToken } from '../models/auth-token.model';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthStorageService } from './auth-storage.service';
 
+/**
+ * Auth state synced to browser storage.
+ */
 export interface SyncedAuthState {
   userId?: string;
   token?: AuthToken;
@@ -29,8 +32,14 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected authRedirectStorageService: AuthRedirectStorageService
   ) {}
 
+  /**
+   * Identifier used for storage key.
+   */
   protected key = 'auth';
 
+  /**
+   * Initializes the synchronization between state and browser storage.
+   */
   public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
@@ -41,6 +50,10 @@ export class AuthStatePersistenceService implements OnDestroy {
     );
   }
 
+  /**
+   * Gets and transforms state from different sources into the form that should
+   * be saved in storage.
+   */
   protected getAuthState(): Observable<SyncedAuthState> {
     return combineLatest([
       this.authStorageService.getToken().pipe(
@@ -66,6 +79,10 @@ export class AuthStatePersistenceService implements OnDestroy {
     );
   }
 
+  /**
+   * Function called on each browser storage read.
+   * Used to update state from browser -> state.
+   */
   protected onRead(state: SyncedAuthState) {
     if (state) {
       if (state.token) {
@@ -80,6 +97,9 @@ export class AuthStatePersistenceService implements OnDestroy {
     }
   }
 
+  /**
+   * Reads synchronously state from storage and returns it.
+   */
   public readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,

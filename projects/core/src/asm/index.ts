@@ -1,4 +1,4 @@
-export * from './asm.module';
+export { AsmModule } from './asm.module';
 export * from './config/asm-config';
 export * from './connectors/index';
 export * from './facade/index';

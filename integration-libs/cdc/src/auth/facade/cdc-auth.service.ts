@@ -16,6 +16,9 @@ import {
 } from '@spartacus/core';
 import { CdcAuthActions } from '../store/actions';
 
+/**
+ * Overrides AuthService to hook CDC modifications and custom OAuth flow used by CDC extension.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -121,7 +124,11 @@ export class CdcAuthService extends AuthService {
   }
 
   /**
-   * Logout a storefront customer
+   * @override
+   *
+   * Logout a customer in storefront and CDC.
+   *
+   * @returns promise which resolves after completing logout
    */
   public logout(): Promise<any> {
     return Promise.all([

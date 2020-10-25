@@ -17,7 +17,8 @@ const testToken: AuthToken = {
   access_token_stored_at: '230',
 };
 
-class CdcUserAuthenticationTokenServiceMock {
+class CdcUserAuthenticationTokenServiceMock
+  implements Partial<CdcUserAuthenticationTokenService> {
   loadTokenUsingCustomFlow(
     _UID: string,
     _UIDSignature: string,
@@ -29,11 +30,11 @@ class CdcUserAuthenticationTokenServiceMock {
   }
 }
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(): void {}
 }
 
-class MockCdcAuthService {
+class MockCdcAuthService implements Partial<CdcAuthService> {
   loginWithToken() {}
 }
 

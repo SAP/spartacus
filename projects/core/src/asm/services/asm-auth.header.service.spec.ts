@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
+import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/global-message.model';
@@ -22,11 +23,14 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
-  getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
-  }
   logout() {
     return Promise.resolve();
+  }
+}
+
+class MockAuthStorageService implements Partial<AuthStorageService> {
+  getToken() {
+    return of({ access_token: 'acc_token' } as AuthToken);
   }
 }
 
@@ -67,6 +71,7 @@ describe('AsmAuthHeaderService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
       ],
     });
 

@@ -6,7 +6,7 @@ import { AuthConfigService } from './auth-config.service';
 const mockAuthConfig: AuthConfig = {
   authentication: {
     tokenEndpoint: '/token',
-    loginEndpoint: '/login',
+    loginUrl: '/login',
     revokeEndpoint: '/revoke',
     logoutUrl: '/logout',
     userinfoEndpoint: '/userinfo',
@@ -98,21 +98,21 @@ describe('AuthConfigService', () => {
     });
   });
 
-  describe('getLoginEndpoint', () => {
-    it('should return login endpoint with provided auth baseUrl', () => {
-      expect(service.getLoginEndpoint()).toEqual('authBaseUrl/login');
+  describe('getLoginUrl', () => {
+    it('should return login url with provided auth baseUrl', () => {
+      expect(service.getLoginUrl()).toEqual('authBaseUrl/login');
     });
 
-    it('should return login endpoint with occ baseUrl, when auth baseUrl is not provided', () => {
+    it('should return login url with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
-      expect(service.getLoginEndpoint()).toEqual(
+      expect(service.getLoginUrl()).toEqual(
         'occBaseUrl/authorizationserver/login'
       );
     });
 
-    it('should add / when login endpoint does not start with it', () => {
-      authConfig.authentication.loginEndpoint = 'login';
-      expect(service.getLoginEndpoint()).toEqual('authBaseUrl/login');
+    it('should add / when login url does not start with it', () => {
+      authConfig.authentication.loginUrl = 'login';
+      expect(service.getLoginUrl()).toEqual('authBaseUrl/login');
     });
   });
 

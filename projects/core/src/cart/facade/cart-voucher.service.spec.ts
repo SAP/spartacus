@@ -14,13 +14,13 @@ import { CartVoucherService } from './cart-voucher.service';
 
 const userId = 'testUserId';
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of(userId);
   }
 }
 
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
     return of('testCartId');
   }

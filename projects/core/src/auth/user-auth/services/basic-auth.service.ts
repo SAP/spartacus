@@ -6,7 +6,6 @@ import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthToken } from '../models/auth-token.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
@@ -62,13 +61,6 @@ export class BasicAuthService {
   }
 
   /**
-   * Returns the user's token
-   */
-  public getToken(): Observable<AuthToken> {
-    return this.authStorageService.getToken();
-  }
-
-  /**
    * Logout a storefront customer
    */
   public logout(): Promise<any> {
@@ -85,7 +77,7 @@ export class BasicAuthService {
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
   public isUserLoggedIn(): Observable<boolean> {
-    return this.getToken().pipe(
+    return this.authStorageService.getToken().pipe(
       map((userToken) => Boolean(userToken?.access_token)),
       distinctUntilChanged()
     );

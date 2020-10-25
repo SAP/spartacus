@@ -8,6 +8,9 @@ import { ClientAuthActions } from '../store/actions/index';
 import { StateWithClientAuth } from '../store/client-auth-state';
 import { ClientAuthSelectors } from '../store/selectors/index';
 
+/**
+ * Serves a role of a facade on client token store.
+ */
 @Injectable({
   providedIn: 'root',
 })

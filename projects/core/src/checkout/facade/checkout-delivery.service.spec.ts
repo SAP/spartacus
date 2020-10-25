@@ -24,7 +24,7 @@ describe('CheckoutDeliveryService', () => {
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class ActiveCartServiceStub {
+  class ActiveCartServiceStub implements Partial<ActiveCartService> {
     cart;
     isGuestCart() {
       return true;
@@ -39,7 +39,7 @@ describe('CheckoutDeliveryService', () => {
     }
   }
 
-  class UserIdServiceStub {
+  class UserIdServiceStub implements Partial<UserIdService> {
     userId;
     getUserId() {
       return of(userId);

@@ -89,8 +89,6 @@ export class B2BUserService {
   }
 
   create(orgCustomer: B2BUser): void {
-    delete orgCustomer.isAssignedToApprovers;
-
     this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUser({

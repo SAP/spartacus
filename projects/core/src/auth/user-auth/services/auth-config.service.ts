@@ -17,10 +17,20 @@ export class AuthConfigService {
     protected occConfig: OccConfig
   ) {}
 
+  /**
+   * Get client_id
+   *
+   * @return client_id
+   */
   public getClientId(): string {
     return this.authConfig.authentication.client_id ?? '';
   }
 
+  /**
+   * Get client_secret. OAuth server shouldn't require it from web apps (but Hybris OAuth server requires).
+   *
+   * @return client_secret
+   */
   public getClientSecret(): string {
     return this.authConfig.authentication.client_secret ?? '';
   }
@@ -46,9 +56,9 @@ export class AuthConfigService {
   /**
    * Returns url for redirect to the authorization server to get token/code
    */
-  public getLoginEndpoint(): string {
-    const loginEndpoint = this.authConfig.authentication.loginEndpoint ?? '';
-    return this.prefixEndpoint(loginEndpoint);
+  public getLoginUrl(): string {
+    const loginUrl = this.authConfig.authentication.loginUrl ?? '';
+    return this.prefixEndpoint(loginUrl);
   }
 
   /**
@@ -59,17 +69,26 @@ export class AuthConfigService {
     return this.prefixEndpoint(revokeEndpoint);
   }
 
+  /**
+   * Returns logout url to redirect to on logout.
+   */
   public getLogoutUrl(): string {
     const logoutUrl = this.authConfig.authentication.logoutUrl ?? '';
     return this.prefixEndpoint(logoutUrl);
   }
 
+  /**
+   * Returns userinfo endpoint of the OAuth server.
+   */
   public getUserinfoEndpoint(): string {
     const userinfoEndpoint =
       this.authConfig.authentication.userinfoEndpoint ?? '';
     return this.prefixEndpoint(userinfoEndpoint);
   }
 
+  /**
+   * Returns configuration specific for the angular-oauth2-oidc library.
+   */
   public getOAuthLibConfig(): AuthLibConfig {
     return this.authConfig.authentication?.OAuthLibConfig ?? {};
   }

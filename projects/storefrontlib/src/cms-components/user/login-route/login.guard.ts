@@ -11,7 +11,8 @@ import {
   AuthService,
   OAuthFlow,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
 /**
@@ -25,7 +26,7 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 })
 export class LoginGuard implements CanActivate {
   constructor(
-    protected auth: AuthService,
+    protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected authConfigService: AuthConfigService,
     protected cmsPageGuard: CmsPageGuard
@@ -35,26 +36,26 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    let isUserLoggedIn = false;
-    this.auth
-      .isUserLoggedIn()
-      .subscribe((loggedIn) => (isUserLoggedIn = loggedIn))
-      .unsubscribe();
-
-    if (
-      this.authConfigService.getOAuthFlow() ===
-        OAuthFlow.ResourceOwnerPasswordFlow ||
-      isUserLoggedIn
-    ) {
-      return this.cmsPageGuard.canActivate(route, state);
-    } else {
-      // Remember the previous url, so we can redirect user to that page after OAuth server callback
-      this.authRedirectService.reportNotAuthGuard();
-      // This method can trigger redirect to OAuth server that's why we don't return anything in this case
-      const redirected = this.auth.loginWithRedirect();
-      if (!redirected) {
-        return of(false);
-      }
-    }
+    return this.authService.isUserLoggedIn().pipe(
+      take(1),
+      switchMap((isUserLoggedIn) => {
+        if (
+          this.authConfigService.getOAuthFlow() ===
+            OAuthFlow.ResourceOwnerPasswordFlow ||
+          isUserLoggedIn
+        ) {
+          return this.cmsPageGuard.canActivate(route, state);
+        } else {
+          // Remember the previous url, so we can redirect user to that page after OAuth server callback
+          this.authRedirectService.reportNotAuthGuard();
+          // This method can trigger redirect to OAuth server that's why we don't return anything in this case
+          const redirected = this.authService.loginWithRedirect();
+          if (!redirected) {
+            return of(false);
+          }
+          return EMPTY;
+        }
+      })
+    );
   }
 }

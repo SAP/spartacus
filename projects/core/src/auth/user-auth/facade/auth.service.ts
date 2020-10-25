@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthToken } from '../models/auth-token.model';
 import { BasicAuthService } from '../services/basic-auth.service';
 
 @Injectable({
@@ -24,13 +23,6 @@ export class AuthService {
    */
   public authorize(userId: string, password: string): void {
     this.basicAuthService.authorize(userId, password);
-  }
-
-  /**
-   * Returns the user's token
-   */
-  public getToken(): Observable<AuthToken> {
-    return this.basicAuthService.getToken();
   }
 
   /**

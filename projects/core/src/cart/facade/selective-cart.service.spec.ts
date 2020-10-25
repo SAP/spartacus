@@ -33,7 +33,7 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return new BehaviorSubject<string>(OCC_USER_ID_CURRENT).asObservable();
   }
@@ -58,19 +58,19 @@ class MultiCartServiceStub {
   isStable() {}
 }
 
-class UserServiceStup {
+class UserServiceStub implements Partial<UserService> {
   get(): Observable<User> {
     return of(testUser);
   }
 }
 
-class BaseSiteServiceStub {
+class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of('electronics-spa');
   }
 }
 
-class CartConfigServiceStub {
+class CartConfigServiceStub implements Partial<CartConfigService> {
   isSelectiveCartEnabled(): boolean {
     return true;
   }
@@ -96,7 +96,7 @@ describe('Selective Cart Service', () => {
         SelectiveCartService,
         { provide: MultiCartService, useClass: MultiCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: UserService, useClass: UserServiceStup },
+        { provide: UserService, useClass: UserServiceStub },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: CartConfigService, useClass: CartConfigServiceStub },
       ],

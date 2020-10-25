@@ -6,6 +6,10 @@ import { SemanticPathService } from '../../../routing/configurable-routes/url-tr
 import { AuthService } from '../facade/auth.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 
+/**
+ * Checks if there is currently logged in user.
+ * Use to protect pages dedicated only for logged in users.
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -75,7 +75,6 @@ export class AsmMainUiComponent implements OnInit {
       });
   }
 
-  /** Tested */
   loginCustomerSupportAgent({
     userId,
     password,
@@ -86,12 +85,10 @@ export class AsmMainUiComponent implements OnInit {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
-  /** Tested */
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
-  /** Tested */
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
     this.csAgentAuthService.startCustomerEmulationSession(customerId);
     this.startingCustomerSession = true;

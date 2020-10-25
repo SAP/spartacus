@@ -5,7 +5,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
   goByUrl = jasmine.createSpy('goByUrl');
 }

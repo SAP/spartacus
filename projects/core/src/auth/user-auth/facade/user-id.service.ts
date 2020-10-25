@@ -6,8 +6,6 @@ import {
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
 
-// TODO: Add unit tests after we finalize API shape
-
 /**
  * This implementation is OCC specific.
  * Different backend might have completely different need regarding user id.
@@ -18,10 +16,17 @@ import {
   providedIn: 'root',
 })
 export class UserIdService {
-  private _userId = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
+  private _userId: Observable<string> = new BehaviorSubject<string>(
+    OCC_USER_ID_ANONYMOUS
+  );
 
+  /**
+   * Sets current user id.
+   *
+   * @param userId
+   */
   public setUserId(userId: string): void {
-    this._userId.next(userId);
+    (this._userId as BehaviorSubject<string>).next(userId);
   }
 
   /**
@@ -35,7 +40,7 @@ export class UserIdService {
    * asm customer emulation session, the userId will be the customerId.
    */
   public getUserId(): Observable<string> {
-    return this._userId.asObservable();
+    return this._userId;
   }
 
   /**

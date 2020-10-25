@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 
+/**
+ * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -31,28 +35,37 @@ export class AuthRedirectService {
     navigationId: number;
   };
 
+  /**
+   * Redirect to saved url (homepage if nothing is saved).
+   */
   redirect() {
-    let redirectUrl;
     this.authRedirectStorageService
       .getRedirectUrl()
-      .subscribe((url) => (redirectUrl = url))
-      .unsubscribe();
-    if (redirectUrl === undefined) {
-      this.routing.go('/');
-    } else {
-      this.routing.goByUrl(redirectUrl);
-    }
-    this.authRedirectStorageService.setRedirectUrl(undefined);
+      .pipe(take(1))
+      .subscribe((redirectUrl) => {
+        if (redirectUrl === undefined) {
+          this.routing.go('/');
+        } else {
+          this.routing.goByUrl(redirectUrl);
+        }
+        this.authRedirectStorageService.setRedirectUrl(undefined);
 
-    this.lastAuthGuardNavigation = undefined;
+        this.lastAuthGuardNavigation = undefined;
+      });
   }
 
+  /**
+   * Saves url of a page that user wanted to access, but wasn't yet logged in.
+   */
   reportAuthGuard() {
     const { url, navigationId } = this.getCurrentNavigation();
     this.lastAuthGuardNavigation = { url, navigationId };
     this.authRedirectStorageService.setRedirectUrl(url);
   }
 
+  /**
+   * Saves url of a page that was accessed before entering a page only for not auth users.
+   */
   reportNotAuthGuard() {
     const { url, initialUrl, navigationId } = this.getCurrentNavigation();
 

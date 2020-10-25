@@ -4,7 +4,7 @@ import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 
 /**
- * Indicates if auth token is for regular user or Customer Support Agent
+ * Indicates if auth token is for regular user or CS Agent.
  */
 export enum TokenTarget {
   CSAgent = 'CSAgent',
@@ -12,14 +12,18 @@ export enum TokenTarget {
 }
 
 /**
- * With AsmAuthStorageService apart from storing the token also need to store
+ * With AsmAuthStorageService apart from storing the token we also need to store
  * information for which user is the token (regular user or CS Agent).
+ *
+ * Overrides `AuthStorageService`.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
-  protected _tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
+  protected _tokenTarget$: Observable<TokenTarget> = new BehaviorSubject<
+    TokenTarget
+  >(TokenTarget.User);
 
   /**
    * When CS Agent logs in during regular user session we store the regular
@@ -30,28 +34,56 @@ export class AsmAuthStorageService extends AuthStorageService {
    */
   protected emulatedUserToken: AuthToken;
 
+  /**
+   * Get target user for current auth token.
+   *
+   * @return observable with TokenTarget
+   */
   getTokenTarget(): Observable<TokenTarget> {
-    return this._tokenTarget$.asObservable();
+    return this._tokenTarget$;
   }
 
+  /**
+   * Set new token target.
+   *
+   * @param tokenTarget
+   */
   setTokenTarget(tokenTarget: TokenTarget): void {
-    this._tokenTarget$.next(tokenTarget);
+    (this._tokenTarget$ as BehaviorSubject<TokenTarget>).next(tokenTarget);
   }
 
+  /**
+   * Get token for previously user session, when it was interrupted by CS agent login.
+   *
+   * @return previously logged in user token.
+   */
   getEmulatedUserToken(): AuthToken {
     return this.emulatedUserToken;
   }
 
+  /**
+   * Save user token on CS agent login.
+   *
+   * @param token
+   */
   setEmulatedUserToken(token: AuthToken): void {
     this.emulatedUserToken = token;
   }
 
+  /**
+   * Change token target to CS Agent.
+   */
   switchTokenTargetToCSAgent(): void {
-    this._tokenTarget$.next(TokenTarget.CSAgent);
+    (this._tokenTarget$ as BehaviorSubject<TokenTarget>).next(
+      TokenTarget.CSAgent
+    );
   }
 
+  /**
+   * Change token target to user.
+   */
   switchTokenTargetToUser(): void {
-    this._tokenTarget$.next(TokenTarget.User);
+    (this._tokenTarget$ as BehaviorSubject<TokenTarget>).next(TokenTarget.User);
   }
 
   /**

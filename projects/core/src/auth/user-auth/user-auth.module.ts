@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -10,6 +9,9 @@ import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
 
+/**
+ * Initialize the check for `token` or `code` in the url returned from the OAuth server.
+ */
 export function initOAuthCallback(
   authService: AuthService,
   configInit: ConfigInitializerService
@@ -30,8 +32,12 @@ export function authStatePersistenceFactory(
   return result;
 }
 
+/**
+ * Authentication module for a user. Handlers requests for logged in users,
+ * provides authorization services and storage for tokens.
+ */
 @NgModule({
-  imports: [CommonModule, HttpClientModule, OAuthModule.forRoot()],
+  imports: [CommonModule, OAuthModule.forRoot()],
 })
 export class UserAuthModule {
   static forRoot(): ModuleWithProviders<UserAuthModule> {

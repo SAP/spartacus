@@ -15,7 +15,6 @@ describe('AsmAuthStorageService', () => {
 
   beforeEach(() => {
     service = new AsmAuthStorageService();
-
     service.setTokenTarget(TokenTarget.User);
   });
 
@@ -93,7 +92,7 @@ describe('AsmAuthStorageService', () => {
   });
 
   describe('switchTokenTargetToUser()', () => {
-    it('should change target to CSAgent', (done: DoneFn) => {
+    it('should change target to User', (done: DoneFn) => {
       service.switchTokenTargetToCSAgent();
       service.switchTokenTargetToUser();
 
