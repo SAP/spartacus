@@ -1,4 +1,4 @@
-import { Rule, Tree } from '@angular-devkit/schematics';
+import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { TODO_SPARTACUS } from '../../../shared/constants';
 import {
@@ -7,36 +7,38 @@ import {
   getTsSourceFile,
   insertCommentAboveIdentifier,
   InsertDirection,
+  MethodPropertyDeprecation,
 } from '../../../shared/utils/file-utils';
 import { getSourceRoot } from '../../../shared/utils/workspace-utils';
-import { METHOD_PROPERTY_DATA } from './methods-and-properties-deprecations-data';
 
-export function migrate(): Rule {
-  return (tree: Tree) => {
-    const project = getSourceRoot(tree, {});
-    const sourceFiles = getAllTsSourceFiles(tree, project);
-    for (const originalSource of sourceFiles) {
-      const sourcePath = originalSource.fileName;
+export function migrateMethodPropertiesDeprecation(
+  tree: Tree,
+  _context: SchematicContext,
+  methodProperties: MethodPropertyDeprecation[]
+): Tree {
+  const project = getSourceRoot(tree, {});
+  const sourceFiles = getAllTsSourceFiles(tree, project);
+  for (const originalSource of sourceFiles) {
+    const sourcePath = originalSource.fileName;
 
-      for (const data of METHOD_PROPERTY_DATA) {
-        // 'source' has to be reloaded after each committed change
-        const source = getTsSourceFile(tree, sourcePath);
-        if (isImported(source, data.class, data.importPath)) {
-          const changes = insertCommentAboveIdentifier(
-            sourcePath,
-            source,
-            data.deprecatedNode,
-            data.comment
-              ? `${data.comment}\n`
-              : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
-          );
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
+    for (const data of methodProperties) {
+      // 'source' has to be reloaded after each committed change
+      const source = getTsSourceFile(tree, sourcePath);
+      if (isImported(source, data.class, data.importPath)) {
+        const changes = insertCommentAboveIdentifier(
+          sourcePath,
+          source,
+          data.deprecatedNode,
+          data.comment
+            ? `${data.comment}\n`
+            : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
+        );
+        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }
     }
+  }
 
-    return tree;
-  };
+  return tree;
 }
 
 export function buildMethodComment(

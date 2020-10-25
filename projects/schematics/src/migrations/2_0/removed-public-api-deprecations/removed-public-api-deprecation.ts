@@ -1,3 +1,4 @@
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ACTIVE_CART_SERVICE,
   ANONYMOUS_USERID_CONST,
@@ -73,6 +74,7 @@ import {
   WISHLIST_EFFECTS,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
+import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   // projects/core/src/cart/store/effects/cart.effect.ts
@@ -455,3 +457,9 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     comment: `'${ONLY_NUMBER_DIRECTIVE_MODULE}' was removed.`,
   },
 ];
+
+export function migrate(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
+  };
+}

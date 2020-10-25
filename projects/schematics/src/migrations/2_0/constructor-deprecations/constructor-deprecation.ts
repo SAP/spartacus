@@ -1,4 +1,6 @@
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
+import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
@@ -164,3 +166,13 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION,
   STORE_FINDER_GRID_COMPONENT_MIGRATION,
 ];
+
+export function migrate(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    return migrateConstructorDeprecation(
+      tree,
+      context,
+      CONSTRUCTOR_DEPRECATION_DATA
+    );
+  };
+}
