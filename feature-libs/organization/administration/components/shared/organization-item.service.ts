@@ -4,6 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 
@@ -36,15 +37,17 @@ export abstract class OrganizationItemService<T> {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
     } else {
-      const formValue = form.value;
       form.disable();
-
-      // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefore will fail with a 404 in case of routing
-      // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
-      this.launchDetails(formValue);
-
-      return key ? this.update(key, formValue) : this.create(formValue);
+      return (key
+        ? this.update(key, form.value)
+        : this.create(form.value)
+      ).pipe(
+        tap((details) => {
+          // we could throw an message here in case of an error,
+          // but quite likely it's currently shown in the global msg box
+          this.launchDetails(details.item);
+        })
+      );
     }
   }
 
