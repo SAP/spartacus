@@ -131,6 +131,7 @@ describe('OrganizationListComponent', () => {
   describe('with table data', () => {
     beforeEach(() => {
       spyOn(service, 'getData').and.returnValue(of(mockList));
+      spyOn(service, 'key').and.callThrough();
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -141,10 +142,8 @@ describe('OrganizationListComponent', () => {
     });
 
     it('should resolve get property', () => {
-      spyOn(service, 'key').and.callThrough();
-      const key = component.key;
       expect(service.key).toHaveBeenCalled();
-      expect(key).toEqual('code');
+      expect(component.key).toEqual('code');
     });
 
     it('should return list count', () => {
