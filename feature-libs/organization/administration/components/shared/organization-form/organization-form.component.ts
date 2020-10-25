@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { OrganizationCardComponent } from '../organization-card/organization-card.component';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
 import {
@@ -24,6 +25,8 @@ export class OrganizationFormComponent<T> {
    * either `.edit` or `.create`, depending on the usage of the component.
    */
   @Input() i18nRoot: string;
+
+  @Input() animateBack = true;
 
   /**
    * i18n key for the localizations.
@@ -80,5 +83,11 @@ export class OrganizationFormComponent<T> {
   protected setI18nRoot(item: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
+  }
+
+  back(event: MouseEvent, card: OrganizationCardComponent<any>) {
+    if (this.animateBack) {
+      card.closeView(event);
+    }
   }
 }

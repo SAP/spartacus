@@ -22,7 +22,7 @@ export class UnitCostCenterItemService extends CostCenterItemService {
     return 'orgUnitCostCenters';
   }
 
-  protected getRouteParams(item: CostCenter) {
+  protected buildRouteParams(item: CostCenter) {
     return { uid: item.unit.uid };
   }
 }

@@ -34,7 +34,7 @@ export class ChildUnitItemService extends UnitItemService {
     return 'orgUnitChildren';
   }
 
-  protected getRouteParams(item: B2BUnit) {
+  protected buildRouteParams(item: B2BUnit) {
     return { uid: item.parentOrgUnit.uid };
   }
 }
