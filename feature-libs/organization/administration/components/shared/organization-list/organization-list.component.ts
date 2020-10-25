@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -47,9 +52,7 @@ export class OrganizationListComponent<T = any, P = PaginationModel> {
     })
   );
 
-  get key(): string {
-    return this.service.key();
-  }
+  @Input() key = this.service.key();
 
   /**
    * Returns the total number of items.
