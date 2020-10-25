@@ -22,7 +22,6 @@ These are the steps to take in order to test both `@spartacus/schematics` and `s
 
 Make sure that:
 
-
 - Spartacus is already added to you project
 - you have `.npmrc` in the root of your testing project, that it contains the following content: `@spartacus:registry=http://localhost:4873`.
 
