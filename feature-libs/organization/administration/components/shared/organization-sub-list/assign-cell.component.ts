@@ -13,6 +13,7 @@ import { OrganizationListService } from '../organization-list/organization-list.
 import { MessageService } from '../organization-message/services/message.service';
 import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
 import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
+import { Observable } from 'rxjs';
 
 @Component({
   template: `
@@ -40,10 +41,13 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     this.organizationItemService.key$
       .pipe(
         first(),
-        switchMap((key) =>
-          this.isAssigned
-            ? this.unassign(key, this.link)
-            : this.assign(key, this.link)
+        switchMap(
+          (key) =>
+            (this.isAssigned
+              ? this.unassign(key, this.link)
+              : this.assign(key, this.link)) as Observable<
+              OrganizationItemStatus<T>
+            >
         ),
         take(1),
         filter(
@@ -54,13 +58,19 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
       .subscribe((data) => this.notify(data.item));
   }
 
-  protected assign(key: string, linkKey: string): OrganizationItemStatus<T> {
+  protected assign(
+    key: string,
+    linkKey: string
+  ): Observable<OrganizationItemStatus<T>> {
     return (this.organizationSubListService as OrganizationSubListService<
       T
     >).assign(key, linkKey);
   }
 
-  protected unassign(key: string, linkKey: string): OrganizationItemStatus<T> {
+  protected unassign(
+    key: string,
+    linkKey: string
+  ): Observable<OrganizationItemStatus<T>> {
     return (this.organizationSubListService as OrganizationSubListService<
       T
     >).unassign(key, linkKey);
