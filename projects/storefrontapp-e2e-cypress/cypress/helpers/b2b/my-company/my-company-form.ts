@@ -83,7 +83,7 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
     return cy.get('label span').contains(label).parent();
   }
 
-  // For situtations where more than one control exists in form with the same label.
+  // For situations where more than one control exists in form with the same label.
   function getFieldBySelector(selector: string) {
     return cy.get(selector);
   }
