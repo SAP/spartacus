@@ -19,6 +19,10 @@
       margin: auto;
       margin-top: 30px;
 
+      @include forVersion(2.5) {
+        margin-top: 0;
+      }
+
       @include media-breakpoint-down(md) {
         margin-top: 0;
       }
