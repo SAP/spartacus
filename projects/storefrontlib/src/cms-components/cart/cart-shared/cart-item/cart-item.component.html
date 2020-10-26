@@ -31,7 +31,7 @@
             {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
           </div>
 
-          <ng-template [cxOutlet]="Outlets.CONFIGURATOR_ISSUES"> </ng-template>
+          <ng-template [cxOutlet]="Outlets.CONFIGURATOR"> </ng-template>
 
           <!-- Variants -->
           <ng-container *ngIf="item.product.baseOptions?.length">
