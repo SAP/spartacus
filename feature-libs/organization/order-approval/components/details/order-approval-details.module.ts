@@ -20,7 +20,7 @@ import {
 } from '@spartacus/storefront';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
-import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details/order-detail-approval-details.component';
+import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
 
 @NgModule({
   imports: [
@@ -45,7 +45,7 @@ import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-det
           guards: [AuthGuard],
         },
         OrderApprovalDetailApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
+          component: OrderDetailPermissionResultsComponent,
           providers: [
             {
               provide: OrderDetailsService,
@@ -55,7 +55,7 @@ import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-det
           guards: [AuthGuard],
         },
         AccountOrderDetailsApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
+          component: OrderDetailPermissionResultsComponent,
         },
 
         OrderApprovalDetailShippingComponent: {
@@ -87,15 +87,15 @@ import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-det
   ],
   declarations: [
     OrderApprovalDetailFormComponent,
-    OrderDetailApprovalDetailsComponent,
+    OrderDetailPermissionResultsComponent,
   ],
   exports: [
     OrderApprovalDetailFormComponent,
-    OrderDetailApprovalDetailsComponent,
+    OrderDetailPermissionResultsComponent,
   ],
   entryComponents: [
     OrderApprovalDetailFormComponent,
-    OrderDetailApprovalDetailsComponent,
+    OrderDetailPermissionResultsComponent,
   ],
 })
 export class OrderApprovalDetailsModule {}

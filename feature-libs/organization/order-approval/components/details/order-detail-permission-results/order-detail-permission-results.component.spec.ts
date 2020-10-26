@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderDetailsService } from '../order-details.service';
-import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details.component';
+import { OrderDetailsService } from '@spartacus/storefront';
+import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results.component';
 
 const mockOrder: Order = {
   permissionResults: [
@@ -43,15 +43,15 @@ class MockOrderDetailsService {
   }
 }
 
-describe('OrderDetailApprovalDetailsComponent', () => {
-  let component: OrderDetailApprovalDetailsComponent;
-  let fixture: ComponentFixture<OrderDetailApprovalDetailsComponent>;
+describe('OrderDetailPermissionResultsComponent', () => {
+  let component: OrderDetailPermissionResultsComponent;
+  let fixture: ComponentFixture<OrderDetailPermissionResultsComponent>;
   let element: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [OrderDetailApprovalDetailsComponent],
+      declarations: [OrderDetailPermissionResultsComponent],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
@@ -59,7 +59,7 @@ describe('OrderDetailApprovalDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderDetailApprovalDetailsComponent);
+    fixture = TestBed.createComponent(OrderDetailPermissionResultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     element = fixture.debugElement;
