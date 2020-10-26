@@ -16,8 +16,6 @@ export class CartItemOutletConfiguratorComponent {
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
   hasStatus(item: OrderEntry): boolean {
-    // SPIKE TODO REMOVE CONSOLE:
-    // console.warn('change detection', window.performance.measure('spike'));
     return (
       item?.configurationInfos?.length > 0 &&
       item?.configurationInfos[0]?.status !== 'NONE'
