@@ -4,22 +4,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
-import { AuthRedirectService } from './auth-redirect.service';
+import { AuthRedirectService } from '../services/auth-redirect.service';
 import { NotAuthGuard } from './not-auth.guard';
 
-class AuthServiceStub {
+class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class SemanticPathServiceStub {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }
 }
 
-class MockAuthRedirectService {
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
   reportNotAuthGuard = jasmine.createSpy('reportNotAuthGuard');
 }
 

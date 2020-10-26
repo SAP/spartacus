@@ -5,12 +5,22 @@ import { switchMap, take } from 'rxjs/operators';
 import { ClientToken } from '../models/client-token.model';
 import { ClientTokenService } from './client-token.service';
 
+/**
+ * Service for handling `Authorization` header and errors for requests that
+ * require client token (eg. user registration).
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ClientErrorHandlingService {
   constructor(protected clientTokenService: ClientTokenService) {}
 
+  /**
+   * Refreshes client token and retries the request with the new token.
+   *
+   * @param request
+   * @param httpHandler
+   */
   public handleExpiredClientToken(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -23,6 +33,12 @@ export class ClientErrorHandlingService {
     );
   }
 
+  /**
+   * Clones the requests and provided `Authorization` header.
+   *
+   * @param request
+   * @param token
+   */
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
     token: ClientToken

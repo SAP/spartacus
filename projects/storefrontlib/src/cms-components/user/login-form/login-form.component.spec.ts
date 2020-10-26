@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthRedirectService,
   AuthService,
   FeaturesConfigModule,
   GlobalMessageService,
@@ -22,16 +21,13 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   authorize = createSpy();
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
 }
 
-class MockRedirectAfterAuthService {
-  redirect = createSpy('AuthRedirectService.redirect');
-}
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -41,7 +37,6 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: AuthService;
-  let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
@@ -57,10 +52,6 @@ describe('LoginFormComponent', () => {
       providers: [
         WindowRef,
         { provide: AuthService, useClass: MockAuthService },
-        {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
-        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -70,7 +61,6 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
     windowRef = TestBed.inject(WindowRef);
   });
 
@@ -116,7 +106,6 @@ describe('LoginFormComponent', () => {
       component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(email, password);
-      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
 
     it('should not login when form not valid', () => {
@@ -126,7 +115,6 @@ describe('LoginFormComponent', () => {
       component.submitForm();
 
       expect(authService.authorize).not.toHaveBeenCalled();
-      expect(authRedirectService.redirect).not.toHaveBeenCalled();
     });
 
     it('should handle changing email to lowercase', () => {

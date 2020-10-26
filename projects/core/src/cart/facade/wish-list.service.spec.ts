@@ -46,15 +46,15 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(userId));
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(user));
 }
 
-class MockMultiCartService {
+class MockMultiCartService implements Partial<MultiCartService> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();

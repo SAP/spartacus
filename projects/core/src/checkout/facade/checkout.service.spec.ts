@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
@@ -37,7 +37,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
 
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }
@@ -47,13 +47,14 @@ class ActiveCartServiceStub {
   }
 }
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   userId;
   getUserId() {
     return of(this.userId);
   }
   invokeWithUserId(cb) {
     cb(this.userId);
+    return new Subscription();
   }
 }
 

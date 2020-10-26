@@ -39,7 +39,7 @@ const activatedRoute = ({
   },
 } as unknown) as ActivatedRouteSnapshot;
 
-class MockProductService {
+class MockProductService implements Partial<ProductService> {
   get(): Observable<Product> {
     return of();
   }

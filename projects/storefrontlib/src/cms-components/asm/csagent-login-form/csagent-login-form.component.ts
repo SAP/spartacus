@@ -7,7 +7,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CsAgentAuthService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-csagent-login-form',
@@ -24,10 +23,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(
-    private fb: FormBuilder,
-    private csAgentAuthService: CsAgentAuthService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({
@@ -45,9 +41,5 @@ export class CSAgentLoginFormComponent implements OnInit {
     } else {
       this.csAgentLoginForm.markAllAsTouched();
     }
-  }
-
-  loginWithImplicitFlow() {
-    this.csAgentAuthService.authorizeCustomerSupportAgent();
   }
 }

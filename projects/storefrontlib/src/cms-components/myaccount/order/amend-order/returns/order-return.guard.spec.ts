@@ -12,13 +12,13 @@ const mockForm = new FormGroup({
   any: mockControl,
 });
 
-class MockOrderReturnService {
+class MockOrderReturnService implements Partial<OrderReturnService> {
   getForm(): Observable<FormGroup> {
     return of(new FormGroup({}));
   }
 }
 
-class MockSemanticPathService {
+class MockSemanticPathService implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }
@@ -58,13 +58,13 @@ describe(`OrderReturnGuard`, () => {
     expect(result.toString()).toEqual('/orders');
   });
 
-  it(`should not redirect to the order detail page`, () => {
+  it(`should return true when the form data is valid`, () => {
     mockControl.setValue(100);
     let result: boolean | UrlTree;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result).toBeTruthy();
+    expect(result).toBeTrue();
   });
 });

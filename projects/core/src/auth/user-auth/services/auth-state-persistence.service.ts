@@ -2,19 +2,23 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { AuthStorageService } from './auth-storage.service';
 
-// TODO: Should we declare basic parameters like in UserToken or keep everything custom?
+/**
+ * Auth state synced to browser storage.
+ */
 export interface SyncedAuthState {
-  userId: string;
-  access_token: string;
-  [token_param: string]: any;
-  redirectUrl: string;
+  userId?: string;
+  token?: AuthToken;
+  redirectUrl?: string;
 }
 
+/**
+ * Responsible for saving the authorization data (userId, token, redirectUrl) in browser storage.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -28,9 +32,15 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected authRedirectStorageService: AuthRedirectStorageService
   ) {}
 
+  /**
+   * Identifier used for storage key.
+   */
   protected key = 'auth';
 
-  public sync() {
+  /**
+   * Initializes the synchronization between state and browser storage.
+   */
+  public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
@@ -40,6 +50,10 @@ export class AuthStatePersistenceService implements OnDestroy {
     );
   }
 
+  /**
+   * Gets and transforms state from different sources into the form that should
+   * be saved in storage.
+   */
   protected getAuthState(): Observable<SyncedAuthState> {
     return combineLatest([
       this.authStorageService.getToken().pipe(
@@ -53,26 +67,39 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.userIdService.getUserId(),
       this.authRedirectStorageService.getRedirectUrl(),
     ]).pipe(
-      map(([token, userId, redirectUrl]) => ({ ...token, userId, redirectUrl }))
+      map(([authToken, userId, redirectUrl]) => {
+        let token = authToken;
+        if (token) {
+          token = { ...token };
+          // To minimize risk of user account hijacking we don't persist user refresh_token
+          delete token.refresh_token;
+        }
+        return { token, userId, redirectUrl };
+      })
     );
   }
 
-  // TODO: Should we still omit refresh_token as before?
+  /**
+   * Function called on each browser storage read.
+   * Used to update state from browser -> state.
+   */
   protected onRead(state: SyncedAuthState) {
     if (state) {
-      const tokenData = Object.fromEntries(
-        Object.entries(state).filter(([key]) => {
-          // userId used only for userIdService
-          // redirectUrl used only for auth redirects
-          return key !== 'userId' && key !== 'redirectUrl';
-        })
-      );
-      this.authStorageService.setToken(tokenData as AuthToken);
-      this.userIdService.setUserId(state.userId);
-      this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
+      if (state.token) {
+        this.authStorageService.setToken(state.token);
+      }
+      if (state.userId) {
+        this.userIdService.setUserId(state.userId);
+      }
+      if (state.redirectUrl) {
+        this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
+      }
     }
   }
 
+  /**
+   * Reads synchronously state from storage and returns it.
+   */
   public readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,

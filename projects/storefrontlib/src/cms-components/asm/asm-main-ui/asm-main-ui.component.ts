@@ -63,16 +63,16 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   private handleCustomerSessionStartRedirection(): void {
-    let isCustomerEmulated;
-    this.csAgentAuthService
-      .isCustomerEmulated()
+    this.asmComponentService
+      .isCustomerEmulationSessionInProgress()
       .pipe(take(1))
-      .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
-    if (this.startingCustomerSession && isCustomerEmulated) {
-      this.startingCustomerSession = false;
-      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-      this.routingService.go('/');
-    }
+      .subscribe((isCustomerEmulated) => {
+        if (this.startingCustomerSession && isCustomerEmulated) {
+          this.startingCustomerSession = false;
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.routingService.go('/');
+        }
+      });
   }
 
   loginCustomerSupportAgent({

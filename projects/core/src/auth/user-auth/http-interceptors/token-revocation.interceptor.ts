@@ -6,10 +6,13 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthStorageService } from '../facade/auth-storage.service';
+import { switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
+import { AuthStorageService } from '../services/auth-storage.service';
 
-// We need this one, because OAuth hybris server requires access_token in header for revoke token. XD
+/**
+ * This interceptor is dedicated for Hybris OAuth server which requires `Authorization` header for revoke token calls.
+ */
 @Injectable({ providedIn: 'root' })
 export class TokenRevocationInterceptor implements HttpInterceptor {
   constructor(
@@ -22,22 +25,21 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
-    if (isTokenRevocationRequest) {
-      let token;
-      this.authStorageService
-        .getToken()
-        .subscribe((tok) => (token = tok))
-        .unsubscribe();
-      request = request.clone({
-        setHeaders: {
-          Authorization: `${token.token_type || 'Bearer'} ${
-            token.access_token
-          }`,
-        },
-      });
-    }
-
-    return next.handle(request);
+    return this.authStorageService.getToken().pipe(
+      take(1),
+      switchMap((token) => {
+        if (isTokenRevocationRequest) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `${token.token_type || 'Bearer'} ${
+                token.access_token
+              }`,
+            },
+          });
+        }
+        return next.handle(request);
+      })
+    );
   }
 
   protected isTokenRevocationRequest(request: HttpRequest<any>): boolean {

@@ -26,16 +26,16 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('');
   }
 }
 
-class MockAsmComponentService {
+class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
   isNavigating() {
     return of(false);

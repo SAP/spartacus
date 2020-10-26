@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/index';
@@ -33,20 +33,13 @@ export class UserService {
    * Returns a user
    */
   get(): Observable<User> {
-    // TODO: Temporary fix to load the data after login
-    return combineLatest([
-      this.store.pipe(select(UsersSelectors.getDetails)),
-      this.userIdService.getUserId(),
-    ]).pipe(
-      tap(([details, userId]) => {
-        if (
-          Object.keys(details).length === 0 &&
-          userId !== OCC_USER_ID_ANONYMOUS
-        ) {
+    return this.store.pipe(
+      select(UsersSelectors.getDetails),
+      tap((details) => {
+        if (Object.keys(details).length === 0) {
           this.load();
         }
-      }),
-      map(([details]) => details)
+      })
     );
   }
 

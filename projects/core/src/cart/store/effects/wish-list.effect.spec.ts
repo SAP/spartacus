@@ -62,7 +62,7 @@ class MockSaveCartConnector {
   saveCart = createSpy().and.returnValue(of(saveCartResult));
 }
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(userId));
 }
 

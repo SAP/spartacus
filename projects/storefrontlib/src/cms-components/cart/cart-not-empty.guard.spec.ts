@@ -8,7 +8,7 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return of();
   }
@@ -17,7 +17,7 @@ class ActiveCartServiceStub {
   }
 }
 
-class SemanticPathServiceStub {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get(a: string) {
     return `/${a}`;
   }

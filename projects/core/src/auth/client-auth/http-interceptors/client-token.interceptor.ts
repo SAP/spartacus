@@ -17,6 +17,10 @@ import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 
+/**
+ * Interceptor for handling requests with `USE_CLIENT_TOKEN` header.
+ * Provides `Authorization` header with client token and handles errors related to client auth.
+ */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
   constructor(

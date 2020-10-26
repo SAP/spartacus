@@ -13,38 +13,38 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';
 import createSpy = jasmine.createSpy;
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   dismissActiveModal(): void {}
 }
 
-class MockUserService {
-  remove(_userId: string): void {}
-  getRemoveUserResultSuccess(): Observable<Boolean> {
+class MockUserService implements Partial<UserService> {
+  remove(): void {}
+  getRemoveUserResultSuccess(): Observable<boolean> {
     return of();
   }
 
-  getRemoveUserResultError(): Observable<Boolean> {
+  getRemoveUserResultError(): Observable<boolean> {
     return of();
   }
 
-  getRemoveUserResultLoading(): Observable<Boolean> {
+  getRemoveUserResultLoading(): Observable<boolean> {
     return of(false);
   }
 
   resetRemoveUserProcessState(): void {}
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
 }
 

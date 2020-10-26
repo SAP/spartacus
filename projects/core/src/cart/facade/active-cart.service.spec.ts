@@ -21,7 +21,7 @@ import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return userId$.asObservable();
   }
@@ -292,14 +292,14 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch load for current -> emulated user switch', () => {
-      service['userId'] = 'fdsfds-fsdfsd-fdsfsd-fsd';
+      service['userId'] = 'ala-ma-kota';
       service['previousUserId'] = 'current';
 
       spyOn(multiCartService, 'loadCart').and.callThrough();
 
       service['loadOrMerge']('cartId');
       expect(multiCartService['loadCart']).toHaveBeenCalledWith({
-        userId: 'fdsfds-fsdfsd-fdsfsd-fsd',
+        userId: 'ala-ma-kota',
         cartId: 'cartId',
         extraData: {
           active: true,
@@ -311,6 +311,7 @@ describe('ActiveCartService', () => {
       spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
 
       service['userId'] = 'userId';
+      service['previousUserId'] = 'anonymous';
       service['loadOrMerge']('cartId');
 
       expect(multiCartService.mergeToCurrentCart).toHaveBeenCalledWith({
@@ -588,11 +589,15 @@ describe('ActiveCartService', () => {
 
   describe('isJustLoggedIn', () => {
     it('should only return true after user change', () => {
+      // set to anonymous value as other tests altered that value
+      service['previousUserId'] = 'anonymous';
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(true);
     });
 
     it('should return false when previous user is identical', () => {
+      // simulate that we got current user after initialization
+      service['previousUserId'] = 'current';
       userId$.next(OCC_CART_ID_CURRENT);
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(false);

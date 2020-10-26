@@ -2,44 +2,48 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
+import { AuthActions } from '../../auth/user-auth/store/actions';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { UserService } from '../../user/facade/user.service';
 import {
   AsmAuthStorageService,
   TokenTarget,
 } from '../services/asm-auth-storage.service';
-import { AsmAuthService } from '../services/asm-auth.service';
 import { AsmActions } from '../store/actions';
 import { StateWithAsm } from '../store/asm-state';
 
+/**
+ * Auth service for CS agent. Useful to login/logout agent, start emulation
+ * or get information about the status of emulation.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CsAgentAuthService {
   constructor(
-    protected authService: AsmAuthService,
+    protected authService: AuthService,
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
-    protected cxOAuthService: CxOAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store<StateWithAsm>,
-    protected userService: UserService,
-    protected routingService: RoutingService
+    protected userService: UserService
   ) {}
 
   /**
-   * Loads a user token for a customer support agent
+   * Loads access token for a customer support agent.
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(): void;
-  authorizeCustomerSupportAgent(userId: string, password: string): void;
-  authorizeCustomerSupportAgent(userId?: string, password?: string): void {
+  async authorizeCustomerSupportAgent(
+    userId: string,
+    password: string
+  ): Promise<void> {
     let userToken;
     this.authStorageService
       .getToken()
@@ -47,31 +51,31 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     this.authStorageService.switchTokenTargetToCSAgent();
-    if (userId && password) {
-      this.cxOAuthService
-        .authorizeWithPasswordFlow(userId, password)
-        .then(() => {
-          // Start emulation for currently logged in user
-          let customerId: string;
-          this.userService
-            .get()
-            .subscribe((user) => (customerId = user?.customerId))
-            .unsubscribe();
-          if (Boolean(customerId)) {
-            // OCC specific user id handling. Customize when implementing different backend
-            this.userIdService.setUserId(customerId);
-            this.authStorageService.setEmulatedUserToken(userToken);
-          } else {
-            // When we can't get the customerId just end all current sessions
-            this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-            this.authStorageService.clearEmulatedUserToken();
-          }
-        })
-        .catch(() => {
-          this.authStorageService.switchTokenTargetToUser();
-        });
-    } else {
-      this.authService.loginWithImplicitFlow();
+    try {
+      await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
+        userId,
+        password
+      );
+      // Start emulation for currently logged in user
+      let customerId: string;
+      this.userService
+        .get()
+        .subscribe((user) => (customerId = user?.customerId))
+        .unsubscribe();
+      this.store.dispatch(new AuthActions.Logout());
+
+      if (Boolean(customerId)) {
+        // OCC specific user id handling. Customize when implementing different backend
+        this.userIdService.setUserId(customerId);
+        this.authStorageService.setEmulatedUserToken(userToken);
+        this.store.dispatch(new AuthActions.Login());
+      } else {
+        // When we can't get the customerId just end all current sessions
+        this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        this.authStorageService.clearEmulatedUserToken();
+      }
+    } catch {
+      this.authStorageService.switchTokenTargetToUser();
     }
   }
 
@@ -84,23 +88,31 @@ export class CsAgentAuthService {
     this.authStorageService.clearEmulatedUserToken();
 
     // OCC specific user id handling. Customize when implementing different backend
+    this.store.dispatch(new AuthActions.Logout());
     this.userIdService.setUserId(customerId);
+    this.store.dispatch(new AuthActions.Login());
   }
 
+  /**
+   * Check if CS agent is currently logged in.
+   *
+   * @returns observable emitting true when CS agent is logged in or false when not.
+   */
   public isCustomerSupportAgentLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
-      map(
-        ([token, tokenTarget]) =>
-          token?.access_token && tokenTarget === TokenTarget.CSAgent
+      map(([token, tokenTarget]) =>
+        Boolean(token?.access_token && tokenTarget === TokenTarget.CSAgent)
       )
     );
   }
 
   /**
    * Utility function to determine if customer is emulated.
+   *
+   * @returns observable emitting true when there is active emulation session or false when not.
    */
   public isCustomerEmulated(): Observable<boolean> {
     return this.userIdService.isEmulated();
@@ -115,25 +127,30 @@ export class CsAgentAuthService {
   }
 
   /**
-   * Logout a customer support agent
+   * Logout a customer support agent.
    */
-  public logoutCustomerSupportAgent(): void {
+  async logoutCustomerSupportAgent(): Promise<void> {
     const emulatedToken = this.authStorageService.getEmulatedUserToken();
+
     let isCustomerEmulated;
     this.userIdService
       .isEmulated()
       .subscribe((emulated) => (isCustomerEmulated = emulated))
       .unsubscribe();
-    this.cxOAuthService.revokeAndLogout().then(() => {
-      this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-      this.authStorageService.setTokenTarget(TokenTarget.User);
-      if (isCustomerEmulated && emulatedToken) {
-        this.authStorageService.setToken(emulatedToken);
-        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-        this.authStorageService.clearEmulatedUserToken();
-      } else {
-        this.routingService.go({ cxRoute: 'logout' });
-      }
-    });
+
+    await this.oAuthLibWrapperService.revokeAndLogout();
+
+    this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+    this.authStorageService.setTokenTarget(TokenTarget.User);
+
+    if (isCustomerEmulated && emulatedToken) {
+      this.store.dispatch(new AuthActions.Logout());
+      this.authStorageService.setToken(emulatedToken);
+      this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+      this.authStorageService.clearEmulatedUserToken();
+      this.store.dispatch(new AuthActions.Login());
+    } else {
+      this.authService.initLogout();
+    }
   }
 }

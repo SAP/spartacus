@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address } from '../../model/address.model';
 import { CostCenter } from '../../model/org-unit.model';
@@ -11,10 +12,11 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserCostCenterService } from './user-cost-center.service';
 
 const userId = 'testUserId';
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   userId;
   invokeWithUserId(cb) {
     cb(userId);
+    return new Subscription();
   }
 }
 describe('PaymentTypeService', () => {

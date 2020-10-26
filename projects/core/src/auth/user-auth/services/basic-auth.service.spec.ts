@@ -1,52 +1,90 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { TokenResponse } from 'angular-oauth2-oidc';
+import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
-import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
-import {
-  ClientAuthState,
-  CLIENT_AUTH_FEATURE,
-} from '../../client-auth/store/client-auth-state';
-import * as fromReducers from '../../client-auth/store/reducers/index';
-import { AuthService } from '../facade/auth.service';
+import { take } from 'rxjs/operators';
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthActions } from '../store/actions';
+import { AuthRedirectService } from './auth-redirect.service';
+import { AuthStorageService } from './auth-storage.service';
+import { BasicAuthService } from './basic-auth.service';
+import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
-const mockToken = {
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as AuthToken;
-
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('');
   }
   clearUserId() {}
+  setUserId() {}
 }
 
-// TODO(#8246): Fix unit tests after final implementation
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  revokeAndLogout() {
+    return Promise.resolve();
+  }
+  authorizeWithPasswordFlow() {
+    return Promise.resolve({} as TokenResponse);
+  }
+  initLoginFlow() {}
+  tryLogin() {
+    return Promise.resolve(true);
+  }
+}
+
+class MockAuthStorageService implements Partial<AuthStorageService> {
+  getToken() {
+    return of({ access_token: 'token' } as AuthToken);
+  }
+  getItem() {
+    return 'value';
+  }
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  redirect() {}
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go() {}
+}
+
 describe('BasicAuthService', () => {
-  let service: AuthService;
-  let store: Store<ClientAuthState>;
+  let service: BasicAuthService;
+  let routingService: RoutingService;
+  let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
+  let oAuthLibWrapperService: OAuthLibWrapperService;
+  let authRedirectService: AuthRedirectService;
+  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(CLIENT_AUTH_FEATURE, fromReducers.getReducers()),
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [
-        AuthService,
+        BasicAuthService,
         {
           provide: UserIdService,
           useClass: MockUserIdService,
         },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(BasicAuthService);
+    routingService = TestBed.inject(RoutingService);
+    authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
+    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
     store = TestBed.inject(Store);
   });
 
@@ -54,126 +92,100 @@ describe('BasicAuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return a user token', () => {
-    // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
+  describe('checkOAuthParamsInUrl()', () => {
+    it('should login user when token is present', async () => {
+      spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOn(authStorageService, 'getItem').and.returnValue('token');
 
-    let result: AuthToken;
-    service
-      .getToken()
-      .subscribe((token) => (result = token))
-      .unsubscribe();
-    expect(result).toEqual(mockToken);
-  });
+      await service.checkOAuthParamsInUrl();
 
-  it('should expose userToken state', () => {
-    // store.dispatch(new AuthActions.SetUserTokenData(mockToken));
-
-    let result: AuthToken;
-    const subscription = service.getToken().subscribe((token) => {
-      result = token;
+      expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
-    subscription.unsubscribe();
-
-    expect(result).toEqual(mockToken);
   });
 
-  it('should dispatch proper action for authorize', () => {
-    spyOn(store, 'dispatch').and.stub();
+  describe('loginWithRedirect()', () => {
+    it('should initialize login flow', () => {
+      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
 
-    service.authorize('user', 'password');
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    // new AuthActions.LoadUserToken({
-    //   userId: 'user',
-    //   password: 'password',
-    // })
-    // );
+      const result = service.loginWithRedirect();
+
+      expect(result).toBeTrue();
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
+    });
   });
 
-  it('should dispatch proper action for refreshUserToken', () => {
-    spyOn(store, 'dispatch').and.stub();
+  describe('authorize()', () => {
+    it('should login user', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
 
-    // service.refreshUserToken();
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.RefreshUserToken({
-    //     refreshToken: mockToken.refresh_token,
-    //   })
-    // );
+      await service.authorize('username', 'pass');
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('username', 'pass');
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
   });
 
-  it('should dispatch proper action for authorizeToken', () => {
-    spyOn(store, 'dispatch').and.stub();
+  describe('logout()', () => {
+    it('should revoke tokens and logout', async () => {
+      spyOn(userIdService, 'clearUserId').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
 
-    // service.authorizeWithToken(mockToken);
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.LoadUserTokenSuccess(mockToken)
-    // );
+      await service.logout();
+
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+    });
   });
 
-  it('should dispatch proper actions for logout when user token exists', () => {
-    spyOn(store, 'dispatch').and.stub();
-    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-    spyOn(service, 'getToken').and.returnValue(of(testToken));
-    spyOn(userIdService, 'clearUserId').and.stub();
-
-    service.logout();
-
-    expect(userIdService.clearUserId).toHaveBeenCalled();
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.ClearUserToken()
-    // );
-    expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.RevokeUserToken(testToken)
-    // );
-  });
-
-  it('should dispatch proper action for logout when user token does not exist', () => {
-    spyOn(store, 'dispatch').and.stub();
-    const testToken = undefined;
-    spyOn(service, 'getToken').and.returnValue(of(testToken as AuthToken));
-    spyOn(userIdService, 'clearUserId').and.stub();
-
-    service.logout();
-
-    expect(userIdService.clearUserId).toHaveBeenCalled();
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.ClearUserToken()
-    // );
-    expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-    // expect(store.dispatch).not.toHaveBeenCalledWith(
-    //   new AuthActions.RevokeUserToken(testToken as UserToken)
-    // );
-  });
-
-  describe('isUserLoggedIn', () => {
-    it('should return false if the userToken is not present', () => {
-      spyOn(service, 'getToken').and.returnValue(of(null));
-      let result = true;
+  describe('isUserLoggedIn()', () => {
+    it('should return true when there is access_token', (done) => {
       service
         .isUserLoggedIn()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(false);
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBeTrue();
+          done();
+        });
     });
-    it('should return false if the userToken is present but userToken.access_token is not', () => {
-      spyOn(service, 'getToken').and.returnValue(of({} as AuthToken));
-      let result = true;
+
+    it('should return false when there is not access_token', (done) => {
+      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+
       service
         .isUserLoggedIn()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(false);
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBeFalse();
+          done();
+        });
     });
-    it('should return true if the userToken and userToken.access_token are present', () => {
-      spyOn(service, 'getToken').and.returnValue(
-        of({ access_token: 'xxx' } as AuthToken)
-      );
-      let result = false;
-      service
-        .isUserLoggedIn()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(true);
+  });
+
+  describe('initLogout()', () => {
+    it('should redirect url to logout page', () => {
+      spyOn(routingService, 'go').and.callThrough();
+
+      service.initLogout();
+
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
     });
   });
 });

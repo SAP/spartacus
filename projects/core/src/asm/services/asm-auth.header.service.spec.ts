@@ -3,8 +3,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
-import { CxOAuthService } from '../../auth/user-auth/facade/cx-oauth-service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
+import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
@@ -12,34 +13,38 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
 import { AsmAuthHeaderService } from './asm-auth.header.service';
 
-class MockCsAgentAuthService {
-  isCustomerEmulated() {
-    return of(false);
-  }
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {
     return of(false);
   }
-  logoutCustomerSupportAgent() {}
+  logoutCustomerSupportAgent() {
+    return Promise.resolve();
+  }
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
+  logout() {
+    return Promise.resolve();
+  }
+}
+
+class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
     return of({ access_token: 'acc_token' } as AuthToken);
   }
-  logout() {}
 }
 
-class MockCxOAuthService {}
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {}
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
 }
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockOccEndpointsService {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getBaseEndpoint() {
     return 'some-server/occ';
   }
@@ -59,10 +64,14 @@ describe('AsmAuthHeaderService', () => {
         AsmAuthHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CxOAuthService, useClass: MockCxOAuthService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
       ],
     });
 
@@ -148,7 +157,6 @@ describe('AsmAuthHeaderService', () => {
 
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
       spyOn(authService, 'logout').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
       spyOn(
         csAgentAuthService,
         'isCustomerSupportAgentLoggedIn'
@@ -159,27 +167,6 @@ describe('AsmAuthHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.logout).not.toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-      expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'asm.csagentTokenExpired',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should logoutCustomerSupportAgent when user is emulated', () => {
-      spyOn(authService, 'logout').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(of(true));
-      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
-
-      service.handleExpiredRefreshToken();
-
-      expect(authService.logout).not.toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {

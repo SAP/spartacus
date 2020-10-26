@@ -6,7 +6,7 @@ export const defaultAuthConfig: AuthConfig = {
     client_secret: 'secret',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
-    loginEndpoint: '/oauth/authorize',
+    loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],
@@ -14,7 +14,7 @@ export const defaultAuthConfig: AuthConfig = {
       skipIssuerCheck: true,
       disablePKCE: true,
       oidc: false,
-      clearHashAfterLogin: true,
+      clearHashAfterLogin: false,
     },
   },
 };

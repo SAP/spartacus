@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthToken } from '../models/auth-token.model';
 import { BasicAuthService } from '../services/basic-auth.service';
 
+/**
+ * Auth facade on BasicAuthService and AsmAuthService.
+ * This service should be used in components, other core features.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(protected basicAuthService: BasicAuthService) {
-    this.initImplicit();
-  }
+  constructor(protected basicAuthService: BasicAuthService) {}
 
-  initImplicit() {
-    this.basicAuthService.initImplicit();
-  }
-
-  loginWithImplicitFlow() {
-    this.basicAuthService.loginWithImplicitFlow();
+  /**
+   * Check params in url and if there is an code/token then try to login with those.
+   */
+  public checkOAuthParamsInUrl(): void {
+    this.basicAuthService.checkOAuthParamsInUrl();
   }
 
   /**
-   * Loads a new user token
+   * Initialize Implicit/Authorization Code flow by redirecting to OAuth server.
+   */
+  public loginWithRedirect(): boolean {
+    return this.basicAuthService.loginWithRedirect();
+  }
+
+  /**
+   * Loads a new user token with Resource Owner Password Flow.
    * @param userId
    * @param password
    */
@@ -29,14 +36,7 @@ export class AuthService {
   }
 
   /**
-   * Returns the user's token
-   */
-  public getToken(): Observable<AuthToken> {
-    return this.basicAuthService.getToken();
-  }
-
-  /**
-   * Logout a storefront customer
+   * Logout a storefront customer.
    */
   public logout(): Promise<any> {
     return this.basicAuthService.logout();
@@ -47,5 +47,12 @@ export class AuthService {
    */
   public isUserLoggedIn(): Observable<boolean> {
     return this.basicAuthService.isUserLoggedIn();
+  }
+
+  /**
+   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   */
+  public initLogout(): void {
+    this.basicAuthService.initLogout();
   }
 }

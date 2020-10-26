@@ -8,15 +8,19 @@ import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
-// TODO: Should we declare basic parameters like in UserToken or keep everything custom?
+/**
+ * ASM state synced to browser storage.
+ */
 export interface SyncedAsmState {
-  ui: AsmUi;
-  emulatedUserToken: {
-    [token_param: string]: any;
-  };
-  tokenTarget: TokenTarget;
+  ui?: AsmUi;
+  emulatedUserToken?: AuthToken;
+  tokenTarget?: TokenTarget;
 }
 
+/**
+ * Responsible for storing ASM state in the browser storage.
+ * Uses `StatePersistenceService` mechanism.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -29,39 +33,61 @@ export class AsmStatePersistenceService implements OnDestroy {
     protected authStorageService: AsmAuthStorageService
   ) {}
 
-  public sync() {
+  /**
+   * Identifier used for storage key.
+   */
+  protected key = 'asm';
+
+  /**
+   * Initializes the synchronization between state and browser storage.
+   */
+  public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
-        key: 'asm',
+        key: this.key,
         state$: this.getAsmState(),
         onRead: (state) => this.onRead(state),
       })
     );
   }
 
+  /**
+   * Gets and transforms state from different sources into the form that should
+   * be saved in storage.
+   */
   protected getAsmState(): Observable<SyncedAsmState> {
     return combineLatest([
       this.store.pipe(select(AsmSelectors.getAsmUi)),
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
-      map(([ui, emulatedUserToken, tokenTarget]) => ({
-        ui,
-        emulatedUserToken,
-        tokenTarget,
-      }))
+      map(([ui, emulatedUserToken, tokenTarget]) => {
+        let emulatedToken = emulatedUserToken;
+        if (emulatedToken) {
+          emulatedToken = { ...emulatedUserToken };
+          // To minimize risk of user account hijacking we don't persist emulated user refresh_token
+          delete emulatedToken.refresh_token;
+        }
+        return {
+          ui,
+          emulatedUserToken: emulatedToken,
+          tokenTarget,
+        };
+      })
     );
   }
 
+  /**
+   * Function called on each browser storage read.
+   * Used to update state from browser -> state.
+   */
   protected onRead(state: SyncedAsmState) {
     if (state) {
       if (state.ui) {
         this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));
       }
       if (state.emulatedUserToken) {
-        this.authStorageService.setEmulatedUserToken(
-          state.emulatedUserToken as AuthToken
-        );
+        this.authStorageService.setEmulatedUserToken(state.emulatedUserToken);
       }
       if (state.tokenTarget) {
         this.authStorageService.setTokenTarget(state.tokenTarget);

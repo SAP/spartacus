@@ -2,27 +2,41 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { CxOAuthService } from '../facade/cx-oauth-service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthStorageService } from './auth-storage.service';
+import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
+/**
+ * Extendable service for `AuthInterceptor`.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthHeaderService {
   constructor(
     protected authService: AuthService,
-    protected cxOAuthService: CxOAuthService,
+    protected authStorageService: AuthStorageService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
+  /**
+   * Checks if request should be handled by this service (if it's OCC call).
+   */
   public shouldCatchError(request: HttpRequest<any>): boolean {
     return this.isOccUrl(request.url);
   }
 
+  /**
+   * Adds `Authorization` header for OCC calls.
+   */
   public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
@@ -47,7 +61,7 @@ export class AuthHeaderService {
 
   protected createAuthorizationHeader(): { Authorization?: string } {
     let token;
-    this.authService
+    this.authStorageService
       .getToken()
       .subscribe((tok) => (token = tok))
       .unsubscribe();
@@ -60,6 +74,9 @@ export class AuthHeaderService {
     return {};
   }
 
+  /**
+   * Refreshes access_token and then retries the call with the new token.
+   */
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -71,20 +88,34 @@ export class AuthHeaderService {
     );
   }
 
+  /**
+   * Logout user, redirected to login page and informs about expired session.
+   */
   public handleExpiredRefreshToken(): void {
     // Logout user
     this.authService.logout();
     this.routingService.go({ cxRoute: 'login' });
-    // TODO: Should we show here the global message that session ended and please login again?
+    this.globalMessageService.add(
+      {
+        key: 'httpHandlers.sessionExpired',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
+  /**
+   * Attempts to refresh token if possible.
+   * If it is not possible calls `handleExpiredRefreshToken`.
+   *
+   * @return observable which omits new access_token. (Warn: might never emit!).
+   */
   protected handleExpiredToken(): Observable<AuthToken> {
-    const stream = this.authService.getToken();
+    const stream = this.authStorageService.getToken();
     let oldToken: AuthToken;
     return stream.pipe(
       tap((token: AuthToken) => {
         if (token.access_token && token.refresh_token && !oldToken) {
-          this.cxOAuthService.refreshToken();
+          this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
           this.handleExpiredRefreshToken();
         }

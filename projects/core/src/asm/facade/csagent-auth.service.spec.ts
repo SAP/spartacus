@@ -1,24 +1,53 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AuthActions, AuthToken } from '../../auth';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { AsmActions } from '../store/actions';
+import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
+import { UserService } from '../../user/facade/user.service';
+import {
+  AsmAuthStorageService,
+  TokenTarget,
+} from '../services/asm-auth-storage.service';
+import { AsmActions } from '../store';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { CsAgentAuthService } from './csagent-auth.service';
 
-class MockUserIdService {
-  isCustomerEmulated() {}
-  setUserId(_id: string) {}
+class MockAuthService implements Partial<AuthService> {
+  initLogout() {}
 }
 
-// TODO(#8249): Fix unit tests after finalizing the service
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  authorizeWithPasswordFlow() {
+    return Promise.resolve({} as TokenResponse);
+  }
+  revokeAndLogout() {
+    return Promise.resolve();
+  }
+}
+
+class MockUserService implements Partial<UserService> {
+  get() {
+    return of({});
+  }
+}
+
 describe('CsAgentAuthService', () => {
   let service: CsAgentAuthService;
   let store: Store<AsmState>;
   let userIdService: UserIdService;
-  // let authService: AuthService;
+  let authService: AuthService;
+  let asmAuthStorageService: AsmAuthStorageService;
+  let oAuthLibWrapperService: OAuthLibWrapperService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,12 +55,24 @@ describe('CsAgentAuthService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [{ provide: UserIdService, useClass: MockUserIdService }],
+      providers: [
+        AsmAuthStorageService,
+        UserIdService,
+        { provide: AuthService, useClass: MockAuthService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
+        { provide: UserService, useClass: MockUserService },
+      ],
     });
 
     service = TestBed.inject(CsAgentAuthService);
     userIdService = TestBed.inject(UserIdService);
-    // authService = TestBed.inject(AuthService);
+    authService = TestBed.inject(AuthService);
+    asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
+    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
+    userService = TestBed.inject(UserService);
     store = TestBed.inject(Store);
   });
 
@@ -39,60 +80,229 @@ describe('CsAgentAuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('should get the Customer Support Agent token loading status', () => {
-  //   let result: boolean;
-  //   service
-  //     .getCustomerSupportAgentTokenLoading()
-  //     .subscribe((value) => (result = value))
-  //     .unsubscribe();
-  //   expect(result).toEqual(false);
-  // });
+  describe('authorizeCustomerSupportAgent()', () => {
+    it('should only login cs agent when there is not any active session', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
 
-  it('should dispatch proper action for authorizeCustomerSupportAgent', () => {
-    spyOn(store, 'dispatch').and.stub();
+      await service.authorizeCustomerSupportAgent('testUser', 'testPass');
 
-    service.authorizeCustomerSupportAgent('user', 'password');
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AsmActions.SetCSAgentTokenData({
-    //     userId: 'user',
-    //     password: 'password',
-    //   })
-    // );
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(tokenTarget).toBe(TokenTarget.CSAgent);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+    });
+
+    it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
+      spyOn(userService, 'get').and.returnValue(of({ customerId: 'custId' }));
+      asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
+
+      await service.authorizeCustomerSupportAgent('testUser', 'testPass');
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(tokenTarget).toBe(TokenTarget.CSAgent);
+      expect(dispatch.calls.argsFor(0)[0]).toEqual(new AuthActions.Logout());
+      expect(dispatch.calls.argsFor(1)[0]).toEqual(new AuthActions.Login());
+
+      expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
+      expect(asmAuthStorageService.setEmulatedUserToken).toHaveBeenCalledWith({
+        access_token: 'token',
+      } as AuthToken);
+    });
+
+    it('should not changed storage state, when authorization failed', async () => {
+      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow').and.callFake(
+        () => {
+          return Promise.reject();
+        }
+      );
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
+
+      await service.authorizeCustomerSupportAgent('testUser', 'testPass');
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(tokenTarget).toBe(TokenTarget.User);
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(userIdService.setUserId).not.toHaveBeenCalled();
+      expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
+      expect(
+        asmAuthStorageService.clearEmulatedUserToken
+      ).not.toHaveBeenCalled();
+    });
   });
 
-  it('should set userId and tokens when starting emulation', () => {
-    // spyOn(authService, 'authorizeWithToken').and.stub();
-    spyOn(userIdService, 'setUserId').and.stub();
+  describe('startCustomerEmulationSession()', () => {
+    it('should start emulation of a customer', () => {
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
 
-    // service.startCustomerEmulationSession(
-    //   { access_token: 'atoken' } as UserToken,
-    //   'customerId123'
-    // );
+      service.startCustomerEmulationSession('custId');
 
-    // expect(authService.authorizeWithToken).toHaveBeenCalledWith({
-    //   access_token: 'atoken',
-    // } as UserToken);
-    expect(userIdService.setUserId).toHaveBeenCalledWith('customerId123');
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+      expect(dispatch.calls.argsFor(0)[0]).toEqual(new AuthActions.Logout());
+      expect(dispatch.calls.argsFor(1)[0]).toEqual(new AuthActions.Login());
+      expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
+    });
   });
 
-  it('should dispatch proper action for logoutCustomerSupportAgent', () => {
-    spyOn(store, 'dispatch').and.stub();
-    service.logoutCustomerSupportAgent();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.LogoutCustomerSupportAgent()
-    );
-    // expect(store.dispatch).toHaveBeenCalledWith(
-    //   new AuthActions.RevokeUserToken(mockToken)
-    // );
+  describe('isCustomerSupportAgentLoggedIn()', () => {
+    it('should emit true when CS agent is logged in', (done) => {
+      asmAuthStorageService.switchTokenTargetToCSAgent();
+      asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
+
+      service
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+    });
+
+    it('should emit false when user logged in', (done) => {
+      asmAuthStorageService.switchTokenTargetToUser();
+
+      service
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+    });
+
+    it('should emit false when no one is logged in', (done) => {
+      asmAuthStorageService.setToken(undefined);
+
+      service
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+    });
   });
 
-  it('isCustomerEmulated should return value from asmAuthStorageService.isEmulated', () => {
-    const result = [];
-    spyOn(userIdService, 'isEmulated').and.returnValue(of(true, false));
-    service
-      .isCustomerEmulated()
-      .pipe(take(2))
-      .subscribe((value) => result.push(value));
-    expect(result).toEqual([true, false]);
+  describe('isCustomerEmulated()', () => {
+    it('should emit true when user is emulated', (done) => {
+      userIdService.setUserId('cust-id');
+
+      service
+        .isCustomerEmulated()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+    });
+
+    it('should emit false when user is not emulated', (done) => {
+      userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+      service
+        .isCustomerEmulated()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+    });
+  });
+
+  // TODO(#8248)
+  xdescribe('getCustomerSupportAgentTokenLoading()', () => {});
+
+  describe('logoutCustomerSupportAgent()', () => {
+    it('should logout CS agent', async () => {
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+
+      await service.logoutCustomerSupportAgent();
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        new AsmActions.LogoutCustomerSupportAgent()
+      );
+      expect(tokenTarget).toBe(TokenTarget.User);
+    });
+
+    it('should restore previous session when there is old session token', async () => {
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(asmAuthStorageService, 'setToken').and.callThrough();
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      userIdService.setUserId('cust-id');
+      asmAuthStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
+
+      await service.logoutCustomerSupportAgent();
+
+      expect(asmAuthStorageService.setToken).toHaveBeenCalledWith({
+        access_token: 'user_token',
+      } as AuthToken);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+      expect(dispatch.calls.argsFor(1)[0]).toEqual(new AuthActions.Logout());
+      expect(dispatch.calls.argsFor(2)[0]).toEqual(new AuthActions.Login());
+    });
+
+    it('should logout user, when we can not restore old session', async () => {
+      spyOn(authService, 'initLogout').and.callThrough();
+
+      await service.logoutCustomerSupportAgent();
+
+      expect(authService.initLogout).toHaveBeenCalled();
+    });
   });
 });

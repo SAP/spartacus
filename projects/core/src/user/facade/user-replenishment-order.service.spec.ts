@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
@@ -36,9 +37,10 @@ const mockReplenishmentOrderList: ReplenishmentOrderList = {
   sorts: [{ selected: true }],
 };
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(mockUserId);
+    return new Subscription();
   }
 }
 

@@ -6,11 +6,9 @@ import {
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
 
-// TODO: Add unit tests after we finalize API shape
-
 /**
  * This implementation is OCC specific.
- * Different backend might have  completely different need regarding user id.
+ * Different backend might have completely different need regarding user id.
  * It might not need user id at all and work based on access_token.
  * To implement custom solution provide your own implementation and customize services that use UserIdService
  */
@@ -18,10 +16,17 @@ import {
   providedIn: 'root',
 })
 export class UserIdService {
-  private _userId = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
+  private _userId: Observable<string> = new BehaviorSubject<string>(
+    OCC_USER_ID_ANONYMOUS
+  );
 
+  /**
+   * Sets current user id.
+   *
+   * @param userId
+   */
   public setUserId(userId: string): void {
-    this._userId.next(userId);
+    (this._userId as BehaviorSubject<string>).next(userId);
   }
 
   /**
@@ -31,11 +36,11 @@ export class UserIdService {
    * It returns the userId of the current storefront user or 'anonymous'
    * in the case there are no signed in user in the storefront.
    *
-   * The user id of a regular customer session is 'current'.  In the case of an
+   * The user id of a regular customer session is 'current'. In the case of an
    * asm customer emulation session, the userId will be the customerId.
    */
   public getUserId(): Observable<string> {
-    return this._userId.asObservable();
+    return this._userId;
   }
 
   /**
@@ -49,10 +54,16 @@ export class UserIdService {
       .subscribe((id) => cb(id));
   }
 
+  /**
+   * Sets user id to the default value for logged out user.
+   */
   public clearUserId(): void {
     this.setUserId(OCC_USER_ID_ANONYMOUS);
   }
 
+  /**
+   * Checks if the userId is of emulated user type.
+   */
   public isEmulated(): Observable<boolean> {
     return this.getUserId().pipe(
       map(

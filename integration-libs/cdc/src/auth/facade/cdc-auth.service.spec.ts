@@ -3,11 +3,16 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   AuthStorageService,
+  AuthToken,
   BasicAuthService,
+  GlobalMessageService,
+  GlobalMessageType,
   OCC_USER_ID_CURRENT,
+  TokenTarget,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CdcAuthActions } from '../store';
 import { CdcAuthService } from './cdc-auth.service';
 
@@ -23,17 +28,22 @@ const mockedWindowRef = {
   },
 };
 
-class MockBasicAuthService {
-  initImplicit() {}
-  logout() {}
+class MockBasicAuthService implements Partial<BasicAuthService> {
+  logout() {
+    return Promise.resolve();
+  }
 }
 
-class MockAuthStorageService {
+class MockAuthStorageService implements Partial<AuthStorageService> {
   setItem() {}
 }
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
 }
 
 describe('CdcAuthService', () => {
@@ -43,6 +53,7 @@ describe('CdcAuthService', () => {
   let basicAuthService: BasicAuthService;
   let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +63,7 @@ describe('CdcAuthService', () => {
         { provide: BasicAuthService, useClass: MockBasicAuthService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: WindowRef, useValue: mockedWindowRef },
       ],
     });
@@ -62,6 +74,7 @@ describe('CdcAuthService', () => {
     basicAuthService = TestBed.inject(BasicAuthService);
     authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {
@@ -136,5 +149,28 @@ describe('CdcAuthService', () => {
     expect(setItemSpy.calls.argsFor(4)).toEqual(['refresh_token', 'ref_token']);
     expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+  });
+
+  it('should show warning when CS agent is logged in', () => {
+    authStorageService['getTokenTarget'] = () => of(TokenTarget.CSAgent);
+    authStorageService['getToken'] = () =>
+      of({ access_token: 'token' } as AuthToken);
+    spyOn(userIdService, 'setUserId').and.callThrough();
+    spyOn(globalMessageService, 'add').and.callThrough();
+
+    service.loginWithToken({
+      access_token: 'acc_token',
+      granted_scopes: ['scope-a'],
+      expires_in: 20,
+      refresh_token: 'ref_token',
+    });
+
+    expect(userIdService.setUserId).not.toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'asm.auth.agentLoggedInError',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

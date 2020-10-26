@@ -5,29 +5,30 @@ import { take } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
-import { AuthStorageService } from '../facade/auth-storage.service';
 import { UserIdService } from '../facade/user-id.service';
-import { AuthRedirectStorageService } from '../guards/auth-redirect-storage.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
+import { AuthStorageService } from './auth-storage.service';
 
-class MockUserIdService {
+class MockUserIdService implements Partial<UserIdService> {
   setUserId(_id: string) {}
   getUserId() {
     return of('userId');
   }
 }
 
-class MockAuthStorageService {
+class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
-    return of({});
+    return of({} as AuthToken);
   }
   setToken() {}
 }
 
-class MockAuthRedirectStorageService {
+class MockAuthRedirectStorageService
+  implements Partial<AuthRedirectStorageService> {
   getRedirectUrl() {
-    of(undefined);
+    return of(undefined);
   }
   setRedirectUrl() {}
 }
@@ -79,12 +80,14 @@ describe('AuthStatePersistenceService', () => {
 
     service['onRead']({
       userId: 'userId',
-      access_token: 'access_token',
-      expires_at: '1000',
-      access_token_stored_at: '900',
-      granted_scopes: [],
-      token_type: 'bearer',
-      refresh_token: 'refresh',
+      token: {
+        access_token: 'access_token',
+        expires_at: '1000',
+        access_token_stored_at: '900',
+        granted_scopes: [],
+        token_type: 'bearer',
+        refresh_token: 'refresh',
+      },
       redirectUrl: 'some_url',
     });
 
@@ -106,7 +109,7 @@ describe('AuthStatePersistenceService', () => {
     const state$ = of('');
     spyOn(service as any, 'getAuthState').and.returnValue(state$);
 
-    service.sync();
+    service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -117,7 +120,7 @@ describe('AuthStatePersistenceService', () => {
     expect(service['getAuthState']).toHaveBeenCalled();
   });
 
-  it('should return state from auth state and userId service', () => {
+  it('should return state from auth state and userId service', (done) => {
     spyOn(authStorageService, 'getToken').and.returnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
@@ -130,22 +133,22 @@ describe('AuthStatePersistenceService', () => {
       .subscribe((state) => {
         expect(state).toEqual({
           userId: 'userId',
-          access_token: 'token',
-          refresh_token: 'refresh_token',
+          token: { access_token: 'token' },
           redirectUrl: 'redirect_url',
         } as any);
+        done();
       });
   });
 
   it('readStateFromStorage should return state from localStorage', () => {
     spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
-      access_token: 'token',
+      token: { access_token: 'token' },
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
 
     expect(service.readStateFromStorage()).toEqual({
-      access_token: 'token',
+      token: { access_token: 'token' } as AuthToken,
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });

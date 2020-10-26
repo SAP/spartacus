@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PROCESS_FEATURE } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart';
 import { PaymentType } from '../../model/cart.model';
@@ -19,7 +19,7 @@ const cart = {
   purchaseOrderNumber: 'testNumber',
 };
 
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   cart;
   getActiveCartId() {
     return of(cart.code);
@@ -29,10 +29,11 @@ class ActiveCartServiceStub {
   }
 }
 
-class UserIdServiceStub {
+class UserIdServiceStub implements Partial<UserIdService> {
   userId;
   invokeWithUserId(cb) {
     cb(userId);
+    return new Subscription();
   }
 }
 describe('PaymentTypeService', () => {
