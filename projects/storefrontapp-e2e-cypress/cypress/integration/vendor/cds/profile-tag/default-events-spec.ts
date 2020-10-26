@@ -322,19 +322,6 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
   });
-  // it('should send a HomePageViewed event when viewing the homepage', () => {
-  //   cy.reload();
-  //   profileTagHelper.waitForCMSComponents().then(() => {
-  //     cy.window().then((win) => {
-  //       expect(
-  //         profileTagHelper.eventCount(
-  //           win,
-  //           profileTagHelper.EventNames.HOME_PAGE_VIEWED
-  //         )
-  //       ).to.equal(1);
-  //     });
-  //   });
-  // });
 });
 
 // For some reason these two events interfere with eachother. Only 1 needs to click the allow all banner
