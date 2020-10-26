@@ -98,6 +98,10 @@ export class BudgetService {
     );
   }
 
+  getErrorState(budgetCode): Observable<boolean> {
+    return this.getBudgetState(budgetCode).pipe(map((state) => state.error));
+  }
+
   create(budget: Budget): void {
     this.withUserId((userId) =>
       this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
