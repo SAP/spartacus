@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { B2BUser } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -10,13 +14,13 @@ import { ExistUserGuard } from '../guards';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ExistUserGuard],
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements AfterViewInit {
   model$: Observable<B2BUser> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.existUserGuard.canActivate().subscribe();
   }
 

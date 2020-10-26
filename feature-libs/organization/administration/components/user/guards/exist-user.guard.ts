@@ -1,69 +1,36 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  B2BUser,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { ROUTE_PARAMS } from '../../constants';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
 import { CurrentUserService } from '../services/current-user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistUserGuard {
-  protected code = ROUTE_PARAMS.userCode;
-  protected params;
-
+export class ExistUserGuard extends ExistOrganizationItemGuard {
   constructor(
     protected userService: B2BUserService,
-    protected router: Router,
     protected globalMessageService: GlobalMessageService,
-    protected route: ActivatedRoute,
     protected routingService: RoutingService,
-    protected currentItemService: CurrentUserService,
-    protected itemService: OrganizationItemService<B2BUser>
-  ) {}
+    protected currentUserService: CurrentUserService
+  ) {
+    super(routingService, globalMessageService);
+  }
 
   canActivate() {
-    return this.currentItemService.key$.pipe(
+    return this.currentUserService.key$.pipe(
       switchMap((code) => this.userService.getErrorState(code)),
       map((error) => {
         if (error) {
-          this.redirect();
-          this.showErrorMessage();
+          this.redirect('users');
+          this.showErrorMessage('User');
         }
       }),
-      catchError((error: HttpErrorResponse) => {
-        console.log(error);
+      catchError(() => {
         return of();
       })
-    );
-  }
-
-  protected isValid(state): boolean {
-    return state.success;
-  }
-
-  protected redirect() {
-    this.routingService.go({
-      cxRoute: `users`,
-    });
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.notExist',
-        params: { item: 'User' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
     );
   }
 }

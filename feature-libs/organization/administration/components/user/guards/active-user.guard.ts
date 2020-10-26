@@ -1,57 +1,36 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BUser,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { CurrentUserService } from '../services/current-user.service';
-import { BaseItem } from '../../shared';
+import { ROUTE_PARAMS } from '../../constants';
+import { ActiveOrganizationItemGuard } from '../../shared/active-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUserGuard {
+export class ActiveUserGuard extends ActiveOrganizationItemGuard {
   constructor(
-    protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected currentItemService: CurrentUserService
-  ) {}
+    protected globalMessageService: GlobalMessageService,
+    protected currentUserService: CurrentUserService
+  ) {
+    super(routingService, globalMessageService);
+  }
+
+  readonly userCode = ROUTE_PARAMS.userCode;
 
   canActivate() {
-    return this.currentItemService.item$.pipe(
+    return this.currentUserService.item$.pipe(
       map((item) => {
         if (!this.isValid(item)) {
-          this.redirect(item);
-          this.showErrorMessage();
+          this.redirect(item.customerId, 'userDetails', this.userCode);
+          this.showErrorMessage('User');
         }
       }),
       catchError(() => {
         return of();
       })
-    );
-  }
-
-  protected isValid(user: B2BUser): boolean {
-    return user.active;
-  }
-
-  protected redirect(_item?: BaseItem) {
-    this.routingService.go({
-      cxRoute: `userDetails`,
-      params: { userCode: _item.customerId },
-    });
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.disabled',
-        params: { item: 'User' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
     );
   }
 }
