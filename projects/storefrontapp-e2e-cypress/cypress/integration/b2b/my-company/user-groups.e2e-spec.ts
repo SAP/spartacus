@@ -46,6 +46,23 @@ const config: MyCompanyConfig = {
       showInDetails: true,
     },
   ],
+  subCategories: [
+    {
+      name: 'Purchase limits',
+      baseUrl: `/purchase-limits`,
+      apiEndpoint: '**/availableOrderApprovalPermissions**',
+      objectType: 'orderApprovalPermissions',
+      manageAssignments: true,
+    },
+    {
+      name: 'Users',
+      baseUrl: `/users`,
+      apiEndpoint: '**/availableOrgCustomers**',
+      objectType: 'members',
+      canUnassignAll: true,
+      manageAssignments: true,
+    },
+  ],
 };
 
 testMyCompanyFeatureFromConfig(config);
