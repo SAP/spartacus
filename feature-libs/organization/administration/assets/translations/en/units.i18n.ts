@@ -156,6 +156,7 @@ export const unitAddress = {
   titles: 'Title',
   firstName: 'First name',
   lastName: 'Last name',
+  formattedAddress: 'Address',
   address1: 'Address',
   address2: '2nd address (optional)',
   city: 'City',
@@ -178,24 +179,4 @@ export const unitAddress = {
     title: 'Create Address',
     subtitle: 'Unit: {{ item.name }} (TODO)',
   },
-
-  formattedAddress: 'Address',
-
-  // confirmDeleteAddress: {
-  //   title: 'Confirm address delete',
-  //   message: 'Are you sure you want to delete this address?',
-  // },
 };
-
-// addressCreate: {
-//   header: 'New shipping address for {{code}}',
-// },
-// addressForm: {
-// },
-// addressDetails: {
-//   header: 'Details for {{name}}',
-// },
-// addressEdit: {
-//   header: 'Edit shipping address for {{code}}',
-// },
-// }
