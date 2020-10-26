@@ -16,6 +16,10 @@ import {
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
+/**
+ * Version of BasicAuthService that is working for both user na CS agent.
+ * Overrides BasicAuthService when ASM module is enabled.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -65,14 +69,22 @@ export class AsmAuthService extends BasicAuthService {
     );
   }
 
-  public authorize(userId: string, password: string): void {
+  /**
+   * Loads a new user token with Resource Owner Password Flow when CS agent is not logged in.
+   * @param userId
+   * @param password
+   */
+  public async authorize(userId: string, password: string): Promise<void> {
     if (this.canUserLogin()) {
-      super.authorize(userId, password);
+      await super.authorize(userId, password);
     } else {
       this.warnAboutLoggedCSAgent();
     }
   }
 
+  /**
+   * Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.
+   */
   public loginWithRedirect(): boolean {
     if (this.canUserLogin()) {
       super.loginWithRedirect();
@@ -84,7 +96,7 @@ export class AsmAuthService extends BasicAuthService {
   }
 
   /**
-   * Logout a storefront customer
+   * Logout a storefront customer.
    */
   public logout(): Promise<any> {
     return this.userIdService
@@ -105,6 +117,9 @@ export class AsmAuthService extends BasicAuthService {
       .toPromise();
   }
 
+  /**
+   * Returns `true` if user is logged in or being emulated.
+   */
   public isUserLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),

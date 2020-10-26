@@ -12,14 +12,14 @@ import { AuthStorageService } from './services/auth-storage.service';
 /**
  * Initialize the check for `token` or `code` in the url returned from the OAuth server.
  */
-export function initOAuthCallback(
+export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService
 ) {
   const result = () =>
     configInit.getStableConfig().then(() => {
       // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-      authService.initOAuthCallback();
+      authService.checkOAuthParamsInUrl();
     });
 
   return result;
@@ -58,7 +58,7 @@ export class UserAuthModule {
         },
         {
           provide: APP_INITIALIZER,
-          useFactory: initOAuthCallback,
+          useFactory: checkOAuthParamsInUrl,
           deps: [AuthService, ConfigInitializerService],
           multi: true,
         },

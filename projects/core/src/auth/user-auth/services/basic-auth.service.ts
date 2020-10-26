@@ -11,6 +11,10 @@ import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
+/**
+ * Auth service for normal user authentication.
+ * Use to check auth status, login/logout with different OAuth flows.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -24,8 +28,12 @@ export class BasicAuthService {
     protected routingService: RoutingService
   ) {}
 
-  initOAuthCallback(): void {
-    this.oAuthLibWrapperService.tryLogin().then((result) => {
+  /**
+   * Check params in url and if there is an code/token then try to login with those.
+   */
+  async checkOAuthParamsInUrl(): Promise<void> {
+    try {
+      const result = await this.oAuthLibWrapperService.tryLogin();
       const token = this.authStorageService.getItem('access_token');
       // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
       if (result && token) {
@@ -33,35 +41,39 @@ export class BasicAuthService {
         this.store.dispatch(new AuthActions.Login());
         this.authRedirectService.redirect();
       }
-    });
+    } catch {}
   }
 
+  /**
+   * Initialize Implicit/Authorization Code flow by redirecting to OAuth server.
+   */
   loginWithRedirect(): boolean {
     this.oAuthLibWrapperService.initLoginFlow();
     return true;
   }
 
   /**
-   * Loads a new user token
+   * Loads a new user token with Resource Owner Password Flow.
    * @param userId
    * @param password
    */
-  public authorize(userId: string, password: string): void {
-    this.oAuthLibWrapperService
-      .authorizeWithPasswordFlow(userId, password)
-      .then(() => {
-        // OCC specific user id handling. Customize when implementing different backend
-        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+  public async authorize(userId: string, password: string): Promise<void> {
+    try {
+      await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
+        userId,
+        password
+      );
+      // OCC specific user id handling. Customize when implementing different backend
+      this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
-        this.store.dispatch(new AuthActions.Login());
+      this.store.dispatch(new AuthActions.Login());
 
-        this.authRedirectService.redirect();
-      })
-      .catch(() => {});
+      this.authRedirectService.redirect();
+    } catch {}
   }
 
   /**
-   * Logout a storefront customer
+   * Logout a storefront customer.
    */
   public logout(): Promise<any> {
     this.userIdService.clearUserId();

@@ -2,22 +2,32 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BasicAuthService } from '../services/basic-auth.service';
 
+/**
+ * Auth facade on BasicAuthService and AsmAuthService.
+ * This service should be used in components, other core features.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(protected basicAuthService: BasicAuthService) {}
 
-  initOAuthCallback(): void {
-    this.basicAuthService.initOAuthCallback();
+  /**
+   * Check params in url and if there is an code/token then try to login with those.
+   */
+  public checkOAuthParamsInUrl(): void {
+    this.basicAuthService.checkOAuthParamsInUrl();
   }
 
-  loginWithRedirect(): boolean {
+  /**
+   * Initialize Implicit/Authorization Code flow by redirecting to OAuth server.
+   */
+  public loginWithRedirect(): boolean {
     return this.basicAuthService.loginWithRedirect();
   }
 
   /**
-   * Loads a new user token
+   * Loads a new user token with Resource Owner Password Flow.
    * @param userId
    * @param password
    */
@@ -26,7 +36,7 @@ export class AuthService {
   }
 
   /**
-   * Logout a storefront customer
+   * Logout a storefront customer.
    */
   public logout(): Promise<any> {
     return this.basicAuthService.logout();
