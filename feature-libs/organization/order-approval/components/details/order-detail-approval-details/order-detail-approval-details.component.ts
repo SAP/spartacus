@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Order } from '@spartacus/core';
+import { OrderDetailsService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-approval-details',

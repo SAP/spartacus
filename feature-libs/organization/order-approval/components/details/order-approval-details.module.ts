@@ -7,20 +7,21 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlModule,
+  UrlModule
 } from '@spartacus/core';
 import {
   CartSharedModule,
   FormErrorsModule,
-  OrderDetailApprovalDetailsComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
-  SpinnerModule,
+  SpinnerModule
 } from '@spartacus/storefront';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
+import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details/order-detail-approval-details.component';
+
 
 @NgModule({
   imports: [
@@ -54,6 +55,10 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
           ],
           guards: [AuthGuard],
         },
+        AccountOrderDetailsApprovalDetailsComponent: {
+          component: OrderDetailApprovalDetailsComponent,
+        },    
+
         OrderApprovalDetailShippingComponent: {
           component: OrderDetailShippingComponent,
           providers: [
@@ -81,8 +86,8 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
       },
     }),
   ],
-  declarations: [OrderApprovalDetailFormComponent],
-  exports: [OrderApprovalDetailFormComponent],
-  entryComponents: [OrderApprovalDetailFormComponent],
+  declarations: [OrderApprovalDetailFormComponent, OrderDetailApprovalDetailsComponent],
+  exports: [OrderApprovalDetailFormComponent, OrderDetailApprovalDetailsComponent],
+  entryComponents: [OrderApprovalDetailFormComponent, OrderDetailApprovalDetailsComponent],
 })
 export class OrderApprovalDetailsModule {}

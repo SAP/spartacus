@@ -8,7 +8,7 @@ import {
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
+  UrlModule
 } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -16,12 +16,11 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import {
   CardModule,
   OrderOverviewModule,
-  SpinnerModule,
+  SpinnerModule
 } from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
-import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details/order-detail-approval-details.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
@@ -34,7 +33,6 @@ const moduleComponents = [
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
   OrderDetailShippingComponent,
-  OrderDetailApprovalDetailsComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
@@ -71,9 +69,6 @@ const moduleComponents = [
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
-        },
-        AccountOrderDetailsApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
