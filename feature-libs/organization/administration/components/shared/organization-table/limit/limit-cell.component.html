@@ -7,16 +7,16 @@
 </a>
 
 <ng-template #threshold>
-  <span class="text" *ngIf="isTimeSpanThreshold">
+  <span class="text" title="{{ model.threshold }} {{ model.currency?.symbol }} {{ 'permission.per.' + model.periodRange | cxTranslate }}" *ngIf="isTimeSpanThreshold">
     {{ model.threshold }} {{ model.currency?.symbol }}
     {{ 'permission.per.' + model.periodRange | cxTranslate }}
   </span>
 
-  <span class="text" *ngIf="isOrderThreshold">
+  <span class="text" title="{{ model.threshold }} {{ model.currency?.symbol }}" *ngIf="isOrderThreshold">
     {{ model.threshold }} {{ model.currency?.symbol }}
   </span>
 
-  <span class="text" *ngIf="isExceedPermission">
+  <span class="text" title="{{ model.orderApprovalPermissionType.name }}" *ngIf="isExceedPermission">
     {{ model.orderApprovalPermissionType.name }}
   </span>
 </ng-template>

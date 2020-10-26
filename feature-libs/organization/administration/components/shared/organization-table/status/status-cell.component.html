@@ -1,14 +1,13 @@
 <a
-  *ngIf="linkable; else noLink"
+  *ngIf="linkable; else text"
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
   [tabindex]="tabIndex"
 >
-  <span class="text" [class.is-active]="isActive">
-    {{ label | cxTranslate }}</span
-  >
+  <ng-container *ngTemplateOutlet="text"></ng-container>
 </a>
-<ng-template #noLink>
-  <span class="text" [class.is-active]="isActive" *ngIf="label">
+
+<ng-template #text>
+  <span class="text" title="{{ label | cxTranslate }}" [class.is-active]="isActive" *ngIf="label">
     {{ label | cxTranslate }}</span
   >
 </ng-template>

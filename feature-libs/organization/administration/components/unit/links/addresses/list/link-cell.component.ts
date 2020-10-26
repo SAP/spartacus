@@ -15,7 +15,7 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
       routerLinkActive="is-current"
       [tabIndex]="tabIndex"
     >
-      <span class="text">{{ property }}</span>
+      <span class="text" title="{{ property }}">{{ property }}</span>
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
