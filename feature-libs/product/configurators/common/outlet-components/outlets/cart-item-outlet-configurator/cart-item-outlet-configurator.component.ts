@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-cart-item-outlet-configurator',
   templateUrl: './cart-item-outlet-configurator.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemOutletConfiguratorComponent {
   constructor(@Optional() public cartItem?: CartItemContext) {}
