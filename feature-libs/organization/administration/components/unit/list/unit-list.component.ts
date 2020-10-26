@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { UnitListService } from '../services/unit-list.service';
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
@@ -9,20 +7,13 @@ import { UnitTreeService } from '../services/unit-tree.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitListComponent {
-  root$ = this.unitListService
-    .getData()
-    .pipe(map((list) => list.values?.[0]?.id));
+  constructor(protected unitTreeService: UnitTreeService) {}
 
-  constructor(
-    protected unitListService: UnitListService,
-    protected unitTreeService: UnitTreeService
-  ) {}
-
-  expandAll(unitId: string) {
-    this.unitTreeService.expandAll(unitId);
+  expandAll() {
+    this.unitTreeService.expandAll();
   }
 
-  collapseAll(unitId: string) {
-    this.unitTreeService.collapseAll(unitId);
+  collapseAll() {
+    this.unitTreeService.collapseAll();
   }
 }
