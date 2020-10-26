@@ -33,9 +33,16 @@
       </div>
 
       <div class="property full-width">
-        <label>{{ 'organization.details' | cxTranslate }}</label>
+        <label>{{ 'unitAddress.formattedAddress' | cxTranslate }}</label>
         <span class="value">
           {{ model.formattedAddress }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'unitAddress.country' | cxTranslate }}</label>
+        <span class="value">
+          {{ (getCountry(model.country.isocode) | async)?.name }}
         </span>
       </div>
     </section>
