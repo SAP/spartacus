@@ -1,7 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
@@ -19,13 +25,10 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit> = this.currentUnitService.item$;
 
-  model$: Observable<Address> = this.unit$.pipe(
-    switchMap((unit) =>
-      this.itemService.key$.pipe(
-        switchMap((code) => this.itemService.load(unit.uid, code)),
-        shareReplay({ bufferSize: 1, refCount: true })
-      )
-    )
+  model$: Observable<Address> = this.itemService.key$.pipe(
+    withLatestFrom(this.unit$),
+    switchMap(([code, unit]) => this.itemService.load(unit.uid, code)),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   getCountry(isoCode): Observable<Country> {
