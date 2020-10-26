@@ -295,6 +295,10 @@
           th:last-child,
           td:last-child {
             width: 1px;
+
+            &:not(:only-child) {
+              max-width: none;
+            }
           }
         }
       }
@@ -325,8 +329,12 @@
   cx-table {
     width: 100%;
 
+    &.vertical td {
+      height: 74px;
+    }
+
     &.vertical td .content-wrapper {
-      display: flex;
+      display: inline;
       align-items: center;
       height: 74px;
       padding-inline-start: 20px;
@@ -362,6 +370,7 @@
     th,
     td {
       padding: 0;
+      max-width: 1px;
     }
     th {
       padding-inline-start: 20px;
