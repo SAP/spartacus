@@ -1,23 +1,48 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
-import { B2BUser, GlobalMessageType } from '@spartacus/core';
-import { ExistUserGuard } from './exist-user.guard';
+import {
+  B2BUser,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { CurrentUserService } from '../services/current-user.service';
+import { BaseItem } from '../../shared';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUserGuard extends ExistUserGuard {
+export class ActiveUserGuard {
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
+    protected currentItemService: CurrentUserService
+  ) {}
+
+  canActivate() {
+    return this.currentItemService.item$.pipe(
+      map((item) => {
+        if (!this.isValid(item)) {
+          this.redirect(item);
+          this.showErrorMessage();
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
+    );
+  }
+
   protected isValid(user: B2BUser): boolean {
     return user.active;
   }
 
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    const urlPath = this.semanticPathService.transform({
-      cxRoute: 'userDetails',
-      params: { customerId: _urlParams.code },
+  protected redirect(_item?: BaseItem) {
+    this.routingService.go({
+      cxRoute: `userDetails`,
+      params: { userCode: _item.customerId },
     });
-
-    return this.router.parseUrl(urlPath.join('/'));
   }
 
   protected showErrorMessage() {

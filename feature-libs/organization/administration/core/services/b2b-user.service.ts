@@ -88,6 +88,12 @@ export class B2BUserService {
     );
   }
 
+  getErrorState(orgCustomerId): Observable<boolean> {
+    return this.getB2BUserState(orgCustomerId).pipe(
+      map((state) => state.error)
+    );
+  }
+
   create(orgCustomer: B2BUser): void {
     this.withUserId((userId) =>
       this.store.dispatch(

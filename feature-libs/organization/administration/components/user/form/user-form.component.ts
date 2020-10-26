@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
@@ -13,6 +14,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ActiveUserGuard } from '../guards/active-user.guard';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -24,9 +26,10 @@ import { UserItemService } from '../services/user-item.service';
       provide: OrganizationItemService,
       useExisting: UserItemService,
     },
+    ActiveUserGuard,
   ],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, AfterViewInit {
   form: FormGroup = this.itemService.getForm();
 
   /**
@@ -50,11 +53,16 @@ export class UserFormComponent implements OnInit {
     protected itemService: OrganizationItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userService: UserService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
+    protected activeUserGuard: ActiveUserGuard
   ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();
+  }
+
+  ngAfterViewInit(): void {
+    this.activeUserGuard.canActivate().subscribe();
   }
 
   updateRoles(event: MouseEvent) {

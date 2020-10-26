@@ -1,63 +1,60 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router, UrlTree } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   B2BUser,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  SemanticPathService,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../constants';
+import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExistUserGuard {
   protected code = ROUTE_PARAMS.userCode;
+  protected params;
 
   constructor(
     protected userService: B2BUserService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService,
     protected globalMessageService: GlobalMessageService,
     protected route: ActivatedRoute,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected currentItemService: CurrentUserService,
+    protected itemService: OrganizationItemService<B2BUser>
   ) {}
 
   canActivate() {
-    const urlParams = {
-      code:
-        this.route.params[this.code] ?? this.route.parent?.params[this.code],
-    };
-
-    return this.getItem(urlParams.code).pipe(
-      map((item) => {
-        if (item && this.isValid(item)) {
-          return;
+    return this.currentItemService.key$.pipe(
+      switchMap((code) => this.userService.getErrorState(code)),
+      map((error) => {
+        if (error) {
+          this.redirect();
+          this.showErrorMessage();
         }
-        this.showErrorMessage();
-        this.routingService.go({
-          cxRoute: `userDetails`,
-          params: { userCode: urlParams.code },
-        });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of();
       })
     );
   }
 
-  protected isValid(item): boolean {
-    // change it, since the reducer initial state is undefined now
-    return Object.keys(item).length !== 0;
+  protected isValid(state): boolean {
+    return state.success;
   }
 
-  protected getItem(code: string): Observable<B2BUser> {
-    return this.userService.get(code);
-  }
-
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(this.semanticPathService.get('user'));
+  protected redirect() {
+    this.routingService.go({
+      cxRoute: `users`,
+    });
   }
 
   protected showErrorMessage() {
