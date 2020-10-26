@@ -13,7 +13,7 @@ export class AnonymousConsentTemplatesConnector {
     return this.adapter.loadAnonymousConsentTemplates();
   }
 
-  loadAnonymousConsents(): Observable<AnonymousConsent[]> | null {
+  loadAnonymousConsents(): Observable<AnonymousConsent[]> {
     return this.adapter.loadAnonymousConsents();
   }
 }
