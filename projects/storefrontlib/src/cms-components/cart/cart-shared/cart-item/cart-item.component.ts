@@ -1,33 +1,37 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PromotionLocation, PromotionResult } from '@spartacus/core';
+import {
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
+import { PromotionService } from 'projects/storefrontlib/src/shared';
 import { Observable } from 'rxjs';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-
-export interface Item {
-  entryNumber?: any;
-  product?: any;
-  quantity?: any;
-  basePrice?: any;
-  totalPrice?: any;
-  updateable?: boolean;
-  statusSummaryList?: any[];
-  configurationInfos?: any[];
-}
-
-export interface CartItemComponentOptions {
-  isSaveForLater?: boolean;
-  optionalBtn?: any;
-}
+import { CartItemComponentOptions } from '../cart-item-list/cart-item-list.component';
+import {
+  CartItemComponentOutlets,
+  CartItemContext,
+  CartItemContextModel,
+} from './cart-item-component.model';
 
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
+  providers: [CartItemContext],
 })
-export class CartItemComponent implements OnInit {
+export class CartItemComponent implements OnInit, OnChanges {
   @Input() compact = false;
-  @Input() item: Item;
+  @Input() item: OrderEntry;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
 
@@ -43,14 +47,38 @@ export class CartItemComponent implements OnInit {
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
+  readonly Outlets = CartItemComponentOutlets;
 
-  constructor(protected promotionService: PromotionService) {}
+  constructor(
+    protected promotionService: PromotionService,
+    @Optional() protected cartItemContext?: CartItemContext
+  ) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
       this.item,
       this.promotionLocation
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.populateCartItemContext(changes);
+  }
+
+  private populateCartItemContext(changes: SimpleChanges) {
+    if (this.cartItemContext) {
+      const newChunk = Object.entries(changes).reduce(
+        (acc, [key, change]) => ({ ...acc, [key]: change.currentValue }),
+        {} as CartItemContextModel
+      );
+
+      let oldChunk: CartItemContextModel;
+      this.cartItemContext.context$
+        .subscribe((val) => (oldChunk = val ?? {}))
+        .unsubscribe();
+
+      this.cartItemContext['context$$'].next({ ...oldChunk, ...newChunk });
+    }
   }
 
   isProductOutOfStock(product: any) {
@@ -69,17 +97,5 @@ export class CartItemComponent implements OnInit {
 
   viewItem() {
     this.view.emit();
-  }
-
-  /**
-   * Verifies whether the configuration infos has any entries and the entry has any status.
-   *
-   * @returns {boolean} - whether the status of configuration infos entry has status
-   */
-  hasStatus(): boolean {
-    return (
-      this.item.configurationInfos?.length > 0 &&
-      this.item.configurationInfos[0]?.status !== 'NONE'
-    );
   }
 }
