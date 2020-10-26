@@ -64,6 +64,15 @@ const config: MyCompanyConfig = {
       showInDetails: true,
     },
   ],
+  subCategories: [
+    {
+      name: 'Budgets',
+      baseUrl: `/budgets`,
+      apiEndpoint: '**/budgets**',
+      objectType: 'budgets',
+      manageAssignments: true,
+    },
+  ],
 };
 
 testMyCompanyFeatureFromConfig(config);

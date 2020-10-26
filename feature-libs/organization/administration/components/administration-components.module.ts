@@ -30,4 +30,4 @@ import { UserComponentsModule } from './user/user-components.module';
     }),
   ],
 })
-export class OrganizationComponentsModule {}
+export class AdministrationComponentsModule {}

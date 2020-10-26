@@ -1,20 +1,21 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { B2BUserConnector } from './connectors/b2b-user/b2b-user.connector';
+import { BudgetConnector } from './connectors/budget/budget.connector';
+import { CostCenterConnector } from './connectors/cost-center/cost-center.connector';
+import { OrderApprovalConnector } from './connectors/order-approval/order-approval.connector';
+import { OrgUnitConnector } from './connectors/org-unit/org-unit.connector';
+import { PermissionConnector } from './connectors/permission/permission.connector';
+import { UserGroupConnector } from './connectors/user-group/user-group.connector';
 import { OrganizationPageMetaModule } from './services/organization-page-meta.module';
 import { OrganizationStoreModule } from './store/organization-store.module';
-import { BudgetConnector } from './connectors/budget/budget.connector';
-import { OrderApprovalConnector } from './connectors/order-approval/order-approval.connector';
-import { PermissionConnector } from './connectors/permission/permission.connector';
-import { CostCenterConnector } from './connectors/cost-center/cost-center.connector';
-import { B2BUserConnector } from './connectors/b2b-user/b2b-user.connector';
-import { OrgUnitConnector } from './connectors/org-unit/org-unit.connector';
-import { UserGroupConnector } from './connectors/user-group/user-group.connector';
+
 @NgModule({
   imports: [OrganizationPageMetaModule, OrganizationStoreModule],
 })
-export class OrganizationCoreModule {
-  static forRoot(): ModuleWithProviders<OrganizationCoreModule> {
+export class AdministrationCoreModule {
+  static forRoot(): ModuleWithProviders<AdministrationCoreModule> {
     return {
-      ngModule: OrganizationCoreModule,
+      ngModule: AdministrationCoreModule,
       providers: [
         BudgetConnector,
         OrgUnitConnector,
