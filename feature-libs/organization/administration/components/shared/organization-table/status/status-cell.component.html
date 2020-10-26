@@ -7,7 +7,12 @@
 </a>
 
 <ng-template #text>
-  <span class="text" title="{{ label | cxTranslate }}" [class.is-active]="isActive" *ngIf="label">
+  <span
+    class="text"
+    title="{{ label | cxTranslate }}"
+    [class.is-active]="isActive"
+    *ngIf="label"
+  >
     {{ label | cxTranslate }}</span
   >
 </ng-template>
