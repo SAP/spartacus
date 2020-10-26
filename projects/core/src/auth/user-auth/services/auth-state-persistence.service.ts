@@ -100,10 +100,18 @@ export class AuthStatePersistenceService implements OnDestroy {
   /**
    * Reads synchronously state from storage and returns it.
    */
-  public readStateFromStorage() {
+  protected readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
     });
+  }
+
+  /**
+   * Check synchronously in browser storage if user is logged in (required by transfer state reducer).
+   * For most cases `isUserLoggedIn` from the `AuthService` should be used instead of this.
+   */
+  public isUserLoggedIn(): boolean {
+    return Boolean(this.readStateFromStorage()?.token?.access_token);
   }
 
   ngOnDestroy(): void {

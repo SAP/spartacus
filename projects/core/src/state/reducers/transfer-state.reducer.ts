@@ -23,10 +23,7 @@ export function getTransferStateReducer(
       return getBrowserTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys,
-        Boolean(
-          authStatePersistenceService?.readStateFromStorage()?.token
-            ?.access_token
-        )
+        Boolean(authStatePersistenceService?.isUserLoggedIn())
       );
     } else if (isPlatformServer(platformId)) {
       return getServerTransferStateReducer(

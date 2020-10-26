@@ -140,18 +140,14 @@ describe('AuthStatePersistenceService', () => {
       });
   });
 
-  it('readStateFromStorage should return state from localStorage', () => {
+  it('isUserLoggedIn should check state of user login in localStorage', () => {
     spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
       token: { access_token: 'token' },
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
 
-    expect(service.readStateFromStorage()).toEqual({
-      token: { access_token: 'token' } as AuthToken,
-      userId: 'userId',
-      redirectUrl: 'redirect_url',
-    });
+    expect(service.isUserLoggedIn()).toBeTrue();
 
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
