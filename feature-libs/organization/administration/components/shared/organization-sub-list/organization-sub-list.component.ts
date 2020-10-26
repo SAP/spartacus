@@ -7,7 +7,7 @@ import {
 import { EntitiesModel } from '@spartacus/core';
 import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 
 @Component({
@@ -20,7 +20,15 @@ export class OrganizationSubListComponent extends OrganizationListComponent {
 
   @Input() previous: boolean | string = true;
 
+  @Input() key = this.service.key();
+
+  @Input() set routerKey(key: string) {
+    this.subKey$ = this.organizationItemService.getRouterParam(key);
+  }
+
   @HostBinding('class.ghost') hasGhostData = false;
+
+  subKey$: Observable<string>;
 
   readonly listData$: Observable<EntitiesModel<any>> = this.currentKey$.pipe(
     switchMap((key) => this.service.getData(key)),
@@ -32,12 +40,4 @@ export class OrganizationSubListComponent extends OrganizationListComponent {
   readonly dataStructure$: Observable<
     TableStructure
   > = this.service.getStructure();
-
-  getRouteParam(): Observable<any> {
-    return this.currentKey$.pipe(
-      map((keyValue) => ({
-        [this.key]: keyValue,
-      }))
-    );
-  }
 }
