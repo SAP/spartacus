@@ -8,7 +8,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { ConfigComponentTestUtilsService } from '../service/configurator-component-test-utils.service';
+import { ConfigComponentTestUtilsService } from 'projects/storefrontlib/src/cms-components/configurator/generic/service/configurator-component-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @Pipe({

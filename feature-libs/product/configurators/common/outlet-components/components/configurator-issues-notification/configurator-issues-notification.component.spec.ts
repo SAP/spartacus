@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderEntryStatus } from '@spartacus/core';
-import { ConfigComponentTestUtilsService } from '../service/configurator-component-test-utils.service';
+import { ConfigComponentTestUtilsService } from 'projects/storefrontlib/src/cms-components/configurator/generic/service/configurator-component-test-utils.service';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @Pipe({
