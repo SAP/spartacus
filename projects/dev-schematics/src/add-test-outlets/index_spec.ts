@@ -1,6 +1,6 @@
 import {
   SchematicTestRunner,
-  UnitTestTree
+  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '@spartacus/schematics';
 import path from 'path';

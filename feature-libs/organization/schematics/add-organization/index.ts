@@ -17,7 +17,6 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
-  addToModuleImportsAndCommitChanges,
   addToModuleProviders,
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
@@ -249,11 +248,12 @@ function updateAppModule(options: SpartacusOrganizationOptions): Rule {
       );
       changes.push(administrationRootImportChange);
 
-      addToModuleImportsAndCommitChanges(
+      const moduleImportChanges = addToModuleImports(
         host,
         modulePath,
         ADMINISTRATION_ROOT_MODULE
       );
+      changes.push(...moduleImportChanges);
     }
 
     commitChanges(host, modulePath, changes);

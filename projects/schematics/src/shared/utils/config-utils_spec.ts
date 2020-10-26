@@ -1,6 +1,6 @@
 import {
   SchematicTestRunner,
-  UnitTestTree
+  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import * as ts from 'typescript';
@@ -8,7 +8,7 @@ import {
   createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
-  mergeConfig
+  mergeConfig,
 } from './config-utils';
 import { commitChanges, getTsSourceFile } from './file-utils';
 
