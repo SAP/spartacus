@@ -1,47 +1,11 @@
-import { SchematicContext, Tree } from '@angular-devkit/schematics';
-import { getSourceRoot } from '../../../shared';
-import { TODO_SPARTACUS } from '../../../shared/constants';
-import {
-  commitChanges,
-  DeprecatedNode,
-  getAllTsSourceFiles,
-  getTsSourceFile,
-  insertCommentAboveImportIdentifier,
-  InsertDirection,
-} from '../../../shared/utils/file-utils';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { DeprecatedNode } from '../../../shared/utils/file-utils';
+import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
-export function migrate(
-  tree: Tree,
-  context: SchematicContext,
-  removedNodes: DeprecatedNode[]
-): Tree {
-  context.logger.info('Checking removed public api...');
+export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [];
 
-  const project = getSourceRoot(tree, {});
-  const sourceFiles = getAllTsSourceFiles(tree, project);
-  for (const originalSource of sourceFiles) {
-    const sourcePath = originalSource.fileName;
-
-    for (const removedNode of removedNodes) {
-      // 'source' has to be reloaded after each committed change
-      const source = getTsSourceFile(tree, sourcePath);
-      const changes = insertCommentAboveImportIdentifier(
-        sourcePath,
-        source,
-        removedNode.node,
-        removedNode.importPath,
-        buildComment(
-          removedNode.comment ??
-            `'${removedNode.node}' is no longer part of the public API. Please look into migration guide for more information`
-        )
-      );
-      commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-    }
-  }
-
-  return tree;
-}
-
-function buildComment(content: string): string {
-  return `// ${TODO_SPARTACUS} ${content}\n`;
+export function migrate(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
+  };
 }
