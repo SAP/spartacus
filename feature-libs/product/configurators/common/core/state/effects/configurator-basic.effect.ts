@@ -15,6 +15,7 @@ import {
   switchMapTo,
   take,
 } from 'rxjs/operators';
+import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
@@ -212,6 +213,11 @@ export class ConfiguratorBasicEffects {
                 ),
                 null
               );
+              this.configuratorGroupStatusService.setGroupStatus(
+                payload,
+                currentGroupId,
+                false
+              );
               return {
                 currentGroupId,
                 groupIdFromPayload,
@@ -316,6 +322,11 @@ export class ConfiguratorBasicEffects {
             )
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
+                this.configuratorGroupStatusService.setGroupStatus(
+                  configuration,
+                  action.payload.groupId,
+                  false
+                );
                 return [
                   new ConfiguratorActions.SetCurrentGroup({
                     entityKey: action.payload.configuration.owner.key,
@@ -366,6 +377,7 @@ export class ConfiguratorBasicEffects {
     protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
     protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
+    protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
     protected store: Store<StateWithConfigurator>
   ) {}
 }
