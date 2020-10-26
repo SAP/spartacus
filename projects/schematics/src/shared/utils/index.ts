@@ -1,3 +1,8 @@
+export {
+  getConfig,
+  getExistingStorefrontConfigNode,
+  mergeConfig,
+} from './config-utils';
 export { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
 export {
   addImport,

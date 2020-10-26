@@ -410,8 +410,10 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
-          switchMap((data) => [
-            new OrgUnitActions.UpdateAddressSuccess(data),
+          switchMap(() => [
+            // commented out due to no response from backend on PATCH request
+            // new OrgUnitActions.UpdateAddressSuccess(data),
+            new OrgUnitActions.UpdateAddressSuccess(address),
             new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
