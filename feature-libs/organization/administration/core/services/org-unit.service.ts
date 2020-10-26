@@ -25,6 +25,7 @@ import {
   getB2BAddresses,
   getOrgUnit,
   getOrgUnitList,
+  getOrgUnitState,
   getOrgUnitTree,
   getOrgUnitValue,
 } from '../store/selectors/org-unit.selector';
@@ -247,6 +248,12 @@ export class OrgUnitService {
     );
   }
 
+  getErrorState(orgCustomerId): Observable<boolean> {
+    return this.getOrgUnitState(orgCustomerId).pipe(
+      map((state) => state.error)
+    );
+  }
+
   create(unit: B2BUnit): void {
     this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
@@ -399,5 +406,11 @@ export class OrgUnitService {
       .getOccUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
+  }
+
+  private getOrgUnitState(
+    orgUnitId: string
+  ): Observable<StateUtils.LoaderState<B2BUnit>> {
+    return this.store.select(getOrgUnitState(orgUnitId));
   }
 }

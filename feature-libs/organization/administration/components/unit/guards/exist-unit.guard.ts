@@ -1,46 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
-import {
-  B2BUnit,
-  GlobalMessageService,
-  GlobalMessageType,
-  SemanticPathService,
-} from '@spartacus/core';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
+import { CurrentUnitService } from '../services/current-unit.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistUnitGuard extends ExistOrganizationItemGuard<B2BUnit> {
-  protected code = ROUTE_PARAMS.unitCode;
-
+export class ExistUnitGuard extends ExistOrganizationItemGuard {
   constructor(
     protected unitService: OrgUnitService,
-    protected router: Router,
-    protected semanticPathService: SemanticPathService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
+    protected currentUnitService: CurrentUnitService
   ) {
-    super();
+    super(routingService, globalMessageService);
   }
 
-  protected getItem(code: string): Observable<B2BUnit> {
-    return this.unitService.get(code);
-  }
-
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(this.semanticPathService.get('orgUnits'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.notExist',
-        params: { item: 'Unit' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentUnitService.key$.pipe(
+      switchMap((code) => this.unitService.getErrorState(code)),
+      map((error) => {
+        if (error) {
+          this.redirect('units');
+          this.showErrorMessage('Unit');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }

@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
-import { B2BUnit, GlobalMessageType } from '@spartacus/core';
-import { ExistUnitGuard } from './exist-unit.guard';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { CurrentUnitService } from '../services/current-unit.service';
+import { ROUTE_PARAMS } from '../../constants';
+import { ActiveOrganizationItemGuard } from '../../shared/active-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUnitGuard extends ExistUnitGuard {
-  protected isValid(unit: B2BUnit): boolean {
-    return unit.active;
+export class ActiveUnitGuard extends ActiveOrganizationItemGuard {
+  constructor(
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected currentUnitService: CurrentUnitService
+  ) {
+    super(routingService, globalMessageService);
   }
 
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    const urlPath = this.semanticPathService.transform({
-      cxRoute: 'unitDetails',
-      params: { uid: _urlParams.code },
-    });
+  readonly unitCode = ROUTE_PARAMS.unitCode;
 
-    return this.router.parseUrl(urlPath.join('/'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.disabled',
-        params: { item: 'Unit' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentUnitService.item$.pipe(
+      map((item) => {
+        if (!this.isValid(item)) {
+          this.redirect(item.uid, 'unitDetails', this.unitCode);
+          this.showErrorMessage('Unit');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }
