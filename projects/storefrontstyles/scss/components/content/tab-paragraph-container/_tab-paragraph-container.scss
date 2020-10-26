@@ -161,7 +161,7 @@ $useTabsOnPDP: false !default;
   margin: auto;
 
   @include media-breakpoint-down(xl) {
-    max-width: 1140px;
+    max-width: $max-width-container;
   }
   // make a small header with links
   display: grid;

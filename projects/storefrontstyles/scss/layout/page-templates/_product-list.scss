@@ -1,6 +1,6 @@
 %ProductListPageTemplate,
 %ProductGridPageTemplate {
-  max-width: 1140px;
+  max-width: $max-width-container;
   margin: auto;
   display: flex;
   @include media-breakpoint-down(md) {

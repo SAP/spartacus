@@ -57,7 +57,7 @@
     }
     &.UpSelling,
     &.CrossSelling {
-      max-width: 1140px;
+      max-width: $max-width-container;
       margin: auto;
     }
   }

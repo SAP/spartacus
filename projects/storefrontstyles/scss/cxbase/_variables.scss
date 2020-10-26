@@ -20,6 +20,7 @@ $background: $white !default;
 $inverse: $white !default;
 $text: $black !default;
 $transparent: transparent !default;
+$max-width-container: 1140px !default;
 
 $theme-colors: map-merge(
   (
