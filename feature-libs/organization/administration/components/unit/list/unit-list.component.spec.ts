@@ -4,8 +4,6 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { UnitListComponent } from '@spartacus/organization/administration/components';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs/internal/observable/of';
-import { UnitListService } from '../services/unit-list.service';
 import { UnitTreeService } from '../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
@@ -15,11 +13,6 @@ import createSpy = jasmine.createSpy;
 })
 class MockOrganizationListComponent {}
 
-const id = 'TEST';
-
-class MockUnitListService {
-  getData = createSpy('getData').and.returnValue(of({ values: [{ id }] }));
-}
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');
   collapseAll = createSpy('collapseAll');
@@ -35,10 +28,6 @@ describe('UnitListComponent', () => {
       imports: [I18nTestingModule, UrlTestingModule],
       declarations: [MockOrganizationListComponent, UnitListComponent],
       providers: [
-        {
-          provide: UnitListService,
-          useClass: MockUnitListService,
-        },
         {
           provide: UnitTreeService,
           useClass: MockUnitTreeService,
@@ -68,11 +57,11 @@ describe('UnitListComponent', () => {
 
   it('should call expandAll', () => {
     expandAll.click();
-    expect(unitTreeService.expandAll).toHaveBeenCalledWith(id);
+    expect(unitTreeService.expandAll).toHaveBeenCalled();
   });
 
   it('should call collapseAll', () => {
     collapseAll.click();
-    expect(unitTreeService.collapseAll).toHaveBeenCalledWith(id);
+    expect(unitTreeService.collapseAll).toHaveBeenCalled();
   });
 });
