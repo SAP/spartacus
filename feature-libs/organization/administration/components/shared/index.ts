@@ -1,5 +1,6 @@
 export * from './current-organization-item.service';
 export * from './exist-organization-item.guard';
+export * from './active-organization-item.guard';
 export * from './organization-card/index';
 export * from './organization-detail/index';
 export * from './organization-form/index';
