@@ -1,4 +1,4 @@
-<ng-container *ngIf="userToken$ | async as userToken">
+<ng-container *ngIf="isLoggedIn$ | async">
   <div class="modal-header cx-dialog-header">
     <h3 class="modal-title">
       {{ 'closeAccount.confirmAccountClosure' | cxTranslate }}
