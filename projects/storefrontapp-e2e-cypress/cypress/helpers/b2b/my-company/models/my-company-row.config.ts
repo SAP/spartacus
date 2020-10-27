@@ -51,4 +51,12 @@ export interface MyCompanyRowConfig {
    * Label to identify property in form
    */
   formLabel?: string;
+  /**
+   * Label to identify property in details
+   */
+  detailsLabel?: string;
+  /**
+   * Custom selector for form element
+   */
+  selector?: string;
 }

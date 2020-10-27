@@ -2,12 +2,13 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { UTF_8 } from '@spartacus/schematics';
 import * as path from 'path';
-import { Schema as SpartacusMyAccountOptions } from './schema';
+import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus My Account schematics: ng-add', () => {
+describe('Spartacus Organization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
@@ -27,7 +28,7 @@ describe('Spartacus My Account schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusMyAccountOptions = {
+  const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
   };
 
@@ -65,25 +66,23 @@ describe('Spartacus My Account schematics: ng-add', () => {
       .toPromise();
   });
 
-  it('should add my-account deps', async () => {
+  it('should add organization deps', async () => {
     const packageJson = appTree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@spartacus/my-account')).toBe(true);
+    expect(depPackageList.includes('@spartacus/organization')).toBe(true);
     expect(depPackageList.includes('@spartacus/setup')).toBe(true);
   });
 
-  // TODO: use from `@spartacus/schematics`
-  const UTF_8 = 'utf-8';
   describe('styling', () => {
-    it('should add style import to /src/styles/spartacus-my-account.scss', async () => {
-      const buffer = appTree.read('/src/styles/spartacus-my-account.scss');
+    it('should add style import to /src/styles/spartacus-organization.scss', async () => {
+      const buffer = appTree.read('/src/styles/spartacus-organization.scss');
       expect(buffer).toBeTruthy();
       const content = buffer?.toString(UTF_8);
-      expect(content).toEqual(`@import "@spartacus/my-account";`);
+      expect(content).toEqual(`@import "@spartacus/organization";`);
     });
 
-    it('should add update angular.json with spartacus-my-account.scss', async () => {
+    it('should add update angular.json with organization.scss', async () => {
       const buffer = appTree.read('/angular.json');
       expect(buffer).toBeTruthy();
       if (!buffer) {
@@ -95,14 +94,14 @@ describe('Spartacus My Account schematics: ng-add', () => {
         angularJson.projects['schematics-test'].architect.build.options.styles;
       expect(buildStyles).toEqual([
         'src/styles.scss',
-        'src/styles/spartacus-my-account.scss',
+        'src/styles/organization.scss',
       ]);
 
       const testStyles: string[] =
         angularJson.projects['schematics-test'].architect.test.options.styles;
       expect(testStyles).toEqual([
         'src/styles.scss',
-        'src/styles/spartacus-my-account.scss',
+        'src/styles/organization.scss',
       ]);
     });
   });
