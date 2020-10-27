@@ -19,6 +19,7 @@ import {
   getAvailableOrgCustomers,
   getUserGroup,
   getUserGroupList,
+  getUserGroupState,
   getUserGroupValue,
 } from '../store/selectors/user-group.selector';
 import { OrganizationItemStatus } from '../model/organization-item-status';
@@ -289,5 +290,15 @@ export class UserGroupService {
       .getOccUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
+  }
+
+  private getUserGroupState(
+    code: string
+  ): Observable<StateUtils.LoaderState<UserGroup>> {
+    return this.store.select(getUserGroupState(code));
+  }
+
+  getErrorState(code): Observable<boolean> {
+    return this.getUserGroupState(code).pipe(map((state) => state.error));
   }
 }

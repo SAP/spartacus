@@ -96,3 +96,12 @@ export const getAvailableOrderApprovalPermissions = (
     ) =>
       denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );
+
+export const getUserGroupState = (
+  code: string
+): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<UserGroup>> =>
+  createSelector(
+    getUserGroupsState,
+    (state: StateUtils.EntityLoaderState<UserGroup>) =>
+      StateUtils.entityLoaderStateSelector(state, code)
+  );
