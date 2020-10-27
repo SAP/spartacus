@@ -5,12 +5,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
-  AuthService,
   B2BUser,
   normalizeHttpError,
   OccConfig,
   RoutingService,
   SearchConfig,
+  UserIdService,
   UserService,
 } from '@spartacus/core';
 import {
@@ -130,8 +130,8 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(mockCurrentUser));
 }
 
-class MockAuthService implements Partial<AuthService> {
-  getOccUserId = createSpy().and.returnValue(of('current'));
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId = createSpy().and.returnValue(of('current'));
 }
 
 describe('B2B User Effects', () => {
@@ -163,7 +163,7 @@ describe('B2B User Effects', () => {
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
