@@ -114,16 +114,13 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
   - Report an issue
   - Contribute code to Spartacus
 
-
-
 # To Do
 
 Many improvements are coming! All tasks will be posted to our GitHub issue tracking system. As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.
-
-
 
 # License
 
 Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
 
+![Deploys by Netlify](https://www.netlify.com/img/global/badges/netlify-color-accent.svg)

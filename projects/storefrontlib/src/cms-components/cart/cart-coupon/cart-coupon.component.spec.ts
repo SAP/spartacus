@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
-  AuthService,
   Cart,
   CartVoucherService,
   CustomerCouponSearchResult,
@@ -43,8 +42,6 @@ describe('CartCouponComponent', () => {
     'isStable',
   ]);
 
-  const mockAuthService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
-
   const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
     'addVoucher',
     'getAddVoucherResultSuccess',
@@ -82,7 +79,6 @@ describe('CartCouponComponent', () => {
       declarations: [CartCouponComponent, MockAppliedCouponsComponent],
       providers: [
         { provide: ActiveCartService, useValue: mockActiveCartService },
-        { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
       ],
@@ -99,7 +95,6 @@ describe('CartCouponComponent', () => {
     );
     mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
-    mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartVoucherService.addVoucher.and.stub();
@@ -234,7 +229,7 @@ describe('CartCouponComponent', () => {
     expect(mockCustomerCouponService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
-  it('should reset state when ondestory is triggered', () => {
+  it('should reset state when on destroy is triggered', () => {
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(true));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();

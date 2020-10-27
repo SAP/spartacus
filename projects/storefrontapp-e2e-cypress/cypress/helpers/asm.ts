@@ -4,6 +4,7 @@ import * as consent from '../helpers/consent-management';
 import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
+import { getErrorAlert } from './global-message';
 
 let customer: any;
 
@@ -12,6 +13,14 @@ export function asmTests(isMobile: boolean) {
     before(() => {
       checkout.visitHomePage();
       customer = checkout.registerUser();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     describe('UI display.', () => {
@@ -207,20 +216,18 @@ export function asmTests(isMobile: boolean) {
         cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
         agentLogin();
-        loginCustomerInStorefront();
-        assertCustomerIsSignedIn(isMobile);
-
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('not.exist');
-        cy.get('cx-customer-emulation').should('exist');
-        cy.get('cx-customer-emulation div.asm-alert').should('exist');
-        cy.get('cx-customer-emulation button').should('not.exist');
+        login(customer.email, customer.password);
+        getErrorAlert().should(
+          'contain',
+          'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
+        );
       });
 
-      it('agent logout should not terminate the regular customer session', () => {
-        agentSignOut();
-        assertCustomerIsSignedIn(isMobile);
-      });
+      // TODO(#9445): Add e2e test for this scenario
+      it.skip('agent login when user is logged in should start this user emulation', () => {});
+
+      // TODO(#9445): Add e2e test for this scenario
+      it.skip('agent logout when user was logged and emulated should restore the session', () => {});
     });
   });
 }
