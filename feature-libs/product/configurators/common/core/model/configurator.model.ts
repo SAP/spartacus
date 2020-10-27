@@ -173,5 +173,6 @@ export namespace Configurator {
   export enum GroupStatus {
     COMPLETE = 'COMPLETE',
     ERROR = 'ERROR',
+    DISABLE = 'DISABLE',
   }
 }

@@ -449,4 +449,50 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
+  describe('Set group disable', () => {
+    it('should reduce group disable reducer with initial state', () => {
+      const { initialState } = StateReduce;
+
+      const action = new ConfiguratorActions.SetGroupsDisable({
+        entityKey: PRODUCT_CODE,
+        disableGroups: ['group1', 'group2', 'group3'],
+      });
+
+      const state = StateReduce.configuratorReducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.DISABLE,
+        group2: Configurator.GroupStatus.DISABLE,
+        group3: Configurator.GroupStatus.DISABLE,
+      });
+    });
+
+    it('should reduce group disable reducer with existing state', () => {
+      const initialState = {
+        ...StateReduce.initialState,
+        interactionState: {
+          groupsStatus: {
+            group1: Configurator.GroupStatus.ERROR,
+            group2: Configurator.GroupStatus.DISABLE,
+            group3: Configurator.GroupStatus.COMPLETE,
+          },
+        },
+      };
+
+      const action = new ConfiguratorActions.SetGroupsDisable({
+        entityKey: PRODUCT_CODE,
+        disableGroups: ['group4'],
+      });
+
+      const state = StateReduce.configuratorReducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.ERROR,
+        group2: Configurator.GroupStatus.DISABLE,
+        group3: Configurator.GroupStatus.COMPLETE,
+        group4: Configurator.GroupStatus.DISABLE,
+      });
+    });
+  });
 });

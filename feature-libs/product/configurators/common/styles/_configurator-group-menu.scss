@@ -56,6 +56,11 @@
           color: var(--cx-color-primary);
         }
 
+        &.disable {
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+
         .groupIndicators {
           display: flex;
           flex-direction: row;

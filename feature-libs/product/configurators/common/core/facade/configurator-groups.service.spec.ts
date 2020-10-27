@@ -7,6 +7,7 @@ import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
+  GROUP_ID_8,
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../shared/testing/configurator-test-data';
@@ -73,6 +74,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
+    spyOn(configGroupStatusService, 'isGroupDisabled').and.callThrough();
     spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
     spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
     spyOn(configFacadeUtilsService, 'getGroupById').and.callThrough();
@@ -224,6 +226,15 @@ describe('ConfiguratorGroupsService', () => {
       GROUP_ID_4
     );
     expect(configGroupStatusService.isGroupVisited).toHaveBeenCalled();
+  });
+
+  it('should check whether isGroupDisabled has been called by the configuration group utils service', () => {
+    classUnderTest.isGroupDisabled(productConfiguration.owner, GROUP_ID_8);
+    expect(configGroupStatusService.isGroupDisabled).toHaveBeenCalledWith(
+      productConfiguration.owner,
+      GROUP_ID_8
+    );
+    expect(configGroupStatusService.isGroupDisabled).toHaveBeenCalled();
   });
 
   it('should check whether getGroupStatus has been called by the configuration group utils service', () => {

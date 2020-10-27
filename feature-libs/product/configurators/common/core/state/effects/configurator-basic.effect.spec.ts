@@ -35,12 +35,14 @@ const owner: GenericConfigurator.Owner = {
 
 const group: Configurator.Group = {
   id: groupId,
+  configurable: true,
   attributes: [{ name: 'attrName' }],
   subGroups: [],
 };
 
 const groupWithSubGroup: Configurator.Group = {
   id: groupId,
+  configurable: true,
   attributes: [
     {
       name: 'attrName',
@@ -110,6 +112,7 @@ describe('ConfiguratorEffect', () => {
       readPriceSummary = readPriceSummaryMock;
       getConfigurationOverview = overviewMock;
     }
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -583,5 +586,89 @@ describe('ConfiguratorEffect', () => {
       ];
       expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
     });
+  });
+
+  it('should collect disabled group IDs', () => {
+    const disableGroupIds = [];
+    const groups: Configurator.Group[] = [
+      {
+        id: 'group_01',
+        configurable: true,
+        attributes: [],
+        subGroups: [
+          {
+            id: 'group_02',
+            configurable: true,
+            attributes: [],
+            subGroups: [
+              {
+                id: 'group_03',
+                configurable: false,
+                attributes: [],
+                subGroups: [],
+              },
+              {
+                id: 'group_04',
+                configurable: true,
+                attributes: [],
+                subGroups: [
+                  {
+                    id: 'group_05',
+                    configurable: true,
+                    attributes: [],
+                    subGroups: [
+                      {
+                        id: 'group_06',
+                        configurable: true,
+                        attributes: [],
+                        subGroups: [
+                          {
+                            id: 'group_07',
+                            configurable: false,
+                            attributes: [],
+                            subGroups: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'group_08',
+            configurable: false,
+            attributes: [],
+            subGroups: [],
+          },
+        ],
+      },
+      {
+        id: 'group_09',
+        configurable: true,
+        attributes: [],
+        subGroups: productConfiguration.groups,
+      },
+      {
+        id: 'group_10',
+        configurable: true,
+        attributes: [],
+        subGroups: [
+          {
+            id: 'group_11',
+            configurable: false,
+            attributes: [],
+            subGroups: [],
+          },
+        ],
+      },
+    ];
+    configEffects.collectDisabledGroupIds(disableGroupIds, groups);
+    expect(disableGroupIds.length).toBe(4);
+    expect(disableGroupIds.includes('group_03')).toBe(true);
+    expect(disableGroupIds.includes('group_07')).toBe(true);
+    expect(disableGroupIds.includes('group_08')).toBe(true);
+    expect(disableGroupIds.includes('group_11')).toBe(true);
   });
 });

@@ -49,6 +49,7 @@ export const SET_MENU_PARENT_GROUP =
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
 export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
+export const SET_GROUPS_DISABLE = '[Configurator] Set groups disabled status';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -265,12 +266,21 @@ export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
   }
 }
 
-//This is still a success action as the group status is succcessfully updated
+//This is still a success action as the group status is successfully updated
 export class SetGroupsError extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_ERROR;
 
   constructor(public payload: { entityKey: string; errorGroups: string[] }) {
     super(CONFIGURATOR_DATA, payload.entityKey, payload.errorGroups);
+  }
+}
+
+//This is still a success action as the group status is successfully updated
+export class SetGroupsDisable extends StateUtils.EntitySuccessAction {
+  readonly type = SET_GROUPS_DISABLE;
+
+  constructor(public payload: { entityKey: string; disableGroups: string[] }) {
+    super(CONFIGURATOR_DATA, payload.entityKey, payload.disableGroups);
   }
 }
 
@@ -300,4 +310,5 @@ export type ConfiguratorAction =
   | SetCurrentGroup
   | SetGroupsVisited
   | SetGroupsCompleted
-  | SetGroupsError;
+  | SetGroupsError
+  | SetGroupsDisable;
