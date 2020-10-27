@@ -1,48 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
-import {
-  CostCenter,
-  GlobalMessageService,
-  GlobalMessageType,
-  SemanticPathService,
-} from '@spartacus/core';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistCostCenterGuard extends ExistOrganizationItemGuard<
-  CostCenter
-> {
-  protected code = ROUTE_PARAMS.costCenterCode;
-
+export class ExistCostCenterGuard extends ExistOrganizationItemGuard {
   constructor(
     protected costCenterService: CostCenterService,
-    protected router: Router,
-    protected semanticPathService: SemanticPathService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
+    protected currentCostCenterService: CurrentCostCenterService
   ) {
-    super();
+    super(routingService, globalMessageService);
   }
 
-  protected getItem(code: string): Observable<CostCenter> {
-    return this.costCenterService.get(code);
-  }
-
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(this.semanticPathService.get('costCenter'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.notExist',
-        params: { item: 'Cost Center' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentCostCenterService.key$.pipe(
+      switchMap((code) => this.costCenterService.getErrorState(code)),
+      map((error) => {
+        if (error) {
+          this.redirect('costCenters');
+          this.showErrorMessage('CostCenter');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }

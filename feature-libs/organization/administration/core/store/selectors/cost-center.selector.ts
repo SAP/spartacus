@@ -80,3 +80,15 @@ export const getAssignedBudgets = (
       budgets: StateUtils.EntityLoaderState<Budget>
     ) => denormalizeCustomB2BSearch(state.budgets, budgets, params, code)
   );
+
+export const getCostCenterState = (
+  orgUnitId: string
+): MemoizedSelector<
+  StateWithOrganization,
+  StateUtils.LoaderState<CostCenter>
+> =>
+  createSelector(
+    getCostCentersState,
+    (state: StateUtils.EntityLoaderState<CostCenter>) =>
+      StateUtils.entityLoaderStateSelector(state, orgUnitId)
+  );

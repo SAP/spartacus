@@ -102,6 +102,12 @@ export class CostCenterService {
     );
   }
 
+  private getCostCenterState(
+    budgetCode: string
+  ): Observable<StateUtils.LoaderState<Budget>> {
+    return this.store.select(getBudget(budgetCode));
+  }
+
   create(costCenter: CostCenter): void {
     this.withUserId((userId) =>
       this.store.dispatch(
@@ -188,5 +194,11 @@ export class CostCenterService {
       .getOccUserId()
       .pipe(take(1))
       .subscribe((userId) => callback(userId));
+  }
+
+  getErrorState(costCenterCode): Observable<boolean> {
+    return this.getCostCenterState(costCenterCode).pipe(
+      map((state) => state.error)
+    );
   }
 }

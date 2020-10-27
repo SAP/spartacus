@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
-import { CostCenter, GlobalMessageType } from '@spartacus/core';
-import { ExistCostCenterGuard } from './exist-cost-center.guard';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
+import { ROUTE_PARAMS } from '../../constants';
+import { ActiveOrganizationItemGuard } from '../../shared/active-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCostCenterGuard extends ExistCostCenterGuard {
-  protected isValid(costCenter: CostCenter): boolean {
-    return costCenter.active;
+export class ActiveCostCenterGuard extends ActiveOrganizationItemGuard {
+  constructor(
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected currentCostCenterService: CurrentCostCenterService
+  ) {
+    super(routingService, globalMessageService);
   }
 
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    const urlPath = this.semanticPathService.transform({
-      cxRoute: 'costCenterDetails',
-      params: { code: _urlParams.code },
-    });
+  readonly costCenterCode = ROUTE_PARAMS.costCenterCode;
 
-    return this.router.parseUrl(urlPath.join('/'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.disabled',
-        params: { item: 'Cost Center' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentCostCenterService.item$.pipe(
+      map((item) => {
+        if (!this.isValid(item)) {
+          this.redirect(item.code, 'costCenterDetails', this.costCenterCode);
+          this.showErrorMessage('CostCenter');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }
