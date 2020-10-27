@@ -1,46 +1,44 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ScheduleReplenishmentForm } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form-service';
-
-const mockDefaultReplenishmentOrderFormData: ScheduleReplenishmentForm = {
-  numberOfDays: 'test-number-days',
-};
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {
   recurrencePeriod: 'test-period',
   numberOfWeeks: 'test-num-weeks',
 };
 
-describe('Checkout Replenishment Form Service', () => {
+fdescribe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [CheckoutReplenishmentFormService],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [CheckoutReplenishmentFormService],
+      });
+    })
+  );
 
   beforeEach(() => {
     service = TestBed.inject(CheckoutReplenishmentFormService);
-    service['scheduleReplenishmentFormData$'] = new BehaviorSubject<
-      ScheduleReplenishmentForm
-    >(mockDefaultReplenishmentOrderFormData);
   });
 
-  it('should create', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should get replenishment form data', () => {
-    let result: ScheduleReplenishmentForm;
+  it('should get default schedule replenishment form data', () => {
+    const defaultFormData: ScheduleReplenishmentForm = service.defaultFormData;
+    defaultFormData.nthDayOfMonth = '2';
+    let expectedFormData: ScheduleReplenishmentForm;
 
     service
       .getScheduleReplenishmentFormData()
-      .subscribe((data) => (result = data))
+      .subscribe((data) => (expectedFormData = data))
       .unsubscribe();
 
-    expect(result).toEqual(mockDefaultReplenishmentOrderFormData);
+    expect(expectedFormData).toEqual(defaultFormData);
+    expect(expectedFormData.replenishmentStartDate).toMatch(
+      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/
+    );
+    expect(expectedFormData.replenishmentStartDate).not.toMatch(
+      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]T$/
+    );
   });
 
   it('should set new replenishment form data', () => {
