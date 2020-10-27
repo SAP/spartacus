@@ -15,7 +15,7 @@ describe('OccEndpointsService', () => {
           baseUrl: 'test-baseUrl',
           prefix: '/test-occPrefix',
           endpoints: {
-            login: '/authorizationserver/oauth/token',
+            asmCustomerSearch: '/assistedservicewebservices/customers/search',
             product: {
               default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
@@ -50,8 +50,8 @@ describe('OccEndpointsService', () => {
 
   it('should return raw endpoint', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpoint('login')).toEqual(
-      occ.baseUrl + occ.endpoints['login']
+    expect(service.getRawEndpoint('asmCustomerSearch')).toEqual(
+      occ.baseUrl + occ.endpoints['asmCustomerSearch']
     );
   });
 

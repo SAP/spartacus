@@ -7,22 +7,24 @@ import {
 } from './my-company.utils';
 
 export function testListFromConfig(config: MyCompanyConfig): void {
-  describe(`${config.name} List`, () => {
-    beforeEach(() => {
-      loginAsMyCompanyAdmin();
-      cy.server();
-    });
+  if (!config.disableListChecking) {
+    describe(`${config.name} List`, () => {
+      beforeEach(() => {
+        loginAsMyCompanyAdmin();
+        cy.server();
+      });
 
-    it('should show and paginate list', () => {
-      cy.visit(`/organization`);
-      testList(
-        config,
-        cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
-      );
-    });
+      it('should show and paginate list', () => {
+        cy.visit(`/organization`);
+        testList(
+          config,
+          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+        );
+      });
 
-    testListSorting(config);
-  });
+      testListSorting(config);
+    });
+  }
 }
 
 export function testList(
