@@ -239,6 +239,11 @@ export class ConfiguratorGroupStatusService {
     const completedGroupIds = [];
     const incompleteOrErrorGroupIds = [];
 
+    // Group is undefined if last conflict was resolved
+    if (group === undefined) {
+      return;
+    }
+
     //Currently only check for completeness, no validation of input types
     if (this.checkIsGroupComplete(group)) {
       completedGroupIds.push(group.id);
