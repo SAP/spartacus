@@ -270,6 +270,11 @@
         outline-offset: -3px;
         background: var(--cx-color-background-focus);
       }
+
+      &:focus-within {
+        @include visible-focus();
+        outline-offset: -2px;
+      }
     }
   }
 
