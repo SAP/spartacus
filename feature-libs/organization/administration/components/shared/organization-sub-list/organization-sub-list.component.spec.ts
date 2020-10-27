@@ -110,12 +110,6 @@ describe('OrganizationSubListComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should resolve getRouteParam', () => {
-      let result;
-      component.getRouteParam().subscribe((param) => (result = param));
-      expect(result).toEqual({ code: 'key' });
-    });
-
     it('should have cx-table element', () => {
       const el = fixture.debugElement.query(By.css('cx-table'));
       expect(el).toBeTruthy();
