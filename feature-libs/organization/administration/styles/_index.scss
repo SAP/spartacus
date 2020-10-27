@@ -1,16 +1,15 @@
 @import './buttons';
 @import './message';
-
-@import './company-page-template';
-
 @import './list';
 @import './card';
 @import './details';
 @import './form';
 
-cx-page-layout.CompanyPageTemplate {
-  @extend %CompanyPageTemplate !optional;
-}
+@import './page-template';
+//is this the hardcoded template? transfer somewhere else?
+// cx-page-layout.CompanyPageTemplate {
+//   @extend %CompanyPageTemplate !optional;
+// }
 
 cx-unit-list,
 cx-organization-list {
