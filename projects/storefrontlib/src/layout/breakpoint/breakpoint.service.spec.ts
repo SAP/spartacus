@@ -299,7 +299,7 @@ describe('BreakpointService', () => {
       });
 
       it('should return true if current screen size equals xl', () => {
-        expect(isEqual(1300-1, BREAKPOINT.xl)).toBeTruthy();
+        expect(isEqual(1300, BREAKPOINT.xl)).toBeTruthy();
       });
 
       it('should return false if current screen is larger than xs', () => {
