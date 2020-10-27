@@ -1,42 +1,41 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { from, Observable, of } from 'rxjs';
-import {
-  catchError,
-  map,
-  switchMap,
-  mergeMap,
-  groupBy,
-  withLatestFrom,
-  tap,
-  take,
-  filter,
-} from 'rxjs/operators';
 import {
   AuthActions,
-  AuthService,
   B2BUser,
   B2BUserGroup,
   EntitiesModel,
   normalizeHttpError,
-  User,
-  UserService,
   RoutingService,
+  User,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
-
+import { from, Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  groupBy,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
-  OrgUnitActions,
   OrganizationActions,
+  OrgUnitActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
-import { isValidUser } from '../../utils/check-user';
 
 @Injectable()
 export class B2BUserEffects {
@@ -169,7 +168,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
     map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
-    withLatestFrom(this.userService.get(), this.authService.getOccUserId()),
+    withLatestFrom(this.userService.get(), this.userIdService.getUserId()),
     filter(([, , userId]: [B2BUser, User, string]) => isValidUser(userId)),
     switchMap(([payload, currentUser]: [B2BUser, User, string]) => {
       const currentUserEmailMatch =
@@ -604,7 +603,7 @@ export class B2BUserEffects {
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
     private userService: UserService,
-    private authService: AuthService
+    private userIdService: UserIdService
   ) {}
 
   protected redirectToDetails(route, data) {
