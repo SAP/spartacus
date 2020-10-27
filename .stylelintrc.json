@@ -19,6 +19,9 @@
       "margin-block",
       "padding-inline",
       "margin-inline"
-    ]
+    ],
+    "declaration-property-value-disallowed-list": {
+      "text-align": ["right", "left"]
+    }
   }
 }

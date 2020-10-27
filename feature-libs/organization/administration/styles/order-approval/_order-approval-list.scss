@@ -23,10 +23,10 @@ cx-order-approval-list {
 
     th {
       padding: 1.5rem 0 1.125rem 0;
-      text-align: left;
+      text-align: start;
 
       &:last-child {
-        text-align: right;
+        text-align: end;
       }
     }
 
@@ -35,10 +35,10 @@ cx-order-approval-list {
       padding: 1.625rem 0;
 
       @include media-breakpoint-up(md) {
-        text-align: left;
+        text-align: start;
 
         &:last-child {
-          text-align: right;
+          text-align: end;
         }
       }
 
@@ -79,7 +79,7 @@ cx-order-approval-list {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: start;
     }
   }
 
