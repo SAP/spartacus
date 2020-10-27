@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "property-disallowed-list": [
+      "margin-left",
+      "margin-right",
+      "padding-left",
+      "padding-right",
+      "border-left",
+      "border-right",
+      "border-inline",
+      "border-inline-color",
+      "border-inline-style",
+      "border-block",
+      "border-block-color",
+      "border-block-style",
+      "padding-inline",
+      "padding-block",
+      "margin-inline",
+      "margin-block",
+      "padding-inline",
+      "margin-inline"
+    ]
+  }
+}
