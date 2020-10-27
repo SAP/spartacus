@@ -24,7 +24,7 @@ export class ExistUserGuard extends ExistOrganizationItemGuard {
       switchMap((code) => this.userService.getErrorState(code)),
       map((error) => {
         if (error) {
-          this.redirect('users');
+          this.redirect('user');
           this.showErrorMessage('User');
         }
       }),
