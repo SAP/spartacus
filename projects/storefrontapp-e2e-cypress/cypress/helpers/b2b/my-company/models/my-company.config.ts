@@ -101,7 +101,7 @@ export interface MyCompanyConfig {
   canUnassignAll?: boolean;
 
   /**
-   * Use
+   * Test list utilizing a nested tree ux.
    */
   nestedTableRows?: boolean;
 
