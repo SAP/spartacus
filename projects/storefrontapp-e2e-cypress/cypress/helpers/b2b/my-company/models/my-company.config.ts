@@ -30,6 +30,11 @@ export interface MyCompanyConfig {
   objectType?: string;
 
   /**
+   *
+   */
+  children?: string;
+
+  /**
    * Configurations of sub-categories generally used for assignments to corresponding parent categories.
    */
   // TODO: Subcategory examples
@@ -88,8 +93,14 @@ export interface MyCompanyConfig {
    * Set to true to test assignment management of a given subCategory
    */
   manageAssignments?: boolean;
+
   /**
    * Set to true to test the "unassign all" function of a category (if available).
    */
   canUnassignAll?: boolean;
+
+  /**
+   * Use
+   */
+  nestedTableRows?: boolean;
 }
