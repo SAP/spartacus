@@ -115,4 +115,11 @@ export class PermissionFormService
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  protected patchData(item?) {
+    super.patchData(item);
+    if (item?.code !== undefined) {
+      this.form.get('orderApprovalPermissionType').disable();
+    }
+  }
 }

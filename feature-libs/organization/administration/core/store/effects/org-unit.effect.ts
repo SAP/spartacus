@@ -9,9 +9,17 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
-import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  groupBy,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
@@ -30,6 +38,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
@@ -61,6 +70,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector.getList(payload.userId).pipe(
         map(
@@ -86,6 +96,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
         switchMap((data) => [
@@ -111,6 +122,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
@@ -135,6 +147,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_TREE),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getTree(userId).pipe(
         map(
@@ -158,6 +171,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
         map(
@@ -183,6 +197,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgUnitId, roleId, params }) =>
       serializeParams([orgUnitId, roleId], params)
     ),
@@ -226,6 +241,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_ROLE),
     map((action: OrgUnitActions.AssignRole) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId, roleId }) =>
       this.orgUnitConnector.assignRole(userId, orgCustomerId, roleId).pipe(
         map(
@@ -254,6 +270,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_ROLE),
     map((action: OrgUnitActions.UnassignRole) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId, roleId }) =>
       this.orgUnitConnector.unassignRole(userId, orgCustomerId, roleId).pipe(
         map(
@@ -284,6 +301,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
@@ -317,6 +335,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
@@ -350,6 +369,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
@@ -379,12 +399,15 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgUnitId, addressId, address }) =>
       this.orgUnitConnector
         .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
-          switchMap((data) => [
-            new OrgUnitActions.UpdateAddressSuccess(data),
+          switchMap(() => [
+            // commented out due to no response from backend on PATCH request
+            // new OrgUnitActions.UpdateAddressSuccess(data),
+            new OrgUnitActions.UpdateAddressSuccess(address),
             new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
@@ -408,6 +431,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
@@ -437,6 +461,7 @@ export class OrgUnitEffects {
   // > = this.actions$.pipe(
   //   ofType(OrgUnitActions.LOAD_ADDRESSES),
   //   map((action: OrgUnitActions.LoadAddresses) => action.payload),
+  //   filter(payload => isValidUser(payload.userId)),
   //   switchMap(({ userId, orgUnitId }) => {
   //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
   //       switchMap((addresses: EntitiesModel<B2BAddress>) => {

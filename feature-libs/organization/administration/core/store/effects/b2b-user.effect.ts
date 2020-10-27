@@ -1,32 +1,38 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  AuthActions,
+  B2BUser,
+  B2BUserGroup,
+  EntitiesModel,
+  normalizeHttpError,
+  RoutingService,
+  User,
+  UserIdService,
+  UserService,
+} from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
-  map,
-  switchMap,
-  mergeMap,
+  filter,
   groupBy,
-  withLatestFrom,
-  tap,
+  map,
+  mergeMap,
+  switchMap,
   take,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
-import {
-  B2BUser,
-  EntitiesModel,
-  normalizeHttpError,
-  AuthActions,
-  UserService,
-  RoutingService,
-} from '@spartacus/core';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
+import { isValidUser } from '../../utils/check-user';
 import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   OrganizationActions,
+  OrgUnitActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
@@ -39,6 +45,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER),
     map((action: B2BUserActions.LoadB2BUser) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId }) => {
       return this.b2bUserConnector.get(userId, orgCustomerId).pipe(
         map((b2bUser: B2BUser) => {
@@ -60,38 +67,45 @@ export class B2BUserEffects {
   createB2BUser$: Observable<
     | B2BUserActions.CreateB2BUserSuccess
     | B2BUserActions.CreateB2BUserFail
+    | OrgUnitActions.AssignApprover
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER),
     map((action: B2BUserActions.CreateB2BUser) => action.payload),
-    switchMap((payload) =>
-      this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
+    filter((payload) => isValidUser(payload.userId)),
+    switchMap(({ userId, orgCustomer }) =>
+      this.b2bUserConnector.create(userId, orgCustomer).pipe(
         switchMap((data) => {
+          const isAssignedToApprovers = orgCustomer.isAssignedToApprovers;
           // TODO Workaround for not known customerId while user creation (redireciton)
           return this.routingService.getRouterState().pipe(
             take(1),
-            tap((route) => {
-              if (
-                (route as any)?.state?.context?.id !== '/organization/units'
-              ) {
-                this.routingService.go({
-                  cxRoute: 'userDetails',
-                  params: data,
-                });
-              }
-            }),
+            tap((route) => this.redirectToDetails(route, data)),
             switchMap(() => {
-              return [
+              const successActions = [
                 new B2BUserActions.CreateB2BUserSuccess(data),
                 new OrganizationActions.OrganizationClearData(),
-              ];
+              ] as any[];
+              if (isAssignedToApprovers) {
+                successActions.splice(
+                  1,
+                  0,
+                  new OrgUnitActions.AssignApprover({
+                    userId,
+                    orgUnitId: orgCustomer.orgUnit.uid,
+                    orgCustomerId: data.customerId,
+                    roleId: B2BUserGroup.B2B_APPROVER_GROUP,
+                  })
+                );
+              }
+              return successActions;
             })
           );
         }),
         catchError((error: HttpErrorResponse) =>
           from([
             new B2BUserActions.CreateB2BUserFail({
-              orgCustomerId: payload.orgCustomer.customerId,
+              orgCustomerId: orgCustomer.customerId,
               error: normalizeHttpError(error),
             }),
             new OrganizationActions.OrganizationClearData(),
@@ -105,42 +119,61 @@ export class B2BUserEffects {
   updateB2BUser$: Observable<
     | B2BUserActions.UpdateB2BUserSuccess
     | B2BUserActions.UpdateB2BUserFail
+    | OrgUnitActions.AssignApprover
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
-    switchMap((payload) =>
-      this.b2bUserConnector
-        .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
+    filter((payload) => isValidUser(payload.userId)),
+    switchMap(({ userId, orgCustomerId, orgCustomer }) => {
+      const isAssignedToApprovers = orgCustomer.isAssignedToApprovers;
+      return this.b2bUserConnector
+        .update(userId, orgCustomerId, orgCustomer)
         .pipe(
-          // TODO: change for 'payload: data' when backend API start to return user data on PATCH
-          switchMap(() => [new B2BUserActions.UpdateB2BUserSuccess(payload)]),
+          switchMap((_data) => {
+            const successActions = [
+              // TODO: change for 'payload: data' when backend API start to return user data on PATCH
+              new B2BUserActions.UpdateB2BUserSuccess(orgCustomer),
+            ] as any[];
+            if (isAssignedToApprovers) {
+              successActions.push(
+                new OrgUnitActions.AssignApprover({
+                  userId,
+                  orgUnitId: orgCustomer.orgUnit.uid,
+                  orgCustomerId,
+                  roleId: B2BUserGroup.B2B_APPROVER_GROUP,
+                })
+              );
+            }
+            return successActions;
+          }),
           catchError((error: HttpErrorResponse) =>
             from([
               new B2BUserActions.UpdateB2BUserFail({
-                orgCustomerId: payload.orgCustomer.customerId,
+                orgCustomerId: orgCustomer.customerId,
                 error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
           )
-        )
-    )
+        );
+    })
   );
 
   @Effect()
-  checkSelfEmailUpdate: Observable<
+  checkSelfEmailUpdate$: Observable<
     | AuthActions.Logout
     | B2BUserActions.LoadB2BUser
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
     map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
-    withLatestFrom(this.userService.get()),
-    switchMap(([payload, currentUser]) => {
+    withLatestFrom(this.userService.get(), this.userIdService.getUserId()),
+    filter(([, , userId]: [B2BUser, User, string]) => isValidUser(userId)),
+    switchMap(([payload, currentUser]: [B2BUser, User, string]) => {
       const currentUserEmailMatch =
-        payload.orgCustomerId === currentUser.customerId &&
-        payload.orgCustomer.email !== currentUser.displayUid;
+        payload.customerId === currentUser.customerId &&
+        payload.email !== currentUser.displayUid;
 
       if (currentUserEmailMatch) {
         this.routingService.go({ cxRoute: 'login' });
@@ -159,6 +192,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USERS),
     map((action: B2BUserActions.LoadB2BUsers) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
@@ -191,6 +225,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_APPROVERS),
     map((action: B2BUserActions.LoadB2BUserApprovers) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
       serializeParams(orgCustomerId, params)
     ),
@@ -237,6 +272,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_PERMISSIONS),
     map((action: B2BUserActions.LoadB2BUserPermissions) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
       serializeParams(orgCustomerId, params)
     ),
@@ -284,6 +320,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_USER_GROUPS),
     map((action: B2BUserActions.LoadB2BUserUserGroups) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
       serializeParams(orgCustomerId, params)
     ),
@@ -331,6 +368,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
     map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .assignApprover(
@@ -369,6 +407,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .unassignApprover(
@@ -407,6 +446,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .assignPermission(
@@ -444,6 +484,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .unassignPermission(
@@ -481,6 +522,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .assignUserGroup(
@@ -518,6 +560,7 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
+    filter((payload) => isValidUser(payload.userId)),
     mergeMap((payload) =>
       this.b2bUserConnector
         .unassignUserGroup(
@@ -559,6 +602,16 @@ export class B2BUserEffects {
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
-    private userService: UserService
+    private userService: UserService,
+    private userIdService: UserIdService
   ) {}
+
+  protected redirectToDetails(route, data) {
+    if ((route as any)?.state?.context?.id !== '/organization/units') {
+      this.routingService.go({
+        cxRoute: 'userDetails',
+        params: data,
+      });
+    }
+  }
 }
