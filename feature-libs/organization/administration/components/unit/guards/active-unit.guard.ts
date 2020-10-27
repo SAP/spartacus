@@ -24,7 +24,7 @@ export class ActiveUnitGuard extends ActiveOrganizationItemGuard {
     return this.currentUnitService.item$.pipe(
       map((item) => {
         if (!this.isValid(item)) {
-          this.redirect(item.uid, 'unitDetails', this.unitCode);
+          this.redirect(item.uid, 'unitDetails', 'uid');
           this.showErrorMessage('Unit');
         }
       }),

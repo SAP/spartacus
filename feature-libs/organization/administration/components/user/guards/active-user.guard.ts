@@ -24,7 +24,7 @@ export class ActiveUserGuard extends ActiveOrganizationItemGuard {
     return this.currentUserService.item$.pipe(
       map((item) => {
         if (!this.isValid(item)) {
-          this.redirect(item.customerId, 'userDetails', this.userCode);
+          this.redirect(item.customerId, 'userDetails', 'customerId');
           this.showErrorMessage('User');
         }
       }),
