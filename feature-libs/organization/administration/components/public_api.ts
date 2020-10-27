@@ -1,6 +1,6 @@
+export * from './administration-components.module';
 export * from './budget/index';
 export * from './cost-center/index';
-export * from './organization-components.module';
 export * from './permission/index';
 export * from './shared/index';
 export * from './unit/index';
