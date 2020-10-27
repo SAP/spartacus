@@ -14,7 +14,7 @@
     "lazy": {
       "type": "boolean",
       "description": "Lazy load the Administration feature.",
-      "default": false
+      "default": true
     }
   },
   "required": []

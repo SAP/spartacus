@@ -30,6 +30,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
+    lazy: true,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -69,7 +70,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('eager loading', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false },
+          appTree
+        )
         .toPromise();
     });
 
@@ -127,7 +132,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('lazy loading', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', { ...defaultOptions, lazy: true }, appTree)
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
         .toPromise();
     });
 
