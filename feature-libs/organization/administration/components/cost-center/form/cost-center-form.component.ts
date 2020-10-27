@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
@@ -10,7 +11,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActiveCostCenterGuard } from '../guards/active-cost-center.guard';
 import { CostCenterItemService } from '../services/cost-center-item.service';
@@ -27,7 +28,9 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
     ActiveCostCenterGuard,
   ],
 })
-export class CostCenterFormComponent implements AfterViewInit {
+export class CostCenterFormComponent implements AfterViewInit, OnDestroy {
+  costCenterGuardSubscription: Subscription;
+
   form: FormGroup = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
@@ -52,6 +55,12 @@ export class CostCenterFormComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.activeCostCenterGuard.canActivate().subscribe();
+    this.costCenterGuardSubscription = this.activeCostCenterGuard
+      .canActivate()
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.costCenterGuardSubscription.unsubscribe();
   }
 }

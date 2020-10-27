@@ -23,8 +23,8 @@ export class ExistBudgetGuard extends ExistOrganizationItemGuard {
       switchMap((code) => this.budgetService.getErrorState(code)),
       map((error) => {
         if (error) {
-          this.redirect('users');
-          this.showErrorMessage('User');
+          this.redirect('budget');
+          this.showErrorMessage('Budget');
         }
       }),
       catchError(() => {

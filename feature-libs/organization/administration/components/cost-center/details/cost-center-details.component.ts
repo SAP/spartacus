@@ -2,9 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
 } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ExistCostCenterGuard } from '../guards';
@@ -14,14 +15,22 @@ import { ExistCostCenterGuard } from '../guards';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ExistCostCenterGuard],
 })
-export class CostCenterDetailsComponent implements AfterViewInit {
+export class CostCenterDetailsComponent implements AfterViewInit, OnDestroy {
+  costCenterGuardSubscription: Subscription;
+
   model$: Observable<CostCenter> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
 
   ngAfterViewInit() {
-    this.existCostCenterGuard.canActivate().subscribe();
+    this.costCenterGuardSubscription = this.existCostCenterGuard
+      .canActivate()
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.costCenterGuardSubscription.unsubscribe();
   }
 
   constructor(

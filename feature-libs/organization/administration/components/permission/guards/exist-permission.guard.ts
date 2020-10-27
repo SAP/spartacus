@@ -24,7 +24,7 @@ export class ExistPermissionGuard extends ExistOrganizationItemGuard {
       switchMap((code) => this.permissionService.getErrorState(code)),
       map((error) => {
         if (error) {
-          this.redirect('permissions');
+          this.redirect('permission');
           this.showErrorMessage('Purchase limit');
         }
       }),

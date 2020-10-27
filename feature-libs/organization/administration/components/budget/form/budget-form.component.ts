@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -11,7 +12,7 @@ import {
   Budget,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActiveBudgetGuard } from '../guards/active-budget.guard';
 import { BudgetItemService } from '../services/budget-item.service';
@@ -27,7 +28,8 @@ import { BudgetItemService } from '../services/budget-item.service';
     ActiveBudgetGuard,
   ],
 })
-export class BudgetFormComponent implements OnInit, AfterViewInit {
+export class BudgetFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  budgetGuardSubscription: Subscription;
   form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
@@ -45,6 +47,12 @@ export class BudgetFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.activeBudgetGuard.canActivate().subscribe();
+    this.budgetGuardSubscription = this.activeBudgetGuard
+      .canActivate()
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.budgetGuardSubscription.unsubscribe();
   }
 }

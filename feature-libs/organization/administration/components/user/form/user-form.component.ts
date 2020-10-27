@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -12,7 +13,7 @@ import {
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActiveUserGuard } from '../guards/active-user.guard';
 import { UserItemService } from '../services/user-item.service';
@@ -29,7 +30,8 @@ import { UserItemService } from '../services/user-item.service';
     ActiveUserGuard,
   ],
 })
-export class UserFormComponent implements OnInit, AfterViewInit {
+export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  userGuardSubscription: Subscription;
   form: FormGroup = this.itemService.getForm();
 
   /**
@@ -62,7 +64,11 @@ export class UserFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.activeUserGuard.canActivate().subscribe();
+    this.userGuardSubscription = this.activeUserGuard.canActivate().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.userGuardSubscription.unsubscribe();
   }
 
   updateRoles(event: MouseEvent) {

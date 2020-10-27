@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -14,7 +15,7 @@ import {
   Permission,
   PermissionService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActivePermissionGuard } from '../guards/active-permission.guard';
 import { PermissionItemService } from '../services/permission-item.service';
@@ -30,7 +31,10 @@ import { PermissionItemService } from '../services/permission-item.service';
     ActivePermissionGuard,
   ],
 })
-export class PermissionFormComponent implements OnInit, AfterViewInit {
+export class PermissionFormComponent
+  implements OnInit, AfterViewInit, OnDestroy {
+  permissionGuardSubscription: Subscription;
+
   form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
@@ -53,6 +57,12 @@ export class PermissionFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.activePermissionGuard.canActivate().subscribe();
+    this.permissionGuardSubscription = this.activePermissionGuard
+      .canActivate()
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.permissionGuardSubscription.unsubscribe();
   }
 }

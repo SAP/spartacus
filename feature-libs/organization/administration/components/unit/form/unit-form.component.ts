@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
@@ -10,7 +11,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActiveUnitGuard } from '../guards/active-unit.guard';
@@ -28,7 +29,9 @@ import { UnitItemService } from '../services/unit-item.service';
     ActiveUnitGuard,
   ],
 })
-export class UnitFormComponent implements OnInit, AfterViewInit {
+export class UnitFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  unitGuardSubscription: Subscription;
+
   @Input() i18nRoot = 'unit';
 
   @Input() createChildUnit = false;
@@ -71,6 +74,10 @@ export class UnitFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.activeUnitGuard.canActivate().subscribe();
+    this.unitGuardSubscription = this.activeUnitGuard.canActivate().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.unitGuardSubscription.unsubscribe();
   }
 }
