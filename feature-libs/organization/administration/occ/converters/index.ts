@@ -1,4 +1,5 @@
 export * from './occ-b2b-user-normalizer';
+export * from './occ-b2b-user-serializer';
 export * from './occ-budget-list-normalizer';
 export * from './occ-budget-normalizer';
 export * from './occ-order-approval-decision-normalizer';
