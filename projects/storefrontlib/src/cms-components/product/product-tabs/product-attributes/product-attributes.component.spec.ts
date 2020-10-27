@@ -1,10 +1,31 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Product,
+  Feature,
+  FeatureUnit,
+  Classification,
+  FeatureValue,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductAttributesComponent } from './product-attributes.component';
 
-const mockProduct: Product = { name: 'mockProduct' };
+const mockFeatureUnit: FeatureUnit = {
+  name: 'mock',
+  symbol: 'MK',
+  unitType: '30',
+};
+const mockFeatureValue: FeatureValue = { value: 'mock value' };
+const mockFeature: Feature = {
+  featureUnit: mockFeatureUnit,
+  featureValues: [mockFeatureValue],
+};
+const mockClass: Classification = { features: [mockFeature] };
+const mockProduct: Product = {
+  name: 'mockProduct',
+  classifications: [mockClass],
+};
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
@@ -37,4 +58,11 @@ describe('ProductAttributesComponent in product', () => {
   it('should create', () => {
     expect(productAttributesComponent).toBeTruthy();
   });
+
+  it('should have rendered attribute spec using mock value', async(() => {
+    fixture.detectChanges();
+    const componentHTML = fixture.debugElement.nativeElement.outerHTML;
+    const expectedTag = '<li> mock value <span> MK </span>';
+    expect(componentHTML.includes(expectedTag)).toBeTruthy();
+  }));
 });

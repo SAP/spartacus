@@ -14,9 +14,8 @@
 
               <span
                 *ngIf="
-                  feature.featureUnit.symbol &&
-                  feature.featureUnit.symbol.length > 0 &&
-                  feature.featureUnit.symbol !== '.'
+                  feature.featureUnit?.symbol?.length > 0 &&
+                  feature.featureUnit.unitType != '300'
                 "
               >
                 {{ feature.featureUnit.symbol }}
