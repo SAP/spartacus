@@ -171,7 +171,7 @@ export const unitAddress = {
 
   details: {
     title: 'Address details',
-    subtitle: 'Unit {{item.name}}',
+    subtitle: 'Unit: {{item.name}} (TODO)',
   },
   edit: {
     title: 'Edit Address',
@@ -180,5 +180,9 @@ export const unitAddress = {
   create: {
     title: 'Create Address',
     subtitle: 'Unit: {{ item.name }} (TODO)',
+  },
+  messages: {
+    update:
+      'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
   },
 };
