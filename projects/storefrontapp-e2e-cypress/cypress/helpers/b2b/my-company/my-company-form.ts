@@ -82,24 +82,41 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
   function getFieldByLabel(label: string) {
     return cy.get('label span').contains(label).parent();
   }
-  function fillTextInput(input): void {
-    getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`input`).clear().type(input[valueKey]);
-    });
+
+  // For situations where more than one control exists in form with the same label.
+  function getFieldBySelector(selector: string) {
+    return cy.get(selector);
   }
 
-  function fillDateTimePicker(input) {
-    getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`cx-date-time-picker input`).clear().type(input[valueKey]);
-    });
+  function fillTextInput(input: MyCompanyRowConfig): void {
+    if (input.selector) {
+      getFieldBySelector(input.selector).clear().type(input[valueKey]);
+    } else {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`input`).clear().type(input[valueKey]);
+      });
+    }
   }
 
-  function fillNgSelect(input) {
-    getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`ng-select`).click();
-    });
-    cy.wait(1000);
-    cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+  function fillDateTimePicker(input: MyCompanyRowConfig) {
+    if (input.selector) {
+      getFieldBySelector(input.selector).clear().type(input[valueKey]);
+    } else {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`cx-date-time-picker input`).clear().type(input[valueKey]);
+      });
+    }
+  }
+
+  function fillNgSelect(input: MyCompanyRowConfig) {
+    // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
+    if (input[valueKey]) {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`ng-select`).click();
+      });
+      cy.wait(1000);
+      cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+    }
   }
 }
 
@@ -121,8 +138,13 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
 
   config.rows.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {
-      cy.get('div.property label').should('contain.text', rowConfig.label);
-      cy.get('div.property').should('contain.text', rowConfig[valueKey]);
+      const label = rowConfig.detailsLabel || rowConfig.label;
+
+      cy.get('div.property label').should('contain.text', label);
+      cy.get('div.property').should(
+        'contain.text',
+        rowConfig[valueKey] || label
+      );
       // TODO: Check property links
       // if (rowConfig.link) {
       //   cy.get('div.property a').should('contain.html', rowConfig.link);
