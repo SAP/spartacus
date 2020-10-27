@@ -11,7 +11,7 @@ export const IGNORE_CASE = {
 };
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
-  describe(`My Company - ${config.name}`, () => {
+  describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     });

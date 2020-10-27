@@ -7,11 +7,12 @@ import {
 import { loginAsMyCompanyAdmin, waitForData } from './my-company.utils';
 
 export function testListFromConfig(config: MyCompanyConfig): void {
-  describe(`${config.name} List`, () => {
-    beforeEach(() => {
-      loginAsMyCompanyAdmin();
-      cy.server();
-    });
+  if (!config.disableListChecking) {
+    describe(`${config.name} List`, () => {
+      beforeEach(() => {
+        loginAsMyCompanyAdmin();
+        cy.server();
+      });
 
     if (!config.nestedTableRows) {
       it('should show and paginate list', () => {
