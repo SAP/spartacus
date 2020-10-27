@@ -14,34 +14,35 @@ export function testListFromConfig(config: MyCompanyConfig): void {
         cy.server();
       });
 
-    if (!config.nestedTableRows) {
-      it('should show and paginate list', () => {
-        cy.visit(`/organization`);
-        testList(
-          config,
-          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
-        );
-      });
+      if (!config.nestedTableRows) {
+        it('should show and paginate list', () => {
+          cy.visit(`/organization`);
+          testList(
+            config,
+            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+          );
+        });
 
-      testListSorting(config);
-    } else {
-      it('should show expanded nested list', () => {
-        cy.visit(`/organization`);
-        testNestedListExpanded(
-          config,
-          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
-        );
-      });
+        testListSorting(config);
+      } else {
+        it('should show expanded nested list', () => {
+          cy.visit(`/organization`);
+          testNestedListExpanded(
+            config,
+            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+          );
+        });
 
-      it('should show collapsed nested list', () => {
-        cy.visit(`/organization`);
-        testNestedListCollapsed(
-          config,
-          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
-        );
-      });
-    }
-  });
+        it('should show collapsed nested list', () => {
+          cy.visit(`/organization`);
+          testNestedListCollapsed(
+            config,
+            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+          );
+        });
+      }
+    });
+  }
 }
 
 export function testList(
