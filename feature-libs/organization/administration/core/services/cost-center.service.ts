@@ -18,6 +18,7 @@ import {
   getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
+  getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
 import { getItemStatus } from '../utils/get-item-status';
@@ -103,9 +104,9 @@ export class CostCenterService {
   }
 
   private getCostCenterState(
-    budgetCode: string
+    costCenterCode: string
   ): Observable<StateUtils.LoaderState<Budget>> {
-    return this.store.select(getBudget(budgetCode));
+    return this.store.select(getCostCenterState(costCenterCode));
   }
 
   create(costCenter: CostCenter): void {

@@ -1,33 +1,36 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
-import { GlobalMessageType } from '@spartacus/core';
-import { Permission } from '@spartacus/organization/administration/core';
-import { ExistPermissionGuard } from './exist-permission.guard';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { CurrentPermissionService } from '../services/current-permission.service';
+import { ROUTE_PARAMS } from '../../constants';
+import { ActiveOrganizationItemGuard } from '../../shared/active-organization-item.guard';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActivePermissionGuard extends ExistPermissionGuard {
-  protected isValid(permission: Permission): boolean {
-    return permission.active;
+export class ActivePermissionGuard extends ActiveOrganizationItemGuard {
+  constructor(
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected currentPermissionService: CurrentPermissionService
+  ) {
+    super(routingService, globalMessageService);
   }
 
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    const urlPath = this.semanticPathService.transform({
-      cxRoute: 'permissionDetails',
-      params: { code: _urlParams.code },
-    });
+  readonly permissionCode = ROUTE_PARAMS.permissionCode;
 
-    return this.router.parseUrl(urlPath.join('/'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.disabled',
-        params: { item: 'Purchase limit' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentPermissionService.item$.pipe(
+      map((item) => {
+        if (!this.isValid(item)) {
+          this.redirect(item.code, 'permissionDetails', this.permissionCode);
+          this.showErrorMessage('Permission');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }

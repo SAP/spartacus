@@ -1,49 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  SemanticPathService,
-} from '@spartacus/core';
-import {
-  Permission,
-  PermissionService,
-} from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { PermissionService } from '@spartacus/organization/administration/core';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ExistOrganizationItemGuard } from '../../shared/exist-organization-item.guard';
+import { CurrentPermissionService } from '../services/current-permission.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExistPermissionGuard extends ExistOrganizationItemGuard<
-  Permission
-> {
-  protected code = ROUTE_PARAMS.permissionCode;
-
+export class ExistPermissionGuard extends ExistOrganizationItemGuard {
   constructor(
     protected permissionService: PermissionService,
-    protected router: Router,
-    protected semanticPathService: SemanticPathService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
+    protected currentPermissionService: CurrentPermissionService
   ) {
-    super();
-  }
-  protected getItem(code: string): Observable<Permission> {
-    return this.permissionService.get(code);
+    super(routingService, globalMessageService);
   }
 
-  protected getRedirectUrl(_urlParams?: any): UrlTree {
-    return this.router.parseUrl(this.semanticPathService.get('permission'));
-  }
-
-  protected showErrorMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'organization.notification.notExist',
-        params: { item: 'Purchase limit' },
-      },
-      GlobalMessageType.MSG_TYPE_WARNING
+  canActivate() {
+    return this.currentPermissionService.key$.pipe(
+      switchMap((code) => this.permissionService.getErrorState(code)),
+      map((error) => {
+        if (error) {
+          this.redirect('permissions');
+          this.showErrorMessage('Purchase limit');
+        }
+      }),
+      catchError(() => {
+        return of();
+      })
     );
   }
 }
