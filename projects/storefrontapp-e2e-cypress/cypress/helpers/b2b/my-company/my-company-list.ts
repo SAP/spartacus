@@ -3,6 +3,7 @@ import {
   MAX_PAGES,
   MyCompanyConfig,
   MyCompanyRowConfig,
+  TestListOptions,
 } from './models/index';
 import { loginAsMyCompanyAdmin, waitForData } from './my-company.utils';
 
@@ -12,11 +13,11 @@ export function testListFromConfig(config: MyCompanyConfig): void {
       beforeEach(() => {
         loginAsMyCompanyAdmin();
         cy.server();
+        cy.visit(`/organization`);
       });
 
       if (!config.nestedTableRows) {
         it('should show and paginate list', () => {
-          cy.visit(`/organization`);
           testList(
             config,
             cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
@@ -26,18 +27,18 @@ export function testListFromConfig(config: MyCompanyConfig): void {
         testListSorting(config);
       } else {
         it('should show expanded nested list', () => {
-          cy.visit(`/organization`);
-          testNestedListExpanded(
+          testList(
             config,
-            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
+            { nested: { expandAll: true } }
           );
         });
 
         it('should show collapsed nested list', () => {
-          cy.visit(`/organization`);
-          testNestedListCollapsed(
+          testList(
             config,
-            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
+            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
+            { nested: { collapseAll: true } }
           );
         });
       }
@@ -48,33 +49,43 @@ export function testListFromConfig(config: MyCompanyConfig): void {
 export function testList(
   config: MyCompanyConfig,
   trigger: any,
-  callback?: Function
+  options?: TestListOptions
 ): void {
   cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
   waitForData((data) => {
-    const listData = getListRowsFromBody(data, config.objectType, config.rows);
-    verifyList(listData, config.rows);
+    let listData = getListRowsFromBody(data, config.objectType, config.rows);
 
+    if (options?.nested?.expandAll) {
+      listData = getNestedRowsFromBody(data, config);
+      cy.get('cx-organization-list div.header button')
+        .contains('Expand all')
+        .click();
+    }
+
+    if (options?.nested?.collapseAll) {
+      listData = getRootRowsFromBody(data, config);
+      cy.get('cx-organization-list div.header button')
+        .contains('Collapse all')
+        .click();
+    }
+
+    verifyList(listData, config.rows);
+    testPaginationIfValid(data);
+  }, trigger);
+
+  function testPaginationIfValid(data: any) {
     if (
       data.pagination?.currentPage < data.pagination?.totalPages - 1 &&
       data.pagination?.currentPage < MAX_PAGES
     ) {
-      testPagination(data);
+      testList(
+        config,
+        cy
+          .get(`cx-pagination a.page`)
+          .contains(data.pagination.currentPage + 2)
+          .click()
+      );
     }
-
-    if (callback) {
-      callback(listData);
-    }
-  }, trigger);
-
-  function testPagination(data: any) {
-    testList(
-      config,
-      cy
-        .get(`cx-pagination a.page`)
-        .contains(data.pagination.currentPage + 2)
-        .click()
-    );
   }
 }
 
@@ -92,44 +103,6 @@ export function testListSorting(config: MyCompanyConfig): void {
       });
     }
   });
-}
-
-export function testNestedListExpanded(
-  config: MyCompanyConfig,
-  trigger: any,
-  callback?: Function
-): void {
-  cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-  waitForData((data) => {
-    const listData = getNestedRowsFromBody(data, config);
-    cy.get('cx-organization-list div.header button')
-      .contains('Expand all')
-      .click();
-    verifyList(listData, config.rows);
-
-    if (callback) {
-      callback(listData);
-    }
-  }, trigger);
-}
-
-export function testNestedListCollapsed(
-  config: MyCompanyConfig,
-  trigger: any,
-  callback?: Function
-): void {
-  cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-  waitForData((data) => {
-    const listData = getRootRowsFromBody(data, config);
-    cy.get('cx-organization-list div.header button')
-      .contains('Collapse all')
-      .click();
-    verifyList(listData, config.rows);
-
-    if (callback) {
-      callback(listData);
-    }
-  }, trigger);
 }
 
 function ngSelect(sortKey: string): void {
@@ -214,22 +187,14 @@ export function getListRowsFromBody(
     });
     return table;
   });
-
-  function getVariableFromName(name: string, dataset: any) {
-    return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
-  }
-
-  function getMonthPartFromDate(date: Date): string {
-    return date.toString().slice(4, 7);
-  }
-
-  function getFormattedDate(date: Date): string {
-    return `${getMonthPartFromDate(
-      date
-    )} ${date.getDate()}, ${date.getFullYear()}`;
-  }
 }
 
+/**
+ * When getting the rows from a body with children, return body with child rows
+ *
+ * @param body
+ * @param config
+ */
 export function getNestedRowsFromBody(body: any, config: MyCompanyConfig) {
   if (Array.isArray(body)) {
     const tableRows = [];
@@ -257,12 +222,14 @@ export function getNestedRowsFromBody(body: any, config: MyCompanyConfig) {
 
     return table;
   }
-
-  function getVariableFromName(name: string, dataset: any) {
-    return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
-  }
 }
 
+/**
+ * When getting the rows from a body with children, only return the body row
+ *
+ * @param body
+ * @param config
+ */
 export function getRootRowsFromBody(body: any, config: MyCompanyConfig) {
   if (Array.isArray(body)) {
     const tableRows = [];
@@ -284,10 +251,6 @@ export function getRootRowsFromBody(body: any, config: MyCompanyConfig) {
 
     return table;
   }
-
-  function getVariableFromName(name: string, dataset: any) {
-    return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
-  }
 }
 
 export function verifyList(rows, rowConfig): void {
@@ -295,4 +258,18 @@ export function verifyList(rows, rowConfig): void {
     checkRowHeaders(rowConfig);
     checkRows(rows);
   });
+}
+
+function getVariableFromName(name: string, dataset: any) {
+  return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
+}
+
+function getMonthPartFromDate(date: Date): string {
+  return date.toString().slice(4, 7);
+}
+
+function getFormattedDate(date: Date): string {
+  return `${getMonthPartFromDate(
+    date
+  )} ${date.getDate()}, ${date.getFullYear()}`;
 }

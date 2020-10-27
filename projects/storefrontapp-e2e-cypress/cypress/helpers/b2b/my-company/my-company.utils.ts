@@ -17,8 +17,8 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
     });
 
     testListFromConfig(config);
-    // testCreateUpdateFromConfig(config);
-    // testAssignmentFromConfig(config);
+    testCreateUpdateFromConfig(config);
+    testAssignmentFromConfig(config);
   });
 }
 

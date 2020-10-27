@@ -36,11 +36,6 @@ export interface MyCompanyConfig {
   objectType?: string;
 
   /**
-   *
-   */
-  children?: string;
-
-  /**
    * Configurations of sub-categories generally used for assignments to corresponding parent categories.
    */
   // TODO: Subcategory examples
@@ -109,7 +104,7 @@ export interface MyCompanyConfig {
    * Use
    */
   nestedTableRows?: boolean;
-  
+
   /**
    * Set to true if checking list features for such config is not needed.
    */
