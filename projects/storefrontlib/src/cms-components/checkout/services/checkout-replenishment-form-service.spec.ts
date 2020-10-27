@@ -7,7 +7,7 @@ const newReplenishmentFormData: ScheduleReplenishmentForm = {
   numberOfWeeks: 'test-num-weeks',
 };
 
-fdescribe('Checkout Replenishment Form Service', () => {
+describe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
   beforeEach(

@@ -30,31 +30,17 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Converts the date string from a Standard ISO 8601 format with or without time to valid OCC model format
+   * Adds the current timestamp (including timezone offset) to a date string in the format YYYY-mm-dd
    * @Example
-   * Converts 2020-10-15T15:38:05 or 2020-10-15 2020-10-15T15:38:05-05:00
+   * Converts 2021-10-15 to 2021-10-15T15:38:05-05:00
    */
   private convertDate(date: string): string {
-    const index = date.lastIndexOf(':');
-    let modelDate;
-    if (index > 0) {
-      modelDate = date.slice(0, index);
-    } else {
-      modelDate = `${date}T${this.getCurrentLocalTime()}`;
-    }
-
-    return this.dateTimePickerFormatterService.toModel(modelDate);
-  }
-
-  /**
-   * Returns local time in hh:mm format
-   */
-  protected getCurrentLocalTime(): string {
-    const currentTime = new Date().toLocaleTimeString([], {
+    const localTime = new Date().toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
     });
-    return currentTime;
+    const modelDate = `${date}T${localTime}`;
+    return this.dateTimePickerFormatterService.toModel(modelDate);
   }
 }
