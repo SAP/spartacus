@@ -206,8 +206,8 @@ describe('BreakpointService', () => {
       };
     });
 
-    it('should return xs for <= 576', () => {
-      MockWindow.target.innerWidth = 576;
+    it('should return xs for < 576', () => {
+      MockWindow.target.innerWidth = 575;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
@@ -215,8 +215,8 @@ describe('BreakpointService', () => {
       expect(result).toEqual(BREAKPOINT.xs);
     });
 
-    it('should return sm for <= 768', () => {
-      MockWindow.target.innerWidth = 768;
+    it('should return sm for < 768', () => {
+      MockWindow.target.innerWidth = 767;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
@@ -224,8 +224,8 @@ describe('BreakpointService', () => {
       expect(result).toEqual(BREAKPOINT.sm);
     });
 
-    it('should return md for <= 992', () => {
-      MockWindow.target.innerWidth = 992;
+    it('should return md for < 992', () => {
+      MockWindow.target.innerWidth = 991;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
@@ -234,7 +234,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return lg for < 1200', () => {
-      MockWindow.target.innerWidth = 1200;
+      MockWindow.target.innerWidth = 1199;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
@@ -282,40 +282,40 @@ describe('BreakpointService', () => {
         expect(isEqual(0, BREAKPOINT.xs)).toBeTruthy();
       });
 
-      it('should return true if current screen size equals xs', () => {
-        expect(isEqual(500, BREAKPOINT.xs)).toBeTruthy();
+      it('should return equals for xs on largest size', () => {
+        expect(isEqual(500-1, BREAKPOINT.xs)).toBeTruthy();
       });
 
       it('should return true if current screen size equals sm', () => {
-        expect(isEqual(700, BREAKPOINT.sm)).toBeTruthy();
+        expect(isEqual(700-1, BREAKPOINT.sm)).toBeTruthy();
       });
 
       it('should return true if current screen size equals md', () => {
-        expect(isEqual(900, BREAKPOINT.md)).toBeTruthy();
+        expect(isEqual(900-1, BREAKPOINT.md)).toBeTruthy();
       });
 
       it('should return true if current screen size equals lg', () => {
-        expect(isEqual(1200, BREAKPOINT.lg)).toBeTruthy();
+        expect(isEqual(1200-1, BREAKPOINT.lg)).toBeTruthy();
       });
 
       it('should return true if current screen size equals xl', () => {
-        expect(isEqual(1300, BREAKPOINT.xl)).toBeTruthy();
+        expect(isEqual(1300-1, BREAKPOINT.xl)).toBeTruthy();
       });
 
       it('should return false if current screen is larger than xs', () => {
-        expect(isEqual(500 + 1, BREAKPOINT.xs)).toBeFalsy();
+        expect(isEqual(500, BREAKPOINT.xs)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than sm', () => {
-        expect(isEqual(700 + 1, BREAKPOINT.sm)).toBeFalsy();
+        expect(isEqual(700, BREAKPOINT.sm)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than md', () => {
-        expect(isEqual(900 + 1, BREAKPOINT.md)).toBeFalsy();
+        expect(isEqual(900, BREAKPOINT.md)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than lg', () => {
-        expect(isEqual(1200 + 1, BREAKPOINT.lg)).toBeFalsy();
+        expect(isEqual(1200, BREAKPOINT.lg)).toBeFalsy();
       });
     });
 
@@ -332,36 +332,36 @@ describe('BreakpointService', () => {
         return result;
       };
 
-      it('should return true if window width <= xs', () => {
-        expect(isDown(500, BREAKPOINT.xs)).toBeTruthy();
+      it('should return true if window width < xs', () => {
+        expect(isDown(500-1, BREAKPOINT.xs)).toBeTruthy();
       });
 
-      it('should return true if window width <= sm', () => {
-        expect(isDown(700, BREAKPOINT.sm)).toBeTruthy();
+      it('should return true if window width < sm', () => {
+        expect(isDown(700-1, BREAKPOINT.sm)).toBeTruthy();
       });
 
-      it('should return true if window width <= md', () => {
-        expect(isDown(900, BREAKPOINT.md)).toBeTruthy();
+      it('should return true if window width < md', () => {
+        expect(isDown(900-1, BREAKPOINT.md)).toBeTruthy();
       });
 
-      it('should return true if window width <= lg', () => {
-        expect(isDown(1200, BREAKPOINT.lg)).toBeTruthy();
+      it('should return true if window width < lg', () => {
+        expect(isDown(1200-1, BREAKPOINT.lg)).toBeTruthy();
       });
 
-      it('should return false if window width > xs', () => {
-        expect(isDown(501, BREAKPOINT.xs)).toBeFalsy();
+      it('should return false if window width >= xs', () => {
+        expect(isDown(500, BREAKPOINT.xs)).toBeFalsy();
       });
 
-      it('should return false if window width > sm', () => {
-        expect(isDown(701, BREAKPOINT.sm)).toBeFalsy();
+      it('should return false if window width >= sm', () => {
+        expect(isDown(700, BREAKPOINT.sm)).toBeFalsy();
       });
 
-      it('should return false if window width > md', () => {
-        expect(isDown(901, BREAKPOINT.md)).toBeFalsy();
+      it('should return false if window width >= md', () => {
+        expect(isDown(900, BREAKPOINT.md)).toBeFalsy();
       });
 
-      it('should return falsy if window width > lg', () => {
-        expect(isDown(1201, BREAKPOINT.lg)).toBeFalsy();
+      it('should return falsy if window width >= lg', () => {
+        expect(isDown(1200, BREAKPOINT.lg)).toBeFalsy();
       });
     });
 
@@ -382,20 +382,20 @@ describe('BreakpointService', () => {
         expect(isUp(1, BREAKPOINT.xs)).toBeTruthy();
       });
 
-      it('should return false if window width <= sm', () => {
-        expect(isUp(500, BREAKPOINT.sm)).toBeFalsy();
+      it('should return false if window width < sm', () => {
+        expect(isUp(500-1, BREAKPOINT.sm)).toBeFalsy();
       });
 
-      it('should return false if window width <= md', () => {
-        expect(isUp(700, BREAKPOINT.md)).toBeFalsy();
+      it('should return false if window width < md', () => {
+        expect(isUp(700-1, BREAKPOINT.md)).toBeFalsy();
       });
 
-      it('should return false if window width <= lg', () => {
-        expect(isUp(900, BREAKPOINT.lg)).toBeFalsy();
+      it('should return false if window width < lg', () => {
+        expect(isUp(900-1, BREAKPOINT.lg)).toBeFalsy();
       });
 
-      it('should return false if window width <= xl', () => {
-        expect(isUp(1200, BREAKPOINT.xl)).toBeFalsy();
+      it('should return false if window width < xl', () => {
+        expect(isUp(1200-1, BREAKPOINT.xl)).toBeFalsy();
       });
 
       it('should return true if window width > xs', () => {
