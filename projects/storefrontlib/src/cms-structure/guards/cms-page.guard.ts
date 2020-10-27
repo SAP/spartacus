@@ -43,7 +43,7 @@ export class CmsPageGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     return this.protectedRoutesGuard.canActivate(route).pipe(
       switchMap((canActivate) =>
-        canActivate
+        canActivate === true
           ? this.routingService.getNextPageContext().pipe(
               switchMap((pageContext) =>
                 this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
@@ -65,7 +65,7 @@ export class CmsPageGuard implements CanActivate {
                 )
               )
             )
-          : of(false)
+          : of(canActivate)
       )
     );
   }

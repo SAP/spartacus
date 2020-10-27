@@ -60,8 +60,7 @@ export function addShippingAddress() {
     )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
+        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
       }`,
     },
     body: {
@@ -124,8 +123,8 @@ export function addPaymentMethod() {
         )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+              .access_token
           }`,
         },
         body: {
@@ -253,8 +252,7 @@ export function deleteShippingAddress() {
     )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
+        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
       }`,
     },
   })
@@ -274,8 +272,8 @@ export function deleteShippingAddress() {
         )}/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+              .access_token
           }`,
         },
       }).then((response) => {
@@ -292,8 +290,7 @@ export function deletePaymentCard() {
     )}/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
+        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
       }`,
     },
   })
@@ -313,8 +310,8 @@ export function deletePaymentCard() {
         )}/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+              .access_token
           }`,
         },
       }).then((response) => {

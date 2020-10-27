@@ -4,8 +4,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { AUTH_FEATURE } from '../../../auth/store/auth-state';
-import * as fromAuthReducers from '../../../auth/store/reducers/index';
+import { CLIENT_AUTH_FEATURE } from '../../../auth/client-auth/store/client-auth-state';
+import * as fromClientAuthReducers from '../../../auth/client-auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -67,7 +67,10 @@ describe('Cart effect', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
-        StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
+        StoreModule.forFeature(
+          CLIENT_AUTH_FEATURE,
+          fromClientAuthReducers.getReducers()
+        ),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
           fromCartReducers.getMultiCartReducers()
