@@ -27,6 +27,7 @@
       .cx-title {
         font-weight: bold;
         align-self: center;
+        min-block-size: 1rem;
       }
 
       a {
@@ -47,6 +48,7 @@
         cx-icon {
           margin-inline-start: 5px;
           margin-inline-end: 5px;
+          align-self: center;
         }
 
         @include media-breakpoint-down(xs) {
