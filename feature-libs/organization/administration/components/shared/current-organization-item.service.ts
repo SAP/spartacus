@@ -31,7 +31,7 @@ export abstract class CurrentOrganizationItemService<T> {
    * The active item is loaded by the active `key$`.
    */
   readonly item$: Observable<T> = this.key$.pipe(
-    switchMap((code: string) => (code ? this.getItem(code) : of(null)))
+    switchMap((code: string) => this.getItem(code))
   );
 
   /**
@@ -57,4 +57,6 @@ export abstract class CurrentOrganizationItemService<T> {
       .getParams()
       .pipe(map((params) => params[paramKey]));
   }
+
+  abstract hasError(_key: string): Observable<boolean>;
 }

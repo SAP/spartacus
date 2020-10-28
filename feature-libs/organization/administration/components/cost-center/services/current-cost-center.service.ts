@@ -25,4 +25,8 @@ export class CurrentCostCenterService extends CurrentOrganizationItemService<
   protected getItem(code: string): Observable<CostCenter> {
     return this.costCenterService.get(code);
   }
+
+  hasError(code: string): Observable<boolean> {
+    return this.costCenterService.getErrorState(code);
+  }
 }
