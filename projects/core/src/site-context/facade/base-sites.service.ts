@@ -62,9 +62,9 @@ export class BaseSitesService implements SiteContext<BaseSite> {
    * Initializes all the base sites data, and set active base site uid
    */
   initialize(): void {
-    let value: string;
+    let value;
     this.getBaseSiteData()
-      .subscribe((val) => (value = val.uid))
+      .subscribe((val) => (value = val))
       .unsubscribe();
     if (value) {
       // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
