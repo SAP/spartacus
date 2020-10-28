@@ -42,7 +42,8 @@
           &:before {
             content: '';
             position: absolute;
-            width: calc(100% - 25px);
+            width: calc(100% - 20px);
+            margin-inline-start: 20px;
             height: 20px;
             background: var(--cx-color-ghost);
             border-radius: var(--cx-ghost-radius);
@@ -54,6 +55,13 @@
           }
         }
 
+        td:last-child {
+          &:before {
+            width: calc(100% - 40px);
+            margin-inline-end: 20px;
+          }
+        }
+
         @include media-breakpoint-down(md) {
           tr td:before {
             margin-top: -10px;
@@ -62,14 +70,6 @@
         }
       }
     }
-  }
-
-  cx-organization-sub-list.ghost cx-table.vertical table tr td:before {
-    // width: calc(100% - 50px);
-    // left: 25px;
-    margin-top: 25px;
-    left: 25px;
-    width: calc(100% - 50px);
   }
 }
 
