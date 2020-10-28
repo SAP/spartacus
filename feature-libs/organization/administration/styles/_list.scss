@@ -361,7 +361,6 @@
     th,
     td {
       padding: 0;
-      max-width: 1px;
     }
     th {
       padding-inline-start: 20px;
@@ -370,6 +369,7 @@
 
     td {
       font-size: 16px;
+      max-width: 1px;
 
       .text {
         overflow: hidden;
