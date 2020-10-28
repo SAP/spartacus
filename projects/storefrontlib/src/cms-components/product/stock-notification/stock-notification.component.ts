@@ -1,25 +1,25 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import {
-  UserInterestsService,
-  UserNotificationPreferenceService,
-  AuthService,
-  OCC_USER_ID_ANONYMOUS,
+  GlobalMessageService,
+  GlobalMessageType,
   NotificationPreference,
   NotificationType,
+  OCC_USER_ID_ANONYMOUS,
   Product,
-  GlobalMessageService,
   TranslationService,
-  GlobalMessageType,
+  UserIdService,
+  UserInterestsService,
+  UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { map, filter, tap, first } from 'rxjs/operators';
-import { CurrentProductService } from '../current-product.service';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { ModalService } from '../../../shared/components/modal/modal.service';
+import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 
 @Component({
@@ -40,19 +40,19 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    private authService: AuthService,
     private currentProductService: CurrentProductService,
     private globalMessageService: GlobalMessageService,
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
     private modalService: ModalService,
-    private notificationPrefService: UserNotificationPreferenceService
+    private notificationPrefService: UserNotificationPreferenceService,
+    private userIdService: UserIdService
   ) {}
 
   ngOnInit() {
     this.outOfStock$ = combineLatest([
       this.currentProductService.getProduct().pipe(filter(Boolean)),
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
     ]).pipe(
       tap(([product, userId]: [Product, String]) => {
         this.productCode = product.code;
