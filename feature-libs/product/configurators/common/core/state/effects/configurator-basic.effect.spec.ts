@@ -110,6 +110,7 @@ describe('ConfiguratorEffect', () => {
       readPriceSummary = readPriceSummaryMock;
       getConfigurationOverview = overviewMock;
     }
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

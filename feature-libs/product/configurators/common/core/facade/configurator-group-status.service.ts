@@ -22,8 +22,8 @@ export class ConfiguratorGroupStatusService {
   /**
    * Verifies whether the group has been visited.
    *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
+   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {string} groupId - Group ID
    * @returns {Observable<boolean>} Has group been visited?
    */
   isGroupVisited(
@@ -36,11 +36,10 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Returns the group status for a group
-   * spefified by its ID
+   * Returns the group status for a group specified by its ID
    *
-   * @param owner - Configuration owner
-   * @param groupId - Group ID
+   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {string} groupId - Group ID
    * @returns {Observable<Configurator.GroupStatus>} Group status
    */
   getGroupStatus(
@@ -56,7 +55,7 @@ export class ConfiguratorGroupStatusService {
    * Returns the first non-conflict group of the configuration which is not completed
    * and undefined if all are completed.
    *
-   * @param configuration - Configuration
+   * @param {Configurator.Configuration} configuration - Configuration
    *
    * @return {Configurator.Group} - First incomplete group or undefined
    */
@@ -83,9 +82,9 @@ export class ConfiguratorGroupStatusService {
   /**
    * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
    *
-   * @param configuration - Configuration
-   * @param groupId - Group ID
-   * @param setGroupVisited - Determines whether the group has to be set as visited or not
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @param {string} groupId - Group ID
+   * @param {boolean} setGroupVisited - Determines whether the group has to be set as visited or not
    */
   setGroupStatus(
     configuration: Configurator.Configuration,
@@ -222,25 +221,25 @@ export class ConfiguratorGroupStatusService {
     parentGroup: Configurator.Group
   ): void {
     const completedGroupIds = [];
-    const incompleteOrErrorGroupdIds = [];
+    const incompleteOrErrorGroupIds = [];
 
     // Group is undefined if last conflict was resolved
     if (group === undefined) {
       return;
     }
 
-    //Currently only check for completness, no validation of input types
+    //Currently only check for completeness, no validation of input types
     if (this.checkIsGroupComplete(group)) {
       completedGroupIds.push(group.id);
     } else {
-      incompleteOrErrorGroupdIds.push(group.id);
+      incompleteOrErrorGroupIds.push(group.id);
     }
 
     this.getParentGroupStatusCompleted(
       configuration,
       parentGroup,
       completedGroupIds,
-      incompleteOrErrorGroupdIds
+      incompleteOrErrorGroupIds
     );
 
     this.store.dispatch(
@@ -253,7 +252,7 @@ export class ConfiguratorGroupStatusService {
     this.store.dispatch(
       new ConfiguratorActions.SetGroupsError({
         entityKey: configuration.owner.key,
-        errorGroups: incompleteOrErrorGroupdIds,
+        errorGroups: incompleteOrErrorGroupIds,
       })
     );
   }

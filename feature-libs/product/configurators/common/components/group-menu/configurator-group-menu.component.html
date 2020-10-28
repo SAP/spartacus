@@ -23,10 +23,12 @@
             }}"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
             [class.WARNING]="isConflictGroupType(group.groupType)"
+            [class.DISABLED]="!group.configurable"
           >
             <a
               class="cx-menu-item-link"
               [class.active]="currentGroup.id === group.id"
+              [class.disable]="!group.configurable"
               role="link"
               tabindex="0"
               (click)="click(group)"
@@ -38,6 +40,9 @@
                   {{ getConflictNumber(group) }}
                 </div>
                 <div class="groupStatusIndicator">
+                  <ng-container *ngIf="!group.configurable">
+                    <cx-icon class="DISABLE" [type]="iconTypes.TRASH"></cx-icon>
+                  </ng-container>
                   <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
                   <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
                   <cx-icon

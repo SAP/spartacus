@@ -65,6 +65,7 @@ export const productConfiguration: Configurator.Configuration = {
   groups: [
     {
       id: GROUP_ID_1,
+      configurable: true,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
         {
@@ -79,6 +80,7 @@ export const productConfiguration: Configurator.Configuration = {
 
     {
       id: GROUP_ID_2,
+      configurable: true,
       attributes: [
         {
           name: 'ATTRIBUTE_2_RADIOBUTTON',
@@ -91,6 +93,7 @@ export const productConfiguration: Configurator.Configuration = {
     },
     {
       id: GROUP_ID_3,
+      configurable: true,
       attributes: [
         {
           name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
@@ -102,6 +105,7 @@ export const productConfiguration: Configurator.Configuration = {
       subGroups: [
         {
           id: GROUP_ID_4,
+          configurable: true,
           subGroups: [],
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           attributes: [
@@ -123,6 +127,7 @@ export const productConfiguration: Configurator.Configuration = {
     },
     {
       id: GROUP_ID_5,
+      configurable: true,
       attributes: [
         {
           name: 'ATTRIBUTE_5_STRING',
@@ -141,6 +146,7 @@ export const productConfiguration: Configurator.Configuration = {
       subGroups: [
         {
           id: GROUP_ID_6,
+          configurable: true,
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           subGroups: [],
           attributes: [
@@ -154,7 +160,14 @@ export const productConfiguration: Configurator.Configuration = {
         },
         {
           id: GROUP_ID_7,
-          subGroups: [{ id: GROUP_ID_8, subGroups: [], attributes: [] }],
+          subGroups: [
+            {
+              id: GROUP_ID_8,
+              configurable: false,
+              subGroups: [],
+              attributes: [],
+            },
+          ],
           attributes: [],
         },
       ],
@@ -162,9 +175,11 @@ export const productConfiguration: Configurator.Configuration = {
 
     {
       id: GROUP_ID_9,
+      configurable: true,
       subGroups: [
         {
           id: GROUP_ID_10,
+          configurable: true,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',

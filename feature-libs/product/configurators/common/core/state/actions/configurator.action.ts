@@ -265,7 +265,7 @@ export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
   }
 }
 
-//This is still a success action as the group status is succcessfully updated
+//This is still a success action as the group status is successfully updated
 export class SetGroupsError extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_ERROR;
 
