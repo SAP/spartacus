@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -24,6 +25,7 @@ import {
 export class UserConsentService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected userIdService: UserIdService,
     protected authService: AuthService
   ) {}
 
@@ -31,7 +33,7 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.LoadUserConsents(userId));
     });
   }
@@ -147,7 +149,7 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
@@ -197,7 +199,7 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
