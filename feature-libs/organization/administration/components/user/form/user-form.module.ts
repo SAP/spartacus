@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { ActiveGuardDirective } from '../../shared/active-guard.directive';
 import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
 import { UserFormComponent } from './user-form.component';
 
@@ -19,7 +20,7 @@ import { UserFormComponent } from './user-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
   ],
-  declarations: [UserFormComponent],
+  declarations: [UserFormComponent, ActiveGuardDirective],
   exports: [UserFormComponent],
 })
 export class UserFormModule {}
