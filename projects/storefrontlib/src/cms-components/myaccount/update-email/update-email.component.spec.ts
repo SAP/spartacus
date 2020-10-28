@@ -162,7 +162,7 @@ describe('UpdateEmailComponent', () => {
 
   describe('onSuccess', () => {
     describe('when the user was successfully updated', () => {
-      it('should add a global message and navigate to a url ', () => {
+      it('should add a global message and navigate to a url ', async () => {
         spyOn(userService, 'updateEmail').and.stub();
         spyOn(authService, 'logout').and.stub();
 
@@ -173,7 +173,7 @@ describe('UpdateEmailComponent', () => {
         spyOn(globalMessageService, 'add').and.stub();
         spyOn(routingService, 'go').and.stub();
 
-        component.onSuccess(true);
+        await component.onSuccess(true);
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
