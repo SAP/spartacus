@@ -35,14 +35,12 @@ const owner: GenericConfigurator.Owner = {
 
 const group: Configurator.Group = {
   id: groupId,
-  configurable: true,
   attributes: [{ name: 'attrName' }],
   subGroups: [],
 };
 
 const groupWithSubGroup: Configurator.Group = {
   id: groupId,
-  configurable: true,
   attributes: [
     {
       name: 'attrName',

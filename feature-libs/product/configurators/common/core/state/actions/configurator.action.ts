@@ -49,7 +49,6 @@ export const SET_MENU_PARENT_GROUP =
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
 export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
-export const SET_GROUPS_DISABLE = '[Configurator] Set groups disabled status';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
