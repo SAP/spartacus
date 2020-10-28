@@ -1,11 +1,11 @@
 @import 'company-page-template';
 
-// The $page-template-blacklist can be used to prevent template CSS
+// The blacklist can be used to prevent template CSS
 // being generated.
 $page-template-blacklist-myco: () !default;
 
 // whitelisted page template selectors are processed
-// unless (some) they are blacklisted using `$page-template-blacklist`
+// unless (some) they are blacklisted
 $page-template-whitelist-myco: CompanyPageTemplate !default;
 
 @each $selector in $page-template-whitelist-myco {

@@ -4,12 +4,7 @@
 @import './card';
 @import './details';
 @import './form';
-
 @import './page-template';
-//is this the hardcoded template? transfer somewhere else?
-// cx-page-layout.CompanyPageTemplate {
-//   @extend %CompanyPageTemplate !optional;
-// }
 
 cx-unit-list,
 cx-organization-list {
