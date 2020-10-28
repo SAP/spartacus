@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, using } from 'rxjs';
+import { Observable, of, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
@@ -23,6 +23,8 @@ import { MerchandisingCarouselModel } from './model/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
+  protected lastEventModelId: string;
+
   constructor(
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
@@ -31,7 +33,9 @@ export class MerchandisingCarouselComponent {
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
     protected el: ElementRef
-  ) {}
+  ) {
+    this.lastEventModelId = '';
+  }
 
   private fetchProducts$: Observable<
     MerchandisingCarouselModel
@@ -77,11 +81,19 @@ export class MerchandisingCarouselComponent {
             })
             .pipe(
               filter((carouselIsVisible) => carouselIsVisible),
-              switchMap((_) =>
-                this.merchandisingCarouselComponentService.sendCarouselViewEvent(
-                  this.fetchProducts$
-                )
-              )
+              switchMap((_) => {
+                return this.merchandisingCarouselComponentService
+                  .sendCarouselViewEvent(
+                    this.lastEventModelId,
+                    this.fetchProducts$
+                  )
+                  .pipe(
+                    tap((model) => {
+                      this.lastEventModelId = model.id;
+                    }),
+                    switchMapTo(of())
+                  );
+              })
             )
         )
       )

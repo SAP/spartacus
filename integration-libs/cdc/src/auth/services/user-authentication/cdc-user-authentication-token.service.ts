@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OccEndpointsService, UserToken } from '@spartacus/core';
+import { AuthConfigService, AuthToken } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,8 +8,7 @@ import { catchError } from 'rxjs/operators';
 export class CdcUserAuthenticationTokenService {
   constructor(
     protected http: HttpClient,
-    protected config: AuthConfig,
-    protected occEndpointsService: OccEndpointsService
+    protected authConfigService: AuthConfigService
   ) {}
 
   /**
@@ -27,11 +26,11 @@ export class CdcUserAuthenticationTokenService {
     signatureTimestamp: string,
     idToken: string,
     baseSite: string
-  ): Observable<UserToken> {
-    const url = this.occEndpointsService.getRawEndpoint('login');
+  ): Observable<Partial<AuthToken> & { expires_in?: number }> {
+    const url = this.authConfigService.getTokenEndpoint();
     const params = new HttpParams()
-      .set('client_id', this.config.authentication.client_id)
-      .set('client_secret', this.config.authentication.client_secret)
+      .set('client_id', this.authConfigService.getClientId())
+      .set('client_secret', this.authConfigService.getClientSecret())
       .set('grant_type', 'custom')
       .set('UID', UID)
       .set('UIDSignature', UIDSignature)
@@ -40,7 +39,7 @@ export class CdcUserAuthenticationTokenService {
       .set('baseSite', baseSite);
 
     return this.http
-      .post<UserToken>(url, params)
+      .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }
