@@ -39,13 +39,13 @@ export class UnitUserRolesItemService extends OrganizationItemService<B2BUser> {
     customerId: string,
     _user: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.b2bUserService.getLoadingStatus(customerId);
+    return this.b2bUserService.getLoadingStatusSuccess(customerId);
   }
 
   protected create(
     _customer: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.b2bUserService.getLoadingStatus(null);
+    return this.b2bUserService.getLoadingStatusSuccess(null);
   }
 
   protected getDetailsRoute(): string {

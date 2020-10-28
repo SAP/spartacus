@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import { OrganizationCardComponent } from '../organization-card/organization-card.component';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
-import { LoadStatus } from '@spartacus/organization/administration/core';
 
 /**
  * Reusable component for creating and editing organization items. The component does not
@@ -51,11 +50,9 @@ export class OrganizationFormComponent<T> {
       .pipe(
         first(),
         switchMap((key) =>
-          this.itemService.save(form, key).pipe(
-            take(1),
-            filter((data) => data.status === LoadStatus.SUCCESS),
-            map((data) => ({ item: data.item, key }))
-          )
+          this.itemService
+            .save(form, key)
+            .pipe(map((data) => ({ item: data.item, key })))
         )
       )
       .subscribe(({ item, key }) => this.notify(item, key));

@@ -33,14 +33,14 @@ export class PermissionItemService extends OrganizationItemService<Permission> {
     value: Permission
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.update(code, value);
-    return this.permissionService.getLoadingStatus(code);
+    return this.permissionService.getLoadingStatusSuccess(code);
   }
 
   protected create(
     value: Permission
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.create(value);
-    return this.permissionService.getLoadingStatus(value.code);
+    return this.permissionService.getLoadingStatusSuccess(value.code);
   }
 
   protected getDetailsRoute(): string {

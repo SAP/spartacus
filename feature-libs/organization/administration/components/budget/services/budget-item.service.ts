@@ -36,12 +36,12 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
 
   update(code, value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.update(code, value);
-    return this.budgetService.getLoadingStatus(code);
+    return this.budgetService.getLoadingStatusSuccess(code);
   }
 
   protected create(value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.create(value);
-    return this.budgetService.getLoadingStatus(value.code);
+    return this.budgetService.getLoadingStatusSuccess(value.code);
   }
 
   /**

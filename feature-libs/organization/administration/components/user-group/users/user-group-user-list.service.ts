@@ -51,7 +51,7 @@ export class UserGroupUserListService extends OrganizationSubListService<
     customerId: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userGroupService.assignMember(userGroupCode, customerId);
-    return this.userService.getLoadingStatus(customerId);
+    return this.userService.getLoadingStatusSuccess(customerId);
   }
 
   /**
@@ -63,13 +63,13 @@ export class UserGroupUserListService extends OrganizationSubListService<
     customerId: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userGroupService.unassignMember(userGroupCode, customerId);
-    return this.userService.getLoadingStatus(customerId);
+    return this.userService.getLoadingStatusSuccess(customerId);
   }
 
   unassignAllMembers(
     userGroupCode: string
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.unassignAllMembers(userGroupCode);
-    return this.userGroupService.getLoadingStatus(userGroupCode);
+    return this.userGroupService.getLoadingStatusSuccess(userGroupCode);
   }
 }

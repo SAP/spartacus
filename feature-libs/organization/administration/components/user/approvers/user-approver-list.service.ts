@@ -39,7 +39,7 @@ export class UserApproverListService extends OrganizationSubListService<
     approverId: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.assignApprover(userCode, approverId);
-    return this.userService.getLoadingStatus(approverId);
+    return this.userService.getLoadingStatusSuccess(approverId);
   }
 
   /**
@@ -51,6 +51,6 @@ export class UserApproverListService extends OrganizationSubListService<
     approverId: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.unassignApprover(userCode, approverId);
-    return this.userService.getLoadingStatus(approverId);
+    return this.userService.getLoadingStatusSuccess(approverId);
   }
 }

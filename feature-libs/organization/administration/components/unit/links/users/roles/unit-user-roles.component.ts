@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserGroup } from '@spartacus/core';
-import {
-  B2BUserService,
-  LoadStatus,
-} from '@spartacus/organization/administration/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
 import { MessageService } from '../../../../shared/organization-message/services/message.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
@@ -55,10 +52,6 @@ export class UnitUserRolesFormComponent {
     const roles = [...this.availableRoles].filter((r) => !!form.get(r).value);
     this.userItemService
       .update(this.item.customerId, { roles })
-      .pipe(
-        take(1),
-        filter((data) => data.status === LoadStatus.SUCCESS)
-      )
       .subscribe((data) => {
         this.notify({ ...this.item, ...data.item });
         form.enable();

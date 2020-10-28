@@ -56,7 +56,7 @@ export class UnitApproverListService extends OrganizationSubListService<
       customerId,
       B2BUserGroup.B2B_APPROVER_GROUP
     );
-    return this.userService.getLoadingStatus(customerId);
+    return this.userService.getLoadingStatusSuccess(customerId);
   }
 
   /**
@@ -72,6 +72,6 @@ export class UnitApproverListService extends OrganizationSubListService<
       customerId,
       B2BUserGroup.B2B_APPROVER_GROUP
     );
-    return this.userService.getLoadingStatus(customerId);
+    return this.userService.getLoadingStatusSuccess(customerId);
   }
 }

@@ -23,7 +23,7 @@ import {
   getUserGroupList,
   getUserGroupValue,
 } from '../store/selectors/user-group.selector';
-import { getItemStatus } from '../utils/get-item-status';
+import { getItemStatusSuccess } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -140,10 +140,10 @@ export class UserGroupService {
     );
   }
 
-  getLoadingStatus(
+  getLoadingStatusSuccess(
     budgetCode: string
   ): Observable<OrganizationItemStatus<UserGroup>> {
-    return getItemStatus(this.getUserGroup(budgetCode));
+    return getItemStatusSuccess(this.getUserGroup(budgetCode));
   }
 
   delete(userGroupId: string) {

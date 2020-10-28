@@ -1,6 +1,6 @@
 import { StateUtils } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pairwise } from 'rxjs/operators';
+import { filter, map, observeOn, pairwise, take } from 'rxjs/operators';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -21,5 +21,16 @@ export function getItemStatus<T>(
         : null,
       item: currentState.value,
     }))
+  );
+}
+
+export function getItemStatusSuccess<T>(
+  itemState: Observable<StateUtils.LoaderState<T>>
+): Observable<OrganizationItemStatus<T>> {
+  return getItemStatus(itemState).pipe(
+    take(1),
+    filter(
+      (data: OrganizationItemStatus<T>) => data.status === LoadStatus.SUCCESS
+    )
   );
 }
