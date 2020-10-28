@@ -10,7 +10,7 @@
 
   <cx-toggle-status actions i18nRoot="budget"></cx-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxExistGuard>
     <div class="property">
       <label>{{ 'budget.name' | cxTranslate }}</label>
       <span class="value">
@@ -72,7 +72,7 @@
     </div>
   </section>
 
-  <section main class="link-list">
+  <section main class="link-list" *ngIf="model.code">
     <a
       class="link"
       [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"

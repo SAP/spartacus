@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { DateTimePickerModule, FormErrorsModule } from '@spartacus/storefront';
+import { ActiveGuardDirective } from '../../shared/active-guard.directive';
 import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
 import { BudgetFormComponent } from './budget-form.component';
 
@@ -20,6 +21,6 @@ import { BudgetFormComponent } from './budget-form.component';
     DateTimePickerModule,
     FormErrorsModule,
   ],
-  declarations: [BudgetFormComponent],
+  declarations: [BudgetFormComponent, ActiveGuardDirective],
 })
 export class BudgetFormModule {}
