@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, first, switchMap, take } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { MessageService } from '../organization-message/services/message.service';
@@ -45,11 +42,6 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
           this.isAssigned
             ? this.unassign(key, this.link)
             : this.assign(key, this.link)
-        ),
-        take(1),
-        filter(
-          (data: OrganizationItemStatus<T>) =>
-            data.status === LoadStatus.SUCCESS
         )
       )
       .subscribe((data) => this.notify(data.item));
