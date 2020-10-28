@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import {
   OrderApprovalPermissionType,
   Permission,
@@ -21,18 +22,17 @@ import {
   getPermissionTypes,
   getPermissionValue,
 } from '../store/selectors/permission.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermission({
           userId,
@@ -43,7 +43,7 @@ export class PermissionService {
   }
 
   loadPermissions(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
       )
@@ -127,7 +127,7 @@ export class PermissionService {
   }
 
   create(permission: Permission): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.CreatePermission({ userId, permission })
       )
@@ -135,7 +135,7 @@ export class PermissionService {
   }
 
   update(permissionCode: string, permission: Permission): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.UpdatePermission({
           userId,
@@ -150,12 +150,5 @@ export class PermissionService {
     permissionCode: string
   ): Observable<OrganizationItemStatus<Permission>> {
     return getItemStatus(this.getPermission(permissionCode));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }
