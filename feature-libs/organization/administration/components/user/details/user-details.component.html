@@ -10,7 +10,7 @@
 
   <cx-toggle-status actions key="customerId" i18nRoot="user"></cx-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxExistGuard>
     <div class="property">
       <label>{{ 'user.name' | cxTranslate }}</label>
       <span class="value">
@@ -52,6 +52,7 @@
     </div>
     <div class="property full-width">
       <a
+        *ngIf="model.customerId"
         class="link"
         [class.disabled]="!model.active"
         [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
@@ -61,7 +62,7 @@
     </div>
   </section>
 
-  <section main class="link-list">
+  <section main class="link-list" *ngIf="model.customerId">
     <a
       class="link"
       [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"

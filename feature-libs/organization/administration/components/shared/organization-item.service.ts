@@ -4,6 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 
@@ -30,6 +31,10 @@ export abstract class OrganizationItemService<T> {
    * The current unit is driven by the route parameter.
    */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
+
+  error$: Observable<boolean> = this.key$.pipe(
+    switchMap((key) => this.currentItemService.hasError(key))
+  );
 
   save(form: FormGroup, key?: string): void {
     if (form.invalid) {

@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -13,9 +11,11 @@ import {
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { ActiveUserGuard } from '../guards/active-user.guard';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -27,11 +27,14 @@ import { UserItemService } from '../services/user-item.service';
       provide: OrganizationItemService,
       useExisting: UserItemService,
     },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentUserService,
+    },
     ActiveUserGuard,
   ],
 })
-export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
-  userGuardSubscription: Subscription;
+export class UserFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
   /**
@@ -61,14 +64,6 @@ export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.unitService.loadList();
-  }
-
-  ngAfterViewInit(): void {
-    this.userGuardSubscription = this.activeUserGuard.canActivate().subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.userGuardSubscription.unsubscribe();
   }
 
   updateRoles(event: MouseEvent) {
