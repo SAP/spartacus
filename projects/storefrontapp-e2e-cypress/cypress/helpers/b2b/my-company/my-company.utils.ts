@@ -40,14 +40,27 @@ export function loginAsMyCompanyAdmin(): void {
   cy.requireLoggedIn(myCompanyAdminUser);
 }
 
-export function scanTablePagesForText(text: string, config): void {
+export function scanTablePagesForText(
+  text: string,
+  config: MyCompanyConfig
+): void {
   cy.get('cx-table').then(($table) => {
+    // For table in tree mode expand all elements first and find editable one.
+    if (config.nestedTableRows) {
+      cy.get('cx-organization-list div.header button')
+        .contains('Expand all')
+        .click();
+    }
+
     if ($table.text().indexOf(text) === -1) {
       cy.server();
       cy.route('GET', `**/${config.apiEndpoint}**`).as('getData');
-      nextPage();
-      cy.wait('@getData');
-      scanTablePagesForText(text, config);
+      // Do not use pagination check for tables in tree mode.
+      if (!config.nestedTableRows) {
+        nextPage();
+        cy.wait('@getData');
+        scanTablePagesForText(text, config);
+      }
     }
   });
 }
