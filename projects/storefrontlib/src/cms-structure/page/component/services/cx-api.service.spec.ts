@@ -10,7 +10,6 @@ import {
   CurrencyService,
   FeatureConfigService,
   GlobalMessageService,
-  KymaService,
   LanguageService,
   OccEndpointsService,
   PageMetaService,
@@ -42,7 +41,6 @@ class MockPageMetaService {}
 class MockFeatureConfigService {}
 class MockGlobalMessageService {}
 class MockTranslationService {}
-class MockKymaService {}
 class MockOccEndpointsService {}
 class MockProductService {}
 class MockProductSearchService {}
@@ -96,7 +94,6 @@ describe('CxApiService', () => {
 
         { provide: TranslationService, useClass: MockTranslationService },
 
-        { provide: KymaService, useClass: MockKymaService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
 
         { provide: ProductService, useClass: MockProductService },
