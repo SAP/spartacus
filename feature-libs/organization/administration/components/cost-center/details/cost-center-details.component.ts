@@ -1,40 +1,25 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ExistCostCenterGuard } from '../guards';
+import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ExistCostCenterGuard],
+  providers: [
+    {
+      provide: OrganizationItemService,
+      useExisting: CostCenterItemService,
+    },
+  ],
 })
-export class CostCenterDetailsComponent implements AfterViewInit, OnDestroy {
-  costCenterGuardSubscription: Subscription;
-
+export class CostCenterDetailsComponent {
   model$: Observable<CostCenter> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
 
-  ngAfterViewInit() {
-    this.costCenterGuardSubscription = this.existCostCenterGuard
-      .canActivate()
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.costCenterGuardSubscription.unsubscribe();
-  }
-
-  constructor(
-    protected itemService: OrganizationItemService<CostCenter>,
-    protected existCostCenterGuard: ExistCostCenterGuard
-  ) {}
+  constructor(protected itemService: OrganizationItemService<CostCenter>) {}
 }

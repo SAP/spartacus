@@ -1,20 +1,15 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ActiveCostCenterGuard } from '../guards/active-cost-center.guard';
 import { CostCenterItemService } from '../services/cost-center-item.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-form',
@@ -25,12 +20,13 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
       provide: OrganizationItemService,
       useExisting: CostCenterItemService,
     },
-    ActiveCostCenterGuard,
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentCostCenterService,
+    },
   ],
 })
-export class CostCenterFormComponent implements AfterViewInit, OnDestroy {
-  costCenterGuardSubscription: Subscription;
-
+export class CostCenterFormComponent {
   form: FormGroup = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
@@ -50,17 +46,6 @@ export class CostCenterFormComponent implements AfterViewInit, OnDestroy {
   constructor(
     protected itemService: OrganizationItemService<CostCenter>,
     protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService,
-    protected activeCostCenterGuard: ActiveCostCenterGuard
+    protected currencyService: CurrencyService
   ) {}
-
-  ngAfterViewInit(): void {
-    this.costCenterGuardSubscription = this.activeCostCenterGuard
-      .canActivate()
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.costCenterGuardSubscription.unsubscribe();
-  }
 }
