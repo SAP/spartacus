@@ -67,8 +67,8 @@ const config: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
-      createValue: 'Services West',
-      updateValue: 'Rustic',
+      createValue: 'Rustic',
+      updateValue: 'Rustic Services',
       showInTable: true,
       showInDetails: true,
       formLabel: 'Unit',
@@ -106,81 +106,34 @@ const config: MyCompanyConfig = {
       useInHeader: true,
     },
   ],
-  subCategories: [
-    {
-      name: 'Approvers',
-      baseUrl: `/approvers`,
-      apiEndpoint: '**/approvers**',
-      // selector: 'approver',
-      entityIdField: 'customerId',
-      objectType: 'users',
-      rows: [
-        {
-          label: 'Name',
-          variableName: 'name',
-          link: '/organization/user/',
-        },
-        {
-          label: 'Email',
-          variableName: 'uid',
-        },
-        {
-          label: 'Roles',
-          variableName: 'roles',
-        },
-        {
-          label: 'Parent Unit',
-          variableName: 'orgUnit.name',
-          link: `/organization/units/`,
-        },
-      ],
-    },
-    {
-      name: 'User groups',
-      baseUrl: `/user-groups`,
-      apiEndpoint: '**/orgUserGroups**',
-      // selector: 'user-group',
-      entityIdField: 'customerId',
-      objectType: 'orgUnitUserGroups',
-      rows: [
-        {
-          label: 'Name',
-          variableName: 'name',
-          link: '/organization/user-groups/',
-        },
-        {
-          label: 'Code',
-          variableName: 'uid',
-        },
-        {
-          label: 'Parent Unit',
-          variableName: 'orgUnit.name',
-          link: `/organization/units/`,
-        },
-      ],
-    },
-    {
-      name: 'Purchase limits',
-      baseUrl: `/purchase-limits`,
-      apiEndpoint: '**/availableOrderApprovalPermissions**',
-      // selector: 'permission',
-      entityIdField: 'customerId',
-      objectType: 'orderApprovalPermissions',
-      rows: [
-        {
-          label: 'Code',
-          variableName: 'code',
-          // link: '/organization/purchase-limit/',
-        },
-        { label: 'Limit', variableName: 'orderApprovalPermissionType.name' },
-        {
-          label: 'Unit',
-          variableName: 'orgUnit.name',
-          link: `/organization/unit/`,
-        },
-      ],
-    },
-  ],
+
+  // TODO subCategories requires different approach for users
+  // subCategories: [
+  //   {
+  //     name: 'Approvers',
+  //     baseUrl: `/approvers`,
+  //     apiEndpoint: '**/approvers**',
+  //     entityIdField: 'customerId',
+  //     objectType: 'users',
+  //     manageAssignments: true,
+  //   },
+  //   {
+  //     name: 'User groups',
+  //     baseUrl: `/user-groups`,
+  //     apiEndpoint: '**/orgUserGroups**',
+  //     entityIdField: 'uid',
+  //     objectType: 'orgUnitUserGroups',
+  //     manageAssignments: true,
+  //   },
+  //   {
+  //     name: 'Purchase limits',
+  //     baseUrl: `/purchase-limits`,
+  //     apiEndpoint: '**/availableOrderApprovalPermissions**',
+  //     entityIdField: 'code',
+  //     objectType: 'orderApprovalPermissions',
+  //     manageAssignments: true,
+  //   },
+  // ],
 };
 
 testMyCompanyFeatureFromConfig(config);

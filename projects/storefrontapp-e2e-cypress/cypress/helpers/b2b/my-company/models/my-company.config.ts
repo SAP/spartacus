@@ -102,7 +102,7 @@ export interface MyCompanyConfig {
   /**
    * Determine entity ID for possible route checks and usage between tests
    */
-  entityIdField: string;
+  entityIdField?: string;
 
   /**
    * Set to true if checking list features for such config is not needed.
