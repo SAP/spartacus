@@ -169,12 +169,9 @@ describe('CheckoutAuthGuard', () => {
   });
 
   describe(', when user is in checkout pages,', () => {
-    beforeEach(() => {
+    it('should not redirect route when cart is unstable', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
       spyOn(activeCartService, 'isStable').and.returnValue(of(false));
-    });
-
-    it('should not redirect route when cart is unstable', () => {
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(service.go).not.toHaveBeenCalled();
     });
