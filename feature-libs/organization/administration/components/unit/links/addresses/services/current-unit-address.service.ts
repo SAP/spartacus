@@ -38,4 +38,8 @@ export class CurrentUnitAddressService extends CurrentOrganizationItemService<
   protected getItem(unitUid: string, addressId: string): Observable<Address> {
     return addressId ? this.unitService.getAddress(unitUid, addressId) : of({});
   }
+
+  hasError(code: string): Observable<boolean> {
+    return this.unitService.getErrorState(code);
+  }
 }

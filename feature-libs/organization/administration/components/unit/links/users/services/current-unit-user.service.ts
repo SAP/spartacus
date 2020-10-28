@@ -29,4 +29,8 @@ export class CurrentUnitUserService extends CurrentOrganizationItemService<
   protected getItem(customerId: string): Observable<B2BUser> {
     return customerId ? this.b2bUserService.get(customerId) : of({});
   }
+
+  hasError(code: string): Observable<boolean> {
+    return this.b2bUserService.getErrorState(code);
+  }
 }
