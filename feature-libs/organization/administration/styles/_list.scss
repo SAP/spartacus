@@ -375,6 +375,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include media-breakpoint-up(lg) {
+          padding-inline-start: 20px;
+        }
       }
       ul.text {
         margin: 0;
@@ -395,6 +399,10 @@
           align-items: center;
           width: 100%;
           min-height: 74px;
+
+          .text {
+            padding-inline-start: 0; // reset padding for .text, when it's already added for parent <a>
+          }
         }
 
         &[tabindex='0'],
