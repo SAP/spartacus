@@ -5,7 +5,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { BaseSitesService } from '../../site-context/facade/base-sites.service';
 import { BaseSite } from '../../model';
 import { WindowRef } from '../../window/window-ref';
 
@@ -24,7 +24,7 @@ export class SmartEditService {
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
-    protected baseSiteService: BaseSiteService,
+    protected baseSitesService: BaseSitesService,
     protected zone: NgZone,
     protected winRef: WindowRef
   ) {
@@ -77,7 +77,7 @@ export class SmartEditService {
   }
 
   protected getDefaultPreviewCode() {
-    this.baseSiteService
+    this.baseSitesService
       .getBaseSiteData()
       .pipe(first(Boolean))
       .subscribe((site: BaseSite) => {

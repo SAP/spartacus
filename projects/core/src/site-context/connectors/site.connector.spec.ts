@@ -85,9 +85,9 @@ describe('SiteConnector', () => {
 
   it('getBaseSite should call adapter', () => {
     let result;
-    service.getBaseSite().subscribe((res) => (result = res));
+    service.getBaseSite('testSiteId').subscribe((res) => (result = res));
     expect(result).toBe(mockBaseSite);
-    expect(adapter.loadBaseSite).toHaveBeenCalled();
+    expect(adapter.loadBaseSite).toHaveBeenCalledWith('testSiteId');
   });
 
   it('getBaseSites should call adapter', () => {

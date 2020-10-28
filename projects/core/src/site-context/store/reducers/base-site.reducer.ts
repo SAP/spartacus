@@ -1,17 +1,11 @@
 import { SiteContextActions } from '../actions/index';
 import { BaseSiteState } from '../state';
 
-/**
- * @deprecated since 3.0, it will not be used
- */
 export const initialState: BaseSiteState = {
   details: {},
   activeSite: '',
 };
 
-/**
- * @deprecated since 3.0, it will not be used
- */
 export function reducer(
   state = initialState,
   action: SiteContextActions.BaseSiteAction

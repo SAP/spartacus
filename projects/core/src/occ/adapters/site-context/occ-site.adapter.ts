@@ -69,15 +69,13 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   /**
-   * There is no OCC API to load one site based on Uid. So, we have to load all sites, and find the one from the list.
-   * This function is deprecated, since we want to put all site data into ngrx/store.
-   *
-   * @deprecated since 3.0, use loadBaseSites() instead
+   * There is no OCC API to load one site based on Uid.
+   * So, we have to load all sites, and find the one from the list.
    */
-  loadBaseSite(): Observable<BaseSite> {
+  loadBaseSite(siteUid?: string): Observable<BaseSite> {
     const baseUrl = this.occEndpointsService.getBaseEndpoint();
     const urlSplits = baseUrl.split('/');
-    const activeSite = urlSplits.pop();
+    const siteUidFromUrl = urlSplits.pop();
     const url = urlSplits.join('/') + '/basesites';
 
     const params = new HttpParams({
@@ -88,7 +86,9 @@ export class OccSiteAdapter implements SiteAdapter {
       .get<{ baseSites: BaseSite[] }>(url, { params: params })
       .pipe(
         map((siteList) => {
-          return siteList.baseSites.find((site) => site.uid === activeSite);
+          return siteList.baseSites.find(
+            (site) => site.uid === (siteUid || siteUidFromUrl)
+          );
         })
       );
   }

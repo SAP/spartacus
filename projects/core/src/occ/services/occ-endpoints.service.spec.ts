@@ -57,8 +57,8 @@ describe('OccEndpointsService', () => {
 
   it('should return occ endpoint', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getOccEndpoint('login')).toEqual(
-      occ.baseUrl + occ.prefix + occ.endpoints['login']
+    expect(service.getOccEndpoint('asmCustomerSearch')).toEqual(
+      occ.baseUrl + occ.prefix + occ.endpoints['asmCustomerSearch']
     );
   });
 

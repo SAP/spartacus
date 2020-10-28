@@ -6,9 +6,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 
-/**
- * @deprecated since 3.0, it will not be used
- */
 @Injectable()
 export class BaseSiteEffects {
   @Effect()

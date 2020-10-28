@@ -25,11 +25,9 @@ export class SiteConnector {
   getRegions(countryIsoCode: string): Observable<Region[]> {
     return this.adapter.loadRegions(countryIsoCode);
   }
-  /**
-   * @deprecated since 3.0, use getBaseSites() instead
-   */
-  getBaseSite(): Observable<BaseSite> {
-    return this.adapter.loadBaseSite();
+
+  getBaseSite(siteUid?: string): Observable<BaseSite> {
+    return this.adapter.loadBaseSite(siteUid);
   }
 
   getBaseSites(): Observable<BaseSite[]> {

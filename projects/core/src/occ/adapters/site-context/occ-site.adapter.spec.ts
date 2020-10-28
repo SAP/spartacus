@@ -234,15 +234,21 @@ describe('OccSiteAdapter', () => {
   });
 
   describe('load the active base site data', () => {
-    it('should retrieve the active base site', () => {
-      const baseSite = {
-        uid: 'test-site',
-        defaultPreviewCategoryCode: 'test category code',
-        defaultPreviewProductCode: 'test product code',
-      };
+    const baseSite1 = {
+      uid: 'test-site',
+      defaultPreviewCategoryCode: 'test category code',
+      defaultPreviewProductCode: 'test product code',
+    };
+    const baseSite2 = {
+      uid: 'some-other-site',
+      defaultPreviewCategoryCode: 'test category code',
+      defaultPreviewProductCode: 'test product code',
+    };
+    const siteList = [baseSite1, baseSite2];
 
+    it('should retrieve the active base site', () => {
       occSiteAdapter.loadBaseSite().subscribe((result) => {
-        expect(result).toEqual(baseSite);
+        expect(result).toEqual(baseSite1);
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
@@ -251,7 +257,21 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush({ baseSites: [baseSite] });
+      mockReq.flush({ baseSites: siteList });
+    });
+
+    it('should retrieve the active base site based on siteUid', () => {
+      occSiteAdapter.loadBaseSite('some-other-site').subscribe((result) => {
+        expect(result).toEqual(baseSite2);
+      });
+      const mockReq: TestRequest = httpMock.expectOne({
+        method: 'GET',
+        url: `base-url${defaultOccConfig.backend.occ.prefix}basesites?fields=FULL`,
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({ baseSites: siteList });
     });
   });
 
