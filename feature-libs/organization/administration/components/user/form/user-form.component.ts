@@ -14,7 +14,6 @@ import {
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ActiveUserGuard } from '../guards/active-user.guard';
 import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
@@ -57,8 +56,7 @@ export class UserFormComponent implements OnInit {
     protected itemService: OrganizationItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userService: UserService,
-    protected b2bUserService: B2BUserService,
-    protected activeUserGuard: ActiveUserGuard
+    protected b2bUserService: B2BUserService
   ) {}
 
   ngOnInit(): void {

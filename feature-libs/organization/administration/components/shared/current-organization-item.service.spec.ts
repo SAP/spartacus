@@ -32,6 +32,10 @@ class MockCurrentService extends CurrentOrganizationItemService<Mock> {
   getItem(..._params: any[]): Observable<Mock> {
     return of({});
   }
+
+  hasError(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 describe('CurrentOrganizationItemService', () => {

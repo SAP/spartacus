@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ActiveUnitGuard } from '../guards/active-unit.guard';
 import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitItemService } from '../services/unit-item.service';
 
@@ -66,8 +65,7 @@ export class UnitFormComponent implements OnInit {
 
   constructor(
     protected itemService: OrganizationItemService<B2BUnit>,
-    protected unitService: OrgUnitService,
-    protected activeUnitGuard: ActiveUnitGuard
+    protected unitService: OrgUnitService
   ) {}
 
   ngOnInit(): void {

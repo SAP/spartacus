@@ -401,13 +401,6 @@ export class OrgUnitService {
     );
   }
 
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
-  }
-
   private getOrgUnitState(
     orgUnitId: string
   ): Observable<StateUtils.LoaderState<B2BUnit>> {

@@ -9,7 +9,6 @@ import {
 import { Observable } from 'rxjs';
 import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ActiveBudgetGuard } from '../guards/active-budget.guard';
 import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
@@ -36,8 +35,7 @@ export class BudgetFormComponent implements OnInit {
   constructor(
     protected itemService: OrganizationItemService<Budget>,
     protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService,
-    protected activeBudgetGuard: ActiveBudgetGuard
+    protected currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {

@@ -189,13 +189,6 @@ export class CostCenterService {
       )
     );
   }
-  
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
-  }
 
   getErrorState(costCenterCode): Observable<boolean> {
     return this.getCostCenterState(costCenterCode).pipe(

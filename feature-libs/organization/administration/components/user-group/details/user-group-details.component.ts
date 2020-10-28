@@ -3,7 +3,6 @@ import { UserGroup } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { ExistUserGroupGuard } from '../guards/exist-user-group.guard';
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
@@ -23,8 +22,5 @@ export class UserGroupDetailsComponent {
     startWith({})
   );
 
-  constructor(
-    protected itemService: OrganizationItemService<UserGroup>,
-    protected existUserGroupGuard: ExistUserGroupGuard
-  ) {}
+  constructor(protected itemService: OrganizationItemService<UserGroup>) {}
 }

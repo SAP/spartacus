@@ -153,13 +153,6 @@ export class PermissionService {
     return getItemStatus(this.getPermission(permissionCode));
   }
 
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
-  }
-
   private getPermissionState(
     code: string
   ): Observable<StateUtils.LoaderState<Permission>> {

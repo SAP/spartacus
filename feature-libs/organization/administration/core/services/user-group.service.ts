@@ -285,13 +285,6 @@ export class UserGroupService {
     );
   }
 
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
-  }
-
   private getUserGroupState(
     code: string
   ): Observable<StateUtils.LoaderState<UserGroup>> {
