@@ -1,4 +1,4 @@
-import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
+import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
 import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
 import {
   INPUT_TYPE,
@@ -8,7 +8,7 @@ import { randomString } from '../../../helpers/user';
 
 const config: MyCompanyConfig = {
   name: 'User',
-  baseUrl: `${CONTEXT_URL_EN_USD}/organization/users`,
+  baseUrl: `${FULL_BASE_URL_EN_USD}/organization/users`,
   apiEndpoint: '/users/current/orgCustomers',
   objectType: 'users',
   entityIdField: 'customerId',
