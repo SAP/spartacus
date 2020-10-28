@@ -1,8 +1,7 @@
 // Spartacus Application styles
 
 // Always bump to the latest (breaking) styles during development.
-$useLatestStyles: false;
-$styleVersion: 3.1;
+$useLatestStyles: true;
 
 @import 'storefrontstyles/index';
 @import 'organization';

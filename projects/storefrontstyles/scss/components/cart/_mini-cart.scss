@@ -12,19 +12,6 @@
     display: flex;
     background: var(--cx-color-primary);
 
-    // demonstrate over (i.e. something that is deprecated but wasn't removed)
-    @include forVersion(2.5) {
-      background: green;
-    }
-    // demonstrate stuff for 3.1 only. Customers must adapt 3.1 or higher to get this change.
-    @include forVersion(3.1) {
-      background: blue;
-    }
-    // demonstrate stuff for 2.2 only. Customers must adapt 3.2 or higher to get this change.
-    @include forVersion(3.2) {
-      background: red;
-    }
-
     min-width: 70px;
     height: 47px;
     padding: 10px;
