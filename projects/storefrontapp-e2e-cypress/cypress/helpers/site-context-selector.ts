@@ -75,14 +75,12 @@ export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
   cy.window().then((win) => {
-    const savedState = JSON.parse(
-      win.localStorage.getItem('spartacus-local-data')
-    );
-    cy.requireProductAddedToCart(savedState.auth).then((resp) => {
-      cy.requireShippingAddressAdded(user.address, savedState.auth);
-      cy.requireShippingMethodSelected(savedState.auth);
-      cy.requirePaymentDone(savedState.auth);
-      cy.requirePlacedOrder(savedState.auth, resp.cartId);
+    const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
+    cy.requireProductAddedToCart(savedState.token).then((resp) => {
+      cy.requireShippingAddressAdded(user.address, savedState.token);
+      cy.requireShippingMethodSelected(savedState.token);
+      cy.requirePaymentDone(savedState.token);
+      cy.requirePlacedOrder(savedState.token, resp.cartId);
     });
   });
 }

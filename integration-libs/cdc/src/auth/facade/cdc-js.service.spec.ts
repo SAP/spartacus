@@ -6,10 +6,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
-  OCC_USER_ID_CURRENT,
   User,
   UserService,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -27,12 +25,6 @@ const sampleCdcConfig: CdcConfig = {
     },
   ],
 };
-
-const mockToken = {
-  userId: 'user@sap.com',
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as UserToken;
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
@@ -62,7 +54,7 @@ class ExternalJsFileLoaderMock {
 class MockCdcAuthService {
   authorizeWithCustomCdcFlow(): void {}
 
-  getUserToken(): Observable<UserToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
@@ -241,8 +233,7 @@ describe('CdcJsService', () => {
       spyOn(authRedirectService, 'redirect');
       spyOn(globalMessageService, 'remove');
 
-      const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-      spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
+      spyOn(auth, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(service as any, 'addCdcEventHandlers').and.stub();
 
       service.loadCdcJavascript();

@@ -1,28 +1,27 @@
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StockNotificationComponent } from './stock-notification.component';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   NotificationPreference,
-  AuthService,
-  GlobalMessageService,
-  TranslationService,
-  UserNotificationPreferenceService,
-  ProductInterestSearchResult,
   NotificationType,
+  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Product,
-  OCC_USER_ID_ANONYMOUS,
+  ProductInterestSearchResult,
+  TranslationService,
+  UserIdService,
   UserInterestsService,
+  UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
-import { CurrentProductService } from '../current-product.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { of, Observable, BehaviorSubject } from 'rxjs';
-import { By } from '@angular/platform-browser';
+import { CurrentProductService } from '../current-product.service';
+import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+import { StockNotificationComponent } from './stock-notification.component';
 
 describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
@@ -40,7 +39,7 @@ describe('StockNotificationComponent', () => {
     'add',
   ]);
   const dialogComponent = jasmine.createSpy('StockNotificationDialogComponent');
-  const authService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
+  const userIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
   const currentProductService = jasmine.createSpyObj('CurrentProductService', [
     'getProduct',
   ]);
@@ -117,7 +116,7 @@ describe('StockNotificationComponent', () => {
         MockUrlPipe,
       ],
       providers: [
-        { provide: AuthService, useValue: authService },
+        { provide: UserIdService, useValue: userIdService },
         { provide: CurrentProductService, useValue: currentProductService },
         { provide: GlobalMessageService, useValue: globalMessageService },
         { provide: TranslationService, useValue: translationService },
@@ -136,7 +135,7 @@ describe('StockNotificationComponent', () => {
   }));
 
   beforeEach(() => {
-    authService.getOccUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
+    userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
     notificationPrefService.loadPreferences.and.stub();
     notificationPrefService.clearPreferences.and.stub();
     notificationPrefService.getEnabledPreferences.and.returnValue(
@@ -185,7 +184,7 @@ describe('StockNotificationComponent', () => {
   it('should show elements for anonymous specific', () => {
     interestsService.getProductInterests.and.returnValue(of({}));
     notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
-    authService.getOccUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
+    userIdService.getUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
     fixture.detectChanges();
 
     expect(el.query(By.css('a')).nativeElement).toBeTruthy();

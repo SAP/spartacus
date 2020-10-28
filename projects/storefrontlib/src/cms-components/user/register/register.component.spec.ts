@@ -4,22 +4,24 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENT_STATUS,
+  AuthConfigService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  OAuthFlow,
   RoutingService,
   Title,
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { FormErrorsModule } from '../../../shared/index';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../shared/index';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -55,36 +57,8 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockSpinnerComponent {}
 
-const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
-  false
-);
-const registerUserIsSuccess: BehaviorSubject<boolean> = new BehaviorSubject(
-  false
-);
-
-class MockUserService {
-  loadTitles(): void {}
-  resetRegisterUserProcessState(): void {}
-
-  getTitles(): Observable<Title[]> {
-    return of([]);
-  }
-
-  register(
-    _titleCode: string,
-    _firstName: string,
-    _lastName: string,
-    _email: string,
-    _password: string
-  ): void {}
-
-  getRegisterUserResultLoading(): Observable<boolean> {
-    return registerUserIsLoading.asObservable();
-  }
-  getRegisterUserResultSuccess(): Observable<boolean> {
-    return registerUserIsSuccess.asObservable();
-  }
-}
+let registerUserIsLoading: BehaviorSubject<boolean>;
+let registerUserIsSuccess: BehaviorSubject<boolean>;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -112,6 +86,12 @@ class MockAnonymousConsentsService {
   }
 }
 
+class MockAuthConfigService implements Partial<AuthConfigService> {
+  getOAuthFlow() {
+    return OAuthFlow.ResourceOwnerPasswordFlow;
+  }
+}
+
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
@@ -128,8 +108,35 @@ describe('RegisterComponent', () => {
   let mockGlobalMessageService: GlobalMessageService;
   let mockRoutingService: RoutingService;
   let anonymousConsentService: AnonymousConsentsService;
+  let authConfigService: AuthConfigService;
 
   beforeEach(async(() => {
+    registerUserIsLoading = new BehaviorSubject(false);
+    registerUserIsSuccess = new BehaviorSubject(false);
+    class MockUserService {
+      loadTitles(): void {}
+      resetRegisterUserProcessState(): void {}
+
+      getTitles(): Observable<Title[]> {
+        return of([]);
+      }
+
+      register(
+        _titleCode: string,
+        _firstName: string,
+        _lastName: string,
+        _email: string,
+        _password: string
+      ): void {}
+
+      getRegisterUserResultLoading(): Observable<boolean> {
+        return registerUserIsLoading.asObservable();
+      }
+      getRegisterUserResultSuccess(): Observable<boolean> {
+        return registerUserIsSuccess.asObservable();
+      }
+    }
+
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -156,6 +163,10 @@ describe('RegisterComponent', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        {
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
+        },
       ],
     }).compileComponents();
   }));
@@ -166,6 +177,7 @@ describe('RegisterComponent', () => {
     mockGlobalMessageService = TestBed.inject(GlobalMessageService);
     mockRoutingService = TestBed.inject(RoutingService);
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
+    authConfigService = TestBed.inject(AuthConfigService);
 
     component = fixture.componentInstance;
 
@@ -258,6 +270,20 @@ describe('RegisterComponent', () => {
       registerUserIsSuccess.next(true);
 
       expect(mockRoutingService.go).toHaveBeenCalledWith('login');
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'register.postRegisterMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
+      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+        OAuthFlow.ImplicitFlow
+      );
+
+      registerUserIsSuccess.next(true);
+
+      expect(mockRoutingService.go).not.toHaveBeenCalled();
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
