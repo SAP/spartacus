@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
@@ -27,7 +27,7 @@ import {
 export class UserReplenishmentOrderService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   loadReplenishmentOrderDetails(replenishmentOrderCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(
           new UserActions.LoadReplenishmentOrderDetails({
@@ -97,7 +97,7 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   cancelReplenishmentOrder(replenishmentOrderCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(
           new UserActions.CancelReplenishmentOrder({
@@ -200,7 +200,7 @@ export class UserReplenishmentOrderService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(
           new UserActions.LoadUserReplenishmentOrders({
