@@ -4,7 +4,6 @@ import { B2BUser, B2BUserGroup } from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
-  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -58,10 +57,7 @@ export class UnitUserRolesFormComponent {
       .update(this.item.customerId, { roles })
       .pipe(
         take(1),
-        filter(
-          (data: OrganizationItemStatus<B2BUser>) =>
-            data.status === LoadStatus.SUCCESS
-        )
+        filter((data) => data.status === LoadStatus.SUCCESS)
       )
       .subscribe((data) => {
         this.notify({ ...this.item, ...data.item });

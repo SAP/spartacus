@@ -5,10 +5,7 @@ import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { OrganizationCardComponent } from '../organization-card/organization-card.component';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
-import {
-  OrganizationItemStatus,
-  LoadStatus,
-} from '@spartacus/organization/administration/core';
+import { LoadStatus } from '@spartacus/organization/administration/core';
 
 /**
  * Reusable component for creating and editing organization items. The component does not
@@ -56,10 +53,7 @@ export class OrganizationFormComponent<T> {
         switchMap((key) =>
           this.itemService.save(form, key).pipe(
             take(1),
-            filter(
-              (data: OrganizationItemStatus<T>) =>
-                data.status === LoadStatus.SUCCESS
-            ),
+            filter((data) => data.status === LoadStatus.SUCCESS),
             map((data) => ({ item: data.item, key }))
           )
         )
