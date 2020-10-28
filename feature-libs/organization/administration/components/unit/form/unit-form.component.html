@@ -1,5 +1,10 @@
 <cx-organization-form [i18nRoot]="i18nRoot">
-  <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
+  <ng-container
+    *ngIf="form$ | async as form"
+    [formGroup]="form"
+    main
+    cxActiveGuard
+  >
     <label>
       <span class="label-content required">{{
         'unit.name' | cxTranslate
