@@ -7,7 +7,7 @@ import {
   BreakPoint,
   BREAKPOINT,
   LayoutBreakPoints,
-  LayoutConfig
+  LayoutConfig,
 } from '../config/layout-config';
 
 /**
@@ -176,8 +176,8 @@ export class BreakpointService {
    * This method tries to match the closest breakpoint for the given
    * window size. We'll fallback to the `largest` size in case the window
    * is greater than the largest configurable breakpoint.
-   * 
-   * The windowWidth should be smaller than the maximum size of any of the 
+   *
+   * The windowWidth should be smaller than the maximum size of any of the
    * screen sizes defined in the `LayoutConfig.breakpoints`.
    */
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
