@@ -34,15 +34,15 @@
       "@spartacus/product/configurators/assets": [
         "../../dist/product/configurators/common/assets"
       ],
-      "@spartacus/product/configurators/cpq": [
-        "../../dist/product/configurators/cpq"
-      ],
-      "@spartacus/product/configurators/variant": [
-        "../../dist/product/configurators/variant"
-      ],
       "@spartacus/product/configurators/textfield": [
         "../../dist/product/configurators/textfield"
       ],
+      "@spartacus/product/configurators/rulebased": [
+        "../../dist/product/configurators/rulebased"
+      ],      
+      "@spartacus/product/configurators/rulebased/root": [
+        "../../dist/product/configurators/rulebased/root"
+      ],  
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/setup": ["../../dist/setup"]
     }
