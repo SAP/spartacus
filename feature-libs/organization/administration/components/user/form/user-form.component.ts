@@ -31,7 +31,6 @@ import { UserItemService } from '../services/user-item.service';
       provide: CurrentOrganizationItemService,
       useExisting: CurrentUserService,
     },
-    ActiveUserGuard,
   ],
 })
 export class UserFormComponent implements OnInit {

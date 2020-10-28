@@ -10,7 +10,7 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <section main class="details">
+  <section main class="details" cxExistGuard>
     <div class="property">
       <label>{{ 'userGroup.name' | cxTranslate }}</label>
       <span class="value">
@@ -41,7 +41,7 @@
     </div>
   </section>
 
-  <section main class="link-list">
+  <section main class="link-list" *ngIf="model.uid">
     <a
       class="link"
       [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
