@@ -266,20 +266,6 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Verifies whether the group is disabled
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @return {Observable<boolean>} Is disabled?
-   */
-  isGroupDisabled(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<boolean> {
-    return this.configuratorGroupStatusService.isGroupDisabled(owner, groupId);
-  }
-
-  /**
    * Returns the group status for the given group ID.
    *
    * @param {GenericConfigurator.Owner} owner - Configuration owner

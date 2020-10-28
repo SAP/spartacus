@@ -105,15 +105,3 @@ export const areGroupsVisited = (
     return isVisited;
   });
 };
-
-export const isGroupDisabled = (
-  ownerKey: string,
-  groupId: string
-): MemoizedSelector<StateWithConfigurator, boolean> => {
-  return createSelector(
-    getConfigurationFactory(ownerKey),
-    (configuration) =>
-      configuration?.interactionState?.groupsStatus[groupId] === 'DISABLE' ||
-      undefined
-  );
-};

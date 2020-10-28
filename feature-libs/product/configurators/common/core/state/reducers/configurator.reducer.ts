@@ -147,13 +147,6 @@ export function configuratorReducer(
         Configurator.GroupStatus.ERROR
       );
     }
-    case ConfiguratorActions.SET_GROUPS_DISABLE: {
-      return setGroupStatus(
-        state,
-        action.payload.disableGroups,
-        Configurator.GroupStatus.DISABLE
-      );
-    }
   }
   return state;
 }

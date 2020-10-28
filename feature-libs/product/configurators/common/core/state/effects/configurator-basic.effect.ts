@@ -44,21 +44,6 @@ export class ConfiguratorBasicEffects {
               new ConfiguratorActions.UpdatePriceSummary(configuration)
             );
 
-            const disableGroupIds = [];
-            this.collectDisabledGroupIds(
-              disableGroupIds,
-              configuration?.groups
-            );
-
-            if (disableGroupIds.length > 0) {
-              this.store.dispatch(
-                new ConfiguratorActions.SetGroupsDisable({
-                  entityKey: configuration.owner.key,
-                  disableGroups: disableGroupIds,
-                })
-              );
-            }
-
             return [
               new ConfiguratorActions.CreateConfigurationSuccess(configuration),
             ];
@@ -72,21 +57,6 @@ export class ConfiguratorBasicEffects {
         );
     })
   );
-
-  collectDisabledGroupIds(
-    disableGroupIds: string[],
-    groups: Configurator.Group[]
-  ) {
-    groups.forEach((group) => {
-      if (!group?.configurable) {
-        disableGroupIds.push(group.id);
-      }
-      if (group?.subGroups?.length > 0) {
-        this.collectDisabledGroupIds(disableGroupIds, group.subGroups);
-      }
-    });
-    return disableGroupIds;
-  }
 
   @Effect()
   readConfiguration$: Observable<

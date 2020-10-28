@@ -8,7 +8,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { Configurator } from './../../core/model/configurator.model';
 import { ConfiguratorRouter } from './../service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './../service/configurator-router-extractor.service';
-import { GenericConfigurator } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -238,20 +237,6 @@ export class ConfiguratorGroupMenuComponent {
         }),
         take(1)
       );
-  }
-
-  /**
-   * Verifies whether the group is disabled.
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @return {Observable<boolean>} - 'True' if the group is disabled, otherwise 'false'.
-   */
-  isGroupDisabled(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<boolean> {
-    return this.configuratorGroupsService.isGroupDisabled(owner, groupId);
   }
 
   /**

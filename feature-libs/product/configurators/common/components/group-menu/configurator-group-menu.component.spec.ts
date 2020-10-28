@@ -19,7 +19,6 @@ import {
   CONFIGURATOR_ROUTE,
   mockRouterState,
   productConfiguration,
-  GROUP_ID_8,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
 import { Configurator } from './../../core/model/configurator.model';
@@ -78,9 +77,6 @@ class MockConfiguratorGroupService {
   }
   isGroupVisited() {
     return groupVisitedObservable;
-  }
-  isGroupDisabled(): Observable<boolean> {
-    return of(true);
   }
   findParentGroup() {
     return null;
@@ -194,7 +190,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
-    spyOn(configuratorGroupsService, 'isGroupDisabled').and.callThrough();
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
@@ -375,17 +370,5 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
     expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalled();
-  });
-
-  it('should verify whether the group is disable', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    component
-      .isGroupDisabled(mockProductConfiguration.owner, GROUP_ID_8)
-      .pipe(take(1))
-      .subscribe((isGroupDisable) => {
-        expect(isGroupDisable).toBe(true);
-      });
   });
 });

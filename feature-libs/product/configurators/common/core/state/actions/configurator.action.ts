@@ -275,15 +275,6 @@ export class SetGroupsError extends StateUtils.EntitySuccessAction {
   }
 }
 
-//This is still a success action as the group status is successfully updated
-export class SetGroupsDisable extends StateUtils.EntitySuccessAction {
-  readonly type = SET_GROUPS_DISABLE;
-
-  constructor(public payload: { entityKey: string; disableGroups: string[] }) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.disableGroups);
-  }
-}
-
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -310,5 +301,4 @@ export type ConfiguratorAction =
   | SetCurrentGroup
   | SetGroupsVisited
   | SetGroupsCompleted
-  | SetGroupsError
-  | SetGroupsDisable;
+  | SetGroupsError;
