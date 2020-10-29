@@ -19,11 +19,11 @@ import {
  *
  * By default, the `BreakpointService` is based on the breakpoints from the
  * Bootstrap ui library:
- * - `xs`: 0 - 576px
- * - `sm`: 576px - 768px
- * - `md`: 768px - 992px
- * - `lg`: 992px - 1200px
- * - `xl`: > 1200px
+ * - `xs`: < 576px
+ * - `sm`: 576px - 767px
+ * - `md`: 768px - 991px
+ * - `lg`: 992px - 1199px
+ * - `xl`: >= 1200px
  */
 @Injectable({
   providedIn: 'root',
@@ -173,13 +173,16 @@ export class BreakpointService {
   /**
    * Returns a `BREAKPOINT` for the given window size.
    *
-   * This method tries to match the closest breakpoint for the give
+   * This method tries to match the closest breakpoint for the given
    * window size. We'll fallback to the `largest` size in case the window
    * is greater than the largest configurable breakpoint.
+   *
+   * The windowWidth should be smaller than the maximum size of any of the
+   * screen sizes defined in the `LayoutConfig.breakpoints`.
    */
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
     return (
-      this.breakpoints.find((br) => windowWidth <= this.getSize(br)) ??
+      this.breakpoints.find((br) => windowWidth < this.getSize(br)) ??
       this.breakpoints?.[this.breakpoints.length - 1]
     );
   }

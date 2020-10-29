@@ -49,6 +49,9 @@ cd ../../
 
 if [[ -z "$SKIP_BUILD" ]]; then
   yarn build:libs
+else
+  # this also builds the organization schematics
+  yarn build:organization
 fi
 cd dist
 
