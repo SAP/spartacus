@@ -7,7 +7,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
 import { Change, NoopChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
@@ -195,65 +195,79 @@ function updateAppModule(options: SpartacusOrganizationOptions): Rule {
 
     const mainPath = projectTargets.build.options.main;
     const modulePath = getAppModulePath(host, mainPath);
+    const moduleTs = getTsSourceFile(host, modulePath);
 
     const changes: Change[] = [];
     const providersChanges = addToModuleProviders(
       host,
       modulePath,
       `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG})`,
-      getTsSourceFile(host, modulePath)
+      moduleTs
     );
     changes.push(...providersChanges);
 
-    const coreImportChange = createImportChange(
-      host,
-      modulePath,
-      PROVIDE_DEFAULT_CONFIG,
-      SPARTACUS_CORE
-    );
-    const setupImportChange = createImportChange(
-      host,
-      modulePath,
-      DEFAULT_B2B_OCC_CONFIG,
-      SPARTACUS_SETUP
-    );
-    changes.push(coreImportChange, setupImportChange);
-
-    if (options.lazy) {
-      const lazyLoadingChange = mergeLazyLoadingConfig(
-        context,
-        getTsSourceFile(host, modulePath)
-      );
-      changes.push(lazyLoadingChange);
-
-      const administrationImportChange = createImportChange(
+    if (!isImported(moduleTs, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE)) {
+      const coreImportChange = createImportChange(
         host,
         modulePath,
-        ADMINISTRATION_MODULE,
-        SPARTACUS_ADMINISTRATION
+        PROVIDE_DEFAULT_CONFIG,
+        SPARTACUS_CORE
       );
-
-      const moduleImportChanges = addToModuleImports(
+      changes.push(coreImportChange);
+    }
+    if (!isImported(moduleTs, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP)) {
+      const setupImportChange = createImportChange(
         host,
         modulePath,
-        ADMINISTRATION_MODULE
+        DEFAULT_B2B_OCC_CONFIG,
+        SPARTACUS_SETUP
       );
-      changes.push(administrationImportChange, ...moduleImportChanges);
-    } else {
-      const administrationRootImportChange = createImportChange(
+      changes.push(setupImportChange);
+    }
+
+    if (
+      !isImported(
+        moduleTs,
+        ADMINISTRATION_ROOT_MODULE,
+        SPARTACUS_ADMINISTRATION_ROOT
+      )
+    ) {
+      const rootModuleImportChange = createImportChange(
         host,
         modulePath,
         ADMINISTRATION_ROOT_MODULE,
         SPARTACUS_ADMINISTRATION_ROOT
       );
-      changes.push(administrationRootImportChange);
-
-      const moduleImportChanges = addToModuleImports(
+      const rootModuleAddedToImportsChanges = addToModuleImports(
         host,
         modulePath,
         ADMINISTRATION_ROOT_MODULE
       );
-      changes.push(...moduleImportChanges);
+      changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
+    }
+
+    if (options.lazy) {
+      const lazyLoadingChange = mergeLazyLoadingConfig(context, moduleTs);
+      changes.push(lazyLoadingChange);
+    } else {
+      if (
+        !isImported(moduleTs, ADMINISTRATION_MODULE, SPARTACUS_ADMINISTRATION)
+      ) {
+        const featureModuleImportChange = createImportChange(
+          host,
+          modulePath,
+          ADMINISTRATION_MODULE,
+          SPARTACUS_ADMINISTRATION
+        );
+        changes.push(featureModuleImportChange);
+      }
+
+      const addedToImportsChanges = addToModuleImports(
+        host,
+        modulePath,
+        ADMINISTRATION_MODULE
+      );
+      changes.push(...addedToImportsChanges);
     }
 
     commitChanges(host, modulePath, changes);

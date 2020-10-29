@@ -119,12 +119,24 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
     });
 
-    it('should import AdministrationRootModule', async () => {
+    it('should import appropriate modules', async () => {
       const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
       expect(appServerModuleBuffer).toBeTruthy();
       const appModule = appServerModuleBuffer?.toString(UTF_8);
       expect(appModule).toContain(
         `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
+      );
+      expect(appModule).toContain(
+        `import { AdministrationModule } from '@spartacus/organization/administration';`
+      );
+    });
+
+    it('should not contain lazy loading syntax', async () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).not.toContain(
+        `import('@spartacus/organization/administration').then(`
       );
     });
   });
@@ -136,15 +148,24 @@ describe('Spartacus Organization schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should import AdministrationModule', async () => {
+    it('should import AdministrationRootModule and contain the lazy loading syntax', async () => {
       const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
       expect(appServerModuleBuffer).toBeTruthy();
       const appModule = appServerModuleBuffer?.toString(UTF_8);
       expect(appModule).toContain(
-        `import { AdministrationModule } from '@spartacus/organization/administration';`
+        `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
       );
       expect(appModule).toContain(
         `import('@spartacus/organization/administration').then(`
+      );
+    });
+
+    it('should not contain the AdministrationModule import', () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).not.toContain(
+        `import { AdministrationModule } from '@spartacus/organization/administration';`
       );
     });
   });
