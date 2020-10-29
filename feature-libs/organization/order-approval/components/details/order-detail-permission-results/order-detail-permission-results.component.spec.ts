@@ -102,7 +102,7 @@ describe('OrderDetailPermissionResultsComponent', () => {
         ).nativeElement.innerText
       ).toContain(
         mockOrder.permissionResults[i].approverNotes ||
-          'orderDetails.approvalDetails.noApprovalComments'
+          'orderApprovalDetails.permissionResults.noApprovalComments'
       );
     }
   });
