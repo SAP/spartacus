@@ -1,19 +1,51 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmStoreModule } from './store/asm-store.module';
-import { interceptors } from './http-interceptors/index';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { AuthHeaderService } from '../auth/user-auth/services/auth-header.service';
+import { AuthStorageService } from '../auth/user-auth/services/auth-storage.service';
+import { BasicAuthService } from '../auth/user-auth/services/basic-auth.service';
 import { provideDefaultConfig } from '../config/config-providers';
+import { defaultAsmConfig } from './config/default-asm-config';
+import { AsmAuthStorageService } from './services/asm-auth-storage.service';
+import { AsmAuthHeaderService } from './services/asm-auth.header.service';
+import { AsmAuthService } from './services/asm-auth.service';
+import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
+import { AsmStoreModule } from './store/asm-store.module';
+
+export function asmStatePersistenceFactory(
+  asmStatePersistenceService: AsmStatePersistenceService
+) {
+  const result = () => asmStatePersistenceService.initSync();
+  return result;
+}
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, AsmStoreModule],
+  imports: [CommonModule, AsmStoreModule],
 })
 export class AsmModule {
   static forRoot(): ModuleWithProviders<AsmModule> {
     return {
       ngModule: AsmModule,
-      providers: [...interceptors, provideDefaultConfig(defaultAsmConfig)],
+      providers: [
+        provideDefaultConfig(defaultAsmConfig),
+        {
+          provide: AuthStorageService,
+          useExisting: AsmAuthStorageService,
+        },
+        {
+          provide: BasicAuthService,
+          useExisting: AsmAuthService,
+        },
+        {
+          provide: AuthHeaderService,
+          useExisting: AsmAuthHeaderService,
+        },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: asmStatePersistenceFactory,
+          deps: [AsmStatePersistenceService],
+          multi: true,
+        },
+      ],
     };
   }
 }

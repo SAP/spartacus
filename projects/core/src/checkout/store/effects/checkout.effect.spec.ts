@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutCostCenterConnector,
@@ -443,27 +443,21 @@ describe('Checkout effect', () => {
         cartId: cartId,
         costCenterId: 'testId',
       });
-      const completion1 = new CartActions.LoadCartSuccess({
+      const completion1 = new CartActions.LoadCart({
         userId,
         cartId,
-        cart: {},
       });
       const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryMode({
-        userId,
-        cartId,
-      });
-      const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        e: completion4,
       });
 
       expect(entryEffects.setCostCenter$).toBeObservable(expected);

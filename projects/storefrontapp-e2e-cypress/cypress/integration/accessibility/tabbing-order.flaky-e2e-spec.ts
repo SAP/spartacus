@@ -333,7 +333,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       });
 
       it('should allow to navigate with tab key (choose existing)', () => {
-        cy.visit('/checkout/shipping-address'); // revisit shipping address page, so the address card is visible
         checkoutShippingAddressExistingTabbingOrder(
           config.shippingAddressExisting
         );

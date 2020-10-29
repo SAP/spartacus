@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address, Country, Region } from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -15,14 +15,14 @@ import { StateWithUser } from '../store/user-state';
 export class UserAddressService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.LoadUserAddresses(userId));
     });
   }
@@ -32,7 +32,7 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.AddUserAddress({
           userId,
@@ -47,7 +47,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -64,7 +64,7 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -80,7 +80,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
           userId,

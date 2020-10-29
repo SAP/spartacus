@@ -54,9 +54,9 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'projects', 'storefrontstyles', 'package.json'),
   path.join(__dirname, '..', 'projects', 'assets', 'package.json'),
   path.join(__dirname, '..', 'projects', 'schematics', 'package.json'),
-  path.join(__dirname, '..', 'projects', 'cds', 'package.json'),
+  path.join(__dirname, '..', 'integration-libs', 'cds', 'package.json'),
   path.join(__dirname, '..', 'core-libs', 'setup', 'package.json'),
-  path.join(__dirname, '..', 'feature-libs', 'my-account', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'organization', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'product', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'cdc', 'package.json'),
 ];

@@ -20,7 +20,6 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '../shared/utils/workspace-utils';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
@@ -41,7 +40,10 @@ import {
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
 import { parseCSV } from '../shared/utils/transform-utils';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import {
+  getProjectFromWorkspace,
+  getProjectTargets,
+} from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
@@ -123,6 +125,11 @@ function addPackageJsonDependencies(): Rule {
         type: NodeDependencyType.Default,
         version: '^8.0.0',
         name: 'ngx-infinite-scroll',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: '^10.0.0',
+        name: 'angular-oauth2-oidc',
       },
     ];
 

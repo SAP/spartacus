@@ -40,9 +40,9 @@ if [[ -n "$coverage" ]]; then
     exit 1
 fi
 
-echo "Running unit tests and code coverage for my-account library"
+echo "Running unit tests and code coverage for organization library"
 exec 5>&1
-output=$(ng test my-account --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test organization --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -63,11 +63,6 @@ cd projects/schematics
 yarn
 yarn test
 cd ../..
-echo "Running unit tests for my-account schematics"
-cd feature-libs/my-account
-yarn
-yarn test:schematics
-cd ../../
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"

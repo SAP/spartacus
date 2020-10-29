@@ -11,8 +11,10 @@
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com",
+    "API_URL": "https://spartacus-demo.eastus.cloudapp.azure.com:8443",
     "OCC_PREFIX": "/rest/v2",
+    "OCC_PREFIX_USER_ENDPOINT": "users",
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders",
     "BASE_SITE": "electronics-spa"
   }
 }
