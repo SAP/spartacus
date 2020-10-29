@@ -6,6 +6,7 @@ export * from './src/asm/index';
 export * from './src/auth/index';
 export * from './src/cart/index';
 export * from './src/checkout/index';
+export * from './src/configurator/generic/index'
 export * from './src/cms/index';
 export * from './src/config/index';
 export * from './src/event/index';
