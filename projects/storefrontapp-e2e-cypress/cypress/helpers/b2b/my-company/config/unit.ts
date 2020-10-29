@@ -2,6 +2,7 @@ import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { costCenterConfig } from './cost-center.config';
+import { userConfig } from './user';
 
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
@@ -121,14 +122,14 @@ export const unitConfig: MyCompanyConfig = {
         ],
       },
     },
-    // {
-    //   name: 'Users',
-    //   baseUrl: `/users`,
-    //   apiEndpoint: '**/availableOrgCustomers**',
-    //   objectType: 'members',
-    //   // createConfig: userConfig,
-    //   // canManageRoles: true,
-    // },
+    {
+      name: 'Users',
+      baseUrl: `/users`,
+      apiEndpoint: '**/availableOrgCustomers**',
+      objectType: 'members',
+      createConfig: userConfig,
+      // canManageRoles: true,
+    },
     {
       name: 'Approvers',
       baseUrl: `/approvers`,

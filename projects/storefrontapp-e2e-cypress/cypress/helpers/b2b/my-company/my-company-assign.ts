@@ -43,12 +43,26 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           completeForm(subConfig.createConfig.rows, 'createValue');
           cy.get('div.header button').contains('Save').click();
 
-          const nameRow = subConfig.createConfig.rows?.find(
-            (row) => row.sortLabel === 'name'
+          const headerRows = subConfig.createConfig.rows?.filter(
+            (row) => row.useInHeader
           );
-          cy.get('cx-organization-sub-list table tr td').contains(
-            nameRow.createValue
-          );
+          if (headerRows.length) {
+            headerRows.forEach((hRow) => {
+              cy.get('cx-organization-sub-list table tr td').contains(
+                hRow.createValue,
+                {
+                  matchCase: false,
+                }
+              );
+            });
+          } else {
+            const nameRow = subConfig.createConfig.rows?.find(
+              (row) => row.sortLabel === 'name'
+            );
+            cy.get('cx-organization-sub-list table tr td').contains(
+              nameRow.createValue
+            );
+          }
         });
       }
 
