@@ -3,7 +3,6 @@ import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
-
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';

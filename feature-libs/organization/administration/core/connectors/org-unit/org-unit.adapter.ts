@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { B2BUnitNode } from '../../model/unit-node.model';
+
 export abstract class OrgUnitAdapter {
   /**
    * Abstract method used to load orgUnit's details data.
