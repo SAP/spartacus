@@ -1,6 +1,5 @@
 import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import { serializeSearchConfig } from '../../utils/serializer';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
@@ -53,14 +52,18 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(BUDGET_LIST, serializeSearchConfig(payload.params));
+    super(BUDGET_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
-    super(BUDGET_LIST, serializeSearchConfig(payload.params), payload.error);
+    super(
+      BUDGET_LIST,
+      StateUtils.serializeSearchConfig(payload.params),
+      payload.error
+    );
   }
 }
 
@@ -72,7 +75,7 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(BUDGET_LIST, serializeSearchConfig(payload.params));
+    super(BUDGET_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 

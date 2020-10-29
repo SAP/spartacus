@@ -8,6 +8,7 @@ import {
   EntitiesModel,
   normalizeHttpError,
   RoutingService,
+  StateUtils,
   User,
   UserIdService,
   UserService,
@@ -28,7 +29,6 @@ import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import { isValidUser } from '../../utils/check-user';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   OrganizationActions,
@@ -196,7 +196,10 @@ export class B2BUserEffects {
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
-          const { values, page } = normalizeListPage(b2bUsers, 'customerId');
+          const { values, page } = StateUtils.normalizeListPage(
+            b2bUsers,
+            'customerId'
+          );
           return [
             new B2BUserActions.LoadB2BUserSuccess(values),
             new B2BUserActions.LoadB2BUsersSuccess({
@@ -227,7 +230,7 @@ export class B2BUserEffects {
     map((action: B2BUserActions.LoadB2BUserApprovers) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
-      serializeParams(orgCustomerId, params)
+      StateUtils.serializeParams(orgCustomerId, params)
     ),
     mergeMap((group) =>
       group.pipe(
@@ -236,7 +239,7 @@ export class B2BUserEffects {
             .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
             .pipe(
               switchMap((approvers: EntitiesModel<B2BUser>) => {
-                const { values, page } = normalizeListPage(
+                const { values, page } = StateUtils.normalizeListPage(
                   approvers,
                   'customerId'
                 );
@@ -274,7 +277,7 @@ export class B2BUserEffects {
     map((action: B2BUserActions.LoadB2BUserPermissions) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
-      serializeParams(orgCustomerId, params)
+      StateUtils.serializeParams(orgCustomerId, params)
     ),
     mergeMap((group) =>
       group.pipe(
@@ -287,7 +290,10 @@ export class B2BUserEffects {
             )
             .pipe(
               switchMap((permissions: EntitiesModel<Permission>) => {
-                const { values, page } = normalizeListPage(permissions, 'code');
+                const { values, page } = StateUtils.normalizeListPage(
+                  permissions,
+                  'code'
+                );
                 return [
                   new PermissionActions.LoadPermissionSuccess(values),
                   new B2BUserActions.LoadB2BUserPermissionsSuccess({
@@ -322,7 +328,7 @@ export class B2BUserEffects {
     map((action: B2BUserActions.LoadB2BUserUserGroups) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgCustomerId, params }) =>
-      serializeParams(orgCustomerId, params)
+      StateUtils.serializeParams(orgCustomerId, params)
     ),
     mergeMap((group) =>
       group.pipe(
@@ -335,7 +341,10 @@ export class B2BUserEffects {
             )
             .pipe(
               switchMap((userGroups: EntitiesModel<UserGroup>) => {
-                const { values, page } = normalizeListPage(userGroups, 'uid');
+                const { values, page } = StateUtils.normalizeListPage(
+                  userGroups,
+                  'uid'
+                );
                 return [
                   new UserGroupActions.LoadUserGroupSuccess(values),
                   new B2BUserActions.LoadB2BUserUserGroupsSuccess({
