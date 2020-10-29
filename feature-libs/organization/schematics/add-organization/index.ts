@@ -52,6 +52,17 @@ import {
 } from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
+interface FeatureConfig {
+  name: string;
+  featureModule: FeatureModule;
+  rootModule: FeatureModule;
+}
+
+interface FeatureModule {
+  name: string;
+  importPath: string;
+}
+
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
@@ -216,10 +227,14 @@ function addAdministrationFeature(
 ): Rule {
   return handleFeature(appModulePath, options, {
     name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    moduleName: ADMINISTRATION_MODULE,
-    moduleImportPath: SPARTACUS_ADMINISTRATION,
-    rootModuleName: ADMINISTRATION_ROOT_MODULE,
-    rootModuleImportPath: SPARTACUS_ADMINISTRATION_ROOT,
+    featureModule: {
+      name: ADMINISTRATION_MODULE,
+      importPath: SPARTACUS_ADMINISTRATION,
+    },
+    rootModule: {
+      name: ADMINISTRATION_ROOT_MODULE,
+      importPath: SPARTACUS_ADMINISTRATION_ROOT,
+    },
   });
 }
 
@@ -229,23 +244,21 @@ function addOrderApprovalsFeature(
 ): Rule {
   return handleFeature(appModulePath, options, {
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-    moduleName: ORDER_APPROVAL_MODULE,
-    moduleImportPath: SPARTACUS_ORDER_APPROVAL,
-    rootModuleName: ORDER_APPROVAL_ROOT_MODULE,
-    rootModuleImportPath: SPARTACUS_ORDER_APPROVAL_ROOT,
+    featureModule: {
+      name: ORDER_APPROVAL_MODULE,
+      importPath: SPARTACUS_ORDER_APPROVAL,
+    },
+    rootModule: {
+      name: ORDER_APPROVAL_ROOT_MODULE,
+      importPath: SPARTACUS_ORDER_APPROVAL_ROOT,
+    },
   });
 }
 
 function handleFeature(
   appModulePath: string,
   options: SpartacusOrganizationOptions,
-  featureConfig: {
-    name: string;
-    moduleName: string;
-    moduleImportPath: string;
-    rootModuleName: string;
-    rootModuleImportPath: string;
-  }
+  config: FeatureConfig
 ): Rule {
   return (host: Tree, context: SchematicContext) => {
     const changes: Change[] = [];
@@ -292,20 +305,20 @@ function handleFeature(
     if (
       !isImported(
         getTsSourceFile(host, appModulePath),
-        featureConfig.rootModuleName,
-        featureConfig.rootModuleImportPath
+        config.rootModule.name,
+        config.rootModule.importPath
       )
     ) {
       const rootModuleImportChange = createImportChange(
         host,
         appModulePath,
-        featureConfig.rootModuleName,
-        featureConfig.rootModuleImportPath
+        config.rootModule.name,
+        config.rootModule.importPath
       );
       const rootModuleAddedToImportsChanges = addToModuleImports(
         host,
         appModulePath,
-        featureConfig.rootModuleName
+        config.rootModule.name
       );
       changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
     }
@@ -315,9 +328,9 @@ function handleFeature(
         context,
         getTsSourceFile(host, appModulePath),
         {
-          name: featureConfig.name,
-          moduleName: featureConfig.moduleName,
-          importPath: featureConfig.moduleImportPath,
+          name: config.name,
+          moduleName: config.featureModule.name,
+          importPath: config.featureModule.importPath,
         }
       );
       changes.push(lazyLoadingChange);
@@ -325,15 +338,15 @@ function handleFeature(
       if (
         !isImported(
           getTsSourceFile(host, appModulePath),
-          featureConfig.moduleName,
-          featureConfig.moduleImportPath
+          config.featureModule.name,
+          config.featureModule.importPath
         )
       ) {
         const featureModuleImportChange = createImportChange(
           host,
           appModulePath,
-          featureConfig.moduleName,
-          featureConfig.moduleImportPath
+          config.featureModule.name,
+          config.featureModule.importPath
         );
         changes.push(featureModuleImportChange);
       }
@@ -341,7 +354,7 @@ function handleFeature(
       const addedToImportsChanges = addToModuleImports(
         host,
         appModulePath,
-        featureConfig.moduleName
+        config.featureModule.name
       );
       changes.push(...addedToImportsChanges);
     }
@@ -353,7 +366,7 @@ function handleFeature(
 function mergeLazyLoadingConfig(
   context: SchematicContext,
   moduleSource: ts.SourceFile,
-  featureConfig: {
+  config: {
     name: string;
     moduleName: string;
     importPath: string;
@@ -361,12 +374,12 @@ function mergeLazyLoadingConfig(
 ): Change {
   const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
   const lazyLoadingModule = `
-    module: () => import('${featureConfig.importPath}').then(
-      (m) => m.${featureConfig.moduleName}
+    module: () => import('${config.importPath}').then(
+      (m) => m.${config.moduleName}
     ),
 `;
   const lazyLoadingFeatureModule = `featureModules: {
-  ${featureConfig.name}: {
+  ${config.name}: {
     ${lazyLoadingModule}
   },
 }`;
@@ -390,7 +403,7 @@ ${lazyLoadingFeatureModule}
     return mergeConfig(
       moduleSource.fileName,
       currentFeatureModulesConfig,
-      featureConfig.name,
+      config.name,
       `{
   ${lazyLoadingModule}
   }`
