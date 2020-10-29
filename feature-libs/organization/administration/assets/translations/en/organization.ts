@@ -4,7 +4,6 @@ import {
   costCenterAssignedBudgets,
   costCenterBudgets,
 } from './cost-center.i18n';
-import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import {
   unit,
@@ -117,6 +116,4 @@ export const organization = {
   userPermissions,
   userAssignedPermissions,
   permission,
-  orderApproval,
-  orderApprovalList,
 };
