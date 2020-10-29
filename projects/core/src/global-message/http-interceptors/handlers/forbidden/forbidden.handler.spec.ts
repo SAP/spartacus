@@ -4,13 +4,15 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { ForbiddenHandler } from './forbidden.handler';
 import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
+import { MockOccEndpointsService } from '../../../../occ/adapters/user/unit-test.helper';
+import { OccEndpointsService } from '@spartacus/core';
 
 class MockGlobalMessageService {
   add() {}
 }
 
 class MockAuthService {
-  initLogout() {}
+  logout() {}
 }
 
 describe('ForbiddenHandler', () => {
@@ -30,6 +32,10 @@ describe('ForbiddenHandler', () => {
           provide: AuthService,
           useClass: MockAuthService,
         },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
     service = TestBed.inject(ForbiddenHandler);
@@ -45,16 +51,16 @@ describe('ForbiddenHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.FORBIDDEN);
   });
 
-  it('should init logout unauthorised user', () => {
-    spyOn(authService, 'initLogout');
-    service.handleError();
+  it('should logout unauthorised user', () => {
+    spyOn(authService, 'logout');
+    service.handleError({ url: '/user' });
 
-    expect(authService.initLogout).toHaveBeenCalledWith();
+    expect(authService.logout).toHaveBeenCalledWith();
   });
 
   it('should send common error to global message service', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError();
+    service.handleError({ url: '' });
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.forbidden' },

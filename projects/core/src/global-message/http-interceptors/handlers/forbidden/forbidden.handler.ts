@@ -5,6 +5,7 @@ import { HttpErrorHandler } from '../http-error.handler';
 import { Priority } from '../../../../util/applicable';
 import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
 import { GlobalMessageService } from '../../../facade/global-message.service';
+import { OccEndpointsService } from '../../../../occ/services/occ-endpoints.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,15 @@ import { GlobalMessageService } from '../../../facade/global-message.service';
 export class ForbiddenHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.FORBIDDEN;
 
-  handleError() {
-    this.authService.initLogout();
+  handleError(request) {
+    if (
+      request.url.endsWith(
+        this.occEndpoints.getUrl('user', { userId: 'current' })
+      )
+    ) {
+      this.authService.logout();
+    }
+
     this.globalMessageService.add(
       { key: 'httpHandlers.forbidden' },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -26,7 +34,8 @@ export class ForbiddenHandler extends HttpErrorHandler {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected occEndpoints: OccEndpointsService
   ) {
     super(globalMessageService);
   }

@@ -40,7 +40,7 @@ describe('HttpErrorInterceptor', () => {
     };
 
     mockAuthService = {
-      initLogin() {},
+      logout() {},
     };
 
     TestBed.configureTestingModule({
