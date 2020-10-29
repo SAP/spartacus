@@ -12,6 +12,7 @@ import {
   normalizeHttpError,
   OccConfig,
   SearchConfig,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -21,7 +22,6 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
 import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
-import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';

@@ -5,16 +5,11 @@ import {
   CostCenter,
   ListModel,
   StateUtils,
+  OrderApprovalPermissionType,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import { Budget } from '../model/budget.model';
-import {
-  B2BApprovalProcess,
-  OrderApproval,
-} from '../model/order-approval.model';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+import { Permission } from '../model/permission.model';
 import { B2BUnitNode } from '../model/unit-node.model';
 import { UserGroup } from '../model/user-group.model';
 
@@ -66,17 +61,7 @@ export const USER_GROUP_AVAILABLE_CUSTOMERS =
 export const ADDRESS_ENTITIES = 'addresses-entities';
 export const ADDRESS_LIST = 'addresses-list';
 
-export const ORDER_APPROVAL_FEATURE = 'order-approval';
-export const ORDER_APPROVAL_ENTITIES = 'order-approval-entities';
-export const ORDER_APPROVAL_LIST = 'order-approval-list';
-
-export const ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID =
-  'orderApproval.makeDecision';
-
-export interface Management<Type> {
-  list: StateUtils.EntityLoaderState<ListModel>;
-  entities: StateUtils.EntityLoaderState<Type>;
-}
+export interface Management<Type> extends StateUtils.EntityListState<Type> {}
 
 export interface BudgetManagement extends Management<Budget> {}
 
@@ -109,8 +94,6 @@ export interface B2BUserManagement extends Management<B2BUser> {
   userGroups: StateUtils.EntityLoaderState<ListModel>;
 }
 
-export interface OrderApprovalManagement extends Management<OrderApproval> {}
-
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;
 }
@@ -122,5 +105,4 @@ export interface OrganizationState {
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
-  [ORDER_APPROVAL_FEATURE]: OrderApprovalManagement;
 }

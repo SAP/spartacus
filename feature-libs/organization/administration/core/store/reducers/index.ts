@@ -14,16 +14,11 @@ import {
   CostCenter,
   ListModel,
   StateUtils,
+  OrderApprovalPermissionType,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import {
-  B2BApprovalProcess,
-  OrderApproval,
-} from '../../model/order-approval.model';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { UserGroup } from '../../model/user-group.model';
 import { OrganizationActions } from '../actions';
@@ -42,9 +37,6 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_FEATURE,
   COST_CENTER_LIST,
-  ORDER_APPROVAL_ENTITIES,
-  ORDER_APPROVAL_FEATURE,
-  ORDER_APPROVAL_LIST,
   OrganizationState,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ASSIGNED_USERS,
@@ -76,10 +68,6 @@ import {
   costCentersEntitiesReducer,
   costCentersListReducer,
 } from './cost-center.reducer';
-import {
-  orderApprovalsEntitiesReducer,
-  orderApprovalsListReducer,
-} from './order-approval.reducer';
 import {
   orgUnitAddressListReducer,
   orgUnitEntitiesReducer,
@@ -197,16 +185,6 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       userGroups: StateUtils.entityLoaderReducer<ListModel>(
         B2B_USER_USER_GROUPS,
         b2bUserUserGroupListReducer
-      ),
-    }),
-    [ORDER_APPROVAL_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<OrderApproval>(
-        ORDER_APPROVAL_ENTITIES,
-        orderApprovalsEntitiesReducer
-      ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
-        ORDER_APPROVAL_LIST,
-        orderApprovalsListReducer
       ),
     }),
   };

@@ -26,3 +26,13 @@ export interface B2BUnit {
 export interface B2BUser extends User {
   active?: boolean;
 }
+
+export interface B2BApprovalProcess {
+  code?: string;
+  name?: string;
+}
+
+export interface OrderApprovalPermissionType {
+  code?: string;
+  name?: string;
+}

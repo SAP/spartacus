@@ -1,5 +1,4 @@
-import { Currency } from '@spartacus/core';
-import { B2BApprovalProcess } from './order-approval.model';
+import { Currency, B2BApprovalProcess } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface B2BUnit {

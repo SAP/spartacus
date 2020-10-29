@@ -5,9 +5,9 @@ import {
   B2BUser,
   EntitiesModel,
   SearchConfig,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { B2BApprovalProcess } from '../../model/order-approval.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitAdapter } from './org-unit.adapter';
 

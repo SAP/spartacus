@@ -11,9 +11,9 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import {
-  B2BApprovalProcess,
   B2BUnitNode,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,

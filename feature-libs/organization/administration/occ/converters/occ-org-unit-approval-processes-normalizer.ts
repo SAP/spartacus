@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Converter, Occ } from '@spartacus/core';
-import { B2BApprovalProcess } from '@spartacus/organization/administration/core';
+import { Converter, Occ, B2BApprovalProcess } from '@spartacus/core';
 
 @Injectable()
 export class OccOrgUnitApprovalProcessNormalizer

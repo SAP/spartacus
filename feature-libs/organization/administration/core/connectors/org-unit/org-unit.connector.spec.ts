@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, SearchConfig } from '@spartacus/core';
+import { Address, SearchConfig, B2BApprovalProcess } from '@spartacus/core';
 import { of } from 'rxjs';
-import { B2BApprovalProcess } from '../../../core/model/order-approval.model';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
 
