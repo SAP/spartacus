@@ -104,7 +104,7 @@ export interface MyCompanyConfig {
    * Determine entity ID for possible route checks and usage between tests
    */
   entityIdField?: string;
-  
+
   /**
    * Test list utilizing a nested tree ux.
    */
