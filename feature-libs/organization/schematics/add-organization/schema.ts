@@ -1,4 +1,4 @@
 export interface Schema {
   project: string;
-  lazy?: boolean;
+  lazy: boolean;
 }

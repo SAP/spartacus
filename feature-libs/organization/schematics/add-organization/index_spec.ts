@@ -30,6 +30,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
+    lazy: true,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -69,7 +70,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('eager loading', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false },
+          appTree
+        )
         .toPromise();
     });
 
@@ -89,7 +94,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(content).toEqual(`@import "@spartacus/organization";`);
       });
 
-      it('should add update angular.json with organization.scss', async () => {
+      it('should add update angular.json with spartacus-organization.scss', async () => {
         const buffer = appTree.read('/angular.json');
         expect(buffer).toBeTruthy();
         if (!buffer) {
@@ -102,24 +107,36 @@ describe('Spartacus Organization schematics: ng-add', () => {
             .styles;
         expect(buildStyles).toEqual([
           'src/styles.scss',
-          'src/styles/organization.scss',
+          'src/styles/spartacus-organization.scss',
         ]);
 
         const testStyles: string[] =
           angularJson.projects['schematics-test'].architect.test.options.styles;
         expect(testStyles).toEqual([
           'src/styles.scss',
-          'src/styles/organization.scss',
+          'src/styles/spartacus-organization.scss',
         ]);
       });
     });
 
-    it('should import AdministrationRootModule', async () => {
+    it('should import appropriate modules', async () => {
       const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
       expect(appServerModuleBuffer).toBeTruthy();
       const appModule = appServerModuleBuffer?.toString(UTF_8);
       expect(appModule).toContain(
         `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
+      );
+      expect(appModule).toContain(
+        `import { AdministrationModule } from '@spartacus/organization/administration';`
+      );
+    });
+
+    it('should not contain lazy loading syntax', async () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).not.toContain(
+        `import('@spartacus/organization/administration').then(`
       );
     });
   });
@@ -127,19 +144,28 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('lazy loading', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', { ...defaultOptions, lazy: true }, appTree)
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
         .toPromise();
     });
 
-    it('should import AdministrationModule', async () => {
+    it('should import AdministrationRootModule and contain the lazy loading syntax', async () => {
       const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
       expect(appServerModuleBuffer).toBeTruthy();
       const appModule = appServerModuleBuffer?.toString(UTF_8);
       expect(appModule).toContain(
-        `import { AdministrationModule } from '@spartacus/organization/administration';`
+        `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
       );
       expect(appModule).toContain(
         `import('@spartacus/organization/administration').then(`
+      );
+    });
+
+    it('should not contain the AdministrationModule import', () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).not.toContain(
+        `import { AdministrationModule } from '@spartacus/organization/administration';`
       );
     });
   });

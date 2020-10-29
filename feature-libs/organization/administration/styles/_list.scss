@@ -42,7 +42,8 @@
           &:before {
             content: '';
             position: absolute;
-            width: calc(100% - 25px);
+            width: calc(100% - 20px);
+            margin-inline-start: 20px;
             height: 20px;
             background: var(--cx-color-ghost);
             border-radius: var(--cx-ghost-radius);
@@ -54,6 +55,13 @@
           }
         }
 
+        td:last-child {
+          &:before {
+            width: calc(100% - 40px);
+            margin-inline-end: 20px;
+          }
+        }
+
         @include media-breakpoint-down(md) {
           tr td:before {
             margin-top: -10px;
@@ -62,14 +70,6 @@
         }
       }
     }
-  }
-
-  cx-organization-sub-list.ghost cx-table.vertical table tr td:before {
-    // width: calc(100% - 50px);
-    // left: 25px;
-    margin-top: 25px;
-    left: 25px;
-    width: calc(100% - 50px);
   }
 }
 
@@ -270,6 +270,11 @@
         outline-offset: -3px;
         background: var(--cx-color-background-focus);
       }
+
+      &:focus-within {
+        @include visible-focus();
+        outline-offset: -2px;
+      }
     }
   }
 
@@ -307,6 +312,10 @@
           th:last-child,
           td:last-child {
             width: 1px;
+
+            &:not(:only-child) {
+              max-width: none;
+            }
           }
         }
       }
@@ -316,8 +325,12 @@
   cx-table {
     width: 100%;
 
+    &.vertical td {
+      height: 74px;
+    }
+
     &.vertical td .content-wrapper {
-      display: flex;
+      display: inline;
       align-items: center;
       height: 74px;
       padding-inline-start: 20px;
@@ -361,11 +374,16 @@
 
     td {
       font-size: 16px;
+      max-width: 1px;
 
       .text {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include media-breakpoint-up(lg) {
+          padding-inline-start: 20px;
+        }
       }
       ul.text {
         margin: 0;
@@ -386,6 +404,10 @@
           align-items: center;
           width: 100%;
           min-height: 74px;
+
+          .text {
+            padding-inline-start: 0; // reset padding for .text, when it's already added for parent <a>
+          }
         }
 
         &[tabindex='0'],
