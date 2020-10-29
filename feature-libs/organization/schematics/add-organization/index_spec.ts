@@ -2,7 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { UTF_8 } from '@spartacus/schematics';
+import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
 import * as path from 'path';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
@@ -30,6 +30,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
+    lazy: true,
+  };
+
+  const spartacusDefaultOptions: SpartacusOptions = {
+    project: 'schematics-test',
   };
 
   beforeEach(async () => {
@@ -56,53 +61,91 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .runExternalSchematicAsync(
         '@spartacus/schematics',
         'ng-add',
-        { ...defaultOptions, name: 'schematics-test' },
+        { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();
-
-    appTree = await schematicRunner
-      .runSchematicAsync('ng-add', defaultOptions, appTree)
-      .toPromise();
   });
 
-  it('should add organization deps', async () => {
-    const packageJson = appTree.readContent('/package.json');
-    const packageObj = JSON.parse(packageJson);
-    const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@spartacus/organization')).toBe(true);
-    expect(depPackageList.includes('@spartacus/setup')).toBe(true);
-  });
-
-  describe('styling', () => {
-    it('should add style import to /src/styles/spartacus-organization.scss', async () => {
-      const buffer = appTree.read('/src/styles/spartacus-organization.scss');
-      expect(buffer).toBeTruthy();
-      const content = buffer?.toString(UTF_8);
-      expect(content).toEqual(`@import "@spartacus/organization";`);
+  describe('eager loading', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false },
+          appTree
+        )
+        .toPromise();
     });
 
-    it('should add update angular.json with organization.scss', async () => {
-      const buffer = appTree.read('/angular.json');
-      expect(buffer).toBeTruthy();
-      if (!buffer) {
-        throw new Error('angular.json missing?');
-      }
+    it('should add organization deps', async () => {
+      const packageJson = appTree.readContent('/package.json');
+      const packageObj = JSON.parse(packageJson);
+      const depPackageList = Object.keys(packageObj.dependencies);
+      expect(depPackageList.includes('@spartacus/organization')).toBe(true);
+      expect(depPackageList.includes('@spartacus/setup')).toBe(true);
+    });
 
-      const angularJson = JSON.parse(buffer.toString(UTF_8));
-      const buildStyles: string[] =
-        angularJson.projects['schematics-test'].architect.build.options.styles;
-      expect(buildStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/organization.scss',
-      ]);
+    describe('styling', () => {
+      it('should add style import to /src/styles/spartacus-organization.scss', async () => {
+        const buffer = appTree.read('/src/styles/spartacus-organization.scss');
+        expect(buffer).toBeTruthy();
+        const content = buffer?.toString(UTF_8);
+        expect(content).toEqual(`@import "@spartacus/organization";`);
+      });
 
-      const testStyles: string[] =
-        angularJson.projects['schematics-test'].architect.test.options.styles;
-      expect(testStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/organization.scss',
-      ]);
+      it('should add update angular.json with organization.scss', async () => {
+        const buffer = appTree.read('/angular.json');
+        expect(buffer).toBeTruthy();
+        if (!buffer) {
+          throw new Error('angular.json missing?');
+        }
+
+        const angularJson = JSON.parse(buffer.toString(UTF_8));
+        const buildStyles: string[] =
+          angularJson.projects['schematics-test'].architect.build.options
+            .styles;
+        expect(buildStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/organization.scss',
+        ]);
+
+        const testStyles: string[] =
+          angularJson.projects['schematics-test'].architect.test.options.styles;
+        expect(testStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/organization.scss',
+        ]);
+      });
+    });
+
+    it('should import AdministrationRootModule', async () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).toContain(
+        `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
+      );
+    });
+  });
+
+  describe('lazy loading', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should import AdministrationModule', async () => {
+      const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
+      expect(appServerModuleBuffer).toBeTruthy();
+      const appModule = appServerModuleBuffer?.toString(UTF_8);
+      expect(appModule).toContain(
+        `import { AdministrationModule } from '@spartacus/organization/administration';`
+      );
+      expect(appModule).toContain(
+        `import('@spartacus/organization/administration').then(`
+      );
     });
   });
 });
