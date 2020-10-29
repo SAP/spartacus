@@ -2,59 +2,75 @@
   <ng-container *ngIf="order.permissionResults?.length">
     <div class="cx-approval-header row">
       <div class="cx-approval-label col-sm-12">
-        {{ 'orderDetails.approvalDetails.header' | cxTranslate }}
+        {{ 'orderApprovalDetails.permissionResults.header' | cxTranslate }}
       </div>
     </div>
     <div class="row">
       <table class="table table-striped cx-approval-table">
         <thead class="cx-approval-thead-mobile">
           <th scope="col">
-            {{ 'orderDetails.approvalDetails.permission' | cxTranslate }}
+            {{
+              'orderApprovalDetails.permissionResults.permission' | cxTranslate
+            }}
           </th>
           <th scope="col">
-            {{ 'orderDetails.approvalDetails.approver' | cxTranslate }}
+            {{
+              'orderApprovalDetails.permissionResults.approver' | cxTranslate
+            }}
           </th>
           <th scope="col">
-            {{ 'orderDetails.approvalDetails.status' | cxTranslate }}
+            {{ 'orderApprovalDetails.permissionResults.status' | cxTranslate }}
           </th>
           <th scope="col">
-            {{ 'orderDetails.approvalDetails.approverComments' | cxTranslate }}
+            {{
+              'orderApprovalDetails.permissionResults.approverComments'
+                | cxTranslate
+            }}
           </th>
         </thead>
         <tbody>
           <tr *ngFor="let permissionResult of order.permissionResults">
             <td class="cx-approval-permissionCode">
               <div class="d-md-none cx-approval-table-label">
-                {{ 'orderDetails.approvalDetails.permission' | cxTranslate }}
+                {{
+                  'orderApprovalDetails.permissionResults.permission'
+                    | cxTranslate
+                }}
               </div>
               {{
-                'orderDetails.approvalDetails.permissionType'
+                'orderApprovalDetails.permissionResults.permissionType'
                   | cxTranslate
                     : { context: permissionResult.permissionType.code }
               }}
             </td>
             <td class="cx-approval-approverName">
               <div class="d-md-none cx-approval-table-label">
-                {{ 'orderDetails.approvalDetails.approver' | cxTranslate }}
+                {{
+                  'orderApprovalDetails.permissionResults.approver'
+                    | cxTranslate
+                }}
               </div>
               {{ permissionResult.approverName }}
             </td>
             <td class="cx-approval-statusDisplay">
               <div class="d-md-none cx-approval-table-label">
-                {{ 'orderDetails.approvalDetails.status' | cxTranslate }}
+                {{
+                  'orderApprovalDetails.permissionResults.status' | cxTranslate
+                }}
               </div>
               {{ permissionResult.statusDisplay }}
             </td>
             <td class="cx-approval-approvalNotes">
               <div class="d-md-none cx-approval-table-label">
                 {{
-                  'orderDetails.approvalDetails.approverComments' | cxTranslate
+                  'orderApprovalDetails.permissionResults.approverComments'
+                    | cxTranslate
                 }}
               </div>
               {{
                 permissionResult.approverNotes
                   ? permissionResult.approverNotes
-                  : ('orderDetails.approvalDetails.noApprovalNotes'
+                  : ('orderApprovalDetails.permissionResults.noApprovalComments'
                     | cxTranslate)
               }}
             </td>
