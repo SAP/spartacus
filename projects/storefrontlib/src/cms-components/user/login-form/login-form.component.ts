@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -22,7 +21,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected authRedirectService: AuthRedirectService,
     protected winRef: WindowRef
   ) {}
 
@@ -61,10 +59,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     );
 
     if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
+      this.sub = this.auth.isUserLoggedIn().subscribe((isLoggedIn) => {
+        if (isLoggedIn) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
         }
       });
     }

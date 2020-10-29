@@ -7,7 +7,6 @@ import {
   ExternalRoutesConfig,
   GlobalMessageConfig,
   I18nConfig,
-  KymaConfig,
   OccConfig,
   PersonalizationConfig,
   RoutingConfig,
@@ -44,7 +43,6 @@ export type StorefrontConfig =
   | PersonalizationConfig
   | IconConfig
   | CheckoutConfig
-  | KymaConfig
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
