@@ -6,7 +6,7 @@ $space: 0.5rem;
   display: block;
 
   .header {
-    max-width: $max-width-container;
+    max-width: var(--cx-page-width-max);
     margin: auto;
 
     @include media-breakpoint-up(lg) {

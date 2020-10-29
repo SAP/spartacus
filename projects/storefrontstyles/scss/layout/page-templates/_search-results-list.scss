@@ -1,5 +1,5 @@
 %SearchResultsListPageTemplate {
-  max-width: $max-width-container;
+  max-width: var(--cx-page-width-max);
   margin: auto;
   display: flex;
   flex-wrap: wrap;

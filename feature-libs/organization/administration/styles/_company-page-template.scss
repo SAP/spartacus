@@ -1,5 +1,5 @@
 %CompanyPageTemplate {
-  max-width: $max-width-container;
+  max-width: var(--cx-page-width-max);
 
   margin: auto;
   margin-bottom: 40px;

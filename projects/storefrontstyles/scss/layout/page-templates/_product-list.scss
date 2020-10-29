@@ -1,6 +1,6 @@
 %ProductListPageTemplate,
 %ProductGridPageTemplate {
-  max-width: $max-width-container;
+  max-width: var(--cx-page-width-max);
   margin: auto;
   display: flex;
   @include media-breakpoint-down(md) {

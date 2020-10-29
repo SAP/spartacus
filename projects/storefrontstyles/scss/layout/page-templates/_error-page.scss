@@ -13,7 +13,7 @@
       max-height: 170px;
     }
 
-    max-width: $max-width-container;
+    max-width: var(--cx-page-width-max);
     margin: auto;
 
     > * {

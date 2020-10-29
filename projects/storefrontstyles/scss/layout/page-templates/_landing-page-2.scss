@@ -15,7 +15,7 @@
     }
 
     &.Section1 {
-      max-width: $max-width-container;
+      max-width: var(--cx-page-width-max);
       margin: auto;
       margin-top: 30px;
 
@@ -52,7 +52,7 @@
     }
 
     &.Section3 {
-      max-width: $max-width-container;
+      max-width: var(--cx-page-width-max);
       margin: auto;
     }
 
