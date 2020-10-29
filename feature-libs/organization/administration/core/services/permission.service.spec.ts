@@ -1,16 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
+import {
+  EntitiesModel,
+  OrderApprovalPermissionType,
+  SearchConfig,
+  UserIdService,
+} from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import {
   LoadStatus,
   OrganizationItemStatus,
 } from '../model/organization-item-status';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+import { Permission } from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,

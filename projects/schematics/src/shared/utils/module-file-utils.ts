@@ -1,13 +1,17 @@
 import { normalize, relative } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-import { findNodes } from '@angular/cdk/schematics';
 import {
   addSymbolToNgModuleMetadata,
+  findNodes,
   getDecoratorMetadata,
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
+import {
+  Change,
+  InsertChange,
+  NoopChange,
+} from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
 import {
@@ -36,6 +40,19 @@ export function addImport(
     const change = insertImport(moduleSource, filePath, importText, importPath);
     commitChanges(host, filePath, [change], InsertDirection.LEFT);
   }
+}
+
+export function createImportChange(
+  host: Tree,
+  filePath: string,
+  importText: string,
+  importPath: string
+): Change {
+  const moduleSource = getTsSourceFile(host, filePath);
+  if (isImported(moduleSource, importText, importPath)) {
+    return new NoopChange();
+  }
+  return insertImport(moduleSource, filePath, importText, importPath);
 }
 
 export function addToModuleImports(
