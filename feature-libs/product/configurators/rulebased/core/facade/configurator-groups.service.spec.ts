@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import {
   GROUP_ID_1,
@@ -13,6 +12,7 @@ import {
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { Configurator } from './../model/configurator.model';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';

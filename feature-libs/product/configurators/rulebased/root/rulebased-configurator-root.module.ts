@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RulebasedConfiguratorRootFeatureModule } from './rulebased-configurator-root-feature.module';
-import { VariantInteractiveConfiguratorModule } from './variant/variant-interactive-configurator.module';
-import { VariantOverviewConfiguratorModule } from './variant/variant-overview-configurator.module';
+import { VariantConfiguratorInteractiveModule } from './variant/variant-configurator-interactive.module';
+import { VariantConfiguratorOverviewModule } from './variant/variant-configurator-overview.module';
 
 /**
  * Exposes the root modules that we need to statically load. Contain page mappings
@@ -11,8 +11,8 @@ import { VariantOverviewConfiguratorModule } from './variant/variant-overview-co
   imports: [
     CommonModule,
     RulebasedConfiguratorRootFeatureModule,
-    VariantInteractiveConfiguratorModule,
-    VariantOverviewConfiguratorModule,
+    VariantConfiguratorInteractiveModule,
+    VariantConfiguratorOverviewModule,
   ],
 })
 export class RulebasedConfiguratorRootModule {

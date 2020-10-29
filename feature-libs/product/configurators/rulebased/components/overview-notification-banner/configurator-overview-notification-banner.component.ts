@@ -3,7 +3,10 @@ import {
   GenericConfigurator,
   GenericConfiguratorUtilsService,
 } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import {
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -12,7 +15,6 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 

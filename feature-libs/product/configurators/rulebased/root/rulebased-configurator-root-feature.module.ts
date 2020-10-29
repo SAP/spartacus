@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
-import { FeatureModuleConfig, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 
 /**
  * Contains feature module configuration
  */
+
 @NgModule({
   imports: [],
   providers: [
-    provideDefaultConfig(<FeatureModuleConfig>{
+    provideDefaultConfig({
       featureModules: {
         rulebased: {
-          module: () =>
-            import('@spartacus/product/configurators/rulebased').then(
-              (m) => m.RuleBasedConfiguratorModule
-            ),
           cmsComponents: [
             'ConfiguratorForm',
             'ConfiguratorOverview',

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import {
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product/configurators/common';
 import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 
 @Component({
   selector: 'cx-configurator-tab-bar',

@@ -95,6 +95,10 @@ describe('ConfiguratorCommonsConnector', () => {
           provide: ConfiguratorCommonsAdapter,
           useClass: MockConfiguratorCommonsAdapter,
         },
+        {
+          provide: ConfiguratorCommonsConnector,
+          useClass: ConfiguratorCommonsConnector,
+        },
       ],
     });
 

@@ -70,4 +70,4 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     }),
   ],
 })
-export class VariantOverviewConfiguratorModule {}
+export class VariantConfiguratorOverviewModule {}

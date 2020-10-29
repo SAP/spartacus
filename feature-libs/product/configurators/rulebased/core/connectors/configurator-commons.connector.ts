@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
+//Not provided in root, as this would block lazy loading
 @Injectable()
 export class ConfiguratorCommonsConnector {
   constructor(

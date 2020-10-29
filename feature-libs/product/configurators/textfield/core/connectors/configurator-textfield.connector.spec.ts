@@ -45,6 +45,10 @@ describe('ConfiguratorTextfieldConnector', () => {
           provide: ConfiguratorTextfieldAdapter,
           useClass: MockConfiguratorTextfieldAdapter,
         },
+        {
+          provide: ConfiguratorTextfieldConnector,
+          useClass: ConfiguratorTextfieldConnector,
+        },
       ],
     });
 

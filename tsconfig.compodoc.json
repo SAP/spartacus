@@ -45,6 +45,9 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/product/configurators/textfield/root": [
+        "feature-libs/product/configurators/textfield/root/public_api"
+      ],
       "@spartacus/product/configurators/rulebased": [
         "feature-libs/product/configurators/rulebased/public_api"
       ],    

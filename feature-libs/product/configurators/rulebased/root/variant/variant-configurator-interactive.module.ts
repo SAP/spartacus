@@ -81,4 +81,4 @@ import {
     }),
   ],
 })
-export class VariantInteractiveConfiguratorModule {}
+export class VariantConfiguratorInteractiveModule {}
