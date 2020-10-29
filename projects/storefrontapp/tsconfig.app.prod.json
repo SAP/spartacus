@@ -33,19 +33,19 @@
       ],
       "@spartacus/product/configurators/common/assets": [
         "dist/product/configurators/common/assets"
-      ], 
+      ],
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
       ],
       "@spartacus/product/configurators/textfield/root": [
         "dist/product/configurators/textfield/root"
-      ], 
+      ],
       "@spartacus/product/configurators/rulebased": [
         "dist/product/configurators/rulebased"
-      ],     
+      ],
       "@spartacus/product/configurators/rulebased/root": [
         "dist/product/configurators/rulebased/root"
-      ],         
+      ],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }

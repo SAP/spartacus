@@ -39,13 +39,13 @@
       ],
       "@spartacus/product/configurators/textfield/root": [
         "../../dist/product/configurators/textfield/root"
-      ], 
+      ],
       "@spartacus/product/configurators/rulebased": [
         "../../dist/product/configurators/rulebased"
-      ],      
+      ],
       "@spartacus/product/configurators/rulebased/root": [
         "../../dist/product/configurators/rulebased/root"
-      ],  
+      ],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/setup": ["../../dist/setup"]
     }
