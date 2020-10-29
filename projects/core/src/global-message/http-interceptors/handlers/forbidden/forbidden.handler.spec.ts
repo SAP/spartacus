@@ -10,7 +10,7 @@ class MockGlobalMessageService {
 }
 
 class MockAuthService {
-  logout() {}
+  initLogout() {}
 }
 
 describe('ForbiddenHandler', () => {
@@ -45,11 +45,11 @@ describe('ForbiddenHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.FORBIDDEN);
   });
 
-  it('should logout unauthorised user', () => {
-    spyOn(authService, 'logout');
+  it('should init logout unauthorised user', () => {
+    spyOn(authService, 'initLogout');
     service.handleError();
 
-    expect(authService.logout).toHaveBeenCalledWith();
+    expect(authService.initLogout).toHaveBeenCalledWith();
   });
 
   it('should send common error to global message service', () => {

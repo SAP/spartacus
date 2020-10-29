@@ -13,7 +13,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.FORBIDDEN;
 
   handleError() {
-    this.authService.logout();
+    this.authService.initLogout();
     this.globalMessageService.add(
       { key: 'httpHandlers.forbidden' },
       GlobalMessageType.MSG_TYPE_ERROR
