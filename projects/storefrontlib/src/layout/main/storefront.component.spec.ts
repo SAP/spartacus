@@ -55,9 +55,7 @@ class MockSchemaComponent {}
 class MockPageLayoutComponent {}
 
 class MockHamburgerMenuService {
-
-  toggle(_forceCollapse?: boolean): void {
-  }
+  toggle(_forceCollapse?: boolean): void {}
 }
 
 describe('StorefrontComponent', () => {
@@ -120,7 +118,6 @@ describe('StorefrontComponent', () => {
   });
 
   it('should collapse menu when header is expanded', () => {
-  
     spyOn(component, 'collapseMenu').and.callThrough();
 
     const mockTarget = {};
@@ -128,24 +125,23 @@ describe('StorefrontComponent', () => {
     mockTarget['nodeName'] = 'HEADER';
 
     const mockEvent = {
-      target: mockTarget
+      target: mockTarget,
     };
 
-     component.collapseMenuIfClickOutside(mockEvent);
-     expect(component.collapseMenu).toHaveBeenCalled();
-   });
+    component.collapseMenuIfClickOutside(mockEvent);
+    expect(component.collapseMenu).toHaveBeenCalled();
+  });
 
-   it('should NOT collapse menu when header is NOT expanded', () => {
-
+  it('should NOT collapse menu when header is NOT expanded', () => {
     spyOn(component, 'collapseMenu').and.callThrough();
-    
+
     const mockTarget = {};
     mockTarget['nodeName'] = 'DIV';
 
     const mockEvent = {
-      target: mockTarget
+      target: mockTarget,
     };
-     component.collapseMenuIfClickOutside(mockEvent);
-     expect(component.collapseMenu).not.toHaveBeenCalled();
-   });
+    component.collapseMenuIfClickOutside(mockEvent);
+    expect(component.collapseMenu).not.toHaveBeenCalled();
+  });
 });
