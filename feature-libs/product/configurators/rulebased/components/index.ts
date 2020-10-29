@@ -1,6 +1,5 @@
 export * from './add-to-cart-button/index';
 export * from './attribute/index';
-export * from './common-configurator-components.module';
 export * from './config/index';
 export * from './conflict-description/index';
 export * from './conflict-suggestion/index';
@@ -13,6 +12,7 @@ export * from './overview-notification-banner/index';
 export * from './previous-next-buttons/index';
 export * from './price-summary/index';
 export * from './product-title/index';
+export * from './rulebased-configurator-components.module';
 export * from './service/index';
 export * from './tab-bar/index';
 export * from './update-message/index';

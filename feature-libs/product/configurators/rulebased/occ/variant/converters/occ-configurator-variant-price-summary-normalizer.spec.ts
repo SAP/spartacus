@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
-import { OccConfigurator } from '../occ-configurator.models';
+import { OccConfigurator } from '../variant-configurator-occ.models';
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './occ-configurator-variant-price-summary-normalizer';
 
 class MockConverterService {

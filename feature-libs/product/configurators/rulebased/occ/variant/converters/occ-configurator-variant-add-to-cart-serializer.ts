@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { OccConfigurator } from '../occ-configurator.models';
+import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })

@@ -7,8 +7,8 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
-import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
-import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
+import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
+import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
 import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -45,7 +45,7 @@ const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntr
 
 const cartModification: CartModification = {};
 
-class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
   );
@@ -81,7 +81,7 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
 }
 
 describe('ConfiguratorCommonsConnector', () => {
-  let service: ConfiguratorCommonsConnector;
+  let service: RulebasedConfiguratorConnector;
   let configuratorUtils: GenericConfiguratorUtilsService;
 
   const GROUP_ID = 'GROUP1';
@@ -92,18 +92,18 @@ describe('ConfiguratorCommonsConnector', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ConfiguratorCommonsAdapter,
-          useClass: MockConfiguratorCommonsAdapter,
+          provide: RulebasedConfiguratorAdapter,
+          useClass: MockRulebasedConfiguratorAdapter,
         },
         {
-          provide: ConfiguratorCommonsConnector,
-          useClass: ConfiguratorCommonsConnector,
+          provide: RulebasedConfiguratorConnector,
+          useClass: RulebasedConfiguratorConnector,
         },
       ],
     });
 
     service = TestBed.inject(
-      ConfiguratorCommonsConnector as Type<ConfiguratorCommonsConnector>
+      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
     );
     configuratorUtils = TestBed.inject(
       GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
@@ -117,7 +117,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on createConfiguration', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     let result;
@@ -132,7 +132,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on readConfigurationForCartEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     service
@@ -147,7 +147,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on updateConfigurationForCartEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     service
@@ -160,7 +160,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on readConfigurationForOrderEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     service
@@ -175,7 +175,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on readConfiguration', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     let result;
@@ -192,7 +192,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on updateConfiguration', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     let result;
@@ -207,7 +207,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on readConfigurationPrice', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     let result;
@@ -220,7 +220,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on getConfigurationOverview', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     let result;
@@ -237,7 +237,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
   it('should call adapter on addToCart', () => {
     const adapter = TestBed.inject(
-      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+      RulebasedConfiguratorAdapter as Type<RulebasedConfiguratorAdapter>
     );
 
     const parameters: Configurator.AddToCartParameters = {

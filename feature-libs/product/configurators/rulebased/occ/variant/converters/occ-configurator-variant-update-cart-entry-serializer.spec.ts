@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfigurator } from '../occ-configurator.models';
+import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './occ-configurator-variant-update-cart-entry-serializer';
 

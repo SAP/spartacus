@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
-import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
+import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
@@ -193,7 +193,7 @@ export class ConfiguratorCartEffects {
 
   constructor(
     protected actions$: Actions,
-    protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
+    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>

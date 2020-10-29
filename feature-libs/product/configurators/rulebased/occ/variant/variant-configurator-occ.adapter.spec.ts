@@ -12,15 +12,15 @@ import {
 } from '@spartacus/core';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
-import { OccConfiguratorVariantAdapter } from '.';
+import { VariantConfiguratorOccAdapter } from '.';
 import {
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
-} from './../../core/connectors/configurator-converters';
-import { Configurator } from './../../core/model/configurator.model';
-import { OccConfigurator } from './occ-configurator.models';
+} from '../../core/connectors/rulebased-configurator.converters';
+import { Configurator } from '../../core/model/configurator.model';
+import { OccConfigurator } from './variant-configurator-occ.models';
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -59,7 +59,7 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
 const overview: OccConfigurator.Overview = { id: configId };
 
 describe('OccConfigurationVariantAdapter', () => {
-  let occConfiguratorVariantAdapter: OccConfiguratorVariantAdapter;
+  let occConfiguratorVariantAdapter: VariantConfiguratorOccAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -69,7 +69,7 @@ describe('OccConfigurationVariantAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccConfiguratorVariantAdapter,
+        VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
@@ -85,7 +85,7 @@ describe('OccConfigurationVariantAdapter', () => {
     );
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
+      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
     );
     configuratorUtils = TestBed.inject(
       GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>

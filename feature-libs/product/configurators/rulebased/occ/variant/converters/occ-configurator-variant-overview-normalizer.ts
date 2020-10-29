@@ -5,8 +5,8 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { OccConfigurator } from '../occ-configurator.models';
-import { CONFIGURATION_PRICE_SUMMARY_NORMALIZER } from './../../../core/connectors/configurator-converters';
+import { CONFIGURATION_PRICE_SUMMARY_NORMALIZER } from '../../../core/connectors/rulebased-configurator.converters';
+import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })

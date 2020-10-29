@@ -1,3 +1,3 @@
-export * from './configurator-commons.adapter';
-export * from './configurator-commons.connector';
-export * from './configurator-converters';
+export * from './rulebased-configurator.adapter';
+export * from './rulebased-configurator.connector';
+export * from './rulebased-configurator.converters';

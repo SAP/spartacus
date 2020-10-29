@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ConfigModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorCommonsAdapter } from '../../core/connectors/configurator-commons.adapter';
+import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
@@ -9,7 +9,7 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
   CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
-} from './../../core/connectors/configurator-converters';
+} from '../../core/connectors/rulebased-configurator.converters';
 import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
@@ -18,7 +18,7 @@ import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './converters/occ-configurator-variant-update-cart-entry-serializer';
 import { defaultOccConfiguratorProductConfig } from './default-occ-configurator-product-config';
 import { defaultOccVariantConfiguratorConfigFactory } from './default-occ-configurator-variant-config';
-import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapter';
+import { VariantConfiguratorOccAdapter } from './variant-configurator-occ.adapter';
 
 @NgModule({
   imports: [
@@ -28,8 +28,8 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
   providers: [
     provideDefaultConfig(defaultOccConfiguratorProductConfig),
     {
-      provide: ConfiguratorCommonsAdapter,
-      useClass: OccConfiguratorVariantAdapter,
+      provide: RulebasedConfiguratorAdapter,
+      useClass: VariantConfiguratorOccAdapter,
     },
     {
       provide: CONFIGURATION_NORMALIZER,

@@ -6,7 +6,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OccConfigurator } from '../occ-configurator.models';
+import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 

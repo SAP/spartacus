@@ -28,4 +28,4 @@ import { ConfiguratorUpdateMessageModule } from './update-message/configurator-u
     ConfiguratorOverviewNotificationBannerModule,
   ],
 })
-export class CommonConfiguratorComponentsModule {}
+export class RulebasedConfiguratorComponentsModule {}

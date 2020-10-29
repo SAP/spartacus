@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfiguratorCommonsAdapter } from '../../core/connectors/configurator-commons.adapter';
+import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
@@ -17,13 +17,13 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
   CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
-} from './../../core/connectors/configurator-converters';
-import { Configurator } from './../../core/model/configurator.model';
-import { OccConfigurator } from './occ-configurator.models';
+} from '../../core/connectors/rulebased-configurator.converters';
+import { Configurator } from '../../core/model/configurator.model';
+import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
-export class OccConfiguratorVariantAdapter
-  implements ConfiguratorCommonsAdapter {
+export class VariantConfiguratorOccAdapter
+  implements RulebasedConfiguratorAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,

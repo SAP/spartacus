@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ConfiguratorCommonsConnector } from './connectors/configurator-commons.connector';
+import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
 import { ConfiguratorStateModule } from './state/configurator-state.module';
 
 /**
@@ -8,6 +8,6 @@ import { ConfiguratorStateModule } from './state/configurator-state.module';
  */
 @NgModule({
   imports: [ConfiguratorStateModule],
-  providers: [ConfiguratorCommonsConnector],
+  providers: [RulebasedConfiguratorConnector],
 })
 export class RulebasedConfiguratorCoreModule {}

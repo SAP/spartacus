@@ -15,7 +15,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
-import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
+import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
@@ -124,7 +124,7 @@ describe('ConfiguratorCartEffect', () => {
         fromEffects.ConfiguratorCartEffects,
         provideMockActions(() => actions$),
         {
-          provide: ConfiguratorCommonsConnector,
+          provide: RulebasedConfiguratorConnector,
           useClass: MockConnector,
         },
         {

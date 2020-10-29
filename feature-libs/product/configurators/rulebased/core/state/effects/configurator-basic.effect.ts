@@ -15,7 +15,7 @@ import {
   switchMapTo,
   take,
 } from 'rxjs/operators';
-import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
+import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -374,7 +374,7 @@ export class ConfiguratorBasicEffects {
 
   constructor(
     protected actions$: Actions,
-    protected configuratorCommonsConnector: ConfiguratorCommonsConnector,
+    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected genericConfigUtilsService: GenericConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService,

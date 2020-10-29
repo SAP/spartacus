@@ -6,13 +6,13 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
-import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
+import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 
-//Not provided in root, as this would block lazy loading
+//Not provided in root, as this would break lazy loading
 @Injectable()
-export class ConfiguratorCommonsConnector {
+export class RulebasedConfiguratorConnector {
   constructor(
-    protected adapter: ConfiguratorCommonsAdapter,
+    protected adapter: RulebasedConfiguratorAdapter,
     protected configUtilsService: GenericConfiguratorUtilsService
   ) {}
 
