@@ -101,6 +101,11 @@ export interface MyCompanyConfig {
   canUnassignAll?: boolean;
 
   /**
+   * Determine entity ID for possible route checks and usage between tests
+   */
+  entityIdField?: string;
+
+  /**
    * Test list utilizing a nested tree ux.
    */
   nestedTableRows?: boolean;
