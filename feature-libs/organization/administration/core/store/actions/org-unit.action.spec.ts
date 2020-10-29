@@ -7,7 +7,6 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -679,7 +678,7 @@ describe('OrgUnit Actions', () => {
         payload: { userId, orgUnitId, roleId, params },
         meta: StateUtils.entityLoadMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
         ),
       });
     });
@@ -697,7 +696,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, params, error },
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeSearchConfig(params, `${orgUnitId},${roleId}`),
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`),
           error
         ),
       });
@@ -716,7 +715,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, page, params },
         meta: StateUtils.entitySuccessMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
         ),
       });
     });
