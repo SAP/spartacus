@@ -1,4 +1,5 @@
 export {
+  createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
   mergeConfig,
@@ -10,6 +11,7 @@ export {
   addToModuleImports,
   addToModuleImportsAndCommitChanges,
   addToModuleProviders,
+  createImportChange,
 } from './module-file-utils';
 export { getSpartacusSchematicsVersion } from './package-utils';
 export {
