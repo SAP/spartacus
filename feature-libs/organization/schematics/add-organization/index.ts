@@ -325,15 +325,15 @@ function handleFeature(
       if (
         !isImported(
           getTsSourceFile(host, appModulePath),
-          featureConfig.rootModuleName,
-          featureConfig.rootModuleImportPath
+          featureConfig.moduleName,
+          featureConfig.moduleImportPath
         )
       ) {
         const featureModuleImportChange = createImportChange(
           host,
           appModulePath,
-          featureConfig.rootModuleName,
-          featureConfig.rootModuleImportPath
+          featureConfig.moduleName,
+          featureConfig.moduleImportPath
         );
         changes.push(featureModuleImportChange);
       }
@@ -341,7 +341,7 @@ function handleFeature(
       const addedToImportsChanges = addToModuleImports(
         host,
         appModulePath,
-        featureConfig.rootModuleName
+        featureConfig.moduleName
       );
       changes.push(...addedToImportsChanges);
     }
