@@ -14,6 +14,8 @@ export function b2bUserEntitiesReducer(
 ): B2BUser {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_SUCCESS:
+    case B2BUserActions.CREATE_B2B_USER_SUCCESS:
+    case B2BUserActions.UPDATE_B2B_USER_SUCCESS:
       return action.payload;
     case OrgUnitActions.ASSIGN_ROLE_SUCCESS:
     case OrgUnitActions.ASSIGN_APPROVER_SUCCESS:

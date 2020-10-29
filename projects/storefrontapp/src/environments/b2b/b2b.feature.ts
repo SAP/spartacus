@@ -1,21 +1,22 @@
 import { ConfigModule } from '@spartacus/core';
 import {
   organizationTranslationChunksConfig,
-  organizationTranslations
+  organizationTranslations,
 } from '@spartacus/organization/administration/assets';
-import { OrganizationRootModule } from '@spartacus/organization/administration/root';
+import { AdministrationRootModule } from '@spartacus/organization/administration/root';
 import { OrderApprovalModule } from '@spartacus/organization/order-approval';
 import {
   orderApprovalTranslationChunksConfig,
-  orderApprovalTranslations
+  orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
-    OrganizationRootModule,
     OrderApprovalModule,
+    AdministrationRootModule,
+
     B2bStorefrontModule.withConfig({
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -23,10 +24,10 @@ export const b2bFeature: FeatureEnvironment = {
       },
 
       featureModules: {
-        organization: {
+        organizationAdministration: {
           module: () =>
             import('@spartacus/organization/administration').then(
-              (m) => m.OrganizationModule
+              (m) => m.AdministrationModule
             ),
         },
       },
