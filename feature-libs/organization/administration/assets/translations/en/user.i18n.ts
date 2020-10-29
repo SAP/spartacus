@@ -4,7 +4,7 @@ export const user = {
   uid: 'Email',
   active: 'Status',
   name: 'Name',
-  firstName: 'Fist name',
+  firstName: 'First name',
   lastName: 'Last name',
   email: 'Email',
   orgUnit: 'Unit',
