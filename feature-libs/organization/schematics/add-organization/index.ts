@@ -18,8 +18,6 @@ import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
-  ADMINISTRATION_MODULE,
-  ADMINISTRATION_ROOT_MODULE,
   commitChanges,
   createImportChange,
   createNewConfig,
@@ -34,14 +32,19 @@ import {
   getWorkspace,
   mergeConfig,
   PROVIDE_DEFAULT_CONFIG,
-  SPARTACUS_ADMINISTRATION,
-  SPARTACUS_ADMINISTRATION_ROOT,
   SPARTACUS_CORE,
-  SPARTACUS_ORGANIZATION,
   SPARTACUS_SETUP,
   UTF_8,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
+import {
+  ADMINISTRATION_MODULE,
+  ADMINISTRATION_ROOT_MODULE,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  SPARTACUS_ADMINISTRATION,
+  SPARTACUS_ADMINISTRATION_ROOT,
+  SPARTACUS_ORGANIZATION,
+} from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
 export function addSpartacusOrganization(
@@ -51,9 +54,12 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const appModulePath = getAppModule(tree, options);
+
     return chain([
       addPackageJsonDependencies(packageJson),
-      updateAppModule(options),
+      addAdministrationFeature(appModulePath, options),
+      addOrderApprovalsFeature(appModulePath, options),
       addStyles(),
       installPackageJsonDependencies(),
     ]);
@@ -64,14 +70,14 @@ function addPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
-    const spartacusMyAccountDependency: NodeDependency = {
+    const spartacusOrganizationDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_ORGANIZATION,
     };
-    addPackageJsonDependency(tree, spartacusMyAccountDependency);
+    addPackageJsonDependency(tree, spartacusOrganizationDependency);
     context.logger.info(
-      `✅️ Added '${spartacusMyAccountDependency.name}' into ${spartacusMyAccountDependency.type}`
+      `✅️ Added '${spartacusOrganizationDependency.name}' into ${spartacusOrganizationDependency.type}`
     );
 
     if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
@@ -185,40 +191,79 @@ function readPackageJson(tree: Tree): any {
   return JSON.parse(buffer.toString(UTF_8));
 }
 
-function updateAppModule(options: SpartacusOrganizationOptions): Rule {
+function getAppModule(
+  host: Tree,
+  options: SpartacusOrganizationOptions
+): string {
+  const projectTargets = getProjectTargets(host, options.project);
+
+  if (!projectTargets.build) {
+    throw new SchematicsException(`Project target "build" not found.`);
+  }
+
+  const mainPath = projectTargets.build.options.main;
+  return getAppModulePath(host, mainPath);
+}
+
+function addAdministrationFeature(
+  appModulePath: string,
+  options: SpartacusOrganizationOptions
+): Rule {
+  return handleFeature(appModulePath, options, {
+    moduleName: ADMINISTRATION_MODULE,
+    moduleImportPath: SPARTACUS_ADMINISTRATION,
+    rootModuleName: ADMINISTRATION_ROOT_MODULE,
+    rootModuleImportPath: SPARTACUS_ADMINISTRATION_ROOT,
+  });
+}
+
+function addOrderApprovalsFeature(
+  appModulePath: string,
+  options: SpartacusOrganizationOptions
+): Rule {
+  return handleFeature(appModulePath, options, {
+    moduleName: ADMINISTRATION_MODULE,
+    moduleImportPath: SPARTACUS_ADMINISTRATION,
+    rootModuleName: ADMINISTRATION_ROOT_MODULE,
+    rootModuleImportPath: SPARTACUS_ADMINISTRATION_ROOT,
+  });
+}
+
+function handleFeature(
+  appModulePath: string,
+  options: SpartacusOrganizationOptions,
+  featureConfig: {
+    moduleName: string;
+    moduleImportPath: string;
+    rootModuleName: string;
+    rootModuleImportPath: string;
+  }
+): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const projectTargets = getProjectTargets(host, options.project);
-
-    if (!projectTargets.build) {
-      throw new SchematicsException(`Project target "build" not found.`);
-    }
-
-    const mainPath = projectTargets.build.options.main;
-    const modulePath = getAppModulePath(host, mainPath);
-    const moduleTs = getTsSourceFile(host, modulePath);
+    const appModuleTs = getTsSourceFile(host, appModulePath);
 
     const changes: Change[] = [];
     const providersChanges = addToModuleProviders(
       host,
-      modulePath,
+      appModulePath,
       `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG})`,
-      moduleTs
+      appModuleTs
     );
     changes.push(...providersChanges);
 
-    if (!isImported(moduleTs, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE)) {
+    if (!isImported(appModuleTs, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE)) {
       const coreImportChange = createImportChange(
         host,
-        modulePath,
+        appModulePath,
         PROVIDE_DEFAULT_CONFIG,
         SPARTACUS_CORE
       );
       changes.push(coreImportChange);
     }
-    if (!isImported(moduleTs, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP)) {
+    if (!isImported(appModuleTs, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP)) {
       const setupImportChange = createImportChange(
         host,
-        modulePath,
+        appModulePath,
         DEFAULT_B2B_OCC_CONFIG,
         SPARTACUS_SETUP
       );
@@ -227,72 +272,88 @@ function updateAppModule(options: SpartacusOrganizationOptions): Rule {
 
     if (
       !isImported(
-        moduleTs,
-        ADMINISTRATION_ROOT_MODULE,
-        SPARTACUS_ADMINISTRATION_ROOT
+        appModuleTs,
+        featureConfig.moduleName,
+        featureConfig.moduleImportPath
       )
     ) {
       const rootModuleImportChange = createImportChange(
         host,
-        modulePath,
-        ADMINISTRATION_ROOT_MODULE,
-        SPARTACUS_ADMINISTRATION_ROOT
+        appModulePath,
+        featureConfig.moduleName,
+        featureConfig.moduleImportPath
       );
       const rootModuleAddedToImportsChanges = addToModuleImports(
         host,
-        modulePath,
-        ADMINISTRATION_ROOT_MODULE
+        appModulePath,
+        featureConfig.moduleName
       );
       changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
     }
 
     if (options.lazy) {
-      const lazyLoadingChange = mergeLazyLoadingConfig(context, moduleTs);
+      const lazyLoadingChange = mergeLazyLoadingConfig(context, appModuleTs, {
+        name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+        moduleName: ADMINISTRATION_MODULE,
+        importPath: SPARTACUS_ADMINISTRATION,
+      });
       changes.push(lazyLoadingChange);
     } else {
       if (
-        !isImported(moduleTs, ADMINISTRATION_MODULE, SPARTACUS_ADMINISTRATION)
+        !isImported(
+          appModuleTs,
+          featureConfig.rootModuleName,
+          featureConfig.rootModuleImportPath
+        )
       ) {
         const featureModuleImportChange = createImportChange(
           host,
-          modulePath,
-          ADMINISTRATION_MODULE,
-          SPARTACUS_ADMINISTRATION
+          appModulePath,
+          featureConfig.rootModuleName,
+          featureConfig.rootModuleImportPath
         );
         changes.push(featureModuleImportChange);
       }
 
       const addedToImportsChanges = addToModuleImports(
         host,
-        modulePath,
-        ADMINISTRATION_MODULE
+        appModulePath,
+        featureConfig.rootModuleName
       );
       changes.push(...addedToImportsChanges);
     }
 
-    commitChanges(host, modulePath, changes);
+    commitChanges(host, appModulePath, changes);
   };
 }
 
 function mergeLazyLoadingConfig(
   context: SchematicContext,
-  moduleSource: ts.SourceFile
+  moduleSource: ts.SourceFile,
+  featureConfig: {
+    name: string;
+    moduleName: string;
+    importPath: string;
+  }
 ): Change {
   const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
+  const lazyLoadingModule = `
+    module: () => import('${featureConfig.importPath}').then(
+      (m) => m.${featureConfig.moduleName}
+    ),
+`;
+  const lazyLoadingFeatureModule = `featureModules: {
+  ${featureConfig.name}: {
+    ${lazyLoadingModule}
+  },
+},`;
 
   if (!storefrontConfig) {
     context.logger
       .warn(`Storefront config not detected in ${moduleSource.fileName}, unable to configure lazy loading.
 Please manually append the following configuration:
 
-featureModules: {
-  organizationAdministration: {
-    module: () =>
-    import('@spartacus/organization/administration').then(
-      (m) => m.AdministrationModule
-    ),
-  },
-},
+${lazyLoadingFeatureModule}
 `);
     return new NoopChange();
   }
@@ -306,12 +367,9 @@ featureModules: {
     return mergeConfig(
       moduleSource.fileName,
       currentFeatureModulesConfig,
-      'organizationAdministration',
+      featureConfig.name,
       `{
-  module: () =>
-    import('@spartacus/organization/administration').then(
-      (m) => m.AdministrationModule
-    )
+  ${lazyLoadingModule}
   }`
     );
   }
@@ -327,14 +385,7 @@ featureModules: {
     moduleSource.fileName,
     syntaxListNodes,
     '',
-    `\nfeatureModules: {
-        organizationAdministration: {
-          module: () =>
-            import('@spartacus/organization/administration').then(
-              (m) => m.AdministrationModule
-            ),
-        }
-      }`
+    `\n${lazyLoadingFeatureModule}`
   );
   change.pos = change.pos + 1;
   return change;
