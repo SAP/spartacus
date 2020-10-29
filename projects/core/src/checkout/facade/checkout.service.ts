@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Order } from '../../model/order.model';
 import {
@@ -30,7 +30,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected authService: AuthService,
+    protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService
   ) {}
 
@@ -40,8 +40,8 @@ export class CheckoutService {
   placeOrder(termsChecked: boolean): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
@@ -77,7 +77,7 @@ export class CheckoutService {
       .pipe(take(1))
       .subscribe((activeCartId) => (cartId = activeCartId));
 
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       if (
         Boolean(cartId) &&
         Boolean(userId) &&
@@ -152,8 +152,8 @@ export class CheckoutService {
    */
   loadCheckoutDetails(cartId: string) {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     if (userId) {
@@ -212,8 +212,8 @@ export class CheckoutService {
 
   protected actionAllowed(): boolean {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     return (

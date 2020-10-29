@@ -4279,7 +4279,7 @@ export namespace Occ {
     addresses?: Address[];
     uid?: string;
     name?: string;
-    parentOrgUnit?: string;
+    parentOrgUnit?: Partial<B2BUnit>;
     approvalProcess?: B2BApprovalProcess;
     administrators?: B2BUser[];
     approvers?: B2BUser[];

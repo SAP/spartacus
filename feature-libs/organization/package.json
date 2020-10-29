@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/organization",
-  "version": "3.0.0-next.4",
+  "version": "3.0.0-next.5",
   "description": "Organization library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -10,8 +10,8 @@
     "organization"
   ],
   "scripts": {
-    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
-    "build:schematics": "tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*_spec.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
     "test:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.spec.json && jasmine \"schematics/**/*_spec.js\""
   },
   "license": "Apache-2.0",
@@ -38,7 +38,8 @@
     "@angular/router": "^10.1.0",
     "@angular-devkit/schematics": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.4",
-    "@spartacus/storefront": "3.0.0-next.4"
+    "@spartacus/core": "3.0.0-next.5",
+    "@spartacus/storefront": "3.0.0-next.5",
+    "@spartacus/schematics": "3.0.0-next.5"
   }
 }

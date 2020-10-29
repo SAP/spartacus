@@ -11,7 +11,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthActions, AuthService } from '../../../auth/index';
+import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -123,13 +123,12 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
@@ -142,7 +141,7 @@ export class AnonymousConsentsEffects {
     switchMap(() =>
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
@@ -185,9 +184,7 @@ export class AnonymousConsentsEffects {
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(
       (action) =>
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
@@ -199,7 +196,7 @@ export class AnonymousConsentsEffects {
     concatMap(() =>
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.userConsentService.getConsents(),
           this.authService.isUserLoggedIn()
         ),
@@ -247,7 +244,8 @@ export class AnonymousConsentsEffects {
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private userIdService: UserIdService
   ) {}
 
   /**
