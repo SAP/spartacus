@@ -4,6 +4,7 @@
   @each $color, $value in $theme-colors {
     --cx-color-#{$color}: #{$value};
   }
+  --cx-page-width-max: 1140px;
 
   --cx-font-weight-light: 300;
   --cx-font-weight-normal: 400;
