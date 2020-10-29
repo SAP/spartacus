@@ -10,30 +10,50 @@ import {
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductAttributesComponent } from './product-attributes.component';
+import { By } from '@angular/platform-browser';
 
-const mockFeatureUnit: FeatureUnit = {
+const createMock = function (mockFeatures: Feature[]): Product {
+  let mockClass: Classification = { features: mockFeatures };
+  let mockProduct: Product = {
+    name: 'mockProduct',
+    classifications: [mockClass],
+  };
+  return mockProduct;
+};
+const mockFeatureUnit1: FeatureUnit = {
   name: 'mock',
   symbol: 'MK',
   unitType: '30',
 };
-const mockFeatureValue: FeatureValue = { value: 'mock value' };
+
+const mockFeatureValue1: FeatureValue = { value: 'mock1' };
 const mockFeature: Feature = {
-  featureUnit: mockFeatureUnit,
-  featureValues: [mockFeatureValue],
+  featureUnit: mockFeatureUnit1,
+  featureValues: [mockFeatureValue1],
 };
-const mockClass: Classification = { features: [mockFeature] };
-const mockProduct: Product = {
-  name: 'mockProduct',
-  classifications: [mockClass],
+const mockProduct1 = createMock([mockFeature]);
+
+const mockFeatureUnit2: FeatureUnit = {
+  name: 'mock',
+  symbol: '.',
+  unitType: '300',
 };
+const mockFeatureValue2: FeatureValue = { value: 'mock2' };
+const mockFeature2: Feature = {
+  featureUnit: mockFeatureUnit2,
+  featureValues: [mockFeatureValue2],
+};
+const mockProduct2 = createMock([mockFeature2]);
+
+const mockProduct3 = createMock([mockFeature, mockFeature2]);
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of(mockProduct);
+    return of();
   }
 }
 
-describe('ProductAttributesComponent in product', () => {
+fdescribe('ProductAttributesComponent in product', () => {
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;
 
@@ -59,10 +79,26 @@ describe('ProductAttributesComponent in product', () => {
     expect(productAttributesComponent).toBeTruthy();
   });
 
-  it('should have rendered attribute spec using mock value', async(() => {
-    fixture.detectChanges();
-    const componentHTML = fixture.debugElement.nativeElement.outerHTML;
-    const expectedTag = '<li> mock value <span> MK </span>';
-    expect(componentHTML.includes(expectedTag)).toBeTruthy();
-  }));
+  describe('UI test', () => {
+    it('should have rendered attribute with spec value and symbol', () => {
+      productAttributesComponent.product$ = of(mockProduct1);
+      fixture.detectChanges();
+      const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
+      expect(el[0].nativeElement.innerText).toEqual('mock1 MK');
+    });
+
+    it('should have NOT rendered attribute symbols with unitType equal to 300', () => {
+      productAttributesComponent.product$ = of(mockProduct2);
+      fixture.detectChanges();
+      const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
+      expect(el[0].nativeElement.innerText).toEqual('mock2');
+    });
+
+    it('should have rendered multiple attributes entries', () => {
+      productAttributesComponent.product$ = of(mockProduct3);
+      fixture.detectChanges();
+      const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
+      expect(el.length).toEqual(2);
+    });
+  });
 });
