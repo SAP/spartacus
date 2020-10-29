@@ -15,3 +15,10 @@ export enum ASSIGNMENT_LABELS {
   ASSIGNED_SUCCESS = ' assigned successfully',
   UNASSIGNED_SUCCESS = ' unassigned successfully',
 }
+
+export interface TestListOptions {
+  nested?: {
+    expandAll?: boolean;
+    collapseAll?: boolean;
+  };
+}
