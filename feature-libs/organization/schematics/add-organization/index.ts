@@ -61,11 +61,10 @@ export function addSpartacusOrganization(
 
     const appModulePath = getAppModule(tree, options);
 
-    console.log(addOrderApprovalsFeature(appModulePath, options));
     return chain([
       addPackageJsonDependencies(packageJson),
       addAdministrationFeature(appModulePath, options),
-      // addOrderApprovalsFeature(appModulePath, options),
+      addOrderApprovalsFeature(appModulePath, options),
       addStyles(),
       installPackageJsonDependencies(),
     ]);
