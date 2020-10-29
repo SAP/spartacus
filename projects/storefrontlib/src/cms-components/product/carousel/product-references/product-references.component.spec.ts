@@ -154,11 +154,7 @@ describe('ProductReferencesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should have component data', () => {
+  it('should emit component data', () => {
     let componentData: CmsProductReferencesComponent;
     component['componentData$']
       .subscribe((data) => (componentData = data))
@@ -166,10 +162,10 @@ describe('ProductReferencesComponent', () => {
 
     expect(componentData).toEqual(mockComponentData);
 
-    let result: string;
-    component['title$'].subscribe((data) => (result = data)).unsubscribe();
+    let title: string;
+    component['title$'].subscribe((data) => (title = data)).unsubscribe();
 
-    expect(result).toEqual(componentData.title);
+    expect(title).toEqual(componentData.title);
   });
 
   it('should get productCode', () => {
@@ -207,37 +203,31 @@ describe('ProductReferencesComponent', () => {
     expect(product).toBe(mockProductReferences[0].target);
   });
 
-  describe('UI test', () => {
-    it('should have 2 rendered templates', () => {
+  describe('Component template render', () => {
+    it('should have 2 rendered elements', () => {
       const el = fixture.debugElement.queryAll(By.css('a'));
 
       expect(el.length).toEqual(2);
     });
   });
 
-  it('should render product name in template', () => {
-    const el = fixture.debugElement.query(By.css('a:first-child h4'));
+  it('should render product attributes', () => {
+    const productNameElement = fixture.debugElement.query(
+      By.css('a:first-child h4')
+    ).nativeElement;
+    expect(productNameElement.innerText).toEqual('product reference 1');
 
-    expect(el.nativeElement).toBeTruthy();
-    expect(el.nativeElement.innerText).toEqual('product reference 1');
-  });
+    const priceElement = fixture.debugElement.query(
+      By.css('a:last-child .price')
+    ).nativeElement;
+    expect(priceElement.innerText).toEqual('$200.00');
 
-  it('should render product price in template', () => {
-    const el = fixture.debugElement.query(By.css('a:last-child .price'));
+    const productImage = fixture.debugElement.query(
+      By.css('a:first-child cx-media')
+    );
+    expect(productImage.nativeElement).toBeTruthy();
 
-    expect(el.nativeElement).toBeTruthy();
-    expect(el.nativeElement.innerText).toEqual('$200.00');
-  });
-
-  it('should render product primary image for the first item', () => {
-    const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-
-    expect(el.nativeElement).toBeTruthy();
-  });
-
-  it('should render missing product image for the 2nd item as well', () => {
     const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-
     expect(el.nativeElement).toBeTruthy();
   });
 });

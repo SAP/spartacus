@@ -1,25 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  FeatureConfigService,
-  PageType,
   Product,
+  ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CurrentProductService } from './current-product.service';
 
-const mockRouter = {
+const mockRouterState = {
   state: {
-    url: '/',
-    queryParams: {},
     params: { productCode: '123456' },
-    context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false,
   },
 };
 
-const mockRouter$ = new BehaviorSubject<{ state: object }>(mockRouter);
+const mockRouter$ = new BehaviorSubject<{ state: object }>(mockRouterState);
 
 class MockRoutingService {
   getRouterState() {
@@ -28,8 +23,9 @@ class MockRoutingService {
 }
 
 const mockProduct: Product = { name: 'mockProduct' };
+
 const mockProductWithAttributes: Product = {
-  name: 'mockProduct',
+  ...mockProduct,
   classifications: [{}],
 };
 
@@ -38,13 +34,8 @@ class MockProductService {
     if (scope && scope === 'attributes') {
       return of(mockProductWithAttributes);
     }
-
     return of(mockProduct);
   }
-}
-
-class MockFeatureConfigService {
-  isLevel = () => true;
 }
 
 describe('CurrentProductService', () => {
@@ -65,10 +56,6 @@ describe('CurrentProductService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
 
@@ -80,7 +67,7 @@ describe('CurrentProductService', () => {
     spyOn(productService, 'get').and.callThrough();
   });
 
-  it('should fetch product data', () => {
+  it('should emit product data', () => {
     let result: Product;
 
     currentProductService
@@ -91,37 +78,16 @@ describe('CurrentProductService', () => {
     expect(result).toEqual(mockProduct);
   });
 
-  it('should not emit old product data and fetch NEW product data', () => {
-    const mockRouterNewProductCode = {
-      ...mockRouter,
-      state: { ...mockRouter.state, params: { productCode: 'abc' } },
-    };
-
-    currentProductService.getProduct().subscribe();
-
-    expect(productService.get).toHaveBeenCalledWith(
-      mockRouter.state.params.productCode,
-      currentProductService['DEFAULT_PRODUCT_SCOPE']
-    );
-
-    mockRouter$.next(mockRouterNewProductCode);
-
-    expect(productService.get).toHaveBeenCalledWith(
-      mockRouterNewProductCode.state.params.productCode,
-      currentProductService['DEFAULT_PRODUCT_SCOPE']
-    );
-  });
-
-  it('should fetch product attributes', () => {
+  it('should emit product with attributes', () => {
     let result: Product;
     currentProductService
-      .getProduct('attributes')
+      .getProduct(ProductScope.ATTRIBUTES)
       .subscribe((product) => (result = product))
       .unsubscribe();
     expect(result).toEqual(mockProductWithAttributes);
   });
 
-  it('should return null if not on product route', () => {
+  it('should return null if product code is not present on route', () => {
     const mockRouterEmptyProductCode = { state: { params: {} } };
 
     mockRouter$.next(mockRouterEmptyProductCode);
@@ -132,5 +98,30 @@ describe('CurrentProductService', () => {
       .subscribe((product) => (result = product))
       .unsubscribe();
     expect(result).toBe(null);
+  });
+
+  it('should not emit old product data and fetch NEW product data', () => {
+    const mockRouterNewProductCode = {
+      ...mockRouterState,
+      state: { ...mockRouterState.state, params: { productCode: 'abc' } },
+    };
+
+    mockRouter$.next(mockRouterState);
+
+    const sub: Subscription = currentProductService.getProduct().subscribe();
+
+    expect(productService.get).toHaveBeenCalledWith(
+      mockRouterState.state.params.productCode,
+      ProductScope.DETAILS
+    );
+
+    mockRouter$.next(mockRouterNewProductCode);
+
+    expect(productService.get).toHaveBeenCalledWith(
+      mockRouterNewProductCode.state.params.productCode,
+      ProductScope.DETAILS
+    );
+
+    sub.unsubscribe();
   });
 });

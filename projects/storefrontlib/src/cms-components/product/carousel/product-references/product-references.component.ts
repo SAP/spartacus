@@ -16,10 +16,19 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReferencesComponent {
-  private get componentData$(): Observable<CmsProductReferencesComponent> {
-    return this.component.data$.pipe(filter(Boolean));
+  constructor(
+    protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
+    protected currentProductService: CurrentProductService,
+    protected productReferenceService: ProductReferenceService
+  ) {}
+
+  protected get componentData$(): Observable<CmsProductReferencesComponent> {
+    return this.cmsComponentData.data$.pipe(filter(Boolean));
   }
 
+  /**
+   * Returns an Observable String for the product code
+   */
   protected get productCode$(): Observable<string> {
     return this.currentProductService.getProduct().pipe(
       filter(Boolean),
@@ -29,14 +38,14 @@ export class ProductReferencesComponent {
   }
 
   /**
-   * returns an Obervable string for the title
+   * Returns an Observable String for the title
    */
   get title$(): Observable<string> {
     return this.componentData$.pipe(map((data) => data?.title));
   }
 
   /**
-   * Observable with an Array of Observables. This is done, so that
+   * Observable with an Array of Observables. This is done so that
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
@@ -53,12 +62,9 @@ export class ProductReferencesComponent {
     )
   );
 
-  constructor(
-    protected component: CmsComponentData<CmsProductReferencesComponent>,
-    protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService
-  ) {}
-
+  /**
+   * Returns an observable for product references
+   */
   private getProductReferences(
     code: string,
     referenceType: string
