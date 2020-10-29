@@ -7,6 +7,7 @@ import {
   B2BUser,
   EntitiesModel,
   normalizeHttpError,
+  StateUtils,
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
@@ -20,7 +21,6 @@ import {
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { isValidUser } from '../../utils/check-user';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   OrganizationActions,
@@ -42,7 +42,7 @@ export class OrgUnitEffects {
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
-          const { values, page } = normalizeListPage(
+          const { values, page } = StateUtils.normalizeListPage(
             { values: orgUnit.addresses },
             'id'
           );
@@ -205,7 +205,7 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgUnitId, roleId, params }) =>
-      serializeParams([orgUnitId, roleId], params)
+      StateUtils.serializeParams([orgUnitId, roleId], params)
     ),
     mergeMap((group) =>
       group.pipe(
@@ -214,7 +214,10 @@ export class OrgUnitEffects {
             .getUsers(userId, orgUnitId, roleId, params)
             .pipe(
               switchMap((users: EntitiesModel<B2BUser>) => {
-                const { values, page } = normalizeListPage(users, 'customerId');
+                const { values, page } = StateUtils.normalizeListPage(
+                  users,
+                  'customerId'
+                );
                 return [
                   new B2BUserActions.LoadB2BUserSuccess(values),
                   new OrgUnitActions.LoadAssignedUsersSuccess({
@@ -471,7 +474,7 @@ export class OrgUnitEffects {
   //   switchMap(({ userId, orgUnitId }) => {
   //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
   //       switchMap((addresses: EntitiesModel<B2BAddress>) => {
-  //         const { values, page } = normalizeListPage(addresses, 'id');
+  //         const { values, page } = StateUtils.normalizeListPage(addresses, 'id');
   //         return [
   //           new OrgUnitActions.LoadAddressSuccess(values),
   //           new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),

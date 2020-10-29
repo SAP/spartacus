@@ -38,6 +38,13 @@ describe('UpdateProfileFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show customerID', () => {
+    const mockedCustomerId = '4f6456f3-7b9e-4237-822e-c68cd189bde8';
+    const customerId = component.updateProfileForm.controls['customerId'];
+    customerId.setValue({ customerId: mockedCustomerId });
+    expect(customerId.value['customerId']).toEqual(mockedCustomerId);
+  });
+
   describe('onSubmit', () => {
     it('should call onSubmit() when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();

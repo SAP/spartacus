@@ -7,10 +7,6 @@ import {
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import {
-  denormalizeCustomB2BSearch,
-  denormalizeSearch,
-} from '../../utils/serializer';
-import {
   CostCenterManagement,
   COST_CENTER_FEATURE,
   OrganizationState,
@@ -62,7 +58,7 @@ export const getCostCenterList = (
   StateUtils.LoaderState<EntitiesModel<CostCenter>>
 > =>
   createSelector(getCostCenterManagementState, (state: CostCenterManagement) =>
-    denormalizeSearch<CostCenter>(state, params)
+    StateUtils.denormalizeSearch<CostCenter>(state, params)
   );
 
 export const getAssignedBudgets = (
@@ -78,5 +74,11 @@ export const getAssignedBudgets = (
     (
       state: CostCenterManagement,
       budgets: StateUtils.EntityLoaderState<Budget>
-    ) => denormalizeCustomB2BSearch(state.budgets, budgets, params, code)
+    ) =>
+      StateUtils.denormalizeCustomB2BSearch(
+        state.budgets,
+        budgets,
+        params,
+        code
+      )
   );

@@ -1,6 +1,5 @@
 import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   B2B_USER_ENTITIES,
   PERMISSION_ENTITIES,
@@ -107,7 +106,7 @@ export class LoadUserGroups extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(USER_GROUP_LIST, serializeSearchConfig(payload.params));
+    super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -116,7 +115,7 @@ export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_GROUP_LIST,
-      serializeSearchConfig(payload.params),
+      StateUtils.serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -130,7 +129,7 @@ export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(USER_GROUP_LIST, serializeSearchConfig(payload.params));
+    super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -145,7 +144,7 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -161,7 +160,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeSearchConfig(payload.params, payload.userGroupId),
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -178,7 +177,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -194,7 +193,7 @@ export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -210,7 +209,7 @@ export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeSearchConfig(payload.params, payload.userGroupId),
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -227,7 +226,7 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
