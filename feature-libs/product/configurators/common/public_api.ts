@@ -1,5 +1,4 @@
 /*
- * Public API Surface of configuration
+ * Public API Surface of common configuration
  */
-
 export * from './index';
