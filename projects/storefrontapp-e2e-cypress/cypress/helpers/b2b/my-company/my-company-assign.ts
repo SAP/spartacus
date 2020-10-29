@@ -1,4 +1,5 @@
 import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
+import { completeForm } from './my-company-form';
 import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
@@ -33,6 +34,23 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
         checkListEmpty();
       });
+
+      if (subConfig.createConfig) {
+        it('should create and show in list', () => {
+          cy.get('cx-organization-card .header a')
+            .contains(ASSIGNMENT_LABELS.CREATE)
+            .click();
+          completeForm(subConfig.createConfig.rows, 'createValue');
+          cy.get('div.header button').contains('Save').click();
+
+          const nameRow = subConfig.createConfig.rows?.find(
+            (row) => row.sortLabel === 'name'
+          );
+          cy.get('cx-organization-sub-list table tr td').contains(
+            nameRow.createValue
+          );
+        });
+      }
 
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {

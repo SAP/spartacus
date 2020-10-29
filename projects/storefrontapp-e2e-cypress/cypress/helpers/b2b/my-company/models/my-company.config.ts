@@ -109,4 +109,9 @@ export interface MyCompanyConfig {
    * Set to true if checking list features for such config is not needed.
    */
   disableListChecking?: boolean;
+
+  /**
+   * SUBCATEGORY: Config for creating entities from submenu
+   */
+  createConfig?: MyCompanyConfig;
 }
