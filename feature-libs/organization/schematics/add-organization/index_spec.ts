@@ -4,6 +4,10 @@ import {
 } from '@angular-devkit/schematics/testing';
 import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
 import * as path from 'path';
+import {
+  CLI_ADMINISTRATION_FEATURE,
+  CLI_ORDER_APPROVAL_FEATURE,
+} from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -31,6 +35,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
   const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [CLI_ADMINISTRATION_FEATURE, CLI_ORDER_APPROVAL_FEATURE],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

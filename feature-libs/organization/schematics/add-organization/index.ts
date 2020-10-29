@@ -40,6 +40,8 @@ import * as ts from 'typescript';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
+  CLI_ADMINISTRATION_FEATURE,
+  CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,
   ORDER_APPROVAL_ROOT_MODULE,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
@@ -67,6 +69,9 @@ export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
+    console.log('xxx: ', options.features);
+    console.log('xxx: ', ...options.features);
+
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -74,12 +79,20 @@ export function addSpartacusOrganization(
 
     return chain([
       addPackageJsonDependencies(packageJson),
-      addAdministrationFeature(appModulePath, options),
-      addOrderApprovalsFeature(appModulePath, options),
+      shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
+        ? addAdministrationFeature(appModulePath, options)
+        : noop(),
+      shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
+        ? addOrderApprovalsFeature(appModulePath, options)
+        : noop(),
       addStyles(),
       installPackageJsonDependencies(),
     ]);
   };
+}
+
+function shouldAddFeature(features: string[], feature: string): boolean {
+  return features.includes(feature);
 }
 
 function addPackageJsonDependencies(packageJson: any): Rule {
