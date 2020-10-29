@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MOVE_FOCUS } from '../keyboard-focus.model';
+import { MOVE_FOCUS, TrapFocus } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { TrapFocusService } from './trap-focus.service';
 
@@ -31,7 +31,7 @@ describe('TrapFocusService', () => {
   let service: TrapFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MockComponent],
       providers: [
@@ -45,7 +45,7 @@ describe('TrapFocusService', () => {
 
     service = TestBed.inject(TrapFocusService);
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -131,7 +131,7 @@ describe('TrapFocusService', () => {
         it(`should focus if trap = 'end'`, () => {
           service.moveFocus(
             host,
-            { trap: 'end' },
+            { trap: TrapFocus.end },
             MOVE_FOCUS.NEXT,
             event as KeyboardEvent
           );
@@ -151,7 +151,7 @@ describe('TrapFocusService', () => {
         it(`should not focus if trap = 'start'`, () => {
           service.moveFocus(
             host,
-            { trap: 'start' },
+            { trap: TrapFocus.start },
             MOVE_FOCUS.NEXT,
             event as KeyboardEvent
           );
@@ -169,7 +169,7 @@ describe('TrapFocusService', () => {
 
           service.moveFocus(
             host,
-            { trap: 'start' },
+            { trap: TrapFocus.start },
             MOVE_FOCUS.NEXT,
             event as KeyboardEvent
           );
@@ -204,7 +204,7 @@ describe('TrapFocusService', () => {
         (event as any).target = current;
         service.moveFocus(
           host,
-          { trap: 'start' },
+          { trap: TrapFocus.start },
           MOVE_FOCUS.PREV,
           event as KeyboardEvent
         );
@@ -245,7 +245,7 @@ describe('TrapFocusService', () => {
         it(`should not focus if trap = 'end'`, () => {
           service.moveFocus(
             host,
-            { trap: 'end' },
+            { trap: TrapFocus.end },
             MOVE_FOCUS.PREV,
             event as KeyboardEvent
           );
@@ -263,7 +263,7 @@ describe('TrapFocusService', () => {
 
           service.moveFocus(
             host,
-            { trap: 'end' },
+            { trap: TrapFocus.end },
             MOVE_FOCUS.PREV,
             event as KeyboardEvent
           );
