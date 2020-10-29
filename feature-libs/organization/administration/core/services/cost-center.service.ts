@@ -20,7 +20,7 @@ import {
   getCostCenterList,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
-import { getItemStatusSuccess } from '../utils/get-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
@@ -122,10 +122,10 @@ export class CostCenterService {
     );
   }
 
-  getLoadingStatusSuccess(
+  getLoadingStatus(
     costCenterCode: string
   ): Observable<OrganizationItemStatus<CostCenter>> {
-    return getItemStatusSuccess(this.getCostCenter(costCenterCode));
+    return getItemStatus(this.getCostCenter(costCenterCode));
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {

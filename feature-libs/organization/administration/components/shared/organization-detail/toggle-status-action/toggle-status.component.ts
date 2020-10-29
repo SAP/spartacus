@@ -4,8 +4,9 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
+import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { filter, first, take } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
 import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
@@ -94,6 +95,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected update(item: T): void {
     this.itemService
       .update(item[this.key], this.getPatchedItem(item))
+      .pipe(
+        take(1),
+        filter((data) => data.status === LoadStatus.SUCCESS)
+      )
       .subscribe((data) => this.notify({ ...item, ...data.item }));
   }
 

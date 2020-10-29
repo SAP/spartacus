@@ -32,14 +32,14 @@ export class CostCenterItemService extends OrganizationItemService<CostCenter> {
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
-    return this.costCenterService.getLoadingStatusSuccess(code);
+    return this.costCenterService.getLoadingStatus(code);
   }
 
   protected create(
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.create(value);
-    return this.costCenterService.getLoadingStatusSuccess(value.code);
+    return this.costCenterService.getLoadingStatus(value.code);
   }
 
   protected getDetailsRoute(): string {

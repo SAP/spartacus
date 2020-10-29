@@ -44,7 +44,7 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
     this.costCenterService.assignBudget(costCenterCode, budgetCode);
-    return this.budgetService.getLoadingStatusSuccess(budgetCode);
+    return this.budgetService.getLoadingStatus(budgetCode);
   }
 
   /**
@@ -56,6 +56,6 @@ export class CostCenterBudgetListService extends OrganizationSubListService<
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
     this.costCenterService.unassignBudget(costCenterCode, budgetCode);
-    return this.budgetService.getLoadingStatusSuccess(budgetCode);
+    return this.budgetService.getLoadingStatus(budgetCode);
   }
 }

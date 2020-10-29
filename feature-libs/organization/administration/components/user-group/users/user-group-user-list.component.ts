@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { first, switchMap } from 'rxjs/operators';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { filter, first, switchMap, take } from 'rxjs/operators';
+import {
+  LoadStatus,
+  UserGroup,
+} from '@spartacus/organization/administration/core';
 import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
@@ -28,7 +31,10 @@ export class UserGroupUserListComponent {
       .pipe(
         first(),
         switchMap((key) =>
-          this.userGroupUserListService.unassignAllMembers(key)
+          this.userGroupUserListService.unassignAllMembers(key).pipe(
+            take(1),
+            filter((data) => data.status === LoadStatus.SUCCESS)
+          )
         )
       )
       .subscribe((data) => {

@@ -30,14 +30,14 @@ export class UserItemService extends OrganizationItemService<B2BUser> {
   update(code, value: B2BUser): Observable<OrganizationItemStatus<B2BUser>> {
     delete value.approvers;
     this.userService.update(code, value);
-    return this.userService.getLoadingStatusSuccess(code);
+    return this.userService.getLoadingStatus(code);
   }
 
   protected create(
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
-    return this.userService.getLoadingStatusSuccess(null);
+    return this.userService.getLoadingStatus(null);
   }
 
   protected getDetailsRoute(): string {

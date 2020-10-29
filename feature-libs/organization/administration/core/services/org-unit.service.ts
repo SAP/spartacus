@@ -28,7 +28,7 @@ import {
   getOrgUnitTree,
   getOrgUnitValue,
 } from '../store/selectors/org-unit.selector';
-import { getItemStatusSuccess } from '../utils/get-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
@@ -261,10 +261,10 @@ export class OrgUnitService {
     );
   }
 
-  getLoadingStatusSuccess(
+  getLoadingStatus(
     orgUnitId: string
   ): Observable<OrganizationItemStatus<B2BUnit>> {
-    return getItemStatusSuccess(this.getOrgUnit(orgUnitId));
+    return getItemStatus(this.getOrgUnit(orgUnitId));
   }
 
   assignRole(orgCustomerId: string, roleId: string): void {
@@ -379,7 +379,7 @@ export class OrgUnitService {
   getAddressLoadingStatus(
     addressId: string
   ): Observable<OrganizationItemStatus<Address>> {
-    return getItemStatusSuccess(this.getAddressState(addressId));
+    return getItemStatus(this.getAddressState(addressId));
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {

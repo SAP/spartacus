@@ -47,7 +47,7 @@ export class UserUserGroupListService extends OrganizationSubListService<
     userGroupCode: string
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.assignUserGroup(userCode, userGroupCode);
-    return this.userGroupService.getLoadingStatusSuccess(userGroupCode);
+    return this.userGroupService.getLoadingStatus(userGroupCode);
   }
 
   /**
@@ -59,6 +59,6 @@ export class UserUserGroupListService extends OrganizationSubListService<
     userGroupCode: string
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.unassignUserGroup(userCode, userGroupCode);
-    return this.userGroupService.getLoadingStatusSuccess(userGroupCode);
+    return this.userGroupService.getLoadingStatus(userGroupCode);
   }
 }

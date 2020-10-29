@@ -44,7 +44,7 @@ export class UserPermissionListService extends OrganizationSubListService<
     code: string
   ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.assignPermission(userCode, code);
-    return this.permissionService.getLoadingStatusSuccess(code);
+    return this.permissionService.getLoadingStatus(code);
   }
 
   /**
@@ -56,6 +56,6 @@ export class UserPermissionListService extends OrganizationSubListService<
     code: string
   ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.unassignPermission(userCode, code);
-    return this.permissionService.getLoadingStatusSuccess(code);
+    return this.permissionService.getLoadingStatus(code);
   }
 }

@@ -18,7 +18,7 @@ import {
   getBudgetList,
   getBudgetValue,
 } from '../store/selectors/budget.selector';
-import { getItemStatusSuccess } from '../utils/get-item-status';
+import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
@@ -112,9 +112,9 @@ export class BudgetService {
     );
   }
 
-  getLoadingStatusSuccess(
+  getLoadingStatus(
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
-    return getItemStatusSuccess(this.getBudgetState(budgetCode));
+    return getItemStatus(this.getBudgetState(budgetCode));
   }
 }
