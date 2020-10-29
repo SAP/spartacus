@@ -25,8 +25,6 @@ cx-organization-list {
   @extend %organizationItemForm !optional;
 }
 
-@import './order-approval/index';
-
 html[dir='rtl'] cx-organization-list {
   --list-bg: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76' %3E%3Cpolyline transform='scale (-1, 1)' transform-origin='center' fill='none' stroke='%23D3D6DA' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E");
   --list-bg-pos: 25px;
