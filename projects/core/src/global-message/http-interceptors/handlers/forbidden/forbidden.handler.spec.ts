@@ -19,6 +19,7 @@ describe('ForbiddenHandler', () => {
   let service: ForbiddenHandler;
   let globalMessageService: GlobalMessageService;
   let authService: AuthService;
+  let occEndpoints: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +42,7 @@ describe('ForbiddenHandler', () => {
     service = TestBed.inject(ForbiddenHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authService = TestBed.inject(AuthService);
+    occEndpoints = TestBed.inject(OccEndpointsService);
   });
 
   it('should be created', () => {
@@ -51,17 +53,28 @@ describe('ForbiddenHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.FORBIDDEN);
   });
 
-  it('should logout unauthorised user', () => {
+  it('should logout unauthorised user while logging', () => {
     spyOn(authService, 'logout');
+    spyOn(occEndpoints, 'getUrl').and.returnValue('/user');
     service.handleError({ url: '/user' });
 
+    expect(occEndpoints.getUrl).toHaveBeenCalledWith('user', {
+      userId: 'current',
+    });
     expect(authService.logout).toHaveBeenCalledWith();
+  });
+
+  it('should not logout unauthorised user in other case', () => {
+    spyOn(authService, 'logout');
+
+    service.handleError({ url: '' });
+    expect(authService.logout).not.toHaveBeenCalled();
   });
 
   it('should send common error to global message service', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError({ url: '' });
 
+    service.handleError({ url: '' });
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.forbidden' },
       GlobalMessageType.MSG_TYPE_ERROR
