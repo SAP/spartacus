@@ -346,6 +346,7 @@ export const unitsTableConfig: TableConfig = {
           },
           orgUnit: {
             dataComponent: UnitCellComponent,
+            linkable: false,
           },
         },
       },
