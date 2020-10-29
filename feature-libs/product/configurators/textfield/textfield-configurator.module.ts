@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
 import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-core.module';
@@ -13,7 +12,6 @@ import { TextfieldConfiguratorOccModule } from './occ/textfield-configurator-occ
     TextfieldConfiguratorCoreModule,
     TextfieldConfiguratorComponentsModule,
     TextfieldConfiguratorOccModule,
-    CommonModule,
   ],
 })
 export class TextfieldConfiguratorModule {}
