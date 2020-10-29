@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Order } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/storefront';
@@ -48,7 +48,7 @@ describe('OrderDetailPermissionResultsComponent', () => {
   let fixture: ComponentFixture<OrderDetailPermissionResultsComponent>;
   let element: DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [OrderDetailPermissionResultsComponent],
@@ -56,7 +56,7 @@ describe('OrderDetailPermissionResultsComponent', () => {
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailPermissionResultsComponent);
