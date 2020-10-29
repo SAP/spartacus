@@ -94,7 +94,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(content).toEqual(`@import "@spartacus/organization";`);
       });
 
-      it('should add update angular.json with organization.scss', async () => {
+      it('should add update angular.json with spartacus-organization.scss', async () => {
         const buffer = appTree.read('/angular.json');
         expect(buffer).toBeTruthy();
         if (!buffer) {
@@ -107,14 +107,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
             .styles;
         expect(buildStyles).toEqual([
           'src/styles.scss',
-          'src/styles/organization.scss',
+          'src/styles/spartacus-organization.scss',
         ]);
 
         const testStyles: string[] =
           angularJson.projects['schematics-test'].architect.test.options.styles;
         expect(testStyles).toEqual([
           'src/styles.scss',
-          'src/styles/organization.scss',
+          'src/styles/spartacus-organization.scss',
         ]);
       });
     });
