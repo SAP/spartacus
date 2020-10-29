@@ -1,5 +1,5 @@
 import { OccConfig, ProductScope } from '@spartacus/core';
-import { ConfiguratorProductScope } from './../../core/model/configurator-product-scope';
+import { ConfiguratorProductScope } from '../core/model/configurator-product-scope';
 
 export const defaultOccConfiguratorProductConfig: OccConfig = {
   backend: {

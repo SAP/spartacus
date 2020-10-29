@@ -1,6 +1,5 @@
 export * from './actions/index';
 export * from './configurator-state';
-export { ConfiguratorStateModule as ɵConfiguratorStateModule } from './configurator-state.module';
 export { ConfiguratorBasicEffects as ɵConfiguratorBasicEffects } from './effects/configurator-basic.effect';
 export { ConfiguratorCartEffects as ɵConfiguratorCartEffects } from './effects/configurator-cart.effect';
 export { ConfiguratorPlaceOrderHookEffects as ɵConfiguratorPlaceOrderHookEffects } from './effects/configurator-place-order-hook.effect';
@@ -11,4 +10,5 @@ export {
   configuratorReducerToken as ɵconfiguratorReducerToken,
   getConfiguratorReducers as ɵgetConfiguratorReducers,
 } from './reducers/index';
+export { RulebasedConfiguratorStateModule as ɵConfiguratorStateModule } from './rulebased-configurator-state.module';
 export * from './selectors/index';

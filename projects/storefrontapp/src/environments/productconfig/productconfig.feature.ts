@@ -1,5 +1,6 @@
 import { translations } from '@spartacus/assets';
 import { ConfigModule } from '@spartacus/core';
+import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { configuratorTranslations } from '@spartacus/product/configurators/common/assets';
 import { RulebasedConfiguratorRootModule } from '@spartacus/product/configurators/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product/configurators/textfield/root';
@@ -30,6 +31,7 @@ export const productConfigFeature: FeatureEnvironment = {
         },
       },
     }),
+    CommonConfiguratorModule,
     RulebasedConfiguratorRootModule,
     TextfieldConfiguratorRootModule,
   ],

@@ -20,4 +20,4 @@ import {
   ],
   providers: [configuratorReducerProvider],
 })
-export class ConfiguratorStateModule {}
+export class RulebasedConfiguratorStateModule {}
