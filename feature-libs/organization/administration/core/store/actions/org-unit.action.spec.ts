@@ -1,10 +1,10 @@
 import {
   Address,
+  B2BApprovalProcess,
   B2BUnit,
   ListModel,
   SearchConfig,
   StateUtils,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {

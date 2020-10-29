@@ -9,13 +9,13 @@ import {
 import {
   Address,
   AuthActions,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   CostCenter,
   ListModel,
-  StateUtils,
   OrderApprovalPermissionType,
-  B2BApprovalProcess,
+  StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { Permission } from '../../model/permission.model';

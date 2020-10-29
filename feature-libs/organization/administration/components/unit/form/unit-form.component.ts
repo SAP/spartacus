@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { B2BUnit, B2BApprovalProcess } from '@spartacus/core';
+import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,

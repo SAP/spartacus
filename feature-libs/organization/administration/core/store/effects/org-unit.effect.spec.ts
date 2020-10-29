@@ -5,6 +5,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   Address,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
@@ -12,7 +13,6 @@ import {
   normalizeHttpError,
   OccConfig,
   SearchConfig,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import {
   OrganizationActions,

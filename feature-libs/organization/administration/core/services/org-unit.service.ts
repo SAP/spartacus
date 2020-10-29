@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   Address,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   CostCenter,
@@ -10,7 +11,6 @@ import {
   StateUtils,
   StateWithProcess,
   UserIdService,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';

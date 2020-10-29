@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   Address,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
   SearchConfig,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { B2BUnitNode } from '../../model/unit-node.model';

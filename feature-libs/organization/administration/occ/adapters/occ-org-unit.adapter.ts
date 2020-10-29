@@ -4,6 +4,7 @@ import {
   Address,
   ADDRESS_LIST_NORMALIZER,
   ADDRESS_SERIALIZER,
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   ConverterService,
@@ -11,7 +12,6 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import {
   B2BUnitNode,

@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
+  B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
   normalizeHttpError,
   StateUtils,
-  B2BApprovalProcess,
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
