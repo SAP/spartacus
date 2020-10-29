@@ -1,4 +1,4 @@
 export * from './common-configurator.module';
-export * from './components/index';
-export * from './core/index';
-export * from './shared/testing/index';
+export * from './components/service';
+export * from './core/model';
+export * from './occ';

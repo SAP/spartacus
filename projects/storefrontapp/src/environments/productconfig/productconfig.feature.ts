@@ -2,9 +2,10 @@ import { translations } from '@spartacus/assets';
 import { ConfigModule } from '@spartacus/core';
 import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { configuratorTranslations } from '@spartacus/product/configurators/common/assets';
-import { TextfieldConfiguratorModule } from '@spartacus/product/configurators/textfield';
-import { VariantConfiguratorModule } from '@spartacus/product/configurators/variant';
+import { RulebasedConfiguratorRootModule } from '@spartacus/product/configurators/rulebased/root';
+import { TextfieldConfiguratorRootModule } from '@spartacus/product/configurators/textfield/root';
 import { FeatureEnvironment } from '../models/feature.model';
+
 export const productConfigFeature: FeatureEnvironment = {
   imports: [
     ConfigModule.withConfig({
@@ -15,9 +16,23 @@ export const productConfigFeature: FeatureEnvironment = {
 
         fallbackLang: 'en',
       },
+      featureModules: {
+        rulebased: {
+          module: () =>
+            import('@spartacus/product/configurators/rulebased').then(
+              (m) => m.RulebasedConfiguratorModule
+            ),
+        },
+        textfield: {
+          module: () =>
+            import('@spartacus/product/configurators/textfield').then(
+              (m) => m.TextfieldConfiguratorModule
+            ),
+        },
+      },
     }),
     CommonConfiguratorModule,
-    VariantConfiguratorModule,
-    TextfieldConfiguratorModule,
+    RulebasedConfiguratorRootModule,
+    TextfieldConfiguratorRootModule,
   ],
 };

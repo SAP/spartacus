@@ -41,16 +41,19 @@
       ],
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
-      ],
-      "@spartacus/product/configurators/cpq": [
-        "feature-libs/product/configurators/cpq/public_api"
-      ],
-      "@spartacus/product/configurators/variant": [
-        "feature-libs/product/configurators/variant/public_api"
-      ],
+      ], 
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/product/configurators/textfield/root": [
+        "feature-libs/product/configurators/textfield/root/public_api"
+      ],
+      "@spartacus/product/configurators/rulebased": [
+        "feature-libs/product/configurators/rulebased/public_api"
+      ],    
+      "@spartacus/product/configurators/rulebased/root": [
+        "feature-libs/product/configurators/rulebased/root/public_api"
+      ],         
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/setup": ["integration-libs/setup/public_api"]
     }

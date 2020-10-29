@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonConfiguratorComponentsModule } from './components/common-configurator-components.module';
-import { CommonConfiguratorCoreModule } from './core/common-configurator-core.module';
+import { CommonConfiguratorOccModule } from './occ/common-configurator-occ.module';
 
 @NgModule({
-  imports: [CommonConfiguratorCoreModule, CommonConfiguratorComponentsModule],
+  imports: [CommonConfiguratorOccModule],
 })
 export class CommonConfiguratorModule {}

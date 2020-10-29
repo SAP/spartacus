@@ -1,9 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { ConfiguratorTextfieldFormComponent } from './components/form/configurator-textfield-form.component';
 import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
 import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-core.module';
 import { TextfieldConfiguratorOccModule } from './occ/textfield-configurator-occ.module';
@@ -17,32 +12,6 @@ import { TextfieldConfiguratorOccModule } from './occ/textfield-configurator-occ
     TextfieldConfiguratorCoreModule,
     TextfieldConfiguratorComponentsModule,
     TextfieldConfiguratorOccModule,
-    CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        component: PageLayoutComponent,
-        data: {
-          pageLabel: '/configureTEXTFIELD',
-          cxRoute: 'configureTEXTFIELD',
-        },
-        canActivate: [CmsPageGuard],
-      },
-    ]),
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        TextfieldConfigurationForm: {
-          component: ConfiguratorTextfieldFormComponent,
-        },
-      },
-      layoutSlots: {
-        TextfieldConfigurationTemplate: {
-          slots: ['TextfieldConfigContent'],
-        },
-      },
-    }),
   ],
 })
 export class TextfieldConfiguratorModule {}
