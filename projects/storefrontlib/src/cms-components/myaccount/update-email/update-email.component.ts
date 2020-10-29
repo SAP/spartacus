@@ -43,7 +43,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
     this.userService.updateEmail(password, newUid);
   }
 
-  onSuccess(success: boolean): void {
+  async onSuccess(success: boolean): Promise<void> {
     if (success) {
       this.globalMessageService.add(
         {
@@ -52,7 +52,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      this.authService.logout();
+      await this.authService.logout();
       this.routingService.go({ cxRoute: 'login' }, null, {
         state: {
           newUid: this.newUid,
