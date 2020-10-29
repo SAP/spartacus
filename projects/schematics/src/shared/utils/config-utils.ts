@@ -1,5 +1,6 @@
-import { findNode, findNodes } from '@angular/cdk/schematics';
 import {
+  findNode,
+  findNodes,
   getDecoratorMetadata,
   getMetadataField,
 } from '@schematics/angular/utility/ast-utils';
@@ -161,15 +162,20 @@ function handleRegularConfigMerge(
 export function createNewConfig(
   path: string,
   configObject: ts.SyntaxList,
-  propertyName: string,
+  configPropertyName: string,
   newValues: string | string[]
-): Change {
+): InsertChange {
   const configValue = convert(newValues);
-  const indentation = ' '.repeat(configObject.getLeadingTriviaWidth() - 1);
+  const leadingTriviaWidth =
+    configObject.getLeadingTriviaWidth() !== 0
+      ? configObject.getLeadingTriviaWidth()
+      : 1;
+  const indentation = ' '.repeat(leadingTriviaWidth - 1);
+  const property = configPropertyName !== '' ? `${configPropertyName}: ` : '';
   const insertChange = new InsertChange(
     path,
     configObject.getStart(),
-    `${propertyName}: ${configValue},\n${indentation}`
+    `${property}${configValue},\n${indentation}`
   );
   return insertChange;
 }

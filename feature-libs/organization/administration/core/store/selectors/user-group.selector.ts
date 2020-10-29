@@ -8,10 +8,6 @@ import {
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import {
-  denormalizeCustomB2BSearch,
-  denormalizeSearch,
-} from '../../utils/serializer';
-import {
   OrganizationState,
   StateWithOrganization,
   UserGroupManagement,
@@ -61,7 +57,7 @@ export const getUserGroupList = (
   StateUtils.LoaderState<EntitiesModel<UserGroup>>
 > =>
   createSelector(getUserGroupManagementState, (state: UserGroupManagement) =>
-    denormalizeSearch<UserGroup>(state, params)
+    StateUtils.denormalizeSearch<UserGroup>(state, params)
   );
 
 export const getAvailableOrgCustomers = (
@@ -77,7 +73,13 @@ export const getAvailableOrgCustomers = (
     (
       state: UserGroupManagement,
       customers: StateUtils.EntityLoaderState<B2BUser>
-    ) => denormalizeCustomB2BSearch(state.customers, customers, params, code)
+    ) =>
+      StateUtils.denormalizeCustomB2BSearch(
+        state.customers,
+        customers,
+        params,
+        code
+      )
   );
 
 export const getAvailableOrderApprovalPermissions = (
@@ -94,5 +96,10 @@ export const getAvailableOrderApprovalPermissions = (
       state: UserGroupManagement,
       permissions: StateUtils.EntityLoaderState<Permission>
     ) =>
-      denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
+      StateUtils.denormalizeCustomB2BSearch(
+        state.permissions,
+        permissions,
+        params,
+        code
+      )
   );
