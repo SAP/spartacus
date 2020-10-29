@@ -11,15 +11,16 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
   template: `
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
-        *ngIf="linkable; else noLink"
+        *ngIf="linkable; else text"
         [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
         [tabIndex]="tabIndex"
       >
-        <span class="text">{{ property }}</span>
+        <ng-container *ngTemplateOutlet="text"></ng-container>
       </a>
     </ng-container>
-    <ng-template #noLink>
-      <span class="text">{{ property }}</span>
+
+    <ng-template #text>
+      <span class="text" title="{{ property }}">{{ property }}</span>
     </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

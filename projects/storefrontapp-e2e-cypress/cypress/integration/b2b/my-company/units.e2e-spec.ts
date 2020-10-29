@@ -3,6 +3,7 @@ import { MyCompanyConfig } from '../../../helpers/b2b/my-company/models/my-compa
 import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
 import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
 import { costCenterConfig } from './cost-centers.e2e-spec';
+import { randomString } from '../../../helpers/user';
 
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
@@ -16,17 +17,21 @@ export const unitConfig: MyCompanyConfig = {
       variableName: 'name',
       link: '/organization/user/',
       inputType: INPUT_TYPE.TEXT,
-      createValue: 'Test Entity',
-      updateValue: 'Edited Test Entity',
+      createValue: `unit-${randomString()}`,
+      updateValue: `edited-unit-${randomString()}`,
       showInTable: true,
+      showInDetails: true,
+      formLabel: 'Name',
+      sortLabel: 'name',
     },
     {
       label: 'Status',
       variableName: 'Active',
       inputType: INPUT_TYPE.TEXT,
-      createValue: 'test-entity',
-      updateValue: 'edited-entity',
+      createValue: 'Active',
+      updateValue: 'Active',
       showInTable: true,
+      showInDetails: true,
     },
     {
       label: 'ID',
@@ -37,6 +42,28 @@ export const unitConfig: MyCompanyConfig = {
       updateValue: 'Rustic',
       showInTable: true,
     },
+    {
+      label: 'Approval process',
+      variableName: 'approval',
+      inputType: INPUT_TYPE.NG_SELECT,
+      createValue: ``,
+      updateValue: `Escalation Approval with Merchant Check`,
+      showInTable: false,
+      showInDetails: false,
+      useInUrl: false,
+      formLabel: 'Approval process',
+    },
+    {
+      label: 'Parent Unit',
+      variableName: 'orgUnit.name',
+      link: `/organization/units/`,
+      inputType: INPUT_TYPE.NG_SELECT,
+      createValue: 'Rustic Services',
+      updateValue: 'Rustic Retail',
+      showInTable: false,
+      formLabel: 'Parent business unit',
+      showInDetails: true,
+    },
   ],
   subCategories: [
     {
@@ -44,7 +71,7 @@ export const unitConfig: MyCompanyConfig = {
       baseUrl: `/Rustic`,
       apiEndpoint: '**/orgUnitsRootNodeTree**',
       objectType: 'children',
-      createConfig: unitConfig,
+      // createConfig: unitConfig,
     },
     {
       name: 'Users',
@@ -73,7 +100,14 @@ export const unitConfig: MyCompanyConfig = {
       baseUrl: `/approvers`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
-      createConfig: costCenterConfig,
+      // createConfig: costCenterConfig,
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `unit-${randomString()}`,
+      updateValue: `edited-unit-${randomString()}`,
+      showInTable: true,
+      showInDetails: true,
+      useInUrl: true,
+      formLabel: 'ID',
     },
   ],
 };

@@ -11,6 +11,7 @@ export class TableDataCellComponent {
 
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
 
+  @HostBinding('attr.title')
   get value(): string {
     return this.model[this.field];
   }
