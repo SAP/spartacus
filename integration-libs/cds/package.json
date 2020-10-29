@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "3.0.0-next.5",
+  "version": "3.0.0-next.6",
   "description": "Context Driven Service library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -24,8 +24,8 @@
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "@spartacus/core": "3.0.0-next.5",
-    "@spartacus/storefront": "3.0.0-next.5",
+    "@spartacus/core": "3.0.0-next.6",
+    "@spartacus/storefront": "3.0.0-next.6",
     "rxjs": "^6.6.0"
   }
 }
