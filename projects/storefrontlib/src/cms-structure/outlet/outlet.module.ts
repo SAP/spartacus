@@ -5,6 +5,7 @@ import {
   ComponentFactoryResolver,
   ModuleWithProviders,
   NgModule,
+  Optional,
   Type,
 } from '@angular/core';
 import { OutletDirective } from './outlet.directive';
@@ -24,7 +25,7 @@ export function registerOutletsFactory(
   outletService: OutletService<ComponentFactory<Type<any>>>
 ) {
   const result = () => {
-    providedOutletOptions.forEach((options) => {
+    (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(
         options.component
       );
@@ -53,7 +54,7 @@ export class OutletModule {
           provide: APP_INITIALIZER,
           useFactory: registerOutletsFactory,
           deps: [
-            PROVIDE_OUTLET_OPTIONS,
+            [new Optional(), PROVIDE_OUTLET_OPTIONS],
             ComponentFactoryResolver,
             OutletService,
           ],
