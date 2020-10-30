@@ -7,7 +7,7 @@ import {
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { BaseItem } from '../organization.model';
 import { Observable, of } from 'rxjs';
-import { OrganizationItemStatus } from '../../../core/model/organization-item-status';
+import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 
 @Injectable()
 export abstract class OrganizationSubListService<
