@@ -14,8 +14,8 @@ import {
   B2BUser,
   CostCenter,
   ListModel,
-  StateUtils,
   OrderApprovalPermissionType,
+  StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { Permission } from '../../model/permission.model';
