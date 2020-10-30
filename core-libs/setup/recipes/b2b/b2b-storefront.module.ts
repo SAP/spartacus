@@ -9,10 +9,10 @@ import {
   CmsLibModule,
   layoutConfig,
   mediaConfig,
+  staticCmsStructureProviders,
   StorefrontConfig,
   StorefrontModule,
 } from '@spartacus/storefront';
-import { staticCmsStructureProviders } from 'projects/storefrontlib/src/recipes/config/static-cms-structure';
 import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
 
