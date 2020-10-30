@@ -3,6 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
 import {
+  B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
   Permission,
   UserGroupService,
 } from '@spartacus/organization/administration/core';
@@ -42,6 +45,13 @@ class MockTableService {
   }
 }
 
+@Injectable()
+class MockB2BUserService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
 describe('UserGroupUserListService', () => {
   let service: UserGroupUserListService;
   let userGroupService: UserGroupService;
@@ -51,6 +61,10 @@ describe('UserGroupUserListService', () => {
       imports: [RouterTestingModule],
       providers: [
         UserGroupUserListService,
+        {
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
+        },
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,

@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
   Permission,
+  PermissionService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -42,7 +45,13 @@ class MockTableService {
   }
 }
 
-describe('UserApproverListService', () => {
+class MockPermissionService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Permission>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
+describe('UserPermissionListService', () => {
   let service: UserPermissionListService;
   let userService: B2BUserService;
 
@@ -54,6 +63,10 @@ describe('UserApproverListService', () => {
         {
           provide: B2BUserService,
           useClass: MockB2BUserService,
+        },
+        {
+          provide: PermissionService,
+          useClass: MockPermissionService,
         },
         {
           provide: TableService,

@@ -3,7 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
+  LoadStatus,
+  OrganizationItemStatus,
   Permission,
+  PermissionService,
   UserGroupService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
@@ -44,6 +47,14 @@ class MockTableService {
   }
 }
 
+class MockPermissionService {
+  getLoadingStatus(
+    _id: string
+  ): Observable<OrganizationItemStatus<Permission>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
 describe('UserGroupPermissionListService', () => {
   let service: UserGroupPermissionListService;
   let userGroupService: UserGroupService;
@@ -56,6 +67,10 @@ describe('UserGroupPermissionListService', () => {
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,
+        },
+        {
+          provide: PermissionService,
+          useClass: MockPermissionService,
         },
         {
           provide: TableService,

@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, B2BUserGroup, EntitiesModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';
@@ -37,6 +42,13 @@ class MockTableService {
   }
 }
 
+@Injectable()
+class MockB2BUserService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
 describe('UnitApproverListService', () => {
   let service: UnitApproverListService;
   let unitService: OrgUnitService;
@@ -48,6 +60,10 @@ describe('UnitApproverListService', () => {
         {
           provide: OrgUnitService,
           useClass: MockUnitApproverListService,
+        },
+        {
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
         },
         {
           provide: TableService,

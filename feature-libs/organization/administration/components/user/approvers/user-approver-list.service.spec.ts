@@ -4,6 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
+  Permission,
+  PermissionService,
   UserGroup,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
@@ -31,6 +35,9 @@ class MockB2BUserService implements Partial<B2BUserService> {
   getApprovers(): Observable<EntitiesModel<B2BUser>> {
     return of(mockUserApproverEntities);
   }
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
   assignApprover() {}
   unassignApprover() {}
 }
@@ -39,6 +46,12 @@ class MockB2BUserService implements Partial<B2BUserService> {
 class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
+  }
+}
+
+class MockPermissionService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Permission>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
   }
 }
 
@@ -54,6 +67,10 @@ describe('UserApproverListService', () => {
         {
           provide: B2BUserService,
           useClass: MockB2BUserService,
+        },
+        {
+          provide: PermissionService,
+          useClass: MockPermissionService,
         },
         {
           provide: TableService,

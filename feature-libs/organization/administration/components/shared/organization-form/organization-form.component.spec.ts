@@ -7,6 +7,7 @@ import { OrganizationCardTestingModule } from '../organization-card/organization
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationFormComponent } from './organization-form.component';
 import createSpy = jasmine.createSpy;
+import { MessageService } from '@spartacus/organization/administration/components';
 
 const mockItem = { foo: 'bar' };
 
@@ -35,6 +36,7 @@ describe('OrganizationFormComponent', () => {
           provide: OrganizationItemService,
           useClass: MockOrganizationItemService,
         },
+        MessageService,
       ],
     }).compileComponents();
 

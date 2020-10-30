@@ -1,26 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { UserGroupService } from 'feature-libs/organization/administration/core/services/user-group.service';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OrganizationSubListTestingModule } from '../../shared/organization-sub-list/organization-sub-list.testing.module';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import createSpy = jasmine.createSpy;
+import { MessageService } from '@spartacus/organization/administration/components';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+  UserGroup,
+} from '@spartacus/organization/administration/core';
 const mockKey = 'mock';
-class MockUserGroupUserListService {}
+
 class MockCurrentUserGroupService {
   key$ = of(mockKey);
 }
-class MockUserGroupService {
-  unassignAllMembers = createSpy('unassignAllMembers');
+class MockUserGroupUserListService {
+  unassignAllMembers(): Observable<OrganizationItemStatus<UserGroup>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
 }
 
 describe('UserGroupUserListComponent', () => {
   let component: UserGroupUserListComponent;
   let fixture: ComponentFixture<UserGroupUserListComponent>;
-  let userGroupService: UserGroupService;
+  let userGroupUserListService: UserGroupUserListService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -37,12 +43,12 @@ describe('UserGroupUserListComponent', () => {
           provide: CurrentUserGroupService,
           useClass: MockCurrentUserGroupService,
         },
-        { provide: UserGroupService, useClass: MockUserGroupService },
+        MessageService,
       ],
       declarations: [UserGroupUserListComponent],
     }).compileComponents();
 
-    userGroupService = TestBed.inject(UserGroupService);
+    userGroupUserListService = TestBed.inject(UserGroupUserListService);
     fixture = TestBed.createComponent(UserGroupUserListComponent);
     component = fixture.componentInstance;
   });
@@ -52,7 +58,11 @@ describe('UserGroupUserListComponent', () => {
   });
 
   it('should unassign all members', () => {
+    spyOn(userGroupUserListService, 'unassignAllMembers');
+
     component.unassignAll();
-    expect(userGroupService.unassignAllMembers).toHaveBeenCalledWith(mockKey);
+    expect(userGroupUserListService.unassignAllMembers).toHaveBeenCalledWith(
+      mockKey
+    );
   });
 });

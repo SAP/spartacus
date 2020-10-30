@@ -34,7 +34,9 @@ class MockItemService extends OrganizationItemService<any> {
   load(_key: string): Observable<any> {
     return of();
   }
-  create(_item) {}
+  create(_item): Observable<OrganizationItemStatus<any>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
   update(_code, _item): Observable<OrganizationItemStatus<any>> {
     return of({ status: LoadStatus.SUCCESS, item: {} });
   }
