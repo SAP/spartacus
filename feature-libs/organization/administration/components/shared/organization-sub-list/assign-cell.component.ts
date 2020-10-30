@@ -38,11 +38,12 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
   }
 
   toggleAssign() {
+    const isAssigned = this.isAssigned;
     this.organizationItemService.key$
       .pipe(
         first(),
         switchMap((key) =>
-          this.isAssigned
+          isAssigned
             ? this.unassign(key, this.link)
             : this.assign(key, this.link)
         ),
@@ -52,7 +53,9 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
             data.status === LoadStatus.SUCCESS
         )
       )
-      .subscribe((data) => this.notify(data.item));
+      .subscribe((data) =>
+        this.notify(data.item, isAssigned ? 'unassigned' : 'assigned')
+      );
   }
 
   protected assign(
@@ -89,13 +92,11 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     );
   }
 
-  protected notify(item) {
+  protected notify(item, state) {
     if (item) {
       this.messageService.add({
         message: {
-          key: `${this.organizationSubListService.viewType}.${
-            this.isAssigned ? 'unassigned' : 'assigned'
-          }`,
+          key: `${this.organizationSubListService.viewType}.${state}`,
           params: {
             item,
           },
