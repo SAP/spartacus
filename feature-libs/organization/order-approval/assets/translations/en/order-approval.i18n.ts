@@ -17,6 +17,20 @@ export const orderApprovalDetails = {
       placeholder: '',
     },
   },
+  permissionResults: {
+    header: 'Customer Approval Details',
+    permission: 'Permission',
+    approver: 'Approver',
+    status: 'Status',
+    approverComments: 'Approver Comments',
+    noApprovalComments: 'None',
+    permissionType_B2BBudgetExceededPermission:
+      'The budget associated with the chosen cost center has been exceeded',
+    permissionType_B2BOrderThresholdPermission:
+      'Order total exceeded the per-order limit',
+    permissionType_B2BOrderThresholdTimespanPermission:
+      'Order total exceeded the per-timespan limit',
+  },
 };
 
 export const orderApprovalList = {
