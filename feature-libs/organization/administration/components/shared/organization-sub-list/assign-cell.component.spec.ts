@@ -3,12 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
 import { OrganizationSubListService } from './organization-sub-list.service';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 
 class MockOrganizationItemService {
   key$ = of('code1');
@@ -19,8 +23,12 @@ class MockMessageService {
 }
 
 class MockOrganizationListService {
-  assign() {}
-  unassign() {}
+  assign(): Observable<OrganizationItemStatus<any>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+  unassign(): Observable<OrganizationItemStatus<any>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
 }
 describe('AssignCellComponent', () => {
   let component: AssignCellComponent<any>;
