@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
 import { BaseSite } from '../../model/misc.model';
 import { RoutingService } from '../../routing';
-import { BaseSitesService } from '../../site-context';
+import { BaseSiteService } from '../../site-context';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
@@ -20,7 +20,7 @@ class MockRoutingService {
   }
   go() {}
 }
-class MockBaseSitesService {
+class MockBaseSiteService {
   getBaseSiteData(): Observable<BaseSite> {
     return of({ uid: 'testSite' });
   }
@@ -29,7 +29,7 @@ describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
-  let baseSitesService: BaseSitesService;
+  let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,14 +37,14 @@ describe('SmartEditService', () => {
         SmartEditService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BaseSitesService, useClass: MockBaseSitesService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
       ],
     });
 
     service = TestBed.inject(SmartEditService);
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
-    baseSitesService = TestBed.inject(BaseSitesService);
+    baseSiteService = TestBed.inject(BaseSiteService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -120,7 +120,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSitesService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
           defaultPreviewProductCode: 'test product code',
           defaultPreviewCategoryCode: 'test category code',
@@ -178,7 +178,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSitesService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
           defaultPreviewProductCode: 'test product code',
         })
@@ -206,7 +206,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSitesService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
           defaultPreviewCategoryCode: 'test category code',
         })

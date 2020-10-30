@@ -1,4 +1,4 @@
-import { Currency, Language, BaseSite } from '../../model/misc.model';
+import { BaseSite, Currency, Language } from '../../model/misc.model';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 
 export interface StateWithSiteContext {
@@ -9,7 +9,6 @@ export interface SiteContextState {
   languages: LanguagesState;
   currencies: CurrenciesState;
   baseSite: BaseSiteState;
-  baseSites: BaseSitesState;
 }
 
 export interface CurrencyEntities {
@@ -30,15 +29,11 @@ export interface LanguagesState {
 }
 
 export interface BaseSiteState {
+  entities: BaseSiteEntities;
   activeSite: string;
   details: BaseSite;
 }
 
 export interface BaseSiteEntities {
   [uid: string]: BaseSite;
-}
-
-export interface BaseSitesState {
-  entities: BaseSiteEntities;
-  activeSite: string;
 }

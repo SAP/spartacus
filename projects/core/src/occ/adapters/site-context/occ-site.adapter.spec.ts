@@ -6,17 +6,17 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, CountryType } from '@spartacus/core';
 import {
-  CURRENCY_NORMALIZER,
-  LANGUAGE_NORMALIZER,
   BASE_SITE_NORMALIZER,
   COUNTRY_NORMALIZER,
+  CURRENCY_NORMALIZER,
+  LANGUAGE_NORMALIZER,
   REGION_NORMALIZER,
 } from '../../../site-context/connectors/converters';
+import { defaultOccConfig } from '../../config/default-occ-config';
+import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
-import { defaultOccConfig } from '../../config/default-occ-config';
-import { OccConfig } from '../../config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -252,7 +252,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: `base-url${defaultOccConfig.backend.occ.prefix}basesites?fields=FULL`,
+        url: 'baseSites',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -266,7 +266,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: `base-url${defaultOccConfig.backend.occ.prefix}basesites?fields=FULL`,
+        url: 'baseSites',
       });
 
       expect(mockReq.cancelled).toBeFalsy();

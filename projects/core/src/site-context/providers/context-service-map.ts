@@ -1,12 +1,10 @@
 import { Provider, Type } from '@angular/core';
-import { LanguageService } from '../facade/language.service';
-import { CurrencyService } from '../facade/currency.service';
-import { SiteContext } from '../facade/site-context.interface';
 import { BaseSiteService } from '../facade/base-site.service';
-import { BaseSitesService } from '../facade/base-sites.service';
+import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
+import { SiteContext } from '../facade/site-context.interface';
 import {
   BASE_SITE_CONTEXT_ID,
-  BASE_SITES_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from './context-ids';
@@ -20,7 +18,6 @@ export function serviceMapFactory() {
     [LANGUAGE_CONTEXT_ID]: LanguageService,
     [CURRENCY_CONTEXT_ID]: CurrencyService,
     [BASE_SITE_CONTEXT_ID]: BaseSiteService,
-    [BASE_SITES_CONTEXT_ID]: BaseSitesService,
   };
 }
 

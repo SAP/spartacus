@@ -1,15 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Country, CountryType, Region } from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
+  BASE_SITE_NORMALIZER,
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
   REGION_NORMALIZER,
-  BASE_SITE_NORMALIZER,
 } from '../../../site-context/connectors/converters';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -73,22 +73,19 @@ export class OccSiteAdapter implements SiteAdapter {
    * So, we have to load all sites, and find the one from the list.
    */
   loadBaseSite(siteUid?: string): Observable<BaseSite> {
-    const baseUrl = this.occEndpointsService.getBaseEndpoint();
-    const urlSplits = baseUrl.split('/');
-    const siteUidFromUrl = urlSplits.pop();
-    const url = urlSplits.join('/') + '/basesites';
-
-    const params = new HttpParams({
-      fromString: 'fields=FULL',
-    });
+    if (!siteUid) {
+      const baseUrl = this.occEndpointsService.getBaseEndpoint();
+      const urlSplits = baseUrl.split('/');
+      siteUid = urlSplits.pop();
+    }
 
     return this.http
-      .get<{ baseSites: BaseSite[] }>(url, { params: params })
+      .get<{ baseSites: BaseSite[] }>(
+        this.occEndpointsService.getOccEndpoint('baseSites')
+      )
       .pipe(
         map((siteList) => {
-          return siteList.baseSites.find(
-            (site) => site.uid === (siteUid || siteUidFromUrl)
-          );
+          return siteList.baseSites.find((site) => site.uid === siteUid);
         })
       );
   }

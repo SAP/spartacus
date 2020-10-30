@@ -1,12 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { filter, take, takeWhile, first } from 'rxjs/operators';
+import { filter, first, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
+import { BaseSite } from '../../model';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { BaseSitesService } from '../../site-context/facade/base-sites.service';
-import { BaseSite } from '../../model';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class SmartEditService {
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
-    protected baseSitesService: BaseSitesService,
+    protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
     protected winRef: WindowRef
   ) {
@@ -77,7 +77,7 @@ export class SmartEditService {
   }
 
   protected getDefaultPreviewCode() {
-    this.baseSitesService
+    this.baseSiteService
       .getBaseSiteData()
       .pipe(first(Boolean))
       .subscribe((site: BaseSite) => {
