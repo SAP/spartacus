@@ -2,18 +2,20 @@ import { MyCompanyConfig } from '../../../helpers/b2b/my-company/models/my-compa
 import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
 import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
 import { randomString } from '../../../helpers/user';
+import { INPUT_TYPE } from '../../../helpers/b2b/my-company/models';
 
 const config: MyCompanyConfig = {
   name: 'Budget',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
+  entityIdField: 'code',
   rows: [
     {
       label: 'Name',
       variableName: 'name',
       link: '/organization/budgets/',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
@@ -24,7 +26,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Status',
       variableName: 'uid',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
@@ -34,7 +36,7 @@ const config: MyCompanyConfig = {
       label: 'Code',
       sortLabel: 'code',
       variableName: 'uid',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
       formLabel: 'Code',
@@ -46,7 +48,7 @@ const config: MyCompanyConfig = {
       variableName: 'budget',
       sortLabel: 'value',
       showInTable: true,
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: '10000',
       updateValue: '35000',
       formLabel: 'Amount',
@@ -61,7 +63,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Start',
       variableName: 'startDate',
-      inputType: 'datetime',
+      inputType: INPUT_TYPE.DATE_TIME,
       formLabel: 'Start',
       createValue: '3020-10-10T10:48',
       updateValue: '3025-01-10T03:22',
@@ -69,7 +71,7 @@ const config: MyCompanyConfig = {
     {
       label: 'End',
       variableName: 'endDate',
-      inputType: 'datetime',
+      inputType: INPUT_TYPE.DATE_TIME,
       formLabel: 'End',
       createValue: '3020-11-10T10:48',
       updateValue: '3026-05-15T09:53',
@@ -77,7 +79,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Currency',
       variableName: 'currency',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       formLabel: 'Currency',
       createValue: 'US Dollar',
       updateValue: 'US Dollar',
@@ -87,12 +89,20 @@ const config: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
       sortLabel: 'unit',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
       formLabel: 'Unit',
       showInDetails: true,
+    },
+  ],
+  subCategories: [
+    {
+      name: 'Cost Centers',
+      baseUrl: '/cost-centers',
+      objectType: 'costCenters',
+      apiEndpoint: '**/constcenters**',
     },
   ],
 };

@@ -2,18 +2,20 @@ import { MyCompanyConfig } from '../../../helpers/b2b/my-company/models/my-compa
 import { testMyCompanyFeatureFromConfig } from '../../../helpers/b2b/my-company/my-company.utils';
 import { FULL_BASE_URL_EN_USD } from '../../../helpers/site-context-selector';
 import { randomString } from '../../../helpers/user';
+import { INPUT_TYPE } from '../../../helpers/b2b/my-company/models';
 
 const config: MyCompanyConfig = {
   name: 'Cost Center',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
+  entityIdField: 'code',
   rows: [
     {
       label: 'Name',
       variableName: 'name',
       link: '/organization/cost-centers/',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
       sortLabel: 'name',
@@ -24,7 +26,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Status',
       variableName: 'uid',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: 'Active',
       updateValue: 'Active',
       showInTable: true,
@@ -34,7 +36,7 @@ const config: MyCompanyConfig = {
       label: 'Code',
       sortLabel: 'code',
       variableName: 'uid',
-      inputType: 'text',
+      inputType: INPUT_TYPE.TEXT,
       createValue: `test-entity-${randomString()}`,
       updateValue: `edited-entity-${randomString()}`,
       formLabel: 'Code',
@@ -44,7 +46,7 @@ const config: MyCompanyConfig = {
     {
       label: 'Currency',
       variableName: 'currency',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       formLabel: 'Currency',
       createValue: 'US Dollar',
       updateValue: 'US Dollar',
@@ -54,12 +56,21 @@ const config: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/`,
       sortLabel: 'unit',
-      inputType: 'ngSelect',
+      inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
       updateValue: 'Rustic',
       showInTable: true,
       formLabel: 'Parent Unit',
       showInDetails: true,
+    },
+  ],
+  subCategories: [
+    {
+      name: 'Budgets',
+      baseUrl: `/budgets`,
+      apiEndpoint: '**/budgets**',
+      objectType: 'budgets',
+      manageAssignments: true,
     },
   ],
 };

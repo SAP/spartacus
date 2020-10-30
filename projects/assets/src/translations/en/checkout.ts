@@ -47,7 +47,7 @@ export const checkout = {
     poNumber: 'Purchase Order Number',
     every: 'Every',
     startOn: 'Start on',
-    dayOfMonth: 'On this day',
+    dayOfMonth: 'On day',
     repeatOnDays: 'Repeat on the following days',
     recurrencePeriodType_DAILY: 'Day(s)',
     recurrencePeriodType_WEEKLY: 'Week(s)',

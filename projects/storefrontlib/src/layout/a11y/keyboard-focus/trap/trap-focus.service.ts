@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
+import {
+  MOVE_FOCUS,
+  TrapFocus,
+  TrapFocusConfig,
+  TrapFocusType,
+} from '../keyboard-focus.model';
 import { TabFocusService } from '../tab/tab-focus.service';
 
 @Injectable({
@@ -52,11 +57,11 @@ export class TrapFocusService extends TabFocusService {
     }
   }
 
-  protected getTrapStart(trap: boolean | 'start' | 'end'): boolean {
-    return trap === true || trap === 'start';
+  protected getTrapStart(trap: TrapFocusType): boolean {
+    return trap === true || trap === TrapFocus.start;
   }
 
-  protected getTrapEnd(trap: boolean | 'start' | 'end'): boolean {
-    return trap === true || trap === 'end';
+  protected getTrapEnd(trap: TrapFocusType): boolean {
+    return trap === true || trap === TrapFocus.end;
   }
 }
