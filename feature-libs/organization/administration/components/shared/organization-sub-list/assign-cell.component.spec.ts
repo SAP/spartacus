@@ -22,18 +22,23 @@ class MockMessageService {
   add() {}
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 class MockOrganizationListService {
+  viewType = 'i18nRoot';
   assign(): Observable<OrganizationItemStatus<any>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
   unassign(): Observable<OrganizationItemStatus<any>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
+
 describe('AssignCellComponent', () => {
   let component: AssignCellComponent<any>;
   let fixture: ComponentFixture<AssignCellComponent<any>>;
   let organizationListService: OrganizationListService<any>;
+  let messageService: MessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,9 +48,7 @@ describe('AssignCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
-              selected: true,
-            },
+            context: undefined,
           },
         },
         {
@@ -64,12 +67,11 @@ describe('AssignCellComponent', () => {
     }).compileComponents();
 
     organizationListService = TestBed.inject(OrganizationListService);
+    messageService = TestBed.inject(MessageService);
   });
 
   describe('without item data', () => {
     beforeEach(() => {
-      const data = TestBed.inject(OutletContextData);
-      data.context = undefined;
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -86,6 +88,11 @@ describe('AssignCellComponent', () => {
 
   describe('with assigned item', () => {
     beforeEach(() => {
+      const data = TestBed.inject(OutletContextData);
+      data.context = {
+        selected: true,
+        code: 'contextCode',
+      };
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -103,18 +110,32 @@ describe('AssignCellComponent', () => {
       spyOn(
         organizationListService as OrganizationSubListService<any>,
         'unassign'
-      );
+      ).and.callThrough();
+      spyOn(messageService, 'add').and.callThrough();
+
       component.toggleAssign();
+
       expect(
         (organizationListService as OrganizationSubListService<any>).unassign
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledWith('code1', 'contextCode');
+      expect(messageService.add).toHaveBeenCalledWith({
+        message: {
+          key: `i18nRoot.unassigned`,
+          params: {
+            item: {},
+          },
+        },
+      });
     });
   });
 
   describe('with unassigned item', () => {
     beforeEach(() => {
       const data = TestBed.inject(OutletContextData);
-      data.context.selected = false;
+      data.context = {
+        selected: false,
+        code: 'contextCode',
+      };
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -136,11 +157,22 @@ describe('AssignCellComponent', () => {
       spyOn(
         organizationListService as OrganizationSubListService<any>,
         'assign'
-      );
+      ).and.callThrough();
+      spyOn(messageService, 'add').and.callThrough();
+
       component.toggleAssign();
+
       expect(
         (organizationListService as OrganizationSubListService<any>).assign
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledWith('code1', 'contextCode');
+      expect(messageService.add).toHaveBeenCalledWith({
+        message: {
+          key: `i18nRoot.assigned`,
+          params: {
+            item: {},
+          },
+        },
+      });
     });
   });
 });
