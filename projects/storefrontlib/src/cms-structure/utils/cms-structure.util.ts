@@ -34,23 +34,26 @@ export function provideCmsStructure(
 /**
  * @private
  */
-function buildCmsStructure(options: CmsStructureOptions): CmsStructureConfig {
+function buildCmsStructure({
+  componentId,
+  pageSlotPosition,
+}: CmsStructureOptions = {}): CmsStructureConfig {
   const config: CmsStructureConfig = { cmsStructure: {} };
 
-  if (options.componentId) {
+  if (componentId) {
     config.cmsStructure = {
       components: {
-        [options.componentId]: {
-          typeCode: options.componentId,
-          flexType: options.componentId,
+        [componentId]: {
+          typeCode: componentId,
+          flexType: componentId,
         },
       },
     };
   }
 
-  if (options.componentId && options.pageSlotPosition) {
+  if (componentId && pageSlotPosition) {
     config.cmsStructure.slots = {
-      [options.pageSlotPosition]: { componentIds: [options.componentId] },
+      [pageSlotPosition]: { componentIds: [componentId] },
     };
   }
   return config;
@@ -59,33 +62,41 @@ function buildCmsStructure(options: CmsStructureOptions): CmsStructureConfig {
 /**
  * @private
  */
-function buildLayoutConfig(options: CmsStructureOptions): LayoutConfig {
+function buildLayoutConfig({
+  pageTemplate,
+  pageSlotPosition,
+  breakpoint,
+  section,
+}: CmsStructureOptions = {}): LayoutConfig {
   const layoutConfig: LayoutConfig = {};
-  if (options.pageTemplate && options.pageSlotPosition) {
+  if (pageTemplate && pageSlotPosition) {
     const pageTemplateSlots: any = {};
-    if (options.breakpoint) {
-      pageTemplateSlots[options.breakpoint] = {
-        slots: [options.pageSlotPosition],
+    if (breakpoint) {
+      pageTemplateSlots[breakpoint] = {
+        slots: [pageSlotPosition],
       };
     } else {
-      pageTemplateSlots.slots = [options.pageSlotPosition];
+      pageTemplateSlots.slots = [pageSlotPosition];
     }
     layoutConfig.layoutSlots = {
-      [options.pageTemplate]: pageTemplateSlots,
+      [pageTemplate]: pageTemplateSlots,
     };
   }
 
-  if (options.section && options.pageSlotPosition) {
+  if (section && pageSlotPosition) {
     const sectionSlots: any = {};
-    if (options.breakpoint) {
-      sectionSlots[options.breakpoint] = { slots: [options.pageSlotPosition] };
+    if (breakpoint) {
+      sectionSlots[breakpoint] = { slots: [pageSlotPosition] };
     } else {
-      sectionSlots.slots = [options.pageSlotPosition];
+      sectionSlots.slots = [pageSlotPosition];
     }
-
-    layoutConfig.layoutSlots = {
-      [options.section]: sectionSlots,
-    };
+    if (layoutConfig.layoutSlots) {
+      layoutConfig.layoutSlots[section] = sectionSlots;
+    } else {
+      layoutConfig.layoutSlots = {
+        [section]: sectionSlots,
+      };
+    }
   }
   return layoutConfig;
 }

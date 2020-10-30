@@ -8,6 +8,12 @@ describe('provideCmsStructure', () => {
     TestBed.configureTestingModule({});
   });
 
+  it('should not fail with undefined options', () => {
+    const provider = provideCmsStructure(undefined);
+    const value: CmsStructureConfig = provider.useValue;
+    expect(value.cmsStructure).toEqual({});
+  });
+
   describe('components', () => {
     it('should not have slot structure', () => {
       const provider = provideCmsStructure({});
