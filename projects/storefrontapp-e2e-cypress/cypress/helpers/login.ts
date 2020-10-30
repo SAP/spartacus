@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
@@ -11,7 +12,10 @@ export const defaultUser = {
 };
 
 export function registerUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
@@ -32,7 +36,9 @@ export function loginUser() {
 }
 
 export function loginWithBadCredentials() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
   login(user.email, 'Password321');
 
@@ -44,13 +50,21 @@ export function loginWithBadCredentials() {
 }
 
 export function loginAsDefaultUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
   login(defaultUser.name, defaultUser.password);
 }
 
-export function listenForTokenRevocationReqest(): string {
+export function listenForTokenRevocationRequest(stub = false): string {
   const aliasName = 'tokenRevocation';
   cy.server();
-  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+
+  if (stub) {
+    cy.route('POST', '/authorizationserver/oauth/revoke', {}).as(aliasName);
+  } else {
+    cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  }
   return `@${aliasName}`;
 }

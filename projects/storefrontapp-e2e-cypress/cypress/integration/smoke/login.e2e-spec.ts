@@ -11,7 +11,9 @@ describe('Login', () => {
   it('should login and logout successfully with correct credentials', () => {
     login.loginUser();
 
-    const tokenRevocationRequestAlias = login.listenForTokenRevocationReqest();
+    const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest(
+      true
+    );
     login.signOutUser();
     cy.wait(tokenRevocationRequestAlias).its('status').should('eq', 200);
   });

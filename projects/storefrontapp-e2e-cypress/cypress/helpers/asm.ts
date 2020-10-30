@@ -304,7 +304,9 @@ function loginCustomerInStorefront() {
 }
 
 function agentSignOut() {
-  const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
+  const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest(
+    true
+  );
   cy.get('button[title="Sign Out"]').click();
   cy.wait(tokenRevocationAlias).its('status').should('eq', 200);
   cy.get('cx-csagent-login-form').should('exist');
