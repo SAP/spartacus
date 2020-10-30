@@ -69,9 +69,6 @@ export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    console.log('xxx: ', options.features);
-    console.log('xxx: ', ...options.features);
-
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
