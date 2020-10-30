@@ -1,12 +1,12 @@
-import {
-  APP_INITIALIZER,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  FactoryProvider,
-  Type,
-} from '@angular/core';
+import { InjectionToken, StaticProvider, Type } from '@angular/core';
 import { OutletPosition } from './outlet.model';
-import { OutletService } from './outlet.service';
+
+/**
+ * @private We plan to drive the outlets by standard configuration
+ */
+export const PROVIDE_OUTLET_OPTIONS = new InjectionToken<ProvideOutletOptions>(
+  'Options for providing the outlet'
+);
 
 export interface ProvideOutletOptions {
   /**
@@ -32,27 +32,10 @@ export interface ProvideOutletOptions {
  * @param options.component Component to be registered for the outlet
  * @param options.position Component's position in the outlet (default: `OutletPosition.AFTER`)
  */
-export function provideOutlet(options: ProvideOutletOptions): FactoryProvider {
-  function appInitFactory(
-    componentFactoryResolver: ComponentFactoryResolver,
-    outletService: OutletService<ComponentFactory<Type<any>>>
-  ) {
-    return () => {
-      const factory = componentFactoryResolver.resolveComponentFactory(
-        options.component
-      );
-      outletService.add(
-        options.id,
-        factory,
-        options.position ?? OutletPosition.AFTER
-      );
-    };
-  }
-
+export function provideOutlet(options: ProvideOutletOptions): StaticProvider {
   return {
-    provide: APP_INITIALIZER,
-    useFactory: appInitFactory,
-    deps: [ComponentFactoryResolver, OutletService],
+    provide: PROVIDE_OUTLET_OPTIONS,
+    useValue: options,
     multi: true,
   };
 }
