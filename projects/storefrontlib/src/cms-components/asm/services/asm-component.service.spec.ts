@@ -1,36 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  AsmAuthService,
-  AuthService,
-  RoutingService,
-  UserToken,
-  WindowRef,
-} from '@spartacus/core';
+import { AuthService, CsAgentAuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
-class MockAuthService {
-  logout(): void {}
-  getUserToken(): Observable<UserToken> {
-    return of({} as UserToken);
-  }
+class MockAuthService implements Partial<AuthService> {
+  initLogout(): void {}
 }
 
-class MockAsmAuthService {
-  logoutCustomerSupportAgent(): void {}
-  isCustomerEmulationToken(): boolean {
-    return undefined;
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
+  logoutCustomerSupportAgent(): Promise<void> {
+    return Promise.resolve();
   }
-}
-
-const mockToken = {
-  access_token: 'asdfasf',
-} as UserToken;
-
-class MockRoutingService {
-  go() {}
+  isCustomerEmulated(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 const store = {};
@@ -52,8 +37,7 @@ const MockWindowRef = {
 
 describe('AsmComponentService', () => {
   let authService: AuthService;
-  let asmAuthService: AsmAuthService;
-  let routingService: RoutingService;
+  let csAgentAuthService: CsAgentAuthService;
   let windowRef: WindowRef;
   let asmComponentService: AsmComponentService;
 
@@ -61,16 +45,14 @@ describe('AsmComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AsmAuthService, useClass: MockAsmAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
 
     asmComponentService = TestBed.inject(AsmComponentService);
     authService = TestBed.inject(AuthService);
-    asmAuthService = TestBed.inject(AsmAuthService);
-    routingService = TestBed.inject(RoutingService);
+    csAgentAuthService = TestBed.inject(CsAgentAuthService);
     windowRef = TestBed.inject(WindowRef);
   });
 
@@ -79,59 +61,26 @@ describe('AsmComponentService', () => {
   });
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
-    it('should logout asagent and not the customer when no customer session is in progress.', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    it('should logout csagent no matter the emulation state', () => {
+      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
-    });
-
-    it('should logout both asagent and the customer when customer session is in progress.', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
-
-      asmComponentService.logoutCustomerSupportAgentAndCustomer();
-
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
-    });
-
-    it('should logout asagent and not the customer when a regular customer session is in progress', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
-
-      asmComponentService.logoutCustomerSupportAgentAndCustomer();
-
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
+      expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
     });
   });
 
   describe('logoutCustomer()', () => {
     it('should logout customer and redirect to home.', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(routingService, 'go').and.stub();
+      spyOn(authService, 'initLogout').and.stub();
       asmComponentService.logoutCustomer();
-      expect(authService.logout).toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      expect(authService.initLogout).toHaveBeenCalled();
     });
   });
 
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(of(true));
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
@@ -141,8 +90,9 @@ describe('AsmComponentService', () => {
     });
 
     it('should return false when user token is not from an emulation session', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(
+        of(false)
+      );
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()

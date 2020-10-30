@@ -8,6 +8,12 @@ export interface MyCompanyConfig {
   name?: string;
 
   /**
+   * Suffix to recognize specified type of scenario and not affect translations check.
+   * @example name: ' - some case'
+   */
+  nameSuffix?: string;
+
+  /**
    * Base URL of the category.
    * @example baseUrl: `${FULL_BASE_URL_EN_USD}/organization/user-group`
    *
@@ -88,8 +94,24 @@ export interface MyCompanyConfig {
    * Set to true to test assignment management of a given subCategory
    */
   manageAssignments?: boolean;
+
   /**
    * Set to true to test the "unassign all" function of a category (if available).
    */
   canUnassignAll?: boolean;
+
+  /**
+   * Determine entity ID for possible route checks and usage between tests
+   */
+  entityIdField?: string;
+
+  /**
+   * Test list utilizing a nested tree ux.
+   */
+  nestedTableRows?: boolean;
+
+  /**
+   * Set to true if checking list features for such config is not needed.
+   */
+  disableListChecking?: boolean;
 }

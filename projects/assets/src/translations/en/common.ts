@@ -61,10 +61,12 @@ export const common = {
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
     conflict: 'Already exists',
-    forbidden: 'You are not authorized to perform this action.',
+    forbidden:
+      'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
+    sessionExpired: 'Your session has expired. Please login again.',
     unknownError: 'An unknown error occurred',
     unauthorized: {
       common: 'An unknown authorization error occured',

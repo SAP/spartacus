@@ -203,8 +203,8 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
         )}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+              .access_token
           }`,
         },
         body: paymentDetail,

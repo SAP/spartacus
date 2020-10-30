@@ -3,17 +3,19 @@ import {
   MyCompanyConfig,
   MyCompanyRowConfig,
 } from './models/index';
-import {
-  IGNORE_CASE,
-  loginAsMyCompanyAdmin,
-  scanTablePagesForText,
-} from './my-company.utils';
+import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
+    let entityUId: string;
+
     beforeEach(() => {
       loginAsMyCompanyAdmin();
       cy.visit(`${config.baseUrl}`);
+    });
+
+    after(() => {
+      entityUId = undefined;
     });
 
     it(`should create`, () => {
@@ -27,28 +29,27 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       );
 
       completeForm(config.rows, 'createValue');
+
+      cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
       cy.get('div.header button').contains('Save').click();
+      cy.wait('@getEntityData').then((xhr) => {
+        entityUId = xhr.response.body[config.entityIdField];
 
-      verifyDetails(config, 'createValue');
-
-      cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+        verifyDetails(config, 'createValue');
+        cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+      });
     });
 
     it(`should update`, () => {
-      const codeRow = config.rows?.find((row) => row.useInUrl);
-      const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
+      const entityId =
+        entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
-      scanTablePagesForText(nameRow.createValue, config);
-      cy.get('cx-organization-list a')
-        .contains(`${nameRow.createValue}`)
-        .click({ force: true });
+      cy.wait(2000);
+      cy.visit(`${config.baseUrl}/${entityId}`);
+      cy.url().should('contain', `${config.baseUrl}/${entityId}`);
 
-      cy.url().should('contain', `${config.baseUrl}/${codeRow.createValue}`);
       cy.get(`cx-organization-card a.link`).contains('Edit').click();
-      cy.url().should(
-        'contain',
-        `${config.baseUrl}/${codeRow.createValue}/edit`
-      );
+      cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get('cx-organization-form div.header h3').contains(
         `Edit ${config.name}`,
@@ -75,6 +76,8 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
           return fillDateTimePicker(input);
         case INPUT_TYPE.NG_SELECT:
           return fillNgSelect(input);
+        case INPUT_TYPE.CHECKBOX:
+          return selectCheckbox(input);
       }
     }
   });
@@ -82,47 +85,79 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
   function getFieldByLabel(label: string) {
     return cy.get('label span').contains(label).parent();
   }
-  function fillTextInput(input): void {
-    getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`input`).clear().type(input[valueKey]);
-    });
+
+  // For situations where more than one control exists in form with the same label.
+  function getFieldBySelector(selector: string) {
+    return cy.get(selector);
   }
 
-  function fillDateTimePicker(input) {
-    getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`cx-date-time-picker input`).clear().type(input[valueKey]);
-    });
+  function fillTextInput(input: MyCompanyRowConfig): void {
+    if (input.selector) {
+      getFieldBySelector(input.selector).clear().type(input[valueKey]);
+    } else {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`input`).clear().type(input[valueKey]);
+      });
+    }
   }
 
-  function fillNgSelect(input) {
+  function fillDateTimePicker(input: MyCompanyRowConfig) {
+    if (input.selector) {
+      getFieldBySelector(input.selector).clear().type(input[valueKey]);
+    } else {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`cx-date-time-picker input`).clear().type(input[valueKey]);
+      });
+    }
+  }
+
+  function fillNgSelect(input: MyCompanyRowConfig) {
+    // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
+    if (input[valueKey]) {
+      getFieldByLabel(input.formLabel).within(() => {
+        cy.get(`ng-select`).click();
+      });
+      cy.wait(1000);
+      cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+    }
+  }
+
+  function selectCheckbox(input) {
     getFieldByLabel(input.formLabel).within(() => {
-      cy.get(`ng-select`).click();
+      cy.get('[type="checkbox"]').check(input[valueKey]);
     });
-    cy.wait(1000);
-    cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
   }
 }
 
 function verifyDetails(config: MyCompanyConfig, valueKey: string) {
   const codeRow = config.rows?.find((row) => row.useInUrl);
-  const nameRow = config.rows?.find((row) => row.sortLabel === 'name');
+  const headerRows = config.rows?.filter((row) => row.useInHeader);
 
-  cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
+  if (codeRow) {
+    cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
+  }
 
-  cy.wait(1000);
+  cy.wait(2000);
   cy.get('cx-organization-card div.header h3').contains(
     `${config.name} Details`,
     IGNORE_CASE
   );
-  cy.get('cx-organization-card div.header h4').contains(
-    `${config.name}: ${nameRow[valueKey]}`,
-    IGNORE_CASE
-  );
+
+  headerRows.forEach((hRow) => {
+    cy.get('cx-organization-card div.header h4').contains(hRow[valueKey], {
+      matchCase: false,
+    });
+  });
 
   config.rows.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {
-      cy.get('div.property label').should('contain.text', rowConfig.label);
-      cy.get('div.property').should('contain.text', rowConfig[valueKey]);
+      const label = rowConfig.detailsLabel || rowConfig.label;
+
+      cy.get('div.property label').should('contain.text', label);
+      cy.get('div.property').should(
+        'contain.text',
+        rowConfig[valueKey] || label
+      );
       // TODO: Check property links
       // if (rowConfig.link) {
       //   cy.get('div.property a').should('contain.html', rowConfig.link);
