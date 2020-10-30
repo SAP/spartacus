@@ -25,6 +25,23 @@ export interface ProvideOutletOptions {
   position?: OutletPosition;
 }
 
+function appInitFactory(
+  componentFactoryResolver: ComponentFactoryResolver,
+  outletService: OutletService<ComponentFactory<Type<any>>>,
+  options: ProvideOutletOptions
+) {
+  return () => {
+    const factory = componentFactoryResolver.resolveComponentFactory(
+      options.component
+    );
+    outletService.add(
+      options.id,
+      factory,
+      options.position ?? OutletPosition.AFTER
+    );
+  };
+}
+
 /**
  * Helper function to register a component for an outlet.
  *
@@ -33,26 +50,10 @@ export interface ProvideOutletOptions {
  * @param options.position Component's position in the outlet (default: `OutletPosition.AFTER`)
  */
 export function provideOutlet(options: ProvideOutletOptions): FactoryProvider {
-  function appInitFactory(
-    componentFactoryResolver: ComponentFactoryResolver,
-    outletService: OutletService<ComponentFactory<Type<any>>>
-  ) {
-    return () => {
-      const factory = componentFactoryResolver.resolveComponentFactory(
-        options.component
-      );
-      outletService.add(
-        options.id,
-        factory,
-        options.position ?? OutletPosition.AFTER
-      );
-    };
-  }
-
   return {
     provide: APP_INITIALIZER,
     useFactory: appInitFactory,
-    deps: [ComponentFactoryResolver, OutletService],
+    deps: [ComponentFactoryResolver, OutletService, options],
     multi: true,
   };
 }
