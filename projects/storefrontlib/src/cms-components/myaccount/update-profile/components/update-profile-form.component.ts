@@ -23,6 +23,7 @@ export class UpdateProfileFormComponent implements OnInit {
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    customerId: [''],
   });
 
   constructor(private fb: FormBuilder) {}
