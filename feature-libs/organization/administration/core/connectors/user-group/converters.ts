@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Converter, EntitiesModel } from '@spartacus/core';
-import { UserGroup } from '../../model';
+import { UserGroup } from '../../model/user-group.model';
 
 export const USER_GROUP_NORMALIZER = new InjectionToken<
   Converter<any, UserGroup>
