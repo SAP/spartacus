@@ -56,7 +56,7 @@ export class DateTimePickerFormatterService {
   }
 
   /**
-   * Format date string into a format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   * Format date string into a format compatible with the browser's native `<input type="datetime-local">` HTML element.
    * @param dateString: date string to convert
    * @param offset: offset to append to date string
    *
