@@ -4,7 +4,7 @@ import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import { layoutConfig, mediaConfig } from './config/index';
-import { staticCmsStructureProviders } from './config/static-cms-structure';
+import { defaultCmsContentProviders } from './config/static-cms-structure';
 import { StorefrontModule } from './storefront.module';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { StorefrontModule } from './storefront.module';
     }),
     provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
-    ...staticCmsStructureProviders,
+    ...defaultCmsContentProviders,
   ],
   exports: [StorefrontModule],
 })

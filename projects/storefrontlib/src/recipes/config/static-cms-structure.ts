@@ -1,7 +1,7 @@
 import { ValueProvider } from '@angular/core';
 import { provideCmsStructure } from '../../cms-structure/utils/cms-structure.util';
 
-export const staticCmsStructureProviders: ValueProvider[] = [
+export const defaultCmsContentProviders: ValueProvider[] = [
   provideCmsStructure({
     componentId: 'HamburgerMenuComponent',
     pageSlotPosition: 'PreHeader',
