@@ -21,6 +21,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
+    this.handleConversionError(request, response);
   }
 
   protected handleBadPassword(
@@ -103,6 +104,24 @@ export class BadRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.invalidCodeProvided' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleConversionError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ) {
+    this.getErrors(response)
+      .filter(
+        (error) =>
+          error.type === 'ConversionError' &&
+          error.message.startsWith('No region with the code')
+      )
+      .forEach(() => {
+        this.globalMessageService.add(
+          { key: 'httpHandlers.addressConversionError' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

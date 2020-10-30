@@ -90,6 +90,17 @@ const MockVoucherOperationErrorResponse = {
   },
 } as HttpErrorResponse;
 
+const MockAddressConversionError = {
+  error: {
+    errors: [
+      {
+        message: 'No region with the code CN-11 found.',
+        type: 'ConversionError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 class MockGlobalMessageService {
   add() {}
   remove() {}
@@ -177,6 +188,14 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequest, MockBadCartResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.cartNotFound' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should conversion error', () => {
+    service.handleError(MockRequest, MockAddressConversionError);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'httpHandlers.addressConversionError' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
