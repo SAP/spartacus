@@ -7,15 +7,13 @@ import { CmsStructureOptions } from './cms-structure.model';
  * Helper function to simplify the creation of static CMS structure (`CmsStructureConfig`).
  * The helper function leverage the `provideConfig`, and is only providing an easy way to
  * generate the cms structure. The function creates a configuration structure for components,
- * page slot and page template. The following example adds a component to a page slot for a
- * specific page template:
+ * page slot and page template. The following example adds a component to a page slot:
  *
  * ```ts
  * provideCmsStructure({
- *   componentId: 'LastVisited',
- *   pageSlotPosition: techEdSlots.LastVisitedSlot,
- *   pageTemplate: 'ProductDetailTemplate',
- * }),
+ *   componentId: 'LoginComponent',
+ *   pageSlotPosition: 'SiteLogin'
+ * })
  * ```
  *
  * @param options.componentId component identifier is used to provide component structure
