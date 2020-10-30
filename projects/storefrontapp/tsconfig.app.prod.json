@@ -27,13 +27,13 @@
         "dist/organization/administration/root"
       ],
       "@spartacus/organization/order-approval": [
-        "feature-libs/organization/order-approval/public_api"
+        "dist/organization/order-approval/public_api"
       ],
       "@spartacus/organization/order-approval/assets": [
-        "feature-libs/organization/order-approval/assets/public_api"
+        "dist/organization/order-approval/assets/public_api"
       ],
       "@spartacus/organization/order-approval/root": [
-        "feature-libs/organization/order-approval/root/public_api"
+        "dist/organization/order-approval/root/public_api"
       ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/configurators": ["dist/product/configurators"],

@@ -30,13 +30,13 @@
         "../../feature-libs/organization/administration/root/public_api"
       ],
       "@spartacus/organization/order-approval": [
-        "feature-libs/organization/order-approval/public_api"
+        "../../feature-libs/organization/order-approval/public_api"
       ],
       "@spartacus/organization/order-approval/assets": [
-        "feature-libs/organization/order-approval/assets/public_api"
+        "../../feature-libs/organization/order-approval/assets/public_api"
       ],
       "@spartacus/organization/order-approval/root": [
-        "feature-libs/organization/order-approval/root/public_api"
+        "../../feature-libs/organization/order-approval/root/public_api"
       ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
