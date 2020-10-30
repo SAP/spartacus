@@ -22,7 +22,7 @@ class MockRoutingService {
 }
 class MockBaseSiteService {
   getBaseSiteData(): Observable<BaseSite> {
-    return of({ uid: 'testSite' });
+    return of();
   }
 }
 describe('SmartEditService', () => {

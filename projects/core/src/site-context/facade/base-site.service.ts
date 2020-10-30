@@ -55,7 +55,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
       });
   }
 
-  /*
+  /**
    * Initializes the active baseSite.
    */
   initialize(): void {
