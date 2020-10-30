@@ -12,6 +12,7 @@ import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 @Injectable()
+// handle breaking change in #9601
 export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,
@@ -31,6 +32,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   /**
    * Get all base sites data
    */
+  // handle breaking change in #9601
   getAll(): Observable<BaseSite[]> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllBaseSites),
