@@ -12,6 +12,12 @@ function validatestyles {
     popd
 }
 
+function validateStylesLint {
+    echo "----"
+    echo "Running styleslint"
+    yarn lint:styles
+}
+
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
     LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
@@ -55,6 +61,7 @@ else
 fi
 
 validatestyles
+validateStylesLint
 
 echo "Validating code linting"
 ng lint
