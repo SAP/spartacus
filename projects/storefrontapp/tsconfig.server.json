@@ -29,6 +29,12 @@
       "@spartacus/organization/administration/root": [
         "../../feature-libs/organization/administration/root/public_api"
       ],
+      "@spartacus/organization/order-approval": [
+        "../../feature-libs/organization/order-approval/public_api"
+      ],
+      "@spartacus/organization/order-approval/assets": [
+        "../../feature-libs/organization/order-approval/assets/public_api"
+      ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "../../feature-libs/product/configurators/public_api"

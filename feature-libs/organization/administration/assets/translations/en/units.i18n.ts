@@ -11,11 +11,11 @@ export const unit = {
     subtitle: 'Unit: {{ item.name }}',
   },
   edit: {
-    title: 'Edit unit',
+    title: 'Edit Unit',
     subtitle: 'Unit: {{ item.name }}',
   },
   create: {
-    title: 'Create unit',
+    title: 'Create Unit',
     subtitle: '',
   },
 

@@ -92,7 +92,7 @@
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd integration-libs/cds && release-it && cd ../..",
     "build:schematics": "yarn --cwd projects/schematics run build",
-    "build:organization": "ng build organization --prod && yarn --cwd feature-libs/organization run build:schematics",
+    "build:organization": "yarn --cwd feature-libs/organization run build:schematics && ng build organization --prod",
     "start:b2b": "cross-env SPARTACUS_BASE_URL=https://localhost:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:product": "ng build product --prod",
     "release:organization:with-changelog": "cd feature-libs/organization && release-it && cd ../..",
