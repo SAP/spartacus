@@ -52,4 +52,16 @@ describe('B2BUserSerializer', () => {
     const result = service.convert(orgCustomer, {});
     expect(result).toEqual({});
   });
+
+  it('should remove all roles for disabled B2B User', () => {
+    const result = service.convert({
+      active: false,
+      uid: orgCustomerId,
+    });
+    expect(result).toEqual({
+      active: false,
+      uid: orgCustomerId,
+      roles: [],
+    });
+  });
 });
