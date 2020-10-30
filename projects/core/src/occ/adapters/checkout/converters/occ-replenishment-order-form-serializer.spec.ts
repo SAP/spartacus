@@ -1,29 +1,60 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { OccReplenishmentOrderFormSerializer } from './occ-replenishment-order-form-serializer';
+import { DateTimePickerFormatterService } from '../../../../util/date-time-picker-formatter.service';
+
+const mockTime = '10:00:00';
+const mockDate = '2021-06-01';
+const mockModelValue = `${mockDate}T${mockTime}+4000`;
+
+function fakeToLocalTimeString(callback: Function): any {
+  const original = Date.prototype.toLocaleTimeString;
+  Date.prototype.toLocaleTimeString = () => mockTime;
+  callback();
+  Date.prototype.toLocaleTimeString = original;
+}
+
+class MockDateTimePickerFormatterService {
+  toModel = jasmine.createSpy('toModel').and.returnValue(mockModelValue);
+}
 
 describe('OccReplenishmentOrderFormSerializer', () => {
   let serializer: OccReplenishmentOrderFormSerializer;
+  let service: DateTimePickerFormatterService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [OccReplenishmentOrderFormSerializer],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          OccReplenishmentOrderFormSerializer,
+          {
+            provide: DateTimePickerFormatterService,
+            useClass: MockDateTimePickerFormatterService,
+          },
+        ],
+      });
+    })
+  );
 
   beforeEach(() => {
     serializer = TestBed.inject(OccReplenishmentOrderFormSerializer);
+    service = TestBed.inject(DateTimePickerFormatterService);
   });
 
-  it('should create', () => {
-    expect(serializer).toBeTruthy();
+  it('should convert', () => {
+    const result = serializer.convert({});
+    expect(result).toEqual({});
   });
 
-  it('should convert the date string of schedule replenishment form to ISO 8601 format', () => {
-    const mockDate = '1994-01-11';
-    const ISODateFormat = mockDate + 'T00:00:00Z';
+  it('should convert with replenishment start date', () => {
+    const mockParamDate = `${mockDate}T${mockTime}`;
 
-    const result = serializer['convertDate'](mockDate);
+    fakeToLocalTimeString(() => {
+      const result = serializer.convert({
+        replenishmentStartDate: mockDate,
+      });
 
-    expect(result).toEqual(ISODateFormat);
+      expect(service.toModel).toHaveBeenCalledWith(mockParamDate);
+      expect(result.replenishmentStartDate).toEqual(mockModelValue);
+    });
   });
 });
