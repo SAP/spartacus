@@ -1,15 +1,14 @@
 import {
+  ChangeDetectorRef,
   Directive,
   ElementRef,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   TemplateRef,
 } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { PageLayoutService } from './page-layout.service';
 
 /**
@@ -41,18 +40,30 @@ import { PageLayoutService } from './page-layout.service';
 })
 export class PageTemplateDirective implements OnInit, OnDestroy {
   /**
+   * Indicates whether this component is driven by an input template or should
+   * observe the CMS driven page layout template.
+   */
+  protected useTemplateFromInput: boolean;
+
+  /**
    * Adds a style class to the host element based on the cms page template, unless
    * the class is given as an input.
    *
    * The host element is either the actual host, or the parent element in case this
    * is used inside an `ng-template`.
    */
-  @Input() cxPageTemplateStyle: string;
-
-  @HostBinding('class') templateClass: string;
+  @Input('cxPageTemplateStyle') set setTemplate(template: string) {
+    if (template && template !== '') {
+      this.useTemplateFromInput = true;
+      this.addStyleClass(template);
+    } else if (this.useTemplateFromInput) {
+      // we only clear the template if it has been provided by the input before
+      this.clear();
+    }
+  }
 
   // Maintains the page template subscription
-  protected subscription: Subscription;
+  protected subscription: Subscription = new Subscription();
 
   /**
    * Holds the current page template, so we can remove previous page templates
@@ -63,40 +74,52 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   constructor(
     protected pageLayoutService: PageLayoutService,
     protected elementRef: ElementRef,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>
+    @Optional() protected templateRef: TemplateRef<HTMLElement>,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.template
-      .pipe(distinctUntilChanged())
-      .subscribe((template) => this.addStyleClass(this.host, template));
-  }
-
-  protected get template(): Observable<string> {
-    return this.cxPageTemplateStyle
-      ? of(this.cxPageTemplateStyle)
-      : this.pageLayoutService.templateName$;
+    if (!this.useTemplateFromInput) {
+      this.subscription.add(
+        this.pageLayoutService.templateName$.subscribe((template) =>
+          this.addStyleClass(template)
+        )
+      );
+    }
   }
 
   /**
-   * Adds the page template as a style class to the given element. If any page template
-   * was added before, we clean it up.
+   * Adds the page template as a style class to the given element. If any
+   * page template was added before, we clean it up.
+   *
+   * We'll not use hostBinding for the style class, as it will potential drop
+   * an existing class name on the host. This is why we need to work with
+   * the lower level change detection api.
    */
-  protected addStyleClass(el: HTMLElement, template: string): void {
-    if (this.currentTemplate) {
-      el.classList?.remove(this.currentTemplate);
-    }
+  protected addStyleClass(template: string, el?: HTMLElement): void {
+    this.clear(el);
     if (template) {
       this.currentTemplate = template;
-      el.classList.add(this.currentTemplate);
+      (el ?? this.host).classList.add(this.currentTemplate);
+      this.cd.markForCheck();
+    }
+  }
+
+  /**
+   * Cleans up the class host binding, if a template class was assigned before.
+   */
+  protected clear(el?: HTMLElement) {
+    if (this.currentTemplate) {
+      (el ?? this.host).classList?.remove(this.currentTemplate);
+      this.cd.markForCheck();
     }
   }
 
   /**
    * Returns the host element (`HTMLElement`).
    *
-   * If the directive is used on an `ng-template`, we take the parent element, to
-   * ensure that we're not ending up with a comment.
+   * If the directive is used on an `ng-template`, we take the parent element,
+   * to ensure that we're not ending up with a comment.
    */
   protected get host(): HTMLElement {
     return !!this.templateRef

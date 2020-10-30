@@ -11,10 +11,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import {
-  CartItemComponentOptions,
-  Item,
-} from '../cart-shared/cart-item/cart-item.component';
+import { CartItemComponentOptions } from '../cart-shared/cart-item/cart-item.component';
 import { SaveForLaterComponent } from './save-for-later.component';
 
 @Component({
@@ -23,7 +20,7 @@ import { SaveForLaterComponent } from './save-for-later.component';
 })
 class MockCartItemListComponent {
   @Input() readonly = false;
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() cartIsLoading: Observable<boolean>;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
