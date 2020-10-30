@@ -207,7 +207,6 @@ export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
 export const MULTI_CART_SERVICE = 'MultiCartService';
 export const BASE_SITE_SERVICE = 'BaseSiteService';
-export const BASE_SITES_SERVICE = 'BaseSitesService';
 export const QUALTRICS_LOADER_SERVICE = 'QualtricsLoaderService';
 export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';

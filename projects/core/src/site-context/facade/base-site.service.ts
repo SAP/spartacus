@@ -55,8 +55,8 @@ export class BaseSiteService implements SiteContext<BaseSite> {
       });
   }
 
-  /**
-   * Initializes all the base sites data, and set active base site uid
+  /*
+   * Initializes the active baseSite.
    */
   initialize(): void {
     let value;

@@ -21,6 +21,8 @@ export function reducer(
     }
 
     case SiteContextActions.SET_ACTIVE_BASE_SITE: {
+      // if active base site is updated,
+      // the active base site details data should also be updated
       let details = {};
       if (state.entities) {
         details = state.entities[action.payload];
@@ -45,6 +47,8 @@ export function reducer(
           ...state.entities,
         }
       );
+      // after base sites entities are populated,
+      // the active base site details data is also populated
       const details = entities[state.activeSite];
 
       return {

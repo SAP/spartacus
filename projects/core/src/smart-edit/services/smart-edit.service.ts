@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { filter, first, take, takeWhile } from 'rxjs/operators';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
 import { BaseSite } from '../../model';
@@ -79,7 +79,10 @@ export class SmartEditService {
   protected getDefaultPreviewCode() {
     this.baseSiteService
       .getBaseSiteData()
-      .pipe(first(Boolean))
+      .pipe(
+        filter((site) => Object.keys(site).length !== 0),
+        take(1)
+      )
       .subscribe((site: BaseSite) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
