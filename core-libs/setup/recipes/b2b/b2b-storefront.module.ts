@@ -1,16 +1,20 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CostCenterModule, provideConfig, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CostCenterModule,
+  provideConfig,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   CmsLibModule,
-  defaultCmsContentConfig,
   layoutConfig,
   mediaConfig,
   StorefrontConfig,
-  StorefrontModule
+  StorefrontModule,
 } from '@spartacus/storefront';
+import { staticCmsStructureProviders } from 'projects/storefrontlib/src/recipes/config/static-cms-structure';
 import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -25,8 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
     provideDefaultConfig(defaultB2bOccConfig),
-    provideDefaultConfigFactory(defaultCmsContentConfig),
     provideDefaultConfig(defaultB2bCheckoutConfig),
+    ...staticCmsStructureProviders,
   ],
   exports: [StorefrontModule],
 })
