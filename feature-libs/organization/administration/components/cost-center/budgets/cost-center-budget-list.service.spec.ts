@@ -13,6 +13,7 @@ import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
+const [costCenterCode, budgetCode] = ['costCenterCode', 'budgetCode'];
 const mockCostCenterEntities: EntitiesModel<Budget> = {
   values: [
     {
@@ -54,6 +55,8 @@ class MockBudgetService {
 
 describe('CostCenterBudgetListService', () => {
   let service: CostCenterBudgetListService;
+  let budgetService: BudgetService;
+  let costCenterService: CostCenterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -75,6 +78,8 @@ describe('CostCenterBudgetListService', () => {
       ],
     });
     service = TestBed.inject(CostCenterBudgetListService);
+    budgetService = TestBed.inject(BudgetService);
+    costCenterService = TestBed.inject(CostCenterService);
   });
 
   it('should inject service', () => {
@@ -88,5 +93,31 @@ describe('CostCenterBudgetListService', () => {
     expect(result.values[0].code).toEqual('first');
     expect(result.values[1].code).toEqual('second');
     expect(result.values[2].code).toEqual('third');
+  });
+
+  it('should assign budget', () => {
+    spyOn(costCenterService, 'assignBudget');
+    spyOn(budgetService, 'getLoadingStatus');
+
+    service.assign(costCenterCode, budgetCode);
+
+    expect(costCenterService.assignBudget).toHaveBeenCalledWith(
+      costCenterCode,
+      budgetCode
+    );
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith(budgetCode);
+  });
+
+  it('should unassign budget', () => {
+    spyOn(costCenterService, 'unassignBudget');
+    spyOn(budgetService, 'getLoadingStatus');
+
+    service.unassign(costCenterCode, budgetCode);
+
+    expect(costCenterService.unassignBudget).toHaveBeenCalledWith(
+      costCenterCode,
+      budgetCode
+    );
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith(budgetCode);
   });
 });
